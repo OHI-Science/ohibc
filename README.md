@@ -1,2 +1,4 @@
-# OHIBC
-Ocean Health Index for British Columbia, Canada
+###ohibc###
+Ocean Health Index - British Columbia
+
+This repository will contain the toolbox to calculate scores for OHIBC.
