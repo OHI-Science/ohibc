@@ -1,12 +1,12 @@
 require(sp) # the classes and methods that make up spatial ops in R
-require(maptools) # tools for reading and manipulating spatial objects
-require(mapdata) # includes good vector maps of world political boundaries.
+# require(maptools) # tools for reading and manipulating spatial objects
+# require(mapdata) # includes good vector maps of world political boundaries.
 require(rgeos)
 require(rgdal)
-require(gpclib)
 require(ggplot2)
-require(scales)
-gpclibPermit()
+# require(gpclib)
+# require(scales)
+# gpclibPermit()
 
 ## Download the Ordnance Survey Boundary-Line data (large!) from this URL:
 ## https://www.ordnancesurvey.co.uk/opendatadownload/products.html
@@ -14,13 +14,13 @@ gpclibPermit()
 ## Read the electoral division (ward) boundaries from the shapefile
 dir_bc  <- setwd('~/github/ohibc')
 
-source('~/github/ohiprep/src/R/common.R')
+source('src/R/common.R')
 
 dir_rgn <- file.path(dir_bc, 'regions')
 
 ### Read OHIBC shapefiles: 1 km inland, 3 nm offshore.
-rgn_3nm <- readOGR(dsn = dir_rgn, layer = 'ohi_offshore_3nm')
-rgn_1km <- readOGR(dsn = dir_rgn, layer = 'ohi_inland_1km')
+rgn_3nm <- readOGR(dsn = dir_rgn, layer = 'ohibc_offshore_3nm')
+rgn_1km <- readOGR(dsn = dir_rgn, layer = 'ohibc_inland_1km')
 
 ### Read most recent WDPA_MPA database from git-annex/globalprep
 wdpa_prod <- 'v2015/raw/WDPA_Jan2015_Public/WDPA_Jan2015_Public.gdb'
@@ -33,22 +33,25 @@ wdpa_layer <- ogrListLayers(dir_wdpa) %>%
 #   [1] "OpenFileGDB"
 #   attr(,"nlayers")
 #   [1] 3
+# wdpa_layer <- 'WDPA_poly_Jan2015'
 
-poly_wdpa <- readOGR(dsn = dir_wdpa, layer = wdpa_layer)
+poly_wdpa <- readOGR(dsn = path.expand(dir_wdpa), layer = wdpa_layer)
 
 ### Filter down to just polygons within Canada
 poly_wdpa_can <- poly_wdpa[poly_wdpa@data$PARENT_ISO == 'CAN' | poly_wdpa@data$ISO3 == 'CAN', ]
 
 
+######### left off here #########
+
 ## We want a visual check of the map with the new polygon but
 ## ggplot requires a data frame, so use the fortify() function
-mydf <- fortify(shp4, region = "NAME")
+mydf <- fortify(rgn_3nm, region = "rgn_name")
 
 
 ## Now plot
 ggplot(mydf, aes(x = long, y = lat, group = group)) +
   geom_polygon(colour = "black", size = 1, aes(fill = mydf$filltype)) +
-  scale_fill_manual("Test", values = c(alpha("Red", 0.4), "white"), labels = c("a", "b"))
+  scale_fill_manual("Test", values = c("Red", "white"), labels = c("a", "b"))
 
 ## Visual check, successful, so back to the original problem of finding intersections
 overlaid.poly <- 6 # This is the index of the polygon we added
