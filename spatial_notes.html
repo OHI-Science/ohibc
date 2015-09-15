@@ -96,14 +96,14 @@ x &lt;- readShapePoly(fn, proj4string)</code></pre>
 <p><code>readOGR()</code> and <code>readShapePoly()</code> also have analogous <code>write</code> functions and the like.</p>
 <p><code>readShapePoly()</code> seems to be faster, but doesn’t work on .gdb and doesn’t automatically read in CRS info, which <code>readOGR()</code> can do.</p>
 </div>
-<div id="understanding-shapefile-structure" class="section level3">
-<h3>Understanding shapefile structure</h3>
+<div id="understanding-spatial-polygons-in-r" class="section level3">
+<h3>Understanding Spatial Polygons in R</h3>
 <p>Once the shapefile is read in, it becomes a SpatialPolygonsDataFrame object (from the <code>sp</code> package). SpatialPolygonsDataFrame store shape info and attributes in different slots, with a structure like this:</p>
 <ul>
 <li><code>SpatialPolygonsDataFrame</code> (top level structure)
 <ul>
 <li><code>data</code>: a dataframe that holds the attribute table; each row correlates with a polygon in the <code>polygons</code> slot.</li>
-<li><code>polygons</code>: a list of SpatialPolygons-class objects, each with their own bits and pieces. Each item in the list is a polygon, made up of sub-polygons; and each item in the list corresponds with a row in the dataframe in the <code>data</code> slot.</li>
+<li><code>polygons</code>: a list of Polygons-class objects, each with their own bits and pieces. Each item in the list is a complete polygon feature, made up of sub-polygons; and each item in the list corresponds with a row in the dataframe in the <code>data</code> slot.</li>
 <li><code>plotOrder</code>: a vector of integers showing which order to plot the <code>polygons</code> list</li>
 <li><code>bbox</code>: info on the bounding coordinates (x &amp; y min &amp; max).</li>
 <li><code>proj4string</code>: a CRS object that contains projection or coordinate system info</li>
@@ -117,8 +117,8 @@ x &lt;- readShapePoly(fn, proj4string)</code></pre>
 <p>If you’d like to add a column of data to the SpatialPolygonsDataFrame, for example harvest tonnes or a region ID value, you should be able to simply access the <code>data</code> slot and treat it like a data frame.</p>
 <p>I believe it will be important to maintain the order of the dataframe rows, to keep them associated with the correct polygons in the <code>polygons</code> slot.</p>
 </div>
-<div id="mapping-polygons" class="section level3">
-<h3>mapping polygons</h3>
+<div id="plotting-polygons" class="section level3">
+<h3>Plotting polygons</h3>
 </div>
 <div id="rasters-and-polygons" class="section level3">
 <h3>rasters and polygons</h3>
