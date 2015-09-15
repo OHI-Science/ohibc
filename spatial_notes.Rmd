@@ -3,7 +3,7 @@ title: "Spatial stuff"
 output: html_document
 ---
 
-###Global maps
+### Global maps
 
 Find the appropriate shapefiles in GitHub here: https://github.com/OHI-Science/ohiprep/tree/master/globalprep/spatial/downres
 
@@ -17,7 +17,7 @@ Note that there is no .prj file - so no projection information will come along w
     * EPSG:4326 WGS 84
     * proj.4 string: '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
 
-###Reading shapefiles
+### Reading shapefiles
 
 ```
 library(rgdal)
@@ -42,13 +42,13 @@ x <- readShapePoly(fn, proj4string)
 
 `readShapePoly()` seems to be faster, but doesn't work on .gdb and doesn't automatically read in CRS info, which `readOGR()` can do.
 
-###Understanding shapefile structure
+### Understanding Spatial Polygons in R
 
 Once the shapefile is read in, it becomes a SpatialPolygonsDataFrame object (from the `sp` package).  SpatialPolygonsDataFrame store shape info and attributes in different slots, with a structure like this:
 
 * `SpatialPolygonsDataFrame` (top level structure)
     * `data`: a dataframe that holds the attribute table; each row correlates with a polygon in the `polygons` slot.
-    * `polygons`: a list of SpatialPolygons-class objects, each with their own bits and pieces.  Each item in the list is a polygon, made up of sub-polygons; and each item in the list corresponds with a row in the dataframe in the `data` slot.
+    * `polygons`: a list of Polygons-class objects, each with their own bits and pieces.  Each item in the list is a complete polygon feature, made up of sub-polygons; and each item in the list corresponds with a row in the dataframe in the `data` slot.
     * `plotOrder`: a vector of integers showing which order to plot the `polygons` list
     * `bbox`: info on the bounding coordinates (x & y min & max).
     * `proj4string`: a CRS object that contains projection or coordinate system info
@@ -57,13 +57,13 @@ Each of these slots can be accessed by a `@` symbol (rather than a `$` symbol). 
 
 You can also manipulate these slots individually, for example filtering out rows of the dataframe in the `data` slot, but you will also need to treat the other slots accordingly.
 
-###Adding data to polygons
+### Adding data to polygons
 
 If you'd like to add a column of data to the SpatialPolygonsDataFrame, for example harvest tonnes or a region ID value, you should be able to simply access the `data` slot and treat it like a data frame.
 
 I believe it will be important to maintain the order of the dataframe rows, to keep them associated with the correct polygons in the `polygons` slot.
 
-### mapping polygons
+### Plotting polygons
 
 ### rasters and polygons
 
