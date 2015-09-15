@@ -2,8 +2,9 @@
 ### 
 ### Support functions for the OHI BC data_prep_lsp.R
 
-get_wdpa_poly <- function(p4s_def  = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0',
-                          p4s_name = 'wgs84', reload = FALSE) {
+get_wdpa_poly <- function(p4s_name = 'EPSG:3005 NAD83/BC Albers',
+                          p4s_def  = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
+                          reload = FALSE) {
   ### Time consuming due to OGR load times of original WDPA database... 
   ### If BC-specific WDPA shapefile does not yet exist, or 
   ### reload == TRUE, read the main WDPA database, filter to just BC, and 
