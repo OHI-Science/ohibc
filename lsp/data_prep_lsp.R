@@ -30,7 +30,8 @@ dir_rst <- file.path(dir_bc, 'lsp/spatial')  ### github: goal-specific spatial o
 ### * Since we need to assign the oldest STATUS_YR value to the cell
 ###   value in the WDPA-MPA raster, we can't use gdal_rasterize();
 ###   instead we need raster::rasterize() which works from memory.
-poly_wdpa_bc <- get_wdpa_poly()
+
+poly_wdpa_bc <- get_wdpa_poly()  ### defaults to BC Albers
 
 gIsValid(poly_wdpa_bc)
 
