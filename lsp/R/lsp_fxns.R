@@ -11,7 +11,7 @@ get_wdpa_poly <- function(p4s_def  = '+proj=longlat +datum=WGS84 +no_defs +ellps
   ### If the BC-specific file already exists, read into memory and return it.
   
   dir_spatial   <- file.path(dir_neptune_data, 'git-annex/bcprep/lsp/spatial')
-  layer_bc     <- sprintf('%s_%s', layer_bc, p4s_name)
+  layer_bc      <- sprintf('wdpa_bc_%s', p4s_name)
   
   if(!file.exists(file.path(dir_spatial, paste(layer_bc, '.shp', sep = ''))) | reload == TRUE) {
     ### Read most recent WDPA_MPA database from git-annex/globalprep
@@ -30,7 +30,7 @@ get_wdpa_poly <- function(p4s_def  = '+proj=longlat +datum=WGS84 +no_defs +ellps
     # layer_wdpa <- 'WDPA_poly_Jan2015'
     cat(sprintf('layer = %s\n', layer_wdpa))
     
-    poly_wdpa <- readOGR(dsn = dir_int, layer = layer_wdpa)
+    poly_wdpa <- readOGR(dsn = dir_wdpa, layer = layer_wdpa)
     ### can't use readShapePoly on a .gdb database...
     
     ### Filter down to just polygons within BC
