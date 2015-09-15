@@ -1,0 +1,81 @@
+---
+title: "Spatial stuff"
+output: html_document
+---
+
+###Global maps
+
+Find the appropriate shapefiles in GitHub here: https://github.com/OHI-Science/ohiprep/tree/master/globalprep/spatial/downres
+
+Look for med resolution, mol projection (for global equal area), and pull the .shp, .dbf, and .shx files.  The medium resolution files are ~ 11 MB for global coverage, so not huge but also detailed enough for zooming in a bit.
+
+Note that there is no .prj file - so no projection information will come along with these files.  There are two sets of coordinate reference systems:
+* mol: Mollweide: equal area projection, units in meters.  
+    * EPSG:54009
+    * proj.4 string: '+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs'
+* gcs: lat and long in degrees
+    * EPSG:4326 WGS 84
+    * proj.4 string: '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+
+###Reading shapefiles
+
+```
+library(rgdal)
+x <- readOGR(dsn, layer, p4s, stringsAsFactors)
+```
+* `dsn` is the data source name.  It can be a .gdb or a directory with shapefiles in it.  It can be relative or absolute file path.
+* `layer` is the layer name.  
+    * If you're reading from a .gdb, you can tell it which layer to pull out of that .gdb (`ogrListLayers()` can help identify the layers within the .gdb if you're not sure.
+    * If you're reading a .shp (and the associated .dbf etc), then `layer` should be the base name of the shapefile (without the .shp extension).  E.g. if you want `rgn_all_mol_med_res.shp`, then `layer = 'rgn_all_mol_low_res`.
+* `p4s` allows you to input a proj.4 string to indicate a CRS.  If there's already a .prj file associated with this layer, `readOGR()` will automatically read it in.
+
+```
+library(maptools)
+x <- readShapePoly(fn, proj4string)
+```
+* `fn` is the full filename, leaving off the .shp extension.  This has to be a shapefile (not a .gdb).
+* `proj4string` is an optional proj.4 CRS designation.  
+    * `readShapePoly()` does not read .prj files, so it will not know the projection unless you manually tell it.  
+    * This argument has to be a CRS object, so for example, if you want to set Mollweide you would use: `proj4string=CRS('+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs')`
+    
+`readOGR()` and `readShapePoly()` also have analogous `write` functions and the like.
+
+`readShapePoly()` seems to be faster, but doesn't work on .gdb and doesn't automatically read in CRS info, which `readOGR()` can do.
+
+###Understanding shapefile structure
+
+Once the shapefile is read in, it becomes a SpatialPolygonsDataFrame object (from the `sp` package).  SpatialPolygonsDataFrame store shape info and attributes in different slots, with a structure like this:
+
+* `SpatialPolygonsDataFrame` (top level structure)
+    * `data`: a dataframe that holds the attribute table; each row correlates with a polygon in the `polygons` slot.
+    * `polygons`: a list of SpatialPolygons-class objects, each with their own bits and pieces.  Each item in the list is a polygon, made up of sub-polygons; and each item in the list corresponds with a row in the dataframe in the `data` slot.
+    * `plotOrder`: a vector of integers showing which order to plot the `polygons` list
+    * `bbox`: info on the bounding coordinates (x & y min & max).
+    * `proj4string`: a CRS object that contains projection or coordinate system info
+    
+Each of these slots can be accessed by a `@` symbol (rather than a `$` symbol).  If your SpatialPolygonsDataFrame is called `x`, then you can access the attribute table by calling `x@data` and treat it exactly like a regular data frame.
+
+You can also manipulate these slots individually, for example filtering out rows of the dataframe in the `data` slot, but you will also need to treat the other slots accordingly.
+
+###Adding data to polygons
+
+If you'd like to add a column of data to the SpatialPolygonsDataFrame, for example harvest tonnes or a region ID value, you should be able to simply access the `data` slot and treat it like a data frame.
+
+I believe it will be important to maintain the order of the dataframe rows, to keep them associated with the correct polygons in the `polygons` slot.
+
+### mapping polygons
+
+### rasters and polygons
+
+
+```{r}
+summary(cars)
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
