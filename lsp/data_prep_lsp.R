@@ -1,119 +1,136 @@
-library(sp) # the classes and methods that make up spatial ops in R
-# require(maptools) # tools for reading and manipulating spatial objects
-# require(mapdata) # includes good vector maps of world political boundaries.
+library(sp)        # the classes and methods that make up spatial ops in R
+library(gdalUtils) # for gdal_rasterize() function
+library(maptools)  # tools for reading and manipulating spatial objects
 library(rgeos)
 library(rgdal)
-library(ggplot2)
-#library(gpclib)
 library(raster)
-# require(scales)
-#gpclibPermit()
 
-dir_bc  <- setwd('~/github/ohibc')                              ### set wd to work in Github OHIBC location
 
+dir_bc  <- setwd('~/github/ohibc')           ### set wd to work in Github OHIBC location
 source('src/R/common.R')  ### an OHIBC specific version of common.R
+source('lsp/R/lsp_fxns.R')
 
-dir_rgn <- file.path(dir_bc, 'regions')
-rgn_3nm <- readOGR(dsn = dir_rgn, layer = 'ohibc_offshore_3nm')
-rgn_1km <- readOGR(dsn = dir_rgn, layer = 'ohibc_inland_1km')
-### NOTE: both files are EPSG:3005 NAD83/BC Albers
+dir_anx <- file.path(dir_neptune_data, 'git-annex/ohibc/lsp') ### git-annex: goal-specific large files
+dir_rgn <- file.path(dir_bc, 'regions')      ### github: general buffer region shapefiles
+dir_rst <- file.path(dir_bc, 'lsp/spatial')  ### github: goal-specific spatial outputs
 
-get_wdpa_poly <- function(reload = FALSE) {
-  ### Time consuming... if Canada-specific WDPA shapefile does not yet exist, or 
-  ### reload == TRUE, read the main WDPA database, filter to just Canada, and 
-  ### save in the Git-Annex OHIBC directory.
-  ### If the Canada-specific file already exists, read into memory and return it.
+
+#####################################################################=
+### Read in BC WDPA shapefile for rasterization -----
+#####################################################################=
+### NOTE: If BC WDPA file does not yet exist, get_wdpa_poly() creates 
+###   it from the original WDPA-MPA file.  Takes a long time, due to
+###   reading in the full WDPA-MPA shapefile.
+### Need to load the WDPA poly into memory for two reasons:
+### * we need the polygon to establish the extents for all the rasters
+###   to follow.
+### * Since we need to assign the oldest STATUS_YR value to the cell
+###   value in the WDPA-MPA raster, we can't use gdal_rasterize();
+###   instead we need raster::rasterize() which works from memory.
+poly_wdpa_bc <- get_wdpa_poly()
+
+gIsValid(poly_wdpa_bc)
+
+
+#####################################################################=
+### Set up inland 1 km and offshore 3nm buffers -----
+#####################################################################=
+### * Read in buffer shapefiles to SpatialPolygons data frames; add
+###   the WDPA-MPA Spatial Polygons data frame as well.
+### * From these objects, get the extents, CRS (proj4string)
+### * Create a base raster from extents, CRS, and resolution.
+
+poly_3nm <- readOGR(dsn = dir_rgn, layer = 'ohibc_offshore_3nm')
+poly_1km <- readOGR(dsn = dir_rgn, layer = 'ohibc_inland_1km')
+rgn_list<- list(poly_3nm, poly_1km, poly_wdpa_bc)
+
+ext_rgn <- get_extents(rgn_list)
+p4s_rgn <- get_p4s(rgn_list)
+
+reso <- 500 ### resolution for all rasters in this process
+
+base_raster <- get_base_raster(ext = ext_rgn, reso = reso, p4s_base = p4s_rgn, fn = file.path(dir_rast, 'rast_base.tif'))
+
+
+#####################################################################=
+### Convert inland 1 km and offshore 3nm polygons to rasters -----
+#####################################################################=
+### Note: these rasters are currently not used in final analysis...
+
+# Create rasters for regions in BC Albers projection (no reprojection):
+rast_3nm <- gdal_rasterize(src_datasource = file.path(dir_rgn, 'ohibc_offshore_3nm.shp'), dst_filename = file.path(dir_rst, 'rast_offshore_3nm.tif'), 
+                                a = 'rgn_id', a_nodata = NA,
+                                te = c(ext_rgn@xmin, ext_rgn@ymin, ext_rgn@xmax, ext_rgn@ymax), tr = c(reso, reso), # extents and resolution for x and y
+                                output_Raster = TRUE, # return output as a RasterBrick? 
+                                ignore.full_scan = TRUE,
+                                verbose = TRUE)
+rast_1km <- gdal_rasterize(src_datasource = file.path(dir_rgn, 'ohibc_inland_1km.shp'), dst_filename = file.path(dir_rst, 'rast_inland_1km.tif'), 
+                                a = 'rgn_id', a_nodata = NA,
+                                te = c(ext_rgn@xmin, ext_rgn@ymin, ext_rgn@xmax, ext_rgn@ymax), tr = c(reso, reso), # extents and resolution for x and y
+                                output_Raster = TRUE, # return output as a RasterBrick? 
+                                ignore.full_scan = TRUE,
+                                verbose = TRUE)
+### Raster::extract requires raster layers rather than raster bricks.  Unstack
+### the raster bricks and select the first element in each resulting list.
+rast_3nm <- unstack(rast_3nm)[[1]]
+rast_1km <- unstack(rast_1km)[[1]]
+
+plot(rast_3nm)
+plot(rast_1km, add = TRUE)
+
+#####################################################################=
+### Rasterize the BC WDPA-MPA shapefile -----
+#####################################################################=
+
+rast_wdpa_bc <- rasterize(poly_wdpa_bc, base_raster, field = 'STATUS_YR', fun = 'min', background = NA, 
+                          filename = file.path(dir_rst, 'rast_wdpa_bc.tif'), overwrite = TRUE)
+
+plot(rast_wdpa_bc, alpha = 0.5, add = TRUE)
+### looks OK
+
+#####################################################################=
+### Extract WDPA values against buffer regions -----
+#####################################################################=
+### Extract the rasterized WDPA against the spatial polygons of
+### the buffer regions.  Result is a list of raster cells within each
+### region, and the associated WDPA value (earliest STATUS_YR) for
+### that cell.
+
+prot_mar_list <- raster::extract(rast_wdpa_bc, poly_3nm)
+names(prot_mar_list) <- poly_3nm@data$rgn_id
+prot_mar_df <- sum_prot_areas(prot_mar_list, reso = res(rast_wdpa_bc)[1])
+### note: pull the resolution from the rast_wdpa_bc raster; 
+### assume x and y resolution are identical
+
+prot_ter_list <- raster::extract(rast_wdpa_bc, poly_1km)
+names(prot_ter_list) <- poly_1km@data$rgn_id
+prot_ter_df <- sum_prot_areas(prot_ter_list, reso = res(rast_wdpa_bc)[1])
+
+
+#####################################################################=
+### Calc status for each region for each year -----
+#####################################################################=
+ref_pt = .3
+
+prot_mar_df <- prot_mar_df %>%
+  mutate(status = (cum_a_km2/tot_a_km2)/ref_pt*100,
+         status = ifelse(status > 100, 100, status))
+
+prot_ter_df <- prot_ter_df %>%
+  mutate(status = (cum_a_km2/tot_a_km2)/ref_pt*100,
+         status = ifelse(status > 100, 100, status))
+
+lsp_status <- prot_mar_df %>% 
+  select(rgn_id, year, mar_status = status) %>%
+  left_join(prot_ter_df %>% 
+              select(rgn_id, year, ter_status = status),
+            by = c('rgn_id', 'year')) %>%
+  mutate(status = (mar_status + ter_status) / 2)
   
-  dir_int   <- file.path(dir_neptune_data, 'git-annex/bcprep/lsp/intermediate')
-  layer_can <- 'wdpa_canada'
-  
-  if(!file.exists(file.path(dir_int, paste(layer_can, '.shp', sep = ''))) | reload == TRUE) {
-    ### Read most recent WDPA_MPA database from git-annex/globalprep
-    wdpa_prod <- 'v2015/raw/WDPA_Jan2015_Public/WDPA_Jan2015_Public.gdb'
-    dir_wdpa <- file.path(dir_neptune_data, 'git-annex/globalprep/WDPA_MPA', wdpa_prod)
-    
-    cat(sprintf('No OHIBC WDPA file.  Reading full WDPA shapefile from:\n  %s, ', dir_wdpa))
-    
-    wdpa_layer <- ogrListLayers(dir_wdpa) %>% 
-      .[str_detect(., 'poly')]
-    #   [1] "WDPA_poly_Jan2015"   "WDPA_point_Jan2015"  "WDPA_Source_Jan2015"
-    #   attr(,"driver")
-    #   [1] "OpenFileGDB"
-    #   attr(,"nlayers")
-    #   [1] 3
-    # wdpa_layer <- 'WDPA_poly_Jan2015'
-    cat(sprintf('layer = %s\n', wdpa_layer))
-    
-    poly_wdpa <- readOGR(dsn = path.expand(dir_wdpa), layer = wdpa_layer)
-    ### NOTE: projection is EPSG:4326 WGS 84.
-    
-    ### Filter down to just polygons within Canada
-    cat('Filtering full WDPA shapefile to Canadian regions...\n')
-    poly_wdpa_can <- poly_wdpa[poly_wdpa@data$PARENT_ISO == 'CAN' | poly_wdpa@data$ISO3 == 'CAN', ]
-    
-    cat('Filtering to only STATUS == Designated...\n')
-    poly_wdpa_can <- poly_wdpa_can[poly_wdpa@data$STATUS == 'Designated', ]
-    
-    
-    writeOGR(poly_wdpa_can, dsn = dir_int, layer = layer_can, driver="ESRI Shapefile")
-    ### NOTE: returns warning:   Field names abbreviated for ESRI Shapefile driver
-#         > names(poly_wdpa@data) before writing OGR
-#         "WDPAID"       "WDPA_PID"     "NAME"         "ORIG_NAME"    "SUB_LOC"      "DESIG"        "DESIG_ENG"    
-#         "DESIG_TYPE"   "IUCN_CAT"     "INT_CRIT"     "MARINE"       "REP_M_AREA"   "GIS_M_AREA"   "REP_AREA"    
-#         "GIS_AREA"     "STATUS"       "STATUS_YR"    "GOV_TYPE"     "MANG_AUTH"    "MANG_PLAN"    "NO_TAKE"      
-#         "NO_TK_AREA"   "METADATAID"   "PARENT_ISO3"  "ISO3"         "Shape_Length" "Shape_Area"  
-#         > names(poly_wdpa_can@data) after writing OGR
-#         "WDPAID"  "WDPA_PI" "NAME"    "ORIG_NA" "SUB_LOC" "DESIG"   "DESIG_E" "DESIG_T" "IUCN_CA" 
-#         "INT_CRI" "MARINE"  "REP_M_A" "GIS_M_A" "REP_ARE" "GIS_ARE" "STATUS"  "STATUS_" "GOV_TYP" 
-#         "MANG_AU" "MANG_PL" "NO_TAKE" "NO_TK_A" "METADAT" "PARENT_" "ISO3"    "Shp_Lng" "Shap_Ar"
-  } else {
-    cat(sprintf('Reading OHIBC WDPA shapefile from: \n  %s, layer = %s\n', dir_int, layer_can))
-    poly_wdpa_can <- readOGR(dsn = dir_int, layer = 'wdpa_canada')
-    ### NOTE: projection is EPSG:4326 WGS 84.
 
-    ### Replace original WDPA attribute names:
-    names(poly_wdpa_can@data) <- c("WDPAID", "WDPA_PID", "NAME", "ORIG_NAME", "SUB_LOC", "DESIG", "DESIG_ENG",
-                                   "DESIG_TYPE", "IUCN_CAT", "INT_CRIT", "MARINE", "REP_M_AREA", "GIS_M_AREA", "REP_AREA",
-                                   "GIS_AREA", "STATUS", "STATUS_YR", "GOV_TYPE", "MANG_AUTH", "MANG_PLAN", "NO_TAKE",
-                                   "NO_TK_AREA", "METADATAID", "PARENT_ISO3", "ISO3", "Shape_Length", "Shape_Area")
-  }
-  return(poly_wdpa_can)
-}
+View(lsp_status %>% filter(year > 2010))
 
-poly_wdpa_can <- get_wdpa_poly()
+#####################################################################=
+### TO DO: sanity check by comparing vs polygon areas -----
+#####################################################################=
 
-### project WDPA polygons into BC Albers (equal area projection) from WGS 84
-poly_wdpa_bc <- spTransform(poly_wdpa_can, proj4string(rgn_3nm))
-
-
-### inspect shapefiles
-plot(rgn_3nm, col = 'light blue',  border = 'blue')
-plot(rgn_1km, col = 'green', border = 'dark green', add = TRUE)
-plot(poly_wdpa_bc, col = 'orange', border = 'red', add = TRUE)
-
-
-prot_area_mar <- raster::intersect(rgn_3nm, poly_wdpa_bc)
-prot_area_ter <- raster::intersect(rgn_1km, poly_wdpa_bc)
-######### left off here #########
-
-## We want a visual check of the map with the new polygon but
-## ggplot requires a data frame, so use the fortify() function
-
-## Visual check, successful, so back to the original problem of finding intersections
-overlaid.poly <- 6 # This is the index of the polygon we added
-num.of.polys <- length(shp4@polygons)
-all.polys <- 1:num.of.polys
-all.polys <- all.polys[-overlaid.poly] # Remove the overlaid polygon - no point in comparing to self
-all.polys <- all.polys[-1] ## In this case the visual check we did shows that the
-## first polygon doesn't intersect overlaid poly, so remove
-
-## Display example intersection for a visual check - note use of SpatialPolygons()
-plot(gIntersection(SpatialPolygons(shp4@polygons[3]), SpatialPolygons(shp4@polygons[6])))
-
-## Calculate and print out intersecting area as % total area for each polygon
-areas.list <- sapply(all.polys, function(x) {
-  my.area <- shp4@polygons[[x]]@Polygons[[1]]@area # the OS data contains area
-  intersected.area <- gArea(gIntersection(SpatialPolygons(shp4@polygons[x]), SpatialPolygons(shp4@polygons[overlaid.poly])))
-  print(paste(shp4@data$NAME[x], " (poly ", x, ") area = ", round(my.area, 1), ", intersect = ", round(intersected.area, 1), ", intersect % = ", sprintf("%1.1f%%", 100*intersected.area/my.area), sep = ""))
-  return(intersected.area) # return the intersected area for future use
-})
