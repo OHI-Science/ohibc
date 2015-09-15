@@ -1,3 +1,6 @@
+### data_prep_lsp.R
+### 
+
 library(sp)        # the classes and methods that make up spatial ops in R
 library(gdalUtils) # for gdal_rasterize() function
 library(maptools)  # tools for reading and manipulating spatial objects
@@ -131,6 +134,8 @@ lsp_status <- prot_mar_df %>%
 View(lsp_status %>% filter(year > 2010))
 
 #####################################################################=
-### TO DO: sanity check by comparing vs polygon areas -----
+### TO DO:  -----
 #####################################################################=
 
+### sanity check by comparing vs polygon areas
+### have rasters saved on Neptune instead of Github
