@@ -8,7 +8,7 @@ library(tidyr)
 library(stringr)
 ```
 
-### Global maps
+### Global maps at lower resolution
 
 Find lower-resolution global shapefiles in [ohiprep/globalprep/spatial/downres](https://github.com/OHI-Science/ohiprep/tree/master/globalprep/spatial/downres).  Filename contains info on what regions it covers (all, EEZ, Antarctica, FAO, land), resolution (low and medium), and CRS (lat-long GCS and Mollweide).
 
@@ -22,6 +22,8 @@ Note that there is no .prj file - so no projection information will come along w
 * gcs: lat and long in degrees
     * EPSG:4326 WGS 84
     * proj.4 string: `'+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'`
+
+# Shapefiles and polygons in R
 
 ### Reading shapefiles
 
@@ -70,6 +72,8 @@ poly_bc_rgn <- readShapePoly(fn = shp_bc, proj4string = p4s_bc)
 `readOGR()` and `readShapePoly()` also have analogous `write` functions and the like.
 
 `readShapePoly()` seems to be significantly faster for big shapefiles, but doesn't work on .gdb and doesn't automatically read in CRS info, which `readOGR()` can do.  I prefer to stick with `readOGR()` where possible (especially for smaller files) to use projection/CRS information where it is available.
+
+One note, learned the annoying painful way, is that if you wish to read layers from a geodatabase (.gdb), you need to have GDAL version 1.11 or higher installed on your computer (outside of R).  In that version, they included the driver for the OpenFileGDB file format.  As of this writing, Neptune's GDAL version is only 1.10, though hopefully it will be updated soon, when the OS etc is updated.
 
 ### Understanding Spatial Polygons in R
 
@@ -162,11 +166,14 @@ plot(poly_bc_mpa, col = rgb(1, .5, .5, .3), border = NA, add = TRUE)
   ### allows us to see whether there are any overlapping polygons!
 ```
 
-### Rasters and polygons
+
+# Rasters and polygons
 
 Extracting raster data into regions defined by a SpatialPolygons* object is pretty easy, using the `extract()` function from the `raster` package.  In next few code chunks we'll determine the extent of marine protected areas within each analysis region in BC's EEZ.
 
 While it is possible to use vector geoprocessing to figure this out, overlapping polygons could be double-counted, so I will instead rasterize the MPA polygons, prioritizing the earliest date of protection.  First step - establish a base raster.
+
+### Creating a raster from scratch
 
 ```{r set up base raster}
 library(raster)
@@ -176,7 +183,7 @@ ext <- extent(poly_bc_rgn)
 ext@xmin <- round(ext@xmin - 500, -3); ext@ymin <- round(ext@ymin - 500, -3)
 ext@xmax <- round(ext@xmax + 500, -3); ext@ymax <- round(ext@ymax + 500, -3)
 
-reso <- 500 ### BC Albers uses meters as units, set a half-km grid
+reso <- 1000 ### BC Albers uses meters as units, set a 1-km grid
 xcol <- (ext@xmax - ext@xmin)/reso; yrow <- (ext@ymax - ext@ymin)/reso
 
 rast_base <- raster(ext, yrow, xcol, crs = p4s_bc)
@@ -184,12 +191,15 @@ rast_base <- raster(ext, yrow, xcol, crs = p4s_bc)
 rast_base ### inspect it: resolution and extents are nice and clean
 ```
 
-Next step: rasterize the MPA polygons.
+### Rasterize polygons
+
+Next step: rasterize the MPA polygons.  See later in the doc for an alternative to raster::rasterize() that is way faster, avoids some odd problems, but has a fairly important limitation.
 
 ```{r rasterize MPA polygons}
 rast_bc_mpa <- rasterize(poly_bc_mpa, rast_base, field = 'STATUS_YR', fun = 'min')
 ```
 
+### The gloriousness of raster::extract()
 Now the big step: raster::extract()
 
 Note that `extract()` is also a function in the `tidyr` package and elsewhere; so I generally force the issue by calling `raster::extract()` just to make sure.
@@ -199,14 +209,19 @@ The basic arguments are simply the raster with the interesting data, and the pol
 * `weights` (logical): if `weights = TRUE`, provides info on how much of a cell was covered by the polygon in question.
 * `normalizeWeights`  (logical): if `normalizeWeights = TRUE` then the reported weights will be normalized for each polygon, so the total for each polygon adds up to 1.00.  If you just want the fraction of cell coverage for each cell, set `normalizeWeights = FALSE`.
 
+It's a bit processor-intensive so be patient...
+
 ```{r raster::extract()}
 ### for this, let's see how much area within 3 nautical miles of the coast
 ### is designated as a protected area.
 poly_bc_3nm <- readShapePoly(fn = file.path(dir_spatial, 'ohibc_offshore_3nm'), proj4string = p4s_bc)
 
 mpa_by_rgn <- raster::extract(rast_bc_mpa, poly_bc_3nm)
+
 # mpa_by_rgn_weights <- raster::extract(rast_bc_mpa, poly_bc_3nm, weights = TRUE, normalizeWeights = FALSE)
 ```
+
+### Turning raster::extract output into something useful
 
 `raster::extract()` returns a list of vectors; each list item is a vector of all the cell values contained within one of the polygon features (`poly_bc_3nm@polygons`).  At this point, we need to assign a non-generic name to our list items so we can keep track.  The following line names the list items according to the `rgn_id` column in the attribute table contained in `poly_bc_3nm@data` (this works since the list is in order of items in the `polygons` slot, which is the same order of attributes in the `data` slot).
 
@@ -246,9 +261,13 @@ for (rgn_id in names(mpa_by_rgn)) {
 # }
 ```
 
+# Further examples
+
 To see much of this stuff put into action, check out [OHIBC LSP script](https://github.com/OHI-Science/ohibc/blob/master/lsp/data_prep_lsp.R) and its [associated functions](https://github.com/OHI-Science/ohibc/blob/master/lsp/R/lsp_fxns.R).
 
 For a more complex version that maintains the spatial distribution of the data, check out [OHI global 2015 SPP_ICO goal script](https://github.com/OHI-Science/ohiprep/blob/master/globalprep/SPP_ICO/data_prep_SPP.R) and its [associated functions](https://github.com/OHI-Science/ohiprep/blob/master/globalprep/SPP_ICO/R/spp_fxn.R).  In these scripts, a raster of cell IDs is extracted against polygons for many different species; the resulting lists tell which cell IDs contain which species.
+
+# Appendix
 
 ### Alt method of rasterizing polygons
 
@@ -288,105 +307,50 @@ work in progress...
 
 ### Plotting polygons with ggplot2
 
-work in progress...
+`ggplot` works with data frames; so if you want to plot a polygon, you need to first turn it into a data frame. `ggplot2::fortify()` takes care of this.  The `region` argument lets you assign a variable within the attribute table to become a region identifier.
 
-```
-get_rgn_df <- function(dsn = str_replace(dir_global, 'ohi-global', 'ohiprep/globalprep/spatial/downres'),
-                       layer = NULL, prj = 'gcs') {
-  if(is.null(layer)) layer <- sprintf('rgn_eez_%s_low_res', prj)
-  rgn_shp <- readOGR(dsn = path.expand(dsn), layer, verbose = FALSE) #, p4s = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs')
+Note: make sure you have all your CRS and projection stuff figured out first!
 
-  ### The ID number for fortify(rgn_shp) is simply the row number within the @data.
-  ### So create a lookup table for row number (zero to N-1) to rgn_id.
-  rgn_lookup <- data.frame(id     = c(0:(nrow(rgn_shp@data) - 1)), 
-                           rgn_id = rgn_shp@data$rgn_id)
-  
-#   if (prj == 'mol') {
-#     cat('transforming spatial polygons data frame to Mollweide projection\n')
-#     rgn_shp <- spTransform(rgn_shp, CRS("+proj=moll +R=10567000 +lon_0=0 +x_0=0 +y_0=0 +units=m +towgs84=0,0,0,0,0,0,0 +no_defs"))
-#   }
-  
-  ### Fortify the rgn_eez from shapefile into dataframe.  Then attach the region
-  ### ID by the polygon ID (row number from @data)
-  rgn_df <- fortify(rgn_shp) %>%
-    mutate(id = as.integer(id)) %>%
-    left_join(rgn_lookup, by = 'id')
-  
-  return(rgn_df)
-}
+```{r plotting polygons in ggplot}
+library(ggplot2)
+library(RColorBrewer)
 
+### Fortify the existing poly_bc_rgn SpatialPolygonsDataFrame into a
+### data frame that ggplot can work with.  
+poly_rgn_df <- fortify(poly_bc_rgn, region = 'rgn_id') %>%
+  rename(rgn_id = id) %>%
+  mutate(rgn_id = as.integer(rgn_id)) 
 
-get_land_df <- function(dsn = sprintf('%s/../ohiprep/globalprep/spatial/downres', dir_global),
-                        layer = 'rgn_land_mol_low_res') {
-### gets Mollweide land forms for plotting.
-  rgn_shp <- readOGR(dsn = path.expand(dsn), layer, verbose = FALSE)
-  
-  ### Fortify the rgn_eez from shapefile into dataframe.  Then attach the region
-  ### ID by the polygon ID (row number from @data)
-  rgn_df <- fortify(rgn_shp)
-  
-  return(rgn_df)
-}
+### Note: Even though we already have a map with harvest data attached,
+### I'm not sure that there's a good way to keep all the attributes
+### so I'm just left-joining some harvest data to the fortified data frame.
+n_rgn <- length(poly_bc_rgn@data$rgn_id)
+harv_data2 <- data.frame(rgn_id   = c(1:n_rgn),
+                         h_tonnes = abs(rnorm(n = n_rgn, mean = 100, sd = 40)))
 
-get_ocean_df <- function(dsn = sprintf('%s/../ohiprep/globalprep/spatial/downres', dir_global),
-                         layer = 'rgn_all_mol_low_res') {
-  ### gets Mollweide ocean regions (all) for plotting.
-  rgn_shp <- readOGR(dsn = path.expand(dsn), layer, verbose = FALSE)
+poly_rgn_df <- poly_rgn_df %>%
+  left_join(harv_data2, by = 'rgn_id')
   
-  ### Fortify the rgn_eez from shapefile into dataframe.  Then attach the region
-  ### ID by the polygon ID (row number from @data)
-  rgn_df <- fortify(rgn_shp)
-  
-  return(rgn_df)
-}
+### To plot land forms, let's load a land shapefile too.
+poly_land    <- readShapePoly(fn = file.path(dir_spatial, 'ohibc_land'), proj4string = p4s_bc)
+poly_land_df <- fortify(poly_land)
 
-plot_scores <- function(rgn_df, fld, fig_save = NULL, prj = 'gcs',
-                        title = NULL, leg_title = FALSE, leg_on = TRUE) {
-  if(is.null(title)) {
-    fld_name <- expand_fld(fld)
-    title <- sprintf('Scores: %s (%s)', fld, fld_name)
-  }
-  
-  col.brks  <- seq(0, 100, length.out = 6)
+df_plot <- ggplot(data = poly_rgn_df, aes(x = long, y = lat, group = group, fill = h_tonnes)) +  
+  theme(axis.ticks = element_blank(), axis.text = element_blank(),
+        text = element_text(family = 'Helvetica', color = 'gray30', size = 12),
+        plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
+        legend.position = 'right') + 
+  scale_fill_gradientn(colours = brewer.pal(10, 'RdYlBu'), space = 'Lab', na.value = 'gray80',
+                       limits = c(0, 100)) + 
+  geom_polygon(color = 'gray80', size = 0.1) +
+  geom_polygon(data = poly_land_df, color = 'gray40', fill = 'gray45', size = 0.25) +
+    ### df_plot order: EEZ score polygons, then land polygons (dark grey).
+  labs(title = 'OHI BC harvest by region', 
+       fill  = 'Harvest (tonnes)',
+       x = NULL, y = NULL)
+         
 
-  df_plot <- ggplot(data = rgn_df, aes(x = long, y = lat, group = group, fill = val)) +  
-    theme(axis.ticks = element_blank(), axis.text = element_blank(),
-          text = element_text(family = 'Helvetica', color = 'gray30', size = 12),
-          plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
-          legend.position = ifelse(leg_on, 'right', 'none')) + 
-    scale_fill_gradientn(colours = brewer.pal(10, 'RdYlBu'), space = 'Lab', na.value = 'gray80',
-                         breaks = col.brks, labels = col.brks, limits = c(0, 100)) + 
-    labs(title = title, 
-         fill  = ifelse(leg_title & leg_on, fld, ''),
-         x = NULL, y = NULL) 
-  if(prj == 'mol'){
-  ### For Mollweide, 'border()' doesn't seem to work.  Load in land and ocean polygons to plot directly.
-    if(!exists('land_poly'))
-      land_poly <- get_land_df()
-    if(!exists('ocean_poly'))
-      ocean_poly <- get_ocean_df()
-    
-    df_plot <- df_plot +
-      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) +
-      geom_polygon(data = ocean_poly, color = 'gray92', fill = 'gray92', size = 0.25) +
-      geom_polygon(color = 'gray80', size = 0.1) +
-      geom_polygon(data = land_poly, color = 'gray40', fill = 'gray45', size = 0.25)
-    ### df_plot order: oceans (light grey), then EEZ score polygons, then land polygons (dark grey).
-  } else {
-  ### For default projection, use standard grey background for oceans, and use borders() for land forms.
-    df_plot <- df_plot +   
-      geom_polygon(color = 'gray80', size = 0.1) +
-      borders('world', color = 'gray40', fill = 'gray45', size = .25) + # create a layer of borders
-      scale_x_continuous(breaks = seq(-180, 180, by = 30), expand = c(0, 2)) +
-      scale_y_continuous(breaks = seq( -90,  90, by = 30), expand = c(0, 2))
-  }
-
-  if(!is.null(fig_save)) {
-    cat(sprintf('Saving map to %s...\n', fig_save))
-    ggsave(fig_save, width = 10, height = 6)
-    return(invisible(df_plot))
-  } else {
-    return(df_plot)
-  }  
-}
+df_plot
+### ggsave() saves the most recent ggplot object
+ggsave(file.path(dir_spatial, 'bc_harvest.png', width = 10, height = 6)
 ```
