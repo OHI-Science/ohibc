@@ -205,35 +205,50 @@ The basic arguments are simply the raster with the interesting data, and the pol
 poly_bc_3nm <- readShapePoly(fn = file.path(dir_spatial, 'ohibc_offshore_3nm'), proj4string = p4s_bc)
 
 mpa_by_rgn <- raster::extract(rast_bc_mpa, poly_bc_3nm)
-# mpa_by_rgn_proportions <- raster::extract(rast_bc_mpa, poly_bc_3nm, weights = TRUE, normalizeWeights = FALSE)
+# mpa_by_rgn_weights <- raster::extract(rast_bc_mpa, poly_bc_3nm, weights = TRUE, normalizeWeights = FALSE)
 ```
 
-`raster::extract()` returns a list of vectors; each list item is a vector of all the cell values contained within one of the polygon features.  At this point, we need to assign a non-generic name to our list items so we can keep track.  The following line names the list items according to the `rgn_id` column in the attribute table contained in `data` (this works since the list is in order of items in the `polygons` slot, which is the same order of attributes in the `data` slot).
+`raster::extract()` returns a list of vectors; each list item is a vector of all the cell values contained within one of the polygon features (`poly_bc_3nm@polygons`).  At this point, we need to assign a non-generic name to our list items so we can keep track.  The following line names the list items according to the `rgn_id` column in the attribute table contained in `poly_bc_3nm@data` (this works since the list is in order of items in the `polygons` slot, which is the same order of attributes in the `data` slot).
 
-```
-names(data_list_by_rgn) <- rgn_poly@data$rgn_id
+```{r name list elements from raster::extract}
+names(mpa_by_rgn) <- poly_bc_3nm@data$rgn_id
+
+# names(mpa_by_rgn_weights) <- poly_bc_3nm@data$rgn_id
 ```
 
 To get the data out of annoying list form and into convenient data frame form, this next code chunk does the following:
 
-* create an empty data frame (`data_rgn_df`) that we will build up as we unlist each list item.
+* create an empty data frame (`mpa_rgn_df`) that we will build up as we unlist each list item.
 * loop over each of the list items (named after the `rgn_id`s in the previous step)
     * create a temporary data frame that stores the `rgn_id` (from loop index) and the entire list of cell values for that particular `rgn_id`
     * tack that temp data frame onto the bottom of the existing `data_rgn_df` (first time through, tacks onto an empty data frame)
-    
+
 Voilà! a data frame of cell values by region.
 
-```
-data_rgn_df <- data.frame()
-for (rgn_id in names(data_list_by_rgn)) {
-  temp_df <- data.frame(rgn_id, year = unlist(data_list_by_rgn[[rgn_id]]))
-  data_rgn_df <- rbind(data_rgn_df, temp_df)
+```{r convert list elements to data frame}
+### For the dataframe without cell weights, each list is just a
+### vector of values, so we can simply assign that to a column in
+### the data frame.
+mpa_rgn_df <- data.frame()
+for (rgn_id in names(mpa_by_rgn)) {
+  temp_df <- data.frame(rgn_id, year = unlist(mpa_by_rgn[[rgn_id]]))
+  mpa_rgn_df <- rbind(mpa_rgn_df, temp_df)
 }
+
+### for the dataframe with cell weights, each list item is a 
+### matrix containing value & weight, so we can unlist it into a temp
+### matrix and then assign each variable separately.  
+# mpa_rgn_weights_df <- data.frame()
+# for (rgn_id in names(mpa_by_rgn_weights)) {
+#   temp_matrix <- unlist(mpa_by_rgn_weights[[rgn_id]])
+#   temp_df <- data.frame(rgn_id, year = temp_matrix$value, wt = temp_matrix$weight)
+#   mpa_rgn_df <- rbind(mpa_rgn_weights_df, temp_df)
+# }
 ```
 
 To see much of this stuff put into action, check out [OHIBC LSP script](https://github.com/OHI-Science/ohibc/blob/master/lsp/data_prep_lsp.R) and its [associated functions](https://github.com/OHI-Science/ohibc/blob/master/lsp/R/lsp_fxns.R).
 
-For a more complex version that maintains the spatial distribution of the data, check out [OHI global 2015 SPP_ICO goal script](https://github.com/OHI-Science/ohiprep/blob/master/globalprep/SPP_ICO/data_prep_SPP.R) and its [associated functions](https://github.com/OHI-Science/ohiprep/blob/master/globalprep/SPP_ICO/R/spp_fxn.R).
+For a more complex version that maintains the spatial distribution of the data, check out [OHI global 2015 SPP_ICO goal script](https://github.com/OHI-Science/ohiprep/blob/master/globalprep/SPP_ICO/data_prep_SPP.R) and its [associated functions](https://github.com/OHI-Science/ohiprep/blob/master/globalprep/SPP_ICO/R/spp_fxn.R).  In these scripts, a raster of cell IDs is extracted against polygons for many different species; the resulting lists tell which cell IDs contain which species.
 
 ### Alt method of rasterizing polygons
 
@@ -267,8 +282,13 @@ rast_3nm_gdal <- gdal_rasterize(
     # of,    # output format; default = GTiff, so I left it stay as default
     # a_srs  # override projection
 ```
+### Identifying and fixing problems with shapefiles and polygons
 
-### Plotting polygons
+work in progress...
+
+### Plotting polygons with ggplot2
+
+work in progress...
 
 ```
 get_rgn_df <- function(dsn = str_replace(dir_global, 'ohi-global', 'ohiprep/globalprep/spatial/downres'),
