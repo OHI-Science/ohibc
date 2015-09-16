@@ -17,6 +17,7 @@ dir_anx <- file.path(dir_neptune_data, 'git-annex/ohibc/lsp') ### git-annex: goa
 dir_rgn <- file.path(dir_bc, 'regions')      ### github: general buffer region shapefiles
 dir_rst <- file.path(dir_bc, 'lsp/spatial')  ### github: goal-specific spatial outputs
 
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
 
 #####################################################################=
 ### Read in BC WDPA shapefile for rasterization -----
@@ -33,7 +34,12 @@ dir_rst <- file.path(dir_bc, 'lsp/spatial')  ### github: goal-specific spatial o
 
 poly_wdpa_bc <- get_wdpa_poly()  ### defaults to BC Albers
 
-gIsValid(poly_wdpa_bc)
+x <- gIsValid(poly_wdpa_bc, byid = TRUE)
+poly_wdpa_bc@data$NAME[x == FALSE]
+### invalid polygons - fix with cleangeo?
+# [1] Mud Lake Delta Park         Valhalla Park               Brackendale Eagles Park     Lazo Marsh-North East Comox
+# [5] Cape Scott Park             Naikoon Park                Hesquiat Peninsula Park     Pacific Rim                
+# [9] NEAH CONSERVANCY           
 
 
 #####################################################################=
@@ -53,7 +59,7 @@ p4s_rgn <- get_p4s(rgn_list)
 
 reso <- 500 ### resolution for all rasters in this process
 
-base_raster <- get_base_raster(ext = ext_rgn, reso = reso, p4s_base = p4s_rgn, fn = file.path(dir_rast, 'rast_base.tif'))
+base_raster <- get_base_raster(ext = ext_rgn, reso = reso, p4s_base = p4s_rgn, fn = file.path(dir_rst, 'rast_base.tif'))
 
 
 #####################################################################=
@@ -125,9 +131,9 @@ prot_ter_df <- prot_ter_df %>%
          status = ifelse(status > 100, 100, status))
 
 lsp_status <- prot_mar_df %>% 
-  select(rgn_id, year, mar_status = status) %>%
+  dplyr::select(rgn_id, year, mar_status = status) %>%
   left_join(prot_ter_df %>% 
-              select(rgn_id, year, ter_status = status),
+              dplyr::select(rgn_id, year, ter_status = status),
             by = c('rgn_id', 'year')) %>%
   mutate(status = (mar_status + ter_status) / 2)
   

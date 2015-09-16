@@ -2,7 +2,7 @@
 ### 
 ### Support functions for the OHI BC data_prep_lsp.R
 
-get_wdpa_poly <- function(p4s_name = 'EPSG:3005 NAD83/BC Albers',
+get_wdpa_poly <- function(p4s_name = 'bcalb',
                           p4s_def  = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
                           reload = FALSE) {
   ### Time consuming due to OGR load times of original WDPA database... 
@@ -42,12 +42,12 @@ get_wdpa_poly <- function(p4s_name = 'EPSG:3005 NAD83/BC Albers',
     cat('Filtering to only STATUS == Designated...\n')
     poly_wdpa_bc <- poly_wdpa_bc[poly_wdpa@data$STATUS == 'Designated', ]
     
-    p4s_wdpa_orig <- proj4string(poly_wdpa_bc)
-    cat(sprintf('Current shapefile CRS: %s\n', p4s_wdpa_orig))
+    p4s_orig <- proj4string(poly_wdpa_bc)
+    cat(sprintf('Current shapefile CRS: %s\n', p4s_orig))
     ### NOTE: projection is EPSG:4326 WGS 84 for the original WDPA shapefile
     
-    if(p4s_wdpa_orig != p4s_def) {
-      cat(sprintf('Reprojecting shapefile: \n  Original: %s \n  New:      %s'))
+    if(p4s_orig != p4s_def) {
+      cat(sprintf('Reprojecting shapefile: \n  Original: %s \n  New:      %s', p4s_orig, p4s_def))
       poly_wdpa_bc <- spTransform(poly_wdpa_bc, p4s_def)
     }
     
@@ -55,10 +55,15 @@ get_wdpa_poly <- function(p4s_name = 'EPSG:3005 NAD83/BC Albers',
     
   } else {
     
-    cat(sprintf('Reading OHIBC WDPA shapefile from: \n  %s, layer = %s\n', dir_int, layer_bc))
-    poly_wdpa_bc <- readOGR(dsn = dir_spatial, fn = layer_bc)
-    p4s_wdpa_bc <- proj4string(poly_wdpa_bc)
-    cat(sprintf('Current shapefile CRS: %s\n', p4s_wdpa_bc))
+    cat(sprintf('Reading OHIBC WDPA shapefile from: \n  %s, layer = %s\n', dir_spatial, layer_bc))
+    poly_wdpa_bc <- readOGR(dsn = dir_spatial, layer = layer_bc)
+
+    p4s_orig <- proj4string(poly_wdpa_bc)
+    cat(sprintf('Current shapefile CRS: %s\n', p4s_orig))
+    if(p4s_orig != p4s_def) {
+      cat(sprintf('Reprojecting shapefile: \n  Original: %s \n  New:      %s', p4s_orig, p4s_def))
+      poly_wdpa_bc <- spTransform(poly_wdpa_bc, p4s_def)
+    }
   }
   return(poly_wdpa_bc)
 }
