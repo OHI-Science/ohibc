@@ -37,10 +37,6 @@ poly_bc_rgn <- readOGR(dsn = path.expand(dir_spatial), layer = layer_bc, strings
   ### note the path.expand(): readOGR can be annoyingly finicky about file names;
   ### it is apparently not a fan of the '~'.  path.expand() gets rid of that.
 
-library(rgeos)
-gIsValid(poly_bc_rgn, byid = TRUE) 
-  ### checks valid geometries.  We'll deal with the problems later
-
 ### you can easily plot polygons, though complex polys take a while
 plot(poly_bc_rgn, col = 'light blue', border = 'blue')
 ```
@@ -60,8 +56,6 @@ p4s_bc <- CRS('+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=100000
 
 poly_bc_rgn <- readShapePoly(fn = shp_bc, proj4string = p4s_bc)
 
-### Not sure why but gIsValid() seems to take much longer on this version of poly_bc_rgn.
-# gIsValid(poly_bc_rgn, byid = TRUE)
 ```
 
 * `fn` is the full filename, leaving off the .shp extension.  This has to be a shapefile (not a .gdb).
@@ -302,9 +296,33 @@ rast_3nm_gdal <- gdal_rasterize(
     # a_srs  # override projection
 ```
 
-### Identifying and fixing problems with shapefiles and polygons
+### More fun with shapefiles and polygons
 
-work in progress...
+The `rgeos` package has some helpful functions for manipulating SpatialPolygons - including ways to check invalid geometries and typical GIS tools for checking and manipulating geometries, such as `gUnion()`, `gDifference()`, `gIntersection()`, `gBuffer()`, etc.
+
+Sometimes shape files have errors - common ones are too few points and self-intersections.  `rgeos::gIsValid()` can tell you whether the SpatialPolygons* object is valid or not, but it can't fix it directly.
+
+* An internet search might show you a few ways to repair invalid geometries, but some (like setting a buffer of zero width) have unintended consequences - that one just deletes offending polygons entirely.  Not cool, bro!
+* The `cleangeo` package has tools for identifying problems, and has a tool to repair geometries.
+    * It's not on CRAN but you can install from github.
+
+```{r identifying and fixing errors}
+library(rgeos)
+gIsValid(poly_bc_rgn, byid = TRUE) 
+  ### checks valid geometries; in this case, two polygon features
+  ### have invalid geometries... how to fix 'em? cleangeo!
+
+library(cleangeo) ### devtools::install_github('eblondel/cleangeo') 
+poly_bc_rgn_clean <- clgeo_Clean(poly_bc_rgn, print.log = TRUE)
+gIsValid(poly_bc_rgn_clean, byid = TRUE) ### all good, yay!
+
+### cleangeo provides an alternate way of checking geometries if
+### gIsValid isn't good enough for you
+report  <- clgeo_CollectionReport(poly_bc_rgn)
+View(report)
+issues  <- report %>% filter(valid == FALSE)
+issues ### two polygons with problems
+```
 
 ### Plotting polygons with ggplot2
 
