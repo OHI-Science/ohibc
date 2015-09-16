@@ -73,12 +73,12 @@ img {
 <li>mol: Mollweide: equal area projection, units in meters.
 <ul>
 <li>EPSG:54009</li>
-<li>proj.4 string: ‘+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs’</li>
+<li>proj.4 string: <code>'+proj=moll +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs'</code></li>
 </ul></li>
 <li>gcs: lat and long in degrees
 <ul>
 <li>EPSG:4326 WGS 84</li>
-<li>proj.4 string: ‘+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0’</li>
+<li>proj.4 string: <code>'+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'</code></li>
 </ul></li>
 </ul>
 </div>
@@ -110,7 +110,7 @@ x &lt;- readShapePoly(fn, proj4string)</code></pre>
 </ul></li>
 </ul>
 <p><code>readOGR()</code> and <code>readShapePoly()</code> also have analogous <code>write</code> functions and the like.</p>
-<p><code>readShapePoly()</code> seems to be significantly faster, but doesn’t work on .gdb and doesn’t automatically read in CRS info, which <code>readOGR()</code> can do.</p>
+<p><code>readShapePoly()</code> seems to be significantly faster, but doesn’t work on .gdb and doesn’t automatically read in CRS info, which <code>readOGR()</code> can do. I prefer to stick with <code>readOGR()</code> where possible (especially for smaller files) to use projection/CRS information where it is available.</p>
 </div>
 <div id="understanding-spatial-polygons-in-r" class="section level3">
 <h3>Understanding Spatial Polygons in R</h3>
@@ -132,9 +132,6 @@ x &lt;- readShapePoly(fn, proj4string)</code></pre>
 <h3>Adding data to polygons</h3>
 <p>If you’d like to add a column of data to the SpatialPolygonsDataFrame, for example harvest tonnes or a region ID value, you should be able to simply access the <code>data</code> slot and treat it like a data frame.</p>
 <p>I believe it will be important to maintain the order of the dataframe rows, to keep them associated with the correct polygons in the <code>polygons</code> slot.</p>
-</div>
-<div id="plotting-polygons" class="section level3">
-<h3>Plotting polygons</h3>
 </div>
 <div id="rasters-and-polygons" class="section level3">
 <h3>Rasters and polygons</h3>
@@ -196,6 +193,10 @@ rast_3nm_gdal &lt;- gdal_rasterize(
     # l,     # layer; maybe needed if src_datasource is .gdb, with mult layers
     # of,    # output format; default = GTiff, so I left it stay as default
     # a_srs  # override projection</code></pre>
+</div>
+<div id="plotting-polygons" class="section level3">
+<h3>Plotting polygons</h3>
+<p>TBD… take a look at</p>
 </div>
 
 
