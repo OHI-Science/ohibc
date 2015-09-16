@@ -2,6 +2,11 @@
 title: "Spatial stuff"
 output: html_document
 ---
+```{r setup, echo = FALSE}
+library(dplyr)
+library(tidyr)
+library(stringr)
+```
 
 ### Global maps
 
@@ -21,9 +26,21 @@ Note that there is no .prj file - so no projection information will come along w
 ### Reading shapefiles
 
 Here are two different ways to read in spatial vector data, each with advantages and disadvantages:
-```
+```{r read shapefiles 1}
 library(rgdal)
-x <- readOGR(dsn, layer, p4s, stringsAsFactors)
+dir_spatial   <- '~/github/ohibc/spatial_data'
+layer_bc <- 'ohibc_rgn'
+
+poly_bc_rgn <- readOGR(dsn = path.expand(dir_spatial), layer = layer_bc, stringsAsFactors = FALSE)
+  ### note the path.expand(): readOGR can be annoyingly finicky about file names;
+  ### it is apparently not a fan of the '~'.  path.expand() gets rid of that.
+
+library(rgeos)
+gIsValid(poly_bc_rgn, byid = TRUE) 
+  ### checks valid geometries.  We'll deal with the problems later
+
+### you can easily plot polygons, though complex polys take a while
+plot(poly_bc_rgn, col = 'light blue', border = 'blue')
 ```
 
 * `dsn` is the data source name.  It can be a .gdb or a directory with shapefiles in it.  It can be relative or absolute file path.
@@ -33,9 +50,16 @@ x <- readOGR(dsn, layer, p4s, stringsAsFactors)
     * If you're reading a .shp (and the associated .dbf etc), then `layer` should be the base name of the shapefile (without the .shp extension).  E.g. if you want `rgn_all_mol_med_res.shp`, then `layer = 'rgn_all_mol_low_res'`.
 * `p4s` allows you to input a proj.4 string to indicate a CRS.  If there's already a .prj file associated with this layer, `readOGR()` will automatically read it in.
 
-```
+```{r read shapefiles 2}
 library(maptools)
-x <- readShapePoly(fn, proj4string)
+shp_bc <- file.path(dir_spatial, layer_bc)
+p4s_bc <- CRS('+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0')
+  ### that's the proj4string for BC Albers projection
+
+poly_bc_rgn <- readShapePoly(fn = shp_bc, proj4string = p4s_bc)
+
+### Not sure why but gIsValid() seems to take much longer on this version of poly_bc_rgn.
+# gIsValid(poly_bc_rgn, byid = TRUE)
 ```
 
 * `fn` is the full filename, leaving off the .shp extension.  This has to be a shapefile (not a .gdb).
@@ -45,7 +69,7 @@ x <- readShapePoly(fn, proj4string)
     
 `readOGR()` and `readShapePoly()` also have analogous `write` functions and the like.
 
-`readShapePoly()` seems to be significantly faster, but doesn't work on .gdb and doesn't automatically read in CRS info, which `readOGR()` can do.  I prefer to stick with `readOGR()` where possible (especially for smaller files) to use projection/CRS information where it is available.
+`readShapePoly()` seems to be significantly faster for big shapefiles, but doesn't work on .gdb and doesn't automatically read in CRS info, which `readOGR()` can do.  I prefer to stick with `readOGR()` where possible (especially for smaller files) to use projection/CRS information where it is available.
 
 ### Understanding Spatial Polygons in R
 
@@ -60,29 +84,129 @@ Once the shapefile is read in, it becomes a SpatialPolygonsDataFrame object (fro
     
 Each of these slots can be accessed by a `@` symbol (rather than a `$` symbol).  If your SpatialPolygonsDataFrame is called `x`, then you can access the attribute table by calling `x@data` and treat it exactly like a regular data frame.
 
+```{r viewing SpatialPolygonsDataFrame slots}
+### view the overall structure
+summary(poly_bc_rgn)
+
+### check out the attribute table in the data slot
+head(poly_bc_rgn@data)
+
+### check out the basics of the polygon features
+summary(poly_bc_rgn@polygons)  ### summary of the polygon features
+
+### inspect one of the smaller sub-polys that make up the first polygon
+### feature; this one draws a small hole in the main polygon
+poly_bc_rgn@polygons[[1]]@Polygons[[2]] 
+
+### check out the CRS info
+poly_bc_rgn@proj4string
+```
+
 You can also manipulate these slots individually, for example filtering out rows of the dataframe in the `data` slot, but you will also need to treat the other slots accordingly.
 
 ### Adding data to polygons
 
 If you'd like to add a column of data to the SpatialPolygonsDataFrame, for example harvest tonnes or a region ID value, you should be able to simply access the `data` slot and treat it like a data frame.
+```{r adding data to SpatialPolygonsDataFrame}
+### create a data frame of harvest per region.  Note not all regions are represented here!
+harv_data <- data.frame(rgn_id   = c(  1,  2,  3,  5,  8),
+                        h_tonnes = c(105, 89, 74, 21, 11))
 
-I believe it will be important to maintain the order of the dataframe rows, to keep them associated with the correct polygons in the `polygons` slot.
+### use left_join to join data to attributes table without changing order
+poly_bc_rgn@data <- poly_bc_rgn@data %>%
+  left_join(harv_data, by = 'rgn_id')
+
+### note unassigned regions have NA for harvest tonnage
+poly_bc_rgn@data
+```
+
+### Selecting or filtering polygons based on attributes
+
+Use indexing to select just rows where there is harvest data.  This eliminates the polygons as well as the attribute table rows, and resets the plot order.  Probably safer than filtering on the data slot directly...
+
+```{r selecting/filtering by attribute}
+### Select only regions with non-NA harvest values
+poly_bc_harvest <- poly_bc_rgn[!is.na(poly_bc_rgn@data$h_tonnes), ]
+
+poly_bc_harvest@data
+
+```
+
+### Fixing projections
+
+Mismatched coordinate reference systems are just as much a pain in the ass in R as they are in ArcGIS or QGIS.  But they're easy to work with once you know how to inspect them and re-project them.
+
+```{r fixing projections}
+
+poly_bc_mpa <- readShapePoly(file.path(dir_spatial, 'mpa_bc'))
+
+plot(poly_bc_rgn, col = rgb(.7, .7, 1), border = rgb(0, 0, 1))
+plot(poly_bc_mpa, col = rgb(1, .5, .5, .5), border = rgb(1, 0, 0, .5), add = TRUE)
+  ### fun fact: the 'rgb()' function allows you to specify color by 
+  ### Red/Green/Blue proportions, but also allows a fourth argument
+  ### for 'alpha' (opacity) to create semi-transparent layers
+
+### Note that the MPA polys don't show up on the map!  That's because of a
+### CRS error...
+poly_bc_mpa@proj4string ### NA!  But it's actually in lat-long coord system.
+poly_bc_mpa@proj4string <- CRS('+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
+
+### Now that it knows the correct CRS we can reproject to BC Albers:
+poly_bc_mpa <- spTransform(poly_bc_mpa, p4s_bc)
+poly_bc_mpa@proj4string
+poly_bc_rgn@proj4string  ### OK, now they match!
+
+plot(poly_bc_rgn, col = rgb(.7, .7, 1), border = rgb(0, 0, 1))
+plot(poly_bc_mpa, col = rgb(1, .5, .5, .3), border = NA, add = TRUE)
+  ### The semi-transparency not only looks way awesome, but also
+  ### allows us to see whether there are any overlapping polygons!
+```
 
 ### Rasters and polygons
 
-Extracting raster data into regions defined by a SpatialPolygons* object is pretty easy, using the `extract()` function from the `raster` package.
-```
+Extracting raster data into regions defined by a SpatialPolygons* object is pretty easy, using the `extract()` function from the `raster` package.  In next few code chunks we'll determine the extent of marine protected areas within each analysis region in BC's EEZ.
+
+While it is possible to use vector geoprocessing to figure this out, overlapping polygons could be double-counted, so I will instead rasterize the MPA polygons, prioritizing the earliest date of protection.  First step - establish a base raster.
+
+```{r set up base raster}
 library(raster)
 
-data_list_by_rgn <- raster::extract(data_raster, rgn_poly)
+### use poly_bc_rgn to set raster extents and then round to nearest km
+ext <- extent(poly_bc_rgn) 
+ext@xmin <- round(ext@xmin - 500, -3); ext@ymin <- round(ext@ymin - 500, -3)
+ext@xmax <- round(ext@xmax + 500, -3); ext@ymax <- round(ext@ymax + 500, -3)
+
+reso <- 500 ### BC Albers uses meters as units, set a half-km grid
+xcol <- (ext@xmax - ext@xmin)/reso; yrow <- (ext@ymax - ext@ymin)/reso
+
+rast_base <- raster(ext, yrow, xcol, crs = p4s_bc)
+
+rast_base ### inspect it: resolution and extents are nice and clean
 ```
 
-Note that `extract()` is also a function in the `tidyr` package and elsewhere; so it's not a bad idea to force the issue by calling `raster::extract()` just to make sure.
+Next step: rasterize the MPA polygons.
+
+```{r rasterize MPA polygons}
+rast_bc_mpa <- rasterize(poly_bc_mpa, rast_base, field = 'STATUS_YR', fun = 'min')
+```
+
+Now the big step: raster::extract()
+
+Note that `extract()` is also a function in the `tidyr` package and elsewhere; so I generally force the issue by calling `raster::extract()` just to make sure.
 
 The basic arguments are simply the raster with the interesting data, and the polygon features that define the regions of interest.  There are other arguments, but one set of arguments that may be interesting is `weights` and/or `normalizeWeights`.
 
 * `weights` (logical): if `weights = TRUE`, provides info on how much of a cell was covered by the polygon in question.
 * `normalizeWeights`  (logical): if `normalizeWeights = TRUE` then the reported weights will be normalized for each polygon, so the total for each polygon adds up to 1.00.  If you just want the fraction of cell coverage for each cell, set `normalizeWeights = FALSE`.
+
+```{r raster::extract()}
+### for this, let's see how much area within 3 nautical miles of the coast
+### is designated as a protected area.
+poly_bc_3nm <- readShapePoly(fn = file.path(dir_spatial, 'ohibc_offshore_3nm'), proj4string = p4s_bc)
+
+mpa_by_rgn <- raster::extract(rast_bc_mpa, poly_bc_3nm)
+# mpa_by_rgn_proportions <- raster::extract(rast_bc_mpa, poly_bc_3nm, weights = TRUE, normalizeWeights = FALSE)
+```
 
 `raster::extract()` returns a list of vectors; each list item is a vector of all the cell values contained within one of the polygon features.  At this point, we need to assign a non-generic name to our list items so we can keep track.  The following line names the list items according to the `rgn_id` column in the attribute table contained in `data` (this works since the list is in order of items in the `polygons` slot, which is the same order of attributes in the `data` slot).
 
