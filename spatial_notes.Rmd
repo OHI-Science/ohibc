@@ -273,21 +273,21 @@ For a more complex version that maintains the spatial distribution of the data, 
 
 Most of what you need to know about rasters is covered in Jamie's spatial data workshop.  One added point: an alternative method of rasterizing vector data, when `raster::rasterize()` is causing problems.
 
-Note that one major issue with `gdal_rasterize()` (aside from the arcane argument list) is that in the event of overlapping polygons, there's no place for a decision rule as to which polygon value gets assigned to the cell.  If you know there are no overlaps, then this is a very fast option for you.
+Note that one major issue with `gdal_rasterize()` (aside from the arcane argument list) is that in the event of overlapping polygons, there's no place for a decision rule as to which polygon value gets assigned to the cell.  If you know there are no overlaps, then this is a very fast and seemingly accurate option.
 
 ```
 library(gdalUtils)
 rast_3nm_gdal <- gdal_rasterize(
-    src_datasource = file.path(dir_rgn, 'ohibc_offshore_3nm.shp'),
+    src_datasource = file.path(dir_spatial, 'ohibc_offshore_3nm.shp'),
       # src_datasource needs to be an OGR readable format (e.g. .shp)
       # NOTE: doesn't need source to already be in memory!
-    dst_filename = file.path(dir_rast, 'rast_3nm_gdal.tif'), 
+    dst_filename = file.path(dir_spatial, 'rast_3nm_gdal.tif'), 
       # destination for output
     a = 'rgn_id', 
       # the attribute in the shapefile to be assigned to the cell values
-    te = c(ex_xmin, ex_ymin, ex_xmax, ex_ymax), 
+    te = c(ext@xmin, ext@ymin, ext@xmax, ext@ymax), 
       # extents for output raster
-    tr = c(500, 500),   
+    tr = c(1000, 1000),   
       # resolution for x and y; for my projection, 500 m resolution
     tap = TRUE, 
       # target aligned pixels - align coords of extent of output to values of -tr
@@ -295,12 +295,13 @@ rast_3nm_gdal <- gdal_rasterize(
       # nodata value for raster; otherwise they will be filled in with zeroes
     output_Raster = TRUE, 
       # return output as a RasterBrick? 
-    verbose = TRUE,
+    verbose = TRUE)
   ### unused but interesting arguments:
     # l,     # layer; maybe needed if src_datasource is .gdb, with mult layers
     # of,    # output format; default = GTiff, so I left it stay as default
     # a_srs  # override projection
 ```
+
 ### Identifying and fixing problems with shapefiles and polygons
 
 work in progress...
@@ -326,7 +327,7 @@ poly_rgn_df <- fortify(poly_bc_rgn, region = 'rgn_id') %>%
 ### so I'm just left-joining some harvest data to the fortified data frame.
 n_rgn <- length(poly_bc_rgn@data$rgn_id)
 harv_data2 <- data.frame(rgn_id   = c(1:n_rgn),
-                         h_tonnes = abs(rnorm(n = n_rgn, mean = 100, sd = 40)))
+                         h_tonnes = abs(rnorm(n = n_rgn, mean = 100, sd = 80)))
 
 poly_rgn_df <- poly_rgn_df %>%
   left_join(harv_data2, by = 'rgn_id')
@@ -340,8 +341,8 @@ df_plot <- ggplot(data = poly_rgn_df, aes(x = long, y = lat, group = group, fill
         text = element_text(family = 'Helvetica', color = 'gray30', size = 12),
         plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
         legend.position = 'right') + 
-  scale_fill_gradientn(colours = brewer.pal(10, 'RdYlBu'), space = 'Lab', na.value = 'gray80',
-                       limits = c(0, 100)) + 
+  scale_fill_gradientn(colours = brewer.pal(10, 'RdYlBu'), space = 'Lab', 
+                       na.value = 'gray80', limits = c(0, 100)) + 
   geom_polygon(color = 'gray80', size = 0.1) +
   geom_polygon(data = poly_land_df, color = 'gray40', fill = 'gray45', size = 0.25) +
     ### df_plot order: EEZ score polygons, then land polygons (dark grey).
@@ -351,6 +352,7 @@ df_plot <- ggplot(data = poly_rgn_df, aes(x = long, y = lat, group = group, fill
          
 
 df_plot
+
 ### ggsave() saves the most recent ggplot object
-ggsave(file.path(dir_spatial, 'bc_harvest.png', width = 10, height = 6)
+ggsave(file.path(dir_spatial, 'bc_harvest.png'), width = 10, height = 6)
 ```
