@@ -1,8 +1,8 @@
 ---
-title: "Spatial stuff"
+title: "Spatial workshop 2: polygons, shapefiles, and other such nonsense"
 output: html_document
 ---
-```{r setup, echo = FALSE}
+```{r setup, echo = FALSE, message = FALSE}
 library(dplyr)
 library(tidyr)
 library(stringr)
@@ -306,7 +306,7 @@ Sometimes shape files have errors - common ones are too few points and self-inte
 * The `cleangeo` package has tools for identifying problems, and has a tool to repair geometries.
     * It's not on CRAN but you can install from github.
 
-```{r identifying and fixing errors}
+``` { r identifying and fixing errors}
 library(rgeos)
 gIsValid(poly_bc_rgn, byid = TRUE) 
   ### checks valid geometries; in this case, two polygon features
@@ -349,6 +349,8 @@ harv_data2 <- data.frame(rgn_id   = c(1:n_rgn),
 
 poly_rgn_df <- poly_rgn_df %>%
   left_join(harv_data2, by = 'rgn_id')
+
+head(poly_rgn_df)
   
 ### To plot land forms, let's load a land shapefile too.
 poly_land    <- readShapePoly(fn = file.path(dir_spatial, 'ohibc_land'), proj4string = p4s_bc)
@@ -360,7 +362,7 @@ df_plot <- ggplot(data = poly_rgn_df, aes(x = long, y = lat, group = group, fill
         plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
         legend.position = 'right') + 
   scale_fill_gradientn(colours = brewer.pal(10, 'RdYlBu'), space = 'Lab', 
-                       na.value = 'gray80', limits = c(0, 100)) + 
+                       na.value = 'gray80') + 
   geom_polygon(color = 'gray80', size = 0.1) +
   geom_polygon(data = poly_land_df, color = 'gray40', fill = 'gray45', size = 0.25) +
     ### df_plot order: EEZ score polygons, then land polygons (dark grey).
