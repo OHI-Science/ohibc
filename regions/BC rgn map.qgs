@@ -6,7 +6,7 @@
         <layer-tree-layer expanded="0" checked="Qt::Checked" id="ohibc_inland_1km20150903144037517" name="ohibc_inland_1km">
             <customproperties/>
         </layer-tree-layer>
-        <layer-tree-layer expanded="0" checked="Qt::Checked" id="ohibc_rgn20150902155956893" name="ohibc_rgn">
+        <layer-tree-layer expanded="1" checked="Qt::Checked" id="ohibc_rgn20150902155956893" name="ohibc_rgn">
             <customproperties/>
         </layer-tree-layer>
         <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="wv_gs20150902122352046" name="ohibc_rgn_unclipped">
@@ -23,10 +23,10 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>116866.90965141810011119</xmin>
-            <ymin>134829.5450533659895882</ymin>
-            <xmax>1913345.04198535950854421</xmax>
-            <ymax>1774715.77465360937640071</ymax>
+            <xmin>438804.130978649482131</xmin>
+            <ymin>668989.93654623732436448</ymin>
+            <xmax>791987.5227438734145835</xmax>
+            <ymax>1112441.04382465733215213</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -289,8 +289,8 @@
                 <legendlayerfile isInOverview="0" layerid="ohibc_inland_1km20150903144037517" visible="1"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="ohibc_rgn" showFeatureCount="0">
-            <filegroup open="false" hidden="false">
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="ohibc_rgn" showFeatureCount="0">
+            <filegroup open="true" hidden="false">
                 <legendlayerfile isInOverview="0" layerid="ohibc_rgn20150902155956893" visible="1"/>
             </filegroup>
         </legendlayer>
@@ -486,7 +486,7 @@
         </Composition>
     </Composer>
     <projectlayers layercount="5">
-        <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
             <id>ohibc_inland_1km20150903144037517</id>
             <datasource>./ohibc_inland_1km.shp</datasource>
             <title></title>
@@ -811,7 +811,7 @@
             </customproperties>
             <blendMode>0</blendMode>
             <featureBlendMode>0</featureBlendMode>
-            <layerTransparency>0</layerTransparency>
+            <layerTransparency>50</layerTransparency>
             <displayfield>rgn_name</displayfield>
             <label>0</label>
             <labelattributes>
@@ -1111,7 +1111,7 @@
                 </edittype>
             </edittypes>
         </maplayer>
-        <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
             <id>ohibc_offshore_3nm20150903144110724</id>
             <datasource>./ohibc_offshore_3nm.shp</datasource>
             <title></title>
@@ -1147,116 +1147,17 @@
                     <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
                 </edittype>
             </edittypes>
-            <renderer-v2 attr="rgn_name" symbollevels="0" type="categorizedSymbol">
-                <categories>
-                    <category render="true" symbol="0" value="Aristazabal Island" label="Aristazabal Island"/>
-                    <category render="true" symbol="1" value="Central Coast" label="Central Coast"/>
-                    <category render="true" symbol="2" value="Haida Gwaii" label="Haida Gwaii"/>
-                    <category render="true" symbol="3" value="North Coast" label="North Coast"/>
-                    <category render="true" symbol="4" value="North Vancouver Island" label="North Vancouver Island"/>
-                    <category render="true" symbol="5" value="Strait of Georgia" label="Strait of Georgia"/>
-                    <category render="true" symbol="6" value="West Vancouver Island" label="West Vancouver Island"/>
-                </categories>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
                     <symbol alpha="0.75" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="252,251,253,255"/>
+                            <prop k="color" v="126,0,253,65"/>
                             <prop k="joinstyle" v="bevel"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_map_unit_scale" v="0,0"/>
                             <prop k="offset_unit" v="MM"/>
-                            <prop k="outline_color" v="0,0,0,255"/>
-                            <prop k="outline_style" v="solid"/>
-                            <prop k="outline_width" v="0.26"/>
-                            <prop k="outline_width_unit" v="MM"/>
-                            <prop k="style" v="solid"/>
-                        </layer>
-                    </symbol>
-                    <symbol alpha="0.75" type="fill" name="1">
-                        <layer pass="0" class="SimpleFill" locked="0">
-                            <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="236,235,244,255"/>
-                            <prop k="joinstyle" v="bevel"/>
-                            <prop k="offset" v="0,0"/>
-                            <prop k="offset_map_unit_scale" v="0,0"/>
-                            <prop k="offset_unit" v="MM"/>
-                            <prop k="outline_color" v="0,0,0,255"/>
-                            <prop k="outline_style" v="solid"/>
-                            <prop k="outline_width" v="0.26"/>
-                            <prop k="outline_width_unit" v="MM"/>
-                            <prop k="style" v="solid"/>
-                        </layer>
-                    </symbol>
-                    <symbol alpha="0.75" type="fill" name="2">
-                        <layer pass="0" class="SimpleFill" locked="0">
-                            <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="212,212,232,255"/>
-                            <prop k="joinstyle" v="bevel"/>
-                            <prop k="offset" v="0,0"/>
-                            <prop k="offset_map_unit_scale" v="0,0"/>
-                            <prop k="offset_unit" v="MM"/>
-                            <prop k="outline_color" v="0,0,0,255"/>
-                            <prop k="outline_style" v="solid"/>
-                            <prop k="outline_width" v="0.26"/>
-                            <prop k="outline_width_unit" v="MM"/>
-                            <prop k="style" v="solid"/>
-                        </layer>
-                    </symbol>
-                    <symbol alpha="0.75" type="fill" name="3">
-                        <layer pass="0" class="SimpleFill" locked="0">
-                            <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="179,178,214,255"/>
-                            <prop k="joinstyle" v="bevel"/>
-                            <prop k="offset" v="0,0"/>
-                            <prop k="offset_map_unit_scale" v="0,0"/>
-                            <prop k="offset_unit" v="MM"/>
-                            <prop k="outline_color" v="0,0,0,255"/>
-                            <prop k="outline_style" v="solid"/>
-                            <prop k="outline_width" v="0.26"/>
-                            <prop k="outline_width_unit" v="MM"/>
-                            <prop k="style" v="solid"/>
-                        </layer>
-                    </symbol>
-                    <symbol alpha="0.75" type="fill" name="4">
-                        <layer pass="0" class="SimpleFill" locked="0">
-                            <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="146,142,194,255"/>
-                            <prop k="joinstyle" v="bevel"/>
-                            <prop k="offset" v="0,0"/>
-                            <prop k="offset_map_unit_scale" v="0,0"/>
-                            <prop k="offset_unit" v="MM"/>
-                            <prop k="outline_color" v="0,0,0,255"/>
-                            <prop k="outline_style" v="solid"/>
-                            <prop k="outline_width" v="0.26"/>
-                            <prop k="outline_width_unit" v="MM"/>
-                            <prop k="style" v="solid"/>
-                        </layer>
-                    </symbol>
-                    <symbol alpha="0.75" type="fill" name="5">
-                        <layer pass="0" class="SimpleFill" locked="0">
-                            <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="113,96,171,255"/>
-                            <prop k="joinstyle" v="bevel"/>
-                            <prop k="offset" v="0,0"/>
-                            <prop k="offset_map_unit_scale" v="0,0"/>
-                            <prop k="offset_unit" v="MM"/>
-                            <prop k="outline_color" v="0,0,0,255"/>
-                            <prop k="outline_style" v="solid"/>
-                            <prop k="outline_width" v="0.26"/>
-                            <prop k="outline_width_unit" v="MM"/>
-                            <prop k="style" v="solid"/>
-                        </layer>
-                    </symbol>
-                    <symbol alpha="0.75" type="fill" name="6">
-                        <layer pass="0" class="SimpleFill" locked="0">
-                            <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="90,51,148,255"/>
-                            <prop k="joinstyle" v="bevel"/>
-                            <prop k="offset" v="0,0"/>
-                            <prop k="offset_map_unit_scale" v="0,0"/>
-                            <prop k="offset_unit" v="MM"/>
-                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_color" v="126,0,253,127"/>
                             <prop k="outline_style" v="solid"/>
                             <prop k="outline_width" v="0.26"/>
                             <prop k="outline_width_unit" v="MM"/>
@@ -1264,30 +1165,6 @@
                         </layer>
                     </symbol>
                 </symbols>
-                <source-symbol>
-                    <symbol alpha="1" type="fill" name="0">
-                        <layer pass="0" class="SimpleFill" locked="0">
-                            <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="88,127,177,255"/>
-                            <prop k="joinstyle" v="bevel"/>
-                            <prop k="offset" v="0,0"/>
-                            <prop k="offset_map_unit_scale" v="0,0"/>
-                            <prop k="offset_unit" v="MM"/>
-                            <prop k="outline_color" v="0,0,0,255"/>
-                            <prop k="outline_style" v="solid"/>
-                            <prop k="outline_width" v="0.26"/>
-                            <prop k="outline_width_unit" v="MM"/>
-                            <prop k="style" v="solid"/>
-                        </layer>
-                    </symbol>
-                </source-symbol>
-                <colorramp type="gradient" name="[source]">
-                    <prop k="color1" v="252,251,253,255"/>
-                    <prop k="color2" v="63,0,125,255"/>
-                    <prop k="discrete" v="0"/>
-                    <prop k="stops" v="0.13;239,237,245,255:0.26;218,218,235,255:0.39;188,189,220,255:0.52;158,154,200,255:0.65;128,125,186,255:0.75;106,81,163,255:0.9;84,39,143,255"/>
-                </colorramp>
-                <invertedcolorramp value="0"/>
                 <rotation/>
                 <sizescale scalemethod="area"/>
             </renderer-v2>
@@ -1530,7 +1407,7 @@
                     <symbol alpha="0.4" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="237,248,251,255"/>
+                            <prop k="color" v="247,251,255,255"/>
                             <prop k="joinstyle" v="bevel"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_map_unit_scale" v="0,0"/>
@@ -1545,7 +1422,7 @@
                     <symbol alpha="0.4" type="fill" name="1">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="203,235,236,255"/>
+                            <prop k="color" v="219,233,246,255"/>
                             <prop k="joinstyle" v="bevel"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_map_unit_scale" v="0,0"/>
@@ -1560,7 +1437,7 @@
                     <symbol alpha="0.4" type="fill" name="2">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="167,221,217,255"/>
+                            <prop k="color" v="190,215,236,255"/>
                             <prop k="joinstyle" v="bevel"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_map_unit_scale" v="0,0"/>
@@ -1575,7 +1452,7 @@
                     <symbol alpha="0.4" type="fill" name="3">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="123,203,181,255"/>
+                            <prop k="color" v="142,193,221,255"/>
                             <prop k="joinstyle" v="bevel"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_map_unit_scale" v="0,0"/>
@@ -1590,7 +1467,7 @@
                     <symbol alpha="0.4" type="fill" name="4">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="85,184,144,255"/>
+                            <prop k="color" v="90,162,207,255"/>
                             <prop k="joinstyle" v="bevel"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_map_unit_scale" v="0,0"/>
@@ -1605,7 +1482,7 @@
                     <symbol alpha="0.4" type="fill" name="5">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="52,166,104,255"/>
+                            <prop k="color" v="162,206,238,255"/>
                             <prop k="joinstyle" v="bevel"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_map_unit_scale" v="0,0"/>
@@ -1620,7 +1497,7 @@
                     <symbol alpha="0.4" type="fill" name="6">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="25,139,73,255"/>
+                            <prop k="color" v="16,92,164,255"/>
                             <prop k="joinstyle" v="bevel"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_map_unit_scale" v="0,0"/>
@@ -1635,7 +1512,7 @@
                     <symbol alpha="0.4" type="fill" name="7">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="0,109,44,255"/>
+                            <prop k="color" v="8,48,107,255"/>
                             <prop k="joinstyle" v="bevel"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_map_unit_scale" v="0,0"/>
@@ -1666,10 +1543,10 @@
                     </symbol>
                 </source-symbol>
                 <colorramp type="gradient" name="[source]">
-                    <prop k="color1" v="237,248,251,255"/>
-                    <prop k="color2" v="0,109,44,255"/>
+                    <prop k="color1" v="247,251,255,255"/>
+                    <prop k="color2" v="8,48,107,255"/>
                     <prop k="discrete" v="0"/>
-                    <prop k="stops" v="0.25;178,226,226,255:0.5;102,194,164,255:0.75;44,162,95,255"/>
+                    <prop k="stops" v="0.13;222,235,247,255:0.26;198,219,239,255:0.39;158,202,225,255:0.52;107,174,214,255:0.65;66,146,198,255:0.78;33,113,181,255:0.9;8,81,156,255"/>
                 </colorramp>
                 <invertedcolorramp value="0"/>
                 <rotation/>
