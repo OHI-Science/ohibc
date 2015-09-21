@@ -29,7 +29,7 @@ calc_poly_area <- function(dir_spatial) {
   for (shp in shp_list) {   # shp <- shp_list[1]
     rgn_poly <- readOGR(dsn = dir_spatial, layer = shp)
     print(head(rgn_poly@data))
-    
+  
     areas <- gArea(rgn_poly, byid = TRUE)
     areas_km2 <- areas/1e6
     areas_hec <- areas/1e4
