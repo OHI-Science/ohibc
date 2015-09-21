@@ -38,10 +38,10 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>116866.90965141810011119</xmin>
-            <ymin>134829.5450533659895882</ymin>
-            <xmax>1913345.04198535950854421</xmax>
-            <ymax>1774715.77465360937640071</ymax>
+            <xmin>928796.17426048126071692</xmin>
+            <ymin>358044.54908243718091398</ymin>
+            <xmax>1297844.98092187894508243</xmax>
+            <ymax>633343.05405162507668138</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -61,12 +61,12 @@
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_offshore_3nm20150903144110724"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="prot_area_inland_1km20150909095740149"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_prot_area_ter20150912113540394"/>
-            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_rgn20150902155956893"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="wv_gs20150902122352046"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_rgn20150902155956893"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_land20150903145406245"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_3nm20150912123158689"/>
-            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_prot_area_mar120150912113539652"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="USER:100004" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_3nm_gdal20150914100659550"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_prot_area_mar120150912113539652"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="wdpa_bc20150910135627290"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_inland_1km20150903144037517"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_1km20150912113536314"/>
@@ -1223,7 +1223,7 @@
                 </spatialrefsys>
             </srs>
             <provider encoding="System">ogr</provider>
-            <previewExpression></previewExpression>
+            <previewExpression>COALESCE("Label", '&lt;NULL>')</previewExpression>
             <vectorjoins/>
             <expressionfields/>
             <edittypes>
@@ -3157,10 +3157,10 @@
                 <multilineenabled fieldname="" on=""/>
                 <selectedonly on=""/>
             </labelattributes>
-            <editform></editform>
+            <editform>.</editform>
             <editforminit></editforminit>
             <featformsuppress>0</featformsuppress>
-            <annotationform></annotationform>
+            <annotationform>.</annotationform>
             <editorlayout>generatedlayout</editorlayout>
             <excludeAttributesWMS/>
             <excludeAttributesWFS/>
@@ -3519,8 +3519,8 @@
             <DegreeFormat type="QString">D</DegreeFormat>
         </PositionPrecision>
         <WCSUrl type="QString"></WCSUrl>
-        <WMSServiceCapabilities type="bool">false</WMSServiceCapabilities>
         <WMSContactPhone type="QString"></WMSContactPhone>
+        <WMSServiceCapabilities type="bool">false</WMSServiceCapabilities>
         <WMSServiceAbstract type="QString"></WMSServiceAbstract>
         <WMSAddWktGeometry type="bool">false</WMSAddWktGeometry>
         <Measure>
