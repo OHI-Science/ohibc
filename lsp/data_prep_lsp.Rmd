@@ -1,0 +1,185 @@
+---
+title: "data_prep_lsp.Rmd"
+output: html_document
+---
+### 
+```{r setup, echo = FALSE, eval = TRUE}
+library(sp)        # the classes and methods that make up spatial ops in R
+library(gdalUtils) # for gdal_rasterize() function
+library(maptools)  # tools for reading and manipulating spatial objects
+library(rgeos)
+library(rgdal)
+library(raster)
+library(cleangeo) ### devtools::install_github('eblondel/cleangeo') 
+
+
+dir_bc  <- setwd('~/github/ohibc')           ### set wd to work in Github OHIBC location
+source('R/common.R')  ### an OHIBC specific version of common.R
+source('lsp/R/lsp_fxns.R')
+
+dir_anx <- file.path(dir_neptune_data, 'git-annex/bcprep') ### git-annex: goal-specific large files
+dir_rgn <- file.path(dir_bc, 'regions')       ### github: general buffer region shapefiles
+dir_rst <- file.path(dir_anx, 'lsp/spatial')  ### git-annex: goal-specific raster files
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+```
+
+### Read in BC WDPA shapefile for rasterization
+
+NOTE: If BC WDPA file does not yet exist, get_wdpa_poly() creates it from the original WDPA-MPA file.  This takes a long time, due to
+reading in the full WDPA-MPA geodatabase into a SpatialPolygonsDataFrame.
+
+Need to load the WDPA poly into memory for two reasons:
+* We need the polygon to help establish the extents for all the rasters to follow.
+* Since we need to assign the oldest `STATUS_YR` value to the cell value in the WDPA-MPA raster, we can't use `gdal_rasterize()`; instead we need `raster::rasterize()` which works from memory.
+
+Check for invalid geometries, and 
+
+``` {r set up BC WDPA polygons, echo = TRUE, eval = TRUE}
+poly_wdpa_bc <- get_wdpa_poly()  ### defaults to BC Albers
+
+### Check for invalid regions
+report <- clgeo_CollectionReport(poly_wdpa_bc)
+report$rgn_name <- poly_wdpa_bc$NAME
+report <- report %>% filter(valid == FALSE)
+
+if(nrow(report) > 0) {
+  print(report)
+  
+  ### Clean up invalid regions
+  poly_wdpa_bc_clean <- clgeo_Clean(poly_wdpa_bc, print.log = TRUE)
+  report_clean <- clgeo_CollectionReport(poly_wdpa_bc_clean)
+  report_clean$rgn_name <- poly_wdpa_bc$NAME
+  print(report_clean %>% filter(valid == FALSE))
+
+  poly_wdpa_bc <- poly_wdpa_bc_clean
+} else {
+  cat('No invalid geometries in BC WDPA SpatialPolygonsDataFrame.\n')
+}
+
+```
+
+### Set up buffers and base raster
+
+Buffer files are located in `github/ohibc/regions`.  LSP uses 1 km inland and 3nm offshore buffers.  The base raster will be used to rasterize the WDPA SPDataFrame in a later step, but the extents and projection need to match the extents and projections of the buffers.
+
+* Read in buffer shapefiles to SpatialPolygonsDataFrames
+* Create a region list of buffers and WDPA-MPA SpatialPolygonsDataFrames
+* From these objects, get the extents and CRS (proj4string)
+* Create a base raster from extents, CRS, and resolution.
+
+``` {r set up base raster, echo = TRUE, eval = TRUE, warning = FALSE}
+poly_3nm <- readShapePoly(fn = file.path(dir_rgn, 'ohibc_offshore_3nm'), proj4string = CRS(p4s_bcalb))
+poly_1km <- readShapePoly(fn = file.path(dir_rgn, 'ohibc_inland_1km'),   proj4string = CRS(p4s_bcalb))
+rgn_list<- list(poly_3nm, poly_1km, poly_wdpa_bc)
+
+ext_rgn <- get_extents(rgn_list)
+p4s_rgn <- get_p4s(rgn_list)
+
+reso <- 500 ### resolution for all rasters in this process
+
+base_raster <- get_base_raster(ext = ext_rgn, reso = reso, p4s_base = p4s_rgn, fn = NULL)
+```
+
+``` {r plot polygons, echo = TRUE, eval = TRUE, cache = TRUE}
+plot(poly_1km,     col = 'wheat2',           border = NA)
+plot(poly_3nm,     col = rgb(.4, .5, 1, .5), border = rgb(.4, .5, 1, 1))
+plot(poly_wdpa_bc, col = rgb(1, .5, .5, .5), border = NA, add = TRUE)
+```
+
+### (old: Convert inland 1 km and offshore 3nm polygons to rasters)
+
+Note: these rasters are currently not used in final analysis... this is just for reference...
+``` {r rasterize buffer polygons, echo = FALSE, eval = FALSE}
+
+# Create rasters for regions in BC Albers projection (no reprojection):
+rast_3nm <- gdal_rasterize(src_datasource = file.path(dir_rgn, 'ohibc_offshore_3nm.shp'), dst_filename = file.path(dir_rst, 'rast_offshore_3nm.tif'), 
+                                a = 'rgn_id', a_nodata = NA,
+                                te = c(ext_rgn@xmin, ext_rgn@ymin, ext_rgn@xmax, ext_rgn@ymax), tr = c(reso, reso), # extents and resolution for x and y
+                                output_Raster = TRUE, # return output as a RasterBrick? 
+                                ignore.full_scan = TRUE,
+                                verbose = TRUE)
+rast_1km <- gdal_rasterize(src_datasource = file.path(dir_rgn, 'ohibc_inland_1km.shp'), dst_filename = file.path(dir_rst, 'rast_inland_1km.tif'), 
+                                a = 'rgn_id', a_nodata = NA,
+                                te = c(ext_rgn@xmin, ext_rgn@ymin, ext_rgn@xmax, ext_rgn@ymax), tr = c(reso, reso), # extents and resolution for x and y
+                                output_Raster = TRUE, # return output as a RasterBrick? 
+                                ignore.full_scan = TRUE,
+                                verbose = TRUE)
+### Raster::extract requires raster layers rather than raster bricks.  Unstack
+### the raster bricks and select the first element in each resulting list.
+rast_3nm <- unstack(rast_3nm)[[1]]
+rast_1km <- unstack(rast_1km)[[1]]
+
+plot(rast_3nm)
+plot(rast_1km, add = TRUE)
+```
+
+### Rasterize the BC WDPA-MPA shapefile
+
+``` {r rasterize BC WDPA, echo = TRUE, eval = TRUE}
+rast_wdpa_bc <- rasterize(poly_wdpa_bc, base_raster, field = 'STATUS_YR', fun = 'min', background = NA, 
+                          filename = file.path(dir_rst, 'rast_wdpa_bc.tif'), overwrite = TRUE)
+```
+
+``` {r plot raster, echo = TRUE, eval = TRUE, cache = TRUE}
+plot(poly_1km,     col = 'wheat2',           border = NA)
+plot(poly_3nm,     col = rgb(.4, .5, 1, .5), border = rgb(.4, .5, 1, 1))
+plot(rast_wdpa_bc, alpha = 0.5)
+```
+
+### Extract WDPA values against buffer regions
+
+Extract the rasterized WDPA against the spatial polygons of the buffer regions.  Result is a list of raster cells within each region, and the associated WDPA value (earliest `STATUS_YR`) for that cell.
+
+``` {r extract WDPA against buffers, echo = TRUE, eval = TRUE}
+prot_mar_list <- raster::extract(rast_wdpa_bc, poly_3nm)
+names(prot_mar_list) <- poly_3nm@data$rgn_id
+prot_mar_df <- sum_prot_areas(prot_mar_list, reso = res(rast_wdpa_bc)[1])
+### note: pull the resolution from the rast_wdpa_bc raster; 
+### assume x and y resolution are identical
+
+prot_ter_list <- raster::extract(rast_wdpa_bc, poly_1km)
+names(prot_ter_list) <- poly_1km@data$rgn_id
+prot_ter_df <- sum_prot_areas(prot_ter_list, reso = res(rast_wdpa_bc)[1])
+```
+
+### Calc status for each region for each year
+
+Eventually this may move to an OHIBC version of `functions.R`, but for now will just calculate directly here.
+
+``` {r calc status, eval = TRUE, echo = TRUE}
+
+ref_pt = .3
+
+prot_mar_df <- prot_mar_df %>%
+  mutate(status = (cum_a_km2/tot_a_km2)/ref_pt*100,
+         status = ifelse(status > 100, 100, status))
+
+prot_ter_df <- prot_ter_df %>%
+  mutate(status = (cum_a_km2/tot_a_km2)/ref_pt*100,
+         status = ifelse(status > 100, 100, status))
+
+lsp_status <- prot_mar_df %>% 
+  dplyr::select(rgn_id, year, mar_status = status) %>%
+  left_join(prot_ter_df %>% 
+              dplyr::select(rgn_id, year, ter_status = status),
+            by = c('rgn_id', 'year')) %>%
+  mutate(status = (mar_status + ter_status) / 2)
+  
+
+View(lsp_status %>% filter(year > 2010))
+
+```
+
+### Plot map of status by region
+
+pull the ggplot plotting function into an OHIBC specific one...
+``` {r plot scores as polygons, eval = TRUE, echo = FALSE}
+source('R/poly_plot_scores.R')
+
+yr_scores <- lsp_status %>%
+  filter(year == 2015)
+
+#poly_plot_scores(yr_scores, val = 'status')
+```
