@@ -96,7 +96,8 @@ fix_poly_geom <- function(dir_spatial) {
         cat('Cleaning successful!  All geometries valid.\n')
         writeOGR(rgn_poly, dsn = dir_spatial, 
                  layer = paste(shp, '_clean', sep = ''), 
-                 driver = 'ESRI Shapefile')
+                 driver = 'ESRI Shapefile',
+                 )
       }
     } else {
       cat(sprintf('Hooray!  no invalid geometries identified in %s/%s.shp.\n', dir_spatial, shp))
