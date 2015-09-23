@@ -131,6 +131,9 @@ sum_prot_areas <- function(prot_area_list, reso = 500) {
     prot_area_df <- rbind(prot_area_df, temp_df)
   }
   
+  prot_area_df <- prot_area_df %>%
+    mutate(rgn_id = as.integer(as.character(rgn_id)))
+
   ### From prot_area_df, determine total area of protected marine areas.
   ### Count number of cells, including NAs.  If resolution is in meters,
   ### each cell has area of 1e6 m^2 / (resolution)^2

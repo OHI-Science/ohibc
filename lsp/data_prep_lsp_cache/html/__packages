@@ -1,0 +1,11 @@
+base
+sp
+maptools
+rgdal
+raster
+cleangeo
+dplyr
+tidyr
+stringr
+ggplot2
+RColorBrewer
