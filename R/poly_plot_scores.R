@@ -36,6 +36,7 @@ poly_plot_scores <- function(score_df,
           text = element_text(family = 'Helvetica', color = 'gray30', size = 12),
           plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
           legend.position = 'right') +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) +
     scale_fill_gradientn(colours = brewer.pal(10, 'RdYlBu'), na.value = 'gray80',
                          limits = scale_limits) + 
     geom_polygon(color = 'gray80', size = 0.1) +

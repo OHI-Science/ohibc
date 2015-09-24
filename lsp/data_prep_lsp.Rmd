@@ -1,8 +1,12 @@
 ---
-title: "data_prep_lsp.Rmd"
-output: html_document
+title: "OHIBC: data_prep_lsp.Rmd"
+output: 
+  html_document:
+    toc: true
+  pdf_document:
+    toc: true
 ---
-### 
+
 ``` {r setup, echo = FALSE, eval = TRUE, message = FALSE}
 library(sp)        # the classes and methods that make up spatial ops in R
 # library(gdalUtils) # for gdal_rasterize() function
@@ -96,9 +100,9 @@ base_raster <- get_base_raster(ext = ext_rgn, reso = reso, p4s_base = p4s_rgn, f
 
 ``` {r plot polygons, echo = TRUE, eval = TRUE, cache = TRUE}
 
-plot(poly_1km,     col = 'wheat2',           border = NA)
-plot(poly_3nm,     col = rgb(.4, .5, 1, .5), border = rgb(.4, .5, 1, 1), add = TRUE)
-plot(poly_wdpa_bc, col = rgb(1, .5, .5, .5), border = NA,                add = TRUE)
+plot(poly_3nm,     col = rgb(.4, .4,  1,  1), border = NA)
+plot(poly_1km,     col = rgb( 0, .5,  0,  1), border = NA, add = TRUE)
+plot(poly_wdpa_bc, col = rgb( 1, .5, .5, .5), border = NA, add = TRUE)
 
 ```
 
@@ -138,9 +142,12 @@ rast_wdpa_bc <- rasterize(poly_wdpa_bc, base_raster, field = 'STATUS_YR', fun = 
 ```
 
 ``` {r plot raster, echo = TRUE, eval = TRUE, cache = TRUE}
-plot(poly_1km,     col = 'wheat2',           border = NA)
-plot(poly_3nm,     col = rgb(.4, .5, 1, .5), border = rgb(.4, .5, 1, 1), add = TRUE)
-plot(rast_wdpa_bc, alpha = 0.5, add = TRUE)
+plot(poly_3nm,     col = rgb(.4, .4,  1,  1), border = NA)
+plot(poly_1km,     col = rgb( 0, .5,  0,  1), border = NA, add = TRUE)
+
+rast_cols = (colorRampPalette(brewer.pal(9, 'Reds'))(255)) # rainbow color scheme
+
+plot(rast_wdpa_bc, col = rast_cols, alpha = 0.5, add = TRUE)
 ```
 
 ### Extract WDPA values against buffer regions
@@ -186,11 +193,11 @@ lsp_status <- prot_mar_df %>%
 
 ### Plot map of status by region
 
-Currently, the Lasting Special Places goal model is identical to the OHI Global model: a country's status is based upon percent of protected area within 1 km inland of shore and percent of protected area within 3 nautical miles offshore, compared to a reference point of 30% protected area.
+Currently, the Lasting Special Places goal model is identical to the OHI Global model: a country's status is based upon percent of protected area within 1 km inland buffer and percent of protected area within 3 nautical mile offshore buffer, compared to a reference point of 30% protected area.
 
-$$X_{LSP} = \frac{\left \frac{%_{CMPA}}{%_{rCMPA}} + \frac{%_{CP}}{%_{rCP}} \right}{2}$$
+$$X_{LSP} = \frac{\frac{pA_{CMPA}}{pA_{refCMPA}} + \frac{pA_{CP}}{pA_{refCP}}}{2}$$
 
-where CMPA = coastal marine protected area, CP = coastline protected, and rCMPA = rCP = 30% reference point for both measures.
+*pA* = percent of area within the inland or offshore buffer; *CMPA* = coastal marine protected area (3nm offshore); *CP* = coastline protected (1km inland); and *refCMPA* = *refCP* = 30% reference point for both measures.
 
 Examining OHIBC Lasting Special Places scores for 1995 and 2015:
 ``` {r plot scores as polygons, eval = TRUE, echo = FALSE, message = FALSE, cache = TRUE}
@@ -201,6 +208,13 @@ score_df_1995 <- lsp_status %>%
 print(score_df_1995)
 
 poly_plot_scores(score_df_1995, scale_label = 'LSP Status', title = 'OHIBC LSP Status 1995')
+
+score_df_2005 <- lsp_status %>% 
+  filter(year == 2005) %>% 
+  rename(score = status)
+print(score_df_2005)
+
+poly_plot_scores(score_df_2005, scale_label = 'LSP Status', title = 'OHIBC LSP Status 2005')
 
 score_df_2015 <- lsp_status %>% 
   filter(year == 2015) %>% 
