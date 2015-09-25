@@ -11,7 +11,7 @@ if (!file.exists(sprintf('%s/',dir_neptune_data))){
 }
 
 # install (if necessary) and load commonly used libraries
-packages <- c("dplyr", "tidyr", "stringr")
+packages <- c('dplyr', 'tidyr', 'stringr', 'readr')
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   cat(sprintf("Installing %s\n", setdiff(packages, rownames(installed.packages()))))
   install.packages(setdiff(packages, rownames(installed.packages())))  
@@ -19,4 +19,5 @@ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
 library(dplyr)
 library(tidyr)
 library(stringr)
+library(readr)
 rm(packages)

@@ -54,17 +54,19 @@ calc_poly_area <- function(dir_spatial) {
   }
 }
 
-fix_poly_geom <- function(dir_spatial) {
+fix_poly_geom <- function(dir_spatial, clean_tag = '') {
 ### Given a directory that contains shapefiles, opens each shapefile,
 ### checks for valid geometries, and uses tools from cleangeo to 
-### attempt to repair invalid geometries
+### attempt to repair invalid geometries.
+### * 'clean_tag' allows user to add a tag to the end of the filename of
+###   the cleaned shapefile.
   
   ### identify all shapefile sets, eliminate extension
   shp_list <- list.files(dir_spatial)
   shp_list <- shp_list[str_detect(shp_list, '.shp')] %>%
     str_replace('.shp', '')
   
-  for (shp in shp_list) {   # shp <- shp_list[1]
+  for (shp in shp_list) {   # shp <- shp_list[2]
     
     cat(sprintf('\n\nReading shapefile at %s/%s.shp...\n', dir_spatial, shp))
     rgn_poly <- readOGR(dsn = dir_spatial, layer = shp)
@@ -94,9 +96,10 @@ fix_poly_geom <- function(dir_spatial) {
         cat(sprintf('No new file saved.  Please examine %s/%s.shp manually.\n', dir_spatial, shp))
       } else {
         cat('Cleaning successful!  All geometries valid.\n')
-        writeOGR(rgn_poly, dsn = dir_spatial, 
-                 layer = paste(shp, '_clean', sep = ''), 
+        writeOGR(rgn_poly_clean, dsn = dir_spatial, 
+                 layer = paste(shp, clean_tag, sep = ''), 
                  driver = 'ESRI Shapefile',
+                 overwrite_layer = TRUE
                  )
       }
     } else {

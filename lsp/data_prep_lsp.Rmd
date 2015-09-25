@@ -29,22 +29,23 @@ dir_rst <- file.path(dir_anx, 'lsp/spatial')  ### git-annex: goal-specific raste
 p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
 ```
 
-### Read in BC WDPA shapefile for rasterization
+### Read in BC WDPA-MPA shapefile
 
 NOTE: If BC WDPA file does not yet exist, `get_wdpa_poly()` creates it from the original WDPA-MPA file.  This takes a long time, due to
 reading in the full WDPA-MPA geodatabase into a SpatialPolygonsDataFrame.
 
 Need to load the WDPA poly into memory for two reasons:
+
 * We need the polygon to help establish the extents for all the rasters to follow.
 * Since we need to assign the oldest `STATUS_YR` value to the cell value in the WDPA-MPA raster, we can't use `gdal_rasterize()`; instead we need `raster::rasterize()` which works from memory.
 
-``` {r set up BC WDPA polygons, echo = FALSE, eval = TRUE, message = FALSE}
+``` {r set up BC WDPA polygons, echo = TRUE, eval = TRUE, verbose = FALSE}
 poly_wdpa_bc <- get_wdpa_poly()  ### defaults to BC Albers
 ```
 
 Check for invalid geometries, and fix them if required.
 
-``` {r check invalid, echo = FALSE, eval = TRUE, message = FALSE}
+``` {r check invalid, echo = FALSE, eval = TRUE, verbose = FALSE}
 
 ### Check for invalid regions
 report <- clgeo_CollectionReport(poly_wdpa_bc)
@@ -52,10 +53,11 @@ report$rgn_name <- poly_wdpa_bc$NAME
 report <- report %>% filter(valid == FALSE)
 
 if(nrow(report) > 0) {
-  print(report)
+  cat('Invalid geometries identified:\n')
+  print(report %>% dplyr::select(-type, -valid, -error_msg))
   
   ### Clean up invalid regions
-  poly_wdpa_bc_clean <- clgeo_Clean(poly_wdpa_bc, print.log = TRUE)
+  poly_wdpa_bc_clean <- clgeo_Clean(poly_wdpa_bc, print.log = FALSE)
   report_clean <- clgeo_CollectionReport(poly_wdpa_bc_clean)
   report_clean$rgn_name <- poly_wdpa_bc$NAME
   report_clean <- report_clean %>%
@@ -63,7 +65,8 @@ if(nrow(report) > 0) {
   if(nrow(report_clean) == 0) {
     cat('All invalid geometries repaired.\n')
   } else {
-    print(report_clean)
+    cat('Invalid geometries remaining:\n')
+    print(report_clean%>% dplyr::select(-type, -valid, -error_msg))
   }
 
   poly_wdpa_bc <- poly_wdpa_bc_clean
@@ -82,10 +85,15 @@ Buffer files are located in `github/ohibc/regions`.  LSP uses 1 km inland and 3n
 * From these objects, get the extents and CRS (proj4string)
 * Create a base raster from extents, CRS, and resolution.
 
-```{r set up base raster, echo = TRUE, eval = TRUE, message = FALSE}
+```{r set up base raster, echo = TRUE, eval = TRUE, verbose = FALSE}
 
 poly_3nm <- readOGR(dsn = path.expand(dir_rgn), layer = 'ohibc_offshore_3nm', stringsAsFactors = FALSE)
 poly_1km <- readOGR(dsn = path.expand(dir_rgn), layer = 'ohibc_inland_1km', stringsAsFactors = FALSE)
+
+inval <- gIsValid(poly_3nm, byid = TRUE)
+if(any(!inval$valid)) print(inval[!inval$valid])
+inval <- gIsValid(poly_1km, byid = TRUE)
+if(any(!inval$valid)) print(inval[!inval$valid])
 
 rgn_list <- list(poly_3nm, poly_1km, poly_wdpa_bc)
 
@@ -188,6 +196,8 @@ lsp_status <- prot_mar_df %>%
               dplyr::select(rgn_id, year, ter_status = status),
             by = c('rgn_id', 'year')) %>%
   mutate(status = (mar_status + ter_status) / 2)
+
+write_csv(lsp_status, file.path(dir_bc, '/lsp/data/status.csv'))
   
 ```
 
