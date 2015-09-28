@@ -2,7 +2,7 @@
 ### 
 ### Support functions for the OHI BC data_prep_lsp.R
 
-get_wdpa_poly <- function(p4s_name = 'bcalb',
+lsp_get_wdpa_poly <- function(p4s_name = 'bcalb',
                           p4s_def  = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
                           reload = FALSE) {
   ### Time consuming due to OGR load times of original WDPA database... 
@@ -31,8 +31,13 @@ get_wdpa_poly <- function(p4s_name = 'bcalb',
     # layer_wdpa <- 'WDPA_poly_Jan2015'
     cat(sprintf('layer = %s\n', layer_wdpa))
     
-    poly_wdpa <- readOGR(dsn = dir_wdpa, layer = layer_wdpa)
+    poly_wdpa <- readOGR(dsn = dir_wdpa, layer = layer_wdpa, 
+                         stringsAsFactors = FALSE, verbose = FALSE)
     ### can't use readShapePoly on a .gdb database...
+    
+    ### Provenance check, though this probably isn't tracked in Git.
+    lsp_git_prov(sprintf('%s/%s.shp', path.expand(dir_rgn), layer_wdpa))
+    
     
     ### Filter down to just polygons within BC
     cat('Filtering full WDPA shapefile to Canadian regions...\n')
@@ -56,8 +61,12 @@ get_wdpa_poly <- function(p4s_name = 'bcalb',
   } else {
     
     cat(sprintf('Reading OHIBC WDPA shapefile from: \n  %s, layer = %s\n', dir_spatial, layer_bc))
-    poly_wdpa_bc <- readOGR(dsn = dir_spatial, layer = layer_bc)
+    poly_wdpa_bc <- readOGR(dsn = dir_spatial, layer = layer_bc, 
+                            stringsAsFactors = FALSE, verbose = FALSE)
 
+        ### Provenance check, though this probably isn't tracked in Git.
+    lsp_git_prov(sprintf('%s/%s.shp', path.expand(dir_rgn), layer_bc))
+    
     p4s_orig <- proj4string(poly_wdpa_bc)
     cat(sprintf('Current shapefile CRS: %s\n', p4s_orig))
     if(p4s_orig != p4s_def) {
@@ -69,7 +78,7 @@ get_wdpa_poly <- function(p4s_name = 'bcalb',
 }
 
 
-get_p4s <- function(rgn_list) {
+lsp_get_p4s <- function(rgn_list) {
   ### From a list of SpatialPolygonsDataFrames, determine whether all CRSs match.
   ### If so, return the CRS for all objects.
   
@@ -88,7 +97,7 @@ get_p4s <- function(rgn_list) {
 }
 
 
-get_extents <- function(rgn_list) {
+lsp_get_extents <- function(rgn_list) {
   ### Determine the extents that fully include all regions in a list of
   ### SpatialPolygonsDataFrame objects.
   
@@ -103,7 +112,7 @@ get_extents <- function(rgn_list) {
 }
 
 
-get_base_raster <- function(ext, reso = 500, p4s_base, fn = NULL) {
+lsp_get_base_raster <- function(ext, reso = 500, p4s_base, fn = NULL) {
   ### create a raster grid to establish the extents and resolution of raster objects.
   ### * ext is an raster::extent object
   ### * reso is resolution of cells
@@ -121,7 +130,7 @@ get_base_raster <- function(ext, reso = 500, p4s_base, fn = NULL) {
 }
 
 
-sum_prot_areas <- function(prot_area_list, reso = 500) {
+lsp_sum_prot_areas <- function(prot_area_list, reso = 500) {
   
   ### prot_area_list is a list, by region, of all cell values (STATUS_YR) within
   ### the region.  Turn the list into a data frame, by rgn_id and year.
@@ -169,3 +178,15 @@ sum_prot_areas <- function(prot_area_list, reso = 500) {
   return(prot_area_years)
 }
 
+lsp_git_prov <- function(git_file) {
+  suppressWarnings({
+    git_info <- system(sprintf('git log --follow %s', git_file), intern = TRUE, ignore.stderr = TRUE)[1:3]
+  })
+  if(is.na(git_info[1])) {
+    cat(sprintf('File %s: git commit info unavailable.  Not version tracked in Git?\n', git_file))
+  } else {
+    cat(sprintf('File %s most recent commit info:\n', git_file))
+    cat(sprintf('  %s\n', git_info))
+  }
+  return(invisible(git_info))
+}
