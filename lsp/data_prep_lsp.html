@@ -65,7 +65,7 @@ img {
 
 <div id="TOC">
 <ul>
-<li><a href="#read-in-bc-wdpa-shapefile-for-rasterization">Read in BC WDPA shapefile for rasterization</a></li>
+<li><a href="#read-in-bc-wdpa-mpa-shapefile">Read in BC WDPA-MPA shapefile</a></li>
 <li><a href="#set-up-buffers-and-base-raster">Set up buffers and base raster</a></li>
 <li><a href="#rasterize-the-bc-wdpa-mpa-shapefile">Rasterize the BC WDPA-MPA shapefile</a></li>
 <li><a href="#extract-wdpa-values-against-buffer-regions">Extract WDPA values against buffer regions</a></li>
@@ -74,41 +74,25 @@ img {
 </ul>
 </div>
 
-<div id="read-in-bc-wdpa-shapefile-for-rasterization" class="section level3">
-<h3>Read in BC WDPA shapefile for rasterization</h3>
+<p><em>Compiled on Mon Sep 28 11:33:04 2015</em></p>
+<div id="read-in-bc-wdpa-mpa-shapefile" class="section level3">
+<h3>Read in BC WDPA-MPA shapefile</h3>
 <p>NOTE: If BC WDPA file does not yet exist, <code>get_wdpa_poly()</code> creates it from the original WDPA-MPA file. This takes a long time, due to reading in the full WDPA-MPA geodatabase into a SpatialPolygonsDataFrame.</p>
-<p>Need to load the WDPA poly into memory for two reasons: * We need the polygon to help establish the extents for all the rasters to follow. * Since we need to assign the oldest <code>STATUS_YR</code> value to the cell value in the WDPA-MPA raster, we can’t use <code>gdal_rasterize()</code>; instead we need <code>raster::rasterize()</code> which works from memory.</p>
+<p>Need to load the WDPA poly into memory for two reasons:</p>
+<ul>
+<li>We need the polygon to help establish the extents for all the rasters to follow.</li>
+<li>Since we need to assign the oldest <code>STATUS_YR</code> value to the cell value in the WDPA-MPA raster, we can’t use <code>gdal_rasterize()</code>; instead we need <code>raster::rasterize()</code> which works from memory.</li>
+</ul>
+<pre class="r"><code>poly_wdpa_bc &lt;- lsp_get_wdpa_poly()  ### defaults to BC Albers</code></pre>
 <pre><code>## Reading OHIBC WDPA shapefile from: 
 ##   /Volumes/data_edit/git-annex/bcprep/lsp/spatial, layer = wdpa_bc_bcalb
-## OGR data source with driver: ESRI Shapefile 
-## Source: &quot;/Volumes/data_edit/git-annex/bcprep/lsp/spatial&quot;, layer: &quot;wdpa_bc_bcalb&quot;
-## with 1075 features
-## It has 28 fields
+## File /Users/ohara/github/ohibc/regions/wdpa_bc_bcalb.shp: git commit info unavailable.  Not version tracked in Git?
 ## Current shapefile CRS: +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0
 ## Reprojecting shapefile: 
 ##   Original: +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0 
 ##   New:      +proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0</code></pre>
 <p>Check for invalid geometries, and fix them if required.</p>
-<pre><code>##             type valid    issue_type error_msg
-## 1 rgeos_validity FALSE GEOM_VALIDITY      &lt;NA&gt;
-## 2 rgeos_validity FALSE GEOM_VALIDITY      &lt;NA&gt;
-## 3 rgeos_validity FALSE GEOM_VALIDITY      &lt;NA&gt;
-## 4 rgeos_validity FALSE GEOM_VALIDITY      &lt;NA&gt;
-## 5 rgeos_validity FALSE GEOM_VALIDITY      &lt;NA&gt;
-## 6 rgeos_validity FALSE GEOM_VALIDITY      &lt;NA&gt;
-## 7 rgeos_validity FALSE GEOM_VALIDITY      &lt;NA&gt;
-## 8 rgeos_validity FALSE GEOM_VALIDITY      &lt;NA&gt;
-## 9 rgeos_validity FALSE GEOM_VALIDITY      &lt;NA&gt;
-##                                                                     warning_msg
-## 1   Ring Self-intersection at or near point 1465933.94081435 812108.20315475005
-## 2 Ring Self-intersection at or near point 1614475.0505314199 579429.18585828994
-## 3       Ring Self-intersection at or near point 1203978.00353489 531640.1974839
-## 4   Ring Self-intersection at or near point 1079499.35852811 520252.16956472001
-## 5 Ring Self-intersection at or near point 834452.68640384998 631330.06298249995
-## 6   Ring Self-intersection at or near point 611388.72948052001 1019310.24898526
-## 7 Ring Self-intersection at or near point 964777.49651524995 492472.53841525997
-## 8 Ring Self-intersection at or near point 1111351.3645860001 393207.05606565002
-## 9 Ring Self-intersection at or near point 868249.28505664004 1552238.3673922501
+<pre><code>## Invalid geometries identified:
 ##                      rgn_name
 ## 1         Mud Lake Delta Park
 ## 2               Valhalla Park
@@ -119,15 +103,16 @@ img {
 ## 7     Hesquiat Peninsula Park
 ## 8                 Pacific Rim
 ## 9            NEAH CONSERVANCY
-## [1] &quot;Cleaning geometry at index 184&quot;
-## [1] &quot;Cleaning geometry at index 361&quot;
-## [1] &quot;Cleaning geometry at index 431&quot;
-## [1] &quot;Cleaning geometry at index 447&quot;
-## [1] &quot;Cleaning geometry at index 818&quot;
-## [1] &quot;Cleaning geometry at index 820&quot;
-## [1] &quot;Cleaning geometry at index 906&quot;
-## [1] &quot;Cleaning geometry at index 927&quot;
-## [1] &quot;Cleaning geometry at index 1067&quot;
+##                                                                     warning_msg
+## 1   Ring Self-intersection at or near point 1465933.94081435 812108.20315475005
+## 2 Ring Self-intersection at or near point 1614475.0505314199 579429.18585828994
+## 3       Ring Self-intersection at or near point 1203978.00353489 531640.1974839
+## 4   Ring Self-intersection at or near point 1079499.35852811 520252.16956472001
+## 5 Ring Self-intersection at or near point 834452.68640384998 631330.06298249995
+## 6   Ring Self-intersection at or near point 611388.72948052001 1019310.24898526
+## 7 Ring Self-intersection at or near point 964777.49651524995 492472.53841525997
+## 8 Ring Self-intersection at or near point 1111351.3645860001 393207.05606565002
+## 9 Ring Self-intersection at or near point 868249.28505664004 1552238.3673922501
 ## All invalid geometries repaired.</code></pre>
 </div>
 <div id="set-up-buffers-and-base-raster" class="section level3">
@@ -139,25 +124,16 @@ img {
 <li>From these objects, get the extents and CRS (proj4string)</li>
 <li>Create a base raster from extents, CRS, and resolution.</li>
 </ul>
-<pre class="r"><code>poly_3nm &lt;- readOGR(dsn = path.expand(dir_rgn), layer = 'ohibc_offshore_3nm', stringsAsFactors = FALSE)</code></pre>
-<pre><code>## OGR data source with driver: ESRI Shapefile 
-## Source: &quot;/Users/ohara/github/ohibc/regions&quot;, layer: &quot;ohibc_offshore_3nm&quot;
-## with 7 features
-## It has 5 fields</code></pre>
-<pre class="r"><code>poly_1km &lt;- readOGR(dsn = path.expand(dir_rgn), layer = 'ohibc_inland_1km', stringsAsFactors = FALSE)</code></pre>
-<pre><code>## OGR data source with driver: ESRI Shapefile 
-## Source: &quot;/Users/ohara/github/ohibc/regions&quot;, layer: &quot;ohibc_inland_1km&quot;
-## with 7 features
-## It has 5 fields</code></pre>
-<pre class="r"><code>rgn_list &lt;- list(poly_3nm, poly_1km, poly_wdpa_bc)
-
-ext_rgn &lt;- get_extents(rgn_list)
-p4s_rgn &lt;- get_p4s(rgn_list)</code></pre>
+<pre><code>## File /Users/ohara/github/ohibc/regions/ohibc_offshore_3nm.shp most recent commit info:
+##   commit 7abae676c5fa52b1e9665817227d4e6fff63ab12
+##    Author: Casey O'Hara &lt;ohara@nceas.ucsb.edu&gt;
+##    Date:   Sat Sep 19 14:05:01 2015 -0700</code></pre>
+<pre><code>## File /Users/ohara/github/ohibc/regions/ohibc_inland_1km.shp most recent commit info:
+##   commit 7abae676c5fa52b1e9665817227d4e6fff63ab12
+##    Author: Casey O'Hara &lt;ohara@nceas.ucsb.edu&gt;
+##    Date:   Sat Sep 19 14:05:01 2015 -0700</code></pre>
 <pre><code>## All shapefiles: CRS = EPSG:3005 NAD83/BC Albers 
 ##   (+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0)</code></pre>
-<pre class="r"><code>reso &lt;- 500 ### resolution for all rasters in this process
-
-base_raster &lt;- get_base_raster(ext = ext_rgn, reso = reso, p4s_base = p4s_rgn, fn = NULL)</code></pre>
 <pre class="r"><code>plot(poly_3nm,     col = rgb(.4, .4,  1,  1), border = NA)
 plot(poly_1km,     col = rgb( 0, .5,  0,  1), border = NA, add = TRUE)
 plot(poly_wdpa_bc, col = rgb( 1, .5, .5, .5), border = NA, add = TRUE)</code></pre>
@@ -180,13 +156,13 @@ plot(rast_wdpa_bc, col = rast_cols, alpha = 0.5, add = TRUE)</code></pre>
 <p>Extract the rasterized WDPA against the spatial polygons of the buffer regions. Result is a list of raster cells within each region, and the associated WDPA value (earliest <code>STATUS_YR</code>) for that cell.</p>
 <pre class="r"><code>prot_mar_list &lt;- raster::extract(rast_wdpa_bc, poly_3nm)
 names(prot_mar_list) &lt;- poly_3nm@data$rgn_id
-prot_mar_df &lt;- sum_prot_areas(prot_mar_list, reso = res(rast_wdpa_bc)[1])
+prot_mar_df &lt;- lsp_sum_prot_areas(prot_mar_list, reso = res(rast_wdpa_bc)[1])
 ### note: pull the resolution from the rast_wdpa_bc raster; 
 ### assume x and y resolution are identical
 
 prot_ter_list &lt;- raster::extract(rast_wdpa_bc, poly_1km)
 names(prot_ter_list) &lt;- poly_1km@data$rgn_id
-prot_ter_df &lt;- sum_prot_areas(prot_ter_list, reso = res(rast_wdpa_bc)[1])</code></pre>
+prot_ter_df &lt;- lsp_sum_prot_areas(prot_ter_list, reso = res(rast_wdpa_bc)[1])</code></pre>
 </div>
 <div id="calc-status-for-each-region-for-each-year" class="section level3">
 <h3>Calc status for each region for each year</h3>
@@ -206,7 +182,9 @@ lsp_status &lt;- prot_mar_df %&gt;%
   left_join(prot_ter_df %&gt;% 
               dplyr::select(rgn_id, year, ter_status = status),
             by = c('rgn_id', 'year')) %&gt;%
-  mutate(status = (mar_status + ter_status) / 2)</code></pre>
+  mutate(status = (mar_status + ter_status) / 2)
+
+write_csv(lsp_status, file.path(dir_bc, '/lsp/data/status.csv'))</code></pre>
 </div>
 <div id="plot-map-of-status-by-region" class="section level3">
 <h3>Plot map of status by region</h3>
