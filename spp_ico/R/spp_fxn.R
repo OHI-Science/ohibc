@@ -313,3 +313,50 @@ spp_calc_rgn_means <- function(summary_by_loiczid, rgn_cell_lookup, rgn_note = N
   return(region_sums)
 }
 
+spp_plot_raster <- function(rast_data, cell_rast = NULL, poly_bc_rgn = NULL) {
+  require(ggplot2)
+  require(RColorBrewer)
+  require(maptools)
+
+  if(is.null(poly_bc)) {
+
+    dir_rgn <- '~/github/ohibc/regions'
+    rgn_lyr <- 'ohibc_rgn_wgs84'
+    
+    poly_bc_rgn <- readShapePoly(fn = file.path(dir_rgn, rgn_lyr))
+  }
+
+  if(is.null(cell_rast)) {
+    require(raster)
+    loiczid_raster_file  <- file.path(dir_anx_global, 'rgns/loiczid_raster.grd')
+    loiczid_raster <- raster(loiczid_raster_file)
+
+    ### Crop LOICZID raster to rounded extents of region polygon
+    poly_ext <- extent(poly_bc_rgn)
+    poly_ext <- extent(floor(poly_ext[1]), ceiling(poly_ext[2]), floor(poly_ext[3]), ceiling(poly_ext[4]))
+    loiczid_raster <- crop(loiczid_raster, poly_ext)
+  }
+  
+  cols = rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) # rainbow color scheme
+  
+
+  poly_land    <- readShapePoly(fn = file.path(dir_spatial, 'ohibc_land_wgs84'))
+  poly_land_df <- fortify(poly_land)
+  
+  rast_plot <- ggplot(data = rast_data, aes(x = long, y = lat, group = group, fill = score)) +  
+    theme(axis.ticks = element_blank(), axis.text = element_blank(),
+          text = element_text(family = 'Helvetica', color = 'gray30', size = 12),
+          plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
+          legend.position = 'right') +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) +
+    scale_fill_gradientn(colours = brewer.pal(10, 'RdYlBu'), na.value = 'gray80',
+                         limits = scale_limits) + 
+    geom_polygon(color = 'gray80', size = 0.1) +
+    geom_polygon(data = poly_land_df, color = 'gray40', fill = 'gray45', size = 0.25) +
+    ### df_plot order: EEZ score polygons, then land polygons (dark grey).
+    labs(title = title, 
+         fill  = scale_label,
+         x = NULL, y = NULL)
+  
+    
+}
