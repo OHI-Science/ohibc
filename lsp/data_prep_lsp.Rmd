@@ -213,7 +213,7 @@ write_csv(lsp_status, file.path(dir_bc, '/lsp/data/status.csv'))
 
 ### Plot map of status by region
 
-Currently, the Lasting Special Places goal model is identical to the OHI Global model: a country's status is based upon percent of protected area within 1 km inland buffer and percent of protected area within 3 nautical mile offshore buffer, compared to a reference point of 30% protected area.
+Currently, the Lasting Special Places goal model is identical to the OHI Global model: a region's status is based upon percent of protected area within 1 km inland buffer and percent of protected area within 3 nautical mile offshore buffer, compared to a reference point of 30% protected area.
 
 $$X_{LSP} = \frac{\frac{pA_{CMPA}}{pA_{refCMPA}} + \frac{pA_{CP}}{pA_{refCP}}}{2}$$
 

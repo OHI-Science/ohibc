@@ -91,7 +91,6 @@ loiczid_rast     <- rgn2cell_list[[2]]
 ```
 
 ``` {r plot regions raster, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
-cols = rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) # rainbow color scheme
 
 ### subs() can't deal with duplicate LOICZID values; cut 'em by summarizing.
 rgn2cell_clean <- rgn2cell_df %>% 
@@ -179,7 +178,27 @@ write_csv(spp_trend,  file.path(dir_git, scenario, 'data/spp_trend.csv'))
 
 ```
 
+### Plot map of status by region
 
+Currently, the Species Richness goal model is identical to the OHI Global model: a region's status is based upon an area-weighted average of IUCN extinction risk.  From Halpern et al (2012):
+
+> The target for the Species sub-goal is to have all species at a risk status of Least Concern. We scaled the lower end of the biodiversity goal to be 0 when 75% species are extinct, a level comparable to the five documented mass extinctions and would constitute a catastrophic loss of biodiversity. The Status of assessed species was calculated as the area- and threat status-weighted average of the number of threatened species within each 0.5 degree grid cell.
+
+$$X_{LSP} = \frac{\frac{pA_{CMPA}}{pA_{refCMPA}} + \frac{pA_{CP}}{pA_{refCP}}}{2}$$
+
+Examining OHIBC SPP status and trend:
+
+``` {r plot scores as polygons, eval = TRUE, echo = FALSE, message = FALSE, cache = TRUE}
+
+print(spp_status)
+
+poly_plot_scores(spp_status, scale_label = 'SPP Status', title = 'OHIBC SPP Status')
+
+print(spp_trend)
+
+poly_plot_scores(spp_trend, scale_label = 'SPP Trend', title = 'OHIBC SPP Trend', scale_limits = range(spp_trend$score))
+
+```
 
 ### SPP 3nm - Summarize mean category and trend per region within 3 nm of shore -----
 ### create final outputs for 3nm zone:
@@ -201,25 +220,3 @@ spp_trend_3nm <- summary_by_rgn_3nm %>%
 write_csv(spp_status_3nm, file.path(dir_git, scenario, 'data/spp_status_3nm.csv'))
 write_csv(spp_trend_3nm,  file.path(dir_git, scenario, 'data/spp_trend_3nm.csv'))
 
-
-
-### Plot map of status by region
-
-Currently, the Lasting Special Places goal model is identical to the OHI Global model: a country's status is based upon percent of protected area within 1 km inland buffer and percent of protected area within 3 nautical mile offshore buffer, compared to a reference point of 30% protected area.
-
-$$X_{LSP} = \frac{\frac{pA_{CMPA}}{pA_{refCMPA}} + \frac{pA_{CP}}{pA_{refCP}}}{2}$$
-
-*pA* = percent of area within the inland or offshore buffer; *CMPA* = coastal marine protected area (3nm offshore); *CP* = coastline protected (1km inland); and *refCMPA* = *refCP* = 30% reference point for both measures.
-
-Examining OHIBC Lasting Special Places scores for 1995 and 2015:
-``` {r plot scores as polygons, eval = TRUE, echo = FALSE, message = FALSE, cache = TRUE}
-
-print(spp_status)
-
-poly_plot_scores(spp_status, scale_label = 'SPP Status', title = 'OHIBC SPP Status')
-
-print(spp_trend)
-
-poly_plot_scores(spp_trend, scale_label = 'SPP Trend', title = 'OHIBC SPP Trend', scale_limits = range(spp_trend$score))
-
-```
