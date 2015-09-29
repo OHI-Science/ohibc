@@ -1,0 +1,225 @@
+---
+title: "OHIBC: data_prep_spp.Rmd"
+output: 
+  html_document:
+    toc: true
+  pdf_document:
+    toc: true
+---
+``` {r setup, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+library(sp)        # the classes and methods that make up spatial ops in R
+library(rgdal)
+library(raster)
+library(data.table)
+
+source('~/github/ohibc/R/common.R')  ### an OHIBC specific version of common.R
+source('~/github/ohibc/R/poly_plot_scores.R')
+dir_anx <- file.path(dir_neptune_data, 'git-annex/bcprep') ### git-annex: goal-specific large files
+dir_anx_global <- file.path(dir_neptune_data, 'git-annex/globalprep/SPP_ICO')
+dir_git <- '~/github/ohibc/spp_ico'
+dir_rgn <- '~/github/ohibc/regions'  ### github: general buffer region shapefiles
+
+scenario <- 'v2016'
+
+source(file.path(dir_git, 'R/spp_fxn.R'))
+
+
+### set up proj4string options: BC Albers and WGS84
+p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
+              'EPSG:4326 WGS 84'          = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
+p4s_bcalb <- p4s_opts[1]
+```
+*Compiled on `r date()`*
+
+
+start with global SPP info:
+* spp list for extinction risk, trend, etc? or create from scratch?
+* spp by loiczid files - AM and IUCN
+
+
+
+
+### Load species lookup table
+
+Currently this uses the global species lookup table, with the following fields:
+| am_sid | sciname | am_category | iucn_sid | iucn_category | popn_trend | popn_category | 
+| info_source | spp_group | id_no | objectid | spatial_source | category_score | trend_score |
+
+How this list is generated (file locations are in `~/github/ohiprep/globalprep/SPP_ICO`):
+
+* in `ingest_iucn.R`:
+    * Pull full IUCN list from http://api.iucnredlist.org/index/all.csv
+    * Filter the list to marine species as indicated on each species page
+    * Standardize old extinction risk categories
+    * Append population trend and parent/subpop info from species web pages
+    * Write to `spp_iucn_mar.csv` in git-annex.
+* in `spp_fxn.R::create_spp_master_lookup()`:
+    * Pull in Aquamaps species information table, create sciname field and standardize categories
+    * Pull in IUCN marine species info from `ingest_iucn.R`
+    * `full_join()` the two species lists
+    * Determine overall category, trend, and spatial info source (preferring IUCN)
+    * Remove duplicate records and data-deficient records
+    * Convert text extinction risk category and popn trends to number values
+    * Identify parent/subpopulations and aliases within `spatial_source` field.
+
+``` {r read global species list, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+spp_global_file <- file.path(dir_anx_global, '/v2015/intermediate/spp_all.csv')
+spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
+
+head(spp_all)
+```
+
+``` {r set up region-to-cell lookup, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+
+### Read in OHIBC polygons, in WGS84 CRS
+dir_rgn <- '~/github/ohibc/regions'
+rgn_lyr <- 'ohibc_rgn_wgs84'
+
+poly_bc_rgn <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
+                       verbose = FALSE, stringsAsFactors = FALSE)
+
+git_prov(sprintf('%s/%s.shp', dir_rgn, rgn_lyr))
+
+rgn_p4s <- proj4string(poly_bc_rgn)
+names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
+message(sprintf('Region loaded: CRS = %s \n  (%s)\n', names(rgn_p4s), rgn_p4s))
+
+rgn2cell_list <- spp_rgn2cell(poly_bc_rgn, reload  = TRUE)
+
+rgn2cell_df      <- rgn2cell_list[[1]]
+loiczid_rast     <- rgn2cell_list[[2]]
+```
+
+``` {r plot regions raster, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+cols = rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) # rainbow color scheme
+
+### subs() can't deal with duplicate LOICZID values; cut 'em by summarizing.
+rgn2cell_clean <- rgn2cell_df %>% 
+  group_by(loiczid) %>% 
+  summarize(rgn_id = min(rgn_id)) %>% 
+  as.data.frame()
+rgn_rast <- subs(loiczid_rast, rgn2cell_clean, by = 'loiczid', which = 'rgn_id')
+
+plot(poly_bc_rgn, axes = FALSE)
+plot(rgn_rast, col = cols, useRaster = FALSE, axes=FALSE, box=FALSE, legend=FALSE, alpha = .5, add = TRUE)
+
+```
+
+### Generate species per cell tables for Aquamaps and IUCN
+
+``` {r AM species summary, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+
+am_cells_spp <- spp_get_am_cells(rgn2cell_df, n_max = -1, prob_filter = 0, reload = FALSE)
+
+am_cells_sum <- spp_am_cell_summary(rgn2cell_df, am_cells_spp, spp_all, fn_tag = '', reload = FALSE)
+
+head(am_cells_sum)
+
+```
+
+``` {r IUCN species summary, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+
+iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df)
+
+iucn_cells_sum <- spp_iucn_cell_summary(spp_all, iucn_cells_spp, reload = TRUE)
+
+head(iucn_cells_sum)
+
+```
+
+``` {r plot species count raster, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+cells_sum <- iucn_cells_sum %>%
+  select(loiczid, n_cat_iucn = n_cat_species) %>%
+  full_join(am_cells_sum %>%
+              select(loiczid, n_cat_am = n_cat_species),
+            by = 'loiczid') %>%
+  mutate(n_cat_am   = ifelse(is.na(n_cat_am), 0, n_cat_am),
+         n_cat_iucn = ifelse(is.na(n_cat_iucn), 0, n_cat_iucn),
+         n_cat      = n_cat_am + n_cat_iucn) %>%
+  as.data.frame()
+count_rast <- subs(loiczid_rast, cells_sum, by = 'loiczid', which = 'n_cat')
+
+plot(poly_bc_rgn, axes = FALSE)
+plot(count_rast, col = cols, useRaster = FALSE, axes = FALSE, box = FALSE, legend = TRUE, alpha = .5, add = TRUE)
+
+```
+
+### Summarize mean category and trend per cell and per region -----
+
+``` {r IUCN species summary, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+
+summary_by_loiczid <- spp_calc_cell_means(am_cells_sum, iucn_cells_sum)
+### This returns dataframe with variables:
+### loiczid | weighted_mean_cat | weighted_mean_trend
+
+summary_by_rgn     <- spp_calc_rgn_means(summary_by_loiczid, rgn2cell_df)
+### This returns dataframe with variables:
+### sp_id | rgn_mean_cat | rgn_mean_trend | status
+```
+
+``` {r plot cell score raster, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+
+summary_rast <- subs(loiczid_rast, as.data.frame(summary_by_loiczid), by = 'loiczid', which = 'weighted_mean_cat')
+
+plot(poly_bc_rgn, axes = FALSE)
+plot(summary_rast, col = cols, useRaster = FALSE, axes = FALSE, box = FALSE, legend = TRUE, alpha = .5, add = TRUE)
+
+```
+
+### Create final output files
+
+``` {r save status and trend, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+
+spp_status <- summary_by_rgn %>%
+  select(rgn_id, score = status)
+spp_trend <- summary_by_rgn %>%
+  select(rgn_id, score = rgn_mean_trend)
+write_csv(spp_status, file.path(dir_git, scenario, 'data/spp_status.csv'))
+write_csv(spp_trend,  file.path(dir_git, scenario, 'data/spp_trend.csv'))
+
+```
+
+
+
+### SPP 3nm - Summarize mean category and trend per region within 3 nm of shore -----
+### create final outputs for 3nm zone:
+### This version is for the 3 nm coastal zone cells...
+rgn_cell_lookup_3nm <- extract_cell_id_per_region(reload = FALSE, 
+                                                  ogr_location = file.path(dir_neptune_data, 'git-annex/Global/NCEAS-Regions_v2014/data'),
+                                                  rgn_layer = 'rgn_offshore3nm_gcs')
+### | sp_id | loiczid | proportionArea | csq | cell_area
+### saves lookup table to git-annex/globalprep/SPP_ICO/rgns/cellID_rgn_offshore3nm_gcs_global.csv
+
+summary_by_rgn_3nm <- process_means_per_rgn(summary_by_loiczid, rgn_cell_lookup_3nm, rgn_note = '3nm')
+
+if(!exists('summary_by_rgn_3nm')) 
+  summary_by_rgn_3nm <- read.csv(file.path(dir_git, scenario, 'summary/rgn_summary_3nm.csv'))
+spp_status_3nm <- summary_by_rgn_3nm %>%
+  select(rgn_id, score = status)
+spp_trend_3nm <- summary_by_rgn_3nm %>%
+  select(rgn_id, score = rgn_mean_trend)
+write_csv(spp_status_3nm, file.path(dir_git, scenario, 'data/spp_status_3nm.csv'))
+write_csv(spp_trend_3nm,  file.path(dir_git, scenario, 'data/spp_trend_3nm.csv'))
+
+
+
+### Plot map of status by region
+
+Currently, the Lasting Special Places goal model is identical to the OHI Global model: a country's status is based upon percent of protected area within 1 km inland buffer and percent of protected area within 3 nautical mile offshore buffer, compared to a reference point of 30% protected area.
+
+$$X_{LSP} = \frac{\frac{pA_{CMPA}}{pA_{refCMPA}} + \frac{pA_{CP}}{pA_{refCP}}}{2}$$
+
+*pA* = percent of area within the inland or offshore buffer; *CMPA* = coastal marine protected area (3nm offshore); *CP* = coastline protected (1km inland); and *refCMPA* = *refCP* = 30% reference point for both measures.
+
+Examining OHIBC Lasting Special Places scores for 1995 and 2015:
+``` {r plot scores as polygons, eval = TRUE, echo = FALSE, message = FALSE, cache = TRUE}
+
+print(spp_status)
+
+poly_plot_scores(spp_status, scale_label = 'SPP Status', title = 'OHIBC SPP Status')
+
+print(spp_trend)
+
+poly_plot_scores(spp_trend, scale_label = 'SPP Trend', title = 'OHIBC SPP Trend', scale_limits = range(spp_trend$score))
+
+```
