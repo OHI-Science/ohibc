@@ -21,3 +21,21 @@ library(tidyr)
 library(stringr)
 library(readr)
 rm(packages)
+
+
+
+git_prov <- function(git_file) {
+### This function determines the most recent commit for a given file.
+### The idea is to help promote provenance by identifying a particular
+### version of a given file.
+  suppressWarnings({
+    git_info <- system(sprintf('git log --follow %s', git_file), intern = TRUE, ignore.stderr = TRUE)[1:3]
+  })
+  if(is.na(git_info[1])) {
+    message(sprintf('File %s: git commit info unavailable.  Not version-tracked in Git?\n', git_file))
+  } else {
+    cat(sprintf('File %s most recent commit info:\n', git_file))
+    cat(sprintf('  %s\n', git_info))
+  }
+  return(invisible(git_info))
+}

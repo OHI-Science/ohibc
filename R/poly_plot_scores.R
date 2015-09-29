@@ -1,5 +1,6 @@
 require(ggplot2)
 require(RColorBrewer)
+require(maptools)
 
 poly_plot_scores <- function(score_df, 
                         scale_label = element_blank(),
