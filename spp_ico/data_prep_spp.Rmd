@@ -3,6 +3,8 @@ title: "OHIBC: data_prep_spp.Rmd"
 output: 
   html_document:
     toc: true
+    theme: spacelab
+    highlight: haddock
   pdf_document:
     toc: true
 ---
@@ -33,15 +35,9 @@ p4s_bcalb <- p4s_opts[1]
 
 
 
-### Load species lookup table
+## Load species lookup table
 
-Currently this uses the global species lookup table, with the following fields:
-
-| am_sid | sciname | am_category | iucn_sid | iucn_category | popn_trend | popn_category | 
-
-| info_source | spp_group | id_no | objectid | spatial_source | category_score | trend_score |
-
-How this list is generated (file locations are in `~/github/ohiprep/globalprep/SPP_ICO`):
+Currently this uses the global species lookup table. How this list is generated (file locations are in `~/github/ohiprep/globalprep/SPP_ICO`):
 
 * in `ingest_iucn.R`:
     * Pull full IUCN list from http://api.iucnredlist.org/index/all.csv
@@ -58,14 +54,16 @@ How this list is generated (file locations are in `~/github/ohiprep/globalprep/S
     * Convert text extinction risk category and popn trends to number values
     * Identify parent/subpopulations and aliases within `spatial_source` field.
 
-``` {r read global species list, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+``` {r read global species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 spp_global_file <- file.path(dir_anx_global, '/v2015/intermediate/spp_all.csv')
 spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
+git_prov(spp_global_file)
 
-head(spp_all)
+cat('\nColumn names in global species lookup table:\n')
+glimpse(spp_all)
 ```
 
-``` {r set up region-to-cell lookup, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+``` {r set up region-to-cell lookup, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 
 ### Read in OHIBC polygons, in WGS84 CRS
 dir_rgn <- '~/github/ohibc/regions'
@@ -87,13 +85,12 @@ rgn2cell_df      <- rgn2cell_list[[1]]
 loiczid_rast     <- rgn2cell_list[[2]]
 ```
 
-#### Map of region ID per cell
+### Map of region ID per cell
 
 *Note that `subs()` can't deal with duplicate cell IDs; for cells included in two or more regions get the minimum region ID value*
 
-``` {r plot regions raster, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE, cache = TRUE}
+``` {r plot regions raster, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, cache = TRUE}
 
-### subs() can't deal with duplicate LOICZID values; cut 'em by summarizing.
 rgn2cell_clean <- rgn2cell_df %>% 
   group_by(loiczid) %>% 
   summarize(rgn_id = min(rgn_id)) %>% 
@@ -103,31 +100,35 @@ spp_plot_raster(rgn2cell_clean, loiczid_rast, 'rgn_id', poly_bc_rgn)
 
 ```
 
-### Generate species per cell tables for Aquamaps and IUCN
+## Generate species per cell tables for Aquamaps and IUCN
 
-``` {r AM species summary, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+These species-per-cell tables are generated from global SPP goal data, filtered to just OHIBC regions.
+
+``` {r AM species summary, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 
 am_cells_spp <- spp_get_am_cells(rgn2cell_df, n_max = -1, prob_filter = 0, reload = FALSE)
 
 am_cells_sum <- spp_am_cell_summary(rgn2cell_df, am_cells_spp, spp_all, fn_tag = '', reload = FALSE)
 
-head(am_cells_sum)
+cat('Aquamaps cell summary: quick check\n')
+glimpse(am_cells_sum)
 
 ```
 
-``` {r IUCN species summary, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+``` {r IUCN species summary, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 
 iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df)
 
 iucn_cells_sum <- spp_iucn_cell_summary(spp_all, iucn_cells_spp, reload = TRUE)
 
-head(iucn_cells_sum)
+cat('IUCN cell summary: quick check\n')
+glimpse(iucn_cells_sum)
 
 ```
 
-#### Map of species count by cell
+### Map of species count by cell
 
-``` {r plot species count raster, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE, cache = TRUE}
+``` {r plot species count raster, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, cache = TRUE}
 cells_sum <- iucn_cells_sum %>%
   select(loiczid, n_cat_iucn = n_cat_species) %>%
   full_join(am_cells_sum %>%
@@ -142,42 +143,50 @@ spp_plot_raster(cells_sum, loiczid_rast, 'n_cat', poly_bc_rgn)
 
 ```
 
-### Summarize mean category and trend per cell and per region
+## Summarize mean category and trend per cell and per region
 
-``` {r summing by cells and rgn, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+``` {r summing by cells and rgn, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 
 summary_by_loiczid <- spp_calc_cell_means(am_cells_sum, iucn_cells_sum)
-### This returns dataframe with variables:
-### loiczid | weighted_mean_cat | weighted_mean_trend
 
 summary_by_rgn     <- spp_calc_rgn_means(summary_by_loiczid, rgn2cell_df)
-### This returns dataframe with variables:
-### sp_id | rgn_mean_cat | rgn_mean_trend | status
+
+cat('summary by LOICZID: quick check\n')
+glimpse(summary_by_loiczid)
+
+cat('summary by region: quick check\n')
+glimpse(summary_by_rgn)
+
 ```
 
-#### Map of mean category value by cell
+### Map of mean category value by cell
 
 *Category value range: least concern = 0, extinct = 1*
-``` {r plot cell score raster, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE, cache = TRUE}
+``` {r plot cell score raster, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, cache = TRUE}
 
 spp_plot_raster(as.data.frame(summary_by_loiczid), loiczid_rast, 'weighted_mean_cat', poly_bc_rgn)
 
 ```
 
-### Create final output files
+## Create final output files
 
-``` {r save status and trend, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+``` {r save status and trend, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 
 spp_status <- summary_by_rgn %>%
   select(rgn_id, score = status)
 spp_trend <- summary_by_rgn %>%
   select(rgn_id, score = rgn_mean_trend)
+
+cat(sprintf('Writing SPP status and trend for OHIBC assessment regions to:\n  %s\n  %s\n', 
+            file.path(dir_git, scenario, 'data/spp_status.csv'),
+            file.path(dir_git, scenario, 'data/spp_trend.csv')))
+
 write_csv(spp_status, file.path(dir_git, scenario, 'data/spp_status.csv'))
 write_csv(spp_trend,  file.path(dir_git, scenario, 'data/spp_trend.csv'))
 
 ```
 
-### Plot map of status by region
+## Plot map of status by region
 
 Currently, the Species Richness sub-goal model is identical to the OHI Global model: a region's status is based upon an area-weighted average of IUCN extinction risk.  From Halpern et al (2012):
 
@@ -201,7 +210,7 @@ where:
 * SPP trend is calculated in a similar area-weighted mean, but population trend values are assigned according to:
     * "Decreasing" = -0.5, "Stable" = 0.0, "Increasing" = +0.5
 
-#### OHIBC SPP status and trend by region
+### OHIBC SPP status and trend by region
 
 ``` {r plot scores as polygons, eval = TRUE, echo = FALSE, message = FALSE, cache = TRUE}
 
@@ -215,11 +224,11 @@ poly_plot_scores(spp_trend, scale_label = 'SPP Trend', title = 'OHIBC SPP Trend'
 
 ```
 
-### Summarize mean category/trend within 3 nm of shore
+## Summarize mean category/trend within 3 nm of shore
 
 Create final outputs for 3nm zone for resilience calculations
 
-``` {r calc 3nm SPP values, eval = TRUE, echo = TRUE, message = FALSE}
+``` {r calc 3nm SPP values, eval = TRUE, echo = FALSE, message = FALSE}
 ### Read in OHIBC 3nm offshore polygons, in WGS84 CRS
 rgn_lyr <- 'ohibc_offshore_3nm_wgs84'
 cat(sprintf('Reading OHIBC 3nm offshore regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
@@ -240,6 +249,10 @@ spp_status_3nm <- summary_by_rgn_3nm %>%
   select(rgn_id, score = status)
 spp_trend_3nm <- summary_by_rgn_3nm %>%
   select(rgn_id, score = rgn_mean_trend)
+
+cat(sprintf('Writing SPP status and trend for 3nm regions to:\n  %s\n  %s\n', 
+            file.path(dir_git, scenario, 'data/spp_status_3nm.csv'),
+            file.path(dir_git, scenario, 'data/spp_trend_3nm.csv')))
 write_csv(spp_status_3nm, file.path(dir_git, scenario, 'data/spp_status_3nm.csv'))
 write_csv(spp_trend_3nm,  file.path(dir_git, scenario, 'data/spp_trend_3nm.csv'))
 
