@@ -96,7 +96,10 @@ rgn2cell_clean <- rgn2cell_df %>%
   summarize(rgn_id = min(rgn_id)) %>% 
   as.data.frame()
 
-spp_plot_raster(rgn2cell_clean, loiczid_rast, 'rgn_id', poly_bc_rgn)
+spp_plot_raster(rgn2cell_clean, loiczid_rast, 'rgn_id', poly_bc_rgn,
+                title = 'Region ID', scale_label = 'rgn_id', 
+                scale_limits = range(rgn2cell_clean$rgn_id))
+
 
 ```
 
@@ -139,7 +142,9 @@ cells_sum <- iucn_cells_sum %>%
          n_cat      = n_cat_am + n_cat_iucn) %>%
   as.data.frame()
 
-spp_plot_raster(cells_sum, loiczid_rast, 'n_cat', poly_bc_rgn)
+spp_plot_raster(cells_sum, loiczid_rast, 'n_cat', poly_bc_rgn,
+                title = 'Species count', scale_label = 'spp count', 
+                scale_limits = c(0, max(cells_sum$n_cat)))
 
 ```
 
@@ -159,12 +164,15 @@ glimpse(summary_by_rgn)
 
 ```
 
-### Map of mean category value by cell
+### Map of mean extinction risk category value by cell
 
 *Category value range: least concern = 0, extinct = 1*
 ``` {r plot cell score raster, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, cache = TRUE}
 
-spp_plot_raster(as.data.frame(summary_by_loiczid), loiczid_rast, 'weighted_mean_cat', poly_bc_rgn)
+spp_plot_raster(as.data.frame(summary_by_loiczid), loiczid_rast, 
+                'weighted_mean_cat', poly_bc_rgn,
+                title = 'Mean extinction risk', scale_label = 'spp risk', 
+                scale_limits = range(summary_by_loiczid$weighted_mean_cat))
 
 ```
 

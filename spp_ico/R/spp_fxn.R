@@ -321,18 +321,45 @@ spp_calc_rgn_means <- function(summary_by_loiczid, rgn_cell_lookup, rgn_note = N
   return(region_sums)
 }
 
-spp_plot_raster <- function(rast_data, rast_cells, which_id, poly_bc_rgn) {
+spp_plot_raster <- function(rast_data, rast_cells, which_id, poly_rgn,
+                            title = '', scale_label = '', 
+                            scale_limits = c(0, 100)) {
   require(ggplot2)
   require(RColorBrewer)
   require(maptools)
 
   rast <- subs(rast_cells, rast_data, by = 'loiczid', which = which_id)
-  
-  cols <- rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) # rainbow color scheme
-  
-  plot(poly_bc_rgn, axes = FALSE)
-  plot(rast, col = cols, useRaster = FALSE, axes = FALSE, 
-       box = FALSE, legend = TRUE, alpha = .5, add = TRUE)
+  rast_pts <- rasterToPoints(rast) %>% 
+    as.data.frame() %>%
+    rename(long = x, lat = y) %>%
+    mutate(group = 1) ### need 'group' variable to plot below...
 
+  cols <- rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) # rainbow color scheme
+
+  poly_rgn_df <- fortify(poly_rgn, region = 'rgn_id') %>%
+    rename(rgn_id = id) %>%
+    mutate(rgn_id = as.integer(rgn_id)) 
+  
+  poly_land    <- readShapePoly(fn = file.path(dir_rgn, 'ohibc_land_wgs84'), proj4string = CRS(p4s_opts[2]))
+  poly_land_df <- fortify(poly_land)
+  
+  rast_plot <- ggplot(data = rast_pts, aes(x = long, y = lat, group = group, fill = layer)) +  
+    theme(axis.ticks = element_blank(), axis.text = element_blank(),
+          text = element_text(family = 'Helvetica', color = 'gray30', size = 12),
+          plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
+          legend.position = 'right') +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+          panel.background = element_blank()) +
+    scale_fill_gradientn(colours = brewer.pal(10, 'RdYlBu'), na.value = 'gray80',
+                        limits = scale_limits) + 
+    geom_polygon(data = poly_land_df, color = 'gray70', fill = 'gray75', size = 0.25) +
+    geom_raster(alpha = .9) +
+    geom_polygon(data = poly_rgn_df,  color = 'gray20', fill = NA,       size = 0.1) +
+    ### df_plot order: land polygons, then raster cells, then region borders
+    labs(title = title, 
+         fill  = scale_label,
+         x = NULL, y = NULL)
+  
+  print(rast_plot)
 }
 
