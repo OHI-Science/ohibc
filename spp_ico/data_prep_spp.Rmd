@@ -68,11 +68,10 @@ glimpse(spp_all)
 ### Read in OHIBC polygons, in WGS84 CRS
 dir_rgn <- '~/github/ohibc/regions'
 rgn_lyr <- 'ohibc_rgn_wgs84'
-cat(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
 
+cat(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
 poly_bc_rgn <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
                        verbose = FALSE, stringsAsFactors = FALSE)
-
 git_prov(sprintf('%s/%s.shp', dir_rgn, rgn_lyr))
 
 rgn_p4s <- proj4string(poly_bc_rgn)
@@ -96,7 +95,8 @@ rgn2cell_clean <- rgn2cell_df %>%
   summarize(rgn_id = min(rgn_id)) %>% 
   as.data.frame()
 
-spp_plot_raster(rgn2cell_clean, loiczid_rast, 'rgn_id', poly_bc_rgn,
+spp_plot_raster(rgn2cell_clean, loiczid_rast, which_id = 'rgn_id', 
+                poly_rgn = poly_bc_rgn,
                 title = 'Region ID', scale_label = 'rgn_id', 
                 scale_limits = range(rgn2cell_clean$rgn_id))
 
@@ -142,7 +142,8 @@ cells_sum <- iucn_cells_sum %>%
          n_cat      = n_cat_am + n_cat_iucn) %>%
   as.data.frame()
 
-spp_plot_raster(cells_sum, loiczid_rast, 'n_cat', poly_bc_rgn,
+spp_plot_raster(cells_sum, loiczid_rast, which_id = 'n_cat', 
+                poly_rgn = poly_bc_rgn,
                 title = 'Species count', scale_label = 'spp count', 
                 scale_limits = c(0, max(cells_sum$n_cat)))
 
@@ -170,7 +171,8 @@ glimpse(summary_by_rgn)
 ``` {r plot cell score raster, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, cache = TRUE}
 
 spp_plot_raster(as.data.frame(summary_by_loiczid), loiczid_rast, 
-                'weighted_mean_cat', poly_bc_rgn,
+                which_id = 'weighted_mean_cat', 
+                poly_rgn = poly_bc_rgn,
                 title = 'Mean extinction risk', scale_label = 'spp risk', 
                 scale_limits = range(summary_by_loiczid$weighted_mean_cat))
 
@@ -249,7 +251,7 @@ rgn_p4s <- proj4string(poly_bc_3nm)
 names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
 message(sprintf('Region loaded: CRS = %s \n  (%s)\n', names(rgn_p4s), rgn_p4s))
 
-rgn2cell_3nm_df <- spp_rgn2cell(poly_bc_3nm, reload  = TRUE)[[1]]
+rgn2cell_3nm_df <- spp_rgn2cell(poly_bc_3nm, rgn_tag = '_3nm', reload  = TRUE)[[1]]
 
 summary_by_rgn_3nm <- spp_calc_rgn_means(summary_by_loiczid, rgn2cell_3nm_df, rgn_note = '3nm')
 
