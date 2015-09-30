@@ -184,7 +184,7 @@ spp_get_am_cells <- function(rgn2cell_df, n_max = -1, prob_filter = .40, reload 
 
 ##############################################################################=
 spp_get_iucn_cells <- function(rgn2cell_df, reload = TRUE, verbose = FALSE) {
-  cat(sprintf('Building IUCN species to cell table.  This might take a few minutes.\n'))
+  message('Building IUCN species to cell table.  This might take a few minutes.\n')
   iucn_map_files      <- file.path(dir_anx_global, 'iucn_intersections', list.files(file.path(dir_anx_global, 'iucn_intersections')))
   
   ### read each into dataframe, within a list
