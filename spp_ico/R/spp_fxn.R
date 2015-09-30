@@ -2,9 +2,9 @@
 # created Jun2015 by Casey O'Hara
 # functions to support calculations of the species diversity subgoal
 
-cat('NOTE: spp_fxn.R requires that the following variables be set in the global environment (main script):\n')
-cat(sprintf('dir_anx_global: currently set to \'%s\'\n', dir_anx_global))
-cat(sprintf('scenario:       currently set to \'%s\'\n\n', scenario))
+message('NOTE: spp_fxn.R requires that the following variables be set in the global environment (main script):\n')
+message(sprintf('dir_anx_global: currently set to \'%s\'\n', dir_anx_global))
+message(sprintf('scenario:       currently set to \'%s\'\n\n', scenario))
 
 ##############################################################################=
 spp_rgn2cell <- function(poly_bc_rgn,
@@ -60,7 +60,8 @@ spp_rgn2cell <- function(poly_bc_rgn,
     file_loc    <- file.path(dir_data_am, 'tables/hcaf.csv')
     
     message(sprintf('Loading AquaMaps half-degree cell authority file.  \n  %s \n', file_loc))
-    am_cells <- fread(file_loc, stringsAsFactors = FALSE, header = TRUE) %>%
+    am_cells <- fread(file_loc, stringsAsFactors = FALSE, 
+                      header = TRUE, showProgress = FALSE) %>%
       as.data.frame() %>%
       dplyr::select(csq = CsquareCode, loiczid = LOICZID, cell_area = CellArea)
     stopifnot(sum(duplicated(am_cells$csq)) == 0)
@@ -133,7 +134,10 @@ spp_am_cell_summary <- function(rgn2cell_df,
   } else {
     cat(sprintf('Cell-by-cell summary for Aquamaps species already exists.  Reading from:\n  %s\n', am_cells_spp_sum_file))
     am_cells_spp_sum <- read.csv(am_cells_spp_sum_file, stringsAsFactors = FALSE)
+    
+    git_prov(am_cells_spp_sum_file)
   }
+  
   return(invisible(am_cells_spp_sum))
 }
 
@@ -170,6 +174,8 @@ spp_get_am_cells <- function(rgn2cell_df, n_max = -1, prob_filter = .40, reload 
   } else {
     cat(sprintf('Reading Aquamaps species per cell file from: \n  %s\n', am_cells_spp_file))
     am_cells_spp1 <- read_csv(am_cells_spp_file)
+    
+    git_prov(am_cells_spp_file)
   }
   
   return(am_cells_spp1)
@@ -256,6 +262,8 @@ spp_iucn_cell_summary <- function(spp_all, iucn_cells_spp, fn_tag = '', reload =
   } else {
     cat(sprintf('Cell-by-cell summary for IUCN species already exists.  Reading from:\n  %s\n', iucn_cells_spp_sum_file))
     iucn_cells_spp_sum <- read.csv(iucn_cells_spp_sum_file, stringsAsFactors = FALSE)
+
+    git_prov(iucn_cells_spp_sum_file)
   }
   return(invisible(iucn_cells_spp_sum))
 }
@@ -313,50 +321,18 @@ spp_calc_rgn_means <- function(summary_by_loiczid, rgn_cell_lookup, rgn_note = N
   return(region_sums)
 }
 
-spp_plot_raster <- function(rast_data, cell_rast = NULL, poly_bc_rgn = NULL) {
+spp_plot_raster <- function(rast_data, rast_cells, which_id, poly_bc_rgn) {
   require(ggplot2)
   require(RColorBrewer)
   require(maptools)
 
-  if(is.null(poly_bc)) {
-
-    dir_rgn <- '~/github/ohibc/regions'
-    rgn_lyr <- 'ohibc_rgn_wgs84'
-    
-    poly_bc_rgn <- readShapePoly(fn = file.path(dir_rgn, rgn_lyr))
-  }
-
-  if(is.null(cell_rast)) {
-    require(raster)
-    loiczid_raster_file  <- file.path(dir_anx_global, 'rgns/loiczid_raster.grd')
-    loiczid_raster <- raster(loiczid_raster_file)
-
-    ### Crop LOICZID raster to rounded extents of region polygon
-    poly_ext <- extent(poly_bc_rgn)
-    poly_ext <- extent(floor(poly_ext[1]), ceiling(poly_ext[2]), floor(poly_ext[3]), ceiling(poly_ext[4]))
-    loiczid_raster <- crop(loiczid_raster, poly_ext)
-  }
+  rast <- subs(rast_cells, rast_data, by = 'loiczid', which = which_id)
   
-  cols = rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) # rainbow color scheme
+  cols <- rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) # rainbow color scheme
   
+  plot(poly_bc_rgn, axes = FALSE)
+  plot(rast, col = cols, useRaster = FALSE, axes = FALSE, 
+       box = FALSE, legend = TRUE, alpha = .5, add = TRUE)
 
-  poly_land    <- readShapePoly(fn = file.path(dir_spatial, 'ohibc_land_wgs84'))
-  poly_land_df <- fortify(poly_land)
-  
-  rast_plot <- ggplot(data = rast_data, aes(x = long, y = lat, group = group, fill = score)) +  
-    theme(axis.ticks = element_blank(), axis.text = element_blank(),
-          text = element_text(family = 'Helvetica', color = 'gray30', size = 12),
-          plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
-          legend.position = 'right') +
-    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank()) +
-    scale_fill_gradientn(colours = brewer.pal(10, 'RdYlBu'), na.value = 'gray80',
-                         limits = scale_limits) + 
-    geom_polygon(color = 'gray80', size = 0.1) +
-    geom_polygon(data = poly_land_df, color = 'gray40', fill = 'gray45', size = 0.25) +
-    ### df_plot order: EEZ score polygons, then land polygons (dark grey).
-    labs(title = title, 
-         fill  = scale_label,
-         x = NULL, y = NULL)
-  
-    
 }
+
