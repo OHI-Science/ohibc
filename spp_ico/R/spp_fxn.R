@@ -7,7 +7,8 @@ message(sprintf('dir_anx_global: currently set to \'%s\'\n', dir_anx_global))
 message(sprintf('scenario:       currently set to \'%s\'\n\n', scenario))
 
 ##############################################################################=
-spp_rgn2cell <- function(poly_bc_rgn,
+spp_rgn2cell <- function(poly_rgn,
+                         rgn_tag   = '',
                          reload    = FALSE,
                          verbose   = FALSE) {
   ### Determines proportional area of each cell covered by region polygons.  
@@ -26,21 +27,21 @@ spp_rgn2cell <- function(poly_bc_rgn,
   if(rst_p4s != rgn_p4s) warning('Mismatched CRS between region and raster.\n')
   
   ### Crop LOICZID raster to rounded extents of region polygon
-  poly_ext <- extent(poly_bc_rgn)
+  poly_ext <- extent(poly_rgn)
   poly_ext <- extent(floor(poly_ext[1]), ceiling(poly_ext[2]), floor(poly_ext[3]), ceiling(poly_ext[4]))
   loiczid_raster <- crop(loiczid_raster, poly_ext)
   
   
-  rgn2cell_file <- file.path(dir_git, 'v2016/int/cell_id_by_rgn.csv')
+  rgn2cell_file <- file.path(dir_git, sprintf('v2016/int/cell_id_by_rgn%s.csv', rgn_tag))
   
   if(!file.exists(rgn2cell_file) | reload) {
     ### File doesn't exist (or reload == TRUE), so create from scratch.
 
     ### get LOICZID per region, convert to data frame
     message('Extracting proportional area of LOICZID cells per region polygon.\n')
-    region_prop <- raster::extract(loiczid_raster, poly_bc_rgn, 
+    region_prop <- raster::extract(loiczid_raster, poly_rgn, 
                                    weights = TRUE, normalizeWeights = FALSE) 
-    names(region_prop) <- poly_bc_rgn@data$rgn_id
+    names(region_prop) <- poly_rgn@data$rgn_id
     
     rgn_df <- data.frame()
     for (rgn_id in names(region_prop)) {
@@ -52,7 +53,7 @@ spp_rgn2cell <- function(poly_bc_rgn,
     
     rgn_df <- rgn_df %>%
       mutate(rgn_id = as.integer(as.character(rgn_id))) %>%
-      left_join(data.frame(rgn_id = poly_bc_rgn@data$rgn_id, rgn_name = poly_bc_rgn@data$rgn_name),
+      left_join(data.frame(rgn_id = poly_rgn@data$rgn_id, rgn_name = poly_rgn@data$rgn_name),
                 by = 'rgn_id')
     
     ### Append the area and CSquareCode for each cell, by LOICZID
@@ -321,17 +322,21 @@ spp_calc_rgn_means <- function(summary_by_loiczid, rgn_cell_lookup, rgn_note = N
   return(region_sums)
 }
 
-spp_plot_raster <- function(rast_data, rast_cells, which_id, poly_rgn,
+spp_plot_raster <- function(rast_data, rast_cells, 
+                            which_id, 
+                            poly_rgn,
                             title = '', scale_label = '', 
-                            scale_limits = c(0, 100)) {
+                            scale_limits = c(0, 100),
+                            by_id = 'loiczid') {
   require(ggplot2)
   require(RColorBrewer)
   require(maptools)
 
-  rast <- subs(rast_cells, rast_data, by = 'loiczid', which = which_id)
-  rast_pts <- rasterToPoints(rast) %>% 
-    as.data.frame() %>%
-    rename(long = x, lat = y) %>%
+  rast <- subs(rast_cells, rast_data, by = by_id, which = which_id)
+  rast_pts <- rasterToPoints(rast) %>%
+    as.data.frame()
+  names(rast_pts) <- c('long', 'lat', 'layer')
+  rast_pts <- rast_pts %>%
     mutate(group = 1) ### need 'group' variable to plot below...
 
   cols <- rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) # rainbow color scheme
@@ -344,16 +349,19 @@ spp_plot_raster <- function(rast_data, rast_cells, which_id, poly_rgn,
   poly_land_df <- fortify(poly_land)
   
   rast_plot <- ggplot(data = rast_pts, aes(x = long, y = lat, group = group, fill = layer)) +  
-    theme(axis.ticks = element_blank(), axis.text = element_blank(),
-          text = element_text(family = 'Helvetica', color = 'gray30', size = 12),
+    ### omit ticks, axis text:
+    theme(axis.ticks = element_blank(), axis.text = element_blank()) +
+    ### set text style, title size and position, and legend position:
+    theme(text = element_text(family = 'Helvetica', color = 'gray30', size = 12),
           plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
           legend.position = 'right') +
+    ### Blank background and grid:
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
           panel.background = element_blank()) +
     scale_fill_gradientn(colours = brewer.pal(10, 'RdYlBu'), na.value = 'gray80',
                         limits = scale_limits) + 
-    geom_polygon(data = poly_land_df, color = 'gray70', fill = 'gray75', size = 0.25) +
-    geom_raster(alpha = .9) +
+    geom_polygon(data = poly_land_df, color = 'gray70', fill = 'gray75', size = 0.1) +
+    geom_raster(alpha = .8) +
     geom_polygon(data = poly_rgn_df,  color = 'gray20', fill = NA,       size = 0.1) +
     ### df_plot order: land polygons, then raster cells, then region borders
     labs(title = title, 

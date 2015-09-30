@@ -1,0 +1,105 @@
+---
+title: "OHIBC: data_prep_spp.Rmd"
+output: 
+  html_document:
+    toc: true
+    theme: spacelab
+    highlight: haddock
+  pdf_document:
+    toc: true
+---
+``` {r setup, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+library(sp)        # the classes and methods that make up spatial ops in R
+library(rgdal)
+library(raster)
+library(data.table)
+
+source('~/github/ohibc/R/common.R')  ### an OHIBC specific version of common.R
+source('~/github/ohibc/R/poly_plot_scores.R')
+dir_anx <- file.path(dir_neptune_data, 'git-annex/bcprep') ### git-annex: goal-specific large files
+dir_anx_global <- file.path(dir_neptune_data, 'git-annex/globalprep/SPP_ICO')
+dir_git <- '~/github/ohibc/spp_ico'
+dir_rgn <- '~/github/ohibc/regions'  ### github: general buffer region shapefiles
+
+scenario <- 'v2016'
+
+source(file.path(dir_git, 'R/spp_fxn.R'))
+
+
+### set up proj4string options: BC Albers and WGS84
+p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
+              'EPSG:4326 WGS 84'          = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
+p4s_bcalb <- p4s_opts[1]
+```
+*Compiled on `r date()`*
+
+
+
+## Load species lookup table
+
+Currently this uses the global species lookup table. How this list is generated (file locations are in `~/github/ohiprep/globalprep/SPP_ICO`):
+
+* in `ingest_iucn.R`:
+    * Pull full IUCN list from http://api.iucnredlist.org/index/all.csv
+    * Filter the list to marine species as indicated on each species page
+    * Standardize old extinction risk categories
+    * Append population trend and parent/subpop info from species web pages
+    * Write to `spp_iucn_mar.csv` in git-annex.
+* in `spp_fxn.R::create_spp_master_lookup()`:
+    * Pull in Aquamaps species information table, create sciname field and standardize categories
+    * Pull in IUCN marine species info from `ingest_iucn.R`
+    * `full_join()` the two species lists
+    * Determine overall category, trend, and spatial info source (preferring IUCN)
+    * Remove duplicate records and data-deficient records
+    * Convert text extinction risk category and popn trends to number values
+    * Identify parent/subpopulations and aliases within `spatial_source` field.
+
+``` {r read global species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+spp_global_file <- file.path(dir_anx_global, '/v2015/intermediate/spp_all.csv')
+spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
+git_prov(spp_global_file)
+
+cat('\nColumn names in global species lookup table:\n')
+glimpse(spp_all)
+```
+
+``` {r set up region-to-cell lookup, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+
+### Read in OHIBC polygons, in WGS84 CRS
+dir_rgn <- '~/github/ohibc/regions'
+rgn_lyr <- 'ohibc_rgn_wgs84'
+cat(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
+
+poly_bc_rgn <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
+                       verbose = FALSE, stringsAsFactors = FALSE)
+
+git_prov(sprintf('%s/%s.shp', dir_rgn, rgn_lyr))
+
+rgn_p4s <- proj4string(poly_bc_rgn)
+names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
+message(sprintf('Region loaded: CRS = %s \n  (%s)\n', names(rgn_p4s), rgn_p4s))
+
+rgn2cell_list <- spp_rgn2cell(poly_bc_rgn, reload  = FALSE)
+
+rgn2cell_df      <- rgn2cell_list[[1]]
+loiczid_rast     <- rgn2cell_list[[2]]
+```
+
+
+### Map of region ID per cell
+
+*Note that `subs()` can't deal with duplicate cell IDs; for cells included in two or more regions get the minimum region ID value*
+
+``` {r plot regions raster, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, cache = TRUE}
+
+rgn2cell_clean <- rgn2cell_df %>% 
+  group_by(loiczid) %>% 
+  summarize(rgn_id = min(rgn_id)) %>% 
+  as.data.frame()
+
+spp_plot_raster(rgn2cell_clean, loiczid_rast, 'rgn_id', poly_bc_rgn,
+                title = 'Region ID', scale_label = 'rgn_id', 
+                scale_limits = range(rgn2cell_clean$rgn_id))
+
+
+```
