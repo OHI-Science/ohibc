@@ -40,3 +40,23 @@ output:
 | B         | Breeding—Conservation status refers to the breeding population of the species in the nation or state/province.
 | N         | Nonbreeding—Conservation status refers to the non-breeding population of the species in the nation or state/province.
 | M         | Migrant—Migrant species occurring regularly on migration at particular staging areas or concentration spots where the species might warrant conservation attention. Conservation status refers to the aggregating transient population of the species in the nation or state/province.
+
+``` {r compare Natureserve to IUCN, eval = FALSE}
+### run this after 'append bc scores' chunk in data_prep_spp.Rmd
+  spp_natureserve <- spp_all1 %>%
+    filter(!is.na(status_gl_score) | !is.na(status_pr_score)) %>%
+    filter(!str_detect(spatial_source, 'subpop')) %>%
+    filter(!str_detect(spatial_source, 'alias')) %>%
+    select(sciname, am_sid, iucn_sid, spatial_source, popn_category, category_score, status_gl_score, status_gl, status_pr_score, status_pr)
+  
+  ns_v_iucn1 <- ggplot(data = spp_natureserve, aes(x = category_score, y = status_gl_score)) +
+    geom_point(position = position_jitter(w = 0.03, h = 0.03))
+  ns_v_iucn1
+  qwer <- lm(category_score ~ status_gl_score, data = spp_natureserve)
+  summary(qwer)
+  # Coefficients:   Estimate Std. Error t value Pr(>|t|)    
+  # (Intercept)      0.01565    0.01744   0.897    0.372    
+  # status_gl_score  0.72998    0.08775   8.319  3.9e-13 ***
+  # 
+  # Multiple R-squared:  0.4019,  Adjusted R-squared:  0.3961 
+}

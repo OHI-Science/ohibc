@@ -78,7 +78,6 @@ spp_global_file <- file.path(dir_anx_global, '/v2015/intermediate/spp_all.csv')
 spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
 git_prov(spp_global_file)
 
-cat('\nColumn names in global species lookup table:\n')
 glimpse(spp_all)
 ```
 
@@ -88,85 +87,19 @@ Data downloaded from BC Species and Ecosystems Explorer includes information on 
 
 See [this table]('iucn_to_ns.html') for info on NatureServe codes
 
-``` {r read bcsee list, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+``` {r append bcsee scores, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
 
-bcsee_file <- file.path(dir_anx, 'data/bc_species_and_ecosystems_explorer/bcsee_export.tsv')
-bcsee_all  <- read.delim(bcsee_file, sep = '\t', stringsAsFactors = FALSE) %>%
-  select(sciname = Scientific.Name, scisyn = Scientific.Name.Synonyms,
-         com_name = English.Name, 
-#        el_code = Element.Code, 
-         status_gl = Global.Status, status_pr = Prov.Status, 
-         date_gl = Global.Status.Review.Date, date_pr = Prov.Status.Review.Date, 
-         date_pr_change = Prov.Status.Change.Date)
+spp_all <- spp_append_bcsee(spp_all)
 
-### For spp with > 1 scientific synonyms, separate at ';', gather into
-### a new sciname column to be rbind()ed to main list.
-### Note: str_split() was not cooperating properly within mutate().
-bcsee_syn_semicolon <- bcsee_all %>%
-  filter(str_detect(scisyn, ';')) %>%
-  separate(scisyn, c('syn1', 'syn2', 'syn3'), sep = ';', fill = 'right', remove = TRUE) %>%
-  gather(tmp, scisyn, syn1:syn3) %>%
-  mutate(sciname = scisyn) %>%
-  select(-tmp, -scisyn)
+### for this iteration: overwrite IUCN global scores with BCSEE provincial scores.
+spp_all_bcsee <- spp_all %>%
+  mutate(category_score = ifelse(!is.na(status_pr_score), status_pr_score, category_score))
 
-### rbind() original list with list of scientific synonyms, now included as
-### additional scientific names
-bcsee_no_syn <- bcsee_all %>% 
-  select(-scisyn) %>%
-  rbind(bcsee_syn_semicolon) %>%
-  filter(!is.na(sciname) & sciname != '')
-
-### Ditch subspecies, variants, and populations in sciname: separate out
-### the cruft into new columns, then ditch 'em.
-bcsee_clean <- bcsee_no_syn %>%
-  separate(sciname, c('sciname', 'var'), sep = ' var. ', fill = 'right', remove = TRUE) %>%
-  separate(sciname, c('sciname', 'pop'), sep = ' pop. ', fill = 'right', remove = TRUE) %>%
-  separate(sciname, c('sciname', 'ssp'), sep = ' ssp. ', fill = 'right', remove = TRUE) %>%
-  select(-var, -pop, -ssp) %>%
-  unique()
-
-### Now the cleaned BCSEE data can be compared, via sciname, to spp_all.
-nrow(bcsee_clean %>% filter(sciname %in% spp_all$sciname)) ### 327 species in common; but how many have spatial info?
-spp_all1 <- spp_all %>%
-  left_join(bcsee_clean, by = 'sciname') %>%
-  filter(!is.na(spatial_source))
-nrow(spp_all1 %>% filter(!is.na(status_gl) | !is.na(status_pr))) ### 248 BCSEE listed species remain...
-
-### For species BCSEE species, compare IUCN ranking to Natureserve ranking (for global) and .
-status_gl_cat <- data.frame(status_gl       = c('G5', 'G4', 'G3', 'G2', 'G1', 'GX', 'GH', 'G3G4', 'G4G5', 'GNR'), 
-                            status_gl_score = c( 0.0,  0.2,  0.4,  0.6,  0.8,  1.0,  1.0,  0.3,    0.1,    NA))
-spp_all1 <- spp_all1 %>%
-  left_join(status_gl_cat,   by = 'status_gl')
-
-### How to deal with Breeding, Nonbreeding, Migrant codes?
-### For now, quick fix: separate, drop the second, ignore the codes.
-spp_all1 <- spp_all1 %>%
-  separate(status_pr, c('status_pr', 'status_pr2'), sep = ',', remove = TRUE, fill = 'right') %>%
-  select(-status_pr2) %>%
-  mutate(status_pr = str_replace_all(status_pr, '[ABNMUR?]', ''))
-         
-status_pr_cat <- data.frame(status_pr       = c('S5', 'S4', 'S3', 'S2', 'S1', 'SX', 'SH', 'S1S2', 'S2S3', 'S3S4', 'S4S5', 'S'), 
-                            status_pr_score = c( 0.0,  0.2,  0.4,  0.6,  0.8,  1.0,  1.0,   0.7,    0.5,    0.3,    0.1,  NA))
-spp_all1 <- spp_all1 %>%
-  left_join(status_pr_cat,   by = 'status_pr')
-
-
-spp_natureserve <- spp_all1 %>%
-  filter(!is.na(status_gl_score) | !is.na(status_pr_score)) %>%
-  filter(!str_detect(spatial_source, 'subpop')) %>%
-  filter(!str_detect(spatial_source, 'alias')) %>%
-  select(sciname, am_sid, iucn_sid, spatial_source, popn_category, category_score, status_gl_score, status_gl, status_pr_score, status_pr)
-
-ns_v_iucn1 <- ggplot(data = spp_natureserve, aes(x = category_score, y = status_gl_score)) +
-  geom_point(position = position_jitter(w = 0.03, h = 0.03))
-ns_v_iucn1
-qwer <- lm(category_score ~ status_gl_score, data = spp_natureserve)
-summary(qwer)
-# Coefficients:   Estimate Std. Error t value Pr(>|t|)    
-# (Intercept)      0.01565    0.01744   0.897    0.372    
-# status_gl_score  0.72998    0.08775   8.319  3.9e-13 ***
-# 
-# Multiple R-squared:  0.4019,	Adjusted R-squared:  0.3961 
+### for this iteration: overwrite IUCN global scores with BCSEE provincial
+### scores (preferred) or global (second choice).
+# spp_all_bcsee <- spp_all %>%
+#   mutate(category_score = ifelse(!is.na(status_gl_score), status_gl_score, category_score),
+#          category_score = ifelse(!is.na(status_pr_score), status_pr_score, category_score))
 
 ```
 
@@ -190,7 +123,7 @@ rgn_p4s <- proj4string(poly_bc_rgn)
 names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
 message(sprintf('Region loaded: CRS = %s \n  (%s)\n', names(rgn_p4s), rgn_p4s))
 
-rgn2cell_list <- spp_rgn2cell(poly_bc_rgn, reload  = TRUE)
+rgn2cell_list <- spp_rgn2cell(poly_bc_rgn, reload  = FALSE)
 
 rgn2cell_df      <- rgn2cell_list[[1]]
 loiczid_rast     <- rgn2cell_list[[2]]
@@ -224,6 +157,7 @@ These species-per-cell tables are generated from global SPP goal data, filtered 
 am_cells_spp <- spp_get_am_cells(rgn2cell_df, n_max = -1, prob_filter = 0, reload = FALSE)
 
 am_cells_sum <- spp_am_cell_summary(rgn2cell_df, am_cells_spp, spp_all, fn_tag = '', reload = FALSE)
+am_cells_sum_bcsee <- spp_am_cell_summary(rgn2cell_df, am_cells_spp, spp_all_bcsee, fn_tag = 'bcsee', reload = TRUE)
 
 cat('Aquamaps cell summary: quick check\n')
 glimpse(am_cells_sum)
@@ -234,7 +168,8 @@ glimpse(am_cells_sum)
 
 iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df)
 
-iucn_cells_sum <- spp_iucn_cell_summary(spp_all, iucn_cells_spp, reload = TRUE)
+iucn_cells_sum <- spp_iucn_cell_summary(spp_all, iucn_cells_spp, reload = FALSE)
+iucn_cells_sum_bcsee <- spp_iucn_cell_summary(spp_all_bcsee, iucn_cells_spp, fn_tag = 'bcsee', reload = TRUE)
 
 cat('IUCN cell summary: quick check\n')
 glimpse(iucn_cells_sum)
@@ -261,7 +196,8 @@ spp_plot_raster(cells_sum, loiczid_rast, which_id = 'n_cat',
 
 ```
 
-## Summarize mean category and trend per cell and per region
+## Summarize mean category/trend per cell/region, IUCN
+
 
 ``` {r summing by cells and rgn, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 
@@ -277,16 +213,46 @@ glimpse(summary_by_rgn)
 
 ```
 
+## Summarize mean category/trend per cell/region, IUCN & BCSEE
+
+``` {r summing by cells and rgn 2, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+
+sum_by_cell_bcsee <- spp_calc_cell_means(am_cells_sum_bcsee, iucn_cells_sum_bcsee)
+
+sum_by_rgn_bcsee    <- spp_calc_rgn_means(sum_by_cell_bcsee, rgn2cell_df)
+
+cat('summary by LOICZID: quick check\n')
+glimpse(sum_by_cell_bcsee)
+
+cat('summary by region: quick check\n')
+glimpse(sum_by_rgn_bcsee)
+
+```
+
+
 ### Map of mean extinction risk category value by cell
 
 *Category value range: least concern = 0, extinct = 1*
 ``` {r plot cell score raster, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, cache = TRUE}
 
+scale_limits = c(min(min(sum_by_cell_bcsee$weighted_mean_cat,  na.rm = TRUE),
+                     min(summary_by_loiczid$weighted_mean_cat, na.rm = TRUE)), 
+                 max(max(sum_by_cell_bcsee$weighted_mean_cat,  na.rm = TRUE),
+                     max(summary_by_loiczid$weighted_mean_cat, na.rm = TRUE)))
+
 spp_plot_raster(as.data.frame(summary_by_loiczid), loiczid_rast, 
                 which_id = 'weighted_mean_cat', 
                 poly_rgn = poly_bc_rgn,
-                title = 'Mean extinction risk', scale_label = 'spp risk', 
-                scale_limits = range(summary_by_loiczid$weighted_mean_cat))
+                title = 'Mean extinction risk, IUCN only', scale_label = 'spp risk', 
+                scale_limits = scale_limits,
+                rev_scale = TRUE)
+
+spp_plot_raster(as.data.frame(sum_by_cell_bcsee), loiczid_rast, 
+                which_id = 'weighted_mean_cat', 
+                poly_rgn = poly_bc_rgn,
+                title = 'Mean extinction risk, IUCN & BCSEE', scale_label = 'spp risk', 
+                scale_limits = scale_limits,
+                rev_scale = TRUE)
 
 ```
 
@@ -299,14 +265,52 @@ spp_status <- summary_by_rgn %>%
 spp_trend <- summary_by_rgn %>%
   select(rgn_id, score = rgn_mean_trend)
 
-cat(sprintf('Writing SPP status and trend for OHIBC assessment regions to:\n  %s\n  %s\n', 
+cat(sprintf('Writing SPP status and trend based only on IUCN categories to:\n  %s\n  %s\n', 
             file.path(dir_git, scenario, 'data/spp_status.csv'),
             file.path(dir_git, scenario, 'data/spp_trend.csv')))
 
 write_csv(spp_status, file.path(dir_git, scenario, 'data/spp_status.csv'))
 write_csv(spp_trend,  file.path(dir_git, scenario, 'data/spp_trend.csv'))
 
+spp_status_bcsee <- sum_by_rgn_bcsee %>%
+  select(rgn_id, score = status)
+spp_trend_bcsee <- sum_by_rgn_bcsee %>%
+  select(rgn_id, score = rgn_mean_trend)
+
+cat(sprintf('Writing SPP status and trend based on IUCN & BCSEE categories to:\n  %s\n  %s\n', 
+            file.path(dir_git, scenario, 'data/spp_status_bcsee.csv'),
+            file.path(dir_git, scenario, 'data/spp_trend_bcsee.csv')))
+
+write_csv(spp_status, file.path(dir_git, scenario, 'data/spp_status_bcsee.csv'))
+write_csv(spp_trend,  file.path(dir_git, scenario, 'data/spp_trend_bcsee.csv'))
+
 ```
+
+### Compare scores from IUCN only vs IUCN & BCSEE
+
+Current methodology does not affect trend, only status scores, based on whether NatureServe assessment scores are used to overwrite IUCN extinction risk category scores.
+
+``` {r compare status, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+
+status_df <- spp_status %>%
+  rename(iucn_score = score) %>%
+  full_join(spp_status_bcsee %>%
+              rename(bcsee_score = score),
+            by = 'rgn_id') %>%
+  full_join(poly_bc_rgn@data, by = 'rgn_id')
+
+status_compare_plot <- ggplot(data = status_df, aes(x = iucn_score, y = bcsee_score, color = rgn_code)) + 
+  geom_point(size = 5) +
+  geom_abline(intercept = 0, slope = 1, color = 'red') +
+  coord_fixed(ratio = 1, xlim = c(65, 85), ylim = c(65, 85)) +
+  labs(title = 'SPP Status with and without BCSEE provincial assessment data',
+       x  = 'Status using IUCN categories only',
+       y  = 'Status using IUCN and BCSEE categories')
+
+print(status_compare_plot)
+
+```
+
 
 ## Plot map of status by region
 
