@@ -6,6 +6,18 @@ output:
     theme: spacelab
     highlight: haddock
 ---
+``` {r setup, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+
+source('~/github/ohibc/R/common.R')  ### an OHIBC specific version of common.R
+dir_anx <- file.path(dir_neptune_data, 'git-annex/bcprep') ### git-annex: goal-specific large files
+dir_anx_global <- file.path(dir_neptune_data, 'git-annex/globalprep/SPP_ICO')
+dir_git <- '~/github/ohibc/spp_ico'
+scenario <- 'v2016'
+
+source(file.path(dir_git, 'R/spp_fxn.R'))
+
+```
+*Compiled on `r date()`*
 
 ### NatureServe conservation status rank codes and definitions (for global level) 
 
@@ -41,22 +53,48 @@ output:
 | N         | Nonbreeding—Conservation status refers to the non-breeding population of the species in the nation or state/province.
 | M         | Migrant—Migrant species occurring regularly on migration at particular staging areas or concentration spots where the species might warrant conservation attention. Conservation status refers to the aggregating transient population of the species in the nation or state/province.
 
-``` {r compare Natureserve to IUCN, eval = FALSE}
+``` {r compare Natureserve to IUCN, eval = TRUE, echo = FALSE, message = FALSE, warning = FALSE}
+spp_global_file <- file.path(dir_anx_global, '/v2015/intermediate/spp_all.csv')
+spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
+git_prov(spp_global_file)
+
+spp_all <- spp_append_bcsee(spp_all)
+
 ### run this after 'append bc scores' chunk in data_prep_spp.Rmd
-  spp_natureserve <- spp_all1 %>%
-    filter(!is.na(status_gl_score) | !is.na(status_pr_score)) %>%
-    filter(!str_detect(spatial_source, 'subpop')) %>%
-    filter(!str_detect(spatial_source, 'alias')) %>%
-    select(sciname, am_sid, iucn_sid, spatial_source, popn_category, category_score, status_gl_score, status_gl, status_pr_score, status_pr)
-  
-  ns_v_iucn1 <- ggplot(data = spp_natureserve, aes(x = category_score, y = status_gl_score)) +
-    geom_point(position = position_jitter(w = 0.03, h = 0.03))
-  ns_v_iucn1
-  qwer <- lm(category_score ~ status_gl_score, data = spp_natureserve)
-  summary(qwer)
-  # Coefficients:   Estimate Std. Error t value Pr(>|t|)    
-  # (Intercept)      0.01565    0.01744   0.897    0.372    
-  # status_gl_score  0.72998    0.08775   8.319  3.9e-13 ***
-  # 
-  # Multiple R-squared:  0.4019,  Adjusted R-squared:  0.3961 
-}
+spp_natureserve <- spp_all %>%
+  filter(!is.na(status_gl_score) | !is.na(status_pr_score)) %>%
+  filter(!str_detect(spatial_source, 'subpop')) %>%
+  filter(!str_detect(spatial_source, 'alias')) %>%
+  select(sciname, am_sid, iucn_sid, spatial_source, popn_category, 
+         category_score, status_gl_score, status_pr_score)
+
+### comparing global Natureserve assessment to IUCN assessment
+mdl <- lm(category_score ~ status_gl_score, data = spp_natureserve)
+ns_v_iucn <- ggplot(data = spp_natureserve, aes(x = category_score, y = status_gl_score)) +
+  geom_point(position = position_jitter(w = 0.03, h = 0.03)) + 
+  geom_abline(slope = mdl$coefficients[2], intercept = mdl$coefficients[1], color = 'red') +
+  coord_equal() +
+  labs(title = 'Compare IUCN to NatureServe global',
+       x = 'IUCN category score (0 = LC, 1 = EX)',
+       y = 'Natureserve global score (0 = LC, 1 = EX)')
+print(ns_v_iucn)
+
+cat('Summary of IUCN vs global Natureserve:\n')
+summary(mdl)
+
+### comparing global Natureserve assessment to IUCN assessment
+mdl <- lm(category_score ~ status_gl_score, data = spp_natureserve)
+ns_v_iucn <- ggplot(data = spp_natureserve, aes(x = category_score, y = status_pr_score)) +
+  geom_point(position = position_jitter(w = 0.03, h = 0.03)) +
+  geom_abline(slope = mdl$coefficients[2], intercept = mdl$coefficients[1], color = 'red') +
+  coord_equal() +
+  labs(title = 'Compare IUCN to NatureServe provincial (BC)',
+       x = 'IUCN category score (0 = LC, 1 = EX)',
+       y = 'Natureserve BC score (0 = LC, 1 = EX)')
+print(ns_v_iucn)
+
+cat('Summary of IUCN vs BC-specific Natureserve:\n')
+summary(mdl$coefficients)
+mdl$coefficients
+
+```
