@@ -1,5 +1,5 @@
 ---
-title: "OHIBC: data_prep_spp.Rmd"
+title: 'OHIBC: data_prep_spp.Rmd'
 output: 
   html_document:
     toc: true
@@ -33,6 +33,25 @@ p4s_bcalb <- p4s_opts[1]
 ```
 *Compiled on `r date()`*
 
+## Data sources
+
+AquaMaps: <citation>
+
+description
+
+IUCN Red List spatial data: species range map shapefiles
+
+* Shapefiles downloaded from: http://www.iucnredlist.org/technical-documents/spatial-data
+* Citation: IUCN 2014. The IUCN Red List of Threatened Species. Version 2014.1. <http://www.iucnredlist.org>. Downloaded on 21 September 2015.
+
+IUCN Red List species index: list of all IUCN red list species, incl IUCN species ID and extinction risk category
+* Index .csv downloaded from: http://api.iucnredlist.org/index/all.csv
+* Habitat and subpopulation information, by species, scraped from: http://www.iucnredlist.org/details/<species ID>/0
+* Citation: IUCN 2015. The IUCN Red List of Threatened Species. Version 2015-3. <http://www.iucnredlist.org>. Downloaded on 9 September 2015.
+
+BC Species and Ecosystems Explorer: <citation>
+main site: http://www.env.gov.bc.ca/atrisk/toolintro.html
+global, national, state/province assessment: http://explorer.natureserve.org/ranking.htm#global
 
 
 ## Load species lookup table
@@ -62,6 +81,99 @@ git_prov(spp_global_file)
 cat('\nColumn names in global species lookup table:\n')
 glimpse(spp_all)
 ```
+
+## Append BC-specific species risk assessment codes
+
+Data downloaded from BC Species and Ecosystems Explorer includes information on global status and provincial status for species, as assessed by NatureServe.
+
+See [this table]('iucn_to_ns.html') for info on NatureServe codes
+
+``` {r read bcsee list, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+
+bcsee_file <- file.path(dir_anx, 'data/bc_species_and_ecosystems_explorer/bcsee_export.tsv')
+bcsee_all  <- read.delim(bcsee_file, sep = '\t', stringsAsFactors = FALSE) %>%
+  select(sciname = Scientific.Name, scisyn = Scientific.Name.Synonyms,
+         com_name = English.Name, 
+#        el_code = Element.Code, 
+         status_gl = Global.Status, status_pr = Prov.Status, 
+         date_gl = Global.Status.Review.Date, date_pr = Prov.Status.Review.Date, 
+         date_pr_change = Prov.Status.Change.Date)
+
+### For spp with > 1 scientific synonyms, separate at ';', gather into
+### a new sciname column to be rbind()ed to main list.
+### Note: str_split() was not cooperating properly within mutate().
+bcsee_syn_semicolon <- bcsee_all %>%
+  filter(str_detect(scisyn, ';')) %>%
+  separate(scisyn, c('syn1', 'syn2', 'syn3'), sep = ';', fill = 'right', remove = TRUE) %>%
+  gather(tmp, scisyn, syn1:syn3) %>%
+  mutate(sciname = scisyn) %>%
+  select(-tmp, -scisyn)
+
+### rbind() original list with list of scientific synonyms, now included as
+### additional scientific names
+bcsee_no_syn <- bcsee_all %>% 
+  select(-scisyn) %>%
+  rbind(bcsee_syn_semicolon) %>%
+  filter(!is.na(sciname) & sciname != '')
+
+### Ditch subspecies, variants, and populations in sciname: separate out
+### the cruft into new columns, then ditch 'em.
+bcsee_clean <- bcsee_no_syn %>%
+  separate(sciname, c('sciname', 'var'), sep = ' var. ', fill = 'right', remove = TRUE) %>%
+  separate(sciname, c('sciname', 'pop'), sep = ' pop. ', fill = 'right', remove = TRUE) %>%
+  separate(sciname, c('sciname', 'ssp'), sep = ' ssp. ', fill = 'right', remove = TRUE) %>%
+  select(-var, -pop, -ssp) %>%
+  unique()
+
+### Now the cleaned BCSEE data can be compared, via sciname, to spp_all.
+nrow(bcsee_clean %>% filter(sciname %in% spp_all$sciname)) ### 327 species in common; but how many have spatial info?
+spp_all1 <- spp_all %>%
+  left_join(bcsee_clean, by = 'sciname') %>%
+  filter(!is.na(spatial_source))
+nrow(spp_all1 %>% filter(!is.na(status_gl) | !is.na(status_pr))) ### 248 BCSEE listed species remain...
+
+### For species BCSEE species, compare IUCN ranking to Natureserve ranking (for global) and .
+status_gl_cat <- data.frame(status_gl       = c('G5', 'G4', 'G3', 'G2', 'G1', 'GX', 'GH', 'G3G4', 'G4G5', 'GNR'), 
+                            status_gl_score = c( 0.0,  0.2,  0.4,  0.6,  0.8,  1.0,  1.0,  0.3,    0.1,    NA))
+spp_all1 <- spp_all1 %>%
+  left_join(status_gl_cat,   by = 'status_gl')
+
+### How to deal with Breeding, Nonbreeding, Migrant codes?
+### For now, quick fix: separate, drop the second, ignore the codes.
+spp_all1 <- spp_all1 %>%
+  separate(status_pr, c('status_pr', 'status_pr2'), sep = ',', remove = TRUE, fill = 'right') %>%
+  select(-status_pr2) %>%
+  mutate(status_pr = str_replace_all(status_pr, '[ABNMUR?]', ''))
+         
+status_pr_cat <- data.frame(status_pr       = c('S5', 'S4', 'S3', 'S2', 'S1', 'SX', 'SH', 'S1S2', 'S2S3', 'S3S4', 'S4S5', 'S'), 
+                            status_pr_score = c( 0.0,  0.2,  0.4,  0.6,  0.8,  1.0,  1.0,   0.7,    0.5,    0.3,    0.1,  NA))
+spp_all1 <- spp_all1 %>%
+  left_join(status_pr_cat,   by = 'status_pr')
+
+
+spp_natureserve <- spp_all1 %>%
+  filter(!is.na(status_gl_score) | !is.na(status_pr_score)) %>%
+  filter(!str_detect(spatial_source, 'subpop')) %>%
+  filter(!str_detect(spatial_source, 'alias')) %>%
+  select(sciname, am_sid, iucn_sid, spatial_source, popn_category, category_score, status_gl_score, status_gl, status_pr_score, status_pr)
+
+ns_v_iucn1 <- ggplot(data = spp_natureserve, aes(x = category_score, y = status_gl_score)) +
+  geom_point(position = position_jitter(w = 0.03, h = 0.03))
+ns_v_iucn1
+qwer <- lm(category_score ~ status_gl_score, data = spp_natureserve)
+summary(qwer)
+# Coefficients:   Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)      0.01565    0.01744   0.897    0.372    
+# status_gl_score  0.72998    0.08775   8.319  3.9e-13 ***
+# 
+# Multiple R-squared:  0.4019,	Adjusted R-squared:  0.3961 
+
+```
+
+
+## Define assessment regions 
+
+Using OHIBC region polygons, determine 0.5° raster cells corresponding to each region.
 
 ``` {r set up region-to-cell lookup, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 
@@ -216,9 +328,9 @@ where:
 * $A_{cell}$ is cell area
 * $pA_{cell-rgn}$ is percent of cell area included in region
 * *Risk* is scaled value for species extinction risk category, based on: 
-    * "LC" = 0.0, "NT" = 0.2, "VU" = 0.4, "EN" = 0.6, "CR" = 0.8, "EX" = 1.0
+    * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
 * SPP trend is calculated in a similar area-weighted mean, but population trend values are assigned according to:
-    * "Decreasing" = -0.5, "Stable" = 0.0, "Increasing" = +0.5
+    * 'Decreasing' = -0.5, 'Stable' = 0.0, 'Increasing' = +0.5
 
 ### OHIBC SPP status and trend by region
 
