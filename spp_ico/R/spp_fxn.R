@@ -322,12 +322,83 @@ spp_calc_rgn_means <- function(summary_by_loiczid, rgn_cell_lookup, rgn_note = N
   return(region_sums)
 }
 
+
+spp_append_bcsee <- function(spp_all) {
+  bcsee_file <- file.path(dir_anx, 'data/bc_species_and_ecosystems_explorer/bcsee_export.tsv')
+  bcsee_all  <- read.delim(bcsee_file, sep = '\t', stringsAsFactors = FALSE) %>%
+    select(sciname = Scientific.Name, scisyn = Scientific.Name.Synonyms,
+           com_name = English.Name, 
+           #        el_code = Element.Code, 
+           status_gl = Global.Status, status_pr = Prov.Status, 
+           date_gl = Global.Status.Review.Date, date_pr = Prov.Status.Review.Date, 
+           date_pr_change = Prov.Status.Change.Date)
+  
+  ### For spp with > 1 scientific synonyms, separate at ';', gather into
+  ### a new sciname column to be rbind()ed to main list.
+  ### Note: str_split() was not cooperating properly within mutate().
+  bcsee_syn_semicolon <- bcsee_all %>%
+    filter(str_detect(scisyn, ';')) %>%
+    separate(scisyn, c('syn1', 'syn2', 'syn3'), sep = ';', fill = 'right', extra = 'drop', remove = TRUE) %>%
+    gather(tmp, scisyn, syn1:syn3) %>%
+    mutate(sciname = scisyn) %>%
+    select(-tmp, -scisyn)
+  
+  ### rbind() original list with list of scientific synonyms, now included as
+  ### additional scientific names
+  bcsee_no_syn <- bcsee_all %>% 
+    select(-scisyn) %>%
+    rbind(bcsee_syn_semicolon) %>%
+    filter(!is.na(sciname) & sciname != '')
+  
+  ### Ditch subspecies, variants, and populations in sciname: separate out
+  ### the cruft into new columns, then ditch 'em.
+  bcsee_clean <- bcsee_no_syn %>%
+    separate(sciname, c('sciname', 'var'), sep = ' var. ', fill = 'right', extra = 'drop', remove = TRUE) %>%
+    separate(sciname, c('sciname', 'pop'), sep = ' pop. ', fill = 'right', extra = 'drop', remove = TRUE) %>%
+    separate(sciname, c('sciname', 'ssp'), sep = ' ssp. ', fill = 'right', extra = 'drop', remove = TRUE) %>%
+    select(-var, -pop, -ssp) %>%
+    unique()
+  
+  ### Now the cleaned BCSEE data can be compared, via sciname, to spp_all.
+  # nrow(bcsee_clean %>% filter(sciname %in% spp_all$sciname)) 
+  ### 327 species in common; but how many have spatial info?
+  spp_all1 <- spp_all %>%
+    left_join(bcsee_clean, by = 'sciname') %>%
+    filter(!is.na(spatial_source))
+  # nrow(spp_all1 %>% filter(!is.na(status_gl) | !is.na(status_pr))) 
+  ### 248 BCSEE listed species remain...
+  
+  ### For species BCSEE species, compare IUCN ranking to Natureserve ranking (for global) and .
+  status_gl_cat <- data.frame(status_gl       = c('G5', 'G4', 'G3', 'G2', 'G1', 'GX', 'GH', 'G3G4', 'G4G5', 'GNR'), 
+                              status_gl_score = c( 0.0,  0.2,  0.4,  0.6,  0.8,  1.0,  1.0,  0.3,    0.1,    NA))
+  spp_all1 <- spp_all1 %>%
+    left_join(status_gl_cat,   by = 'status_gl')
+  
+  ### How to deal with Breeding, Nonbreeding, Migrant codes?
+  ### For now, quick fix: separate, drop the second, ignore the codes.
+  spp_all1 <- spp_all1 %>%
+    separate(status_pr, c('status_pr', 'status_pr2'), sep = ',', remove = TRUE, fill = 'right', extra = 'drop') %>%
+    select(-status_pr2) %>%
+    mutate(status_pr = str_replace_all(status_pr, '[ABNMUR?]', ''))
+  
+  status_pr_cat <- data.frame(status_pr       = c('S5', 'S4', 'S3', 'S2', 'S1', 'SX', 'SH', 'S1S2', 'S2S3', 'S3S4', 'S4S5', 'S'), 
+                              status_pr_score = c( 0.0,  0.2,  0.4,  0.6,  0.8,  1.0,  1.0,   0.7,    0.5,    0.3,    0.1,  NA))
+  spp_all1 <- spp_all1 %>%
+    left_join(status_pr_cat,   by = 'status_pr') %>%
+    select(-com_name, -status_gl, -status_pr, -date_gl, -date_pr, -date_pr_change)
+  
+  return(spp_all1)
+}
+
+
+
 spp_plot_raster <- function(rast_data, rast_cells, 
                             which_id, 
                             poly_rgn,
                             title = '', scale_label = '', 
                             scale_limits = c(0, 100),
-                            by_id = 'loiczid') {
+                            by_id = 'loiczid',
+                            rev_scale = FALSE) {
   require(ggplot2)
   require(RColorBrewer)
   require(maptools)
@@ -339,7 +410,11 @@ spp_plot_raster <- function(rast_data, rast_cells,
   rast_pts <- rast_pts %>%
     mutate(group = 1) ### need 'group' variable to plot below...
 
-  cols <- rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) # rainbow color scheme
+  if(rev_scale == TRUE) {
+    cols <- rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) # rainbow color scheme, low = blue 
+  } else {
+    cols <- colorRampPalette(brewer.pal(11, 'Spectral'))(255) # rainbow color scheme, low = red
+  }
 
   poly_rgn_df <- fortify(poly_rgn, region = 'rgn_id') %>%
     rename(rgn_id = id) %>%
@@ -358,7 +433,7 @@ spp_plot_raster <- function(rast_data, rast_cells,
     ### Blank background and grid:
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
           panel.background = element_blank()) +
-    scale_fill_gradientn(colours = brewer.pal(10, 'RdYlBu'), na.value = 'gray80',
+    scale_fill_gradientn(colours = cols, na.value = 'gray80',
                         limits = scale_limits) + 
     geom_polygon(data = poly_land_df, color = 'gray70', fill = 'gray75', size = 0.1) +
     geom_raster(alpha = .8) +

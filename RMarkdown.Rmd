@@ -1,0 +1,109 @@
+---
+title: "IUCN vs NatureServe conservation status ranks"
+  output: 
+    html_document:
+    toc: true
+  theme: spacelab
+    highlight: haddock
+---
+``` {r setup, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+```
+
+# What is R Markdown?
+
+R + Markdown
+
+# How can you use R Markdown?
+
+### Document your code
+
+Use R Markdown to make your code pretty and share it with others.  R code in the .Rmd function exactly the same as in a regular .R script.  A reader can see your code, and what it does.
+
+- Explain your code or teach it to others
+- Show all code with outputs
+- Basically: human-readable coding
+
+Set variables for solar intensity at Earth's orbital radius, in W * m-2
+
+```{r document code 1, echo = TRUE, eval = TRUE}
+i_sol <- 1360 
+```
+
+Read planet orbital radii from .csv, and drop Pluto, because really.
+
+```{r document code 2, echo = TRUE, eval = FALSE}
+planet_df <- read.csv('data/planets.csv')
+
+planet_df <- planet_df %>%
+  filter(planet != 'Pluto')
+
+glimpse(planet_df)
+```
+
+```{r document code 3, echo = TRUE, eval = FALSE}
+
+
+```
+
+### Document your workflow
+
+Use R Markdown to highlight the workflow of your code, to share your process.  The code itself is not so important; instead, you can focus on the steps you used to get from input A to output B.
+
+- Reproducibility and provenance: if they want to see the code, they can dig into the document.
+- Focus on the process: inputs, outputs, and the steps in between
+- Specific code is not emphasized except where critical
+
+### Document your results
+
+Use R Markdown to document your results.  The code itself is not important; even the intermediate steps are not so critical.  Instead, you can focus on your research question and present the results in nicely-formatted tables and graphs.
+
+- Hide the work: if they want to see the process, they can dig into the document.
+- Focus on the big picture: formatted writeup and fancy graphs
+- Probably doesn't even look like code
+
+
+In the actual code:
+  
+  Styling:
+  - bold, italics
+- hyperlink
+- bullets
+- html headers (#, ##, ###, etc.)
+  - line breaks and spaces
+  - inline r text
+  - inline executable r code
+  - block quotes
+  - show the markdown quick reference in RStudio
+  - images
+  - headers at the top
+  
+  Chunks:
+    - headers in chunks
+  - echo
+  - message
+  - warning
+  - others...
+  
+  Common Issues:
+    - never setwd()
+  - preview/rawgit (awesome but only for public repos)
+  - ggplot2 needs to use print()
+  - spaces/line breaks
+  
+  Advanced?:
+  - tables
+  - Themes
+  - Set Knit Options
+  - Knitchild??? (knitting multiple Rmd together)
+  
+  
+  For the actual script I think we need at least:
+    
+    - 1 image
+  - a couple plots
+  - 4-6 code chunks?
+  
