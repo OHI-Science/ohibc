@@ -377,15 +377,15 @@ spp_append_bcsee <- function(spp_all) {
   ### How to deal with Breeding, Nonbreeding, Migrant codes?
   ### For now, quick fix: separate, drop the second, ignore the codes.
   spp_all1 <- spp_all1 %>%
-    separate(status_pr, c('status_pr', 'status_pr2'), sep = ',', remove = TRUE, fill = 'right', extra = 'drop') %>%
+    separate(status_pr, c('status_pr1', 'status_pr2'), sep = ',', remove = FALSE, fill = 'right', extra = 'drop') %>%
     select(-status_pr2) %>%
-    mutate(status_pr = str_replace_all(status_pr, '[ABNMUR?]', ''))
+    mutate(status_pr1 = str_replace_all(status_pr1, '[ABNMUR?]', ''))
   
-  status_pr_cat <- data.frame(status_pr       = c('S5', 'S4', 'S3', 'S2', 'S1', 'SX', 'SH', 'S1S2', 'S2S3', 'S3S4', 'S4S5', 'S'), 
+  status_pr_cat <- data.frame(status_pr1       = c('S5', 'S4', 'S3', 'S2', 'S1', 'SX', 'SH', 'S1S2', 'S2S3', 'S3S4', 'S4S5', 'S'), 
                               status_pr_score = c( 0.0,  0.2,  0.4,  0.6,  0.8,  1.0,  1.0,   0.7,    0.5,    0.3,    0.1,  NA))
   spp_all1 <- spp_all1 %>%
-    left_join(status_pr_cat,   by = 'status_pr') %>%
-    select(-com_name, -status_gl, -status_pr, -date_gl, -date_pr, -date_pr_change)
+    left_join(status_pr_cat,   by = 'status_pr1') %>%
+    select(-com_name, -status_pr1, -date_gl, -date_pr, -date_pr_change)
   
   return(spp_all1)
 }

@@ -8,7 +8,7 @@ output:
   pdf_document:
     toc: true
 ---
-``` {r setup, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
 library(sp)        # the classes and methods that make up spatial ops in R
 library(rgdal)
 library(raster)
@@ -78,7 +78,12 @@ spp_global_file <- file.path(dir_anx_global, '/v2015/intermediate/spp_all.csv')
 spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
 git_prov(spp_global_file)
 
-glimpse(spp_all)
+cat('\nVariables in spp_all:\n')
+names(spp_all)
+knitr::kable(head(spp_all %>% 
+                    select(sciname, am_sid, iucn_sid, popn_trend, popn_category, spatial_source)),
+             align = c('c', 'c', 'c', 'c', 'c', 'c'),
+             caption = 'Selection of rows and columns:')
 ```
 
 ## Append BC-specific species risk assessment codes
@@ -87,7 +92,7 @@ Data downloaded from BC Species and Ecosystems Explorer includes information on 
 
 See [this table]('iucn_to_ns.html') for info on NatureServe codes
 
-``` {r append bcsee scores, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+``` {r append bcsee scores, echo = TRUE, message = FALSE, warning = FALSE}
 
 spp_all <- spp_append_bcsee(spp_all)
 
@@ -108,7 +113,7 @@ spp_all_bcsee <- spp_all %>%
 
 Using OHIBC region polygons, determine 0.5° raster cells corresponding to each region.
 
-``` {r set up region-to-cell lookup, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+``` {r set up region-to-cell lookup, echo = FALSE, message = FALSE, warning = FALSE}
 
 ### Read in OHIBC polygons, in WGS84 CRS
 dir_rgn <- '~/github/ohibc/regions'
@@ -133,7 +138,7 @@ loiczid_rast     <- rgn2cell_list[[2]]
 
 *Note that `subs()` can't deal with duplicate cell IDs; for cells included in two or more regions get the minimum region ID value*
 
-``` {r plot regions raster, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, cache = TRUE}
+``` {r plot regions raster, echo = FALSE, cache = TRUE, message = FALSE, warning = FALSE, fig.height = 4, fig.width = 6, fig.align = 'center'}
 
 rgn2cell_clean <- rgn2cell_df %>% 
   group_by(loiczid) %>% 
@@ -150,35 +155,37 @@ spp_plot_raster(rgn2cell_clean, loiczid_rast, which_id = 'rgn_id',
 
 ## Generate species per cell tables for Aquamaps and IUCN
 
-These species-per-cell tables are generated from global SPP goal data, filtered to just OHIBC regions.
+These species-per-cell tables are generated from global SPP goal data, from AquaMaps data and IUCN range maps, filtered to just OHIBC regions.
 
-``` {r AM species summary, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+``` {r AM species summary, echo = FALSE, message = FALSE, warning = FALSE}
 
 am_cells_spp <- spp_get_am_cells(rgn2cell_df, n_max = -1, prob_filter = 0, reload = FALSE)
 
 am_cells_sum <- spp_am_cell_summary(rgn2cell_df, am_cells_spp, spp_all, fn_tag = '', reload = FALSE)
 am_cells_sum_bcsee <- spp_am_cell_summary(rgn2cell_df, am_cells_spp, spp_all_bcsee, fn_tag = 'bcsee', reload = TRUE)
 
-cat('Aquamaps cell summary: quick check\n')
-glimpse(am_cells_sum)
+knitr::kable(head(am_cells_sum),
+             align = c('c', 'c', 'c', 'c', 'c', 'c'),
+             caption = 'Aquamaps cell summary: quick check (head)')
 
 ```
 
-``` {r IUCN species summary, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+``` {r IUCN species summary, echo = FALSE, message = FALSE, warning = FALSE}
 
 iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df)
 
 iucn_cells_sum <- spp_iucn_cell_summary(spp_all, iucn_cells_spp, reload = FALSE)
 iucn_cells_sum_bcsee <- spp_iucn_cell_summary(spp_all_bcsee, iucn_cells_spp, fn_tag = 'bcsee', reload = TRUE)
 
-cat('IUCN cell summary: quick check\n')
-glimpse(iucn_cells_sum)
+knitr::kable(head(iucn_cells_sum),
+             align = c('c', 'c', 'c', 'c', 'c', 'c'),
+             caption = 'IUCN cell summary: quick check (head)')
 
 ```
 
 ### Map of species count by cell
 
-``` {r plot species count raster, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, cache = TRUE}
+``` {r plot species count raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
 cells_sum <- iucn_cells_sum %>%
   select(loiczid, n_cat_iucn = n_cat_species) %>%
   full_join(am_cells_sum %>%
@@ -198,34 +205,39 @@ spp_plot_raster(cells_sum, loiczid_rast, which_id = 'n_cat',
 
 ## Summarize mean category/trend per cell/region, IUCN
 
+For each raster cell, we generate a summary of number of species included, average extinction risk score of all species in cell, and average trend score of all species in cell with population trend information.  This section calculates extinction risk score based solely on IUCN category ranks, which excludes subpopulation scores due to lack of spatially explicit distribution info for subpopulations.
 
-``` {r summing by cells and rgn, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+From raster-level summaries, we generate a region-level summary based on area-weighted average extinction risk and population trend.
+
+``` {r summing by cells and rgn, echo = FALSE, message = FALSE, warning = FALSE}
 
 summary_by_loiczid <- spp_calc_cell_means(am_cells_sum, iucn_cells_sum)
 
 summary_by_rgn     <- spp_calc_rgn_means(summary_by_loiczid, rgn2cell_df)
 
-cat('summary by LOICZID: quick check\n')
-glimpse(summary_by_loiczid)
+knitr::kable(head(summary_by_loiczid),
+             caption = 'summary by LOICZID (head)')
 
-cat('summary by region: quick check\n')
-glimpse(summary_by_rgn)
+knitr::kable(head(summary_by_rgn),
+             caption = 'summary by region (head)')
 
 ```
 
 ## Summarize mean category/trend per cell/region, IUCN & BCSEE
 
-``` {r summing by cells and rgn 2, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+This section performs similar calculations, but here calculates extinction risk score based on NatureServe province-level rankings where available, and IUCN category ranks elsewhere.  IUCN ranks exclude subpopulation scores due to lack of spatially explicit distribution info for subpopulations.
+
+``` {r summing by cells and rgn 2, echo = FALSE, message = FALSE, warning = FALSE}
 
 sum_by_cell_bcsee <- spp_calc_cell_means(am_cells_sum_bcsee, iucn_cells_sum_bcsee)
 
 sum_by_rgn_bcsee    <- spp_calc_rgn_means(sum_by_cell_bcsee, rgn2cell_df)
 
-cat('summary by LOICZID: quick check\n')
-glimpse(sum_by_cell_bcsee)
+knitr::kable(head(sum_by_cell_bcsee),
+             caption = 'summary by LOICZID (head)')
 
-cat('summary by region: quick check\n')
-glimpse(sum_by_rgn_bcsee)
+knitr::kable(head(sum_by_rgn_bcsee),
+             caption = 'summary by region (head)')
 
 ```
 
@@ -233,7 +245,7 @@ glimpse(sum_by_rgn_bcsee)
 ### Map of mean extinction risk category value by cell
 
 *Category value range: least concern = 0, extinct = 1*
-``` {r plot cell score raster, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, cache = TRUE}
+``` {r plot cell score raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE,  fig.height = 4, fig.width = 6, fig.align = 'center'}
 
 scale_limits = c(min(min(sum_by_cell_bcsee$weighted_mean_cat,  na.rm = TRUE),
                      min(summary_by_loiczid$weighted_mean_cat, na.rm = TRUE)), 
@@ -258,7 +270,31 @@ spp_plot_raster(as.data.frame(sum_by_cell_bcsee), loiczid_rast,
 
 ## Create final output files
 
-``` {r save status and trend, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+From the region-level summaries of extinction risk and population trend, we calculate regional status and trend scores.  Currently, the Species Richness sub-goal model is identical to the OHI Global model: a region's status is based upon an area-weighted average of IUCN extinction risk.
+
+From Halpern et al (2012):
+
+> The target for the Species sub-goal is to have all species at a risk status of Least Concern. We scaled the lower end of the biodiversity goal to be 0 when 75% species are extinct, a level comparable to the five documented mass extinctions and would constitute a catastrophic loss of biodiversity. The Status of assessed species was calculated as the area- and threat status-weighted average of the number of threatened species within each 0.5 degree grid cell.
+
+$$Y_{cell} = \frac{\displaystyle\sum_{species}(Risk)}{n_{spp}}$$
+
+$$Y_{SPP} = \frac{\displaystyle\sum_{cells}(Y_{cell} * A_{cell} * pA_{cell-rgn})}{A_{rgn}}$$
+
+$$X_{SPP} = \frac{((1 - Y_{SPP}) - 0.25)}{(1 - 0.25)} * 100%$$
+
+where:
+
+* $X_{SPP}$ is Species goal status
+* $Y_{cell}$ is mean extinction risk for one cell
+* $Y_{SPP}$ is area-weighted mean extinction risk for a region
+* $A_{cell}$ is cell area
+* $pA_{cell-rgn}$ is percent of cell area included in region
+* *Risk* is scaled value for species extinction risk category, based on: 
+    * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
+* SPP trend is calculated in a similar area-weighted mean, but population trend values are assigned according to:
+    * 'Decreasing' = -0.5, 'Stable' = 0.0, 'Increasing' = +0.5
+
+``` {r save status and trend, echo = FALSE, message = FALSE, warning = FALSE}
 
 spp_status <- summary_by_rgn %>%
   select(rgn_id, score = status)
@@ -290,7 +326,7 @@ write_csv(spp_trend,  file.path(dir_git, scenario, 'data/spp_trend_bcsee.csv'))
 
 Current methodology does not affect trend, only status scores, based on whether NatureServe assessment scores are used to overwrite IUCN extinction risk category scores.
 
-``` {r compare status, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+``` {r compare status, echo = FALSE, message = FALSE, warning = FALSE, fig.height = 4, fig.width = 6, fig.align = 'center'}
 
 status_df <- spp_status %>%
   rename(iucn_score = score) %>%
@@ -300,12 +336,15 @@ status_df <- spp_status %>%
   full_join(poly_bc_rgn@data, by = 'rgn_id')
 
 status_compare_plot <- ggplot(data = status_df, aes(x = iucn_score, y = bcsee_score, color = rgn_code)) + 
+  theme(text = element_text(family = 'Helvetica', color = 'gray30', size = 10),
+        plot.title = element_text(size = rel(1.2), face = 'bold'),
+        legend.position = 'right') +
   geom_point(size = 5) +
   geom_abline(intercept = 0, slope = 1, color = 'red') +
   coord_fixed(ratio = 1, xlim = c(65, 85), ylim = c(65, 85)) +
-  labs(title = 'SPP Status with and without BCSEE provincial assessment data',
-       x  = 'Status using IUCN categories only',
-       y  = 'Status using IUCN and BCSEE categories')
+  labs(title = 'SPP Status w/ & w/o NS provincial data',
+       x  = 'Status w/IUCN ranks only',
+       y  = 'Status w/IUCN & NS ranks')
 
 print(status_compare_plot)
 
@@ -314,37 +353,28 @@ print(status_compare_plot)
 
 ## Plot map of status by region
 
-Currently, the Species Richness sub-goal model is identical to the OHI Global model: a region's status is based upon an area-weighted average of IUCN extinction risk.  From Halpern et al (2012):
+While the tables show status and trend for both iterations (IUCN rankings only and IUCN + NatureServe rankings), these status and trend plots show only the original version (IUCN rankings only)
 
-> The target for the Species sub-goal is to have all species at a risk status of Least Concern. We scaled the lower end of the biodiversity goal to be 0 when 75% species are extinct, a level comparable to the five documented mass extinctions and would constitute a catastrophic loss of biodiversity. The Status of assessed species was calculated as the area- and threat status-weighted average of the number of threatened species within each 0.5 degree grid cell.
+``` {r plot scores as polygons, echo = FALSE, message = FALSE, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
 
-$$Y_{cell} = \frac{\displaystyle\sum_{species}(Risk)}{n_{spp}}$$
+status_df <- spp_status %>%
+  rename(iucn_score = score) %>%
+  full_join(spp_status_bcsee %>%
+              rename(bcsee_score = score),
+            by = 'rgn_id') %>%
+  full_join(poly_bc_rgn@data, by = 'rgn_id')
 
-$$Y_{SPP} = \frac{\displaystyle\sum_{cells}(Y_{cell} * A_{cell} * pA_{cell-rgn})}{A_{rgn}}$$
-
-$$X_{SPP} = \frac{((1 - Y_{SPP}) - 0.25)}{(1 - 0.25)} * 100%$$
-
-where:
-
-* $X_{SPP}$ is Species goal status
-* $Y_{cell}$ is mean extinction risk for one cell
-* $Y_{SPP}$ is area-weighted mean extinction risk for a region
-* $A_{cell}$ is cell area
-* $pA_{cell-rgn}$ is percent of cell area included in region
-* *Risk* is scaled value for species extinction risk category, based on: 
-    * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
-* SPP trend is calculated in a similar area-weighted mean, but population trend values are assigned according to:
-    * 'Decreasing' = -0.5, 'Stable' = 0.0, 'Increasing' = +0.5
-
-### OHIBC SPP status and trend by region
-
-``` {r plot scores as polygons, eval = TRUE, echo = FALSE, message = FALSE, cache = TRUE}
-
-print(spp_status)
+knitr::kable(spp_status %>%
+  full_join(poly_bc_rgn@data, by = 'rgn_id'),
+  align = c('c', 'c', 'l', 'c', 'r', 'r'),
+  caption = 'SPP Status by region:')
 
 poly_plot_scores(spp_status, scale_label = 'SPP Status', title = 'OHIBC SPP Status')
 
-print(spp_trend)
+knitr::kable(spp_trend %>%
+  full_join(poly_bc_rgn@data, by = 'rgn_id'),
+  align = c('c', 'c', 'l', 'c', 'r', 'r'),
+  caption = 'SPP Trend by region:')
 
 poly_plot_scores(spp_trend, scale_label = 'SPP Trend', title = 'OHIBC SPP Trend', scale_limits = c(min(spp_trend$score), 0))
 

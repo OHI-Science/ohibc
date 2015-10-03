@@ -1,0 +1,43 @@
+---
+title: "Untitled"
+author: "CCO, JA"
+date: "October 2, 2015"
+output: html_document
+---
+``` {r setup, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+source('R/common.R')
+```
+
+``` {r, eval = FALSE}
+
+
+spp_global_file <- '/Volumes/data_edit/git-annex/globalprep/SPP_ICO//v2015/intermediate/spp_all.csv'
+spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
+
+glimpse(spp_all)
+knitr::kable(head(spp_all))
+
+
+sq_num <- data.frame('num' = c(1:10), 'num_sq' = (c(1:10))^2, 'let' = letters[1:10])
+
+print(sq_num)
+
+knitr::kable(sq_num, col.names = c('Number', 'Number squared', 'letter'),
+             align = c('c', 'c', 'c'),
+             caption = 'Figure 1',
+             booktabs = TRUE,
+             padding = 2)
+
+# awesome_plot <- ggplot(data = sq_num, aes(x = num, y = num_sq, color = let)) +
+#   theme(text = element_text(family = 'Helvetica', color = 'gray30', size = 12),
+#         plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
+#         legend.position = 'right') +
+#   geom_point(size = 3) + 
+#   labs(title = 'Squared numbers', x = 'number', y = 'number squared')
+#   
+# print(awesome_plot)
+```
+
+> regular block quote
+
+>> double block quote
