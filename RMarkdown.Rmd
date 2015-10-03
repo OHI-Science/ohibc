@@ -1,5 +1,7 @@
 ---
 title: "R Markdown workshop"
+author: "JA, CCO"
+date: "October 12, 2015"
 output: 
   html_document:
     toc: true
@@ -11,13 +13,13 @@ output:
 source('R/common.R')
 ```
 
-# What is R Markdown?
+## What is R Markdown?
 
 R + Markdown
 
-# How can you use R Markdown?
+## How can you use R Markdown?
 
-## Document your code
+### Document your code
 
 Use R Markdown to make your code pretty and share it with others.  R code in the .Rmd function exactly the same as in a regular .R script.  A reader can see your code, and what it does.
 
@@ -25,158 +27,23 @@ Use R Markdown to make your code pretty and share it with others.  R code in the
 - Show all code with outputs
 - Basically: human-readable coding
 
-#### Example: some basic code.
+Check out examples here!
 
-Question: What is the solar irradiance at the orbital distance of Mars? How about for the other planets?
-
-Set variables for solar irradiance at Earth's orbital radius, in W * m-2
-
-```{r document code 1, echo = TRUE, eval = TRUE}
-insol_earth <- 1360 
-```
-
-Read planet orbital radii from .csv, and drop Pluto, because really.  Then calc insolation at each planet using inverse square law.
-
-```{r document code 2, echo = TRUE, eval = TRUE}
-planet_df <- read.csv('data/planets.csv')
-
-r_earth <- planet_df$radius[3]
-
-planet_df <- planet_df %>%
-  filter(planet != 'Pluto') %>%
-  mutate(au = radius/r_earth,
-         insol = insol_earth/(au^2))
-```
-
-Print table and plot results
-
-```{r document code 3, echo = TRUE, eval = TRUE}
-print(planet_df)
-
-cat(sprintf('Insolation on Mars is %.3f W * m^-2, about %.1f%% that on Earth.\n',
-            planet_df$insol[4], planet_df$insol[4]/insol_earth*100))
-
-insol_plot <- ggplot(data = planet_df, aes(x = radius, y = insol, color = planet)) +
-  ### set text style, title size and position, and legend position:
-  theme(text = element_text(family = 'Helvetica', color = 'gray30', size = 12),
-        plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
-        legend.position = 'right') +
-  scale_x_log10() + scale_y_log10() + 
-  geom_point(size = 3) + 
-  labs(title = 'Insolation on other planets',
-       x = 'radius (x 10^6 km) (log scale)',
-       y = 'insolation (W * m^-2) (log scale)')
-  
-print(insol_plot)
-```
-
-## Document your workflow
+### Document your workflow
 
 Use R Markdown to highlight the workflow of your code, to share your process.  The code itself is not so important; instead, you can focus on the steps you used to get from input A to output B.
 
-- Reproducibility and provenance
+- Reproducibility of results and provenance of data
 - Focus on the process: inputs, outputs, and the steps in between
 - Specific code is not emphasized except where critical
 
-#### Example: again, almost the exact same code as above
+### Document your results
 
-*(Note the code chunk options: echo = FALSE, to hide code, but `cat()` or `print()` will be displayed)*
-
-Question: What is the solar irradiance at the orbital distance of Mars? How about for the other planets?
-
-Solar irradiance at Earth's orbital radius = 1360 W * m^-2^ [[Wikipedia, 2015](https://en.wikipedia.org/wiki/Solar_irradiance#Earth)]
-
-```{r document workflow 1, echo = FALSE, eval = TRUE}
-insol_earth <- 1366 
-```
-
-Read planet orbital radii from .csv, and drop Pluto, because really.  Then calc insolation at each planet using inverse square law.
-
-```{r document workflow 2, echo = FALSE, eval = TRUE}
-cat('Reading orbits data from file: data/planets.csv\n')
-planet_df <- read.csv('data/planets.csv')
-git_prov('data/planets.csv')
-
-r_earth <- planet_df$radius[3]
-
-planet_df <- planet_df %>%
-  filter(planet != 'Pluto') %>%
-  mutate(au = radius/r_earth,
-         insol = insol_earth/(au^2))
-
-print(planet_df)
-```
-
-According to the analysis, insolation on Mars is `r round(planet_df$insol[4], 3)` W m^2^, about `r round(planet_df$insol[4]/insol_earth*100)`% that on Earth.
-
-```{r document workflow 3, echo = FALSE, eval = FALSE}
-insol_plot <- ggplot(data = planet_df, aes(x = radius, y = insol, color = planet)) +
-  ### set text style, title size and position, and legend position:
-  theme(text = element_text(family = 'Helvetica', color = 'gray30', size = 12),
-        plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
-        legend.position = 'right') +
-  scale_x_log10() + scale_y_log10() + 
-  geom_point(size = 3) + 
-  labs(title = 'Insolation on other planets',
-       x = 'radius (x 10^6 km) (log scale)',
-       y = 'insolation (W * m^-2) (log scale)')
-  
-print(insol_plot)
-```
-
-
-## Document your results
-
-Use R Markdown to document your results.  The code itself is not important; even the intermediate steps are not all that interesting.  Instead, you can focus on your research question and present the results in nicely-formatted tables and graphs.
+Use R Markdown to document your results such as for publication.  The code itself is not important; even the intermediate steps are not all that interesting.  Instead, you can focus on your research question and present the results in nicely-formatted text, equations, tables, and graphs.
 
 - Hide the work: if they want to see the process, they can dig into the document.
 - Focus on the big picture: formatted writeup and fancy graphs
-- Probably doesn't even look like code
-
-#### Example: almost the exact same code as above
-
-*(Code chunks all echo = FALSE, and most of the results reported in inline R code rather than printing from within the code chunks)*
-
-Question: What is the solar irradiance at the orbital distance of Mars? How about for the other planets?
-
-Solar irradiance at Earth's orbital radius = 1360 W * m^-2^ [[Wikipedia, 2015](https://en.wikipedia.org/wiki/Solar_irradiance#Earth)].
-
-```{r document results 1, echo = FALSE, eval = TRUE}
-insol_earth <- 1366 
-```
-
-Insolation can be determined from the inverse-square law, using the equation:
-
-$$ S_r = S_{Earth} * \left(\frac{r_{Earth}}{r_x}\right) ^2 $$
-
-```{r document results 2, echo = FALSE, eval = TRUE}
-planet_df <- read.csv('data/planets.csv')
-
-r_earth <- planet_df$radius[3]
-
-planet_df <- planet_df %>%
-  filter(planet != 'Pluto') %>%
-  mutate(au = radius/r_earth,
-         insol = insol_earth/(au^2))
-```
-
-According to the analysis, insolation on Mars, at `r round(planet_df$au[4], 2)` times the Earth's orbital radius, is `r round(planet_df$insol[4], 3)` W m^2^, about `r round(planet_df$insol[4]/insol_earth*100)`% that on Earth.  For other planets, examine figure 1.
-
-```{r document results 3, echo = FALSE, eval = TRUE}
-insol_plot <- ggplot(data = planet_df, aes(x = radius, y = insol, color = planet)) +
-  ### set text style, title size and position, and legend position:
-  theme(text = element_text(family = 'Helvetica', color = 'gray30', size = 12),
-        plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
-        legend.position = 'right') +
-  scale_x_log10() + scale_y_log10() + 
-  geom_point(size = 3) + 
-  labs(title = 'Figure 1: Insolation on other planets',
-       x = 'radius (x 10^6 km) (log scale)',
-       y = 'insolation (W * m^-2) (log scale)')
-  
-print(insol_plot)
-```
-
+- Probably doesn't even look like code - looks more like a publication.
 
 ## Markdown style basics (outside of code chunks):
 
@@ -186,16 +53,20 @@ print(insol_plot)
     * including multi-level bullets and numbered lists  
 * *italics*, **bold**, and even ***bold italics***
 * headers - six levels, from # (HUGE) to ###### (small)
-* `inline monospaced text` including inline executable R code
-* code blocks, non-executing (just display) and executing (R code chunks)
+* `inline monospaced text` and `r x = ('inline executable R code'); x`
+* code blocks, non-executing (just for display) and executing (R code chunks)
 
 [Print out this awesome reference sheet](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf) and nail it to your monitor.
 
-Markdown is finicky, but R Markdown is especially finicky about line breaks and spaces.  A single line break is treated about the same as a space.  Between sections with different formatting, it's good to always put a blank line (two line breaks).  If the format looks wrong, you probably forgot to space it properly.
+### Note on spaces and line breaks
 
-## Document setup: the Rmd header
+Markdown is finicky, but R Markdown is especially finicky about line breaks and spaces.  A single line break is treated about the same as a space.  Between sections with different formatting, it's good to always put a blank line (two line breaks).  If your knitted formattin looks wrong, you probably forgot to space it properly.
 
-The top of the .Rmd file needs a header.  At very least, the dashes, a title, and output format.  Note that the left alignment and tab spacing are important.
+## .Rmd documents and code chunks
+
+### Document setup: the .Rmd file header
+
+The top of the .Rmd file should have a header; when you create a new .Rmd this is added automatically.  At very least, include the dashes, a title, and output format.  Note that the left alignment and tab spacing are important.
 
 ```
 ---
@@ -218,23 +89,131 @@ output:
     highlight: haddock
 ---
 ```
+### Inline code
+
+Outside of code blocks, you can include R code directly in the formatted text.  This is helpful if you want to display a value or output in a nicely formatted way.  This can access values calculated locally or in other code chunks earlier in the document.  To do this, start with a single back-tick followed by 'r', and end with another single back-tick. For example:
+
+```{r, eval = FALSE, echo = TRUE}
+The `r animals = c('armadillo', 'platypus'); animals[2]` is a very unusual animal.
+```
+
+Will display as: The `r animals = c('armadillo', 'platypus'); animals[2]` is a very unusual animal.
+
+### Code chunks
+
+Code chunks allow for larger pieces of executable R code within your document - basically, mini scripts or pieces of a larger script, with regular Markdown text in between.  Each code chunk can access values, functions, and packages defined earlier in the .Rmd, but beyond that, each chunk needs to be self-contained (e.g. if you define a function or a loop, the entire code for that must be within a single code chunk).
+
+Each code chunk starts with three back-ticks (\```) at the start of a line, followed by 'r' in braces:
+
+`` ``` {r} ``
+
+Next comes the code; then the code block ends with a triple backtick on its own line:
+
+`` ``` ``
+
+The `{r}` is the code chunk header, and can be modified in helpful ways.
+
+* The text after the `r` but before a comma becomes the name of the code chunk.  The name appears in the list of sections in the R Studio script editing pane, so you can navigate right to the code chunk of your choice.
+    * e.g. `` ``` {r chunk name goes here} ``
+* Code chunk options can be added to the header, to control how the code chunk is executed and knitted.  Code chunk options are separated by commas.
+    * e.g. `` ``` {r chunk name, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}``
+* Helpful code chunk options:
+    * `echo`: when FALSE, the code in this chunk will not be displayed in the knitted document.  Any outputs due to the code will still be displayed (e.g. `x = 10; x` or `cat(sprintf('The value of x is %s\n', 10))`.
+    * `eval`: when FALSE, this code chunk will not run.  You can use `eval = FALSE, echo = TRUE` to display but not run the code.
+    * `message` or `warning`: setting these to false will prevent the display of outputs from `message()` or `warning()` - such as those that often show up (in red) when loading packages with `library()`.
+* You can skip the name and go straight to the options, if you like, just use a comma after the `r`:
+    * e.g. `` ``` {r, echo = FALSE} ``
+
+More code chunk options can be found on the [R Markdown reference sheet](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf), or at http://rmarkdown.rstudio.com/authoring_rcodechunks.html.  Some of these are also shown later in this document.
+
+## Knitting and previewing .Rmd
+
+Once your .Rmd is done, you can try to knit it.  At the top of the script editing pane in R Studio, you'll see an option to "Knit HTML" (or maybe "Knit PDF" or other formats).  That kicks in the `knitr` library to interpret your .Rmd code, and save it as a new file in the same directory as your .Rmd, with the same base name, and a new extension.
+
+If your code has errors, you'll see the error reported in the R Markdown pane in R Studio.  Otherwise, you can track the progress of the knitting, and see the resulting document.
+
+### Previewing .html on GitHub
+
+R Studio can't display .html, but if you click on the file in the files pane, it gives you an option to open in a web browser.
+
+GitHub also can't display .html.  But once you commit and push your .html to GitHub, you can preview it by following these steps:
+
+* Browse to the .html doc, and click it.
+    * It probably gives you some message like "(Sorry about that, but we can’t show files that are this big right now.)"
+* Ignore the message, and in the URL window, do this:
+    * replace `github.com` with `rawgit.com`
+    * delete `blob` and one of the `/` next to it
+    * hit enter to load the modified URL.  Done!
+* Copy the new URL, and you can send people this as the link to your fancy new document.
+    * Assuming you don't change the file name, every time you re-knit, re-commit, and re-push your .Rmd and .html, this link will still be live and point to the most recent version.
 
 
+## Common issues in R Markdown
+
+#### `setwd()`: don't do it!
+
+The `knitr` package isn't friendly about setting working directories.  It expects that the working directory is the directory in which the .Rmd file lives; if you change that through `setwd()` in one chunk of code, it resets it for the next chunk of code.
+
+It's generally a good practice to avoid using `setwd()` in your code anyway - use variables and `file.path()` to store and set file locations.
+
+#### Previewing on GitHub with rawgit
+
+The rawgit method (see above) of previewing .html on GitHub only works for public repositories, not private repositories.
+
+#### Printing plots in ggplot2
+
+You have awesome code that plots the most wonderful and informative graph ever beheld by human eyes.  But it doesn't show up in your knitted file!
+
+Once you get your ggplot code all worked out, assign it to a named object, and then use `print(object_name)`.  Just calling `object_name` works within a regular R script, but not when knitting.
+
+``` {r, fig.width = 5, fig.height = 3}
+nums <- c(1:10) + 0.25
+sq_num <- data.frame('num' = nums, 'num_sq' = nums^2, 'let' = rep(letters[1:3], len = 10))
+
+awesome_plot <- ggplot(data = sq_num, aes(x = num, y = num_sq, color = let)) +
+  theme(text = element_text(family = 'Helvetica', color = 'gray30', size = 10),
+        plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
+        legend.position = 'right') +
+  geom_point(size = 3) + 
+  labs(title = 'Squared numbers', x = 'number', y = 'number^2')
   
-  Chunks:
-  - headers in chunks
-  - echo
-  - message
-  - warning
-  - others...
+print(awesome_plot)
+```
+
+#### Spaces/line breaks
+
+As noted above: Knitting an .Rmd properly is very sensitive to line breaks.  Whenever you want to change the format from one line to the next, include an extra line break in between.  Note that knitting ignores multiple line breaks, so one blank line and ten blank lines will render the same in the final output document.
   
-  Common Issues:
-    - never setwd()
-  - preview/rawgit (awesome but only for public repos)
-  - ggplot2 needs to use print()
-  - spaces/line breaks
-  
-  Advanced?:
+## Advanced topics
+
+### Tables
+
+Tables are actually pretty easy.  Use the `kable()` function in `knitr` package to make nicely formatted tables simply.
+``` {r tables 1}
+
+print(sq_num[1:4, ])
+
+knitr::kable(head(sq_num, 4))
+```
+
+Nice options for tables in `knitr::kable()`:
+
+* `caption`: text string to add a caption at the start of your table.
+* `align`: vector of characters indicating alignment of each column: 'l', 'r', or 'c'
+* `digits`: vector of integers fixing the number of decimal digits to display.
+
+``` {r tables 2}
+knitr::kable(head(sq_num, 4),
+             align = c('l', 'c', 'r'),
+             caption = 'Squared numbers',
+             digits = c(2, 3, 4))
+```
+
+For other options for formatted tables, see `pander` or `xtable` packages.  More on these at: http://kbroman.org/knitr_knutshell/pages/figs_tables.html
+
+
+caching - globally and by chunk
+
   - tables
   - Themes
   - Set Knit Options
