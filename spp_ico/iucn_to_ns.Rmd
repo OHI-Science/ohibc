@@ -14,6 +14,7 @@ dir_git <- '~/github/ohibc/spp_ico'
 scenario <- 'v2016'
 
 source(file.path(dir_git, 'R/spp_fxn.R'))
+library(DT)
 
 ```
 *Compiled on `r date()`*
@@ -118,11 +119,13 @@ R^2^ = `r summary(mdl)$r.squared`
 
 ``` {r table of Natureserve to IUCN, echo = FALSE, message = FALSE, warning = FALSE}
 
-knitr::kable(spp_natureserve %>%
+DT::datatable(spp_natureserve %>%
                 select(sciname, spatial_source, iucn_cat = popn_category, 
-                       IUCN_score = category_score, NSgl_score = status_gl_score, 
-                       NSpr_score = status_pr_score, NSgl_rank = status_gl, NSpr_rank = status_pr) %>%
+                       IUCN_score = category_score, NS_gl_score = status_gl_score, 
+                       NS_pr_score = status_pr_score, NS_gl_rank = status_gl, NS_pr_rank = status_pr) %>%
                 arrange(sciname),
-             align = c('l', 'c', 'c', 'c', 'c', 'c', 'c', 'c'))
+              caption = 'Species list',
+              filter = 'bottom',
+              rownames = FALSE)
 ```
 
