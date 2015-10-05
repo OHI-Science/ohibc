@@ -33,25 +33,62 @@ p4s_bcalb <- p4s_opts[1]
 ```
 *Compiled on `r date()`*
 
+# OHIBC Species Subgoal (Biodiversity)
+
+This script prepares scores (status and trend) for species richness in 
+British Columbia's coastal regions.  Spatial data from IUCN and Aquamaps is
+combined with extinction risk information from IUCN and conservation rank
+info based on NatureServe categories.
+
+Currently, the Species Richness sub-goal model is identical to the OHI Global 
+model: a region's status is based upon an area-weighted average of species
+health across each BC reporting region.
+
+From Halpern et al (2012):
+
+> The target for the Species sub-goal is to have all species at a risk status of Least Concern. We scaled the lower end of the biodiversity goal to be 0 when 75% species are extinct, a level comparable to the five documented mass extinctions and would constitute a catastrophic loss of biodiversity. The Status of assessed species was calculated as the area- and threat status-weighted average of the number of threatened species within each 0.5 degree grid cell.
+
+$$Y_{cell} = \frac{\displaystyle\sum_{species}(Risk)}{n_{spp}}$$
+
+$$Y_{SPP} = \frac{\displaystyle\sum_{cells}(Y_{cell} * A_{cell} * pA_{cell-rgn})}{A_{rgn}}$$
+
+$$X_{SPP} = \frac{((1 - Y_{SPP}) - 0.25)}{(1 - 0.25)} * 100%$$
+
+where:
+
+* $X_{SPP}$ is Species goal status
+* $Y_{cell}$ is mean extinction risk for one cell
+* $Y_{SPP}$ is area-weighted mean extinction risk for a region
+* $A_{cell}$ is cell area
+* $pA_{cell-rgn}$ is percent of cell area included in region
+* *Risk* is scaled value for species extinction risk category, based on: 
+    * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
+* SPP trend is calculated in a similar area-weighted mean, but population trend values are assigned according to:
+    * 'Decreasing' = -0.5, 'Stable' = 0.0, 'Increasing' = +0.5
+
 ## Data sources
 
 AquaMaps: <citation>
 
-description
+* From http://www.aquamaps.org/main/home.php: "AquaMaps are computer-generated predictions of natural occurrence of marine species, based on the environmental tolerance of a given species with respect to depth, salinity, temperature, primary productivity, and its association with sea ice or coastal areas."
+* Citation: Kaschner, K., J. Rius-Barile, K. Kesner-Reyes, C.Garilao, S.O. Kullander, T. Rees and R. Froese (2013). AquaMaps: Predicted range maps for aquatic species. World wide web electronic publication, www.aquamaps.org, Version 08/2013.
 
 IUCN Red List spatial data: species range map shapefiles
 
-* Shapefiles downloaded from: http://www.iucnredlist.org/technical-documents/spatial-data
+* Species range map shapefiles downloaded from: http://www.iucnredlist.org/technical-documents/spatial-data
 * Citation: IUCN 2014. The IUCN Red List of Threatened Species. Version 2014.1. <http://www.iucnredlist.org>. Downloaded on 21 September 2015.
 
 IUCN Red List species index: list of all IUCN red list species, incl IUCN species ID and extinction risk category
-* Index .csv downloaded from: http://api.iucnredlist.org/index/all.csv
+
+* Extinction risk categories downloaded from: http://api.iucnredlist.org/index/all.csv
 * Habitat and subpopulation information, by species, scraped from: http://www.iucnredlist.org/details/<species ID>/0
 * Citation: IUCN 2015. The IUCN Red List of Threatened Species. Version 2015-3. <http://www.iucnredlist.org>. Downloaded on 9 September 2015.
 
-BC Species and Ecosystems Explorer: <citation>
-main site: http://www.env.gov.bc.ca/atrisk/toolintro.html
-global, national, state/province assessment: http://explorer.natureserve.org/ranking.htm#global
+NatureServe/BC CDC conservation rank info from BC Species and Ecosystems Explorer: 
+
+* main site: http://www.env.gov.bc.ca/atrisk/toolintro.html
+* global, national, state/province assessment: http://explorer.natureserve.org/ranking.htm#global
+* ___<citation needed>___
 
 
 ## Load species lookup table
@@ -270,29 +307,7 @@ spp_plot_raster(as.data.frame(sum_by_cell_bcsee), loiczid_rast,
 
 ## Create final output files
 
-From the region-level summaries of extinction risk and population trend, we calculate regional status and trend scores.  Currently, the Species Richness sub-goal model is identical to the OHI Global model: a region's status is based upon an area-weighted average of IUCN extinction risk.
-
-From Halpern et al (2012):
-
-> The target for the Species sub-goal is to have all species at a risk status of Least Concern. We scaled the lower end of the biodiversity goal to be 0 when 75% species are extinct, a level comparable to the five documented mass extinctions and would constitute a catastrophic loss of biodiversity. The Status of assessed species was calculated as the area- and threat status-weighted average of the number of threatened species within each 0.5 degree grid cell.
-
-$$Y_{cell} = \frac{\displaystyle\sum_{species}(Risk)}{n_{spp}}$$
-
-$$Y_{SPP} = \frac{\displaystyle\sum_{cells}(Y_{cell} * A_{cell} * pA_{cell-rgn})}{A_{rgn}}$$
-
-$$X_{SPP} = \frac{((1 - Y_{SPP}) - 0.25)}{(1 - 0.25)} * 100%$$
-
-where:
-
-* $X_{SPP}$ is Species goal status
-* $Y_{cell}$ is mean extinction risk for one cell
-* $Y_{SPP}$ is area-weighted mean extinction risk for a region
-* $A_{cell}$ is cell area
-* $pA_{cell-rgn}$ is percent of cell area included in region
-* *Risk* is scaled value for species extinction risk category, based on: 
-    * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
-* SPP trend is calculated in a similar area-weighted mean, but population trend values are assigned according to:
-    * 'Decreasing' = -0.5, 'Stable' = 0.0, 'Increasing' = +0.5
+From the region-level summaries of extinction risk and population trend, we calculate regional status and trend scores.  
 
 ``` {r save status and trend, echo = FALSE, message = FALSE, warning = FALSE}
 
