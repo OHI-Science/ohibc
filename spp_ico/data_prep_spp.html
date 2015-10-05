@@ -71,6 +71,7 @@ img {
 
 <div id="TOC">
 <ul>
+<li><a href="#ohibc-species-subgoal-biodiversity">OHIBC Species Subgoal (Biodiversity)</a><ul>
 <li><a href="#data-sources">Data sources</a></li>
 <li><a href="#load-species-lookup-table">Load species lookup table</a></li>
 <li><a href="#append-bc-specific-species-risk-assessment-codes">Append BC-specific species risk assessment codes</a></li>
@@ -89,21 +90,62 @@ img {
 </ul></li>
 <li><a href="#plot-map-of-status-by-region">Plot map of status by region</a></li>
 <li><a href="#summarize-mean-categorytrend-within-3-nm-of-shore">Summarize mean category/trend within 3 nm of shore</a></li>
+</ul></li>
 </ul>
 </div>
 
-<p><em>Compiled on Fri Oct 2 17:03:49 2015</em></p>
+<p><em>Compiled on Mon Oct 5 12:13:02 2015</em></p>
+<div id="ohibc-species-subgoal-biodiversity" class="section level1">
+<h1>OHIBC Species Subgoal (Biodiversity)</h1>
+<p>This script prepares scores (status and trend) for species richness in British Columbia’s coastal regions. Spatial data from IUCN and Aquamaps is combined with extinction risk information from IUCN and conservation rank info based on NatureServe categories.</p>
+<p>Currently, the Species Richness sub-goal model is identical to the OHI Global model: a region’s status is based upon an area-weighted average of species health across each BC reporting region.</p>
+<p>From Halpern et al (2012):</p>
+<blockquote>
+<p>The target for the Species sub-goal is to have all species at a risk status of Least Concern. We scaled the lower end of the biodiversity goal to be 0 when 75% species are extinct, a level comparable to the five documented mass extinctions and would constitute a catastrophic loss of biodiversity. The Status of assessed species was calculated as the area- and threat status-weighted average of the number of threatened species within each 0.5 degree grid cell.</p>
+</blockquote>
+<p><span class="math">\[Y_{cell} = \frac{\displaystyle\sum_{species}(Risk)}{n_{spp}}\]</span></p>
+<p><span class="math">\[Y_{SPP} = \frac{\displaystyle\sum_{cells}(Y_{cell} * A_{cell} * pA_{cell-rgn})}{A_{rgn}}\]</span></p>
+<p><span class="math">\[X_{SPP} = \frac{((1 - Y_{SPP}) - 0.25)}{(1 - 0.25)} * 100%\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math">\(X_{SPP}\)</span> is Species goal status</li>
+<li><span class="math">\(Y_{cell}\)</span> is mean extinction risk for one cell</li>
+<li><span class="math">\(Y_{SPP}\)</span> is area-weighted mean extinction risk for a region</li>
+<li><span class="math">\(A_{cell}\)</span> is cell area</li>
+<li><span class="math">\(pA_{cell-rgn}\)</span> is percent of cell area included in region</li>
+<li><em>Risk</em> is scaled value for species extinction risk category, based on:
+<ul>
+<li>‘LC’ = 0.0, ‘NT’ = 0.2, ‘VU’ = 0.4, ‘EN’ = 0.6, ‘CR’ = 0.8, ‘EX’ = 1.0</li>
+</ul></li>
+<li>SPP trend is calculated in a similar area-weighted mean, but population trend values are assigned according to:
+<ul>
+<li>‘Decreasing’ = -0.5, ‘Stable’ = 0.0, ‘Increasing’ = +0.5</li>
+</ul></li>
+</ul>
 <div id="data-sources" class="section level2">
 <h2>Data sources</h2>
 <p>AquaMaps: <citation></p>
-<p>description</p>
+<ul>
+<li>From <a href="http://www.aquamaps.org/main/home.php" class="uri">http://www.aquamaps.org/main/home.php</a>: “AquaMaps are computer-generated predictions of natural occurrence of marine species, based on the environmental tolerance of a given species with respect to depth, salinity, temperature, primary productivity, and its association with sea ice or coastal areas.”</li>
+<li>Citation: Kaschner, K., J. Rius-Barile, K. Kesner-Reyes, C.Garilao, S.O. Kullander, T. Rees and R. Froese (2013). AquaMaps: Predicted range maps for aquatic species. World wide web electronic publication, www.aquamaps.org, Version 08/2013.</li>
+</ul>
 <p>IUCN Red List spatial data: species range map shapefiles</p>
 <ul>
-<li>Shapefiles downloaded from: <a href="http://www.iucnredlist.org/technical-documents/spatial-data" class="uri">http://www.iucnredlist.org/technical-documents/spatial-data</a></li>
+<li>Species range map shapefiles downloaded from: <a href="http://www.iucnredlist.org/technical-documents/spatial-data" class="uri">http://www.iucnredlist.org/technical-documents/spatial-data</a></li>
 <li>Citation: IUCN 2014. The IUCN Red List of Threatened Species. Version 2014.1. <a href="http://www.iucnredlist.org" class="uri">http://www.iucnredlist.org</a>. Downloaded on 21 September 2015.</li>
 </ul>
-<p>IUCN Red List species index: list of all IUCN red list species, incl IUCN species ID and extinction risk category * Index .csv downloaded from: <a href="http://api.iucnredlist.org/index/all.csv" class="uri">http://api.iucnredlist.org/index/all.csv</a> * Habitat and subpopulation information, by species, scraped from: <a href="http://www.iucnredlist.org/details/" class="uri">http://www.iucnredlist.org/details/</a><species ID>/0 * Citation: IUCN 2015. The IUCN Red List of Threatened Species. Version 2015-3. <a href="http://www.iucnredlist.org" class="uri">http://www.iucnredlist.org</a>. Downloaded on 9 September 2015.</p>
-<p>BC Species and Ecosystems Explorer: <citation> main site: <a href="http://www.env.gov.bc.ca/atrisk/toolintro.html" class="uri">http://www.env.gov.bc.ca/atrisk/toolintro.html</a> global, national, state/province assessment: <a href="http://explorer.natureserve.org/ranking.htm#global" class="uri">http://explorer.natureserve.org/ranking.htm#global</a></p>
+<p>IUCN Red List species index: list of all IUCN red list species, incl IUCN species ID and extinction risk category</p>
+<ul>
+<li>Extinction risk categories downloaded from: <a href="http://api.iucnredlist.org/index/all.csv" class="uri">http://api.iucnredlist.org/index/all.csv</a></li>
+<li>Habitat and subpopulation information, by species, scraped from: <a href="http://www.iucnredlist.org/details/" class="uri">http://www.iucnredlist.org/details/</a><species ID>/0</li>
+<li>Citation: IUCN 2015. The IUCN Red List of Threatened Species. Version 2015-3. <a href="http://www.iucnredlist.org" class="uri">http://www.iucnredlist.org</a>. Downloaded on 9 September 2015.</li>
+</ul>
+<p>NatureServe/BC CDC conservation rank info from BC Species and Ecosystems Explorer:</p>
+<ul>
+<li>main site: <a href="http://www.env.gov.bc.ca/atrisk/toolintro.html" class="uri">http://www.env.gov.bc.ca/atrisk/toolintro.html</a></li>
+<li>global, national, state/province assessment: <a href="http://explorer.natureserve.org/ranking.htm#global" class="uri">http://explorer.natureserve.org/ranking.htm#global</a></li>
+<li><strong><em><citation needed></em></strong></li>
+</ul>
 </div>
 <div id="load-species-lookup-table" class="section level2">
 <h2>Load species lookup table</h2>
@@ -598,30 +640,7 @@ spp_all_bcsee &lt;-<span class="st"> </span>spp_all %&gt;%
 </div>
 <div id="create-final-output-files" class="section level2">
 <h2>Create final output files</h2>
-<p>From the region-level summaries of extinction risk and population trend, we calculate regional status and trend scores. Currently, the Species Richness sub-goal model is identical to the OHI Global model: a region’s status is based upon an area-weighted average of IUCN extinction risk.</p>
-<p>From Halpern et al (2012):</p>
-<blockquote>
-<p>The target for the Species sub-goal is to have all species at a risk status of Least Concern. We scaled the lower end of the biodiversity goal to be 0 when 75% species are extinct, a level comparable to the five documented mass extinctions and would constitute a catastrophic loss of biodiversity. The Status of assessed species was calculated as the area- and threat status-weighted average of the number of threatened species within each 0.5 degree grid cell.</p>
-</blockquote>
-<p><span class="math">\[Y_{cell} = \frac{\displaystyle\sum_{species}(Risk)}{n_{spp}}\]</span></p>
-<p><span class="math">\[Y_{SPP} = \frac{\displaystyle\sum_{cells}(Y_{cell} * A_{cell} * pA_{cell-rgn})}{A_{rgn}}\]</span></p>
-<p><span class="math">\[X_{SPP} = \frac{((1 - Y_{SPP}) - 0.25)}{(1 - 0.25)} * 100%\]</span></p>
-<p>where:</p>
-<ul>
-<li><span class="math">\(X_{SPP}\)</span> is Species goal status</li>
-<li><span class="math">\(Y_{cell}\)</span> is mean extinction risk for one cell</li>
-<li><span class="math">\(Y_{SPP}\)</span> is area-weighted mean extinction risk for a region</li>
-<li><span class="math">\(A_{cell}\)</span> is cell area</li>
-<li><span class="math">\(pA_{cell-rgn}\)</span> is percent of cell area included in region</li>
-<li><em>Risk</em> is scaled value for species extinction risk category, based on:
-<ul>
-<li>‘LC’ = 0.0, ‘NT’ = 0.2, ‘VU’ = 0.4, ‘EN’ = 0.6, ‘CR’ = 0.8, ‘EX’ = 1.0</li>
-</ul></li>
-<li>SPP trend is calculated in a similar area-weighted mean, but population trend values are assigned according to:
-<ul>
-<li>‘Decreasing’ = -0.5, ‘Stable’ = 0.0, ‘Increasing’ = +0.5</li>
-</ul></li>
-</ul>
+<p>From the region-level summaries of extinction risk and population trend, we calculate regional status and trend scores.</p>
 <pre><code>## Writing SPP status and trend based only on IUCN categories to:
 ##   ~/github/ohibc/spp_ico/v2016/data/spp_status.csv
 ##   ~/github/ohibc/spp_ico/v2016/data/spp_trend.csv</code></pre>
@@ -645,8 +664,8 @@ spp_all_bcsee &lt;-<span class="st"> </span>spp_all %&gt;%
 <th align="center">score</th>
 <th align="left">rgn_name</th>
 <th align="center">rgn_code</th>
-<th align="center">area_km2</th>
-<th align="left">area_hec</th>
+<th align="right">area_km2</th>
+<th align="right">area_hec</th>
 </tr>
 </thead>
 <tbody>
@@ -655,64 +674,64 @@ spp_all_bcsee &lt;-<span class="st"> </span>spp_all %&gt;%
 <td align="center">81.86058</td>
 <td align="left">North Coast</td>
 <td align="center">NC</td>
-<td align="center">17519.937</td>
-<td align="left">1751993.7</td>
+<td align="right">17519.937</td>
+<td align="right">1751993.7</td>
 </tr>
 <tr class="even">
 <td align="center">2</td>
 <td align="center">81.73314</td>
 <td align="left">Haida Gwaii</td>
 <td align="center">HG</td>
-<td align="center">46053.741</td>
-<td align="left">4605374.1</td>
+<td align="right">46053.741</td>
+<td align="right">4605374.1</td>
 </tr>
 <tr class="odd">
 <td align="center">3</td>
 <td align="center">81.13680</td>
 <td align="left">Central Coast</td>
 <td align="center">CC</td>
-<td align="center">20517.013</td>
-<td align="left">2051701.3</td>
+<td align="right">20517.013</td>
+<td align="right">2051701.3</td>
 </tr>
 <tr class="even">
 <td align="center">4</td>
 <td align="center">81.77123</td>
 <td align="left">North Vancouver Island</td>
 <td align="center">NV</td>
-<td align="center">13731.589</td>
-<td align="left">1373158.9</td>
+<td align="right">13731.589</td>
+<td align="right">1373158.9</td>
 </tr>
 <tr class="odd">
 <td align="center">5</td>
 <td align="center">80.19317</td>
 <td align="left">West Vancouver Island</td>
 <td align="center">WV</td>
-<td align="center">28162.407</td>
-<td align="left">2816240.7</td>
+<td align="right">28162.407</td>
+<td align="right">2816240.7</td>
 </tr>
 <tr class="even">
 <td align="center">6</td>
 <td align="center">80.49150</td>
 <td align="left">Strait of Georgia</td>
 <td align="center">SG</td>
-<td align="center">8159.221</td>
-<td align="left">815922.1</td>
+<td align="right">8159.221</td>
+<td align="right">815922.1</td>
 </tr>
 <tr class="odd">
 <td align="center">7</td>
 <td align="center">74.70453</td>
 <td align="left">Pacific Offshore</td>
 <td align="center">PO</td>
-<td align="center">315888.121</td>
-<td align="left">31588812.1</td>
+<td align="right">315888.121</td>
+<td align="right">31588812.1</td>
 </tr>
 <tr class="even">
 <td align="center">8</td>
 <td align="center">81.11527</td>
 <td align="left">Aristazabal Island</td>
 <td align="center">AZ</td>
-<td align="center">3210.948</td>
-<td align="left">321094.8</td>
+<td align="right">3210.948</td>
+<td align="right">321094.8</td>
 </tr>
 </tbody>
 </table>
@@ -725,8 +744,8 @@ spp_all_bcsee &lt;-<span class="st"> </span>spp_all %&gt;%
 <th align="center">score</th>
 <th align="left">rgn_name</th>
 <th align="center">rgn_code</th>
-<th align="center">area_km2</th>
-<th align="left">area_hec</th>
+<th align="right">area_km2</th>
+<th align="right">area_hec</th>
 </tr>
 </thead>
 <tbody>
@@ -735,64 +754,64 @@ spp_all_bcsee &lt;-<span class="st"> </span>spp_all %&gt;%
 <td align="center">-0.1146363</td>
 <td align="left">North Coast</td>
 <td align="center">NC</td>
-<td align="center">17519.937</td>
-<td align="left">1751993.7</td>
+<td align="right">17519.937</td>
+<td align="right">1751993.7</td>
 </tr>
 <tr class="even">
 <td align="center">2</td>
 <td align="center">-0.1026346</td>
 <td align="left">Haida Gwaii</td>
 <td align="center">HG</td>
-<td align="center">46053.741</td>
-<td align="left">4605374.1</td>
+<td align="right">46053.741</td>
+<td align="right">4605374.1</td>
 </tr>
 <tr class="odd">
 <td align="center">3</td>
 <td align="center">-0.1006650</td>
 <td align="left">Central Coast</td>
 <td align="center">CC</td>
-<td align="center">20517.013</td>
-<td align="left">2051701.3</td>
+<td align="right">20517.013</td>
+<td align="right">2051701.3</td>
 </tr>
 <tr class="even">
 <td align="center">4</td>
 <td align="center">-0.1063329</td>
 <td align="left">North Vancouver Island</td>
 <td align="center">NV</td>
-<td align="center">13731.589</td>
-<td align="left">1373158.9</td>
+<td align="right">13731.589</td>
+<td align="right">1373158.9</td>
 </tr>
 <tr class="odd">
 <td align="center">5</td>
 <td align="center">-0.0986942</td>
 <td align="left">West Vancouver Island</td>
 <td align="center">WV</td>
-<td align="center">28162.407</td>
-<td align="left">2816240.7</td>
+<td align="right">28162.407</td>
+<td align="right">2816240.7</td>
 </tr>
 <tr class="even">
 <td align="center">6</td>
 <td align="center">-0.0905617</td>
 <td align="left">Strait of Georgia</td>
 <td align="center">SG</td>
-<td align="center">8159.221</td>
-<td align="left">815922.1</td>
+<td align="right">8159.221</td>
+<td align="right">815922.1</td>
 </tr>
 <tr class="odd">
 <td align="center">7</td>
 <td align="center">-0.1194893</td>
 <td align="left">Pacific Offshore</td>
 <td align="center">PO</td>
-<td align="center">315888.121</td>
-<td align="left">31588812.1</td>
+<td align="right">315888.121</td>
+<td align="right">31588812.1</td>
 </tr>
 <tr class="even">
 <td align="center">8</td>
 <td align="center">-0.1081377</td>
 <td align="left">Aristazabal Island</td>
 <td align="center">AZ</td>
-<td align="center">3210.948</td>
-<td align="left">321094.8</td>
+<td align="right">3210.948</td>
+<td align="right">321094.8</td>
 </tr>
 </tbody>
 </table>
@@ -816,6 +835,7 @@ spp_all_bcsee &lt;-<span class="st"> </span>spp_all %&gt;%
 <pre><code>## Writing SPP status and trend for 3nm regions to:
 ##   ~/github/ohibc/spp_ico/v2016/data/spp_status_3nm.csv
 ##   ~/github/ohibc/spp_ico/v2016/data/spp_trend_3nm.csv</code></pre>
+</div>
 </div>
 
 
