@@ -56,7 +56,7 @@ library(DT)
 #### Comparing global Natureserve assessment to IUCN assessment:
 
 ``` {r compare Natureserve to IUCN1, echo = FALSE, message = FALSE, warning = FALSE}
-spp_global_file <- file.path(dir_anx_global, '/v2015/intermediate/spp_all.csv')
+spp_global_file <- file.path(dir_anx_global, 'v2015/intermediate/spp_all.csv')
 spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
 git_prov(spp_global_file)
 
@@ -72,7 +72,7 @@ spp_natureserve <- spp_all %>%
 
 ``` {r compare Natureserve to IUCN2, echo = FALSE, message = FALSE, warning = FALSE, fig.align = 'center', fig.width = 6, fig.height = 4}
 
-mdl <- lm(category_score ~ status_gl_score, data = spp_natureserve)
+mdl <- lm(status_gl_score ~ category_score, data = spp_natureserve)
 
 ns_v_iucn <- ggplot(data = spp_natureserve, aes(x = category_score, y = status_gl_score)) +
   theme(text = element_text(family = 'Helvetica', color = 'gray30', size = 9),
@@ -95,7 +95,7 @@ R^2^ = `r summary(mdl)$r.squared`
 
 ``` {r compare Natureserve to IUCN3, echo = FALSE, message = FALSE, warning = FALSE, fig.align = 'center', fig.width = 6, fig.height = 4}
 
-mdl <- lm(category_score ~ status_pr_score, data = spp_natureserve)
+mdl <- lm(status_pr_score ~ category_score, data = spp_natureserve)
 
 ns_v_iucn <- ggplot(data = spp_natureserve, aes(x = category_score, y = status_pr_score)) +
   theme(text = element_text(family = 'Helvetica', color = 'gray30', size = 10),
