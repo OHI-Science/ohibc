@@ -11,6 +11,8 @@ output:
 
 ``` {r setup, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 source('R/common.R')
+# install.packages('DT')
+# library(DT)
 ```
 
 Each of the following examples runs almost identical code, but presents it in a different way, depending on the needs of the coder and the reader.
@@ -79,7 +81,11 @@ planet_df <- planet_df %>%
   mutate(au = radius/r_earth,
          insol = insol_earth/(au^2))
 
-print(planet_df)
+knitr::kable(planet_df, caption = 'Planetary orbits and insolation')
+
+# install.packages('DT')
+# library(DT)
+# DT::datatable(planet_df, caption = 'Planetary orbits and insolation')
 ```
 
 According to the analysis, insolation on Mars is `r round(planet_df$insol[4], 3)` W m^2^, about `r round(planet_df$insol[4]/insol_earth*100)`% that on Earth.
