@@ -31,7 +31,8 @@ p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +la
               'EPSG:4326 WGS 84'          = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
 p4s_bcalb <- p4s_opts[1]
 ```
-*Compiled on `r date()`*
+
+*Compiled on `r date()` by `r Sys.info()['user']`*
 
 # OHIBC Species Subgoal (Biodiversity)
 
@@ -86,10 +87,12 @@ IUCN Red List species index: list of all IUCN red list species, incl IUCN specie
 
 NatureServe/BC CDC conservation rank info from BC Species and Ecosystems Explorer: 
 
-* main site: http://www.env.gov.bc.ca/atrisk/toolintro.html
-* global, national, state/province assessment: http://explorer.natureserve.org/ranking.htm#global
-* ___<citation needed>___
+* BC Conservation Data Centre: http://www.env.gov.bc.ca/atrisk/toolintro.html
+* NatureServe conservation status: http://explorer.natureserve.org/ranking.htm#global
+* Citation: B.C. Conservation Data Centre. 2013. BC Species and Ecosystems Explorer. B.C. Ministry of Environment, Victoria B.C. Available: <http://a100.gov.bc.ca/pub/eswp/>.  Downloaded on 3 August 2015.
 
+
+-----
 
 ## Load species lookup table
 
@@ -111,12 +114,15 @@ Currently this uses the global species lookup table. How this list is generated 
     * Identify parent/subpopulations and aliases within `spatial_source` field.
 
 ``` {r read global species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-spp_global_file <- file.path(dir_anx_global, '/v2015/intermediate/spp_all.csv')
+spp_global_file <- file.path(dir_anx_global, 'v2015/intermediate/spp_all.csv')
 spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
-git_prov(spp_global_file)
+```
 
-cat('\nVariables in spp_all:\n')
-names(spp_all)
+* *`r git_prov(spp_global_file)`*
+
+Variables in `spp_all`: `r paste(names(spp_all), collapse = ' | ')`
+
+``` {r print global species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 knitr::kable(head(spp_all %>% 
                     select(sciname, am_sid, iucn_sid, popn_trend, popn_category, spatial_source)),
              align = c('c', 'c', 'c', 'c', 'c', 'c'),
@@ -145,6 +151,7 @@ spp_all_bcsee <- spp_all %>%
 
 ```
 
+-----
 
 ## Define assessment regions 
 
@@ -159,7 +166,6 @@ rgn_lyr <- 'ohibc_rgn_wgs84'
 cat(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
 poly_bc_rgn <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
                        verbose = FALSE, stringsAsFactors = FALSE)
-git_prov(sprintf('%s/%s.shp', dir_rgn, rgn_lyr))
 
 rgn_p4s <- proj4string(poly_bc_rgn)
 names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
@@ -170,6 +176,8 @@ rgn2cell_list <- spp_rgn2cell(poly_bc_rgn, reload  = FALSE)
 rgn2cell_df      <- rgn2cell_list[[1]]
 loiczid_rast     <- rgn2cell_list[[2]]
 ```
+
+* *`r git_prov(sprintf('%s/%s.shp', dir_rgn, rgn_lyr))`*
 
 ### Map of region ID per cell
 
@@ -189,6 +197,8 @@ spp_plot_raster(rgn2cell_clean, loiczid_rast, which_id = 'rgn_id',
 
 
 ```
+
+-----
 
 ## Generate species per cell tables for Aquamaps and IUCN
 
@@ -305,6 +315,8 @@ spp_plot_raster(as.data.frame(sum_by_cell_bcsee), loiczid_rast,
 
 ```
 
+-----
+
 ## Create final output files
 
 From the region-level summaries of extinction risk and population trend, we calculate regional status and trend scores.  
@@ -395,18 +407,23 @@ poly_plot_scores(spp_trend, scale_label = 'SPP Trend', title = 'OHIBC SPP Trend'
 
 ```
 
+-----
+
 ## Summarize mean category/trend within 3 nm of shore
 
 Create final outputs for 3nm zone for resilience calculations
 
-``` {r calc 3nm SPP values, eval = TRUE, echo = FALSE, message = FALSE}
+``` {r read 3nm shapefile, eval = TRUE, echo = FALSE, message = FALSE}
 ### Read in OHIBC 3nm offshore polygons, in WGS84 CRS
 rgn_lyr <- 'ohibc_offshore_3nm_wgs84'
 cat(sprintf('Reading OHIBC 3nm offshore regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
 poly_bc_3nm <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
                        verbose = FALSE, stringsAsFactors = FALSE)
+```
 
-git_prov(sprintf('%s/%s.shp', dir_rgn, rgn_lyr))
+* *`r git_prov(sprintf('%s/%s.shp', dir_rgn, rgn_lyr))`*
+
+``` {r calc 3nm SPP status and trend, eval = TRUE, echo = FALSE, message = FALSE}
 
 rgn_p4s <- proj4string(poly_bc_3nm)
 names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
@@ -428,3 +445,22 @@ write_csv(spp_status_3nm, file.path(dir_git, scenario, 'data/spp_status_3nm.csv'
 write_csv(spp_trend_3nm,  file.path(dir_git, scenario, 'data/spp_trend_3nm.csv'))
 
 ```
+
+-----
+
+# Provenance tracking
+
+``` {r provenance info, echo = FALSE}
+### must source 'R/common.R' for script_prov() function.
+
+this_script_file <- file.path(dir_git, 'data_prep_spp.Rmd')
+```
+
+* *System info:*
+    * *`r x <- script_prov(this_script_file); x$msg_sys`*
+* *Session info:*
+    * *`r x$msg_ses`*
+    * *`r x$msg_base_pcks`*
+    * *`r x$msg_att_pcks`*
+* *Git commit info:*
+    * *`r x$msg_git`*
