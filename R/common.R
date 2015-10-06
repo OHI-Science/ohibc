@@ -31,12 +31,34 @@ git_prov <- function(git_file) {
 ### version of a given file.
   suppressWarnings({
     git_info <- system(sprintf('git log --follow %s', git_file), intern = TRUE, ignore.stderr = TRUE)[1:3]
+    git_loc  <- system(sprintf('git config --get remote.origin.url'), intern = TRUE, ignore.stderr = TRUE)
+    git_commit_url <- sprintf('%s/commit/%s', sub('.git', '', git_loc, fixed = TRUE), gsub('commit ', '', git_info[1]))
   })
   if(is.na(git_info[1])) {
-    cat(sprintf('File %s: \n  git commit info unavailable.  Not version-tracked in Git?\n', git_file))
+    msg_git <- sprintf('File `%s`: git commit info unavailable.  Not version-tracked in Git?', git_file)
   } else {
-    cat(sprintf('File %s most recent commit info:\n', git_file))
-    cat(sprintf('  %s\n', git_info))
+    ### convert commit info to a hyperlinked commit info string.
+    git_info[1] <- sprintf('commit [%s](%s)', gsub('commit ', '', git_info[1]), git_commit_url)
+    msg_git <- sprintf('File `%s`: most recent commit info: %s', git_file, paste(git_info, collapse = '; '))
   }
-  return(invisible(git_info))
+  return(msg_git)
+}
+
+script_prov <- function(script_file_name) {
+  sys <- Sys.info()
+  ses <- sessionInfo()
+  
+  msg_sys <- sprintf('System: %s, Release: %s. Machine: %s. User: %s.', sys['sysname'], sys['release'], sys['machine'], sys['user'])
+  msg_ses <- sprintf('R version: %s, Platform: %s, Running under: %s.', 
+                     ses$R.version$version.string, ses$R.version$platform, ses$running)
+  msg_base_pcks <- sprintf('Attached base packages: %s', paste(ses$basePkgs, 
+                                                               collapse = ', '))
+  msg_att_pcks <- sprintf('Other attached packages: %s', paste(sapply(ses$otherPkgs, 
+                                                                      function(x) paste(x$Package, x$Version, sep = '_')), 
+                                                               collapse = ', '))
+  ### Gather git info using system calls.  Convert commit # and remote origin url into a url for that commit.
+  msg_git <- git_prov(script_file_name)
+  
+  ### Return all message strings within a named list for convenient reference.
+  return(list('msg_sys' = msg_sys, 'msg_ses' = msg_ses, 'msg_git' = msg_git, 'msg_base_pcks' = msg_base_pcks, 'msg_att_pcks' = msg_att_pcks))
 }
