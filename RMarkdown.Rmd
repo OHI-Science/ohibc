@@ -1,12 +1,16 @@
 ---
-title: "R Markdown workshop"
+title: "RMarkdown workshop"
 author: "JA, CCO"
 date: "October 12, 2015"
-output: 
-  html_document:
-    toc: true
-    theme: spacelab
+output:
+  pdf_document:
     highlight: haddock
+    theme: spacelab
+    toc: yes
+  html_document:
+    highlight: haddock
+    theme: spacelab
+    toc: yes
 ---
 
 ``` {r setup, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
@@ -119,7 +123,7 @@ Next comes the code; then the code block ends with a triple backtick on its own 
 
 The `{r}` is the code chunk header, and can be modified in helpful ways.
 
-* The text after the `r` but before a comma becomes the name of the code chunk.  The name appears in the list of sections in the R Studio script editing pane, so you can navigate right to the code chunk of your choice.
+* The text after the `r` but before a comma becomes the name of the code chunk.  The name appears in the list of sections in the RStudio script editing pane, so you can navigate right to the code chunk of your choice.
     * e.g. `` ``` {r chunk name goes here} ``
 * Code chunk options can be added to the header, to control how the code chunk is executed and knitted.  Code chunk options are separated by commas.
     * e.g. `` ``` {r chunk name, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}``
@@ -130,17 +134,17 @@ The `{r}` is the code chunk header, and can be modified in helpful ways.
 * You can skip the name and go straight to the options, if you like, just use a comma after the `r`:
     * e.g. `` ``` {r, echo = FALSE} ``
 
-More code chunk options can be found on the [R Markdown reference sheet](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf), or at http://rmarkdown.rstudio.com/authoring_rcodechunks.html.  Some of these are also shown later in this document.
+More code chunk options can be found on the [RMarkdown reference sheet](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf), or at http://rmarkdown.rstudio.com/authoring_rcodechunks.html.  Some of these are also shown later in this document.
 
 ## Knitting and previewing .Rmd
 
-Once your .Rmd is done, you can try to knit it.  At the top of the script editing pane in R Studio, you'll see an option to "Knit HTML" (or maybe "Knit PDF" or other formats).  That kicks in the `knitr` library to interpret your .Rmd code, and save it as a new file in the same directory as your .Rmd, with the same base name, and a new extension.
+Once your .Rmd is done, you can try to knit it.  At the top of the script editing pane in RStudio, you'll see an option to "Knit HTML" (or maybe "Knit PDF" or other formats).  That kicks in the `knitr` library to interpret your .Rmd code, and save it as a new file in the same directory as your .Rmd, with the same base name, and a new extension.
 
-If your code has errors, you'll see the error reported in the R Markdown pane in R Studio.  Otherwise, you can track the progress of the knitting, and see the resulting document.
+If your code has errors, you'll see the error reported in the RMarkdown pane in RStudio.  Otherwise, you can track the progress of the knitting, and see the resulting document.
 
 ### Previewing .html on GitHub
 
-R Studio can't display .html, but if you click on the file in the files pane, it gives you an option to open in a web browser.
+RStudio can't display .html, but if you click on the file in the files pane, it gives you an option to open in a web browser.
 
 GitHub also can't display .html.  But once you commit and push your .html to GitHub, you can preview it by following these steps:
 
@@ -154,7 +158,7 @@ GitHub also can't display .html.  But once you commit and push your .html to Git
     * Assuming you don't change the file name, every time you re-knit, re-commit, and re-push your .Rmd and .html, this link will still be live and point to the most recent version.
 
 
-## Common issues in R Markdown
+## Common issues in RMarkdown
 
 #### `setwd()`: don't do it!
 
@@ -219,7 +223,7 @@ For other options for formatted tables, see `pander` or `xtable` packages.  More
 
 #### Interactive tables! woo!
 
-The `DT` package offers a function `datatable()` (not to be confused with the `data.table` package and function...) that makes for easy creation of interactive tables in R Markdown.  It essentially embeds JavaScript code in the output HTML that adds the interactivity.  Sorting by column is standard; this example adds a filter option too.
+The `DT` package offers a function `datatable()` (not to be confused with the `data.table` package and function...) that makes for easy creation of interactive tables in RMarkdown.  It essentially embeds JavaScript code in the output HTML that adds the interactivity.  Sorting by column is standard; this example adds a filter option too.
 
 ``` {r}
 # install.packages('DT')
@@ -235,16 +239,20 @@ datatable(sq_num2,
 
 ```
 
-caching - globally and by chunk
 
-  - Themes
-  - Set Knit Options
-  - Knitchild??? (knitting multiple Rmd together)
+* caching - globally and by chunk
+* equations using LaTeX
+* Themes
+* Set Knit Options
+* Knitchild??? (knitting multiple Rmd together) (Gavin)
+* Atom (side by side with code) and eval = FALSE for quicker knitting
+* start with blank .Rmd (new file) and knit it - what are the differences?
+
+* what to load: what packages to install, Atom (optional text editor), put it in the repository for githubbing
+* fix the common.R so it doesn't load Neptune
   
-  
-  For the actual script I think we need at least:
-    
-  - 1 image
-  - a couple plots
-  - 4-6 code chunks?
-  
+PDF: Deal with this shit ahead of time - have people download this ahead of time
+*  Windows: MiKTeX (Complete) - http://miktex.org/2.9/setup
+*  (NOTE: Be sure to download the Complete rather than Basic installation)
+*  Mac OS X: TexLive 2013 (Full) - http://tug.org/mactex/
+*  (NOTE: Download with Safari rather than Chrome _strongly_ recommended)
