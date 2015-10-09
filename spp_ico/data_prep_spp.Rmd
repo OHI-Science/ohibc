@@ -15,6 +15,7 @@ library(raster)
 library(data.table)
 
 source('~/github/ohibc/R/common.R')  ### an OHIBC specific version of common.R
+
 source('~/github/ohibc/R/poly_plot_scores.R')
 dir_anx <- file.path(dir_neptune_data, 'git-annex/bcprep') ### git-annex: goal-specific large files
 dir_anx_global <- file.path(dir_neptune_data, 'git-annex/globalprep/SPP_ICO')
@@ -22,6 +23,11 @@ dir_git <- '~/github/ohibc/spp_ico'
 dir_rgn <- '~/github/ohibc/regions'  ### github: general buffer region shapefiles
 
 scenario <- 'v2016'
+
+source('~/github/ohibc/R/prov.R')      
+  ### Provenance tracking functions: must source at start to initialize prov_track
+dir_prov <- file.path(dir_git, 'prov') 
+  ### set a provenance folder for this script
 
 source(file.path(dir_git, 'R/spp_fxn.R'))
 
@@ -148,6 +154,8 @@ spp_all_bcsee <- spp_all %>%
 # spp_all_bcsee <- spp_all %>%
 #   mutate(category_score = ifelse(!is.na(status_gl_score), status_gl_score, category_score),
 #          category_score = ifelse(!is.na(status_pr_score), status_pr_score, category_score))
+
+write_csv(spp_all_bcsee, file.path(dir_git, scenario, 'int/spp_all_bcsee.csv'))
 
 ```
 
@@ -344,8 +352,8 @@ cat(sprintf('Writing SPP status and trend based on IUCN & BCSEE categories to:\n
             file.path(dir_git, scenario, 'data/spp_status_bcsee.csv'),
             file.path(dir_git, scenario, 'data/spp_trend_bcsee.csv')))
 
-write_csv(spp_status, file.path(dir_git, scenario, 'data/spp_status_bcsee.csv'))
-write_csv(spp_trend,  file.path(dir_git, scenario, 'data/spp_trend_bcsee.csv'))
+write_csv(spp_status_bcsee, file.path(dir_git, scenario, 'data/spp_status_bcsee.csv'))
+write_csv(spp_trend_bcsee,  file.path(dir_git, scenario, 'data/spp_trend_bcsee.csv'))
 
 ```
 
@@ -380,30 +388,22 @@ print(status_compare_plot)
 
 ## Plot map of status by region
 
-While the tables show status and trend for both iterations (IUCN rankings only and IUCN + NatureServe rankings), these status and trend plots show only the original version (IUCN rankings only)
+While the table shows status for both iterations (IUCN rankings only and IUCN + NatureServe rankings), the status plot shows only the BC-specific version (IUCN + NatureServe rankings).  Currently no trend information is taken from NatureServe, so trend is based entirely on IUCN rankings.
 
 ``` {r plot scores as polygons, echo = FALSE, message = FALSE, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
 
-status_df <- spp_status %>%
-  rename(iucn_score = score) %>%
-  full_join(spp_status_bcsee %>%
-              rename(bcsee_score = score),
-            by = 'rgn_id') %>%
-  full_join(poly_bc_rgn@data, by = 'rgn_id')
-
-knitr::kable(spp_status %>%
-  full_join(poly_bc_rgn@data, by = 'rgn_id'),
+knitr::kable(status_df,
   align = c('c', 'c', 'l', 'c', 'r', 'r'),
-  caption = 'SPP Status by region:')
+  caption = 'SPP Status by region, IUCN & NatureServe rankings:')
 
-poly_plot_scores(spp_status, scale_label = 'SPP Status', title = 'OHIBC SPP Status')
+poly_plot_scores(spp_status_bcsee, scale_label = 'SPP Status', title = 'OHIBC SPP Status, IUCN + NS ranks')
 
 knitr::kable(spp_trend %>%
   full_join(poly_bc_rgn@data, by = 'rgn_id'),
   align = c('c', 'c', 'l', 'c', 'r', 'r'),
   caption = 'SPP Trend by region:')
 
-poly_plot_scores(spp_trend, scale_label = 'SPP Trend', title = 'OHIBC SPP Trend', scale_limits = c(min(spp_trend$score), 0))
+poly_plot_scores(spp_trend_bcsee, scale_label = 'SPP Trend', title = 'OHIBC SPP Trend', scale_limits = c(min(spp_trend$score), 0))
 
 ```
 
@@ -448,19 +448,31 @@ write_csv(spp_trend_3nm,  file.path(dir_git, scenario, 'data/spp_trend_3nm.csv')
 
 -----
 
-# Provenance tracking
+# Provenance
 
-``` {r provenance info, echo = FALSE}
-### must source 'R/common.R' for script_prov() function.
+``` {r provenance info, echo = FALSE, message = FALSE}
+### At the start of the script, make sure to: 
+### * source 'R/prov.R' for script_prov() and git_prov() functions
+### * identify a dir_prov location (this must happen before script_prov() is called)
 
 this_script_file <- file.path(dir_git, 'data_prep_spp.Rmd')
+x <- script_prov(this_script_file)
 ```
 
+* *Run ID:*
+    * *`r x$run_id`*
 * *System info:*
-    * *`r x <- script_prov(this_script_file); x$msg_sys`*
+    * *`r x$msg_sys`*
 * *Session info:*
     * *`r x$msg_ses`*
     * *`r x$msg_base_pcks`*
     * *`r x$msg_att_pcks`*
 * *Git commit info:*
     * *`r x$msg_git`*
+    
+``` {r echo = FALSE}
+
+knitr::kable(prov_track[ , 1:7],   ### does not display system and session info
+             caption = 'Provenance summary for this run:')
+
+```
