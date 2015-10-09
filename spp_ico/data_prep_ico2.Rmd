@@ -1,5 +1,5 @@
 ---
-title: 'OHIBC: data_prep_spp.Rmd'
+title: 'OHIBC: data_prep_ico.Rmd'
 output: 
   html_document:
     toc: true
@@ -30,17 +30,14 @@ scenario <- 'v2016'
 
 source('~/github/ohibc/R/poly_plot_scores.R')
 source(file.path(dir_git, 'R/spp_fxn.R'))
-# source(file.path(dir_git, 'R/ico_fxn.R'))
 # SPP-specific and ICO-specific functions
 
 source('~/github/ohibc/R/prov.R')      
-### Provenance tracking functions: must source at start to initialize prov_track
+  ### Provenance tracking functions: must source at start to initialize prov_track
 dir_prov <- file.path(dir_git, 'prov') 
-### set a provenance folder for this script
+  ### set a provenance folder for this script
 this_script_file <- file.path(dir_git, 'data_prep_ico.Rmd')
-### set the filename of this script for the provenance functions...
-
-
+  ### set the filename of this script for the provenance functions...
 
 ### set up proj4string options: BC Albers and WGS84
 p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
@@ -212,7 +209,8 @@ ico_bc_cell_rgn <- rbind(iucn_ico_bc, am_ico_bc) %>%
 
 ```
 
-Iconic Species currently identified within British Columbia waters: `r paste(ico_bc_cell_rgn$sciname %>% unique(), collapse = ', ')`.
+Iconic Species currently identified within British Columbia waters: 
+*`r paste(ico_bc_cell_rgn$sciname %>% unique(), collapse = ', ')`*.
 
 ### Map of species count by cell
 
