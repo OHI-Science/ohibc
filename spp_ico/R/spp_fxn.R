@@ -2,9 +2,10 @@
 # created Jun2015 by Casey O'Hara
 # functions to support calculations of the species diversity subgoal
 
-message('NOTE: spp_fxn.R requires that the following variables be set in the global environment (main script):\n')
-message(sprintf('dir_anx_global: currently set to \'%s\'\n', dir_anx_global))
-message(sprintf('scenario:       currently set to \'%s\'\n\n', scenario))
+message('NOTE: spp_fxn.R requires that the following variables be set in the global environment (main script):')
+message(sprintf('dir_anx:  currently set to \'%s\'', dir_anx))
+message(sprintf('dir_anx_global: currently set to \'%s\'', dir_anx_global))
+message(sprintf('scenario:       currently set to \'%s\'\n', scenario))
 
 ##############################################################################=
 spp_rgn2cell <- function(poly_rgn,
