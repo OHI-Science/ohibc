@@ -67,26 +67,165 @@ img {
 </div>
 
 
-<p><em>Compiled on Tue Oct 6 15:17:10 2015 by `r Sys.info()[‘user’]’</em></p>
+<p><em>Compiled on Thu Oct 8 10:37:02 2015 by `r Sys.info()[‘user’]’</em></p>
+<p>read species list</p>
+<pre><code>## [1] &quot;File `/Volumes/data_edit/git-annex/globalprep/SPP_ICO/v2015/intermediate/spp_all.csv`: git commit info unavailable.  Not version-controlled in Git?&quot;</code></pre>
+<pre><code>## [1] &quot;File `~/github/ohibc/regions/ohibc_rgn_wgs84.shp`: most recent commit info: commit [43ad53709c74ebbe2f3a2843b6099620f3062a67](https://github.com/OHI-Science/ohibc/commit/43ad53709c74ebbe2f3a2843b6099620f3062a67) Author: Casey O'Hara &lt;ohara@nceas.ucsb.edu&gt; Date:   Tue Sep 29 12:18:24 2015 -0700&quot;</code></pre>
+<pre><code>## 
+## Variables in spp_all:</code></pre>
+<pre><code>##  [1] &quot;am_sid&quot;         &quot;sciname&quot;        &quot;am_category&quot;    &quot;iucn_sid&quot;      
+##  [5] &quot;iucn_category&quot;  &quot;popn_trend&quot;     &quot;parent_sid&quot;     &quot;subpop_sid&quot;    
+##  [9] &quot;popn_category&quot;  &quot;info_source&quot;    &quot;spp_group&quot;      &quot;id_no&quot;         
+## [13] &quot;spatial_source&quot; &quot;category_score&quot; &quot;trend_score&quot;</code></pre>
+<table>
+<caption>Selection of rows and columns:</caption>
+<thead>
+<tr class="header">
+<th align="center">sciname</th>
+<th align="center">am_sid</th>
+<th align="center">iucn_sid</th>
+<th align="center">popn_trend</th>
+<th align="center">popn_category</th>
+<th align="center">spatial_source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Thymops birsteini</td>
+<td align="center">ITS-552925</td>
+<td align="center">170038</td>
+<td align="center">Unknown</td>
+<td align="center">LC</td>
+<td align="center">iucn</td>
+</tr>
+<tr class="even">
+<td align="center">Limulus polyphemus</td>
+<td align="center">URM-M-1454</td>
+<td align="center">11987</td>
+<td align="center">NA</td>
+<td align="center">NT</td>
+<td align="center">am</td>
+</tr>
+<tr class="odd">
+<td align="center">Auriculastra subula</td>
+<td align="center">AFD-Pul-494</td>
+<td align="center">184918</td>
+<td align="center">Unknown</td>
+<td align="center">LC</td>
+<td align="center">am</td>
+</tr>
+<tr class="even">
+<td align="center">Conus stearnsii</td>
+<td align="center">ITS-567398</td>
+<td align="center">192532</td>
+<td align="center">Unknown</td>
+<td align="center">VU</td>
+<td align="center">iucn</td>
+</tr>
+<tr class="odd">
+<td align="center">Neritina virginea</td>
+<td align="center">ITS-70162</td>
+<td align="center">189436</td>
+<td align="center">Stable</td>
+<td align="center">LC</td>
+<td align="center">am</td>
+</tr>
+<tr class="even">
+<td align="center">Conus vexillum</td>
+<td align="center">ITS-656358</td>
+<td align="center">192778</td>
+<td align="center">Unknown</td>
+<td align="center">LC</td>
+<td align="center">iucn</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <div id="provenance" class="section level1">
 <h1>Provenance</h1>
+<pre><code>## File `~/github/ohibc/spp_ico/data_prep_spp.Rmd`: most recent commit info: commit [5a8c37c7f407578ae5d8d81f1a5ba2fab0a92817](https://github.com/OHI-Science/ohibc/commit/5a8c37c7f407578ae5d8d81f1a5ba2fab0a92817) Author: Casey O'Hara &lt;ohara@nceas.ucsb.edu&gt; Date:   Tue Oct 6 15:41:29 2015 -0700
+## Log file found at /Users/ohara/github/ohibc/provtest/data_prep_spp.Rmd.csv; last run_id = 1. Appending latest run.
+## 
+## Writing updated log file to /Users/ohara/github/ohibc/provtest/data_prep_spp.Rmd.csv.</code></pre>
 <ul>
+<li><em>Run ID:</em>
+<ul>
+<li><em>2</em></li>
+</ul></li>
 <li><em>System info:</em>
 <ul>
 <li><em>System: Darwin, Release: 14.5.0. Machine: x86_64. User: ohara.</em></li>
 </ul></li>
 <li><em>Session info:</em>
 <ul>
-<li><em>R version: R version 3.2.2 (2015-08-14), Platform: x86_64-apple-darwin13.4.0, Running under: OS X 10.10.5 (Yosemite).</em></li>
-<li><em>Attached base packages: stats, graphics, grDevices, utils, datasets, methods, base</em></li>
-<li><em>Other attached packages: ggplot2_1.0.1, readr_0.1.1, stringr_1.0.0, tidyr_0.3.1, dplyr_0.4.3</em></li>
+<li><em>R version: R version 3.2.2 (2015-08-14), Platform: x86_64-apple-darwin13.4.0, Running under: OS X 10.10.5 (Yosemite).</em> * <strong> * </strong></li>
 </ul></li>
 <li><em>Git commit info:</em>
 <ul>
-<li><em>File <code>~/github/ohibc/spp_ico/data_prep_spp.Rmd</code>: most recent commit info: commit <a href="https://github.com/OHI-Science/ohibc/commit/02f333c07b4a99b9dd39339a9b7254c9e9ad5719">02f333c07b4a99b9dd39339a9b7254c9e9ad5719</a>; Author: Casey O’Hara <a href="mailto:ohara@nceas.ucsb.edu">ohara@nceas.ucsb.edu</a>; Date: Mon Oct 5 12:27:54 2015 -0700</em></li>
+<li><em>File <code>~/github/ohibc/spp_ico/data_prep_spp.Rmd</code>: most recent commit info: commit <a href="https://github.com/OHI-Science/ohibc/commit/5a8c37c7f407578ae5d8d81f1a5ba2fab0a92817">5a8c37c7f407578ae5d8d81f1a5ba2fab0a92817</a> Author: Casey O’Hara <a href="mailto:ohara@nceas.ucsb.edu">ohara@nceas.ucsb.edu</a> Date: Tue Oct 6 15:41:29 2015 -0700</em></li>
 </ul></li>
 </ul>
+<pre class="r"><code>knitr::kable(prov_track,
+             caption = 'Provenance summary for this run:')</code></pre>
+<table>
+<caption>Provenance summary for this run:</caption>
+<thead>
+<tr class="header">
+<th align="right">run_id</th>
+<th align="left">run_date</th>
+<th align="left">file</th>
+<th align="left">type</th>
+<th align="left">commit_url</th>
+<th align="left">commit_author</th>
+<th align="left">commit_date</th>
+<th align="left">sys_info</th>
+<th align="left">ses_info</th>
+<th align="left">base_pkgs</th>
+<th align="left">attached_pkgs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">Thu Oct 8 10:37:03 2015</td>
+<td align="left">/Volumes/data_edit/git-annex/globalprep/SPP_ICO/v2015/intermediate/spp_all.csv</td>
+<td align="left">input</td>
+<td align="left">no version control info found</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">System: Darwin, Release: 14.5.0. Machine: x86_64. User: ohara.</td>
+<td align="left">R version: R version 3.2.2 (2015-08-14), Platform: x86_64-apple-darwin13.4.0, Running under: OS X 10.10.5 (Yosemite).</td>
+<td align="left">Attached base packages: stats, graphics, grDevices, utils, datasets, methods, base</td>
+<td align="left">Other attached packages: ggplot2_1.0.1, readr_0.1.1, stringr_1.0.0, tidyr_0.3.1, dplyr_0.4.3</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Thu Oct 8 10:37:03 2015</td>
+<td align="left">~/github/ohibc/regions/ohibc_rgn_wgs84.shp</td>
+<td align="left">input</td>
+<td align="left"><a href="https://github.com/OHI-Science/ohibc/commit/43ad53709c74ebbe2f3a2843b6099620f3062a67" class="uri">https://github.com/OHI-Science/ohibc/commit/43ad53709c74ebbe2f3a2843b6099620f3062a67</a></td>
+<td align="left">Casey O’Hara <a href="mailto:ohara@nceas.ucsb.edu">ohara@nceas.ucsb.edu</a></td>
+<td align="left">Tue Sep 29 12:18:24 2015 -0700</td>
+<td align="left">System: Darwin, Release: 14.5.0. Machine: x86_64. User: ohara.</td>
+<td align="left">R version: R version 3.2.2 (2015-08-14), Platform: x86_64-apple-darwin13.4.0, Running under: OS X 10.10.5 (Yosemite).</td>
+<td align="left">Attached base packages: stats, graphics, grDevices, utils, datasets, methods, base</td>
+<td align="left">Other attached packages: ggplot2_1.0.1, readr_0.1.1, stringr_1.0.0, tidyr_0.3.1, dplyr_0.4.3</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">Thu Oct 8 10:37:03 2015</td>
+<td align="left">~/github/ohibc/spp_ico/data_prep_spp.Rmd</td>
+<td align="left">script</td>
+<td align="left"><a href="https://github.com/OHI-Science/ohibc/commit/5a8c37c7f407578ae5d8d81f1a5ba2fab0a92817" class="uri">https://github.com/OHI-Science/ohibc/commit/5a8c37c7f407578ae5d8d81f1a5ba2fab0a92817</a></td>
+<td align="left">Casey O’Hara <a href="mailto:ohara@nceas.ucsb.edu">ohara@nceas.ucsb.edu</a></td>
+<td align="left">Tue Oct 6 15:41:29 2015 -0700</td>
+<td align="left">System: Darwin, Release: 14.5.0. Machine: x86_64. User: ohara.</td>
+<td align="left">R version: R version 3.2.2 (2015-08-14), Platform: x86_64-apple-darwin13.4.0, Running under: OS X 10.10.5 (Yosemite).</td>
+<td align="left">Attached base packages: stats, graphics, grDevices, utils, datasets, methods, base</td>
+<td align="left">Other attached packages: ggplot2_1.0.1, readr_0.1.1, stringr_1.0.0, tidyr_0.3.1, dplyr_0.4.3</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 

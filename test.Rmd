@@ -9,17 +9,26 @@ output: html_document
 
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
 source('~/github/ohibc/R/common.R')  ### an OHIBC specific version of common.R
+source('~/github/ohibc/R/prov.R')  ### an OHIBC specific version of common.R
+dir_prov <- '~/github/ohibc/provtest' 
+  ### set a provenance folder for this script
 
-library(recordr) ### install.packages('drat'); library(drat); addRepo('NCEAS'); install.packages('recordr', type = 'source')
+
+
+# library(recordr) ### install.packages('drat'); library(drat); addRepo('NCEAS'); install.packages('recordr', type = 'source')
 
 dir_anx_global <- file.path(dir_neptune_data, 'git-annex/globalprep/SPP_ICO')
 dir_git <- '~/github/ohibc/spp_ico'
+
 ```
 
-``` {r read global species list, echo = FALSE, eval = FALSE, message = FALSE, warning = FALSE}
+read species list
+
+``` {r read global species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 spp_global_file <- file.path(dir_anx_global, 'v2015/intermediate/spp_all.csv')
 spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
 git_prov(spp_global_file)
+git_prov('~/github/ohibc/regions/ohibc_rgn_wgs84.shp')
 
 cat('\nVariables in spp_all:\n')
 names(spp_all)
@@ -38,13 +47,23 @@ write.csv(spp_all, file.path(dir_git, 'recordr_test_output.csv'))
 ``` {r provenance info, echo = FALSE}
 ### must source 'R/common.R' for script_prov() function.
 this_script_file <- file.path(dir_git, 'data_prep_spp.Rmd')
+x <- script_prov(this_script_file)
 ```
 
+* *Run ID:*
+    * *`r x$run_id`*
 * *System info:*
-    * *`r x <- script_prov(this_script_file); x$msg_sys`*
+    * *`r x$msg_sys`*
 * *Session info:*
     * *`r x$msg_ses`*
     * *`r x$msg_base_pcks`*
     * *`r x$msg_att_pcks`*
 * *Git commit info:*
     * *`r x$msg_git`*
+    
+``` {r}
+
+knitr::kable(prov_track[ , 1:7],
+             caption = 'Provenance summary for this run:')
+
+```
