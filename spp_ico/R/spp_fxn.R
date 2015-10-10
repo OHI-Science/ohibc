@@ -162,6 +162,8 @@ spp_get_am_cells <- function(rgn2cell_df, n_max = -1, prob_filter = .40, reload 
     am_cells_spp <- read_csv(spp_cell_file, col_types = '_ccn__', n_max = n_max) %>%
       rename(am_sid = SpeciesID, csq = CsquareCode, prob = probability) 
     
+    git_prov(spp_cell_file)
+    
     ### filter out to just cells in BC regions
     am_cells_spp1 <- rgn2cell_df %>%
       left_join(am_cells_spp, by = 'csq')
@@ -194,6 +196,7 @@ spp_get_iucn_cells <- function(rgn2cell_df, reload = TRUE, verbose = FALSE) {
     if(verbose) cat(sprintf('Reading intersections for %s...\n', 
                             str_replace(tolower(basename(fn)), '.csv', '')))
     read.csv(fn)
+    git_prov(fn)
   }
   iucn_cells_spp_list <- lapply(iucn_map_files, read_intersections) 
   
@@ -334,6 +337,7 @@ spp_append_bcsee <- function(spp_all) {
            date_gl = Global.Status.Review.Date, date_pr = Prov.Status.Review.Date, 
            date_pr_change = Prov.Status.Change.Date)
   
+  git_prov(bcsee_file)
   ### For spp with > 1 scientific synonyms, separate at ';', gather into
   ### a new sciname column to be rbind()ed to main list.
   ### Note: str_split() was not cooperating properly within mutate().

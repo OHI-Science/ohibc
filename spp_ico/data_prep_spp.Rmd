@@ -122,6 +122,7 @@ Currently this uses the global species lookup table. How this list is generated 
 ``` {r read global species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 spp_global_file <- file.path(dir_anx_global, 'v2015/intermediate/spp_all.csv')
 spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
+git_prov(spp_global_file)
 ```
 
 * *`r git_prov(spp_global_file)`*
@@ -174,6 +175,7 @@ rgn_lyr <- 'ohibc_rgn_wgs84'
 cat(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
 poly_bc_rgn <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
                        verbose = FALSE, stringsAsFactors = FALSE)
+git_prov(file.path(dir_rgn, sprintf('%s.shp', rgn_lyr)))
 
 rgn_p4s <- proj4string(poly_bc_rgn)
 names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
@@ -419,6 +421,7 @@ rgn_lyr <- 'ohibc_offshore_3nm_wgs84'
 cat(sprintf('Reading OHIBC 3nm offshore regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
 poly_bc_3nm <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
                        verbose = FALSE, stringsAsFactors = FALSE)
+git_prov(file.path(dir_rgn, sprintf('%s.shp', rgn_lyr)))
 ```
 
 * *`r git_prov(sprintf('%s/%s.shp', dir_rgn, rgn_lyr))`*
