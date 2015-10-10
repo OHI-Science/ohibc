@@ -108,6 +108,8 @@ ico_list_raw <- read.csv(ico_list_file, stringsAsFactors = FALSE) %>%
          ico_global = Priority.Species_Global,
          ico_rgn    = Nation.Specific.List
   )
+git_prov(ico_list_file)
+
 # clean up names
 ico_list_raw <- ico_list_raw %>%
   mutate(rgn_name = str_trim(rgn_name),
@@ -126,6 +128,7 @@ ico_list <- ico_list_raw %>%
 ### NOTE: Category score already accounts for status_pr_score by now.
 spp_all <- read.csv(file.path(dir_git, scenario, 'int/spp_all_bcsee.csv'), 
                     stringsAsFactors = FALSE)
+git_prov(file.path(dir_git, scenario, 'int/spp_all_bcsee.csv'))
 
 # join ico_list to spp_all to incorporate category info and parent/subpop info.
 ico_list <- ico_list %>%
@@ -152,6 +155,7 @@ rgn_lyr <- 'ohibc_rgn_wgs84'
 cat(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
 poly_bc_rgn <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
                        verbose = FALSE, stringsAsFactors = FALSE)
+git_prov(file.path(dir_rgn, sprintf('%s.shp', rgn_lyr)))
 
 ### From OHIBC polygons, extract against AquaMaps LOICZID raster
 ### to get BC-specific cells (using spp_rgn2cell() function)
@@ -194,7 +198,7 @@ At this point we have `r nrow(iucn_ico_bc)` species/cell instances based on IUCN
 
 **NOTE:** Unlike the SPP goal, in which IUCN data was preferentially used to identify cell locations for a species, for ICO I am allowing both IUCN and Aquamaps datasets to indicate presence of an iconic species in a given cell.  
 
-For example, if in cell # 65000, for Tursiops truncatus, IUCN indicates presence and Aquamaps does not, it will be registered as present.  But if in cell #65001, Aquamaps indicates presence and IUCN does not, it will also by registered as present (whereas in SPP it would register as NOT present).
+For example, if in cell #65000, for Tursiops truncatus, IUCN indicates presence and Aquamaps does not, it will be registered as present.  But if in cell #65001, Aquamaps indicates presence and IUCN does not, it will also by registered as present (whereas in SPP it would register as NOT present).
 
 Because the spatially explicit range is not critical, but rather just whether the species is present or absent within a give assessment region, it seems reasonable to consider both spatial sources.
 
