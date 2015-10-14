@@ -1,0 +1,29 @@
+"targets","layer","filename","fld_value","units","name","description","clip_n_ship_disag","clip_n_ship_disag_description","layer_gl","path_in","fld_id_num","fld_id_chr","fld_category","fld_year","fld_val_num","fld_val_chr","file_exists","year_min","year_max","val_min","val_max","val_0to1","flds_unused","flds_missing","rows_duplicated","num_ids_unique","data_na"
+"NP","np_blast","np_blast_gl2014.csv","score","pressure score","Areas of observed blast (dynamite) fishing","Destructive artisanal blast fishing (Reefs at Risk Revisited).
+
+Data sources:
+
+- [Reefs at Risk Revisited](http://www.wri.org/publication/reefs-at-risk-revisited) 
+","equal","global scores were applied equally to each region. ","np_blast","~/github/ohi-global/eez2014/layers/np_blast.csv","rgn_id",,,,"score",,TRUE,,,,,FALSE,,,,8,TRUE
+"NP","np_cyanide","np_cyanide_gl2014.csv","score","pressure score","Areas of observed poison fishing","Destructive artisanal poison (cyanide) fishing (Reefs at Risk Revisited).
+
+Data sources:
+
+- [Reefs at Risk Revisited](www.wri.org/publication/reefs-at-risk-revisited) 
+","equal","global scores were applied equally to each region. ","np_cyanide","~/github/ohi-global/eez2014/layers/np_cyanide.csv","rgn_id",,,,"score",,TRUE,,,,,FALSE,,,,8,TRUE
+"pressures","fp_art_hb","fp_art_hb_gl2014.csv","pressures.score","pressure score","High bycatch caused by artisanal fishing ","The presence of destructive artisanal blast and poison (cyanide) fishing (Reefs at Risk Revisited).
+
+Data sources:
+
+- [Reefs at Risk Revisited](http://www.wri.org/publication/reefs-at-risk-revisited) ","equal","global pressures data were applied equally to all regions.","fp_art_hb","~/github/ohi-global/eez2014/layers/fp_art_hb.csv","rgn_id",,,,"pressures.score",,TRUE,,,,,FALSE,,,,8,TRUE
+"pressures","hd_subtidal_hb","hd_subtidal_hb_gl2014.csv","value","pressure score","High bycatch artisanal fishing practices as a proxy for subtidal hard bottom habitat destruction","The presence of destructive artisanal blast fishing (Reefs at Risk Revisited).
+
+Data sources:
+
+- [Reefs at Risk Revisited](http://www.wri.org/publication/reefs-at-risk-revisited) ","equal","global pressures data were applied equally to all regions.","hd_subtidal_hb","~/github/ohi-global/eez2014/layers/hd_subtidal_hb.csv","rgn_id",,,,"value",,TRUE,,,,,FALSE,,,,8,TRUE
+"SPP","spp_trend","spp_trend_gl2014.csv","score","trend score","Species lists and IUCN threat categories as a proxy for iconic species trend","International Union for Conservation of Nature (IUCN) Red List threat categories with aggregated species lists.
+
+Data sources:
+
+- [International Union for Conservation of Nature (IUCN)](http://www.iucnredlist.org/technical-documents/classification-schemes/threats-classification-scheme)
+","equal","global trends were applied equally to each region. ","spp_trend","~/github/ohi-global/eez2014/layers/spp_trend.csv","rgn_id",,,,"score",,TRUE,,,,,FALSE,,,,8,TRUE
