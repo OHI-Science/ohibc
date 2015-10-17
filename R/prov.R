@@ -2,7 +2,7 @@
 ###
 ### This script sets up provenance tracking for a script.
 ### When sourced, initializes a global variable prov_track to be NULL.
-### 
+###
 ### Two functions (so far):
 ### git_prov(git_file, prov_type = 'input') takes filename and reads its
 ###   git log, strips to its most recent commit, adds a line to prov_track
@@ -27,26 +27,28 @@ git_prov <- function(git_file, prov_type = 'input') {
   if(is.na(git_info[1])) {
     message(sprintf('File `%s`: git commit info unavailable.  Not version-controlled in Git?', git_file))
     git_commit_url <- 'no version control info found'
+    git_uncommitted <- NA
   } else {
-    ### find whether uncommitted differences in this file
+    ### find whether uncommitted differences in this file.
+    ### in str_detect, '$' makes sure git_file string is at end of line.
     git_diff <- system(sprintf('git diff HEAD'), intern = TRUE, ignore.stderr = TRUE)
-    git_diff_check <- which(str_detect(git_diff, basename(git_file)) &
+    git_diff_check <- which(str_detect(git_diff, sprintf('%s$', basename(git_file))) &
                               str_detect(git_diff, 'diff --git'))
     git_uncommitted <- length(git_diff_check) > 0
-    
+
     ### convert commit info to a hyperlinked commit info string.
     git_loc  <- system(sprintf('git config --get remote.origin.url'), intern = TRUE, ignore.stderr = TRUE)
     git_commit_url <- sprintf('%s/commit/%s', sub('.git', '', git_loc, fixed = TRUE), gsub('commit ', '', git_info[1]))
     git_link <- sprintf('commit [%s](%s)', gsub('commit ', '', git_info[1]), git_commit_url)
-    message(sprintf('File `%s`: most recent commit info: %s', git_file, 
+    message(sprintf('File `%s`: most recent commit info: %s', git_file,
                     paste(git_info[1], git_info[2], git_info[3], collapse = '; ')))
     if(git_uncommitted) message('NOTE: Uncommitted changes!')
   }
-  
-  git_df <- data.frame('file' = git_file, 
-                       'type' = prov_type, 
-                       'commit_url' = git_commit_url, 
-                       'commit_author' = sub('Author: ', '', git_info[2]), 
+
+  git_df <- data.frame('file' = git_file,
+                       'type' = prov_type,
+                       'commit_url' = git_commit_url,
+                       'commit_author' = sub('Author: ', '', git_info[2]),
                        'commit_date' = sub('Date: ', '', git_info[3]),
                        'uncommitted_changes' = git_uncommitted)
 
@@ -60,24 +62,24 @@ git_prov <- function(git_file, prov_type = 'input') {
 script_prov <- function(script_file_name) {
   sys <- Sys.info()
   ses <- sessionInfo()
-  
+
   msg_sys <- sprintf('System: %s, Release: %s. Machine: %s. User: %s.', sys['sysname'], sys['release'], sys['machine'], sys['user'])
-  msg_ses <- sprintf('R version: %s, Platform: %s, Running under: %s.', 
+  msg_ses <- sprintf('R version: %s, Platform: %s, Running under: %s.',
                      ses$R.version$version.string, ses$R.version$platform, ses$running)
-  msg_base_pkgs <- sprintf('Attached base packages: %s', paste(ses$basePkgs, 
+  msg_base_pkgs <- sprintf('Attached base packages: %s', paste(ses$basePkgs,
                                                                collapse = ', '))
-  msg_att_pkgs <- sprintf('Other attached packages: %s', paste(sapply(ses$otherPkgs, 
-                                                                      function(x) paste(x$Package, x$Version, sep = '_')), 
+  msg_att_pkgs <- sprintf('Other attached packages: %s', paste(sapply(ses$otherPkgs,
+                                                                      function(x) paste(x$Package, x$Version, sep = '_')),
                                                                collapse = ', '))
   ### Gather git info using system calls.  Convert commit # and remote origin url into a url for that commit.
   msg_git <- git_prov(script_file_name, prov_type = 'script')
-  
+
   prov_track <<- prov_track %>%
-    mutate(sys_info = msg_sys, 
-           ses_info = msg_ses, 
-           base_pkgs = msg_base_pkgs, 
+    mutate(sys_info = msg_sys,
+           ses_info = msg_ses,
+           base_pkgs = msg_base_pkgs,
            attached_pkgs = msg_att_pkgs)
-  
+
   if(!exists('dir_prov')) {
     warning('No provenance directory assigned - this run will not be logged.\n')
     run_id <- 'NOT LOGGED'
@@ -88,8 +90,8 @@ script_prov <- function(script_file_name) {
     if(!file.exists(prov_log_file)) {
       warning(sprintf('No log file found at %s - initializing new log file.\n', prov_log_file))
         ### no log found, so initialize log with run_id = 1 for all inputs and script.
-      prov_track <<- data.frame('run_id'   = rep(1,      length.out = nrow(prov_track)), 
-                                'run_date' = rep(date(), length.out = nrow(prov_track)), 
+      prov_track <<- data.frame('run_id'   = rep(1,      length.out = nrow(prov_track)),
+                                'run_date' = rep(date(), length.out = nrow(prov_track)),
                                 prov_track)
       run_id <- 1
       log_df <- prov_track
@@ -98,8 +100,8 @@ script_prov <- function(script_file_name) {
       run_id_old <- max(log_df$run_id)
       run_id <- run_id_old + 1
       message(sprintf('Log file found at %s; last run_id = %s. Appending latest run.\n', prov_log_file, run_id_old))
-      prov_track <<- data.frame('run_id'   = rep(run_id, length.out = nrow(prov_track)), 
-                                'run_date' = rep(date(), length.out = nrow(prov_track)), 
+      prov_track <<- data.frame('run_id'   = rep(run_id, length.out = nrow(prov_track)),
+                                'run_date' = rep(date(), length.out = nrow(prov_track)),
                                 prov_track)
       log_df <- log_df %>%
         rbind(prov_track)
