@@ -22,29 +22,39 @@ git_prov <- function(git_file, prov_type = 'input') {
 ### version of a given file.
   suppressWarnings({
     git_info <- system(sprintf('git log --follow %s', git_file), intern = TRUE, ignore.stderr = TRUE)[1:3]
+#    git_diff <- system(sprintf('git diff HEAD'), intern = TRUE, ignore.stderr = TRUE)
   })
   if(is.na(git_info[1])) {
-    msg_git <- sprintf('File `%s`: git commit info unavailable.  Not version-controlled in Git?', git_file)
+    message(sprintf('File `%s`: git commit info unavailable.  Not version-controlled in Git?', git_file))
     git_commit_url <- 'no version control info found'
   } else {
+    ### find whether uncommitted differences in this file
+    git_diff <- system(sprintf('git diff HEAD'), intern = TRUE, ignore.stderr = TRUE)
+    git_diff_check <- which(str_detect(git_diff, basename(git_file)) &
+                              str_detect(git_diff, 'diff --git'))
+    git_uncommitted <- length(git_diff_check) > 0
+    
     ### convert commit info to a hyperlinked commit info string.
     git_loc  <- system(sprintf('git config --get remote.origin.url'), intern = TRUE, ignore.stderr = TRUE)
     git_commit_url <- sprintf('%s/commit/%s', sub('.git', '', git_loc, fixed = TRUE), gsub('commit ', '', git_info[1]))
     git_link <- sprintf('commit [%s](%s)', gsub('commit ', '', git_info[1]), git_commit_url)
-    msg_git <- sprintf('File `%s`: most recent commit info: %s', git_file, paste(git_link, git_info[2], git_info[3], collapse = '; '))
+    message(sprintf('File `%s`: most recent commit info: %s', git_file, 
+                    paste(git_info[1], git_info[2], git_info[3], collapse = '; ')))
+    if(git_uncommitted) message('NOTE: Uncommitted changes!')
   }
   
-  message(msg_git) ### will be suppressed with message = FALSE
-  
-  git_df <- data.frame('file' = git_file, 'type' = prov_type, 'commit_url' = git_commit_url, 
+  git_df <- data.frame('file' = git_file, 
+                       'type' = prov_type, 
+                       'commit_url' = git_commit_url, 
                        'commit_author' = sub('Author: ', '', git_info[2]), 
-                       'commit_date' = sub('Date: ', '', git_info[3]))
+                       'commit_date' = sub('Date: ', '', git_info[3]),
+                       'uncommitted_changes' = git_uncommitted)
 
   ### Binds git_df to the global prov_track variable, and reassigns it to the higher environment
   prov_track <<- prov_track %>%
     rbind(git_df)
 
-  return(invisible(msg_git))
+  return(invisible(git_df))
 }
 
 script_prov <- function(script_file_name) {

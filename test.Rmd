@@ -29,11 +29,13 @@ spp_global_file <- file.path(dir_anx_global, 'v2015/intermediate/spp_all.csv')
 spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
 git_prov(spp_global_file)
 git_prov('~/github/ohibc/regions/ohibc_rgn_wgs84.shp')
+git_prov('~/github/ohibc/R/prov.R')
 
 cat('\nVariables in spp_all:\n')
 names(spp_all)
 knitr::kable(head(spp_all %>% 
-                    select(sciname, am_sid, iucn_sid, popn_trend, popn_category, spatial_source)),
+                    select(sciname, am_sid, iucn_sid, 
+                           popn_trend, popn_category, spatial_source)),
              align = c('c', 'c', 'c', 'c', 'c', 'c'),
              caption = 'Selection of rows and columns:')
 
@@ -45,8 +47,8 @@ write.csv(spp_all, file.path(dir_git, 'recordr_test_output.csv'))
 # Provenance
 
 ``` {r provenance info, echo = FALSE}
-### must source 'R/common.R' for script_prov() function.
-this_script_file <- file.path(dir_git, 'data_prep_spp.Rmd')
+### must source 'R/prov.R' for script_prov() function.
+this_script_file <- file.path('~/github/ohibc/test.Rmd')
 x <- script_prov(this_script_file)
 ```
 
