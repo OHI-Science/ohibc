@@ -29,6 +29,7 @@ spp_global_file <- file.path(dir_anx_global, 'v2015/intermediate/spp_all.csv')
 spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
 git_prov(spp_global_file)
 git_prov('~/github/ohibc/regions/ohibc_rgn_wgs84.shp')
+x <- git_prov('~/github/ohibc/test.Rmd')
 git_prov('~/github/ohibc/R/prov.R')
 
 cat('\nVariables in spp_all:\n')
