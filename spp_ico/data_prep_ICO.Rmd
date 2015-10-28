@@ -1,5 +1,5 @@
 ---
-title: 'OHIBC: data_prep_spp.Rmd'
+title: 'OHIBC: data_prep_ico.Rmd'
 output: 
   html_document:
     toc: true
@@ -64,14 +64,16 @@ ico_list_raw <- read.csv(ico_list_file, stringsAsFactors = FALSE) %>%
          ico_global = Priority.Species_Global,
          ico_rgn    = Nation.Specific.List
   )
-# clean up names
+git_prov(ico_list_file)
+
+### clean up names
 ico_list_raw <- ico_list_raw %>%
   mutate(rgn_name = str_trim(rgn_name),
          sciname  = str_trim(sciname),
          comname  = str_trim(comname)) %>%
   filter(sciname != '')  
 
-# ditch local species except where rgn_name == 'Canada', then ditch global and regional flags.
+### ditch local species except where rgn_name == 'Canada', then ditch global and regional flags.
 ico_list <- ico_list_raw %>%
   filter(is.na(ico_local) | rgn_name == 'Canada') %>%
   select(comname, sciname) %>%
@@ -82,6 +84,7 @@ ico_list <- ico_list_raw %>%
 ### NOTE: Category score already accounts for status_pr_score by now.
 spp_all <- read.csv(file.path(dir_git, scenario, 'int/spp_all_bcsee.csv'), 
                     stringsAsFactors = FALSE)
+git_prov(file.path(dir_git, scenario, 'int/spp_all_bcsee.csv')
 
 # join ico_list to spp_all to incorporate category info and parent/subpop info.
 ico_list <- ico_list %>%
@@ -105,9 +108,10 @@ Then filter IUCN and AM lists to just species on ico_list, and just cells within
 dir_rgn <- '~/github/ohibc/regions'
 rgn_lyr <- 'ohibc_rgn_wgs84'
 
-cat(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
+message(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
 poly_bc_rgn <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
                        verbose = FALSE, stringsAsFactors = FALSE)
+git_prov(file.path(dir_rgn, sprintf('%s.shp', rgn_lyr)))
 
 rgn_p4s <- proj4string(poly_bc_rgn)
 names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
@@ -233,12 +237,14 @@ ico_status <- ico_summary_rgn %>%
 ico_trend <- ico_summary_rgn %>%
   select(rgn_id, score = mean_trend)
 
-cat(sprintf('Writing ICO status and trend to:\n  %s\n  %s\n', 
+message(sprintf('Writing ICO status and trend to:\n  %s\n  %s\n', 
             file.path(dir_git, scenario, 'data/ico_status.csv'),
             file.path(dir_git, scenario, 'data/ico_trend.csv')))
 
 write_csv(ico_status, file.path(dir_git, scenario, 'data/ico_status.csv'))
+git_prov(file.path(dir_git, scenario, 'data/ico_status.csv'), prov_type = 'output')
 write_csv(ico_trend,  file.path(dir_git, scenario, 'data/ico_trend.csv'))
+git_prov(file.path(dir_git, scenario, 'data/ico_trend.csv'), prov_type = 'output')
 
 ```
 
