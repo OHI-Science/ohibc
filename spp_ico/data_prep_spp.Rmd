@@ -84,7 +84,7 @@ where:
 # Data Preparation
 ## Data sources
 
-AquaMaps: <citation>
+AquaMaps
 
 * From http://www.aquamaps.org/main/home.php: "AquaMaps are computer-generated predictions of natural occurrence of marine species, based on the environmental tolerance of a given species with respect to depth, salinity, temperature, primary productivity, and its association with sea ice or coastal areas."
 * Citation: Kaschner, K., J. Rius-Barile, K. Kesner-Reyes, C.Garilao, S.O. Kullander, T. Rees and R. Froese (2013). AquaMaps: Predicted range maps for aquatic species. World wide web electronic publication, www.aquamaps.org, Version 08/2013.
@@ -132,7 +132,10 @@ Currently this uses the global species lookup table. How this list is generated 
 spp_global_file <- file.path(dir_anx_global, 'v2015/intermediate/spp_all.csv')
 spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
 git_prov(spp_global_file)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6edb601ff0b48142f56c53f2467909cfb9bc4c0e
 ```
 
 * *`r git_prov(spp_global_file)`*
@@ -402,7 +405,10 @@ cat(sprintf('Reading OHIBC 3nm offshore regions shapefile...\n  %s/%s.shp', dir_
 poly_bc_3nm <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
                        verbose = FALSE, stringsAsFactors = FALSE)
 git_prov(file.path(dir_rgn, sprintf('%s.shp', rgn_lyr)))
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6edb601ff0b48142f56c53f2467909cfb9bc4c0e
 ```
 
 * *`r git_prov(sprintf('%s/%s.shp', dir_rgn, rgn_lyr))`*

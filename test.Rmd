@@ -5,7 +5,7 @@ date: "October 5, 2015"
 output: html_document
 ---
 
-*Compiled on `r date()` by `r Sys.info()['user']'*
+*Compiled on `r date()` by `r Sys.info()['user']`*
 
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
 source('~/github/ohibc/R/common.R')  ### an OHIBC specific version of common.R
@@ -29,41 +29,72 @@ spp_global_file <- file.path(dir_anx_global, 'v2015/intermediate/spp_all.csv')
 spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
 git_prov(spp_global_file)
 git_prov('~/github/ohibc/regions/ohibc_rgn_wgs84.shp')
+git_prov('~/github/ohibc/R/prov.R')
 
 cat('\nVariables in spp_all:\n')
 names(spp_all)
 knitr::kable(head(spp_all %>% 
-                    select(sciname, am_sid, iucn_sid, popn_trend, popn_category, spatial_source)),
+                    select(sciname, am_sid, iucn_sid, 
+                           popn_trend, popn_category, spatial_source)),
              align = c('c', 'c', 'c', 'c', 'c', 'c'),
              caption = 'Selection of rows and columns:')
 
 write.csv(spp_all, file.path(dir_git, 'recordr_test_output.csv'))
+git_prov(file.path(dir_git, 'recordr_test_output.csv'), prov_type = 'output')
+
 ```
+
+-----
+
+# Sample code for git info
+
+### unformatted - as code output
+
+If you leave `message = TRUE` (default) then git_prov will output a message when you knit the .Rmd.
+
+If you'd like to format the output using Markdown, you can assign the value returned by `git_prov()` to a variable and call items from within that variable:
+
+* file
+* type
+* commit_url
+* commit_author
+* commit_date
+* uncommitted_changes
+
+``` {r formatted git info, message = TRUE}
+x <- git_prov('~/github/ohibc/test.Rmd')
+```
+
+#### Latest git commit info for file `r x$file`:
+
+* *Commit `r x$commit_url ` .*
+* *Committed by `r x$commit_author` on `r x$commit_date`.*
+* *Uncommitted changes = `r x$uncommitted_changes`.*
 
 -----
 
 # Provenance
 
-``` {r provenance info, echo = FALSE}
-### must source 'R/common.R' for script_prov() function.
-this_script_file <- file.path(dir_git, 'data_prep_spp.Rmd')
+``` {r provenance info, echo = FALSE, message = FALSE}
+### must source 'R/prov.R' for script_prov() function.
+this_script_file <- file.path('~/github/ohibc/test.Rmd')
 x <- script_prov(this_script_file)
 ```
 
-* *Run ID:*
+* *Run ID*
     * *`r x$run_id`*
-* *System info:*
+* *System info*
     * *`r x$msg_sys`*
-* *Session info:*
+* *Session info*
     * *`r x$msg_ses`*
     * *`r x$msg_base_pcks`*
     * *`r x$msg_att_pcks`*
-* *Git commit info:*
+* *Git commit info*
     * *`r x$msg_git`*
     
-``` {r}
+``` {r,  echo = FALSE, message = FALSE}
 
-knitr::kable(prov_track[ , 1:7],
+knitr::kable(script_track[ , 1:8],
              caption = 'Provenance summary for this run:')
 
 ```
