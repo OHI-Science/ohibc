@@ -23,7 +23,7 @@
 prov_track   <- NULL ### initialize the prov_track global variable when source()d
 script_track <- NULL ### initialize the script_track global variable when source()d
 
-git_prov <- function(git_file, prov_type = c('input', 'output', 'script')[1]) {
+git_prov <- function(git_file, prov_type = c('input', 'output', 'script', 'sourced_script')[1]) {
 ### This function determines the most recent commit for a given file.
 ### The idea is to help promote provenance by identifying a particular
 ### version of a given file.
@@ -53,7 +53,7 @@ git_prov <- function(git_file, prov_type = c('input', 'output', 'script')[1]) {
       git_diff_check <- which(str_detect(git_diff, sprintf('%s$', basename(git_file))) &
                                 str_detect(git_diff, 'diff --git'))
       git_uncommitted <- length(git_diff_check) > 0
-      
+
       ### convert commit info to a hyperlinked commit info string.
       git_loc  <- system(sprintf('git config --get remote.origin.url'), intern = TRUE, ignore.stderr = TRUE)
       git_commit_url <- sprintf('%s/commit/%s', sub('.git', '', git_loc, fixed = TRUE), gsub('commit ', '', git_info[1]))
@@ -129,6 +129,6 @@ script_prov <- function(script_file_name) {
   }
 
   ### Return all message strings within a named list for convenient reference.
-  return(invisible(list('run_id' = run_id, 'msg_sys' = msg_sys, 'msg_ses' = msg_ses, 
+  return(invisible(list('run_id' = run_id, 'msg_sys' = msg_sys, 'msg_ses' = msg_ses,
                         'msg_git' = msg_git, 'msg_base_pkgs' = msg_base_pkgs, 'msg_att_pkgs' = msg_att_pkgs)))
 }

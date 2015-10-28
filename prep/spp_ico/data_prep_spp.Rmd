@@ -14,25 +14,26 @@ output:
 library(sp)        # the classes and methods that make up spatial ops in R
 library(rgdal)
 library(raster)
-library(data.table)
+library(DT)
 
-source('~/github/ohibc/R/common.R')  ### an OHIBC specific version of common.R
+dir_git <- '~/github/ohibc'
+dir_spp <- file.path(dir_git, 'prep/spp_ico')
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
 
-source('~/github/ohibc/R/poly_plot_scores.R')
-dir_anx <- file.path(dir_neptune_data, 'git-annex/bcprep') ### git-annex: goal-specific large files
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_anx        <- file.path(dir_neptune_data, 'git-annex/bcprep') ### git-annex: goal-specific large files
 dir_anx_global <- file.path(dir_neptune_data, 'git-annex/globalprep/SPP_ICO')
-dir_git <- '~/github/ohibc/spp_ico'
-dir_rgn <- '~/github/ohibc/regions'  ### github: general buffer region shapefiles
 
 scenario <- 'v2016'
 
-source('~/github/ohibc/R/prov.R')      
+source('~/github/ohibc/src/R/prov.R')      
   ### Provenance tracking functions: must source at start to initialize prov_track
 dir_prov <- file.path(dir_git, 'prov') 
   ### set a provenance folder for this script
 
-source(file.path(dir_git, 'R/spp_fxn.R'))
-
+source(file.path(dir_git, 'src/R/poly_plot_scores.R'))
+source(file.path(dir_spp, 'R/spp_fxn.R'))
+git_prov(file.path(dir_spp, 'R/spp_fxn.R'), prov_type = 'sourced_script')
 
 ### set up proj4string options: BC Albers and WGS84
 p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
@@ -106,7 +107,6 @@ NatureServe/BC CDC conservation rank info from BC Species and Ecosystems Explore
 * NatureServe conservation status: http://explorer.natureserve.org/ranking.htm#global
 * Citation: B.C. Conservation Data Centre. 2013. BC Species and Ecosystems Explorer. B.C. Ministry of Environment, Victoria B.C. Available: <http://a100.gov.bc.ca/pub/eswp/>.  Downloaded on 3 August 2015.
 
-
 -----
 
 ## Load species lookup table from global SPP goal
@@ -134,17 +134,13 @@ spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
 git_prov(spp_global_file)
 ```
 
-* *`r git_prov(spp_global_file)`*
-
 Variables in `spp_all`: `r paste(names(spp_all), collapse = ' | ')`
 
 ``` {r print global species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-DT:::datatable(spp_all %>% 
-                select(sciname, am_sid, iucn_sid, popn_trend, popn_category, spatial_source),
-             align = c('c', 'c', 'c', 'c', 'c', 'c'),
-             caption = 'Selection of rows and columns:',
-             class = 'stripe hover order-column compact',
-             filter = 'bottom')
+knitr::kable(head(spp_all %>% 
+                select(sciname, am_sid, iucn_sid, popn_trend, popn_category, spatial_source)),
+             align = c('l', 'c', 'c', 'c', 'c', 'c'),
+             caption = 'Quick glance at global spp_all dataframe:')
 ```
 
 ## Append BC-specific species risk assessment codes
@@ -158,10 +154,18 @@ See [this table]('iucn_to_ns.html') for info on NatureServe codes
 spp_all <- spp_append_bcsee(spp_all)
 
 spp_all <- spp_all %>%
-  mutate(category_score = ifelse(!is.na(status_pr_score), status_pr_score, category_score))
+  mutate(iucn_score = category_score,
+         category_score = ifelse(!is.na(status_pr_score), status_pr_score, category_score))
 
 write_csv(spp_all, file.path(dir_git, scenario, 'int/spp_all.csv'))
 git_prov(file.path(dir_git, scenario, 'int/spp_all.csv'), prov_type = 'output')
+
+DT::datatable(spp_all %>% 
+                select(sciname, am_sid, iucn_sid, popn_trend, IUCN_cat = popn_category, NS_cat = status_pr, spatial_source),
+              rownames = FALSE,
+              caption = 'BC-specific species list:',
+              class = 'stripe hover compact',
+              filter = 'bottom')
 
 ```
 
@@ -174,7 +178,7 @@ Using OHIBC region polygons, determine 0.5° raster cells corresponding to each 
 ``` {r set up region-to-cell lookup, echo = FALSE, message = FALSE, warning = FALSE}
 
 ### Read in OHIBC polygons, in WGS84 CRS
-dir_rgn <- '~/github/ohibc/regions'
+dir_rgn <- '~/github/ohibc/prep/regions'
 rgn_lyr <- 'ohibc_rgn_wgs84'
 
 cat(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
@@ -186,7 +190,7 @@ rgn_p4s <- proj4string(poly_bc_rgn)
 names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
 message(sprintf('Region loaded: CRS = %s \n  (%s)\n', names(rgn_p4s), rgn_p4s))
 
-rgn2cell_list <- spp_rgn2cell(poly_bc_rgn, reload  = FALSE)
+rgn2cell_list <- spp_rgn2cell(poly_bc_rgn, reload = TRUE)
 
 rgn2cell_df      <- rgn2cell_list[[1]]
 loiczid_rast     <- rgn2cell_list[[2]]
@@ -194,7 +198,7 @@ loiczid_rast     <- rgn2cell_list[[2]]
 
 ### Map of region ID per cell
 
-*Note that `subs()` can't deal with duplicate cell IDs; for cells included in two or more regions get the minimum region ID value*
+*Note that `subs()` can't deal with duplicate cell IDs; for cells included in two or more regions, displaying the minimum region ID value*
 
 ``` {r plot regions raster, echo = FALSE, cache = TRUE, message = FALSE, warning = FALSE, fig.height = 4, fig.width = 6, fig.align = 'center'}
 
@@ -219,13 +223,15 @@ These species-per-cell tables are generated from global SPP goal data, from Aqua
 
 ``` {r AM species summary, echo = FALSE, message = FALSE, warning = FALSE}
 
-am_cells_spp <- spp_get_am_cells(rgn2cell_df, n_max = -1, prob_filter = 0, reload = FALSE)
+am_cells_spp <- spp_get_am_cells(rgn2cell_df, n_max = -1, prob_filter = 0, reload = TRUE)
 
 am_cells_sum <- spp_am_cell_summary(rgn2cell_df, am_cells_spp, spp_all, fn_tag = '', reload = TRUE)
 
 DT::datatable(am_cells_sum,
-             align = c('c', 'c', 'c', 'c', 'c', 'c'),
-             caption = 'Aquamaps cell summary: quick check (head)')
+              rownames = FALSE,
+              caption  = 'Aquamaps cell summary:',
+              class    = 'stripe hover compact',
+              filter   = 'bottom')
 
 ```
 
@@ -236,8 +242,10 @@ iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df)
 iucn_cells_sum <- spp_iucn_cell_summary(spp_all, iucn_cells_spp, reload = TRUE)
 
 DT::datatable(iucn_cells_sum,
-             align = c('c', 'c', 'c', 'c', 'c', 'c'),
-             caption = 'IUCN cell summary: quick check (head)')
+              rownames = FALSE,
+              caption  = 'IUCN cell summary: ',
+              class    = 'stripe hover compact',
+              filter   = 'bottom')
 
 ```
 
@@ -280,10 +288,16 @@ sum_by_cell <- spp_calc_cell_means(am_cells_sum, iucn_cells_sum)
 sum_by_rgn  <- spp_calc_rgn_means(sum_by_cell, rgn2cell_df)
 
 DT::datatable(sum_by_cell,
-             caption = 'summary by raster cell')
+              rownames = FALSE,
+              caption  = 'summary by raster cell',
+              class    = 'stripe hover compact',
+              filter   = 'bottom')
 
 DT::datatable(sum_by_rgn,
-             caption = 'summary by region')
+              rownames = FALSE,
+              caption  = 'summary by region',
+              class    = 'stripe hover compact',
+              filter   = 'bottom')
 
 ```
 
@@ -293,22 +307,14 @@ DT::datatable(sum_by_rgn,
 *Category value range: least concern = 0, extinct = 1*
 ``` {r plot cell score raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE,  fig.height = 4, fig.width = 6, fig.align = 'center'}
 
-scale_limits = c(min(min(sum_by_cell$weighted_mean_cat,  na.rm = TRUE),
-                     min(summary_by_loiczid$weighted_mean_cat, na.rm = TRUE)), 
-                 max(max(sum_by_cell$weighted_mean_cat,  na.rm = TRUE),
-                     max(summary_by_loiczid$weighted_mean_cat, na.rm = TRUE)))
+scale_limits = c(min(sum_by_cell$weighted_mean_cat,  na.rm = TRUE), 
+                 max(sum_by_cell$weighted_mean_cat,  na.rm = TRUE))
 
-spp_plot_raster(as.data.frame(summary_by_loiczid), loiczid_rast, 
-                which_id = 'weighted_mean_cat', 
-                poly_rgn = poly_bc_rgn,
-                title = 'Mean extinction risk, IUCN only', scale_label = 'spp risk', 
-                scale_limits = scale_limits,
-                rev_scale = TRUE)
 
 spp_plot_raster(as.data.frame(sum_by_cell), loiczid_rast, 
                 which_id = 'weighted_mean_cat', 
                 poly_rgn = poly_bc_rgn,
-                title = 'Mean extinction risk, IUCN & BCSEE', scale_label = 'spp risk', 
+                title = 'Mean extinction risk', scale_label = 'spp risk', 
                 scale_limits = scale_limits,
                 rev_scale = TRUE)
 
@@ -322,9 +328,9 @@ Status and trend layers saved to `data` folder.
 
 ``` {r save status and trend, echo = FALSE, message = FALSE, warning = FALSE}
 
-spp_status <- summary_by_rgn %>%
+spp_status <- sum_by_rgn %>%
   select(rgn_id, score = status)
-spp_trend <- summary_by_rgn %>%
+spp_trend <- sum_by_rgn %>%
   select(rgn_id, score = rgn_mean_trend)
 
 cat(sprintf('Writing SPP status and trend based only on IUCN categories to:\n  %s\n  %s\n', 
@@ -334,38 +340,9 @@ cat(sprintf('Writing SPP status and trend based only on IUCN categories to:\n  %
 write_csv(spp_status, file.path(dir_git, scenario, 'data/spp_status.csv'))
 write_csv(spp_trend,  file.path(dir_git, scenario, 'data/spp_trend.csv'))
 git_prov(file.path(dir_git, scenario, 'data/spp_status.csv'), prov_type = 'output')
-git_prov(file.path(dir_git, scenario, 'data/spp_trend.csv'), prov_type = 'output')
+git_prov(file.path(dir_git, scenario, 'data/spp_trend.csv'),  prov_type = 'output')
 
 ```
-
-### Compare scores from IUCN only vs IUCN & BCSEE
-
-Current methodology does not affect trend, only status scores, based on whether NatureServe assessment scores are used to overwrite IUCN extinction risk category scores.
-
-``` {r compare status, echo = FALSE, message = FALSE, warning = FALSE, fig.height = 4, fig.width = 6, fig.align = 'center'}
-
-status_df <- spp_status %>%
-  rename(iucn_score = score) %>%
-  full_join(spp_status_bcsee %>%
-              rename(bcsee_score = score),
-            by = 'rgn_id') %>%
-  full_join(poly_bc_rgn@data, by = 'rgn_id')
-
-status_compare_plot <- ggplot(data = status_df, aes(x = iucn_score, y = bcsee_score, color = rgn_code)) + 
-  theme(text = element_text(family = 'Helvetica', color = 'gray30', size = 10),
-        plot.title = element_text(size = rel(1.2), face = 'bold'),
-        legend.position = 'right') +
-  geom_point(size = 5) +
-  geom_abline(intercept = 0, slope = 1, color = 'red') +
-  coord_fixed(ratio = 1, xlim = c(65, 85), ylim = c(65, 85)) +
-  labs(title = 'SPP Status w/ & w/o NS provincial data',
-       x  = 'Status w/IUCN ranks only',
-       y  = 'Status w/IUCN & NS ranks')
-
-print(status_compare_plot)
-
-```
-
 
 ## Plot map of status by region
 
@@ -374,15 +351,17 @@ While the table shows status for both iterations (IUCN rankings only and IUCN + 
 ``` {r plot scores as polygons, echo = FALSE, message = FALSE, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
 
 DT::datatable(status_df,
-  align = c('c', 'c', 'l', 'c', 'r', 'r'),
-  caption = 'SPP Status by region, IUCN & NatureServe rankings:')
+              rownames = FALSE,
+              caption = 'SPP Status by region, IUCN & NatureServe rankings:',
+              class = 'stripe hover compact')
 
 poly_plot_scores(spp_status, scale_label = 'SPP Status', title = 'OHIBC SPP Status, IUCN + NS ranks')
 
 DT::datatable(spp_trend %>%
-  full_join(poly_bc_rgn@data, by = 'rgn_id'),
-  align = c('c', 'c', 'l', 'c', 'r', 'r'),
-  caption = 'SPP Trend by region:')
+                full_join(poly_bc_rgn@data, by = 'rgn_id'),
+              rownames = FALSE,
+              caption = 'SPP Trend by region:',
+              class = 'stripe hover compact')
 
 poly_plot_scores(spp_trend, scale_label = 'SPP Trend', title = 'OHIBC SPP Trend', scale_limits = c(min(spp_trend$score), 0))
 
@@ -392,7 +371,7 @@ poly_plot_scores(spp_trend, scale_label = 'SPP Trend', title = 'OHIBC SPP Trend'
 
 ## Summarize mean category/trend within 3 nm of shore
 
-Create final outputs for 3nm zone for resilience calculations
+Create final outputs for 3nm zone for resilience calculations.  In this step, rather than using full assessment regions, only the three-nautical-mile offshore zone is examined.
 
 ``` {r read 3nm shapefile, eval = TRUE, echo = FALSE, message = FALSE}
 ### Read in OHIBC 3nm offshore polygons, in WGS84 CRS
@@ -401,13 +380,8 @@ cat(sprintf('Reading OHIBC 3nm offshore regions shapefile...\n  %s/%s.shp', dir_
 poly_bc_3nm <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
                        verbose = FALSE, stringsAsFactors = FALSE)
 git_prov(file.path(dir_rgn, sprintf('%s.shp', rgn_lyr)))
-<<<<<<< HEAD
-
-=======
->>>>>>> 6edb601ff0b48142f56c53f2467909cfb9bc4c0e
 ```
 
-* *`r git_prov(sprintf('%s/%s.shp', dir_rgn, rgn_lyr))`*
 
 ``` {r calc 3nm SPP status and trend, eval = TRUE, echo = FALSE, message = FALSE}
 
@@ -417,11 +391,11 @@ message(sprintf('Region loaded: CRS = %s \n  (%s)\n', names(rgn_p4s), rgn_p4s))
 
 rgn2cell_3nm_df <- spp_rgn2cell(poly_bc_3nm, rgn_tag = '_3nm', reload  = TRUE)[[1]]
 
-summary_by_rgn_3nm <- spp_calc_rgn_means(summary_by_loiczid, rgn2cell_3nm_df, rgn_note = '3nm')
+sum_by_rgn_3nm <- spp_calc_rgn_means(sum_by_cell, rgn2cell_3nm_df, rgn_tag = '_3nm')
 
-spp_status_3nm <- summary_by_rgn_3nm %>%
+spp_status_3nm <- sum_by_rgn_3nm %>%
   select(rgn_id, score = status)
-spp_trend_3nm <- summary_by_rgn_3nm %>%
+spp_trend_3nm  <- sum_by_rgn_3nm %>%
   select(rgn_id, score = rgn_mean_trend)
 
 cat(sprintf('Writing SPP status and trend for 3nm regions to:\n  %s\n  %s\n', 
@@ -429,6 +403,8 @@ cat(sprintf('Writing SPP status and trend for 3nm regions to:\n  %s\n  %s\n',
             file.path(dir_git, scenario, 'data/spp_trend_3nm.csv')))
 write_csv(spp_status_3nm, file.path(dir_git, scenario, 'data/spp_status_3nm.csv'))
 write_csv(spp_trend_3nm,  file.path(dir_git, scenario, 'data/spp_trend_3nm.csv'))
+git_prov(file.path(dir_git, scenario, 'data/spp_status_3nm.csv'), prov_type = 'output')
+git_prov(file.path(dir_git, scenario, 'data/spp_trend_3nm.csv'),  prov_type = 'output')
 
 ```
 
