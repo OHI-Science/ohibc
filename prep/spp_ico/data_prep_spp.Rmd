@@ -190,7 +190,7 @@ rgn_p4s <- proj4string(poly_bc_rgn)
 names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
 message(sprintf('Region loaded: CRS = %s \n  (%s)\n', names(rgn_p4s), rgn_p4s))
 
-rgn2cell_list <- spp_rgn2cell(poly_bc_rgn, reload = TRUE)
+rgn2cell_list <- spp_rgn2cell(poly_bc_rgn, reload = FALSE)
 
 rgn2cell_df      <- rgn2cell_list[[1]]
 loiczid_rast     <- rgn2cell_list[[2]]
@@ -223,9 +223,9 @@ These species-per-cell tables are generated from global SPP goal data, from Aqua
 
 ``` {r AM species summary, echo = FALSE, message = FALSE, warning = FALSE}
 
-am_cells_spp <- spp_get_am_cells(rgn2cell_df, n_max = -1, prob_filter = 0, reload = TRUE)
+am_cells_spp <- spp_get_am_cells(rgn2cell_df, n_max = -1, prob_filter = 0, reload = FALSE)
 
-am_cells_sum <- spp_am_cell_summary(rgn2cell_df, am_cells_spp, spp_all, fn_tag = '', reload = TRUE)
+am_cells_sum <- spp_am_cell_summary(rgn2cell_df, am_cells_spp, spp_all, fn_tag = '', reload = FALSE)
 
 DT::datatable(am_cells_sum,
               rownames = FALSE,
@@ -239,7 +239,7 @@ DT::datatable(am_cells_sum,
 
 iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df)
 
-iucn_cells_sum <- spp_iucn_cell_summary(spp_all, iucn_cells_spp, reload = TRUE)
+iucn_cells_sum <- spp_iucn_cell_summary(spp_all, iucn_cells_spp, reload = FALSE)
 
 DT::datatable(iucn_cells_sum,
               rownames = FALSE,
@@ -389,7 +389,7 @@ rgn_p4s <- proj4string(poly_bc_3nm)
 names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
 message(sprintf('Region loaded: CRS = %s \n  (%s)\n', names(rgn_p4s), rgn_p4s))
 
-rgn2cell_3nm_df <- spp_rgn2cell(poly_bc_3nm, rgn_tag = '_3nm', reload  = TRUE)[[1]]
+rgn2cell_3nm_df <- spp_rgn2cell(poly_bc_3nm, rgn_tag = '_3nm', reload = FALSE)[[1]]
 
 sum_by_rgn_3nm <- spp_calc_rgn_means(sum_by_cell, rgn2cell_3nm_df, rgn_tag = '_3nm')
 
