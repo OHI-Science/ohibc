@@ -28,7 +28,7 @@ scenario <- 'v2016'
 
 source('~/github/ohibc/src/R/prov.R')      
   ### Provenance tracking functions: must source at start to initialize prov_track
-dir_prov <- file.path(dir_git, 'prov') 
+dir_prov <- file.path(dir_spp, 'prov') 
   ### set a provenance folder for this script
 
 source(file.path(dir_git, 'src/R/poly_plot_scores.R'))
@@ -344,18 +344,21 @@ git_prov(file.path(dir_git, scenario, 'data/spp_trend.csv'),  prov_type = 'outpu
 
 ```
 
-## Plot map of status by region
+### Plot map of status by region
 
-While the table shows status for both iterations (IUCN rankings only and IUCN + NatureServe rankings), the status plot shows only the BC-specific version (IUCN + NatureServe rankings).  Currently no trend information is taken from NatureServe, so trend is based entirely on IUCN rankings.
+The maps and tables show status based upon rankings from NatureServe (where available) and IUCN (where NatureServe is not available).  Currently no trend information is taken from NatureServe, so trend is based entirely on IUCN rankings.
 
-``` {r plot scores as polygons, echo = FALSE, message = FALSE, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
+``` {r plot scores as polygons, echo = FALSE, message = FALSE, fig.height = 4, fig.width = 6, fig.align = 'center'}
 
-DT::datatable(status_df,
+poly_plot_scores(spp_status, scale_label = 'SPP Status', title = 'OHIBC SPP Status')
+
+DT::datatable(spp_status %>%
+                full_join(poly_bc_rgn@data, by = 'rgn_id'),
               rownames = FALSE,
-              caption = 'SPP Status by region, IUCN & NatureServe rankings:',
+              caption = 'SPP Status by region:',
               class = 'stripe hover compact')
 
-poly_plot_scores(spp_status, scale_label = 'SPP Status', title = 'OHIBC SPP Status, IUCN + NS ranks')
+poly_plot_scores(spp_trend, scale_label = 'SPP Trend', title = 'OHIBC SPP Trend', scale_limits = c(min(spp_trend$score), 0))
 
 DT::datatable(spp_trend %>%
                 full_join(poly_bc_rgn@data, by = 'rgn_id'),
@@ -363,7 +366,6 @@ DT::datatable(spp_trend %>%
               caption = 'SPP Trend by region:',
               class = 'stripe hover compact')
 
-poly_plot_scores(spp_trend, scale_label = 'SPP Trend', title = 'OHIBC SPP Trend', scale_limits = c(min(spp_trend$score), 0))
 
 ```
 
@@ -434,7 +436,9 @@ x <- script_prov(this_script_file)
     
 ``` {r echo = FALSE}
 
-DT::datatable(prov_track[ , 1:7],   ### does not display system and session info
-             caption = 'Provenance summary for this run:')
+DT::datatable(script_track[ , 1:8],   ### does not display system and session info
+              caption = 'Provenance summary for this run:',              
+              rownames = FALSE,
+              class = 'stripe hover compact')
 
 ```

@@ -1,0 +1,4 @@
+
+<img src = 'ohi-logo.png' style = 'vertical-align:middle'></img> **Ocean Health Index: British Columbia**
+
+*Compiled on `r date()` by `r Sys.info()['user']`*

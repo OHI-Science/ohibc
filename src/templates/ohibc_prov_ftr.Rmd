@@ -1,0 +1,35 @@
+-----
+
+# Provenance
+
+``` {r provenance info, echo = FALSE, message = FALSE}
+### NOTE: To work properly, prov.R needs to be sourced in parent document; and
+###   'this_script_file' needs to be set (in the parent) to the filename
+###   of the parent document.
+
+x <- script_prov(this_script_file) 
+```
+
+* *Run ID: `r x$run_id`*
+* *System info: `r x$msg_sys`*
+* *Session info*
+    * *`r x$msg_ses`*
+    * *`r x$msg_base_pcks`*
+    * *`r x$msg_att_pcks`*
+* *Git commit info: `r x$msg_git`*
+    
+``` {r,  echo = FALSE, message = FALSE}
+
+DT::datatable(script_track[ , 1:8],
+              caption = 'Provenance summary for this run:',              
+              rownames = FALSE,
+              class = 'stripe hover compact',
+              options = list(columnDefs = list(list(targets = 5,
+                render = JS(
+                  "function(data, type, row, meta) {",
+                  "return type === 'display' && data.length > 30 ?",
+                  "'<span title=\"' + data + '\">' + data.substr(0, 30) + '...</span>' : data;",
+                  "}"))))
+              )
+
+```
