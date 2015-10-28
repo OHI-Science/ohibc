@@ -1,0 +1,2598 @@
+<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis projectname="" version="2.6.1-Brighton">
+    <title></title>
+    <layer-tree-group expanded="1" checked="Qt::PartiallyChecked" name="">
+        <customproperties/>
+        <layer-tree-layer expanded="0" checked="Qt::Checked" id="ohibc_inland_1km20150903144037517" name="ohibc_inland_1km">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="1" checked="Qt::Checked" id="ohibc_rgn20150902155956893" name="ohibc_rgn">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Checked" id="ohibc_offshore_3nm20150903144110724" name="ohibc_offshore_3nm">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="CD_201120150902112915444" name="CD_2011">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="1" checked="Qt::Checked" id="ohibc_land20150903145406245" name="ohibc_land">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="can_albers20150415162430094" name="National Boundaries">
+            <customproperties/>
+        </layer-tree-layer>
+    </layer-tree-group>
+    <relations/>
+    <mapcanvas>
+        <units>meters</units>
+        <extent>
+            <xmin>438804.130978649482131</xmin>
+            <ymin>668989.93654623732436448</ymin>
+            <xmax>791987.5227438734145835</xmax>
+            <ymax>1112441.04382465733215213</ymax>
+        </extent>
+        <projections>1</projections>
+        <destinationsrs>
+            <spatialrefsys>
+                <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                <srsid>970</srsid>
+                <srid>3005</srid>
+                <authid>EPSG:3005</authid>
+                <description>NAD83 / BC Albers</description>
+                <projectionacronym>aea</projectionacronym>
+                <ellipsoidacronym>GRS80</ellipsoidacronym>
+                <geographicflag>false</geographicflag>
+            </spatialrefsys>
+        </destinationsrs>
+        <layer_coordinate_transform_info>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="3nm_nc220150903135150307"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_land20150903145406245"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="western_oceans20150417232935261"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:54009" srcDatumTransform="-1" destDatumTransform="-1" layerid="canada_eez_old_albers20150415160812199"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="mapp_all_minus_regions20150417205250799"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="USER:100001" srcDatumTransform="-1" destDatumTransform="-1" layerid="eez20150902114810946"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="fucking_leftovers20150417205636234"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="NC220150602093920830"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="USER:100001" srcDatumTransform="-1" destDatumTransform="-1" layerid="op20150902140146774"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_1km_inland20150902112544472"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:54009" srcDatumTransform="-1" destDatumTransform="-1" layerid="ne_bath_200_clip20150326142422866"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="inland_canada20150902112340323"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="3nm_svanc120150903134107734"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:54009" srcDatumTransform="-1" destDatumTransform="-1" layerid="eez_canada_us_clip20150325155437695"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="NorthVancouverIslandPolygon_TRIM_EBM20150514110327915"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="north5_120150418000836000"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="nc220150903103704612"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_sho20150514153302414"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="nv20150902100018501"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_3nm_offshore20150903142113513"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="az20150902094747087"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_sho20150514153628528"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:102001" srcDatumTransform="-1" destDatumTransform="-1" layerid="wv_gs20150902122040143"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:54009" srcDatumTransform="-1" destDatumTransform="-1" layerid="ne_bath_4000_reproj20150326141240563"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_mapps_land20150417205941843"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="MEC_ECMT_D_polygon20150326165503639"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="north5_120150418000320553"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="offshore_boundary20150831111836797"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ts_xx_wv_gs320150514135603252"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:54009" srcDatumTransform="-1" destDatumTransform="-1" layerid="ne_bath_3000_clip20150326145452360"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="wv_gs20150902122352046"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="blerg20150417235950836"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_offshore_3nm20150903144110724"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_sho20150514153141739"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="1km_inland20150903093417907"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="nnc_land20150903122854796"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohi_bc_rgns_nc2_cc220150602100044298"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="3nm_cc220150903141233307"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="CC220150602093644321"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="western_oceans20150417233149956"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="cen_nm20150514164205594"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="CSD_201120150323172905612"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rgns_all20150902132249642"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="CentralCoastPolygon_TRIM_EBM20150415142400634"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="nv220150902095035034"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_mapps220150514152655888"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohi_bc_rgns20150418001938431"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="vancouver_preclip20150417233229640"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="all_in20150418001038638"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="wv_sg20150514144256570"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_sho320150514153947990"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="nc20150902113539948"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="OHI_rgns_eez220150417161521777"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="BEC_POLY_polygon20150326171402006"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ts_xx_wv_gs20150514134420382"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="can_eez_320150415162106926"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="canada_eez_old_albers20150415161056490"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="NorthCoastPolygon_TRIM_EBM20150415142400872"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="nv_tryagain20150902101605946"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="wv20150902095100265"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_sho20150514151655415"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="coastal_clip120150831112508323"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_all20150828164456756"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="eez_minus_mapp_minus_wvanc20150514141226837"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="nv_slivered20150902101514229"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="tall_seas120150514141606651"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="biogeographic_boundary20150415173433369"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="new_offshore20150831112600413"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="3nm_svanc220150903134218986"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="nv20150902101327777"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3153" srcDatumTransform="-1" destDatumTransform="-1" layerid="mask120150514141445545"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="DR20150323172928765"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="MaPP_boundary320150326111806818"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rgns_all20150902135719296"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="blerg20150418000435468"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="MaPP_boundary220150326111635929"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="wv_sg_ts20150514144314549"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohi_bc_rgns_NC2_CC220150602092032793"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohi_bc_rgns20150602111627123"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohi_bc_rgns120150514164411280"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="HaidaGwaiiPolygon_TRIM_EBM20150514110327763"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="OHI_rgns_eez220150417161746007"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="s_vanc20150903100626288"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:54009" srcDatumTransform="-1" destDatumTransform="-1" layerid="ne_bath_1000_clip20150326142613877"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rgns_all20150902134438556"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="strait_of_ga220150514143623907"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rgns_all220150902140052225"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="strait_of_ga320150514143836336"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="CC2a20150602093717538"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="can220150415170837390"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="MaPP_boundary420150326111927331"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="west_vanc20150514140252007"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="OHI_rgns20150417173402805"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="NorthVancouverIslandPolygon_TRIM_EBM20150415142400893"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="nv120150902101207700"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="3nm_hg20150903134902935"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:54009" srcDatumTransform="-1" destDatumTransform="-1" layerid="ecoregions_from_meow_mol20150325160404783"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="nc20150902094924085"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="cc20150902094952341"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="OHI_rgns120150417174202990"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="canada_eez_updated_albers20150415162728693"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="eez_minus_mapp20150514141107187"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="north320150417235033188"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="cc_hg_nc_nv20150514105744829"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="land_mod120150903095223248"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="CD_201120150323172841459"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="1km20150902160714145"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rgns_all20150902132323320"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="gs20150902095120054"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="cc_hg_nc20150514105711809"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="3nm_all20150903142020338"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="hg20150902094818148"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:54009" srcDatumTransform="-1" destDatumTransform="-1" layerid="canada_eez_old20150415164253175"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="can_albers20150415162430094"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="MaPP_boundary120150326111402706"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_mapps120150514151605308"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="3nm_cc320150903141611979"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ts_xx_wv_gs220150514134504251"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="cc_hg20150514105640656"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rgns_all20150902134516260"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="BCMCA_ECO_Physical_Ecosections_Data20150326130728450"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="hg20150902114607608"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="hg_nc20150903100520941"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:54009" srcDatumTransform="-1" destDatumTransform="-1" layerid="MaPP_regions20150326113729986"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="OHI_rgns_mapp_eez320150417171115615"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_sho20150514152846595"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="nv120150902095018073"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="dfo_rgn20150828162109037"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="3nm_sc20150903101203792"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="cc20150902113640261"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="OHI_rgns220150417174329032"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ts_xx_wv_gs20150514134254031"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="tall_seas120150514141647629"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="MaPP_Polygon_TRIM_EBM20150514110327815"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="1km_inland220150903093554526"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:102001" srcDatumTransform="-1" destDatumTransform="-1" layerid="dforgns220150902115108270"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="strait_of_ga420150514144054496"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="new_offshore20150828163646590"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="OHI_rgns20150417150509202"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rgns_all220150902135328439"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="NorthCoastPolygon_TRIM_EBM20150514110327867"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:54009" srcDatumTransform="-1" destDatumTransform="-1" layerid="ne_bath_2000_clip20150326143152540"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="1km20150902112051770"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_sho220150514154944359"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="vanc20150417235358783"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="n_coast20150417232536391"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="mapp_rgn_all20150514110153216"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_mapps_land20150417205858211"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="dfo_marine_biorgns_bc_albers20150514135956990"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="canada_eez_updated20150415161152787"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="canada_eez_updated_dissolved20150415161458340"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="3nm_nc20150903135856476"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="western_oceans20150417233030199"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="north520150417235558172"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="3nm_cc120150903140953737"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="MaPP_Polygon_TRIM_EBM20150415142400851"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohi_rgns_all_preclip_clean20150417225018501"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="USER:100001" srcDatumTransform="-1" destDatumTransform="-1" layerid="DFO_Marine_Bioregions_Pacific20150514104655010"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="OHI_rgns_mapp_eez320150417172403628"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="OHI_rgns_eez20150417161452701"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohi_bc_rgns1_copy20150828164402918"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="nv220150902101207786"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="cc_land20150903105254517"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="blerg20150418000502914"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="land_mod20150903094009098"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="can120150415170442582"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_rgns_clean20150902100909437"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohi_rgns_all_preclip20150417212109578"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_proposed120150514144742723"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="can_eez_220150415161847704"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="strait_of_ga20150514140357293"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_sho20150514154119848"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rgns_all20150902134131737"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="dfo_rgn_all20150828162149601"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="north220150417234956987"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohi_rgns_all_but_offshore20150417210441670"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="cc220150602093138477"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="PacificCoastUpperOceanSubRegionsApril201320150326130829214"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="central20150417232737085"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_sho220150514153843510"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohi_rgns320150417174557080"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="Longhurst_world_v4_201020150323181608703"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="cc_hg_nc_nv20150514110415735"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="offshore_clip120150831112252293"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="OHI_rgns_eez520150417173040682"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="op20150902140310076"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="cada_eez_albers20150415160907550"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="CD_201120150902112915444"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="1km_inland320150903093841322"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_inland_1km20150903144037517"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="haida20150417232435816"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="CentralCoastPolygon_TRIM_EBM20150514110327713"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="cen_nm_nc20150514164316372"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="north_central20150417174401603"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="north_central20150417232624420"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohi_bc_rgns20150831120102298"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="cc220150602093508299"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:54009" srcDatumTransform="-1" destDatumTransform="-1" layerid="canada_eez_old20150415153620306"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="n_vanc20150831114037778"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_sho220150514153551447"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="north420150417235254208"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="az20150902113459701"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="central20150514151716566"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="s_coast20150903100706948"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="OHI_rgns_eez420150417172751636"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="CC2a20150602095641768"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_land20150903144315048"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohi_bc_rgns20150831113409064"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="dforgns320150902122307212"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="nv20150902113824784"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="OHI_rgns20150417150750607"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="offshore_boundary20150831111906500"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="can320150415165847417"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="eez220150902140233200"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="west_vanc220150514142809116"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="op20150902094852730"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:54009" srcDatumTransform="-1" destDatumTransform="-1" layerid="inland_canada_us_clip20150325152711774"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rgns_all220150902135309173"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="MaPP_Polygon_TRIM_EBM_copy20150415153322994"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohi_bc_rgns_nc2_cc220150602100034762"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="all_but_vanc20150418001649998"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:54009" srcDatumTransform="-1" destDatumTransform="-1" layerid="BC_extents20150325151157413"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="HaidaGwaiiPolygon_TRIM_EBM20150415142400829"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="offshore_clip120150831112135324"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="west_vanc320150514143916067"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohi_bc_rgns20150602112117428"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_mapps320150514152758715"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_all20150902100707028"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_rgn20150902155956893"/>
+        </layer_coordinate_transform_info>
+    </mapcanvas>
+    <visibility-presets/>
+    <layer-tree-canvas>
+        <custom-order enabled="0">
+            <item>ohibc_inland_1km20150903144037517</item>
+            <item>can_albers20150415162430094</item>
+            <item>ohibc_rgn20150902155956893</item>
+            <item>ohibc_offshore_3nm20150903144110724</item>
+            <item>ohibc_land20150903145406245</item>
+            <item>CD_201120150902112915444</item>
+        </custom-order>
+    </layer-tree-canvas>
+    <legend updateDrawingOrder="true">
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="ohibc_inland_1km" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="ohibc_inland_1km20150903144037517" visible="1"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="ohibc_rgn" showFeatureCount="0">
+            <filegroup open="true" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="ohibc_rgn20150902155956893" visible="1"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="ohibc_offshore_3nm" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="ohibc_offshore_3nm20150903144110724" visible="1"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="CD_2011" showFeatureCount="0">
+            <filegroup open="true" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="CD_201120150902112915444" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="ohibc_land" showFeatureCount="0">
+            <filegroup open="true" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="ohibc_land20150903145406245" visible="1"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="National Boundaries" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="can_albers20150415162430094" visible="0"/>
+            </filegroup>
+        </legendlayer>
+    </legend>
+    <Composer title="OHI-BC region exploration" visible="0">
+        <Composition gridVisible="0" printResolution="300" paperWidth="297" snapGridOffsetX="0" guidesVisible="1" snapGridResolution="10" snapGridOffsetY="0" alignmentSnap="1" snapping="0" snapTolerancePixels="5" numPages="1" paperHeight="210" smartGuides="1" printAsRaster="0" generateWorldFile="0">
+            <symbol alpha="1" type="fill" name="">
+                <layer pass="0" class="SimpleFill" locked="0">
+                    <prop k="border_width_map_unit_scale" v="0,0"/>
+                    <prop k="color" v="255,255,255,255"/>
+                    <prop k="joinstyle" v="miter"/>
+                    <prop k="offset" v="0,0"/>
+                    <prop k="offset_map_unit_scale" v="0,0"/>
+                    <prop k="offset_unit" v="MM"/>
+                    <prop k="outline_color" v="0,0,0,255"/>
+                    <prop k="outline_style" v="no"/>
+                    <prop k="outline_width" v="0.26"/>
+                    <prop k="outline_width_unit" v="MM"/>
+                    <prop k="style" v="solid"/>
+                </layer>
+            </symbol>
+            <SnapLine y1="0" x1="0" y2="210" x2="0"/>
+            <SnapLine y1="0" x1="0" y2="210" x2="0"/>
+            <SnapLine y1="0" x1="0" y2="210" x2="0"/>
+            <SnapLine y1="0" x1="0" y2="210" x2="0"/>
+            <SnapLine y1="0" x1="0" y2="210" x2="0"/>
+            <SnapLine y1="0" x1="291.844" y2="210" x2="291.844"/>
+            <ComposerMap mapRotation="0" keepLayerSet="false" id="0" previewMode="Cache" drawCanvasItems="true">
+                <Extent ymin="141164.54983511718455702" xmin="-58192.52724581107031554" ymax="1218493.84399873577058315" xmax="1470307.93903329549357295"/>
+                <LayerSet/>
+                <Grid/>
+                <ComposerMapGrid leftAnnotationDirection="0" annotationFont=".Helvetica Neue DeskInterface,13,-1,5,50,0,0,0,0,0" gridFramePenThickness="0.5" showAnnotation="0" bottomAnnotationDirection="0" bottomAnnotationPosition="1" name="Grid 1" gridStyle="0" intervalX="0" intervalY="0" gridFrameStyle="0" rightAnnotationPosition="1" topAnnotationDirection="0" leftAnnotationPosition="1" blendMode="0" show="0" frameFillColor1="255,255,255,255" gridFrameWidth="2" frameFillColor2="0,0,0,255" annotationFontColor="0,0,0,255" gridFrameSideFlags="15" gridFramePenColor="0,0,0,255" offsetX="0" annotationPrecision="3" offsetY="0" frameAnnotationDistance="1" unit="0" uuid="{5436ec93-cf4a-436d-b86b-8580430ff9a3}" topAnnotationPosition="1" rightAnnotationDirection="0" annotationFormat="0" crossLength="3">
+                    <lineStyle>
+                        <symbol alpha="1" type="line" name="">
+                            <layer pass="0" class="SimpleLine" locked="0">
+                                <prop k="capstyle" v="square"/>
+                                <prop k="customdash" v="5;2"/>
+                                <prop k="customdash_map_unit_scale" v="0,0"/>
+                                <prop k="customdash_unit" v="MM"/>
+                                <prop k="draw_inside_polygon" v="0"/>
+                                <prop k="joinstyle" v="bevel"/>
+                                <prop k="line_color" v="0,0,0,255"/>
+                                <prop k="line_style" v="solid"/>
+                                <prop k="line_width" v="0"/>
+                                <prop k="line_width_unit" v="MM"/>
+                                <prop k="offset" v="0"/>
+                                <prop k="offset_map_unit_scale" v="0,0"/>
+                                <prop k="offset_unit" v="MM"/>
+                                <prop k="use_custom_dash" v="0"/>
+                                <prop k="width_map_unit_scale" v="0,0"/>
+                            </layer>
+                        </symbol>
+                    </lineStyle>
+                    <markerStyle>
+                        <symbol alpha="1" type="marker" name="">
+                            <layer pass="0" class="SimpleMarker" locked="0">
+                                <prop k="angle" v="0"/>
+                                <prop k="color" v="0,0,0,255"/>
+                                <prop k="horizontal_anchor_point" v="1"/>
+                                <prop k="name" v="circle"/>
+                                <prop k="offset" v="0,0"/>
+                                <prop k="offset_map_unit_scale" v="0,0"/>
+                                <prop k="offset_unit" v="MM"/>
+                                <prop k="outline_color" v="0,0,0,255"/>
+                                <prop k="outline_style" v="solid"/>
+                                <prop k="outline_width" v="0"/>
+                                <prop k="outline_width_map_unit_scale" v="0,0"/>
+                                <prop k="outline_width_unit" v="MM"/>
+                                <prop k="scale_method" v="area"/>
+                                <prop k="size" v="2"/>
+                                <prop k="size_map_unit_scale" v="0,0"/>
+                                <prop k="size_unit" v="MM"/>
+                                <prop k="vertical_anchor_point" v="1"/>
+                            </layer>
+                        </symbol>
+                    </markerStyle>
+                </ComposerMapGrid>
+                <AtlasMap scalingMode="2" atlasDriven="0" margin="0.10000000000000001"/>
+                <ComposerItem pagey="2.64412" page="1" id="" lastValidViewScaleFactor="4.36192" positionMode="0" positionLock="false" x="4.81439" y="2.64412" visibility="1" zValue="1" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="290" outlineWidth="0.3" excludeFromExports="0" uuid="{f2669e51-5732-43bb-92c4-bb7ba0b6a4f0}" height="204.4" itemRotation="0" frame="false" pagex="4.81439">
+                    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+                    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+                </ComposerItem>
+            </ComposerMap>
+        </Composition>
+    </Composer>
+    <Composer title="Composer 2" visible="0">
+        <Composition gridVisible="0" printResolution="300" paperWidth="297" snapGridOffsetX="0" guidesVisible="1" snapGridResolution="10" snapGridOffsetY="0" alignmentSnap="1" snapping="0" snapTolerancePixels="5" numPages="1" paperHeight="210" smartGuides="1" printAsRaster="0" generateWorldFile="0">
+            <symbol alpha="1" type="fill" name="">
+                <layer pass="0" class="SimpleFill" locked="0">
+                    <prop k="border_width_map_unit_scale" v="0,0"/>
+                    <prop k="color" v="255,255,255,255"/>
+                    <prop k="joinstyle" v="miter"/>
+                    <prop k="offset" v="0,0"/>
+                    <prop k="offset_map_unit_scale" v="0,0"/>
+                    <prop k="offset_unit" v="MM"/>
+                    <prop k="outline_color" v="0,0,0,255"/>
+                    <prop k="outline_style" v="no"/>
+                    <prop k="outline_width" v="0.26"/>
+                    <prop k="outline_width_unit" v="MM"/>
+                    <prop k="style" v="solid"/>
+                </layer>
+            </symbol>
+            <ComposerLegend symbolWidth="7" title="OHI BC Regions" boxSpace="2" splitLayer="0" equalColumnWidth="0" map="0" titleAlignment="4" symbolHeight="4" wmsLegendHeight="25" wrapChar="" fontColor="#000000" columnSpace="2" wmsLegendWidth="50" columnCount="1">
+                <styles>
+                    <style marginBottom="2" name="title" font=".Helvetica Neue DeskInterface,16,-1,5,50,0,0,0,0,0"/>
+                    <style marginTop="2" name="group" font=".Helvetica Neue DeskInterface,14,-1,5,50,0,0,0,0,0"/>
+                    <style marginTop="2" name="subgroup" font=".Helvetica Neue DeskInterface,12,-1,5,50,0,0,0,0,0"/>
+                    <style marginTop="2" name="symbol" font=".Helvetica Neue DeskInterface,13,-1,5,50,0,0,0,0,0"/>
+                    <style marginTop="2" marginLeft="2" name="symbolLabel" font=".Helvetica Neue DeskInterface,12,-1,5,50,0,0,0,0,0"/>
+                </styles>
+                <layer-tree-group expanded="1" checked="Qt::Checked" name="">
+                    <customproperties/>
+                    <layer-tree-layer expanded="0" checked="Qt::Checked" id="ohi_bc_rgns20150418001938431" name="Proposed Regions">
+                        <customproperties/>
+                    </layer-tree-layer>
+                </layer-tree-group>
+                <ComposerItem pagey="105" page="1" id="" lastValidViewScaleFactor="-1" positionMode="0" positionLock="true" x="16.5601" y="105" visibility="1" zValue="2" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="46.3844" outlineWidth="0.3" excludeFromExports="0" uuid="{a0485828-3462-4e9e-9c2a-0689a3c3d068}" height="17.7312" itemRotation="0" frame="false" pagex="16.5601">
+                    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+                    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+                </ComposerItem>
+            </ComposerLegend>
+            <ComposerMap mapRotation="0" keepLayerSet="false" id="0" previewMode="Render" drawCanvasItems="true">
+                <Extent ymin="143892.08345039183041081" xmin="-91202.55307901615742594" ymax="1152857.53885451727546751" xmax="1343797.44838468404486775"/>
+                <LayerSet/>
+                <Grid/>
+                <ComposerMapGrid leftAnnotationDirection="0" annotationFont=".Helvetica Neue DeskInterface,13,-1,5,50,0,0,0,0,0" gridFramePenThickness="0.5" showAnnotation="0" bottomAnnotationDirection="0" bottomAnnotationPosition="1" name="Grid 1" gridStyle="0" intervalX="0" intervalY="0" gridFrameStyle="0" rightAnnotationPosition="1" topAnnotationDirection="0" leftAnnotationPosition="1" blendMode="0" show="0" frameFillColor1="255,255,255,255" gridFrameWidth="2" frameFillColor2="0,0,0,255" annotationFontColor="0,0,0,255" gridFrameSideFlags="15" gridFramePenColor="0,0,0,255" offsetX="0" annotationPrecision="3" offsetY="0" frameAnnotationDistance="1" unit="0" uuid="{74560c89-7562-417c-bfa6-8f77469fd26a}" topAnnotationPosition="1" rightAnnotationDirection="0" annotationFormat="0" crossLength="3">
+                    <lineStyle>
+                        <symbol alpha="1" type="line" name="">
+                            <layer pass="0" class="SimpleLine" locked="0">
+                                <prop k="capstyle" v="square"/>
+                                <prop k="customdash" v="5;2"/>
+                                <prop k="customdash_map_unit_scale" v="0,0"/>
+                                <prop k="customdash_unit" v="MM"/>
+                                <prop k="draw_inside_polygon" v="0"/>
+                                <prop k="joinstyle" v="bevel"/>
+                                <prop k="line_color" v="0,0,0,255"/>
+                                <prop k="line_style" v="solid"/>
+                                <prop k="line_width" v="0"/>
+                                <prop k="line_width_unit" v="MM"/>
+                                <prop k="offset" v="0"/>
+                                <prop k="offset_map_unit_scale" v="0,0"/>
+                                <prop k="offset_unit" v="MM"/>
+                                <prop k="use_custom_dash" v="0"/>
+                                <prop k="width_map_unit_scale" v="0,0"/>
+                            </layer>
+                        </symbol>
+                    </lineStyle>
+                    <markerStyle>
+                        <symbol alpha="1" type="marker" name="">
+                            <layer pass="0" class="SimpleMarker" locked="0">
+                                <prop k="angle" v="0"/>
+                                <prop k="color" v="0,0,0,255"/>
+                                <prop k="horizontal_anchor_point" v="1"/>
+                                <prop k="name" v="circle"/>
+                                <prop k="offset" v="0,0"/>
+                                <prop k="offset_map_unit_scale" v="0,0"/>
+                                <prop k="offset_unit" v="MM"/>
+                                <prop k="outline_color" v="0,0,0,255"/>
+                                <prop k="outline_style" v="solid"/>
+                                <prop k="outline_width" v="0"/>
+                                <prop k="outline_width_map_unit_scale" v="0,0"/>
+                                <prop k="outline_width_unit" v="MM"/>
+                                <prop k="scale_method" v="area"/>
+                                <prop k="size" v="2"/>
+                                <prop k="size_map_unit_scale" v="0,0"/>
+                                <prop k="size_unit" v="MM"/>
+                                <prop k="vertical_anchor_point" v="1"/>
+                            </layer>
+                        </symbol>
+                    </markerStyle>
+                </ComposerMapGrid>
+                <AtlasMap scalingMode="2" atlasDriven="0" margin="0.10000000000000001"/>
+                <ComposerItem pagey="4.01457" page="1" id="" lastValidViewScaleFactor="2.0381" positionMode="0" positionLock="true" x="5.01821" y="4.01457" visibility="1" zValue="1" background="true" transparency="0" frameJoinStyle="miter" blendMode="0" width="287.967" outlineWidth="0.3" excludeFromExports="0" uuid="{da7f2b68-4187-4fc5-bfa1-0c230db18b08}" height="202.473" itemRotation="0" frame="false" pagex="5.01821">
+                    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+                    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+                </ComposerItem>
+            </ComposerMap>
+        </Composition>
+    </Composer>
+<<<<<<< HEAD
+    <projectlayers layercount="5">
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+            <id>ohibc_inland_1km20150903144037517</id>
+            <datasource>./ohibc_inland_1km.shp</datasource>
+=======
+    <projectlayers layercount="6">
+        <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+            <id>CD_201120150902112915444</id>
+            <datasource>/Volumes/data_edit/git-annex/bcprep/regions/rgn_development/_raw_data/Boundaries - Census Divisions 2011/CD_2011.shp</datasource>
+>>>>>>> 216fb3c7442c012ceb6360c3b95bb4b8741ce82b
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>CD_2011</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <provider encoding="System">ogr</provider>
+            <previewExpression></previewExpression>
+            <vectorjoins/>
+            <expressionfields/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="CDUID">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="CDNAME">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="CDTYPE">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="PRUID">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="RDNUM">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+                    <symbol alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="72,183,116,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation/>
+                <sizescale scalemethod="area"/>
+            </renderer-v2>
+            <customproperties/>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
+            <displayfield>CDNAME</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Label"/>
+                <family fieldname="" name=".Helvetica Neue DeskInterface"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <editform>.</editform>
+            <editforminit></editforminit>
+            <featformsuppress>0</featformsuppress>
+            <annotationform>.</annotationform>
+            <editorlayout>generatedlayout</editorlayout>
+            <excludeAttributesWMS/>
+            <excludeAttributesWFS/>
+            <attributeactions/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="CDUID">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="CDNAME">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="CDTYPE">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="PRUID">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="RDNUM">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+        </maplayer>
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+            <id>can_albers20150415162430094</id>
+            <datasource>/Volumes/data_edit/git-annex/bcprep/regions/rgn_development/_raw_data/canada_eez/can_inland_albers.shp</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>National Boundaries</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <provider encoding="System">ogr</provider>
+            <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
+            <vectorjoins/>
+            <expressionfields/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_type">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_key">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="Shape_Leng">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="Shape_Area">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+            <renderer-v2 attr="rgn_name" symbollevels="0" type="categorizedSymbol">
+                <categories>
+                    <category render="false" symbol="0" value="Canada" label="Canada"/>
+                    <category render="true" symbol="1" value="United States" label="United States"/>
+                </categories>
+                <symbols>
+                    <symbol alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="81,81,204,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="45,45,153,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="1" type="fill" name="1">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="153,153,153,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="102,102,102,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <source-symbol>
+                    <symbol alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="93,70,155,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                </source-symbol>
+                <rotation/>
+                <sizescale scalemethod="area"/>
+            </renderer-v2>
+            <customproperties>
+                <property key="labeling" value="pal"/>
+                <property key="labeling/addDirectionSymbol" value="false"/>
+                <property key="labeling/angleOffset" value="0"/>
+                <property key="labeling/blendMode" value="0"/>
+                <property key="labeling/bufferBlendMode" value="0"/>
+                <property key="labeling/bufferColorA" value="255"/>
+                <property key="labeling/bufferColorB" value="255"/>
+                <property key="labeling/bufferColorG" value="255"/>
+                <property key="labeling/bufferColorR" value="255"/>
+                <property key="labeling/bufferDraw" value="false"/>
+                <property key="labeling/bufferJoinStyle" value="64"/>
+                <property key="labeling/bufferNoFill" value="false"/>
+                <property key="labeling/bufferSize" value="1"/>
+                <property key="labeling/bufferSizeInMapUnits" value="false"/>
+                <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
+                <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
+                <property key="labeling/bufferTransp" value="0"/>
+                <property key="labeling/centroidInside" value="false"/>
+                <property key="labeling/centroidWhole" value="false"/>
+                <property key="labeling/decimals" value="3"/>
+                <property key="labeling/displayAll" value="false"/>
+                <property key="labeling/dist" value="0"/>
+                <property key="labeling/distInMapUnits" value="false"/>
+                <property key="labeling/distMapUnitMaxScale" value="0"/>
+                <property key="labeling/distMapUnitMinScale" value="0"/>
+                <property key="labeling/enabled" value="false"/>
+                <property key="labeling/fieldName" value=""/>
+                <property key="labeling/fontBold" value="false"/>
+                <property key="labeling/fontCapitals" value="0"/>
+                <property key="labeling/fontFamily" value=".Helvetica Neue DeskInterface"/>
+                <property key="labeling/fontItalic" value="false"/>
+                <property key="labeling/fontLetterSpacing" value="0"/>
+                <property key="labeling/fontLimitPixelSize" value="false"/>
+                <property key="labeling/fontMaxPixelSize" value="10000"/>
+                <property key="labeling/fontMinPixelSize" value="3"/>
+                <property key="labeling/fontSize" value="13"/>
+                <property key="labeling/fontSizeInMapUnits" value="false"/>
+                <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
+                <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
+                <property key="labeling/fontStrikeout" value="false"/>
+                <property key="labeling/fontUnderline" value="false"/>
+                <property key="labeling/fontWeight" value="50"/>
+                <property key="labeling/fontWordSpacing" value="0"/>
+                <property key="labeling/formatNumbers" value="false"/>
+                <property key="labeling/isExpression" value="true"/>
+                <property key="labeling/labelOffsetInMapUnits" value="true"/>
+                <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
+                <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
+                <property key="labeling/labelPerPart" value="false"/>
+                <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+                <property key="labeling/limitNumLabels" value="false"/>
+                <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+                <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+                <property key="labeling/maxNumLabels" value="2000"/>
+                <property key="labeling/mergeLines" value="false"/>
+                <property key="labeling/minFeatureSize" value="0"/>
+                <property key="labeling/multilineAlign" value="0"/>
+                <property key="labeling/multilineHeight" value="1"/>
+                <property key="labeling/namedStyle" value=""/>
+                <property key="labeling/obstacle" value="true"/>
+                <property key="labeling/placeDirectionSymbol" value="0"/>
+                <property key="labeling/placement" value="1"/>
+                <property key="labeling/placementFlags" value="0"/>
+                <property key="labeling/plussign" value="false"/>
+                <property key="labeling/preserveRotation" value="true"/>
+                <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+                <property key="labeling/priority" value="5"/>
+                <property key="labeling/quadOffset" value="4"/>
+                <property key="labeling/repeatDistance" value="0"/>
+                <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
+                <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
+                <property key="labeling/repeatDistanceUnit" value="1"/>
+                <property key="labeling/reverseDirectionSymbol" value="false"/>
+                <property key="labeling/rightDirectionSymbol" value=">"/>
+                <property key="labeling/scaleMax" value="10000000"/>
+                <property key="labeling/scaleMin" value="1"/>
+                <property key="labeling/scaleVisibility" value="false"/>
+                <property key="labeling/shadowBlendMode" value="6"/>
+                <property key="labeling/shadowColorB" value="0"/>
+                <property key="labeling/shadowColorG" value="0"/>
+                <property key="labeling/shadowColorR" value="0"/>
+                <property key="labeling/shadowDraw" value="false"/>
+                <property key="labeling/shadowOffsetAngle" value="135"/>
+                <property key="labeling/shadowOffsetDist" value="1"/>
+                <property key="labeling/shadowOffsetGlobal" value="true"/>
+                <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
+                <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
+                <property key="labeling/shadowOffsetUnits" value="1"/>
+                <property key="labeling/shadowRadius" value="1.5"/>
+                <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+                <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
+                <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
+                <property key="labeling/shadowRadiusUnits" value="1"/>
+                <property key="labeling/shadowScale" value="100"/>
+                <property key="labeling/shadowTransparency" value="30"/>
+                <property key="labeling/shadowUnder" value="0"/>
+                <property key="labeling/shapeBlendMode" value="0"/>
+                <property key="labeling/shapeBorderColorA" value="255"/>
+                <property key="labeling/shapeBorderColorB" value="128"/>
+                <property key="labeling/shapeBorderColorG" value="128"/>
+                <property key="labeling/shapeBorderColorR" value="128"/>
+                <property key="labeling/shapeBorderWidth" value="0"/>
+                <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeBorderWidthUnits" value="1"/>
+                <property key="labeling/shapeDraw" value="false"/>
+                <property key="labeling/shapeFillColorA" value="255"/>
+                <property key="labeling/shapeFillColorB" value="255"/>
+                <property key="labeling/shapeFillColorG" value="255"/>
+                <property key="labeling/shapeFillColorR" value="255"/>
+                <property key="labeling/shapeJoinStyle" value="64"/>
+                <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeOffsetUnits" value="1"/>
+                <property key="labeling/shapeOffsetX" value="0"/>
+                <property key="labeling/shapeOffsetY" value="0"/>
+                <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeRadiiUnits" value="1"/>
+                <property key="labeling/shapeRadiiX" value="0"/>
+                <property key="labeling/shapeRadiiY" value="0"/>
+                <property key="labeling/shapeRotation" value="0"/>
+                <property key="labeling/shapeRotationType" value="0"/>
+                <property key="labeling/shapeSVGFile" value=""/>
+                <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeSizeType" value="0"/>
+                <property key="labeling/shapeSizeUnits" value="1"/>
+                <property key="labeling/shapeSizeX" value="0"/>
+                <property key="labeling/shapeSizeY" value="0"/>
+                <property key="labeling/shapeTransparency" value="0"/>
+                <property key="labeling/shapeType" value="0"/>
+                <property key="labeling/textColorA" value="255"/>
+                <property key="labeling/textColorB" value="0"/>
+                <property key="labeling/textColorG" value="0"/>
+                <property key="labeling/textColorR" value="0"/>
+                <property key="labeling/textTransp" value="0"/>
+                <property key="labeling/upsidedownLabels" value="0"/>
+                <property key="labeling/wrapChar" value=""/>
+                <property key="labeling/xOffset" value="0"/>
+                <property key="labeling/yOffset" value="0"/>
+            </customproperties>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+<<<<<<< HEAD
+            <layerTransparency>50</layerTransparency>
+            <displayfield>rgn_name</displayfield>
+=======
+            <layerTransparency>0</layerTransparency>
+            <displayfield>name</displayfield>
+>>>>>>> 216fb3c7442c012ceb6360c3b95bb4b8741ce82b
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Label"/>
+                <family fieldname="" name=".Helvetica Neue DeskInterface"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <editform>.</editform>
+            <editforminit></editforminit>
+            <featformsuppress>0</featformsuppress>
+            <annotationform>.</annotationform>
+            <editorlayout>generatedlayout</editorlayout>
+            <excludeAttributesWMS/>
+            <excludeAttributesWFS/>
+            <attributeactions/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_type">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_key">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="Shape_Leng">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="Shape_Area">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+            <id>ohibc_inland_1km20150903144037517</id>
+            <datasource>./ohibc_inland_1km.shp</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>ohibc_inland_1km</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <provider encoding="System">ogr</provider>
+            <previewExpression>COALESCE( "rgn_name", '&lt;NULL>' )</previewExpression>
+            <vectorjoins/>
+            <expressionfields/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+            <renderer-v2 attr="rgn_name" symbollevels="0" type="categorizedSymbol">
+                <categories>
+                    <category render="true" symbol="0" value="Aristazabal Island" label="Aristazabal Island"/>
+                    <category render="true" symbol="1" value="Central Coast" label="Central Coast"/>
+                    <category render="true" symbol="2" value="Haida Gwaii" label="Haida Gwaii"/>
+                    <category render="true" symbol="3" value="North Coast" label="North Coast"/>
+                    <category render="true" symbol="4" value="North Vancouver Island" label="North Vancouver Island"/>
+                    <category render="true" symbol="5" value="Strait of Georgia" label="Strait of Georgia"/>
+                    <category render="true" symbol="6" value="West Vancouver Island" label="West Vancouver Island"/>
+                </categories>
+                <symbols>
+                    <symbol alpha="0.5" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="255,255,178,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,0"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.5" type="fill" name="1">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="254,225,128,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,0"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.5" type="fill" name="2">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="253,195,87,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,0"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.5" type="fill" name="3">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="253,159,69,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,0"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.5" type="fill" name="4">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="249,117,52,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,0"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.5" type="fill" name="5">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="241,70,36,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,0"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.5" type="fill" name="6">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="218,33,34,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,0"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <source-symbol>
+                    <symbol alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="215,126,178,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                </source-symbol>
+                <colorramp type="gradient" name="[source]">
+                    <prop k="color1" v="255,255,178,255"/>
+                    <prop k="color2" v="189,0,38,255"/>
+                    <prop k="discrete" v="0"/>
+                    <prop k="stops" v="0.25;254,204,92,255:0.5;253,141,60,255:0.75;240,59,32,255"/>
+                </colorramp>
+                <invertedcolorramp value="0"/>
+                <rotation/>
+                <sizescale scalemethod="area"/>
+            </renderer-v2>
+            <customproperties>
+                <property key="labeling" value="pal"/>
+                <property key="labeling/addDirectionSymbol" value="false"/>
+                <property key="labeling/angleOffset" value="0"/>
+                <property key="labeling/blendMode" value="0"/>
+                <property key="labeling/bufferBlendMode" value="0"/>
+                <property key="labeling/bufferColorA" value="255"/>
+                <property key="labeling/bufferColorB" value="255"/>
+                <property key="labeling/bufferColorG" value="255"/>
+                <property key="labeling/bufferColorR" value="255"/>
+                <property key="labeling/bufferDraw" value="false"/>
+                <property key="labeling/bufferJoinStyle" value="64"/>
+                <property key="labeling/bufferNoFill" value="false"/>
+                <property key="labeling/bufferSize" value="1"/>
+                <property key="labeling/bufferSizeInMapUnits" value="false"/>
+                <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
+                <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
+                <property key="labeling/bufferTransp" value="0"/>
+                <property key="labeling/centroidInside" value="false"/>
+                <property key="labeling/centroidWhole" value="false"/>
+                <property key="labeling/decimals" value="3"/>
+                <property key="labeling/displayAll" value="false"/>
+                <property key="labeling/dist" value="0"/>
+                <property key="labeling/distInMapUnits" value="false"/>
+                <property key="labeling/distMapUnitMaxScale" value="0"/>
+                <property key="labeling/distMapUnitMinScale" value="0"/>
+                <property key="labeling/enabled" value="false"/>
+                <property key="labeling/fieldName" value=""/>
+                <property key="labeling/fontBold" value="false"/>
+                <property key="labeling/fontCapitals" value="0"/>
+                <property key="labeling/fontFamily" value=".Helvetica Neue DeskInterface"/>
+                <property key="labeling/fontItalic" value="false"/>
+                <property key="labeling/fontLetterSpacing" value="0"/>
+                <property key="labeling/fontLimitPixelSize" value="false"/>
+                <property key="labeling/fontMaxPixelSize" value="10000"/>
+                <property key="labeling/fontMinPixelSize" value="3"/>
+                <property key="labeling/fontSize" value="13"/>
+                <property key="labeling/fontSizeInMapUnits" value="false"/>
+                <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
+                <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
+                <property key="labeling/fontStrikeout" value="false"/>
+                <property key="labeling/fontUnderline" value="false"/>
+                <property key="labeling/fontWeight" value="50"/>
+                <property key="labeling/fontWordSpacing" value="0"/>
+                <property key="labeling/formatNumbers" value="false"/>
+                <property key="labeling/isExpression" value="true"/>
+                <property key="labeling/labelOffsetInMapUnits" value="true"/>
+                <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
+                <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
+                <property key="labeling/labelPerPart" value="false"/>
+                <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+                <property key="labeling/limitNumLabels" value="false"/>
+                <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+                <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+                <property key="labeling/maxNumLabels" value="2000"/>
+                <property key="labeling/mergeLines" value="false"/>
+                <property key="labeling/minFeatureSize" value="0"/>
+                <property key="labeling/multilineAlign" value="0"/>
+                <property key="labeling/multilineHeight" value="1"/>
+                <property key="labeling/namedStyle" value=""/>
+                <property key="labeling/obstacle" value="true"/>
+                <property key="labeling/placeDirectionSymbol" value="0"/>
+                <property key="labeling/placement" value="1"/>
+                <property key="labeling/placementFlags" value="0"/>
+                <property key="labeling/plussign" value="false"/>
+                <property key="labeling/preserveRotation" value="true"/>
+                <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+                <property key="labeling/priority" value="5"/>
+                <property key="labeling/quadOffset" value="4"/>
+                <property key="labeling/repeatDistance" value="0"/>
+                <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
+                <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
+                <property key="labeling/repeatDistanceUnit" value="1"/>
+                <property key="labeling/reverseDirectionSymbol" value="false"/>
+                <property key="labeling/rightDirectionSymbol" value=">"/>
+                <property key="labeling/scaleMax" value="10000000"/>
+                <property key="labeling/scaleMin" value="1"/>
+                <property key="labeling/scaleVisibility" value="false"/>
+                <property key="labeling/shadowBlendMode" value="6"/>
+                <property key="labeling/shadowColorB" value="0"/>
+                <property key="labeling/shadowColorG" value="0"/>
+                <property key="labeling/shadowColorR" value="0"/>
+                <property key="labeling/shadowDraw" value="false"/>
+                <property key="labeling/shadowOffsetAngle" value="135"/>
+                <property key="labeling/shadowOffsetDist" value="1"/>
+                <property key="labeling/shadowOffsetGlobal" value="true"/>
+                <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
+                <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
+                <property key="labeling/shadowOffsetUnits" value="1"/>
+                <property key="labeling/shadowRadius" value="1.5"/>
+                <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+                <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
+                <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
+                <property key="labeling/shadowRadiusUnits" value="1"/>
+                <property key="labeling/shadowScale" value="100"/>
+                <property key="labeling/shadowTransparency" value="30"/>
+                <property key="labeling/shadowUnder" value="0"/>
+                <property key="labeling/shapeBlendMode" value="0"/>
+                <property key="labeling/shapeBorderColorA" value="255"/>
+                <property key="labeling/shapeBorderColorB" value="128"/>
+                <property key="labeling/shapeBorderColorG" value="128"/>
+                <property key="labeling/shapeBorderColorR" value="128"/>
+                <property key="labeling/shapeBorderWidth" value="0"/>
+                <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeBorderWidthUnits" value="1"/>
+                <property key="labeling/shapeDraw" value="false"/>
+                <property key="labeling/shapeFillColorA" value="255"/>
+                <property key="labeling/shapeFillColorB" value="255"/>
+                <property key="labeling/shapeFillColorG" value="255"/>
+                <property key="labeling/shapeFillColorR" value="255"/>
+                <property key="labeling/shapeJoinStyle" value="64"/>
+                <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeOffsetUnits" value="1"/>
+                <property key="labeling/shapeOffsetX" value="0"/>
+                <property key="labeling/shapeOffsetY" value="0"/>
+                <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeRadiiUnits" value="1"/>
+                <property key="labeling/shapeRadiiX" value="0"/>
+                <property key="labeling/shapeRadiiY" value="0"/>
+                <property key="labeling/shapeRotation" value="0"/>
+                <property key="labeling/shapeRotationType" value="0"/>
+                <property key="labeling/shapeSVGFile" value=""/>
+                <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeSizeType" value="0"/>
+                <property key="labeling/shapeSizeUnits" value="1"/>
+                <property key="labeling/shapeSizeX" value="0"/>
+                <property key="labeling/shapeSizeY" value="0"/>
+                <property key="labeling/shapeTransparency" value="0"/>
+                <property key="labeling/shapeType" value="0"/>
+                <property key="labeling/textColorA" value="255"/>
+                <property key="labeling/textColorB" value="0"/>
+                <property key="labeling/textColorG" value="0"/>
+                <property key="labeling/textColorR" value="0"/>
+                <property key="labeling/textTransp" value="0"/>
+                <property key="labeling/upsidedownLabels" value="0"/>
+                <property key="labeling/wrapChar" value=""/>
+                <property key="labeling/xOffset" value="0"/>
+                <property key="labeling/yOffset" value="0"/>
+            </customproperties>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
+            <displayfield>rgn_name</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Label"/>
+                <family fieldname="" name=".Helvetica Neue DeskInterface"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <editform>.</editform>
+            <editforminit></editforminit>
+            <featformsuppress>0</featformsuppress>
+            <annotationform>.</annotationform>
+            <editorlayout>generatedlayout</editorlayout>
+            <excludeAttributesWMS/>
+            <excludeAttributesWFS/>
+            <attributeactions/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+        </maplayer>
+<<<<<<< HEAD
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+            <id>ohibc_offshore_3nm20150903144110724</id>
+            <datasource>./ohibc_offshore_3nm.shp</datasource>
+=======
+        <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+            <id>ohibc_land20150903145406245</id>
+            <datasource>./ohibc_land.shp</datasource>
+>>>>>>> 216fb3c7442c012ceb6360c3b95bb4b8741ce82b
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>ohibc_land</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <provider encoding="System">ogr</provider>
+            <previewExpression></previewExpression>
+            <vectorjoins/>
+            <expressionfields/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+<<<<<<< HEAD
+                    <symbol alpha="0.75" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="126,0,253,65"/>
+=======
+                    <symbol alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="63,128,63,255"/>
+>>>>>>> 216fb3c7442c012ceb6360c3b95bb4b8741ce82b
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+<<<<<<< HEAD
+                            <prop k="outline_color" v="126,0,253,127"/>
+=======
+                            <prop k="outline_color" v="77,140,77,255"/>
+>>>>>>> 216fb3c7442c012ceb6360c3b95bb4b8741ce82b
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation/>
+                <sizescale scalemethod="area"/>
+            </renderer-v2>
+            <customproperties>
+                <property key="labeling" value="pal"/>
+                <property key="labeling/addDirectionSymbol" value="false"/>
+                <property key="labeling/angleOffset" value="0"/>
+                <property key="labeling/blendMode" value="0"/>
+                <property key="labeling/bufferBlendMode" value="0"/>
+                <property key="labeling/bufferColorA" value="255"/>
+                <property key="labeling/bufferColorB" value="255"/>
+                <property key="labeling/bufferColorG" value="255"/>
+                <property key="labeling/bufferColorR" value="255"/>
+                <property key="labeling/bufferDraw" value="false"/>
+                <property key="labeling/bufferJoinStyle" value="64"/>
+                <property key="labeling/bufferNoFill" value="false"/>
+                <property key="labeling/bufferSize" value="1"/>
+                <property key="labeling/bufferSizeInMapUnits" value="false"/>
+                <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
+                <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
+                <property key="labeling/bufferTransp" value="0"/>
+                <property key="labeling/centroidInside" value="false"/>
+                <property key="labeling/centroidWhole" value="false"/>
+                <property key="labeling/decimals" value="3"/>
+                <property key="labeling/displayAll" value="false"/>
+                <property key="labeling/dist" value="0"/>
+                <property key="labeling/distInMapUnits" value="false"/>
+                <property key="labeling/distMapUnitMaxScale" value="0"/>
+                <property key="labeling/distMapUnitMinScale" value="0"/>
+                <property key="labeling/enabled" value="false"/>
+                <property key="labeling/fieldName" value=""/>
+                <property key="labeling/fontBold" value="false"/>
+                <property key="labeling/fontCapitals" value="0"/>
+                <property key="labeling/fontFamily" value=".Helvetica Neue DeskInterface"/>
+                <property key="labeling/fontItalic" value="false"/>
+                <property key="labeling/fontLetterSpacing" value="0"/>
+                <property key="labeling/fontLimitPixelSize" value="false"/>
+                <property key="labeling/fontMaxPixelSize" value="10000"/>
+                <property key="labeling/fontMinPixelSize" value="3"/>
+                <property key="labeling/fontSize" value="13"/>
+                <property key="labeling/fontSizeInMapUnits" value="false"/>
+                <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
+                <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
+                <property key="labeling/fontStrikeout" value="false"/>
+                <property key="labeling/fontUnderline" value="false"/>
+                <property key="labeling/fontWeight" value="50"/>
+                <property key="labeling/fontWordSpacing" value="0"/>
+                <property key="labeling/formatNumbers" value="false"/>
+                <property key="labeling/isExpression" value="true"/>
+                <property key="labeling/labelOffsetInMapUnits" value="true"/>
+                <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
+                <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
+                <property key="labeling/labelPerPart" value="false"/>
+                <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+                <property key="labeling/limitNumLabels" value="false"/>
+                <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+                <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+                <property key="labeling/maxNumLabels" value="2000"/>
+                <property key="labeling/mergeLines" value="false"/>
+                <property key="labeling/minFeatureSize" value="0"/>
+                <property key="labeling/multilineAlign" value="0"/>
+                <property key="labeling/multilineHeight" value="1"/>
+                <property key="labeling/namedStyle" value=""/>
+                <property key="labeling/obstacle" value="true"/>
+                <property key="labeling/placeDirectionSymbol" value="0"/>
+                <property key="labeling/placement" value="1"/>
+                <property key="labeling/placementFlags" value="0"/>
+                <property key="labeling/plussign" value="false"/>
+                <property key="labeling/preserveRotation" value="true"/>
+                <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+                <property key="labeling/priority" value="5"/>
+                <property key="labeling/quadOffset" value="4"/>
+                <property key="labeling/repeatDistance" value="0"/>
+                <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
+                <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
+                <property key="labeling/repeatDistanceUnit" value="1"/>
+                <property key="labeling/reverseDirectionSymbol" value="false"/>
+                <property key="labeling/rightDirectionSymbol" value=">"/>
+                <property key="labeling/scaleMax" value="10000000"/>
+                <property key="labeling/scaleMin" value="1"/>
+                <property key="labeling/scaleVisibility" value="false"/>
+                <property key="labeling/shadowBlendMode" value="6"/>
+                <property key="labeling/shadowColorB" value="0"/>
+                <property key="labeling/shadowColorG" value="0"/>
+                <property key="labeling/shadowColorR" value="0"/>
+                <property key="labeling/shadowDraw" value="false"/>
+                <property key="labeling/shadowOffsetAngle" value="135"/>
+                <property key="labeling/shadowOffsetDist" value="1"/>
+                <property key="labeling/shadowOffsetGlobal" value="true"/>
+                <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
+                <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
+                <property key="labeling/shadowOffsetUnits" value="1"/>
+                <property key="labeling/shadowRadius" value="1.5"/>
+                <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+                <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
+                <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
+                <property key="labeling/shadowRadiusUnits" value="1"/>
+                <property key="labeling/shadowScale" value="100"/>
+                <property key="labeling/shadowTransparency" value="30"/>
+                <property key="labeling/shadowUnder" value="0"/>
+                <property key="labeling/shapeBlendMode" value="0"/>
+                <property key="labeling/shapeBorderColorA" value="255"/>
+                <property key="labeling/shapeBorderColorB" value="128"/>
+                <property key="labeling/shapeBorderColorG" value="128"/>
+                <property key="labeling/shapeBorderColorR" value="128"/>
+                <property key="labeling/shapeBorderWidth" value="0"/>
+                <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeBorderWidthUnits" value="1"/>
+                <property key="labeling/shapeDraw" value="false"/>
+                <property key="labeling/shapeFillColorA" value="255"/>
+                <property key="labeling/shapeFillColorB" value="255"/>
+                <property key="labeling/shapeFillColorG" value="255"/>
+                <property key="labeling/shapeFillColorR" value="255"/>
+                <property key="labeling/shapeJoinStyle" value="64"/>
+                <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeOffsetUnits" value="1"/>
+                <property key="labeling/shapeOffsetX" value="0"/>
+                <property key="labeling/shapeOffsetY" value="0"/>
+                <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeRadiiUnits" value="1"/>
+                <property key="labeling/shapeRadiiX" value="0"/>
+                <property key="labeling/shapeRadiiY" value="0"/>
+                <property key="labeling/shapeRotation" value="0"/>
+                <property key="labeling/shapeRotationType" value="0"/>
+                <property key="labeling/shapeSVGFile" value=""/>
+                <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeSizeType" value="0"/>
+                <property key="labeling/shapeSizeUnits" value="1"/>
+                <property key="labeling/shapeSizeX" value="0"/>
+                <property key="labeling/shapeSizeY" value="0"/>
+                <property key="labeling/shapeTransparency" value="0"/>
+                <property key="labeling/shapeType" value="0"/>
+                <property key="labeling/textColorA" value="255"/>
+                <property key="labeling/textColorB" value="0"/>
+                <property key="labeling/textColorG" value="0"/>
+                <property key="labeling/textColorR" value="0"/>
+                <property key="labeling/textTransp" value="0"/>
+                <property key="labeling/upsidedownLabels" value="0"/>
+                <property key="labeling/wrapChar" value=""/>
+                <property key="labeling/xOffset" value="0"/>
+                <property key="labeling/yOffset" value="0"/>
+            </customproperties>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
+            <displayfield>CDNAME</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Label"/>
+                <family fieldname="" name=".Helvetica Neue DeskInterface"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <editform>.</editform>
+            <editforminit></editforminit>
+            <featformsuppress>0</featformsuppress>
+            <annotationform>.</annotationform>
+            <editorlayout>generatedlayout</editorlayout>
+            <excludeAttributesWMS/>
+            <excludeAttributesWFS/>
+            <attributeactions/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+            <id>ohibc_offshore_3nm20150903144110724</id>
+            <datasource>./ohibc_offshore_3nm.shp</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>ohibc_offshore_3nm</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <provider encoding="System">ogr</provider>
+            <previewExpression>COALESCE( "rgn_name", '&lt;NULL>' )</previewExpression>
+            <vectorjoins/>
+            <expressionfields/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+            <renderer-v2 attr="rgn_name" symbollevels="0" type="categorizedSymbol">
+                <categories>
+                    <category render="true" symbol="0" value="Aristazabal Island" label="Aristazabal Island"/>
+                    <category render="true" symbol="1" value="Central Coast" label="Central Coast"/>
+                    <category render="true" symbol="2" value="Haida Gwaii" label="Haida Gwaii"/>
+                    <category render="true" symbol="3" value="North Coast" label="North Coast"/>
+                    <category render="true" symbol="4" value="North Vancouver Island" label="North Vancouver Island"/>
+                    <category render="true" symbol="5" value="Strait of Georgia" label="Strait of Georgia"/>
+                    <category render="true" symbol="6" value="West Vancouver Island" label="West Vancouver Island"/>
+                </categories>
+                <symbols>
+<<<<<<< HEAD
+                    <symbol alpha="0.4" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="247,251,255,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.4" type="fill" name="1">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="219,233,246,255"/>
+=======
+                    <symbol alpha="0.75" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="252,251,253,255"/>
+>>>>>>> 216fb3c7442c012ceb6360c3b95bb4b8741ce82b
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.75" type="fill" name="1">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+<<<<<<< HEAD
+                            <prop k="color" v="190,215,236,255"/>
+=======
+                            <prop k="color" v="236,235,244,255"/>
+>>>>>>> 216fb3c7442c012ceb6360c3b95bb4b8741ce82b
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.75" type="fill" name="2">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+<<<<<<< HEAD
+                            <prop k="color" v="142,193,221,255"/>
+=======
+                            <prop k="color" v="212,212,232,255"/>
+>>>>>>> 216fb3c7442c012ceb6360c3b95bb4b8741ce82b
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.75" type="fill" name="3">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+<<<<<<< HEAD
+                            <prop k="color" v="90,162,207,255"/>
+=======
+                            <prop k="color" v="179,178,214,255"/>
+>>>>>>> 216fb3c7442c012ceb6360c3b95bb4b8741ce82b
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.75" type="fill" name="4">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+<<<<<<< HEAD
+                            <prop k="color" v="162,206,238,255"/>
+=======
+                            <prop k="color" v="146,142,194,255"/>
+>>>>>>> 216fb3c7442c012ceb6360c3b95bb4b8741ce82b
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.75" type="fill" name="5">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+<<<<<<< HEAD
+                            <prop k="color" v="16,92,164,255"/>
+=======
+                            <prop k="color" v="113,96,171,255"/>
+>>>>>>> 216fb3c7442c012ceb6360c3b95bb4b8741ce82b
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.75" type="fill" name="6">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+<<<<<<< HEAD
+                            <prop k="color" v="8,48,107,255"/>
+=======
+                            <prop k="color" v="90,51,148,255"/>
+>>>>>>> 216fb3c7442c012ceb6360c3b95bb4b8741ce82b
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <source-symbol>
+                    <symbol alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="88,127,177,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                </source-symbol>
+                <colorramp type="gradient" name="[source]">
+<<<<<<< HEAD
+                    <prop k="color1" v="247,251,255,255"/>
+                    <prop k="color2" v="8,48,107,255"/>
+                    <prop k="discrete" v="0"/>
+                    <prop k="stops" v="0.13;222,235,247,255:0.26;198,219,239,255:0.39;158,202,225,255:0.52;107,174,214,255:0.65;66,146,198,255:0.78;33,113,181,255:0.9;8,81,156,255"/>
+=======
+                    <prop k="color1" v="252,251,253,255"/>
+                    <prop k="color2" v="63,0,125,255"/>
+                    <prop k="discrete" v="0"/>
+                    <prop k="stops" v="0.13;239,237,245,255:0.26;218,218,235,255:0.39;188,189,220,255:0.52;158,154,200,255:0.65;128,125,186,255:0.75;106,81,163,255:0.9;84,39,143,255"/>
+>>>>>>> 216fb3c7442c012ceb6360c3b95bb4b8741ce82b
+                </colorramp>
+                <invertedcolorramp value="0"/>
+                <rotation/>
+                <sizescale scalemethod="area"/>
+            </renderer-v2>
+            <customproperties>
+                <property key="labeling" value="pal"/>
+                <property key="labeling/addDirectionSymbol" value="false"/>
+                <property key="labeling/angleOffset" value="0"/>
+                <property key="labeling/blendMode" value="0"/>
+                <property key="labeling/bufferBlendMode" value="0"/>
+                <property key="labeling/bufferColorA" value="255"/>
+                <property key="labeling/bufferColorB" value="255"/>
+                <property key="labeling/bufferColorG" value="255"/>
+                <property key="labeling/bufferColorR" value="255"/>
+                <property key="labeling/bufferDraw" value="false"/>
+                <property key="labeling/bufferJoinStyle" value="64"/>
+                <property key="labeling/bufferNoFill" value="false"/>
+                <property key="labeling/bufferSize" value="1"/>
+                <property key="labeling/bufferSizeInMapUnits" value="false"/>
+                <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
+                <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
+                <property key="labeling/bufferTransp" value="0"/>
+                <property key="labeling/centroidInside" value="false"/>
+                <property key="labeling/centroidWhole" value="false"/>
+                <property key="labeling/decimals" value="3"/>
+                <property key="labeling/displayAll" value="false"/>
+                <property key="labeling/dist" value="0"/>
+                <property key="labeling/distInMapUnits" value="false"/>
+                <property key="labeling/distMapUnitMaxScale" value="0"/>
+                <property key="labeling/distMapUnitMinScale" value="0"/>
+                <property key="labeling/enabled" value="false"/>
+                <property key="labeling/fieldName" value=""/>
+                <property key="labeling/fontBold" value="false"/>
+                <property key="labeling/fontCapitals" value="0"/>
+                <property key="labeling/fontFamily" value=".Helvetica Neue DeskInterface"/>
+                <property key="labeling/fontItalic" value="false"/>
+                <property key="labeling/fontLetterSpacing" value="0"/>
+                <property key="labeling/fontLimitPixelSize" value="false"/>
+                <property key="labeling/fontMaxPixelSize" value="10000"/>
+                <property key="labeling/fontMinPixelSize" value="3"/>
+                <property key="labeling/fontSize" value="13"/>
+                <property key="labeling/fontSizeInMapUnits" value="false"/>
+                <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
+                <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
+                <property key="labeling/fontStrikeout" value="false"/>
+                <property key="labeling/fontUnderline" value="false"/>
+                <property key="labeling/fontWeight" value="50"/>
+                <property key="labeling/fontWordSpacing" value="0"/>
+                <property key="labeling/formatNumbers" value="false"/>
+                <property key="labeling/isExpression" value="true"/>
+                <property key="labeling/labelOffsetInMapUnits" value="true"/>
+                <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
+                <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
+                <property key="labeling/labelPerPart" value="false"/>
+                <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+                <property key="labeling/limitNumLabels" value="false"/>
+                <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+                <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+                <property key="labeling/maxNumLabels" value="2000"/>
+                <property key="labeling/mergeLines" value="false"/>
+                <property key="labeling/minFeatureSize" value="0"/>
+                <property key="labeling/multilineAlign" value="0"/>
+                <property key="labeling/multilineHeight" value="1"/>
+                <property key="labeling/namedStyle" value=""/>
+                <property key="labeling/obstacle" value="true"/>
+                <property key="labeling/placeDirectionSymbol" value="0"/>
+                <property key="labeling/placement" value="1"/>
+                <property key="labeling/placementFlags" value="0"/>
+                <property key="labeling/plussign" value="false"/>
+                <property key="labeling/preserveRotation" value="true"/>
+                <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+                <property key="labeling/priority" value="5"/>
+                <property key="labeling/quadOffset" value="4"/>
+                <property key="labeling/repeatDistance" value="0"/>
+                <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
+                <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
+                <property key="labeling/repeatDistanceUnit" value="1"/>
+                <property key="labeling/reverseDirectionSymbol" value="false"/>
+                <property key="labeling/rightDirectionSymbol" value=">"/>
+                <property key="labeling/scaleMax" value="10000000"/>
+                <property key="labeling/scaleMin" value="1"/>
+                <property key="labeling/scaleVisibility" value="false"/>
+                <property key="labeling/shadowBlendMode" value="6"/>
+                <property key="labeling/shadowColorB" value="0"/>
+                <property key="labeling/shadowColorG" value="0"/>
+                <property key="labeling/shadowColorR" value="0"/>
+                <property key="labeling/shadowDraw" value="false"/>
+                <property key="labeling/shadowOffsetAngle" value="135"/>
+                <property key="labeling/shadowOffsetDist" value="1"/>
+                <property key="labeling/shadowOffsetGlobal" value="true"/>
+                <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
+                <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
+                <property key="labeling/shadowOffsetUnits" value="1"/>
+                <property key="labeling/shadowRadius" value="1.5"/>
+                <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+                <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
+                <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
+                <property key="labeling/shadowRadiusUnits" value="1"/>
+                <property key="labeling/shadowScale" value="100"/>
+                <property key="labeling/shadowTransparency" value="30"/>
+                <property key="labeling/shadowUnder" value="0"/>
+                <property key="labeling/shapeBlendMode" value="0"/>
+                <property key="labeling/shapeBorderColorA" value="255"/>
+                <property key="labeling/shapeBorderColorB" value="128"/>
+                <property key="labeling/shapeBorderColorG" value="128"/>
+                <property key="labeling/shapeBorderColorR" value="128"/>
+                <property key="labeling/shapeBorderWidth" value="0"/>
+                <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeBorderWidthUnits" value="1"/>
+                <property key="labeling/shapeDraw" value="false"/>
+                <property key="labeling/shapeFillColorA" value="255"/>
+                <property key="labeling/shapeFillColorB" value="255"/>
+                <property key="labeling/shapeFillColorG" value="255"/>
+                <property key="labeling/shapeFillColorR" value="255"/>
+                <property key="labeling/shapeJoinStyle" value="64"/>
+                <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeOffsetUnits" value="1"/>
+                <property key="labeling/shapeOffsetX" value="0"/>
+                <property key="labeling/shapeOffsetY" value="0"/>
+                <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeRadiiUnits" value="1"/>
+                <property key="labeling/shapeRadiiX" value="0"/>
+                <property key="labeling/shapeRadiiY" value="0"/>
+                <property key="labeling/shapeRotation" value="0"/>
+                <property key="labeling/shapeRotationType" value="0"/>
+                <property key="labeling/shapeSVGFile" value=""/>
+                <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeSizeType" value="0"/>
+                <property key="labeling/shapeSizeUnits" value="1"/>
+                <property key="labeling/shapeSizeX" value="0"/>
+                <property key="labeling/shapeSizeY" value="0"/>
+                <property key="labeling/shapeTransparency" value="0"/>
+                <property key="labeling/shapeType" value="0"/>
+                <property key="labeling/textColorA" value="255"/>
+                <property key="labeling/textColorB" value="0"/>
+                <property key="labeling/textColorG" value="0"/>
+                <property key="labeling/textColorR" value="0"/>
+                <property key="labeling/textTransp" value="0"/>
+                <property key="labeling/upsidedownLabels" value="0"/>
+                <property key="labeling/wrapChar" value=""/>
+                <property key="labeling/xOffset" value="0"/>
+                <property key="labeling/yOffset" value="0"/>
+            </customproperties>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
+            <displayfield>rgn_name</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Label"/>
+                <family fieldname="" name=".Helvetica Neue DeskInterface"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <editform>.</editform>
+            <editforminit></editforminit>
+            <featformsuppress>0</featformsuppress>
+            <annotationform>.</annotationform>
+            <editorlayout>generatedlayout</editorlayout>
+            <excludeAttributesWMS/>
+            <excludeAttributesWFS/>
+            <attributeactions/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+            <id>ohibc_rgn20150902155956893</id>
+            <datasource>./ohibc_rgn.shp</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>ohibc_rgn</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <provider encoding="System">ogr</provider>
+            <previewExpression>COALESCE("Label", '&lt;NULL>')</previewExpression>
+            <vectorjoins/>
+            <expressionfields/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+            <renderer-v2 attr="rgn_name" symbollevels="0" type="categorizedSymbol">
+                <categories>
+                    <category render="true" symbol="0" value="Aristazabal Island" label="Aristazabal Island"/>
+                    <category render="true" symbol="1" value="Central Coast" label="Central Coast"/>
+                    <category render="true" symbol="2" value="Haida Gwaii" label="Haida Gwaii"/>
+                    <category render="true" symbol="3" value="North Coast" label="North Coast"/>
+                    <category render="true" symbol="4" value="North Vancouver Island" label="North Vancouver Island"/>
+                    <category render="true" symbol="5" value="Strait of Georgia" label="Strait of Georgia"/>
+                    <category render="true" symbol="6" value="West Vancouver Island" label="West Vancouver Island"/>
+                    <category render="true" symbol="7" value="Pacific Offshore" label="Pacific Offshore"/>
+                </categories>
+                <symbols>
+                    <symbol alpha="0.4" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="247,251,255,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.4" type="fill" name="1">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="219,233,246,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.4" type="fill" name="2">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="190,215,236,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.4" type="fill" name="3">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="142,193,221,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.4" type="fill" name="4">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="90,162,207,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.4" type="fill" name="5">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="0,45,77,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.4" type="fill" name="6">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="184,208,230,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="0.4" type="fill" name="7">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="8,48,107,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <source-symbol>
+                    <symbol alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="149,7,156,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                </source-symbol>
+                <colorramp type="gradient" name="[source]">
+                    <prop k="color1" v="247,251,255,255"/>
+                    <prop k="color2" v="8,48,107,255"/>
+                    <prop k="discrete" v="0"/>
+                    <prop k="stops" v="0.13;222,235,247,255:0.26;198,219,239,255:0.39;158,202,225,255:0.52;107,174,214,255:0.65;66,146,198,255:0.78;33,113,181,255:0.9;8,81,156,255"/>
+                </colorramp>
+                <invertedcolorramp value="0"/>
+                <rotation/>
+                <sizescale scalemethod="area"/>
+            </renderer-v2>
+            <customproperties>
+                <property key="labeling" value="pal"/>
+                <property key="labeling/addDirectionSymbol" value="false"/>
+                <property key="labeling/angleOffset" value="0"/>
+                <property key="labeling/blendMode" value="0"/>
+                <property key="labeling/bufferBlendMode" value="0"/>
+                <property key="labeling/bufferColorA" value="255"/>
+                <property key="labeling/bufferColorB" value="255"/>
+                <property key="labeling/bufferColorG" value="255"/>
+                <property key="labeling/bufferColorR" value="255"/>
+                <property key="labeling/bufferDraw" value="false"/>
+                <property key="labeling/bufferJoinStyle" value="64"/>
+                <property key="labeling/bufferNoFill" value="false"/>
+                <property key="labeling/bufferSize" value="1"/>
+                <property key="labeling/bufferSizeInMapUnits" value="false"/>
+                <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
+                <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
+                <property key="labeling/bufferTransp" value="0"/>
+                <property key="labeling/centroidInside" value="false"/>
+                <property key="labeling/centroidWhole" value="false"/>
+                <property key="labeling/decimals" value="3"/>
+                <property key="labeling/displayAll" value="false"/>
+                <property key="labeling/dist" value="0"/>
+                <property key="labeling/distInMapUnits" value="false"/>
+                <property key="labeling/distMapUnitMaxScale" value="0"/>
+                <property key="labeling/distMapUnitMinScale" value="0"/>
+                <property key="labeling/enabled" value="false"/>
+                <property key="labeling/fieldName" value=""/>
+                <property key="labeling/fontBold" value="false"/>
+                <property key="labeling/fontCapitals" value="0"/>
+                <property key="labeling/fontFamily" value=".Helvetica Neue DeskInterface"/>
+                <property key="labeling/fontItalic" value="false"/>
+                <property key="labeling/fontLetterSpacing" value="0"/>
+                <property key="labeling/fontLimitPixelSize" value="false"/>
+                <property key="labeling/fontMaxPixelSize" value="10000"/>
+                <property key="labeling/fontMinPixelSize" value="3"/>
+                <property key="labeling/fontSize" value="13"/>
+                <property key="labeling/fontSizeInMapUnits" value="false"/>
+                <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
+                <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
+                <property key="labeling/fontStrikeout" value="false"/>
+                <property key="labeling/fontUnderline" value="false"/>
+                <property key="labeling/fontWeight" value="50"/>
+                <property key="labeling/fontWordSpacing" value="0"/>
+                <property key="labeling/formatNumbers" value="false"/>
+                <property key="labeling/isExpression" value="true"/>
+                <property key="labeling/labelOffsetInMapUnits" value="true"/>
+                <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
+                <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
+                <property key="labeling/labelPerPart" value="false"/>
+                <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+                <property key="labeling/limitNumLabels" value="false"/>
+                <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+                <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+                <property key="labeling/maxNumLabels" value="2000"/>
+                <property key="labeling/mergeLines" value="false"/>
+                <property key="labeling/minFeatureSize" value="0"/>
+                <property key="labeling/multilineAlign" value="0"/>
+                <property key="labeling/multilineHeight" value="1"/>
+                <property key="labeling/namedStyle" value=""/>
+                <property key="labeling/obstacle" value="true"/>
+                <property key="labeling/placeDirectionSymbol" value="0"/>
+                <property key="labeling/placement" value="1"/>
+                <property key="labeling/placementFlags" value="0"/>
+                <property key="labeling/plussign" value="false"/>
+                <property key="labeling/preserveRotation" value="true"/>
+                <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+                <property key="labeling/priority" value="5"/>
+                <property key="labeling/quadOffset" value="4"/>
+                <property key="labeling/repeatDistance" value="0"/>
+                <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
+                <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
+                <property key="labeling/repeatDistanceUnit" value="1"/>
+                <property key="labeling/reverseDirectionSymbol" value="false"/>
+                <property key="labeling/rightDirectionSymbol" value=">"/>
+                <property key="labeling/scaleMax" value="10000000"/>
+                <property key="labeling/scaleMin" value="1"/>
+                <property key="labeling/scaleVisibility" value="false"/>
+                <property key="labeling/shadowBlendMode" value="6"/>
+                <property key="labeling/shadowColorB" value="0"/>
+                <property key="labeling/shadowColorG" value="0"/>
+                <property key="labeling/shadowColorR" value="0"/>
+                <property key="labeling/shadowDraw" value="false"/>
+                <property key="labeling/shadowOffsetAngle" value="135"/>
+                <property key="labeling/shadowOffsetDist" value="1"/>
+                <property key="labeling/shadowOffsetGlobal" value="true"/>
+                <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
+                <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
+                <property key="labeling/shadowOffsetUnits" value="1"/>
+                <property key="labeling/shadowRadius" value="1.5"/>
+                <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+                <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
+                <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
+                <property key="labeling/shadowRadiusUnits" value="1"/>
+                <property key="labeling/shadowScale" value="100"/>
+                <property key="labeling/shadowTransparency" value="30"/>
+                <property key="labeling/shadowUnder" value="0"/>
+                <property key="labeling/shapeBlendMode" value="0"/>
+                <property key="labeling/shapeBorderColorA" value="255"/>
+                <property key="labeling/shapeBorderColorB" value="128"/>
+                <property key="labeling/shapeBorderColorG" value="128"/>
+                <property key="labeling/shapeBorderColorR" value="128"/>
+                <property key="labeling/shapeBorderWidth" value="0"/>
+                <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeBorderWidthUnits" value="1"/>
+                <property key="labeling/shapeDraw" value="false"/>
+                <property key="labeling/shapeFillColorA" value="255"/>
+                <property key="labeling/shapeFillColorB" value="255"/>
+                <property key="labeling/shapeFillColorG" value="255"/>
+                <property key="labeling/shapeFillColorR" value="255"/>
+                <property key="labeling/shapeJoinStyle" value="64"/>
+                <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeOffsetUnits" value="1"/>
+                <property key="labeling/shapeOffsetX" value="0"/>
+                <property key="labeling/shapeOffsetY" value="0"/>
+                <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeRadiiUnits" value="1"/>
+                <property key="labeling/shapeRadiiX" value="0"/>
+                <property key="labeling/shapeRadiiY" value="0"/>
+                <property key="labeling/shapeRotation" value="0"/>
+                <property key="labeling/shapeRotationType" value="0"/>
+                <property key="labeling/shapeSVGFile" value=""/>
+                <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
+                <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
+                <property key="labeling/shapeSizeType" value="0"/>
+                <property key="labeling/shapeSizeUnits" value="1"/>
+                <property key="labeling/shapeSizeX" value="0"/>
+                <property key="labeling/shapeSizeY" value="0"/>
+                <property key="labeling/shapeTransparency" value="0"/>
+                <property key="labeling/shapeType" value="0"/>
+                <property key="labeling/textColorA" value="255"/>
+                <property key="labeling/textColorB" value="0"/>
+                <property key="labeling/textColorG" value="0"/>
+                <property key="labeling/textColorR" value="0"/>
+                <property key="labeling/textTransp" value="0"/>
+                <property key="labeling/upsidedownLabels" value="0"/>
+                <property key="labeling/wrapChar" value=""/>
+                <property key="labeling/xOffset" value="0"/>
+                <property key="labeling/yOffset" value="0"/>
+            </customproperties>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
+            <displayfield>Label</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Label"/>
+                <family fieldname="" name=".Helvetica Neue DeskInterface"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <editform>.</editform>
+            <editforminit></editforminit>
+            <featformsuppress>0</featformsuppress>
+            <annotationform>.</annotationform>
+            <editorlayout>generatedlayout</editorlayout>
+            <excludeAttributesWMS/>
+            <excludeAttributesWFS/>
+            <attributeactions/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+        </maplayer>
+    </projectlayers>
+    <properties>
+        <WMSContactPerson type="QString"></WMSContactPerson>
+        <WMSOnlineResource type="QString"></WMSOnlineResource>
+        <WMSUseLayerIDs type="bool">false</WMSUseLayerIDs>
+        <WMSContactOrganization type="QString"></WMSContactOrganization>
+        <WMSKeywordList type="QStringList">
+            <value></value>
+        </WMSKeywordList>
+        <WFSUrl type="QString"></WFSUrl>
+        <Paths>
+            <Absolute type="bool">false</Absolute>
+        </Paths>
+        <WMSServiceTitle type="QString"></WMSServiceTitle>
+        <WFSLayers type="QStringList"/>
+        <WMSContactMail type="QString"></WMSContactMail>
+        <PositionPrecision>
+            <DecimalPlaces type="int">2</DecimalPlaces>
+            <Automatic type="bool">true</Automatic>
+            <DegreeFormat type="QString">D</DegreeFormat>
+        </PositionPrecision>
+        <WCSUrl type="QString"></WCSUrl>
+        <WMSContactPhone type="QString"></WMSContactPhone>
+        <WMSServiceCapabilities type="bool">false</WMSServiceCapabilities>
+        <WMSServiceAbstract type="QString"></WMSServiceAbstract>
+        <WMSAddWktGeometry type="bool">false</WMSAddWktGeometry>
+        <Measure>
+            <Ellipsoid type="QString">GRS80</Ellipsoid>
+        </Measure>
+        <WMSPrecision type="QString">8</WMSPrecision>
+        <WFSTLayers>
+            <Insert type="QStringList"/>
+            <Update type="QStringList"/>
+            <Delete type="QStringList"/>
+        </WFSTLayers>
+        <Gui>
+            <SelectionColorBluePart type="int">0</SelectionColorBluePart>
+            <CanvasColorGreenPart type="int">255</CanvasColorGreenPart>
+            <CanvasColorRedPart type="int">255</CanvasColorRedPart>
+            <SelectionColorRedPart type="int">255</SelectionColorRedPart>
+            <SelectionColorAlphaPart type="int">255</SelectionColorAlphaPart>
+            <SelectionColorGreenPart type="int">255</SelectionColorGreenPart>
+            <CanvasColorBluePart type="int">255</CanvasColorBluePart>
+        </Gui>
+        <Digitizing>
+            <LayerSnappingList type="QStringList">
+                <value>ohibc_inland_1km20150903144037517</value>
+                <value>ohibc_land20150903145406245</value>
+                <value>ohibc_offshore_3nm20150903144110724</value>
+                <value>ohibc_rgn20150902155956893</value>
+                <value>CD_201120150902112915444</value>
+                <value>can_albers20150415162430094</value>
+            </LayerSnappingList>
+            <LayerSnappingEnabledList type="QStringList">
+                <value>enabled</value>
+                <value>enabled</value>
+                <value>enabled</value>
+                <value>enabled</value>
+                <value>enabled</value>
+                <value>enabled</value>
+            </LayerSnappingEnabledList>
+            <AvoidIntersectionsList type="QStringList"/>
+            <IntersectionSnapping type="bool">true</IntersectionSnapping>
+            <LayerSnappingToleranceUnitList type="QStringList">
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+            </LayerSnappingToleranceUnitList>
+            <LayerSnapToList type="QStringList">
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+            </LayerSnapToList>
+            <LayerSnappingToleranceList type="QStringList">
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+            </LayerSnappingToleranceList>
+        </Digitizing>
+        <Identify>
+            <disabledLayers type="QStringList"/>
+        </Identify>
+        <Macros>
+            <pythonCode type="QString"></pythonCode>
+        </Macros>
+        <Grid>
+            <AnnotationFrameDistance type="double">0</AnnotationFrameDistance>
+            <IntervalX type="double">5</IntervalX>
+            <IntervalY type="double">5</IntervalY>
+            <AnnotationFont type="QString">.Helvetica Neue DeskInterface,16,-1,5,50,0,0,0,0,0</AnnotationFont>
+            <AnnotationPrecision type="int">0</AnnotationPrecision>
+            <MarkerSymbol type="QString">&lt;symbol alpha="1" type="marker" name="marker symbol">
+ &lt;layer pass="0" class="SimpleMarker" locked="0">
+  &lt;prop k="angle" v="0"/>
+  &lt;prop k="color" v="255,0,0,255"/>
+  &lt;prop k="horizontal_anchor_point" v="1"/>
+  &lt;prop k="name" v="cross"/>
+  &lt;prop k="offset" v="0,0"/>
+  &lt;prop k="offset_map_unit_scale" v="0,0"/>
+  &lt;prop k="offset_unit" v="MM"/>
+  &lt;prop k="outline_color" v="0,0,0,255"/>
+  &lt;prop k="outline_style" v="solid"/>
+  &lt;prop k="outline_width" v="0"/>
+  &lt;prop k="outline_width_map_unit_scale" v="0,0"/>
+  &lt;prop k="outline_width_unit" v="MM"/>
+  &lt;prop k="scale_method" v="area"/>
+  &lt;prop k="size" v="3"/>
+  &lt;prop k="size_map_unit_scale" v="0,0"/>
+  &lt;prop k="size_unit" v="MM"/>
+  &lt;prop k="vertical_anchor_point" v="1"/>
+ &lt;/layer>
+&lt;/symbol>
+</MarkerSymbol>
+            <Enabled type="bool">false</Enabled>
+            <AnnotationDirection type="int">0</AnnotationDirection>
+            <LineSymbol type="QString">&lt;symbol alpha="1" type="line" name="line symbol">
+ &lt;layer pass="0" class="SimpleLine" locked="0">
+  &lt;prop k="capstyle" v="square"/>
+  &lt;prop k="customdash" v="5;2"/>
+  &lt;prop k="customdash_map_unit_scale" v="0,0"/>
+  &lt;prop k="customdash_unit" v="MM"/>
+  &lt;prop k="draw_inside_polygon" v="0"/>
+  &lt;prop k="joinstyle" v="bevel"/>
+  &lt;prop k="line_color" v="0,0,0,255"/>
+  &lt;prop k="line_style" v="solid"/>
+  &lt;prop k="line_width" v="0.26"/>
+  &lt;prop k="line_width_unit" v="MM"/>
+  &lt;prop k="offset" v="0"/>
+  &lt;prop k="offset_map_unit_scale" v="0,0"/>
+  &lt;prop k="offset_unit" v="MM"/>
+  &lt;prop k="use_custom_dash" v="0"/>
+  &lt;prop k="width_map_unit_scale" v="0,0"/>
+ &lt;/layer>
+&lt;/symbol>
+</LineSymbol>
+            <MapUnits type="int">0</MapUnits>
+            <Style type="int">0</Style>
+            <OffsetX type="double">0</OffsetX>
+            <ShowAnnotation type="bool">false</ShowAnnotation>
+            <OffsetY type="double">0</OffsetY>
+        </Grid>
+        <WMSAccessConstraints type="QString"></WMSAccessConstraints>
+        <WCSLayers type="QStringList"/>
+        <Legend>
+            <filterByMap type="bool">false</filterByMap>
+        </Legend>
+        <SpatialRefSys>
+            <ProjectCRSProj4String type="QString">+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</ProjectCRSProj4String>
+            <ProjectCrs type="QString">EPSG:3005</ProjectCrs>
+            <ProjectCRSID type="int">970</ProjectCRSID>
+            <ProjectionsEnabled type="int">1</ProjectionsEnabled>
+        </SpatialRefSys>
+        <DefaultStyles>
+            <Fill type="QString"></Fill>
+            <Line type="QString"></Line>
+            <Marker type="QString"></Marker>
+            <RandomColors type="bool">true</RandomColors>
+            <AlphaInt type="int">255</AlphaInt>
+            <ColorRamp type="QString"></ColorRamp>
+        </DefaultStyles>
+        <WMSFees type="QString"></WMSFees>
+        <WMSImageQuality type="int">90</WMSImageQuality>
+        <WMSUrl type="QString"></WMSUrl>
+    </properties>
+</qgis>
