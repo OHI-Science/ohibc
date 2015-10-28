@@ -196,7 +196,7 @@ spp_get_iucn_cells <- function(rgn2cell_df, reload = TRUE, verbose = FALSE) {
     if(verbose) cat(sprintf('Reading intersections for %s...\n',
                             str_replace(tolower(basename(spp_group)), '.csv', '')))
     spp_group_cells <- read.csv(spp_group)
-    git_prov(spp_group)
+    # git_prov(spp_group)
     return(spp_group_cells)
   }
   iucn_cells_spp_list <- lapply(iucn_map_files, read_intersections)

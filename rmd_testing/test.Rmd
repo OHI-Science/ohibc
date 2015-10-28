@@ -1,0 +1,72 @@
+---
+title: "R Markdown test rmd"
+output: html_document
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))
+
+dir_test <- file.path(dir_git, 'rmd_testing')
+
+### set up provenance tracking for this script:
+source(file.path(dir_git, 'src/R/prov.R'))          ### initializes prov_track and loads functions
+dir_prov <- file.path(dir_test, 'prov')             ### sets the directory for final provenance .csv (for script_prov())
+this_script_file <- file.path(dir_test, 'test.Rmd') ### can't recognize the current script name on its own :(
+
+# library(recordr) ### install.packages('drat'); library(drat); addRepo('NCEAS'); install.packages('recordr', type = 'source')
+
+
+```
+
+``` {r child = file.path(dir_git, 'src/templates/ohibc_hdr.Rmd')}
+```
+
+### read species list
+
+``` {r read global species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+table1_file <- file.path(dir_test, 'table1.csv')
+table1      <- read.csv(table1_file, stringsAsFactors = FALSE)
+git_prov(table1_file)
+
+DT::datatable(table1,   ### does not display system and session info
+              caption = 'this is a sample table:',              
+              rownames = FALSE,
+              class = 'stripe hover compact',
+              options = list(dom = 't'))
+
+table2_file <- file.path(dir_test, 'table2.csv')
+write.csv(table1, table2_file)
+git_prov(table2_file, prov_type = 'output')
+
+```
+
+-----
+
+# Sample code for git info
+
+### unformatted - as code output
+
+If you leave `message = TRUE` (default) then git_prov will output a message when you knit the .Rmd.
+
+If you'd like to format the output using Markdown, you can assign the value returned by `git_prov()` to a variable and call items from within that variable:
+
+* file
+* type
+* commit_url
+* commit_author
+* commit_date
+* uncommitted_changes
+
+``` {r formatted git info, message = TRUE}
+x <- git_prov(table1_file)
+```
+
+#### Latest git commit info for file `r x$file`:
+
+* *Commit `r x$commit_url ` .*
+* *Committed by `r x$commit_author` on `r x$commit_date`.*
+* *Uncommitted changes = `r x$uncommitted_changes`.*
+
+``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
+```
