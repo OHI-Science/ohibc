@@ -1,0 +1,131 @@
+---
+title: "IUCN vs NatureServe conservation status ranks"
+output: 
+  html_document:
+    theme: spacelab
+    highlight: haddock
+---
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+
+source('~/github/ohibc/R/common.R')  ### an OHIBC specific version of common.R
+dir_anx <- file.path(dir_neptune_data, 'git-annex/bcprep') ### git-annex: goal-specific large files
+dir_anx_global <- file.path(dir_neptune_data, 'git-annex/globalprep/SPP_ICO')
+dir_git <- '~/github/ohibc/spp_ico'
+scenario <- 'v2016'
+
+source(file.path(dir_git, 'R/spp_fxn.R'))
+library(DT)
+
+```
+*Compiled on `r date()`*
+
+#### NatureServe conservation status rank codes and definitions (for global level) 
+
+*from http://www.natureserve.org/conservation-tools/conservation-status-assessment*
+
+| IUCN analog? | NatureServe Global Rank | Definition |
+| :----------: | :---------------------: | :--------- |
+| EX           | GX	                     | Presumed Extinct (species)/Eliminated (ecological communities and systems) — Species not located despite intensive searches and virtually no likelihood of rediscovery. Ecological community or system eliminated throughout its range, with no restoration potential. |
+| EX?          | GH	                     | Possibly Extinct (species)/ Eliminated (ecological communities and systems) — Known from only historical occurrences but still some hope of rediscovery. There is evidence that the species may be extinct or the ecosystem may be eliminated throughout its range, but not enough to state this with certainty. |
+| CR           | G1	                     | Critically Imperiled—At very high risk of extinction due to extreme rarity (often 5 or fewer populations), very steep declines, or other factors. |
+| EN           | G2                       | Imperiled—At high risk of extinction or elimination due to very restricted range, very few populations, steep declines, or other factors. |
+| VU           | G3	                     | Vulnerable—At moderate risk of extinction or elimination due to a restricted range, relatively few populations, recent and widespread declines, or other factors. |
+| NT           | G4	                     | Apparently Secure—Uncommon but not rare; some cause for long-term concern due to declines or other factors.
+| LC           | G5	                     | Secure—Common; widespread and abundant. | 
+
+#### Additional codes for provincial/state level 
+
+*from http://explorer.natureserve.org/nsranks.htm*
+
+| IUCN analog? | NatureServe Provincial Rank | Definition |
+| :----------: | :-------------------------: | :--------- |
+| NA           | NNR/SNR                     | Unranked—Nation or state/province conservation status not yet assessed. |
+| NA           | NU/SU                       | Unrankable—Currently unrankable due to lack of information or due to substantially conflicting information about status or trends. |
+| NA           | NNA/SNA                     | Not Applicable —A conservation status rank is not applicable because the species is not a suitable target for conservation activities. |
+| mean value   | N#N#/S#S#                   | Range Rank —A numeric range rank (e.g., S2S3) is used to indicate any range of uncertainty about the status of the species or community. Ranges cannot skip more than one rank (e.g., SU is used rather than S1S4). |
+| NA           | Not Provided                | Species is known to occur in this nation or state/province. Contact the relevant natural heritage program for assigned conservation status. Contact information for individual natural heritage programs is available at http://www.natureserve.org/natureserve-network. |
+
+**Breeding Status Qualifiers**
+
+| Qualifier | Definition |
+| :-------: | :--------- |
+| B         | Breeding—Conservation status refers to the breeding population of the species in the nation or state/province.
+| N         | Nonbreeding—Conservation status refers to the non-breeding population of the species in the nation or state/province.
+| M         | Migrant—Migrant species occurring regularly on migration at particular staging areas or concentration spots where the species might warrant conservation attention. Conservation status refers to the aggregating transient population of the species in the nation or state/province.
+
+#### Comparing global Natureserve assessment to IUCN assessment:
+
+``` {r compare Natureserve to IUCN1, echo = FALSE, message = FALSE, warning = FALSE}
+spp_global_file <- file.path(dir_anx_global, 'v2015/intermediate/spp_all.csv')
+spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
+git_prov(spp_global_file)
+
+spp_all <- spp_append_bcsee(spp_all)
+
+spp_natureserve <- spp_all %>%
+  filter(!is.na(status_gl_score) | !is.na(status_pr_score)) %>%
+  filter(!str_detect(spatial_source, 'subpop')) %>%
+  filter(!str_detect(spatial_source, 'alias')) %>%
+  select(sciname, am_sid, iucn_sid, spatial_source, popn_category, 
+         category_score, status_gl_score, status_pr_score, status_gl, status_pr)
+```
+
+``` {r compare Natureserve to IUCN2, echo = FALSE, message = FALSE, warning = FALSE, fig.align = 'center', fig.width = 6, fig.height = 4}
+
+mdl <- lm(status_gl_score ~ category_score, data = spp_natureserve)
+
+ns_v_iucn <- ggplot(data = spp_natureserve, aes(x = category_score, y = status_gl_score)) +
+  theme(text = element_text(family = 'Helvetica', color = 'gray30', size = 9),
+        plot.title = element_text(size = rel(1.2), face = 'bold')) +
+  geom_point(position = position_jitter(w = 0.03, h = 0.03)) + 
+  geom_abline(slope = mdl$coefficients[2], intercept = mdl$coefficients[1], color = 'red') +
+  coord_equal() +
+  labs(title = 'IUCN vs NatureServe global',
+       x = 'IUCN category score (0 = LC, 1 = EX)',
+       y = 'Natureserve global score (0 = LC, 1 = EX)')
+
+print(ns_v_iucn)
+
+knitr::kable(summary(mdl)$coef, digits = 4,
+             caption = 'Summary of IUCN vs global Natureserve')
+```
+R^2^ = `r summary(mdl)$r.squared`
+
+#### Comparing province Natureserve assessment to IUCN assessment:
+
+``` {r compare Natureserve to IUCN3, echo = FALSE, message = FALSE, warning = FALSE, fig.align = 'center', fig.width = 6, fig.height = 4}
+
+mdl <- lm(status_pr_score ~ category_score, data = spp_natureserve)
+
+ns_v_iucn <- ggplot(data = spp_natureserve, aes(x = category_score, y = status_pr_score)) +
+  theme(text = element_text(family = 'Helvetica', color = 'gray30', size = 10),
+        plot.title = element_text(size = rel(1.2), face = 'bold')) +
+  geom_point(position = position_jitter(w = 0.03, h = 0.03)) +
+  geom_abline(slope = mdl$coefficients[2], intercept = mdl$coefficients[1], color = 'red') +
+  coord_equal() +
+  labs(title = 'IUCN vs NatureServe provincial (BC)',
+       x = 'IUCN category score (0 = LC, 1 = EX)',
+       y = 'Natureserve BC score (0 = LC, 1 = EX)')
+
+print(ns_v_iucn)
+
+knitr::kable(summary(mdl)$coef, digits = 4,
+             caption = 'Summary of IUCN vs BC-specific Natureserve')
+```
+R^2^ = `r summary(mdl)$r.squared`
+
+
+#### Species list: all BC species with NatureServe scores
+
+``` {r table of Natureserve to IUCN, echo = FALSE, message = FALSE, warning = FALSE}
+
+DT::datatable(spp_natureserve %>%
+                select(sciname, spatial_source, iucn_cat = popn_category, 
+                       IUCN_score = category_score, NS_gl_score = status_gl_score, 
+                       NS_pr_score = status_pr_score, NS_gl_rank = status_gl, NS_pr_rank = status_pr) %>%
+                arrange(sciname),
+              caption = 'Species list',
+              filter = 'bottom',
+              rownames = FALSE)
+```
+
