@@ -1,0 +1,24 @@
+### recordr_run.Rmd
+
+``` {r setup, echo = FALSE}
+
+### recordr package is dependent on dataone, datapackage, and EML; make sure those are in place before installing recordr.  'datapackage' requires 'redland' package.  Why must this be such a pain?
+### from terminal, try 'sudo port install redland' then in R, install.packages('redland')
+### install.packages('drat'); library(drat); addRepo('NCEAS'); install.packages('datapackage'); library(datapackage)
+### install.packages('dataonelibs'); install.packages('dataone')
+### devtools::install_github("ropensci/EML", build=FALSE, dependencies=c("DEPENDS", "IMPORTS"))
+### install.packages('drat'); library(drat); addRepo('NCEAS'); install.packages('recordr')
+library(recordr) 
+
+```
+
+``` {r run the script, echo = TRUE}
+dir_git <- '~/github/ohibc'
+dir_test <- file.path(dir_git, 'rmd_testing')
+
+rc <- new("Recordr")
+sampleScript <- file.path(dir_test, 'recordr_test.Rmd')
+runid <- record(rc, sampleScript , tag="first recordr run")
+```
+
+
