@@ -1,7 +1,3 @@
-`r library(knitr); opts_knit$set(root.dir = path.expand('~/github/ohibc'))`
+### this text and the logo/text below are the HTML header...
 
-![ohi logo](src/templates/ohi_logo.png) **Ocean Health Index: British Columbia**
-
-*Compiled on `r date()` by `r Sys.info()['user']`*
-
-`r opts_knit$set(root.dir = NULL)`
+![ohi logo](ohi_logo.png) **Ocean Health Index: British Columbia**
