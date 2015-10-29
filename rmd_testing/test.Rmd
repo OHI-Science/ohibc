@@ -24,7 +24,7 @@ this_script_file <- file.path(dir_test, 'test.Rmd') ### can't recognize the curr
 
 ### read species list
 
-``` {r read global species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+``` {r read global species list, echo = FALSE, eval = FALSE, message = FALSE, warning = FALSE}
 table1_file <- file.path(dir_test, 'table1.csv')
 table1      <- read.csv(table1_file, stringsAsFactors = FALSE)
 git_prov(table1_file)
@@ -49,24 +49,7 @@ git_prov(table2_file, prov_type = 'output')
 
 If you leave `message = TRUE` (default) then git_prov will output a message when you knit the .Rmd.
 
-If you'd like to format the output using Markdown, you can assign the value returned by `git_prov()` to a variable and call items from within that variable:
 
-* file
-* type
-* commit_url
-* commit_author
-* commit_date
-* uncommitted_changes
-
-``` {r formatted git info, message = TRUE}
-x <- git_prov(table1_file)
-```
-
-#### Latest git commit info for file `r x$file`:
-
-* *Commit `r x$commit_url ` .*
-* *Committed by `r x$commit_author` on `r x$commit_date`.*
-* *Uncommitted changes = `r x$uncommitted_changes`.*
 
 ``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
 ```

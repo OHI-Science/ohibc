@@ -1,4 +1,7 @@
+`r library(knitr); opts_knit$set(root.dir = path.expand('~/github/ohibc'))`
 
-<img src = 'ohi-logo.png' style = 'vertical-align:middle'></img> **Ocean Health Index: British Columbia**
+![ohi logo](src/templates/ohi_logo.png) **Ocean Health Index: British Columbia**
 
 *Compiled on `r date()` by `r Sys.info()['user']`*
+
+`r opts_knit$set(root.dir = NULL)`
