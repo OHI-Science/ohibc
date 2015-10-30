@@ -8,7 +8,7 @@ output:
     theme: cerulean
     highlight: haddock
     includes: 
-      in_header: ../src/templates/ohibc_hdr.html
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr.html'
   pdf_document:
     toc: true
 ---
@@ -160,8 +160,8 @@ spp_all <- spp_all %>%
   mutate(iucn_score = category_score,
          category_score = ifelse(!is.na(status_pr_score), status_pr_score, category_score))
 
-write_csv(spp_all, file.path(dir_git, scenario, 'int/spp_all.csv'))
-git_prov(file.path(dir_git, scenario, 'int/spp_all.csv'), type = 'output')
+write_csv(spp_all, file.path(dir_spp, scenario, 'int/spp_all.csv'))
+git_prov(file.path(dir_spp, scenario, 'int/spp_all.csv'), type = 'output')
 
 DT::datatable(spp_all %>% 
                 select(sciname, am_sid, iucn_sid, popn_trend, IUCN_cat = popn_category, NS_cat = status_pr, spatial_source),
@@ -337,13 +337,13 @@ spp_trend <- sum_by_rgn %>%
   select(rgn_id, score = rgn_mean_trend)
 
 cat(sprintf('Writing SPP status and trend based only on IUCN categories to:\n  %s\n  %s\n', 
-            file.path(dir_git, scenario, 'data/spp_status.csv'),
-            file.path(dir_git, scenario, 'data/spp_trend.csv')))
+            file.path(dir_spp, scenario, 'data/spp_status.csv'),
+            file.path(dir_spp, scenario, 'data/spp_trend.csv')))
 
-write_csv(spp_status, file.path(dir_git, scenario, 'data/spp_status.csv'))
-write_csv(spp_trend,  file.path(dir_git, scenario, 'data/spp_trend.csv'))
-git_prov(file.path(dir_git, scenario, 'data/spp_status.csv'), type = 'output')
-git_prov(file.path(dir_git, scenario, 'data/spp_trend.csv'),  type = 'output')
+write_csv(spp_status, file.path(dir_spp, scenario, 'data/spp_status.csv'))
+write_csv(spp_trend,  file.path(dir_spp, scenario, 'data/spp_trend.csv'))
+git_prov(file.path(dir_spp, scenario, 'data/spp_status.csv'), type = 'output')
+git_prov(file.path(dir_spp, scenario, 'data/spp_trend.csv'),  type = 'output')
 
 ```
 
@@ -404,12 +404,12 @@ spp_trend_3nm  <- sum_by_rgn_3nm %>%
   select(rgn_id, score = rgn_mean_trend)
 
 cat(sprintf('Writing SPP status and trend for 3nm regions to:\n  %s\n  %s\n', 
-            file.path(dir_git, scenario, 'data/spp_status_3nm.csv'),
-            file.path(dir_git, scenario, 'data/spp_trend_3nm.csv')))
-write_csv(spp_status_3nm, file.path(dir_git, scenario, 'data/spp_status_3nm.csv'))
-write_csv(spp_trend_3nm,  file.path(dir_git, scenario, 'data/spp_trend_3nm.csv'))
-git_prov(file.path(dir_git, scenario, 'data/spp_status_3nm.csv'), type = 'output')
-git_prov(file.path(dir_git, scenario, 'data/spp_trend_3nm.csv'),  type = 'output')
+            file.path(dir_spp, scenario, 'data/spp_status_3nm.csv'),
+            file.path(dir_spp, scenario, 'data/spp_trend_3nm.csv')))
+write_csv(spp_status_3nm, file.path(dir_spp, scenario, 'data/spp_status_3nm.csv'))
+write_csv(spp_trend_3nm,  file.path(dir_spp, scenario, 'data/spp_trend_3nm.csv'))
+git_prov(file.path(dir_spp, scenario, 'data/spp_status_3nm.csv'), type = 'output')
+git_prov(file.path(dir_spp, scenario, 'data/spp_trend_3nm.csv'),  type = 'output')
 
 ```
 
