@@ -3,10 +3,14 @@ title: "R Markdown test rmd"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
-    includes: 
-      in_header: ../src/templates/ohibc_hdr.html
     toc: true
     number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: ../src/templates/ohibc_hdr.html
+  pdf_document:
+    toc: true
 ---
 
 -----
@@ -29,30 +33,23 @@ this_script_file <- file.path(dir_test, 'test.Rmd') ### can't recognize the curr
 
 # read a table; capture prov info
 
-``` {r read global species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+``` {r read global species list, echo = FALSE, message = FALSE, warning = FALSE}
 table1_file <- file.path(dir_test, 'table1.csv')
 table1      <- read.csv(table1_file, stringsAsFactors = FALSE)
 git_prov(table1_file)
 
 table2_file <- file.path(dir_test, 'table2.csv')
 write.csv(table1, table2_file)
-git_prov(table2_file, prov_type = 'output')
+git_prov(table2_file, type = 'output')
 
 ```
 
-``` {r display table, echo = FALSE, eval = FALSE}
+``` {r display table, echo = FALSE}
 DT::datatable(table1,   ### does not display system and session info
-              caption = 'this is a sample table:',              
+              caption  = 'this is a sample table:',              
               rownames = FALSE,
-              class = 'stripe hover compact',
-              options = list(dom = 'tp'))
-```
-
-``` {r display table1, echo = FALSE}
-knitr::kable(head(table1),   ### does not display system and session info
-              caption = 'this is a sample table:',              
-              rownames = FALSE,
-              class = 'stripe hover compact')
+              class    = 'stripe hover compact',
+              options  = list(dom = 'tp'))
 ```
 
 -----

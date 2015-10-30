@@ -4,7 +4,7 @@
 ### When sourced, initializes a global variable prov_track to be NULL.
 ###
 ### Two functions (so far):
-### git_prov(git_file, prov_type = 'input') takes filename and reads its
+### git_prov(git_file, type = 'input') takes filename and reads its
 ###   git log, strips to its most recent commit, adds a line to prov_track
 ###   for this file, and returns a git provenance dataframe including:
 ###   * file
@@ -23,11 +23,11 @@
 prov_track   <- NULL ### initialize the prov_track global variable when source()d
 script_track <- NULL ### initialize the script_track global variable when source()d
 
-git_prov <- function(git_file, prov_type = c('input', 'output', 'script', 'sourced_script')[1]) {
+git_prov <- function(git_file, type = c('input', 'output', 'script', 'sourced_script')[1]) {
 ### This function determines the most recent commit for a given file.
 ### The idea is to help promote provenance by identifying a particular
 ### version of a given file.
-  if(prov_type == 'output') {
+  if(type == 'output') {
     git_info <- c(NA, NA, NA)
     git_commit_url <- 'output file: not yet committed'
     git_uncommitted <- NA
@@ -64,7 +64,7 @@ git_prov <- function(git_file, prov_type = c('input', 'output', 'script', 'sourc
   }
 
   git_df <- data.frame('file' = git_file,
-                       'type' = prov_type,
+                       'type' = type,
                        'commit_url' = git_commit_url,
                        'commit_author' = sub('Author: ', '', git_info[2]),
                        'commit_date' = sub('Date: ', '', git_info[3]),
@@ -77,7 +77,7 @@ git_prov <- function(git_file, prov_type = c('input', 'output', 'script', 'sourc
   return(invisible(git_df))
 }
 
-script_prov <- function(script_file_name) {
+script_prov <- function(script_file_name, tag = 'standard run') {
   sys <- Sys.info()
   ses <- sessionInfo()
 
@@ -90,7 +90,7 @@ script_prov <- function(script_file_name) {
                                                                       function(x) paste(x$Package, x$Version, sep = '_')),
                                                                collapse = ', '))
   ### Gather git info using system calls.  Convert commit # and remote origin url into a url for that commit.
-  msg_git <- git_prov(script_file_name, prov_type = 'script')
+  msg_git <- git_prov(script_file_name, type = 'script')
 
   script_track <<- prov_track %>%
     mutate(sys_info = msg_sys,
@@ -109,8 +109,9 @@ script_prov <- function(script_file_name) {
       warning(sprintf('No log file found at %s - initializing new log file.\n', prov_log_file))
         ### no log found, so initialize log with run_id = 1 for all inputs and script.
       script_track <<- data.frame('run_id'   = rep(1,      length.out = nrow(script_track)),
-                                'run_date' = rep(date(), length.out = nrow(script_track)),
-                                script_track)
+                                  'run_tag'  = tag,
+                                  'run_date' = rep(date(), length.out = nrow(script_track)),
+                                                 script_track)
       run_id <- 1
       log_df <- script_track
     } else {
@@ -119,8 +120,9 @@ script_prov <- function(script_file_name) {
       run_id <- run_id_old + 1
       message(sprintf('Log file found at %s; last run_id = %s. Appending latest run.\n', prov_log_file, run_id_old))
       script_track <<- data.frame('run_id'   = rep(run_id, length.out = nrow(script_track)),
-                                'run_date' = rep(date(), length.out = nrow(script_track)),
-                                script_track)
+                                  'run_tag'  = tag,
+                                  'run_date' = rep(date(), length.out = nrow(script_track)),
+                                                     script_track)
       log_df <- log_df %>%
         rbind(script_track)
     }
@@ -129,6 +131,6 @@ script_prov <- function(script_file_name) {
   }
 
   ### Return all message strings within a named list for convenient reference.
-  return(invisible(list('run_id' = run_id, 'msg_sys' = msg_sys, 'msg_ses' = msg_ses,
+  return(invisible(list('run_id' = run_id, 'run_tag' = tag, 'msg_sys' = msg_sys, 'msg_ses' = msg_ses,
                         'msg_git' = msg_git, 'msg_base_pkgs' = msg_base_pkgs, 'msg_att_pkgs' = msg_att_pkgs)))
 }
