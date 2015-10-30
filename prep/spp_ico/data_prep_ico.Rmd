@@ -320,9 +320,9 @@ message(sprintf('Writing ICO status and trend to:\n  %s\n  %s\n',
             file.path(dir_git, scenario, 'data/ico_trend.csv')))
 
 write_csv(ico_status, file.path(dir_git, scenario, 'data/ico_status.csv'))
-git_prov(file.path(dir_git, scenario, 'data/ico_status.csv'), prov_type = 'output')
+git_prov(file.path(dir_git, scenario, 'data/ico_status.csv'), type = 'output')
 write_csv(ico_trend,  file.path(dir_git, scenario, 'data/ico_trend.csv'))
-git_prov(file.path(dir_git, scenario, 'data/ico_trend.csv'), prov_type = 'output')
+git_prov(file.path(dir_git, scenario, 'data/ico_trend.csv'), type = 'output')
 
 ```
 

@@ -1,0 +1,19 @@
+---
+title: 'OHIBC: data_prep_spp.Rmd'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: ../src/templates/ohibc_hdr.html
+  pdf_document:
+    toc: true
+---
+
+include the above as the start of a .Rmd; include the below as the last lines.
+
+``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
+```
