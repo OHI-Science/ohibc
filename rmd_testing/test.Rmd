@@ -3,12 +3,12 @@ title: "R Markdown test rmd"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr.html'
     toc: true
     number_sections: true
     theme: cerulean
     highlight: haddock
-    includes: 
-      in_header: ../src/templates/ohibc_hdr.html
   pdf_document:
     toc: true
 ---

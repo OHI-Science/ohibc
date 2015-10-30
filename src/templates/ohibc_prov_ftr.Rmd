@@ -10,7 +10,7 @@
 x <- script_prov(this_script_file) 
 ```
 
-* *Run ID: `r x$run_id`; run tag: `r x$run_tag`
+* *Run ID: `r x$run_id`; run tag: "`r x$run_tag`"*
 * *System info: `r x$msg_sys`*
 * *Session info*
     * *`r x$msg_ses`*
@@ -22,7 +22,8 @@ x <- script_prov(this_script_file)
 DT::datatable(script_track[ , 1:9],
               caption = 'Provenance summary for this run:',
               rownames = FALSE,
-              class = 'stripe hover compact')
+              class = 'stripe hover compact',
+              options  = list(dom = 'tp'))
 
 # knitr::kable(script_track[ , 1:9],
 #               caption = 'Provenance summary for this run:',              
