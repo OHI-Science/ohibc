@@ -22,6 +22,7 @@
 
 prov_track   <- NULL ### initialize the prov_track global variable when source()d
 script_track <- NULL ### initialize the script_track global variable when source()d
+prov_run_tag <- 'standard run' ### set up a default at the start; main script can change it
 
 git_prov <- function(git_file, type = c('input', 'output', 'script', 'sourced_script')[1]) {
 ### This function determines the most recent commit for a given file.
@@ -77,7 +78,7 @@ git_prov <- function(git_file, type = c('input', 'output', 'script', 'sourced_sc
   return(invisible(git_df))
 }
 
-script_prov <- function(script_file_name, tag = 'standard run') {
+script_prov <- function(script_file_name, tag = prov_run_tag) {
   sys <- Sys.info()
   ses <- sessionInfo()
 

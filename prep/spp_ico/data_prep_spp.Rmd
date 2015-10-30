@@ -33,6 +33,10 @@ source('~/github/ohibc/src/R/prov.R')
   ### Provenance tracking functions: must source at start to initialize prov_track
 dir_prov <- file.path(dir_spp, 'prov') 
   ### set a provenance folder for this script
+this_script_file <- file.path(dir_spp, 'data_prep_spp.Rmd') 
+  ### can't recognize the current script name on its own :(
+prov_run_tag <- 'standard run'
+
 
 source(file.path(dir_git, 'src/R/poly_plot_scores.R'))
 source(file.path(dir_spp, 'R/spp_fxn.R'))
