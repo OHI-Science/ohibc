@@ -1,43 +1,52 @@
 ---
 title: 'OHIBC: data_prep_ico.Rmd'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
     toc: true
-    theme: spacelab
+    number_sections: true
+    theme: cerulean
     highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr.html'
   pdf_document:
     toc: true
-    highlight: haddock
 ---
 
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
 library(sp)        # the classes and methods that make up spatial ops in R
 library(rgdal)
-library(raster)
+# library(raster)
 library(data.table)
 
-source('~/github/ohibc/R/common.R')  ### an OHIBC specific version of common.R
+dir_git <- '~/github/ohibc'
+
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
 
 dir_anx <- file.path(dir_neptune_data, 'git-annex/bcprep') ### git-annex: goal-specific large files
 dir_anx_global <- file.path(dir_neptune_data, 'git-annex/globalprep/SPP_ICO')
-dir_git <- '~/github/ohibc/spp_ico'
-dir_rgn <- '~/github/ohibc/regions'  ### github: general buffer region shapefiles
+dir_spp <- file.path(dir_git, 'prep/spp_ico')
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
 
 dir_data_am    <- file.path(dir_neptune_data, 'git-annex/globalprep/_raw_data', 'aquamaps/v2014') 
 dir_data_iucn  <- file.path(dir_neptune_data, 'git-annex/globalprep/_raw_data', 'iucn_spp') 
 
 scenario <- 'v2016'
 
-source('~/github/ohibc/R/poly_plot_scores.R')
-source(file.path(dir_git, 'R/spp_fxn.R'))
-# SPP-specific and ICO-specific functions
-
-source('~/github/ohibc/R/prov.R')      
+source(file.path(dir_git, 'src/R/prov.R'))   
   ### Provenance tracking functions: must source at start to initialize prov_track
-dir_prov <- file.path(dir_git, 'prov') 
+dir_prov <- file.path(dir_spp, 'prov') 
   ### set a provenance folder for this script
-this_script_file <- file.path(dir_git, 'data_prep_ico.Rmd')
-  ### set the filename of this script for the provenance functions...
+this_script_file <- file.path(dir_spp, 'data_prep_ico.Rmd')
+  ### can't recognize the current script name on its own :(
+prov_run_tag <- 'standard run'
+
+source(file.path(dir_git, 'src/R/poly_plot_scores.R'))
+### for plotting final scores
+
+source(file.path(dir_spp, 'R/spp_fxn.R'))
+git_prov(file.path(dir_spp, 'R/spp_fxn.R'), type = 'sourced script')
+### SPP-specific and ICO-specific functions
 
 ### set up proj4string options: BC Albers and WGS84
 p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
@@ -45,7 +54,6 @@ p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +la
 p4s_bcalb <- p4s_opts[1]
 ```
 
-*Compiled on `r date()` by `r Sys.info()['user']`*
 
 # OHIBC Iconic Species Subgoal (Sense of Place)
 
@@ -79,7 +87,9 @@ where for each IUCN threat category (or analogous NatureServe conservation rank)
 
 ICO trend is calculated in a similar manner, but weightings are assigned according to population trend: 'Decreasing' = -0.5, 'Stable' = 0.0, 'Increasing' = +0.5
 
-## Data sources
+# Data Preparation
+
+## Data Sources
 
 For information on IUCN data (range maps, extinction risk categories, population trends), NatureServe (conservation rankings), and AquaMaps (range maps), please see the OHIBC SPP data prep document, since this ICO goal is calculated from the intermediate outputs of that workflow.
 
@@ -90,14 +100,15 @@ Iconic Species List:
 
 -----
 
-## Get master list of Iconic Species
+## Prepare master list of Iconic Species
 
 Get list of all species listed as "iconic" for BC.  For now, the analysis is based on the global list of Iconic Species, filtered to just the species that occur in BC.
 
 To this global ICO species list, we attach `spp_all_bcsee` df to acquire IUCN category & trend, and NatureServe global and provincial conservation rank information.
 
 ``` {r read iconic species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-ico_list_file <- file.path(dir_git, scenario, 'ico_list_ohibc.csv')
+ico_list_file <- file.path(dir_spp, scenario, 'ico_list_ohibc.csv')
+
 message(sprintf('Reading OHIBC iconic species list from: \n  %s\n', ico_list_file))
 ico_list_raw <- read.csv(ico_list_file, stringsAsFactors = FALSE) %>%
   select(rgn_name   = Country, 
@@ -110,11 +121,7 @@ ico_list_raw <- read.csv(ico_list_file, stringsAsFactors = FALSE) %>%
   )
 git_prov(ico_list_file)
 
-<<<<<<< HEAD:spp_ico/data_prep_ICO.Rmd
 ### clean up names
-=======
-# clean up names
->>>>>>> 6edb601ff0b48142f56c53f2467909cfb9bc4c0e:spp_ico/data_prep_ico.Rmd
 ico_list_raw <- ico_list_raw %>%
   mutate(rgn_name = str_trim(rgn_name),
          sciname  = str_trim(sciname),
@@ -130,13 +137,9 @@ ico_list <- ico_list_raw %>%
 ### SPP data_prep reads global spp_all, appends BC NatureServe ranks, and
 ### saves to OHIBC goal directory.  This function uses that updated file.
 ### NOTE: Category score already accounts for status_pr_score by now.
-spp_all <- read.csv(file.path(dir_git, scenario, 'int/spp_all_bcsee.csv'), 
+spp_all <- read.csv(file.path(dir_spp, scenario, 'int/spp_all_bcsee.csv'), 
                     stringsAsFactors = FALSE)
-<<<<<<< HEAD:spp_ico/data_prep_ICO.Rmd
-git_prov(file.path(dir_git, scenario, 'int/spp_all_bcsee.csv')
-=======
-git_prov(file.path(dir_git, scenario, 'int/spp_all_bcsee.csv'))
->>>>>>> 6edb601ff0b48142f56c53f2467909cfb9bc4c0e:spp_ico/data_prep_ico.Rmd
+git_prov(file.path(dir_spp, scenario, 'int/spp_all_bcsee.csv'))
 
 # join ico_list to spp_all to incorporate category info and parent/subpop info.
 ico_list <- ico_list %>%
@@ -149,6 +152,8 @@ ico_list <- ico_list %>%
   filter(!is.na(popn_category) | !(is.na(status_pr)))
 ```
 
+-----
+
 ## Find BC-specific cell locations for all species on ICO list
 
 Using same raster method as for SPP, identify .5 deg cells within BC regions.
@@ -157,7 +162,6 @@ Then filter IUCN and AM lists to just species on ico_list, and just cells within
 ``` {r set up BC rasters, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 
 ### Read in OHIBC polygons, in WGS84 CRS
-dir_rgn <- '~/github/ohibc/regions'
 rgn_lyr <- 'ohibc_rgn_wgs84'
 
 message(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
@@ -246,13 +250,17 @@ spp_plot_raster(ico_summary_cells, loiczid_rast, which_id = 'n_ico',
 
 ```
 
+-----
+
+# Calculate Goal Model
+
 ## Summarize mean category/trend per cell/region, IUCN
 
 For each raster cell, we generate a summary of number of species included, average extinction risk score of all species in cell, and average trend score of all species in cell with population trend information.  This section calculates extinction risk score based solely on IUCN category ranks, which excludes subpopulation scores due to lack of spatially explicit distribution info for subpopulations.
 
 From raster-level summaries, we generate a region-level summary based on area-weighted average extinction risk and population trend.
 
-``` {r summing by cells and rgn, echo = FALSE, message = FALSE, warning = FALSE}
+``` {r iconic species by rgn, echo = FALSE, message = FALSE, warning = FALSE}
 ico_bc_rgn <- ico_bc_cell_rgn %>%
   select(-loiczid, -sp_source) %>%
   unique()
@@ -266,15 +274,25 @@ ico_summary_rgn <- ico_bc_rgn %>%
 
 DT::datatable(ico_bc_rgn %>% arrange(rgn_id),
               caption = 'Iconic Species by region',
-              filter = 'bottom')
+              rownames = FALSE,
+              class = 'stripe hover compact',
+              options  = list(dom = 'tp'))
 
-knitr::kable(ico_summary_rgn,
-             caption = 'summary by region')
+```
 
-DT::datatable(ico_summary_cells,
-              caption = 'summary by LOICZID (head)',
-              filter = 'bottom')
+``` {r summing by cells and rgn, echo = FALSE, message = FALSE, warning = FALSE}
 
+DT::datatable(ico_summary_rgn,
+              caption = 'summary by region',
+              rownames = FALSE,
+              class = 'stripe hover compact',
+              options  = list(dom = 'tp'))
+
+# DT::datatable(ico_summary_cells,
+#               caption = 'summary by cell (LOICZID)',
+#               rownames = FALSE,
+#               class = 'stripe hover compact',
+#               options  = list(dom = 'tp'))
 ```
 
 
@@ -307,6 +325,10 @@ spp_plot_raster(ico_summary_cells, loiczid_rast, which_id = 'mean_trend',
 
 From the region-level summaries of extinction risk and population trend, we calculate regional status and trend scores, and save as .csv.
 
+`r sprintf('Writing ICO status and trend to:\n  %s\n  %s\n', 
+            file.path(dir_spp, scenario, 'data/ico_status.csv'),
+            file.path(dir_spp, scenario, 'data/ico_trend.csv'))`
+
 ``` {r save status and trend, echo = FALSE, message = FALSE, warning = FALSE}
 
 ico_status <- ico_summary_rgn %>%
@@ -315,63 +337,45 @@ ico_status <- ico_summary_rgn %>%
 ico_trend <- ico_summary_rgn %>%
   select(rgn_id, score = mean_trend)
 
-message(sprintf('Writing ICO status and trend to:\n  %s\n  %s\n', 
-            file.path(dir_git, scenario, 'data/ico_status.csv'),
-            file.path(dir_git, scenario, 'data/ico_trend.csv')))
-
-write_csv(ico_status, file.path(dir_git, scenario, 'data/ico_status.csv'))
-git_prov(file.path(dir_git, scenario, 'data/ico_status.csv'), type = 'output')
-write_csv(ico_trend,  file.path(dir_git, scenario, 'data/ico_trend.csv'))
-git_prov(file.path(dir_git, scenario, 'data/ico_trend.csv'), type = 'output')
+write_csv(ico_status, file.path(dir_spp, scenario, 'data/ico_status.csv'))
+git_prov(file.path(dir_spp, scenario, 'data/ico_status.csv'), type = 'output')
+write_csv(ico_trend,  file.path(dir_spp, scenario, 'data/ico_trend.csv'))
+git_prov(file.path(dir_spp, scenario, 'data/ico_trend.csv'), type = 'output')
 
 ```
 
 ## Compare status and trend by region
 
-``` {r Compare status and trend, echo = FALSE, message = FALSE, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
+``` {r Compare status and trend, echo = FALSE, message = FALSE, fig.height = 4, fig.width = 6, fig.align = 'center'}
 
-knitr::kable(ico_status %>% 
-               left_join(poly_bc_rgn@data, by = 'rgn_id') %>%
-               mutate(score = score*100),
-  align = c('c', 'c', 'l', 'c', 'r', 'r'),
-  caption = 'ICO Status by region:')
+ico_status_100 <- ico_status %>% 
+  mutate(score = round(score*100, 2))
 
-poly_plot_scores(ico_status %>% mutate(score = score*100), scale_label = 'ICO Status', title = 'OHIBC ICO Status')
+poly_plot_scores(ico_status_100, 
+                 scale_label = 'ICO Status', 
+                 title = 'OHIBC ICO Status')
 
-knitr::kable(ico_status %>% left_join(poly_bc_rgn@data, by = 'rgn_id'),
-  align = c('c', 'c', 'l', 'c', 'r', 'r'),
-  caption = 'ICO Trend by region:')
+poly_plot_scores(ico_trend, 
+                 scale_label = 'ICO Trend', 
+                 title = 'OHIBC ICO Trend', 
+                 scale_limits = c(min(ico_trend$score, 0), 
+                                  max(ico_trend$score, 0)))
 
-poly_plot_scores(ico_trend, scale_label = 'ICO Trend', title = 'OHIBC ICO Trend', scale_limits = c(min(ico_trend$score), 0))
+DT::datatable(ico_status_100 %>% 
+                mutate(status = score) %>%
+                left_join(ico_trend %>%
+                            mutate(trend = round(score, 3)), 
+                          by = 'rgn_id') %>%
+                left_join(poly_bc_rgn@data, by = 'rgn_id') %>%
+                dplyr::select(rgn_id, rgn_name, status, trend),
+              caption = 'ICO Status and Trend by region',
+              rownames = FALSE,
+              class = 'stripe hover compact',
+              options  = list(dom = 't'))
 
 ```
 
------
 
-# Provenance
 
-``` {r provenance info, echo = FALSE, message = FALSE}
-### At the start of the script, make sure to: 
-### * source 'R/prov.R' for script_prov() and git_prov() functions
-### * identify a dir_prov location (this must happen before script_prov() is called)
-
-x <- script_prov(this_script_file)
-```
-
-* *Run ID:*
-    * *`r x$run_id`*
-* *System info:*
-    * *`r x$msg_sys`*
-* *Session info:*
-    * *`r x$msg_ses`*
-    * *`r x$msg_base_pcks`*
-    * *`r x$msg_att_pcks`*
-* *Git commit info:*
-    * *`r x$msg_git`*
-    
-``` {r echo = FALSE}
-
-knitr::kable(prov_track[ , 1:7],   ### does not display system and session info
-             caption = 'Provenance summary for this run:')
-
+``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
 ```

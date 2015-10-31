@@ -48,8 +48,6 @@ p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +la
 p4s_bcalb <- p4s_opts[1]
 ```
 
-*Compiled on `r date()` by `r Sys.info()['user']`*
-
 # OHIBC Species Subgoal (Biodiversity)
 
 This script prepares scores (status and trend) for species richness in 
@@ -88,6 +86,8 @@ where:
     * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
 * SPP trend is calculated in a similar area-weighted mean, but population trend values are assigned according to:
     * 'Decreasing' = -0.5, 'Stable' = 0.0, 'Increasing' = +0.5
+
+-----
 
 # Data Preparation
 ## Data sources
@@ -150,6 +150,8 @@ knitr::kable(head(spp_all %>%
              caption = 'Quick glance at global spp_all dataframe:')
 ```
 
+-----
+
 ## Append BC-specific species risk assessment codes
 
 Data downloaded from BC Species and Ecosystems Explorer includes information on global status and provincial status for species, as assessed by NatureServe.
@@ -168,11 +170,12 @@ write_csv(spp_all, file.path(dir_spp, scenario, 'int/spp_all.csv'))
 git_prov(file.path(dir_spp, scenario, 'int/spp_all.csv'), type = 'output')
 
 DT::datatable(spp_all %>% 
-                select(sciname, am_sid, iucn_sid, popn_trend, IUCN_cat = popn_category, NS_cat = status_pr, spatial_source),
+                select(sciname, am_sid, iucn_sid, popn_trend, 
+                       IUCN_cat = popn_category, NS_cat = status_pr, spatial_source),
               rownames = FALSE,
               caption = 'BC-specific species list:',
               class = 'stripe hover compact',
-              filter = 'bottom')
+              options  = list(dom = 'tp'))
 
 ```
 
@@ -238,7 +241,7 @@ DT::datatable(am_cells_sum,
               rownames = FALSE,
               caption  = 'Aquamaps cell summary:',
               class    = 'stripe hover compact',
-              filter   = 'bottom')
+              options  = list(dom = 'tp'))
 
 ```
 
@@ -252,7 +255,7 @@ DT::datatable(iucn_cells_sum,
               rownames = FALSE,
               caption  = 'IUCN cell summary: ',
               class    = 'stripe hover compact',
-              filter   = 'bottom')
+              options  = list(dom = 'tp'))
 
 ```
 
@@ -276,6 +279,8 @@ spp_plot_raster(cells_sum, loiczid_rast, which_id = 'n_cat',
 
 ```
 
+-----
+
 # Calculate goal model
 
 ## Summarize mean category & trend per cell & region
@@ -298,13 +303,13 @@ DT::datatable(sum_by_cell,
               rownames = FALSE,
               caption  = 'summary by raster cell',
               class    = 'stripe hover compact',
-              filter   = 'bottom')
+              options  = list(dom = 'tp'))
 
 DT::datatable(sum_by_rgn,
               rownames = FALSE,
               caption  = 'summary by region',
               class    = 'stripe hover compact',
-              filter   = 'bottom')
+              options  = list(dom = 'tp'))
 
 ```
 
@@ -363,7 +368,8 @@ DT::datatable(spp_status %>%
                 full_join(poly_bc_rgn@data, by = 'rgn_id'),
               rownames = FALSE,
               caption = 'SPP Status by region:',
-              class = 'stripe hover compact')
+              class = 'stripe hover compact',
+              options  = list(dom = 'tp'))
 
 poly_plot_scores(spp_trend, scale_label = 'SPP Trend', title = 'OHIBC SPP Trend', scale_limits = c(min(spp_trend$score), 0))
 
@@ -371,7 +377,8 @@ DT::datatable(spp_trend %>%
                 full_join(poly_bc_rgn@data, by = 'rgn_id'),
               rownames = FALSE,
               caption = 'SPP Trend by region:',
-              class = 'stripe hover compact')
+              class = 'stripe hover compact',
+              options  = list(dom = 'tp'))
 
 
 ```
