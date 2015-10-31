@@ -20,7 +20,7 @@ spp_rgn2cell <- function(poly_rgn,
 
   ### load Aquamaps LOICZID raster, and determine CRS
   loiczid_raster_file  <- file.path(dir_anx_global, 'rgns/loiczid_raster.grd')
-  loiczid_raster <- raster(loiczid_raster_file)
+  loiczid_raster <- raster::raster(loiczid_raster_file)
   rst_p4s <- proj4string(loiczid_raster)
   names(rst_p4s) <- names(p4s_opts[p4s_opts == rst_p4s])
   message(sprintf('LOICZID raster loaded: CRS = %s \n  (%s)\n', names(rst_p4s), rst_p4s))
@@ -28,9 +28,9 @@ spp_rgn2cell <- function(poly_rgn,
   if(rst_p4s != rgn_p4s) warning('Mismatched CRS between region and raster.\n')
 
   ### Crop LOICZID raster to rounded extents of region polygon
-  poly_ext <- extent(poly_rgn)
-  poly_ext <- extent(floor(poly_ext[1]), ceiling(poly_ext[2]), floor(poly_ext[3]), ceiling(poly_ext[4]))
-  loiczid_raster <- crop(loiczid_raster, poly_ext)
+  poly_ext <- raster::extent(poly_rgn)
+  poly_ext <- raster::extent(floor(poly_ext[1]), ceiling(poly_ext[2]), floor(poly_ext[3]), ceiling(poly_ext[4]))
+  loiczid_raster <- raster::crop(loiczid_raster, poly_ext)
 
 
   rgn2cell_file <- file.path(dir_spp, sprintf('v2016/int/cell_id_by_rgn%s.csv', rgn_tag))
@@ -74,11 +74,11 @@ spp_rgn2cell <- function(poly_rgn,
       left_join(am_cells, by = 'loiczid')
 
     ### Write finalized file
-    cat(sprintf('Writing loiczid/csq/cell proportions/cell areas by region to: \n  %s\n', rgn2cell_file))
+    message(sprintf('Writing loiczid/csq/cell proportions/cell areas by region to: \n  %s\n', rgn2cell_file))
     write.csv(rgn_df, rgn2cell_file, row.names = FALSE)
   } else {
     ### File already exists, just read it
-    cat(sprintf('Reading loiczid cell proportions by region from: \n  %s\n', rgn2cell_file))
+    message(sprintf('Reading loiczid cell proportions by region from: \n  %s\n', rgn2cell_file))
     rgn_df <- read.csv(rgn2cell_file, stringsAsFactors = FALSE)
 
     git_prov(rgn2cell_file)
@@ -105,7 +105,7 @@ spp_am_cell_summary <- function(rgn2cell_df,
                                      sprintf('summary/spp_sum_am_cells%s.csv', fn_tag))
 
   if(!file.exists(am_cells_spp_sum_file) | reload) {
-    cat('Generating cell-by-cell summary for Aquamaps species.\n')
+    message('Generating cell-by-cell summary for Aquamaps species.\n')
 
     ### filter species info to just Aquamaps species with category info, and bind to
     ### am_cells_spp to attach category_score and trend_score.
@@ -114,7 +114,7 @@ spp_am_cell_summary <- function(rgn2cell_df,
       dplyr::select(am_sid, sciname, category_score, trend_score) %>%
       unique()
 
-    cat(sprintf('Number of Aquamaps species: %d\n', nrow(spp_am_info)))
+    message(sprintf('Number of Aquamaps species: %d\n', nrow(spp_am_info)))
 
     ### filter out NAs and DDs
     am_cells_spp1 <- am_cells_spp %>%
@@ -122,7 +122,7 @@ spp_am_cell_summary <- function(rgn2cell_df,
       filter(!is.na(category_score)) %>%
       filter(!is.na(loiczid))
 
-    cat('Grouping by cell and summarizing by mean category, mean trend, and n_spp for each, for AM spatial info.\n')
+    message('Grouping by cell and summarizing by mean category, mean trend, and n_spp for each, for AM spatial info.\n')
     am_cells_spp_sum <- am_cells_spp1 %>%
       group_by(loiczid) %>%
       summarize(mean_cat_score        = mean(category_score),     # no na.rm needed; already filtered
@@ -131,10 +131,10 @@ spp_am_cell_summary <- function(rgn2cell_df,
                 n_trend_species       = sum(!is.na(trend_score))) %>% # no na.rm needed; count all with cat_score
       mutate(source = 'aquamaps')
 
-    cat(sprintf('Writing cell-by-cell summary for Aquamaps species to:\n  %s\n', am_cells_spp_sum_file))
+    message(sprintf('Writing cell-by-cell summary for Aquamaps species to:\n  %s\n', am_cells_spp_sum_file))
     write_csv(am_cells_spp_sum, am_cells_spp_sum_file)
   } else {
-    cat(sprintf('Cell-by-cell summary for Aquamaps species already exists.  Reading from:\n  %s\n', am_cells_spp_sum_file))
+    message(sprintf('Cell-by-cell summary for Aquamaps species already exists.  Reading from:\n  %s\n', am_cells_spp_sum_file))
     am_cells_spp_sum <- read.csv(am_cells_spp_sum_file, stringsAsFactors = FALSE)
 
     git_prov(am_cells_spp_sum_file)
@@ -154,11 +154,11 @@ spp_get_am_cells <- function(rgn2cell_df, n_max = -1, prob_filter = .40, reload 
 
   if(!file.exists(am_cells_spp_file) | reload) {
     ### Load Aquamaps species per cell table
-    cat('Creating Aquamaps species per cell file\n')
+    message('Creating Aquamaps species per cell file\n')
     dir_data_am <- file.path(dir_neptune_data, 'git-annex/globalprep/_raw_data', 'aquamaps/v2014')
     spp_cell_file <- file.path(dir_data_am, 'tables/ohi_hcaf_species_native.csv')
 
-    cat(sprintf('Loading AquaMaps cell-species data.  Large file! \n  %s \n', spp_cell_file))
+    message(sprintf('Loading AquaMaps cell-species data.  Large file! \n  %s \n', spp_cell_file))
     am_cells_spp <- read_csv(spp_cell_file, col_types = '_ccn__', n_max = n_max) %>%
       rename(am_sid = SpeciesID, csq = CsquareCode, prob = probability)
 
@@ -173,10 +173,10 @@ spp_get_am_cells <- function(rgn2cell_df, n_max = -1, prob_filter = .40, reload 
       filter(prob >= prob_filter) %>%
       dplyr::select(-prob)
 
-    cat(sprintf('Writing Aquamaps species per cell file to: \n  %s\n', am_cells_spp_file))
+    message(sprintf('Writing Aquamaps species per cell file to: \n  %s\n', am_cells_spp_file))
     write_csv(am_cells_spp1, am_cells_spp_file)
   } else {
-    cat(sprintf('Reading Aquamaps species per cell file from: \n  %s\n', am_cells_spp_file))
+    message(sprintf('Reading Aquamaps species per cell file from: \n  %s\n', am_cells_spp_file))
     am_cells_spp1 <- read_csv(am_cells_spp_file)
 
     git_prov(am_cells_spp_file)
@@ -193,7 +193,7 @@ spp_get_iucn_cells <- function(rgn2cell_df, reload = TRUE, verbose = FALSE) {
 
   ### read each into dataframe, within a list
   read_intersections <- function(spp_group) {
-    if(verbose) cat(sprintf('Reading intersections for %s...\n',
+    if(verbose) message(sprintf('Reading intersections for %s...\n',
                             str_replace(tolower(basename(spp_group)), '.csv', '')))
     spp_group_cells <- read.csv(spp_group)
     # git_prov(spp_group)
@@ -232,14 +232,14 @@ spp_iucn_cell_summary <- function(spp_all, iucn_cells_spp, fn_tag = '', reload =
   iucn_cells_spp_sum_file <- file.path(dir_spp, scenario, sprintf('summary/spp_sum_iucn_cells%s.csv', fn_tag))
 
   if(!file.exists(iucn_cells_spp_sum_file) | reload) {
-    cat('Generating cell-by-cell summary for IUCN range-map species.\n')
+    message('Generating cell-by-cell summary for IUCN range-map species.\n')
 
     spp_iucn_info <- spp_all %>%
       filter(str_detect(spatial_source, 'iucn')) %>%
       dplyr::select(iucn_sid, sciname, category_score, trend_score) %>%
       unique()
 
-    if(verbose) cat(sprintf('Number of IUCN species: %d\n', nrow(spp_iucn_info)))
+    if(verbose) message(sprintf('Number of IUCN species: %d\n', nrow(spp_iucn_info)))
 
     ### Join to species information
     iucn_cells_spp1 <- iucn_cells_spp %>%
@@ -251,7 +251,7 @@ spp_iucn_cell_summary <- function(spp_all, iucn_cells_spp, fn_tag = '', reload =
       group_by(sciname, iucn_sid, loiczid, prop_area_rgn, category_score, trend_score) %>%
       summarize(prop_area_spp = max(prop_area_spp))
 
-    if(verbose) cat('Grouping by cell and summarizing mean category/trend and n_spp for each, for IUCN spatial info.\n')
+    if(verbose) message('Grouping by cell and summarizing mean category/trend and n_spp for each, for IUCN spatial info.\n')
     ### NOTE: Currently, ignores the proportional area of each species within
     ### a cell.  If there is *any* presence of the species within a cell, it
     ### is counted as being present everywhere within the cell.
@@ -263,10 +263,10 @@ spp_iucn_cell_summary <- function(spp_all, iucn_cells_spp, fn_tag = '', reload =
                 n_trend_species = sum(!is.na(trend_score))) %>% # no na.rm needed; count all with cat_score
       mutate(source = 'iucn')
 
-    cat(sprintf('Writing cell-by-cell summary for IUCN species to:\n  %s\n', iucn_cells_spp_sum_file))
+    message(sprintf('Writing cell-by-cell summary for IUCN species to:\n  %s\n', iucn_cells_spp_sum_file))
     write_csv(iucn_cells_spp_sum, iucn_cells_spp_sum_file)
   } else {
-    cat(sprintf('Cell-by-cell summary for IUCN species already exists.  Reading from:\n  %s\n', iucn_cells_spp_sum_file))
+    message(sprintf('Cell-by-cell summary for IUCN species already exists.  Reading from:\n  %s\n', iucn_cells_spp_sum_file))
     iucn_cells_spp_sum <- read.csv(iucn_cells_spp_sum_file, stringsAsFactors = FALSE)
 
     git_prov(iucn_cells_spp_sum_file)
@@ -320,7 +320,7 @@ spp_calc_rgn_means <- function(summary_by_loiczid, rgn_cell_lookup, rgn_tag = ''
                                    scenario,
                                    sprintf('summary/rgn_summary%s.csv', rgn_tag))
 
-  cat(sprintf('Writing summary file of area-weighted mean category & trend per region:\n  %s\n', region_summary_file))
+  message(sprintf('Writing summary file of area-weighted mean category & trend per region:\n  %s\n', region_summary_file))
   write_csv(region_sums, region_summary_file)
 
   return(region_sums)
@@ -408,8 +408,8 @@ spp_plot_raster <- function(rast_data, rast_cells,
   require(RColorBrewer)
   require(maptools)
 
-  rast <- subs(rast_cells, rast_data, by = by_id, which = which_id)
-  rast_pts <- rasterToPoints(rast) %>%
+  rast <- raster::subs(rast_cells, rast_data, by = by_id, which = which_id)
+  rast_pts <- raster::rasterToPoints(rast) %>%
     as.data.frame()
   names(rast_pts) <- c('long', 'lat', 'layer')
   rast_pts <- rast_pts %>%
