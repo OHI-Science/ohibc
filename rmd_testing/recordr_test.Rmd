@@ -1,6 +1,16 @@
 ---
 title: "Recordr test rmd"
-output: html_document
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: ../src/templates/ohibc_hdr.html
+  pdf_document:
+    toc: true
 ---
 
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
@@ -10,18 +20,14 @@ source(file.path(dir_git, 'src/R/common.R'))
 dir_test <- file.path(dir_git, 'rmd_testing')
 
 ### set up provenance tracking for this script:
-# source(file.path(dir_git, 'src/R/prov.R'))          ### initializes prov_track and loads functions
-# dir_prov <- file.path(dir_test, 'prov')             ### sets the directory for final provenance .csv (for script_prov())
-# this_script_file <- file.path(dir_test, 'test.Rmd') ### can't recognize the current script name on its own :(
-
-
+source(file.path(dir_git, 'src/R/prov.R'))          ### initializes prov_track and loads functions
+dir_prov <- file.path(dir_test, 'prov')             ### sets the directory for final provenance .csv (for script_prov())
+this_script_file <- file.path(dir_test, 'recordr_test.Rmd') ### can't recognize the current script name on its own :(
+prov_run_tag <- 'std run'
 
 ```
 
-``` {r child = file.path(dir_git, 'src/templates/ohibc_hdr.Rmd')}
-```
-
-### read species list
+# read and write a generic table
 
 ``` {r read global species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 table1_file <- file.path(dir_test, 'table1.csv')
@@ -32,21 +38,13 @@ DT::datatable(table1,   ### does not display system and session info
               caption = 'this is a sample table:',              
               rownames = FALSE,
               class = 'stripe hover compact',
-              options = list(dom = 't'))
+              options = list(dom = 'tp'))
 
 table2_file <- file.path(dir_test, 'table2.csv')
 write.csv(table1, table2_file)
-git_prov(table2_file, prov_type = 'output')
+git_prov(table2_file, type = 'output')
 
 ```
-
------
-
-# Sample code for git info
-
-### unformatted - as code output
-
-If you leave `message = TRUE` (default) then git_prov will output a message when you knit the .Rmd.
 
 
 
