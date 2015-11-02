@@ -1,0 +1,179 @@
+---
+title: 'BCMCA datasets: import, raster, display'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: ../src/templates/ohibc_hdr.html
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+# library(sp)        # the classes and methods that make up spatial ops in R
+# library(rgdal)
+# library(raster)
+# library(DT)
+
+dir_git <- '~/github/ohibc'
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+# source(file.path(dir_git, 'src/R/poly_plot_scores.R')) ### score plotting script
+
+### goal specific folders and info
+dir_git_bcmca <- file.path(dir_git, 'bcmca')
+dir_anx_bcmca <- file.path(dir_neptune_data, 'git-annex/bcprep/data/bcmca')
+
+### provenance tracking
+source('~/github/ohibc/src/R/prov.R')      
+  ### Provenance tracking functions: must source at start to initialize prov_track
+dir_prov <- file.path(dir_git_bcmca, 'prov') 
+  ### set a provenance folder for this script
+#this_script_file <- file.path(dir_spp, 'data_prep_spp.Rmd') 
+  ### can't recognize the current script name on its own :(
+prov_run_tag <- 'standard run'
+
+### goal-specific source scripts
+source(file.path(dir_spp, 'R/spp_fxn.R'))
+
+### set up proj4string options: BC Albers and WGS84
+p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
+              'EPSG:4326 WGS 84'          = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
+p4s_bcalb <- p4s_opts[1]
+```
+
+# Create list of all BCMCA datasets
+
+1. from main folder location on git-annex, identify the major group folders.
+    - `dir_neptune_data, 'git-annex/bcprep/data/bcmca'`
+    - folders named `bcmca_eco` or `bcmca_hu` for human or ecological data
+    - folders then named `_set_xxx_complete` for sets of data
+        - only `bcmca_eco_ecologicalfeaturecount_data` is different
+    - in sets, subfolders:
+        - look for `FeatureData_xxx` where xxx is the group.
+        - if no `FeatureData_xxx`, look for `MarxanData_xxx`.
+    - in subfolders, list all separate files (look for `.shp` extensions)
+    - looks like files have a `BCMCA_ECO` or `BCMCA_HU` prefix
+    - looks like case is inconsistent from group to group.
+    
+``` {r identify all bcmca shapefiles}
+bcmca_groups <- list.files(dir_anx_bcmca)
+bcmca_dirs <- data.frame('dir' = list.dirs(dir_anx_bcmca))
+
+shps_df <- data.frame()
+for(dir in bcmca_dirs$dir) {  # i = 4
+  if(!is.na(dir)) {
+    shps <- list.files(dir)
+    shps <- shps[str_detect(shps, '.shp$')]
+    if(length(shps) == 0) shps <- NA
+    shps <- data.frame('dir' = dir, 'shp' = shps)
+  } else {
+    shps <- data.frame('dir' = dir, 'shp' = NA)
+  }
+  shps_df <- bind_rows(shps_df, shps)
+}
+```
+
+``` {r identify data types and duplicates}
+### identify the data type (Marxan, feature, pt_feature, poly_feature) 
+### from the base name.
+shps_df <- shps_df %>%
+  filter(!is.na(shp)) %>%
+  mutate(data_type = NA, # default: unknown data type
+         data_type = ifelse(str_detect(tolower(shp), '_marxan'),  'marxan',       data_type),
+         data_type = ifelse(str_detect(tolower(shp), '_data'),    'feature',      data_type),
+         data_type = ifelse(str_detect(tolower(shp), '_ptdata'),  'pt_feature',   data_type),
+         data_type = ifelse(str_detect(tolower(shp), '_plydata'), 'poly_feature', data_type))
+
+### set up a column of lower case base names with data types removed, to
+### compare the basic information for possible duplicates
+shps_df <- shps_df %>%
+  mutate(base_shp = tolower(shp),
+         base_shp = str_replace(base_shp, '_marxan',  ''),
+         base_shp = str_replace(base_shp, '_data',    ''),
+         base_shp = str_replace(base_shp, '_ptdata',  ''),
+         base_shp = str_replace(base_shp, '_plydata', ''))
+
+shps_df$dupes <- duplicated(shps_df$base_shp) | duplicated(shps_df$base_shp, fromLast = TRUE)
+
+shps_df <- shps_df %>%
+  select(-base_shp)
+
+```
+
+group_data_dirs <- data.frame() ### initialize empty data frame for this group
+
+for(bcmca_group in bcmca_groups) { 
+  # bcmca_group <- bcmca_groups[1]
+  # bcmca_group <- bcmca_groups[2]
+  if(str_detect(bcmca_group, '_set_')) {
+    ### this is a set of multiple datasets:
+    ### generate a list of all shapefiles within this group, with abs pathnames
+    group_dirs <- list.files(file.path(dir_anx_bcmca, bcmca_group))
+    if(length(group_dir <- group_dirs[str_detect(tolower(group_dirs), 'featuredata_')]) == 0)
+      group_dir <- group_dirs[str_detect(tolower(group_dirs), 'marxandata_')]
+    ### if not FeatureData, then MarxanData; and if not that, then character(0)
+      
+    if(length(group_dir) > 0) {
+      group_info <- unlist(str_split(tolower(group_dir), 'data_'))
+      ### group_info[1] is data type (feature or marxan), [2] is data group name
+      group_data_dir <- file.path(dir_anx_bcmca, bcmca_group, group_dir)
+      group_df <- data.frame('group_name'     = group_info[2], 
+                             'data_type'      = group_info[1], 
+                             'group_data_dir' = group_data_dir)
+    } else {
+      message(sprintf('Neither FeatureData nor MarxanData found for data group %s.', bcmca_group))
+      group_df <- data.frame('group_name'     = unlist(str_split(tolower(bcmca_group), '_'))[4],
+                             'data_type'      = NA,
+                             'group_data_dir' = NA)
+    }
+    group_data_dirs <- group_data_dirs %>%
+      bind_rows(group_df)
+                            
+  } else {
+    ### this is not a set of multiple datasets; just a single dataset - no subfolders
+    message(sprintf('Data group %s appears to be a single data set.', bcmca_group))
+    group_df <- data.frame('group_name'     = unlist(str_split(tolower(bcmca_group), '_'))[3],
+                           'data_type'      = 'data',
+                           'group_data_dir' = file.path(dir_anx_bcmca, bcmca_group))
+    group_data_dirs <- group_data_dirs %>%
+      bind_rows(group_df)
+  }
+}
+
+DT::datatable(group_data_dirs,
+              caption  = 'BCMCA data sets and directories',
+              rownames = FALSE,
+              class    = 'stripe hover compact',
+              options  = list(dom = 't'))
+```
+
+``` {r get shp names for each of the groups}
+
+shps_df <- data.frame()
+for(i in 1:nrow(group_data_dirs)) {  # i = 4
+  group_data_dir <- group_data_dirs$group_data_dir[i]
+  if(!is.na(group_data_dir)) {
+    shps <- list.files(group_data_dir)
+    shps <- shps[str_detect(shps, '.shp$')]
+    if(length(shps) == 0) shps <- NA
+    shps <- data.frame('group_name' = group_data_dirs$group_name[i], 'shapefile' = shps)
+  } else {
+    shps <- data.frame('group_name' = group_data_dirs$group_name[i], 'shapefile' = NA)
+  }
+  shps_df <- bind_rows(shps_df, shps)
+}
+
+group_data_shps <- group_data_dirs %>%
+  left_join(shps_df, by = 'group_name')
+
+
+```
+
+``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
+```
