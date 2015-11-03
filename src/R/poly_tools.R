@@ -13,7 +13,7 @@ require(stringr)
 require(rgeos)
 require(rgdal)
 require(maptools)
-require(cleangeo) ### devtools::install_github('eblondel/cleangeo') 
+require(cleangeo)
 
 # dir_spatial <- file.path(getwd(), 'regions')
 
