@@ -34,12 +34,9 @@ source('~/github/ohibc/src/R/prov.R')
   ### Provenance tracking functions: must source at start to initialize prov_track
 dir_prov <- file.path(dir_git_bcmca, 'prov') 
   ### set a provenance folder for this script
-#this_script_file <- file.path(dir_spp, 'data_prep_spp.Rmd') 
+this_script_file <- file.path(dir_git_bcmca, 'data_prep_spp.Rmd') 
   ### can't recognize the current script name on its own :(
 prov_run_tag <- 'standard run'
-
-### goal-specific source scripts
-source(file.path(dir_spp, 'R/spp_fxn.R'))
 
 ### set up proj4string options: BC Albers and WGS84
 p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
@@ -47,7 +44,7 @@ p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +la
 p4s_bcalb <- p4s_opts[1]
 ```
 
-# Create list of all BCMCA datasets
+# Create list of all BCMCA shapefiles
 
 1. from main folder location on git-annex, identify the major group folders.
     - `dir_neptune_data, 'git-annex/bcprep/data/bcmca'`
@@ -61,7 +58,7 @@ p4s_bcalb <- p4s_opts[1]
     - looks like files have a `BCMCA_ECO` or `BCMCA_HU` prefix
     - looks like case is inconsistent from group to group.
     
-``` {r identify all bcmca shapefiles}
+``` {r identify all bcmca shapefiles, echo = FALSE, message = FALSE, warning = FALSE}
 bcmca_groups <- list.files(dir_anx_bcmca)
 bcmca_dirs <- data.frame('dir' = list.dirs(dir_anx_bcmca))
 
@@ -79,7 +76,7 @@ for(dir in bcmca_dirs$dir) {  # i = 4
 }
 ```
 
-``` {r identify data types and duplicates}
+``` {r identify data types and duplicates, echo = FALSE, message = FALSE, warning = FALSE}
 ### identify the data type (Marxan, feature, pt_feature, poly_feature) 
 ### from the base name.
 shps_df <- shps_df %>%
@@ -101,77 +98,97 @@ shps_df <- shps_df %>%
 
 shps_df$dupes <- duplicated(shps_df$base_shp) | duplicated(shps_df$base_shp, fromLast = TRUE)
 
+
+### set up columns for domain (ecological or human) and category (e.g. commercialfish etc)
+base_split <- str_split(shps_df$base_shp, '_')
+
+get_shp_info <- function(x, y) {
+  ifelse(x[1] == 'bcmca', x[y], NA)
+}
+get_layer <- function(x) {
+  ifelse(x[1] == 'bcmca',
+    str_replace(x[str_detect(x, '.shp')], '.shp', ''),
+    str_replace(paste(x, collapse = '_'), '.shp', ''))
+}
+
+shps_df$domain   <- sapply(base_split, get_shp_info, 2)
+shps_df$category <- sapply(base_split, get_shp_info, 3)
+shps_df$layer    <- sapply(base_split, get_layer)
+  
 shps_df <- shps_df %>%
   select(-base_shp)
 
-```
-
-group_data_dirs <- data.frame() ### initialize empty data frame for this group
-
-for(bcmca_group in bcmca_groups) { 
-  # bcmca_group <- bcmca_groups[1]
-  # bcmca_group <- bcmca_groups[2]
-  if(str_detect(bcmca_group, '_set_')) {
-    ### this is a set of multiple datasets:
-    ### generate a list of all shapefiles within this group, with abs pathnames
-    group_dirs <- list.files(file.path(dir_anx_bcmca, bcmca_group))
-    if(length(group_dir <- group_dirs[str_detect(tolower(group_dirs), 'featuredata_')]) == 0)
-      group_dir <- group_dirs[str_detect(tolower(group_dirs), 'marxandata_')]
-    ### if not FeatureData, then MarxanData; and if not that, then character(0)
-      
-    if(length(group_dir) > 0) {
-      group_info <- unlist(str_split(tolower(group_dir), 'data_'))
-      ### group_info[1] is data type (feature or marxan), [2] is data group name
-      group_data_dir <- file.path(dir_anx_bcmca, bcmca_group, group_dir)
-      group_df <- data.frame('group_name'     = group_info[2], 
-                             'data_type'      = group_info[1], 
-                             'group_data_dir' = group_data_dir)
-    } else {
-      message(sprintf('Neither FeatureData nor MarxanData found for data group %s.', bcmca_group))
-      group_df <- data.frame('group_name'     = unlist(str_split(tolower(bcmca_group), '_'))[4],
-                             'data_type'      = NA,
-                             'group_data_dir' = NA)
-    }
-    group_data_dirs <- group_data_dirs %>%
-      bind_rows(group_df)
-                            
-  } else {
-    ### this is not a set of multiple datasets; just a single dataset - no subfolders
-    message(sprintf('Data group %s appears to be a single data set.', bcmca_group))
-    group_df <- data.frame('group_name'     = unlist(str_split(tolower(bcmca_group), '_'))[3],
-                           'data_type'      = 'data',
-                           'group_data_dir' = file.path(dir_anx_bcmca, bcmca_group))
-    group_data_dirs <- group_data_dirs %>%
-      bind_rows(group_df)
-  }
-}
-
-DT::datatable(group_data_dirs,
-              caption  = 'BCMCA data sets and directories',
+DT::datatable(shps_df,
+              caption  = 'BCMCA shapefiles and locations',
               rownames = FALSE,
               class    = 'stripe hover compact',
-              options  = list(dom = 't'))
+              filter   = 'bottom',
+              options  = list(dom = 'tpf'))
+
+# write.csv(shps_df, file.path(dir_git_bcmca, 'bcmca_shps_all.csv'), row.names = FALSE)
 ```
 
-``` {r get shp names for each of the groups}
 
-shps_df <- data.frame()
-for(i in 1:nrow(group_data_dirs)) {  # i = 4
-  group_data_dir <- group_data_dirs$group_data_dir[i]
-  if(!is.na(group_data_dir)) {
-    shps <- list.files(group_data_dir)
-    shps <- shps[str_detect(shps, '.shp$')]
-    if(length(shps) == 0) shps <- NA
-    shps <- data.frame('group_name' = group_data_dirs$group_name[i], 'shapefile' = shps)
+# Read .shps, rasterize, save?
+Shape files are in BC Albers projections?  For Marxan layers, raster resolution is generally set to 2 km cells... let's start there... what is the origin used for the Marxan cells?
+
+``` {r read .shps and rasterize}
+
+cell_size <- 2000
+
+shps_df <- shps_df %>%
+  mutate(extent    = NA,
+         data_cols = NA,
+         p4s_match = NA)
+
+for (i in 1:nrow(shps_df)) { # i = 30
+  if(is.na(shps_df$shp[i])) {
+    message(sprintf('No shapefile available for layer %s.', shps_df$layer[i]))
+#   } else if(is.na(shps_df$data_type[i])) {
+#     message(sprintf('Layer %s is an ambiguous data layer... figure out later!', shps_df$layer[i]))
+#   } else if(str_detect(shps_df$data_type[i], 'pt')) {
+#     message(sprintf('Layer %s is a points layer... figure out later!', shps_df$layer[i]))
+  } else if(shps_df$layer[i] %in% c('tankerexclusionzone', 'stellersealionhaulouts', 'stellersealionrookeries')) {
+    message(sprintf('Layer %s is a problem layer... figure out later!', shps_df$layer[i]))
   } else {
-    shps <- data.frame('group_name' = group_data_dirs$group_name[i], 'shapefile' = NA)
+    shp_dir <- shps_df$dir[i]
+    shp_lyr <- str_replace(shps_df$shp[i], '.shp', '') 
+    bcmca_poly <- readOGR(dsn = shp_dir, layer = shp_lyr)
+    bcmca_p4s <- proj4string(bcmca_poly)
+    
+    if(bcmca_p4s != p4s_bcalb) {
+      message(sprintf('Mismatched projections?\n  Layer p4s: %s\n  BC Albers p4s: %s', shps_df$layer[i], bcmca_p4s, p4s_bcalb))
+      shps_df$p4s_match[i] = FALSE
+    } else shps_df$p4s_match[i] = TRUE
+    
+    bcmca_ext <- c('xmin' = bcmca_poly@bbox[1, 1], 'xmax' = bcmca_poly@bbox[1, 2], 'ymin' = bcmca_poly@bbox[2, 1], 'ymax' = bcmca_poly@bbox[2, 2])
+    bcmca_data <- names(bcmca_poly@data)
+    
+    shps_df$extent[i]    <- paste(bcmca_ext, collapse = ', ')
+    shps_df$data_cols[i] <- paste(bcmca_data, collapse = ', ')
   }
-  shps_df <- bind_rows(shps_df, shps)
 }
 
-group_data_shps <- group_data_dirs %>%
-  left_join(shps_df, by = 'group_name')
+write.csv(shps_df, file.path(dir_git_bcmca, 'bcmca_shps_all.csv'), row.names = FALSE)
 
+```
+
+# Remove duplicated data layers
+
+Many of the basic shape files ("feature data" denoted by _data tag) were converted into Marxan shapefiles (denoted by _marxan tag).  Remove duplicated layers, keeping the original shapefiles rather than the Marxan files.
+
+``` {r cull list to non dupes preferring non marxan, echo = FALSE, message = FALSE, warning = FALSE}
+if(!exists('shps_df')) shps_df <- read.csv(file.path(dir_git_bcmca, 'bcmca_shps_all.csv'), stringsAsFactors = FALSE)
+
+shps_df1 <- shps_df %>%
+  filter(dupes == FALSE | (dupes == TRUE & !str_detect(tolower(shp), 'marxan')))
+
+DT::datatable(shps_df1,
+              caption  = 'BCMCA shapefiles and locations, Marxan duplicates removed',
+              rownames = FALSE,
+              class    = 'stripe hover compact',
+              filter   = 'bottom',
+              options  = list(dom = 'tpf'))
 
 ```
 

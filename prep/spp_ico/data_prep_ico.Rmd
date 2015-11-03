@@ -74,7 +74,7 @@ From Halpern et al (2012):
 
 > The reference point is to have the risk status of all assessed species as Least Concern (i.e., a goal score = 1.0)
 
-The Status of this sub-goal (X~ICO~) is therefore simply the % of iconic species in each threat category (as defined by the IUCN Red List), such that:
+The Status of this sub-goal (X~ICO~) is then the % of iconic species in each threat category (as defined by the IUCN Red List, and for OHIBC, NatureServe), such that:
 
 $$X_{ICO} = \frac{\displaystyle\sum_{category}S_{cat}*w_{cat}}{\displaystyle\sum_{category}S_{cat}}$$
 
@@ -84,8 +84,9 @@ where for each IUCN threat category (or analogous NatureServe conservation rank)
 * *w~cat~* is the status weight assigned for that category:
     * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
     * NatureServe ranks are assigned analogous scores
+    * Where available, NatureServe province-scale ranks take precedence over IUCN ranks as they are a better representation of the risk at the scale of British Columbia.
 
-ICO trend is calculated in a similar manner, but weightings are assigned according to population trend: 'Decreasing' = -0.5, 'Stable' = 0.0, 'Increasing' = +0.5
+ICO trend is calculated in a similar manner, but weightings are assigned according to IUCN population trend: 'Decreasing' = -0.5, 'Stable' = 0.0, 'Increasing' = +0.5.  NatureServe information on population trend was not readily available.
 
 # Data Preparation
 
