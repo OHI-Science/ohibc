@@ -14,9 +14,9 @@ output:
 ---
 
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
-# library(sp)        # the classes and methods that make up spatial ops in R
-# library(rgdal)
-# library(raster)
+library(sp)        # the classes and methods that make up spatial ops in R
+library(rgdal)
+# library(raster) # call explicitly e.g. raster::extract()
 # library(DT)
 
 dir_git <- '~/github/ohibc'
@@ -189,6 +189,66 @@ DT::datatable(shps_df1,
               class    = 'stripe hover compact',
               filter   = 'bottom',
               options  = list(dom = 'tpf'))
+
+```
+
+``` {r set up raster extents}
+ext_df <- shps_df1 %>%
+  filter(p4s_match == TRUE) %>%
+  filter(layer != 'halibut') %>% ### halibut layer extends up the entire coast; ignore for extents
+  mutate(xmin = ifelse(!is.finite(xmin), NA, xmin),
+         xmax = ifelse(!is.finite(xmax), NA, xmax),
+         ymin = ifelse(!is.finite(ymin), NA, ymin),
+         ymax = ifelse(!is.finite(ymax), NA, ymax))
+
+### Marxan reporting grid in BCMCA dataset is offset from perfect 2 km x 2 km grid by: 
+x_offset <- 60
+y_offset <- 650
+
+reso <- 2000
+full_ext <- c('xmin' = round(min(ext_df$xmin, na.rm = TRUE) - 5000, -4) + x_offset, 
+              'xmax' = round(max(ext_df$xmax, na.rm = TRUE) + 5000, -4) + x_offset, 
+              'ymin' = round(min(ext_df$ymin, na.rm = TRUE) - 5000, -4) + y_offset,
+              'ymax' = round(max(ext_df$ymax, na.rm = TRUE) + 5000, -4) + y_offset)
+
+rast_base <- raster::raster(raster::extent(full_ext), resolution = 2000, crs = p4s_bcalb)
+
+```
+
+``` {r rasterize layers}
+bcalb_shps <- shps_df1 %>%
+  filter(p4s_match == TRUE) ### start with just layers already in BC Albers; later can spTransform the others...
+
+for(i in 1:nrow(bcalb_shps)) { # i = 32
+  tmp <- bcalb_shps[i, ]
+  layername <- paste(tmp$category, tmp$layer, tmp$data_type, sep = '_')
+  
+  message(sprintf('Preparing layer %s...', layername))
+
+  ### read the layer
+  ### use value_id = 1 for all of 'em for now to assign poly@data[ , 1] as values
+  ### rasterize the layer to the rast_base
+  ### save the raster to git_anx
+
+  tmp_data <- foreign::read.dbf(file.path(tmp$dir, str_replace(tmp$shp, '.shp', '.dbf')))
+  print(head(tmp_data))
+  index_name <- names(tmp_poly)[max(c(1, which(str_detect(tolower(names(tmp_poly)), 'id'))[1]))]
+#   tmp_rast <- raster::rasterize(tmp_poly, rast_base, field = 1, filename = file.path(dir_git_bcmca, sprintf('rasters/%s.tif', layername)))
+  tmp_filename <- file.path(dir_anx_bcmca, sprintf('rasters/%s.tif', layername))
+  tmp_file <- raster::writeRaster(rast_base, tmp_filename, overwrite = TRUE)
+    ### because gdal_rasterize can't create new files... ugh
+  tmp_rast <- gdalUtils::gdal_rasterize(src_datasource = file.path(tmp$dir, tmp$shp), 
+                                        dst_filename = path.expand(tmp_filename), 
+                                        a = index_name, 
+                                        a_nodata = NA,
+                                        te = c(full_ext[1], full_ext[3], full_ext[2], full_ext[4]),
+                                        tr = c(reso, reso), # extents and resolution for x and y
+                                output_Raster = TRUE, # return output as a RasterBrick? 
+                                ignore.full_scan = TRUE,
+                                verbose = FALSE)
+  
+  plot(tmp_rast)
+}
 
 ```
 

@@ -53,7 +53,7 @@ p4s_bcalb <- p4s_opts[1]
 This script prepares scores (status and trend) for species richness in 
 British Columbia's coastal regions.  Spatial data from IUCN and Aquamaps is
 combined with extinction risk information from IUCN and conservation rank
-info based on NatureServe categories.
+info based on province-level NatureServe categories.
 
 Currently, the Species Richness sub-goal model is identical to the OHI Global 
 model: a region's status is based upon an area-weighted average of species
@@ -113,6 +113,8 @@ NatureServe/BC CDC conservation rank info from BC Species and Ecosystems Explore
 * BC Conservation Data Centre: http://www.env.gov.bc.ca/atrisk/toolintro.html
 * NatureServe conservation status: http://explorer.natureserve.org/ranking.htm#global
 * Citation: B.C. Conservation Data Centre. 2013. BC Species and Ecosystems Explorer. B.C. Ministry of Environment, Victoria B.C. Available: <http://a100.gov.bc.ca/pub/eswp/>.  Downloaded on 3 August 2015.
+
+NOTE: Davies and Baum (2012) could potentially provide a small number of additional species, as in the California Current OHI, but for now we are not considering this in our assessment.
 
 -----
 
