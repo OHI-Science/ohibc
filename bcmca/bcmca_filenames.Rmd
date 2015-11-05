@@ -16,8 +16,8 @@ output:
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
 library(sp)        # the classes and methods that make up spatial ops in R
 library(rgdal)
-# library(raster) # call explicitly e.g. raster::extract()
-# library(DT)
+library(raster)    # call explicitly e.g. raster::extract()
+library(DT)
 
 dir_git <- '~/github/ohibc'
 dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
@@ -82,8 +82,8 @@ for(dir in bcmca_dirs$dir) {  # i = 4
 shps_df <- shps_df %>%
   filter(!is.na(shp)) %>%
   mutate(data_type = NA, # default: unknown data type
-         data_type = ifelse(str_detect(tolower(shp), '_marxan'),  'marxan',       data_type),
          data_type = ifelse(str_detect(tolower(shp), '_data'),    'feature',      data_type),
+         data_type = ifelse(str_detect(tolower(shp), '_marxan'),  'marxan',       data_type),
          data_type = ifelse(str_detect(tolower(shp), '_ptdata'),  'pt_feature',   data_type),
          data_type = ifelse(str_detect(tolower(shp), '_plydata'), 'poly_feature', data_type))
 
@@ -107,8 +107,10 @@ get_shp_info <- function(x, y) {
 }
 get_layer <- function(x) {
   ifelse(x[1] == 'bcmca',
-    str_replace(x[str_detect(x, '.shp')], '.shp', ''),
-    str_replace(paste(x, collapse = '_'), '.shp', ''))
+         ifelse(length(x) > 3, 
+                str_replace(paste(x[4:length(x)], collapse = '_'), '.shp', ''),
+                str_replace(x[3], '.shp', '')),
+         str_replace(paste(x, collapse = '_'), '.shp', ''))
 }
 
 shps_df$domain   <- sapply(base_split, get_shp_info, 2)
@@ -129,17 +131,15 @@ DT::datatable(shps_df,
 ```
 
 
-# Read .shps, rasterize, save?
-Shape files are in BC Albers projections?  For Marxan layers, raster resolution is generally set to 2 km cells... let's start there... what is the origin used for the Marxan cells?
+# Read .shps, get info
+Get extents, p4s (if not BC Albers), layers available in attribute table; write to .csv.  Set to eval = FALSE to avoid a lengthy process.
 
-``` {r read .shps and rasterize}
-
-cell_size <- 2000
+``` {r read shps, eval = FALSE}
 
 shps_df <- shps_df %>%
   mutate(extent    = NA,
          data_cols = NA,
-         p4s_match = NA)
+         p4s = NA)
 
 for (i in 1:nrow(shps_df)) { # i = 30
   if(is.na(shps_df$shp[i])) {
@@ -153,37 +153,47 @@ for (i in 1:nrow(shps_df)) { # i = 30
   } else {
     shp_dir <- shps_df$dir[i]
     shp_lyr <- str_replace(shps_df$shp[i], '.shp', '') 
-    bcmca_poly <- readOGR(dsn = shp_dir, layer = shp_lyr)
-    bcmca_p4s <- proj4string(bcmca_poly)
+    lyr_poly <- readOGR(dsn = shp_dir, layer = shp_lyr)
+    lyr_p4s  <- proj4string(bcmca_poly)
     
-    if(bcmca_p4s != p4s_bcalb) {
+    if(lyr_p4s != p4s_bcalb) {
       message(sprintf('Mismatched projections?\n  Layer p4s: %s\n  BC Albers p4s: %s', shps_df$layer[i], bcmca_p4s, p4s_bcalb))
-      shps_df$p4s_match[i] = FALSE
-    } else shps_df$p4s_match[i] = TRUE
+      shps_df$p4s[i] = lyr_p4s
+    } else shps_df$p4s[i] = 'BC Albers'
     
-    bcmca_ext <- c('xmin' = bcmca_poly@bbox[1, 1], 'xmax' = bcmca_poly@bbox[1, 2], 'ymin' = bcmca_poly@bbox[2, 1], 'ymax' = bcmca_poly@bbox[2, 2])
-    bcmca_data <- names(bcmca_poly@data)
+    lyr_ext <- c('xmin' = lyr_poly@bbox[1, 1], 'xmax' = lyr_poly@bbox[1, 2], 'ymin' = lyr_poly@bbox[2, 1], 'ymax' = lyr_poly@bbox[2, 2])
+    lyr_data <- names(lyr_poly@data)
     
-    shps_df$extent[i]    <- paste(bcmca_ext, collapse = ', ')
-    shps_df$data_cols[i] <- paste(bcmca_data, collapse = ', ')
+    shps_df$extent[i]    <- paste(lyr_ext, collapse = ', ')
+    shps_df$data_cols[i] <- paste(lyr_data, collapse = ', ')
+    
   }
 }
+shps_df <- shps_df %>%
+  separate(extent, c('xmin', 'xmax', 'ymin', 'ymax'), sep = ', ') %>%
+  mutate(xmin = as.numeric(xmin),
+         xmax = as.numeric(xmax),
+         ymin = as.numeric(ymin),
+         ymax = as.numeric(ymax))
 
 write.csv(shps_df, file.path(dir_git_bcmca, 'bcmca_shps_all.csv'), row.names = FALSE)
 
 ```
 
-# Remove duplicated data layers
+# Set up list of layers to be rasterized
 
-Many of the basic shape files ("feature data" denoted by _data tag) were converted into Marxan shapefiles (denoted by _marxan tag).  Remove duplicated layers, keeping the original shapefiles rather than the Marxan files.
+``` {r set up list of raster layers, echo = FALSE, message = FALSE, warning = FALSE}
 
-``` {r cull list to non dupes preferring non marxan, echo = FALSE, message = FALSE, warning = FALSE}
 if(!exists('shps_df')) shps_df <- read.csv(file.path(dir_git_bcmca, 'bcmca_shps_all.csv'), stringsAsFactors = FALSE)
 
-shps_df1 <- shps_df %>%
-  filter(dupes == FALSE | (dupes == TRUE & !str_detect(tolower(shp), 'marxan')))
+rast_list <- shps_df %>%
+  left_join(read.csv(file.path(dir_git_bcmca, 'bcmca_to_raster.csv'), stringsAsFactors = FALSE) %>%
+              select(shp, raster, value),
+            by = 'shp') %>%
+  filter(raster == TRUE) %>%
+  filter(p4s == 'BC Albers')
 
-DT::datatable(shps_df1,
+DT::datatable(rast_list,
               caption  = 'BCMCA shapefiles and locations, Marxan duplicates removed',
               rownames = FALSE,
               class    = 'stripe hover compact',
@@ -193,8 +203,9 @@ DT::datatable(shps_df1,
 ```
 
 ``` {r set up raster extents}
-ext_df <- shps_df1 %>%
-  filter(p4s_match == TRUE) %>%
+
+ext_df <- rast_list %>%
+  filter(p4s == 'BC Albers') %>%
   filter(layer != 'halibut') %>% ### halibut layer extends up the entire coast; ignore for extents
   mutate(xmin = ifelse(!is.finite(xmin), NA, xmin),
          xmax = ifelse(!is.finite(xmax), NA, xmax),
@@ -216,38 +227,40 @@ rast_base <- raster::raster(raster::extent(full_ext), resolution = 2000, crs = p
 ```
 
 ``` {r rasterize layers}
-bcalb_shps <- shps_df1 %>%
-  filter(p4s_match == TRUE) ### start with just layers already in BC Albers; later can spTransform the others...
 
-for(i in 1:nrow(bcalb_shps)) { # i = 32
-  tmp <- bcalb_shps[i, ]
-  layername <- paste(tmp$category, tmp$layer, tmp$data_type, sep = '_')
+for(i in 1:nrow(rast_list)) { # i = 1
+  tmp <- rast_list[i, ]
+  val_list <- unlist(str_split(tmp$value, ','))
+  for(val in val_list) {
+    lyr_name <- tolower(paste(tmp$category, tmp$layer, val, sep = '_'))
+
+    message(sprintf('Preparing layer %s...', lyr_name))
   
-  message(sprintf('Preparing layer %s...', layername))
-
-  ### read the layer
-  ### use value_id = 1 for all of 'em for now to assign poly@data[ , 1] as values
-  ### rasterize the layer to the rast_base
-  ### save the raster to git_anx
-
-  tmp_data <- foreign::read.dbf(file.path(tmp$dir, str_replace(tmp$shp, '.shp', '.dbf')))
-  print(head(tmp_data))
-  index_name <- names(tmp_poly)[max(c(1, which(str_detect(tolower(names(tmp_poly)), 'id'))[1]))]
-#   tmp_rast <- raster::rasterize(tmp_poly, rast_base, field = 1, filename = file.path(dir_git_bcmca, sprintf('rasters/%s.tif', layername)))
-  tmp_filename <- file.path(dir_anx_bcmca, sprintf('rasters/%s.tif', layername))
-  tmp_file <- raster::writeRaster(rast_base, tmp_filename, overwrite = TRUE)
-    ### because gdal_rasterize can't create new files... ugh
-  tmp_rast <- gdalUtils::gdal_rasterize(src_datasource = file.path(tmp$dir, tmp$shp), 
-                                        dst_filename = path.expand(tmp_filename), 
-                                        a = index_name, 
-                                        a_nodata = NA,
-                                        te = c(full_ext[1], full_ext[3], full_ext[2], full_ext[4]),
-                                        tr = c(reso, reso), # extents and resolution for x and y
-                                output_Raster = TRUE, # return output as a RasterBrick? 
-                                ignore.full_scan = TRUE,
-                                verbose = FALSE)
+    ### read the layer
+    ### use value_id = 1 for all of 'em for now to assign poly@data[ , 1] as values
+    ### rasterize the layer to the rast_base
+    ### save the raster to git_anx
   
-  plot(tmp_rast)
+    tmp_data <- foreign::read.dbf(file.path(tmp$dir, str_replace(tmp$shp, '.shp', '.dbf')))
+    print(head(tmp_data))
+    index_name <- val
+    # tmp_filename <- file.path(dir_anx_bcmca, sprintf('rasters/%s.tif', lyr_name))
+    tmp_filename <- file.path(dir_git_bcmca, sprintf('rasters/%s.tif', lyr_name))
+    suppressWarnings({
+      tmp_file <- raster::writeRaster(rast_base, tmp_filename, overwrite = TRUE)
+    })
+      ### because gdal_rasterize can't create new files... ugh
+    tmp_rast <- gdalUtils::gdal_rasterize(src_datasource = file.path(tmp$dir, tmp$shp), 
+                                          dst_filename = path.expand(tmp_filename), 
+                                          a = index_name, 
+                                          a_nodata = NA,
+                                          te = c(full_ext[1], full_ext[3], full_ext[2], full_ext[4]),
+                                          tr = c(reso, reso), # extents and resolution for x and y
+                                  output_Raster = TRUE, # return output as a RasterBrick? 
+                                  ignore.full_scan = TRUE,
+                                  verbose = FALSE)
+    plot(tmp_rast)
+  }
 }
 
 ```

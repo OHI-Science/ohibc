@@ -1,11 +1,18 @@
 ---
 title: "OHIBC: data_prep_lsp.Rmd"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
     toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: ../src/templates/ohibc_hdr1.html
   pdf_document:
     toc: true
 ---
+
 ``` {r setup, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 library(sp)        # the classes and methods that make up spatial ops in R
 # library(gdalUtils) # for gdal_rasterize() function
@@ -23,6 +30,17 @@ source(file.path(dir_bc, 'lsp/R/lsp_fxns.R'))
 dir_anx <- file.path(dir_neptune_data, 'git-annex/bcprep') ### git-annex: goal-specific large files
 dir_rgn <- file.path(dir_bc, 'regions')       ### github: general buffer region shapefiles
 dir_rst <- file.path(dir_anx, 'lsp/spatial')  ### git-annex: goal-specific raster files
+dir_lsp <- file.path(dir_bc, 'prep/lsp')
+
+### provenance tracking
+source('~/github/ohibc/src/R/prov.R')      
+  ### Provenance tracking functions: must source at start to initialize prov_track
+dir_prov <- file.path(dir_lsp, 'prov') 
+  ### set a provenance folder for this script
+this_script_file <- file.path(dir_lsp, 'data_prep_lsp.Rmd') 
+  ### can't recognize the current script name on its own :(
+prov_run_tag <- 'standard run'
+
 
 ### set up the default BC projection to be BC Albers
 p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
@@ -95,8 +113,8 @@ poly_1km <- readOGR(dsn = path.expand(dir_rgn), layer = lyr_1km,
                     stringsAsFactors = FALSE, verbose = FALSE)
 
 ### provenance check:
-lsp_git_prov(sprintf('%s/%s.shp', path.expand(dir_rgn), lyr_3nm))
-lsp_git_prov(sprintf('%s/%s.shp', path.expand(dir_rgn), lyr_1km))
+git_prov(sprintf('%s/%s.shp', path.expand(dir_rgn), lyr_3nm))
+git_prov(sprintf('%s/%s.shp', path.expand(dir_rgn), lyr_1km))
 
 ### polygon geometry validity check:
 inval <- gIsValid(poly_3nm, byid = TRUE)
@@ -243,4 +261,7 @@ print(score_df_2015)
 
 poly_plot_scores(score_df_2015, scale_label = 'LSP Status', title = 'OHIBC LSP Status 2015')
 
+```
+
+``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
 ```

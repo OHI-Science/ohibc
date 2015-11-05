@@ -2,10 +2,11 @@
 output: html_fragment
 ---
 <p align = 'center'>
-[![ohibc logo](ohibc_banner1.png)](https://ohibc.github.io/)
+<a href = 'http://www.ohibc.org/', target = '_blank'>
+<img src = 'ohibc_banner1.png', alt = 'ohibc logo'>
+</a>
 <br>
-[www.OceanHealthIndex.org](http://www.oceanhealthindex.org) | 
-[OHI British Columbia](https://ohibc.github.io/) |
+[OHI British Columbia](http://www.ohibc.org/) |
 [OHI Science](http://ohi-science.org) |
-[Cite OHI](https://github.com/OHI-Science/ohiprep/releases)
+[Citation policy](https://github.com/OHI-Science/ohiprep/releases)
 </p>
