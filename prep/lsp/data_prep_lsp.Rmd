@@ -24,13 +24,13 @@ library(cleangeo) ### devtools::install_github('eblondel/cleangeo')
 
 
 dir_bc  <- '~/github/ohibc'         ### set wd to work in Github OHIBC location
-source(file.path(dir_bc, 'R/common.R'))  ### an OHIBC specific version of common.R
-source(file.path(dir_bc, 'lsp/R/lsp_fxns.R'))
+source(file.path(dir_bc, 'src/R/common.R'))  ### an OHIBC specific version of common.R
 
 dir_anx <- file.path(dir_neptune_data, 'git-annex/bcprep') ### git-annex: goal-specific large files
-dir_rgn <- file.path(dir_bc, 'regions')       ### github: general buffer region shapefiles
+dir_rgn <- file.path(dir_bc, 'prep/regions')       ### github: general buffer region shapefiles
 dir_rst <- file.path(dir_anx, 'lsp/spatial')  ### git-annex: goal-specific raster files
 dir_lsp <- file.path(dir_bc, 'prep/lsp')
+source(file.path(dir_lsp, 'R/lsp_fxns.R'))
 
 ### provenance tracking
 source('~/github/ohibc/src/R/prov.R')      
@@ -181,7 +181,7 @@ rast_wdpa_bc <- rasterize(poly_wdpa_bc, base_raster, field = 'STATUS_YR', fun = 
 plot(poly_3nm,     col = rgb(.4, .4,  1,  1), border = NA)
 plot(poly_1km,     col = rgb( 0, .5,  0,  1), border = NA, add = TRUE)
 
-rast_cols = (colorRampPalette(brewer.pal(9, 'Reds'))(255)) # rainbow color scheme
+rast_cols = (colorRampPalette(RColorBrewer::brewer.pal(9, 'Reds'))(255)) # rainbow color scheme
 
 plot(rast_wdpa_bc, col = rast_cols, alpha = 0.5, add = TRUE)
 ```
