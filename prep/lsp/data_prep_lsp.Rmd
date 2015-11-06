@@ -8,7 +8,7 @@ output:
     theme: cerulean
     highlight: haddock
     includes: 
-      in_header: ../src/templates/ohibc_hdr1.html
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
   pdf_document:
     toc: true
 ---
@@ -20,16 +20,16 @@ library(maptools)  # tools for reading and manipulating spatial objects
 library(rgeos)
 library(rgdal)
 library(raster)
-library(cleangeo) ### devtools::install_github('eblondel/cleangeo') 
+library(cleangeo)
 
 
-dir_bc  <- '~/github/ohibc'         ### set wd to work in Github OHIBC location
-source(file.path(dir_bc, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_git  <- '~/github/ohibc'         ### set wd to work in Github OHIBC location
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
 
 dir_anx <- file.path(dir_neptune_data, 'git-annex/bcprep') ### git-annex: goal-specific large files
-dir_rgn <- file.path(dir_bc, 'prep/regions')       ### github: general buffer region shapefiles
+dir_rgn <- file.path(dir_git, 'prep/regions')       ### github: general buffer region shapefiles
 dir_rst <- file.path(dir_anx, 'lsp/spatial')  ### git-annex: goal-specific raster files
-dir_lsp <- file.path(dir_bc, 'prep/lsp')
+dir_lsp <- file.path(dir_git, 'prep/lsp')
 source(file.path(dir_lsp, 'R/lsp_fxns.R'))
 
 ### provenance tracking
@@ -45,10 +45,28 @@ prov_run_tag <- 'standard run'
 ### set up the default BC projection to be BC Albers
 p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
 ```
-*Compiled on `r date()`*
 
+# OHIBC Lasting Special Places subgoal (Sense of Place)
 
-### Read in BC WDPA-MPA shapefile
+Currently, the Lasting Special Places goal model is identical to the OHI Global model: a region's status is based upon percent of protected area within 1 km inland buffer and percent of protected area within 3 nautical mile offshore buffer, compared to a reference point of 30% protected area.
+
+$$X_{LSP} = \frac{\frac{pA_{CMPA}}{pA_{refCMPA}} + \frac{pA_{CP}}{pA_{refCP}}}{2}$$
+
+*pA* = percent of area within the inland or offshore buffer; *CMPA* = coastal marine protected area (3nm offshore); *CP* = coastline protected (1km inland); and *refCMPA* = *refCP* = 30% reference point for both measures.
+
+Future changes may incorporate other data sets and MaPP planning zones.
+
+-----
+
+# Data Preparation
+
+## Data Sources
+
+WDPA data base <citation info?>
+
+-----
+
+## Read in BC WDPA-MPA shapefile
 
 NOTE: If BC WDPA file does not yet exist, `get_wdpa_poly()` creates it from the original WDPA-MPA file.  This takes a long time, due to reading in the full WDPA-MPA geodatabase into a SpatialPolygonsDataFrame.
 
@@ -94,7 +112,9 @@ if(nrow(report) > 0) {
 
 ```
 
-### Set up buffers and base raster
+-----
+
+## Set up coastal buffers and base raster
 
 Buffer files are located in `github/ohibc/regions`.  LSP uses 1 km inland and 3nm offshore buffers.  The base raster will be used to rasterize the WDPA SPDataFrame in a later step, but the extents and projection need to match the extents and projections of the buffers.
 
@@ -170,7 +190,9 @@ plot(poly_wdpa_bc, col = rgb( 1, .5, .5, .5), border = NA, add = TRUE)
 
 ```
 
-### Rasterize the BC WDPA-MPA shapefile
+-----
+
+## Rasterize the BC WDPA-MPA shapefile
 
 ``` {r rasterize BC WDPA, echo = TRUE, eval = TRUE}
 rast_wdpa_bc <- rasterize(poly_wdpa_bc, base_raster, field = 'STATUS_YR', fun = 'min', background = NA, 
@@ -186,10 +208,15 @@ rast_cols = (colorRampPalette(RColorBrewer::brewer.pal(9, 'Reds'))(255)) # rainb
 plot(rast_wdpa_bc, col = rast_cols, alpha = 0.5, add = TRUE)
 ```
 
-### Extract WDPA values against buffer regions
+-----
+
+# Calculate goal model
+
+## Extract WDPA protected areas against buffer regions
 
 Extract the rasterized WDPA against the spatial polygons of the buffer regions.  Result is a list of raster cells within each region, and the associated WDPA value (earliest `STATUS_YR`) for that cell.
 
+The result is a dataframe that sums the protected areas within each coastal region (3 nm offshore and 1 km inland, separately)
 ``` {r extract WDPA against buffers, echo = TRUE, eval = TRUE}
 prot_mar_list <- raster::extract(rast_wdpa_bc, poly_3nm)
 names(prot_mar_list) <- poly_3nm@data$rgn_id
@@ -202,7 +229,11 @@ names(prot_ter_list) <- poly_1km@data$rgn_id
 prot_ter_df <- lsp_sum_prot_areas(prot_ter_list, reso = res(rast_wdpa_bc)[1])
 ```
 
-### Calc status for each region for each year
+-----
+
+## Calculate status for each region for each year
+
+From the sums, determine the ratio of the protected area to the total area within the regions; compare to reference point of 30%; and then take mean of inland score and offshore score. 
 
 Eventually this may move to an OHIBC version of `functions.R`, but for now will just calculate directly here.
 
@@ -211,12 +242,12 @@ Eventually this may move to an OHIBC version of `functions.R`, but for now will 
 ref_pt = .3
 
 prot_mar_df <- prot_mar_df %>%
-  mutate(status = (cum_a_km2/tot_a_km2)/ref_pt*100,
-         status = ifelse(status > 100, 100, status))
+  mutate(ratio = (cum_a_km2/tot_a_km2)/ref_pt*100,
+         status = ifelse(ratio > 100, 100, ratio))
 
 prot_ter_df <- prot_ter_df %>%
-  mutate(status = (cum_a_km2/tot_a_km2)/ref_pt*100,
-         status = ifelse(status > 100, 100, status))
+  mutate(ratio = (cum_a_km2/tot_a_km2)/ref_pt*100,
+         status = ifelse(ratio > 100, 100, ratio))
 
 lsp_status <- prot_mar_df %>% 
   dplyr::select(rgn_id, year, mar_status = status) %>%
@@ -225,21 +256,16 @@ lsp_status <- prot_mar_df %>%
             by = c('rgn_id', 'year')) %>%
   mutate(status = (mar_status + ter_status) / 2)
 
-write_csv(lsp_status, file.path(dir_bc, '/lsp/data/status.csv'))
+write_csv(lsp_status, file.path(dir_lsp, 'data/status.csv'))
+git_prov(file.path(dir_lsp, 'data/status.csv'), type = 'output')
   
 ```
 
 ### Plot map of status by region
 
-Currently, the Lasting Special Places goal model is identical to the OHI Global model: a region's status is based upon percent of protected area within 1 km inland buffer and percent of protected area within 3 nautical mile offshore buffer, compared to a reference point of 30% protected area.
-
-$$X_{LSP} = \frac{\frac{pA_{CMPA}}{pA_{refCMPA}} + \frac{pA_{CP}}{pA_{refCP}}}{2}$$
-
-*pA* = percent of area within the inland or offshore buffer; *CMPA* = coastal marine protected area (3nm offshore); *CP* = coastline protected (1km inland); and *refCMPA* = *refCP* = 30% reference point for both measures.
-
-Examining OHIBC Lasting Special Places scores for 1995 and 2015:
+Examining OHIBC Lasting Special Places scores for 1995, 2005, and 2015:
 ``` {r plot scores as polygons, eval = TRUE, echo = FALSE, message = FALSE, cache = TRUE}
-source(file.path(dir_bc, 'R/poly_plot_scores.R'))
+source(file.path(dir_git, 'src/R/poly_plot_scores.R'))
 score_df_1995 <- lsp_status %>% 
   filter(year == 1995) %>% 
   rename(score = status)
