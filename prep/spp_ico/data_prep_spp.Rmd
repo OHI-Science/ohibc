@@ -212,7 +212,7 @@ loiczid_rast     <- rgn2cell_list[[2]]
 
 *Note that `subs()` can't deal with duplicate cell IDs; for cells included in two or more regions, displaying the minimum region ID value*
 
-``` {r plot regions raster, echo = FALSE, cache = TRUE, message = FALSE, warning = FALSE, fig.height = 4, fig.width = 6, fig.align = 'center'}
+``` {r spp plot regions raster, echo = FALSE, cache = TRUE, message = FALSE, warning = FALSE, fig.height = 4, fig.width = 6, fig.align = 'center'}
 
 rgn2cell_clean <- rgn2cell_df %>% 
   group_by(loiczid) %>% 
@@ -263,7 +263,7 @@ DT::datatable(iucn_cells_sum,
 
 ### Map of species count by cell
 
-``` {r plot species count raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
+``` {r spp plot species count raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
 cells_sum <- iucn_cells_sum %>%
   select(loiczid, n_cat_iucn = n_cat_species) %>%
   full_join(am_cells_sum %>%
@@ -319,7 +319,7 @@ DT::datatable(sum_by_rgn,
 ### Map of mean extinction risk category value by cell
 
 *Category value range: least concern = 0, extinct = 1*
-``` {r plot cell score raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE,  fig.height = 4, fig.width = 6, fig.align = 'center'}
+``` {r spp plot cell score raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE,  fig.height = 4, fig.width = 6, fig.align = 'center'}
 
 scale_limits = c(min(sum_by_cell$weighted_mean_cat,  na.rm = TRUE), 
                  max(sum_by_cell$weighted_mean_cat,  na.rm = TRUE))
@@ -362,7 +362,7 @@ git_prov(file.path(dir_spp, scenario, 'data/spp_trend.csv'),  type = 'output')
 
 The maps and tables show status based upon rankings from NatureServe (where available) and IUCN (where NatureServe is not available).  Currently no trend information is taken from NatureServe, so trend is based entirely on IUCN rankings.
 
-``` {r plot scores as polygons, echo = FALSE, message = FALSE, fig.height = 4, fig.width = 6, fig.align = 'center'}
+``` {r spp plot scores as polygons, echo = FALSE, message = FALSE, fig.height = 4, fig.width = 6, fig.align = 'center'}
 
 poly_plot_scores(spp_status, scale_label = 'SPP Status', title = 'OHIBC SPP Status')
 

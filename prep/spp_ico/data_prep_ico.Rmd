@@ -231,7 +231,7 @@ Iconic Species currently identified within British Columbia waters:
 
 ### Map of species count by cell
 
-``` {r plot species count raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
+``` {r ico plot species count raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
 ico_bc_cells <- ico_bc_cell_rgn %>%
   select(-rgn_id, -rgn_name, -sp_source) %>%
   unique()
@@ -303,7 +303,7 @@ DT::datatable(ico_summary_rgn,
 
 *Trend value range: population increasing = +0.5, stable = 0, decreasing = -0.5*
 
-``` {r plot cell score raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE,  fig.height = 4, fig.width = 6, fig.align = 'center'}
+``` {r ico plot cell score raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE,  fig.height = 4, fig.width = 6, fig.align = 'center'}
 
 spp_plot_raster(ico_summary_cells, loiczid_rast, which_id = 'mean_cat', 
                 poly_rgn = poly_bc_rgn,
