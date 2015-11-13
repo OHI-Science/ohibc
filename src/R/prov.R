@@ -7,7 +7,7 @@
 ### git_prov(git_file, type = 'input') takes filename and reads its
 ###   git log, strips to its most recent commit, adds a line to prov_track
 ###   for this file, and returns a git provenance dataframe including:
-###   * file
+###   * file_loc
 ###   * type
 ###   * commit_url
 ###   * commit_author
@@ -28,48 +28,45 @@ git_prov <- function(git_file, type = c('input', 'output', 'script', 'sourced_sc
 ### This function determines the most recent commit for a given file.
 ### The idea is to help promote provenance by identifying a particular
 ### version of a given file.
-  if(type == 'output') {
-    git_info <- c(NA, NA, NA)
-    git_commit_url <- 'output file: not yet committed'
-    git_uncommitted <- NA
-    message(sprintf('File `%s`: Output not yet committed', git_file))
-  } else {
-    ### attempt to read git_info for script or input
-    suppressWarnings({
-      git_info <- system(sprintf('git log --follow %s', git_file), intern = TRUE, ignore.stderr = TRUE)[1:3]
-      #    git_diff <- system(sprintf('git diff HEAD'), intern = TRUE, ignore.stderr = TRUE)
-    })
-    ### if git_info[1] is NA, commit info not found.
-    if(is.na(git_info[1])) {
-      message(sprintf('File `%s`: git commit info unavailable.  Not version-controlled in Git?', git_file))
-      git_commit_url  <- 'no version control info found'
-      git_uncommitted <- NA
-    } else {
-      ### git_info[1] is not NA, so commit info is available.
-      ### find whether uncommitted differences in this file.
-      ### in str_detect, '$' makes sure git_file string is at end of line.
-      suppressWarnings({
-        git_diff <- system(sprintf('git diff HEAD'), intern = TRUE, ignore.stderr = TRUE)
-      })
-      git_diff_check <- which(str_detect(git_diff, sprintf('%s$', basename(git_file))) &
-                                str_detect(git_diff, 'diff --git'))
-      git_uncommitted <- length(git_diff_check) > 0
 
-      ### convert commit info to a hyperlinked commit info string.
-      git_loc  <- system(sprintf('git config --get remote.origin.url'), intern = TRUE, ignore.stderr = TRUE)
+  ### attempt to read git_info for script or input
+  suppressWarnings({
+    git_info <- system2('git', args = sprintf('log --follow %s', git_file), stderr = FALSE, stdout = TRUE)[1:3]
+    #    git_diff <- system2('git', args = 'diff HEAD', stderr = TRUE, stdout = TRUE)
+  })
+  ### if git_info[1] is NA, commit info not found.
+  if(is.na(git_info[1])) {
+    message(sprintf('File `%s`: git commit info unavailable.  Not version-controlled in Git?', git_file))
+    git_commit_url  <- 'no version control info found'
+    git_uncommitted <- NA
+  } else {
+    ### git_info[1] is not NA, so commit info is available.
+    ### find whether uncommitted differences in this file.
+    ### in str_detect, '$' makes sure git_file string is at end of line.
+    suppressWarnings({
+      git_diff <- system2('git', args = 'diff HEAD', stderr = TRUE, stdout = TRUE)
+    })
+    git_diff_check <- which(str_detect(git_diff, sprintf('%s$', basename(git_file))) &
+                              str_detect(git_diff, 'diff --git'))
+    git_uncommitted <- length(git_diff_check) > 0
+
+    ### convert commit info to a hyperlinked commit info string.
+    git_loc  <- system2('git', args = 'config --get remote.origin.url', stderr = TRUE, stdout = TRUE)
+    if(type == 'output')
+      git_commit_url <- sprintf('Previous commit: %s/commit/%s', sub('.git', '', git_loc, fixed = TRUE), gsub('commit ', '', git_info[1]))
+    else
       git_commit_url <- sprintf('%s/commit/%s', sub('.git', '', git_loc, fixed = TRUE), gsub('commit ', '', git_info[1]))
-      git_link <- sprintf('commit [%s](%s)', gsub('commit ', '', git_info[1]), git_commit_url)
-      message(sprintf('File `%s`: most recent commit info: %s; uncommitted changes = %s', git_file,
-                      paste(git_info[1], git_info[2], git_info[3], collapse = '; '), git_uncommitted))
-    }
+    git_link <- sprintf('commit [%s](%s)', gsub('commit ', '', git_info[1]), git_commit_url)
+    message(sprintf('File `%s`: most recent commit info: %s; uncommitted changes = %s', git_file,
+                    paste(git_info[1], git_info[2], git_info[3], collapse = '; '), git_uncommitted))
   }
 
-  git_df <- data.frame('file' = git_file,
-                       'type' = type,
-                       'commit_url' = git_commit_url,
-                       'commit_author' = sub('Author: ', '', git_info[2]),
-                       'commit_date' = sub('Date: ', '', git_info[3]),
-                       'uncommitted_changes' = git_uncommitted)
+  git_df <- data.frame('file_loc'      = as.character(git_file),
+                       'type'          = as.character(type),
+                       'commit_url'    = as.character(git_commit_url),
+                       'commit_author' = as.character(sub('Author: ', '', git_info[2])),
+                       'commit_date'   = as.character(sub('Date: ', '', git_info[3])),
+                       'uncommitted_changes' = as.character(git_uncommitted))
 
   ### Binds git_df to the global prov_track variable, and reassigns it to the higher environment
   prov_track <<- prov_track %>%
@@ -78,7 +75,12 @@ git_prov <- function(git_file, type = c('input', 'output', 'script', 'sourced_sc
   return(invisible(git_df))
 }
 
-script_prov <- function(script_file_name, tag = prov_run_tag) {
+script_prov <- function(script_file_name, tag = prov_run_tag, commit_outputs = TRUE) {
+
+  if(commit_outputs) {
+    commit_prov(script_file_name, tag)
+  }
+
   sys <- Sys.info()
   ses <- sessionInfo()
 
@@ -134,4 +136,49 @@ script_prov <- function(script_file_name, tag = prov_run_tag) {
   ### Return all message strings within a named list for convenient reference.
   return(invisible(list('run_id' = run_id, 'run_tag' = tag, 'msg_sys' = msg_sys, 'msg_ses' = msg_ses,
                         'msg_git' = msg_git, 'msg_base_pkgs' = msg_base_pkgs, 'msg_att_pkgs' = msg_att_pkgs)))
+}
+
+commit_prov <- function(script_file_name, tag) {
+  ### from prov_track, identify all output files with uncommitted changes;
+  ### commit them and add new commit info to prov_track
+
+  ### Stage all new files in repository
+  prov_track <<- prov_track %>%
+    mutate(uncommitted_changes = as.logical(uncommitted_changes),
+           uncommitted_changes = ifelse(is.na(uncommitted_changes), TRUE, uncommitted_changes))
+  prov_staged <- prov_track %>%
+    filter(str_detect(tolower(type), 'out') & uncommitted_changes == TRUE)
+  for (i in 1:nrow(prov_staged)) {
+      git_add <- system2('git', args = sprintf('add %s', prov_staged$file_loc[i]), stderr = TRUE, stdout = TRUE)
+      prov_staged$git_staged[i] <- (length(git_add) == 0)
+  }
+
+  prov_track <<- prov_track %>%
+    left_join(prov_staged %>%
+                select(file_loc, git_staged) %>%
+                unique(),
+              by = 'file_loc')
+
+  git_commit <- system2('git', args = sprintf('commit -m "Running script %s; %s"', script_file_name, tag), stderr = TRUE, stdout = TRUE)
+  message(sprintf('%s', paste(git_commit, collapse = '\n')))
+
+  git_id <- system2('git', args = 'rev-parse HEAD', stderr = TRUE, stdout = TRUE)
+
+  git_loc  <- system2('git', args = 'config --get remote.origin.url', stderr = TRUE, stdout = TRUE)
+  git_commit_url <- sprintf('%s/commit/%s', sub('.git', '', git_loc, fixed = TRUE), git_id)
+
+  suppressWarnings({
+    git_info <- system2('git', args = sprintf('show %s', git_id), stderr = FALSE, stdout = TRUE)[1:3]
+  })
+
+  prov_track <<- prov_track %>%
+    mutate(git_staged    = ifelse(is.na(git_staged), FALSE, git_staged),
+           commit_url    = as.character(commit_url),
+           commit_author = as.character(commit_author),
+           commit_date   = as.character(commit_date),
+           commit_url    = ifelse(git_staged == TRUE, sprintf('New commit: %s', git_commit_url), commit_url),
+           commit_author = ifelse(git_staged == TRUE, as.character(sub('Author: ', '', git_info[2])), commit_author),
+           commit_date   = ifelse(git_staged == TRUE, as.character(sub('Date: ', '', git_info[3])), commit_date),
+           uncommitted_changes = ifelse(git_staged == TRUE, FALSE, uncommitted_changes)) %>%
+    select(-git_staged)
 }

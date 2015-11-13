@@ -2,7 +2,7 @@
 
 # Provenance
 
-``` {r provenance info, echo = FALSE, message = FALSE}
+``` {r provenance info, echo = FALSE, message = FALSE, warning = FALSE}
 ### NOTE: To work properly, prov.R needs to be sourced in parent document; and
 ###   'this_script_file' needs to be set (in the parent) to the filename
 ###   of the parent document.

@@ -4,7 +4,7 @@ author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
     includes: 
-      in_header: '~/github/ohibc/src/templates/ohibc_hdr.html'
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
     toc: true
     number_sections: true
     theme: cerulean
@@ -26,9 +26,6 @@ source(file.path(dir_git, 'src/R/prov.R'))          ### initializes prov_track a
 dir_prov <- file.path(dir_test, 'prov')             ### sets the directory for final provenance .csv (for script_prov())
 this_script_file <- file.path(dir_test, 'test.Rmd') ### can't recognize the current script name on its own :(
 
-# library(recordr) ### install.packages('drat'); library(drat); addRepo('NCEAS'); install.packages('recordr', type = 'source')
-
-
 ```
 
 # read a table; capture prov info
@@ -40,7 +37,18 @@ git_prov(table1_file)
 
 table2_file <- file.path(dir_test, 'table2.csv')
 write.csv(table1, table2_file)
-git_prov(table2_file, type = 'output')
+git_prov(table2_file, type = 'Output')
+
+table3_file <- file.path(dir_test, 'table3.csv')
+write.csv(table1, table3_file)
+git_prov(table3_file, type = 'Output')
+
+table4_file <- file.path(dir_test, 'table4.csv')
+git_prov(table4_file, type = 'output')
+
+table3_file <- file.path(dir_neptune_data, 'git-annex/bcprep', 'table3.csv')
+write.csv(table1, table2_file)
+git_prov(table3_file, type = 'output')
 
 ```
 
