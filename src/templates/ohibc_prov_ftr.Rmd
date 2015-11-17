@@ -19,15 +19,16 @@ x <- script_prov(this_script_file)
 
 ``` {r,  echo = FALSE, message = FALSE}
 
-DT::datatable(script_track[ , 1:9],
-              caption = 'Provenance summary for this run:',
-              rownames = FALSE,
-              class = 'stripe hover compact',
-              options  = list(dom = 'tp'))
-
-# knitr::kable(script_track[ , 1:9],
-#               caption = 'Provenance summary for this run:',              
+# DT::datatable(script_track[ , 1:9],
+#               caption = 'Provenance summary for this run:',
 #               rownames = FALSE,
-#               class = 'stripe hover compact')
+#               class = 'stripe hover compact',
+#               options  = list(dom = 'tp'))
+
+knitr::kable(script_track[ , 1:9] %>% 
+               arrange(run_id, type, file_loc),
+             caption = 'Provenance summary for this run:',              
+             row.names = FALSE,
+             class = 'stripe hover compact')
 
 ```
