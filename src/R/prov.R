@@ -148,16 +148,23 @@ commit_prov <- function(script_file_name, tag) {
            uncommitted_changes = ifelse(is.na(uncommitted_changes), TRUE, uncommitted_changes))
   prov_staged <- prov_track %>%
     filter(str_detect(tolower(type), 'out') & uncommitted_changes == TRUE)
-  for (i in 1:nrow(prov_staged)) {
+  if (nrow(prov_staged) > 0) {
+    for (i in 1:nrow(prov_staged)) {
       git_add <- system2('git', args = sprintf('add %s', prov_staged$file_loc[i]), stderr = TRUE, stdout = TRUE)
       prov_staged$git_staged[i] <- (length(git_add) == 0)
+    }
   }
 
-  prov_track <<- prov_track %>%
-    left_join(prov_staged %>%
-                select(file_loc, git_staged) %>%
-                unique(),
-              by = 'file_loc')
+  if (nrow(prov_staged) > 0) {
+    prov_track <<- prov_track %>%
+      left_join(prov_staged %>%
+                  dplyr::select(file_loc, git_staged) %>%
+                  unique(),
+                by = 'file_loc')
+  } else {
+    prov_track <<- prov_track %>%
+      mutate(git_staged = NA)
+  }
 
   git_commit <- system2('git', args = sprintf('commit -m "Running script %s; %s"', script_file_name, tag), stderr = TRUE, stdout = TRUE)
   message(sprintf('%s', paste(git_commit, collapse = '\n')))
@@ -180,5 +187,5 @@ commit_prov <- function(script_file_name, tag) {
            commit_author = ifelse(git_staged == TRUE, as.character(sub('Author: ', '', git_info[2])), commit_author),
            commit_date   = ifelse(git_staged == TRUE, as.character(sub('Date: ', '', git_info[3])), commit_date),
            uncommitted_changes = ifelse(git_staged == TRUE, FALSE, uncommitted_changes)) %>%
-    select(-git_staged)
+    dplyr::select(-git_staged)
 }
