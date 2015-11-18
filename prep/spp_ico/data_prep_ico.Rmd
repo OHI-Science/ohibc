@@ -16,7 +16,7 @@ output:
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
 library(sp)        # the classes and methods that make up spatial ops in R
 library(rgdal)
-# library(raster)
+library(raster)
 library(data.table)
 
 dir_git <- '~/github/ohibc'
