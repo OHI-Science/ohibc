@@ -330,7 +330,7 @@ spp_calc_rgn_means <- function(summary_by_loiczid, rgn_cell_lookup, rgn_tag = ''
 spp_append_bcsee <- function(spp_all) {
   bcsee_file <- file.path(dir_anx, 'data/bc_species_and_ecosystems_explorer/bcsee_export.tsv')
   bcsee_all  <- read.delim(bcsee_file, sep = '\t', stringsAsFactors = FALSE) %>%
-    select(sciname = Scientific.Name, scisyn = Scientific.Name.Synonyms,
+    dplyr::select(sciname = Scientific.Name, scisyn = Scientific.Name.Synonyms,
            com_name = English.Name,
            #        el_code = Element.Code,
            status_gl = Global.Status, status_pr = Prov.Status,
@@ -346,12 +346,12 @@ spp_append_bcsee <- function(spp_all) {
     separate(scisyn, c('syn1', 'syn2', 'syn3'), sep = ';', fill = 'right', extra = 'drop', remove = TRUE) %>%
     gather(tmp, scisyn, syn1:syn3) %>%
     mutate(sciname = scisyn) %>%
-    select(-tmp, -scisyn)
+    dplyr::select(-tmp, -scisyn)
 
   ### rbind() original list with list of scientific synonyms, now included as
   ### additional scientific names
   bcsee_no_syn <- bcsee_all %>%
-    select(-scisyn) %>%
+    dplyr::select(-scisyn) %>%
     rbind(bcsee_syn_semicolon) %>%
     filter(!is.na(sciname) & sciname != '')
 
@@ -361,7 +361,7 @@ spp_append_bcsee <- function(spp_all) {
     separate(sciname, c('sciname', 'var'), sep = ' var. ', fill = 'right', extra = 'drop', remove = TRUE) %>%
     separate(sciname, c('sciname', 'pop'), sep = ' pop. ', fill = 'right', extra = 'drop', remove = TRUE) %>%
     separate(sciname, c('sciname', 'ssp'), sep = ' ssp. ', fill = 'right', extra = 'drop', remove = TRUE) %>%
-    select(-var, -pop, -ssp) %>%
+    dplyr::select(-var, -pop, -ssp) %>%
     unique()
 
   ### Now the cleaned BCSEE data can be compared, via sciname, to spp_all.
@@ -383,14 +383,14 @@ spp_append_bcsee <- function(spp_all) {
   ### For now, quick fix: separate, drop the second, ignore the codes.
   spp_all1 <- spp_all1 %>%
     separate(status_pr, c('status_pr1', 'status_pr2'), sep = ',', remove = FALSE, fill = 'right', extra = 'drop') %>%
-    select(-status_pr2) %>%
+    dplyr::select(-status_pr2) %>%
     mutate(status_pr1 = str_replace_all(status_pr1, '[ABNMUR?]', ''))
 
   status_pr_cat <- data.frame(status_pr1       = c('S5', 'S4', 'S3', 'S2', 'S1', 'SX', 'SH', 'S1S2', 'S2S3', 'S3S4', 'S4S5', 'S'),
                               status_pr_score = c( 0.0,  0.2,  0.4,  0.6,  0.8,  1.0,  1.0,   0.7,    0.5,    0.3,    0.1,  NA))
   spp_all1 <- spp_all1 %>%
     left_join(status_pr_cat,   by = 'status_pr1') %>%
-    select(-com_name, -status_pr1, -date_gl, -date_pr, -date_pr_change)
+    dplyr::select(-com_name, -status_pr1, -date_gl, -date_pr, -date_pr_change)
 
   return(spp_all1)
 }
