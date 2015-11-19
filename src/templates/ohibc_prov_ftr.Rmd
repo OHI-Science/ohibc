@@ -11,6 +11,7 @@ x <- script_prov(this_script_file)
 ```
 
 * *Run ID: `r x$run_id`; run tag: "`r x$run_tag`"*
+* *Run elapsed time: `r x$elapsed_time` seconds; run memory usage: `r x$memory_use` MB*
 * *System info: `r x$msg_sys`*
 * *Session info*
     * *`r x$msg_ses`*

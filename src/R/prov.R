@@ -67,7 +67,7 @@ git_prov <- function(git_file, type = c('input', 'output', 'script', 'sourced_sc
                        'commit_url'    = as.character(git_commit_url),
                        'commit_author' = as.character(sub('Author: ', '', git_info[2])),
                        'commit_date'   = as.character(sub('Date: ', '', git_info[3])),
-                       'uncommitted_changes' = as.character(git_uncommitted))
+                       'uncommitted_changes' = as.logical(git_uncommitted))
 
   ### Binds git_df to the global prov_track variable, and reassigns it to the higher environment
   prov_track <<- prov_track %>%
@@ -95,9 +95,12 @@ script_prov <- function(script_file, tag = prov_run_tag, commit_outputs = TRUE) 
                                                                collapse = ', '))
   ### Gather git info using system calls.  Convert commit # and remote origin url into a url for that commit.
   msg_git <- git_prov(script_file, type = 'script')
+  run_time  = (proc.time() - prov_start_time)[3]
+  run_mem <- NA
 
   script_track <<- prov_track %>%
-    mutate(elapsed_time  = (proc.time() - prov_start_time)[3],
+    mutate(elapsed_time  = run_time,
+           memory_use    = run_mem,
            sys_info      = msg_sys,
            ses_info      = msg_ses,
            base_pkgs     = msg_base_pkgs,
@@ -138,14 +141,15 @@ script_prov <- function(script_file, tag = prov_run_tag, commit_outputs = TRUE) 
                                   'run_date' = rep(date(), length.out = nrow(script_track)),
                                                      script_track)
       log_df <- log_df %>%
-        rbind(script_track)
+        bind_rows(script_track)
     }
     message(sprintf('Writing updated log file to %s.\n', prov_log_file))
     write.csv(log_df, prov_log_file, row.names = FALSE)
   }
 
   ### Return all message strings within a named list for convenient reference.
-  return(invisible(list('run_id' = run_id, 'run_tag' = tag, 'msg_sys' = msg_sys, 'msg_ses' = msg_ses,
+  return(invisible(list('run_id' = run_id, 'run_tag' = tag, 'elapsed_time' = run_time, 'memory_use' = run_mem,
+                        'msg_sys' = msg_sys, 'msg_ses' = msg_ses,
                         'msg_git' = msg_git, 'msg_base_pkgs' = msg_base_pkgs, 'msg_att_pkgs' = msg_att_pkgs)))
 }
 
