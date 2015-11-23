@@ -148,7 +148,7 @@ Variables in `spp_all`: `r paste(names(spp_all), collapse = ' | ')`
 
 ``` {r print global species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 knitr::kable(head(spp_all %>% 
-                select(sciname, am_sid, iucn_sid, popn_trend, popn_category, spatial_source)),
+                dplyr::select(sciname, am_sid, iucn_sid, popn_trend, popn_category, spatial_source)),
              align = c('l', 'c', 'c', 'c', 'c', 'c'),
              caption = 'Quick glance at global spp_all dataframe:')
 ```
@@ -173,7 +173,7 @@ write_csv(spp_all, file.path(dir_spp, scenario, 'int/spp_all.csv'))
 git_prov(file.path(dir_spp, scenario, 'int/spp_all.csv'), type = 'output')
 
 DT::datatable(spp_all %>% 
-                select(sciname, am_sid, iucn_sid, popn_trend, 
+                dplyr::select(sciname, am_sid, iucn_sid, popn_trend, 
                        IUCN_cat = popn_category, NS_cat = status_pr, spatial_source),
               rownames = FALSE,
               caption = 'BC-specific species list:',
@@ -265,10 +265,11 @@ DT::datatable(iucn_cells_sum,
 ### Map of species count by cell
 
 ``` {r spp plot species count raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
+
 cells_sum <- iucn_cells_sum %>%
-  select(loiczid, n_cat_iucn = n_cat_species) %>%
+  dplyr::select(loiczid, n_cat_iucn = n_cat_species) %>%
   full_join(am_cells_sum %>%
-              select(loiczid, n_cat_am = n_cat_species),
+              dplyr::select(loiczid, n_cat_am = n_cat_species),
             by = 'loiczid') %>%
   mutate(n_cat_am   = ifelse(is.na(n_cat_am), 0, n_cat_am),
          n_cat_iucn = ifelse(is.na(n_cat_iucn), 0, n_cat_iucn),
@@ -344,9 +345,9 @@ Status and trend layers saved to `data` folder.
 ``` {r save status and trend, echo = FALSE, message = FALSE, warning = FALSE}
 
 spp_status <- sum_by_rgn %>%
-  select(rgn_id, score = status)
+  dplyr::select(rgn_id, score = status)
 spp_trend <- sum_by_rgn %>%
-  select(rgn_id, score = rgn_mean_trend)
+  dplyr::select(rgn_id, score = rgn_mean_trend)
 
 cat(sprintf('Writing SPP status and trend based only on IUCN categories to:\n  %s\n  %s\n', 
             file.path(dir_spp, scenario, 'data/spp_status.csv'),
@@ -413,9 +414,9 @@ rgn2cell_3nm_df <- spp_rgn2cell(poly_bc_3nm, rgn_tag = '_3nm', reload = FALSE)[[
 sum_by_rgn_3nm <- spp_calc_rgn_means(sum_by_cell, rgn2cell_3nm_df, rgn_tag = '_3nm')
 
 spp_status_3nm <- sum_by_rgn_3nm %>%
-  select(rgn_id, score = status)
+  dplyr::select(rgn_id, score = status)
 spp_trend_3nm  <- sum_by_rgn_3nm %>%
-  select(rgn_id, score = rgn_mean_trend)
+  dplyr::select(rgn_id, score = rgn_mean_trend)
 
 cat(sprintf('Writing SPP status and trend for 3nm regions to:\n  %s\n  %s\n', 
             file.path(dir_spp, scenario, 'data/spp_status_3nm.csv'),

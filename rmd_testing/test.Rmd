@@ -37,7 +37,7 @@ git_prov(table1_file)
 
 table2_file <- file.path(dir_test, 'table2.csv')
 write.csv(table1, table2_file)
-git_prov(table2_file, type = 'Output')
+git_prov(table2_file, type = 'sourced script')
 
 table3_file <- file.path(dir_test, 'table3.csv')
 write.csv(table1, table3_file)
