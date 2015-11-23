@@ -46,7 +46,7 @@ prov_run_tag <- 'standard run'
 p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
 ```
 
-# OHIBC Lasting Special Places subgoal (Sense of Place)
+# Summary: OHIBC Lasting Special Places subgoal (Sense of Place)
 
 Currently, the Lasting Special Places goal model is identical to the OHI Global model: a region's status is based upon percent of protected area within 1 km inland buffer and percent of protected area within 3 nautical mile offshore buffer, compared to a reference point of 30% protected area.
 
@@ -58,13 +58,13 @@ Future changes may incorporate other data sets and MaPP planning zones.
 
 -----
 
-# Data Preparation
-
-## Data Sources
+# Data Sources
 
 WDPA data base <citation info?>
 
 -----
+
+# Methods
 
 ## Read in BC WDPA-MPA shapefile
 
