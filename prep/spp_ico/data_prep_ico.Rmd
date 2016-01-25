@@ -55,7 +55,7 @@ p4s_bcalb <- p4s_opts[1]
 ```
 
 
-# OHIBC Iconic Species Subgoal (Sense of Place)
+# Summary: OHIBC Iconic Species Subgoal (Sense of Place)
 
 This script prepares scores (status and trend) for Iconic Species in 
 British Columbia's coastal regions.  Spatial data from IUCN and Aquamaps is
@@ -88,9 +88,7 @@ where for each IUCN threat category (or analogous NatureServe conservation rank)
 
 ICO trend is calculated in a similar manner, but weightings are assigned according to IUCN population trend: 'Decreasing' = -0.5, 'Stable' = 0.0, 'Increasing' = +0.5.  NatureServe information on population trend was not readily available.
 
-# Data Preparation
-
-## Data Sources
+# Data Sources
 
 For information on IUCN data (range maps, extinction risk categories, population trends), NatureServe (conservation rankings), and AquaMaps (range maps), please see the OHIBC SPP data prep document, since this ICO goal is calculated from the intermediate outputs of that workflow.
 
@@ -100,6 +98,7 @@ Iconic Species List:
 * <citation>
 
 -----
+# Methods
 
 ## Prepare master list of Iconic Species
 
@@ -375,7 +374,6 @@ DT::datatable(ico_status_100 %>%
               options  = list(dom = 't'))
 
 ```
-
 
 
 ``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}

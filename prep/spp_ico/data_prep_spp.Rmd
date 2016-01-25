@@ -48,7 +48,7 @@ p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +la
 p4s_bcalb <- p4s_opts[1]
 ```
 
-# OHIBC Species Subgoal (Biodiversity)
+# Summary: OHIBC Species Subgoal (Biodiversity)
 
 This script prepares scores (status and trend) for species richness in 
 British Columbia's coastal regions.  Spatial data from IUCN and Aquamaps is
@@ -89,8 +89,7 @@ where:
 
 -----
 
-# Data Preparation
-## Data sources
+# Data sources
 
 AquaMaps
 
@@ -117,6 +116,8 @@ NatureServe/BC CDC conservation rank info from BC Species and Ecosystems Explore
 NOTE: Davies and Baum (2012) could potentially provide a small number of additional species, as in the California Current OHI, but for now we are not considering this in our assessment.
 
 -----
+
+# Methods
 
 ## Load species lookup table from global SPP goal
 
