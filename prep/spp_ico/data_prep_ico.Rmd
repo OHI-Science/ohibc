@@ -81,8 +81,8 @@ $$X_{ICO} = \frac{\displaystyle\sum_{category}S_{cat}*w_{cat}}{\displaystyle\sum
 where for each IUCN threat category (or analogous NatureServe conservation rank):
 
 * *S~cat~* is the number of assessed species in the category
-* *w~cat~* is the status weight assigned for that category:
-    * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
+* *w~cat~* is the status weight assigned for that category (note, these are the inverse of the risk value used in the SPP calculations):
+    * 'LC' = 1.0, 'NT' = 0.8, 'VU' = 0.6, 'EN' = 0.4, 'CR' = 0.2, 'EX' = 0.0
     * NatureServe ranks are assigned analogous scores
     * Where available, NatureServe province-scale ranks take precedence over IUCN ranks as they are a better representation of the risk at the scale of British Columbia.
 

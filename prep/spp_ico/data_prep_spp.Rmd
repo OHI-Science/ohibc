@@ -69,7 +69,7 @@ $$\bar{R}_{cell} = \frac{\displaystyle\sum_{species}(Risk)}{n_{spp}}$$
 
 **Mean risk status per region:**
 
-$$\bar{R}_{SPP} = \frac{\displaystyle\sum_{cells}(Y_{cell} * A_{cell} * pA_{cell-rgn})}{A_{rgn}}$$
+$$\bar{R}_{SPP} = \frac{\displaystyle\sum_{cells}(\bar{R}_{cell} * A_{cell} * pA_{cell-rgn})}{A_{rgn}}$$
 
 **Species goal model**
 
