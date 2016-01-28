@@ -1,0 +1,129 @@
+---
+title: "OHIBC Pressures habitat layer preparation"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+library(sp)        # the classes and methods that make up spatial ops in R
+library(rgdal)
+library(maptools)
+library(raster)
+library(DT)
+
+dir_git <- '~/github/ohibc'
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+  
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+
+### goal specific folders and info
+dir_hab  <- file.path(dir_git, 'prep/pressures/habitats')
+scenario <- 'v2016'
+dir_anx  <- file.path(dir_neptune_data, 'git-annex/bcprep')
+
+dir_bcmca <- 
+
+### provenance tracking
+# source('~/github/ohibc/src/R/prov.R')      
+#   ### Provenance tracking functions: must source at start to initialize prov_track
+# dir_prov <- file.path(dir_hab, 'prov') 
+#   ### set a provenance folder for this script
+# this_script_file <- file.path(dir_hab, 'layer_prep_pressures_habs.Rmd') 
+#   ### can't recognize the current script name on its own :(
+# prov_run_tag <- 'standard run'
+
+### goal-specific source scripts
+# source(file.path(dir_spp, 'R/spp_fxn.R'))
+# git_prov(file.path(dir_spp, 'R/spp_fxn.R'), type = 'sourced_script')
+
+### set up proj4string options: BC Albers and WGS84
+p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
+              'EPSG:4326 WGS 84'          = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
+p4s_bcalb <- p4s_opts[1]
+```
+
+Assemble a habitat map for OHIBC pressures calculations.
+
+Projection: BC Albers
+
+Raster: 
+* 500 m if reasonably fast - resolve 1 km features (e.g. intertidal buffer)
+* 1 km default/lowest res
+
+Depth cutoffs: data layer for 0/50/200/200+ cutoffs available from BCMCA_ECO_Physical.  Find other bathymetry layers for 60 m and 2000 m
+
+``` {r load_habitat_layers_list, echo = FALSE}
+
+hab_lyrs <- read_csv(file.path(dir_hab, 'pressures_hab_layers.csv'))
+
+# tmp <- hab_lyrs %>% mutate(
+#   layer_name = str_split(layer_name, ','))
+# 
+# layer_df <- data.frame()
+# for (i in 1:nrow(tmp)) { # i = 2
+#   tmp_info  <- tmp[i, ] %>% select(-layer_name)
+#   tmp_long <- unlist(tmp[i, ]$layer_name)
+#   tmp_df <- data.frame(tmp_info, tmp_long)
+#   layer_df <- bind_rows(layer_df, tmp_df)
+# }
+# hab_lyrs <- layer_df %>%
+#   mutate(category = str_trim(tolower(category)),
+#          data_desc = str_trim(tolower(data_desc)),
+#          data_ban2010 = str_trim(data_ban2010),
+#          tmp_long = str_trim(tmp_long)) %>%
+#   rename(layer_name = tmp_long)
+# 
+# hab_dirs <- read_csv(file.path(dir_hab, 'bcmca_shps_all.csv'))
+# 
+# hab_lyrs <- hab_lyrs %>%
+#   mutate(layer_name = paste(layer_name, '.shp', sep = '')) %>%
+#   left_join(hab_dirs %>%
+#               select(dir, layer_name = shp),
+#             by = 'layer_name')
+# 
+# write_csv(hab_lyrs, file.path(dir_hab, 'pressures_hab_layers.csv'))
+
+
+DT::datatable(hab_lyrs)
+```
+
+# Set up depth regions: coastal intertidal, shallow, shelf, slope, deep
+
+Define shelf/slope/deep not by 60m/200m/2000m (per CHI 2015) but by:
+
+* "deep" is bottom of continental slope - outline defined by shoremost boundary of Pacific Offshore region
+* "shelf" is top of continental slope - all less than 200 m, outside of PO region
+* "slope" is region between shelf and slope
+* PO region shallower than 1000 m = "seamount" (in addition to buffered points)
+
+``` {r define_depth_rgns, echo = FALSE}
+
+### on .csv, set up depth rgn as a new category - include following layers:
+### benthic_classes layer (for 50 and 200 m cutoffs), ohibc_1km_offshore (for coastal intertidal), ohibc_rgn (for abyssal cutoff)
+
+rast_base <- raster(file.path(dir_rgn, 'ohibc_base_raster_500m.tif'))
+
+poly_ohibc_land <- readShapePoly(file.path(dir_rgn, 'ohibc_land'), proj4string = CRS(p4s_bcalb))
+library(rgeos)
+
+
+poly_benthic <- readShapePoly()
+
+load these layers; for each one, create a raster of appropriate values via booleans? basically a mask for each zone
+
+combine all zones into a single raster? maybe not needed
+
+```
+
+
+``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd'), eval = FALSE}
+```
