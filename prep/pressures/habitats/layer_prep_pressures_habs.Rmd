@@ -29,8 +29,7 @@ source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of c
 dir_hab  <- file.path(dir_git, 'prep/pressures/habitats')
 scenario <- 'v2016'
 dir_anx  <- file.path(dir_neptune_data, 'git-annex/bcprep')
-
-dir_bcmca <- 
+dir_rast <- file.path(dir_anx, 'pressures/habitats')
 
 ### provenance tracking
 # source('~/github/ohibc/src/R/prov.R')      
@@ -56,10 +55,7 @@ Assemble a habitat map for OHIBC pressures calculations.
 Projection: BC Albers
 
 Raster: 
-* 500 m if reasonably fast - resolve 1 km features (e.g. intertidal buffer)
-* 1 km default/lowest res
-
-Depth cutoffs: data layer for 0/50/200/200+ cutoffs available from BCMCA_ECO_Physical.  Find other bathymetry layers for 60 m and 2000 m
+* 500 m cell size - need to resolve 1 km features (e.g. intertidal buffer)
 
 ``` {r load_habitat_layers_list, echo = FALSE}
 
@@ -101,7 +97,7 @@ DT::datatable(hab_lyrs)
 Define shelf/slope/deep not by 60m/200m/2000m (per CHI 2015) but by:
 
 * "deep" is bottom of continental slope - outline defined by shoremost boundary of Pacific Offshore region
-* "shelf" is top of continental slope - all less than 200 m, outside of PO region
+* "shelf" is top of continental slope - all area less than 200 m, outside of Pacific Offshore region
 * "slope" is region between shelf and slope
 * PO region shallower than 1000 m = "seamount" (in addition to buffered points)
 
@@ -110,17 +106,61 @@ Define shelf/slope/deep not by 60m/200m/2000m (per CHI 2015) but by:
 ### on .csv, set up depth rgn as a new category - include following layers:
 ### benthic_classes layer (for 50 and 200 m cutoffs), ohibc_1km_offshore (for coastal intertidal), ohibc_rgn (for abyssal cutoff)
 
-rast_base <- raster(file.path(dir_rgn, 'ohibc_base_raster_500m.tif'))
+rast_base <- raster(file.path(dir_rgn,  'ohibc_base_raster_500m.tif'))
+rast_benthic_file <- file.path(dir_rast, 'rast_benthic.tif')
 
-poly_ohibc_land <- readShapePoly(file.path(dir_rgn, 'ohibc_land'), proj4string = CRS(p4s_bcalb))
-library(rgeos)
+if(!file.exists(rast_benthic_file)) {
+  message('Creating benthic raster')
+  
+  library(gdalUtils)
+  ### set tmp directory for rasterizing
+  tmpdir = file.path(dir_neptune_data, 'home_big/ohara/R_raster_tmp')
+  dir.create(tmpdir, showWarnings=F)
+  rasterOptions(tmpdir = tmpdir)
+  
+  ### figure out source file location for polygon
+  zone_lyrs <- hab_lyrs %>% filter(category == 'zone')
+  zone_shp  <- file.path(dir_anx, 'data', zone_lyrs[1, ]$dir, paste(zone_lyrs[1, ]$layer_name, '.shp', sep = ''))
+
+  ### rasterize the beast
+#   base_te <- c(rast_base@extent[1], rast_base@extent[3], rast_base@extent[2], rast_base@extent[4])
+#   rast_benthic <- gdal_rasterize(src_datasource = zone_shp, 
+#                                  dst_filename   = rast_benthic_file,
+#                                  a = 'Marxan_ID', # attribute to burn
+#                                  a_nodata = NA,
+#                                  te = base_te,
+#                                  tr = c(500, 500),
+#                                  output_Raster = TRUE)
+  
+} else {
+  message(sprintf('Loading benthic raster from %s', rast_benthic_file)
+  rast_benthic <- raster(rast_benthic_file)
+}
+
+# * `benthicclasses` will be divided to depth, substrate, and formation according to the rule for field `ID`:
+#     * 1000's = depth              * 10's = substrate          * 1's = BPI
+#         * 1000 <- 0 - 20 m            * 10 <- mud                 * 1 <- ridge
+#         * 2000 <- 20 - 50 m           * 20 <- sand                * 2 <- depression
+#         * 3000 <- 50 - 200 m          * 30 <- hard                * 3 <- flat
+#         * 4000 <- 200 m +             * 90 <- unknown             * 4 <- slope
+
+rast_depthzone <- floor(rast_benthic/1000)
 
 
-poly_benthic <- readShapePoly()
 
-load these layers; for each one, create a raster of appropriate values via booleans? basically a mask for each zone
+
+
+
+
 
 combine all zones into a single raster? maybe not needed
+
+### set up 1 km offshore layer
+# poly_ohibc_land <- readShapePoly(file.path(dir_rgn, 'ohibc_land'), proj4string = CRS(p4s_bcalb))
+# poly_ohibc_rgn  <- readShapePoly(file.path(dir_rgn, 'ohibc_rgn'),  proj4string = CRS(p4s_bcalb))
+# 
+# poly_land_1kmbuffer <- gBuffer(poly_ohibc_land, width = 1000)
+# poly_ohibc_offshore_1km <- gIntersection(poly_land_1kmbuffer, poly_ohibc_rgn, byid = TRUE)
 
 ```
 
