@@ -1,0 +1,14 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <CategoryNames>
+      <Category></Category>
+      <Category>West Vancouver Island</Category>
+      <Category>Strait of Georgia</Category>
+      <Category>North Coast</Category>
+      <Category>Haida Gwaii</Category>
+      <Category>Central Coast</Category>
+      <Category>North Vancouver Island</Category>
+      <Category>Aristazabal Island</Category>
+    </CategoryNames>
+  </PAMRasterBand>
+</PAMDataset>
