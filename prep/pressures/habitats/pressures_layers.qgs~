@@ -3,22 +3,19 @@
     <title></title>
     <layer-tree-group expanded="1" checked="Qt::PartiallyChecked" name="">
         <customproperties/>
-        <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="poly_coastal_class20160201203011787" name="poly_coastal_class">
+        <layer-tree-layer expanded="0" checked="Qt::Checked" id="rast_zone_slope20160201192559773" name="rast_zone_slope">
             <customproperties/>
         </layer-tree-layer>
-        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_zone_intertidal20160201192556292" name="rast_zone_intertidal">
+        <layer-tree-layer expanded="0" checked="Qt::Checked" id="rast_zone_shelf20160201192559671" name="rast_zone_shelf">
             <customproperties/>
         </layer-tree-layer>
-        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_zone_coastal20160201192556085" name="rast_zone_coastal">
+        <layer-tree-layer expanded="0" checked="Qt::Checked" id="rast_zone_intertidal20160201192556292" name="rast_zone_intertidal">
             <customproperties/>
         </layer-tree-layer>
-        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_zone_shelf20160201192559671" name="rast_zone_shelf">
+        <layer-tree-layer expanded="0" checked="Qt::Checked" id="rast_zone_deep20160201192556188" name="rast_zone_deep">
             <customproperties/>
         </layer-tree-layer>
-        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_zone_slope20160201192559773" name="rast_zone_slope">
-            <customproperties/>
-        </layer-tree-layer>
-        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_zone_deep20160201192556188" name="rast_zone_deep">
+        <layer-tree-layer expanded="0" checked="Qt::Checked" id="rast_zone_coastal20160201192556085" name="rast_zone_coastal">
             <customproperties/>
         </layer-tree-layer>
         <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_zone_offshore20160201192559568" name="rast_zone_offshore">
@@ -47,10 +44,10 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>653320.07171317283064127</xmin>
-            <ymin>1013645.9442815373186022</ymin>
-            <xmax>767479.12918511708267033</xmax>
-            <ymax>1077028.73385951854288578</ymax>
+            <xmin>417459.19331395346671343</xmin>
+            <ymin>844771.9476744185667485</ymin>
+            <xmax>811048.94622093031648546</xmax>
+            <ymax>1097623.54651162796653807</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -78,7 +75,6 @@
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_offshore_3nm20151012111043910"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_benthic_class_atF20160201192548464"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_inland_1km20151012111043679"/>
-            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="poly_coastal_class20160201203011787"/>
         </layer_coordinate_transform_info>
     </mapcanvas>
     <visibility-presets/>
@@ -96,38 +92,32 @@
             <item>rast_zone_offshore20160201192559568</item>
             <item>rast_zone_shelf20160201192559671</item>
             <item>rast_zone_slope20160201192559773</item>
-            <item>poly_coastal_class20160201203011787</item>
         </custom-order>
     </layer-tree-canvas>
     <legend updateDrawingOrder="true">
-        <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="poly_coastal_class" showFeatureCount="0">
-            <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="poly_coastal_class20160201203011787" visible="0"/>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="rast_zone_slope" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_zone_slope20160201192559773" visible="1"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_zone_intertidal" showFeatureCount="0">
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="rast_zone_shelf" showFeatureCount="0">
             <filegroup open="false" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="rast_zone_intertidal20160201192556292" visible="0"/>
+                <legendlayerfile isInOverview="0" layerid="rast_zone_shelf20160201192559671" visible="1"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_zone_coastal" showFeatureCount="0">
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="rast_zone_intertidal" showFeatureCount="0">
             <filegroup open="false" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="rast_zone_coastal20160201192556085" visible="0"/>
+                <legendlayerfile isInOverview="0" layerid="rast_zone_intertidal20160201192556292" visible="1"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_zone_shelf" showFeatureCount="0">
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="rast_zone_deep" showFeatureCount="0">
             <filegroup open="false" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="rast_zone_shelf20160201192559671" visible="0"/>
+                <legendlayerfile isInOverview="0" layerid="rast_zone_deep20160201192556188" visible="1"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_zone_slope" showFeatureCount="0">
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="rast_zone_coastal" showFeatureCount="0">
             <filegroup open="false" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="rast_zone_slope20160201192559773" visible="0"/>
-            </filegroup>
-        </legendlayer>
-        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_zone_deep" showFeatureCount="0">
-            <filegroup open="false" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="rast_zone_deep20160201192556188" visible="0"/>
+                <legendlayerfile isInOverview="0" layerid="rast_zone_coastal20160201192556085" visible="1"/>
             </filegroup>
         </legendlayer>
         <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_zone_offshore" showFeatureCount="0">
@@ -166,7 +156,7 @@
             </filegroup>
         </legendlayer>
     </legend>
-    <projectlayers layercount="13">
+    <projectlayers layercount="12">
         <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
             <id>ohibc_inland_1km20151012111043679</id>
             <datasource>../../regions/ohibc_inland_1km.shp</datasource>
@@ -627,257 +617,6 @@
                 </edittype>
             </edittypes>
         </maplayer>
-        <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
-            <id>poly_coastal_class20160201203011787</id>
-            <datasource>./raster/poly_coastal_class.shp</datasource>
-            <title></title>
-            <abstract></abstract>
-            <keywordList>
-                <value></value>
-            </keywordList>
-            <layername>poly_coastal_class</layername>
-            <srs>
-                <spatialrefsys>
-                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
-                    <srsid>970</srsid>
-                    <srid>3005</srid>
-                    <authid>EPSG:3005</authid>
-                    <description>NAD83 / BC Albers</description>
-                    <projectionacronym>aea</projectionacronym>
-                    <ellipsoidacronym>GRS80</ellipsoidacronym>
-                    <geographicflag>false</geographicflag>
-                </spatialrefsys>
-            </srs>
-            <provider encoding="System">ogr</provider>
-            <previewExpression></previewExpression>
-            <vectorjoins/>
-            <expressionfields/>
-            <edittypes>
-                <edittype widgetv2type="TextEdit" name="SP_ID">
-                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-                </edittype>
-                <edittype widgetv2type="TextEdit" name="UNIT_ID">
-                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-                </edittype>
-                <edittype widgetv2type="TextEdit" name="ID">
-                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-                </edittype>
-                <edittype widgetv2type="TextEdit" name="Shape_Leng">
-                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-                </edittype>
-            </edittypes>
-            <renderer-v2 symbollevels="0" type="singleSymbol">
-                <symbols>
-                    <symbol alpha="0.529412" type="fill" name="0">
-                        <layer pass="0" class="SimpleFill" locked="0">
-                            <prop k="border_width_map_unit_scale" v="0,0"/>
-                            <prop k="color" v="212,180,144,255"/>
-                            <prop k="joinstyle" v="bevel"/>
-                            <prop k="offset" v="0,0"/>
-                            <prop k="offset_map_unit_scale" v="0,0"/>
-                            <prop k="offset_unit" v="MM"/>
-                            <prop k="outline_color" v="0,0,0,255"/>
-                            <prop k="outline_style" v="solid"/>
-                            <prop k="outline_width" v="0.26"/>
-                            <prop k="outline_width_unit" v="MM"/>
-                            <prop k="style" v="solid"/>
-                        </layer>
-                    </symbol>
-                </symbols>
-                <rotation/>
-                <sizescale scalemethod="area"/>
-            </renderer-v2>
-            <customproperties>
-                <property key="labeling" value="pal"/>
-                <property key="labeling/addDirectionSymbol" value="false"/>
-                <property key="labeling/angleOffset" value="0"/>
-                <property key="labeling/blendMode" value="0"/>
-                <property key="labeling/bufferBlendMode" value="0"/>
-                <property key="labeling/bufferColorA" value="255"/>
-                <property key="labeling/bufferColorB" value="255"/>
-                <property key="labeling/bufferColorG" value="255"/>
-                <property key="labeling/bufferColorR" value="255"/>
-                <property key="labeling/bufferDraw" value="false"/>
-                <property key="labeling/bufferJoinStyle" value="64"/>
-                <property key="labeling/bufferNoFill" value="false"/>
-                <property key="labeling/bufferSize" value="1"/>
-                <property key="labeling/bufferSizeInMapUnits" value="false"/>
-                <property key="labeling/bufferSizeMapUnitMaxScale" value="0"/>
-                <property key="labeling/bufferSizeMapUnitMinScale" value="0"/>
-                <property key="labeling/bufferTransp" value="0"/>
-                <property key="labeling/centroidInside" value="false"/>
-                <property key="labeling/centroidWhole" value="false"/>
-                <property key="labeling/decimals" value="3"/>
-                <property key="labeling/displayAll" value="false"/>
-                <property key="labeling/dist" value="0"/>
-                <property key="labeling/distInMapUnits" value="false"/>
-                <property key="labeling/distMapUnitMaxScale" value="0"/>
-                <property key="labeling/distMapUnitMinScale" value="0"/>
-                <property key="labeling/enabled" value="false"/>
-                <property key="labeling/fieldName" value=""/>
-                <property key="labeling/fontBold" value="false"/>
-                <property key="labeling/fontCapitals" value="0"/>
-                <property key="labeling/fontFamily" value=".Helvetica Neue DeskInterface"/>
-                <property key="labeling/fontItalic" value="false"/>
-                <property key="labeling/fontLetterSpacing" value="0"/>
-                <property key="labeling/fontLimitPixelSize" value="false"/>
-                <property key="labeling/fontMaxPixelSize" value="10000"/>
-                <property key="labeling/fontMinPixelSize" value="3"/>
-                <property key="labeling/fontSize" value="13"/>
-                <property key="labeling/fontSizeInMapUnits" value="false"/>
-                <property key="labeling/fontSizeMapUnitMaxScale" value="0"/>
-                <property key="labeling/fontSizeMapUnitMinScale" value="0"/>
-                <property key="labeling/fontStrikeout" value="false"/>
-                <property key="labeling/fontUnderline" value="false"/>
-                <property key="labeling/fontWeight" value="50"/>
-                <property key="labeling/fontWordSpacing" value="0"/>
-                <property key="labeling/formatNumbers" value="false"/>
-                <property key="labeling/isExpression" value="true"/>
-                <property key="labeling/labelOffsetInMapUnits" value="true"/>
-                <property key="labeling/labelOffsetMapUnitMaxScale" value="0"/>
-                <property key="labeling/labelOffsetMapUnitMinScale" value="0"/>
-                <property key="labeling/labelPerPart" value="false"/>
-                <property key="labeling/leftDirectionSymbol" value="&lt;"/>
-                <property key="labeling/limitNumLabels" value="false"/>
-                <property key="labeling/maxCurvedCharAngleIn" value="20"/>
-                <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
-                <property key="labeling/maxNumLabels" value="2000"/>
-                <property key="labeling/mergeLines" value="false"/>
-                <property key="labeling/minFeatureSize" value="0"/>
-                <property key="labeling/multilineAlign" value="0"/>
-                <property key="labeling/multilineHeight" value="1"/>
-                <property key="labeling/namedStyle" value=""/>
-                <property key="labeling/obstacle" value="true"/>
-                <property key="labeling/placeDirectionSymbol" value="0"/>
-                <property key="labeling/placement" value="1"/>
-                <property key="labeling/placementFlags" value="0"/>
-                <property key="labeling/plussign" value="false"/>
-                <property key="labeling/preserveRotation" value="true"/>
-                <property key="labeling/previewBkgrdColor" value="#ffffff"/>
-                <property key="labeling/priority" value="5"/>
-                <property key="labeling/quadOffset" value="4"/>
-                <property key="labeling/repeatDistance" value="0"/>
-                <property key="labeling/repeatDistanceMapUnitMaxScale" value="0"/>
-                <property key="labeling/repeatDistanceMapUnitMinScale" value="0"/>
-                <property key="labeling/repeatDistanceUnit" value="1"/>
-                <property key="labeling/reverseDirectionSymbol" value="false"/>
-                <property key="labeling/rightDirectionSymbol" value=">"/>
-                <property key="labeling/scaleMax" value="10000000"/>
-                <property key="labeling/scaleMin" value="1"/>
-                <property key="labeling/scaleVisibility" value="false"/>
-                <property key="labeling/shadowBlendMode" value="6"/>
-                <property key="labeling/shadowColorB" value="0"/>
-                <property key="labeling/shadowColorG" value="0"/>
-                <property key="labeling/shadowColorR" value="0"/>
-                <property key="labeling/shadowDraw" value="false"/>
-                <property key="labeling/shadowOffsetAngle" value="135"/>
-                <property key="labeling/shadowOffsetDist" value="1"/>
-                <property key="labeling/shadowOffsetGlobal" value="true"/>
-                <property key="labeling/shadowOffsetMapUnitMaxScale" value="0"/>
-                <property key="labeling/shadowOffsetMapUnitMinScale" value="0"/>
-                <property key="labeling/shadowOffsetUnits" value="1"/>
-                <property key="labeling/shadowRadius" value="1.5"/>
-                <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
-                <property key="labeling/shadowRadiusMapUnitMaxScale" value="0"/>
-                <property key="labeling/shadowRadiusMapUnitMinScale" value="0"/>
-                <property key="labeling/shadowRadiusUnits" value="1"/>
-                <property key="labeling/shadowScale" value="100"/>
-                <property key="labeling/shadowTransparency" value="30"/>
-                <property key="labeling/shadowUnder" value="0"/>
-                <property key="labeling/shapeBlendMode" value="0"/>
-                <property key="labeling/shapeBorderColorA" value="255"/>
-                <property key="labeling/shapeBorderColorB" value="128"/>
-                <property key="labeling/shapeBorderColorG" value="128"/>
-                <property key="labeling/shapeBorderColorR" value="128"/>
-                <property key="labeling/shapeBorderWidth" value="0"/>
-                <property key="labeling/shapeBorderWidthMapUnitMaxScale" value="0"/>
-                <property key="labeling/shapeBorderWidthMapUnitMinScale" value="0"/>
-                <property key="labeling/shapeBorderWidthUnits" value="1"/>
-                <property key="labeling/shapeDraw" value="false"/>
-                <property key="labeling/shapeFillColorA" value="255"/>
-                <property key="labeling/shapeFillColorB" value="255"/>
-                <property key="labeling/shapeFillColorG" value="255"/>
-                <property key="labeling/shapeFillColorR" value="255"/>
-                <property key="labeling/shapeJoinStyle" value="64"/>
-                <property key="labeling/shapeOffsetMapUnitMaxScale" value="0"/>
-                <property key="labeling/shapeOffsetMapUnitMinScale" value="0"/>
-                <property key="labeling/shapeOffsetUnits" value="1"/>
-                <property key="labeling/shapeOffsetX" value="0"/>
-                <property key="labeling/shapeOffsetY" value="0"/>
-                <property key="labeling/shapeRadiiMapUnitMaxScale" value="0"/>
-                <property key="labeling/shapeRadiiMapUnitMinScale" value="0"/>
-                <property key="labeling/shapeRadiiUnits" value="1"/>
-                <property key="labeling/shapeRadiiX" value="0"/>
-                <property key="labeling/shapeRadiiY" value="0"/>
-                <property key="labeling/shapeRotation" value="0"/>
-                <property key="labeling/shapeRotationType" value="0"/>
-                <property key="labeling/shapeSVGFile" value=""/>
-                <property key="labeling/shapeSizeMapUnitMaxScale" value="0"/>
-                <property key="labeling/shapeSizeMapUnitMinScale" value="0"/>
-                <property key="labeling/shapeSizeType" value="0"/>
-                <property key="labeling/shapeSizeUnits" value="1"/>
-                <property key="labeling/shapeSizeX" value="0"/>
-                <property key="labeling/shapeSizeY" value="0"/>
-                <property key="labeling/shapeTransparency" value="0"/>
-                <property key="labeling/shapeType" value="0"/>
-                <property key="labeling/textColorA" value="255"/>
-                <property key="labeling/textColorB" value="0"/>
-                <property key="labeling/textColorG" value="0"/>
-                <property key="labeling/textColorR" value="0"/>
-                <property key="labeling/textTransp" value="0"/>
-                <property key="labeling/upsidedownLabels" value="0"/>
-                <property key="labeling/wrapChar" value=""/>
-                <property key="labeling/xOffset" value="0"/>
-                <property key="labeling/yOffset" value="0"/>
-            </customproperties>
-            <blendMode>0</blendMode>
-            <featureBlendMode>0</featureBlendMode>
-            <layerTransparency>51</layerTransparency>
-            <displayfield>SP_ID</displayfield>
-            <label>0</label>
-            <labelattributes>
-                <label fieldname="" text="Label"/>
-                <family fieldname="" name=".Helvetica Neue DeskInterface"/>
-                <size fieldname="" units="pt" value="12"/>
-                <bold fieldname="" on="0"/>
-                <italic fieldname="" on="0"/>
-                <underline fieldname="" on="0"/>
-                <strikeout fieldname="" on="0"/>
-                <color fieldname="" red="0" blue="0" green="0"/>
-                <x fieldname=""/>
-                <y fieldname=""/>
-                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
-                <angle fieldname="" value="0" auto="0"/>
-                <alignment fieldname="" value="center"/>
-                <buffercolor fieldname="" red="255" blue="255" green="255"/>
-                <buffersize fieldname="" units="pt" value="1"/>
-                <bufferenabled fieldname="" on=""/>
-                <multilineenabled fieldname="" on=""/>
-                <selectedonly on=""/>
-            </labelattributes>
-            <editform></editform>
-            <editforminit></editforminit>
-            <featformsuppress>0</featformsuppress>
-            <annotationform></annotationform>
-            <editorlayout>generatedlayout</editorlayout>
-            <excludeAttributesWMS/>
-            <excludeAttributesWFS/>
-            <attributeactions/>
-            <edittypes>
-                <edittype widgetv2type="TextEdit" name="SP_ID">
-                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-                </edittype>
-                <edittype widgetv2type="TextEdit" name="UNIT_ID">
-                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-                </edittype>
-                <edittype widgetv2type="TextEdit" name="ID">
-                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-                </edittype>
-                <edittype widgetv2type="TextEdit" name="Shape_Leng">
-                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
-                </edittype>
-            </edittypes>
-        </maplayer>
         <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>rast_benthic_class_atF20160201192548464</id>
             <datasource>./raster/rast_benthic_class_atF.tif</datasource>
@@ -925,7 +664,7 @@
             </pipe>
             <blendMode>0</blendMode>
         </maplayer>
-        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>rast_coastal_class20160201192548735</id>
             <datasource>./raster/rast_coastal_class.tif</datasource>
             <title></title>
@@ -954,15 +693,15 @@
                 <noDataList bandNo="1" useSrcNoData="1"/>
             </noData>
             <pipe>
-                <rasterrenderer opacity="1" alphaBand="0" classificationMax="33.967" classificationMinMaxOrigin="CumulativeCutFullExtentEstimated" band="1" classificationMin="1" type="singlebandpseudocolor">
+                <rasterrenderer opacity="1" alphaBand="-1" classificationMax="23196" classificationMinMaxOrigin="CumulativeCutFullExtentEstimated" band="1" classificationMin="2011" type="singlebandpseudocolor">
                     <rasterTransparency/>
                     <rastershader>
                         <colorrampshader colorRampType="INTERPOLATED" clip="0">
-                            <item alpha="255" value="1" label="1.000000" color="#d01c8b"/>
-                            <item alpha="255" value="9.24175" label="9.241750" color="#f1b6da"/>
-                            <item alpha="255" value="17.4835" label="17.483500" color="#f7f7f7"/>
-                            <item alpha="255" value="25.7252" label="25.725250" color="#b8e186"/>
-                            <item alpha="255" value="33.967" label="33.967000" color="#4dac26"/>
+                            <item alpha="255" value="2011" label="2011.000000" color="#d01c8b"/>
+                            <item alpha="255" value="7307.25" label="7307.250000" color="#f1b6da"/>
+                            <item alpha="255" value="12603.5" label="12603.500000" color="#f7f7f7"/>
+                            <item alpha="255" value="17899.8" label="17899.750000" color="#b8e186"/>
+                            <item alpha="255" value="23196" label="23196.000000" color="#4dac26"/>
                         </colorrampshader>
                     </rastershader>
                 </rasterrenderer>
