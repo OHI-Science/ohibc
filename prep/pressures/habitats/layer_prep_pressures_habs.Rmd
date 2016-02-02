@@ -216,10 +216,10 @@ Setting up zone rasters.  Cells will be identified with values according to zone
 * NA = not in a zone
 
 ``` {r create_intertidal_raster, echo = FALSE}
+
+rast_base <- raster(file.path(dir_rgn,  'ohibc_base_raster_500m.tif'))
 rast_zone_intertidal_file <- file.path(dir_rast, 'rast_zone_intertidal.tif')
 
-### rast_zone_intertidal.tif seems to be screwed up.  Need to create 1 km offshore buffer;
-### then use gdal_rasterize on that fucker.
 if(!file.exists(rast_zone_intertidal_file)) {
   message(sprintf('Missing intertidal zone raster; creating new: %s', 
                   rast_zone_intertidal_file))
@@ -250,9 +250,9 @@ if(!file.exists(rast_zone_intertidal_file)) {
   system.time({
     base_te <- c(rast_base@extent[1], rast_base@extent[3], rast_base@extent[2], rast_base@extent[4])
     library(gdalUtils)
-    rast_benthic_class <- gdal_rasterize(
+    rast_zone_intertidal <- gdal_rasterize(
       src_datasource = path.expand(paste(poly_intertidal_file, '.shp', sep = '')), 
-      dst_filename   = rast_zone_intertidal_file,
+      dst_filename   = path.expand(rast_zone_intertidal_file),
       a = 'rgn_id', # attribute to burn
       a_nodata = NA,
       # at = TRUE,
@@ -273,16 +273,10 @@ if(!file.exists(rast_zone_intertidal_file)) {
   rast_zone_intertidal <- raster(rast_zone_intertidal_file)
 }
 
-### set up 1 km offshore layer
-# poly_ohibc_land <- readShapePoly(file.path(dir_rgn, 'ohibc_land'), proj4string = p4s_bcalb)
-# poly_ohibc_rgn  <- readShapePoly(file.path(dir_rgn, 'ohibc_rgn'),  proj4string = p4s_bcalb)
-# 
-# poly_land_1kmbuffer <- gBuffer(poly_ohibc_land, width = 1000)
-# poly_ohibc_offshore_1km <- gIntersection(poly_land_1kmbuffer, poly_ohibc_rgn, byid = TRUE)
-
 ```
 
 ``` {r create_deep_raster, echo = FALSE}
+rast_base <- raster(file.path(dir_rgn,  'ohibc_base_raster_500m.tif'))
 rast_zone_deep_file <- file.path(dir_rast, 'rast_zone_deep.tif')
 
 if(!file.exists(rast_zone_deep_file)) {
@@ -291,12 +285,22 @@ if(!file.exists(rast_zone_deep_file)) {
                                    proj4string = p4s_bcalb)
   ### for deep zone, filter out all but the PO region
   poly_deep <- poly_bc_rgn[poly_bc_rgn@data$rgn_code == 'PO', ]
-  
-  message('This process is using raster::rasterize - check results! ', 
-          rast_zone_deep_file)
+  poly_deep_file <- file.path(dir_rast, 'poly_deep')
+  writePolyShape(poly_deep, poly_deep_file)
   
   system.time({
-    rast_zone_deep <- rasterize(poly_deep, rast_base)
+    base_te <- c(rast_base@extent[1], rast_base@extent[3], rast_base@extent[2], rast_base@extent[4])
+    library(gdalUtils)
+    rast_zone_deep <- gdal_rasterize(
+      src_datasource = path.expand(paste(poly_deep_file, '.shp', sep = '')), 
+      dst_filename   = path.expand(rast_zone_deep_file),
+      a = 'rgn_id', # attribute to burn
+      a_nodata = NA,
+      # at = TRUE,
+      te = base_te,
+      tr = c(500, 500),
+      output_Raster = TRUE
+    )
   })
   
   ### code layers to be uniform zone ID
@@ -384,12 +388,14 @@ remove(y)
 
 ``` {r setup_coastal_classes, echo = FALSE}
 ### Set up coastal_classes raster:
-### * buffer the lines
+### * buffer the lines - add extra, then mask with intertidal
 ### * rasterize and save
+rast_base <- raster(file.path(dir_rgn,  'ohibc_base_raster_500m.tif'))
 rast_coastal_class_file <- file.path(dir_rast, 'rast_coastal_class.tif')
+
 if(!file.exists(rast_coastal_class_file)) {
   poly_coastal_class_file <- file.path(dir_rast, 'poly_coastal_class')
-  if(!file.exists(poly_coastal_class_file)) {
+  if(!file.exists(paste(poly_coastal_class_file, '.shp', sep = ''))) {
     coastal_lyrs <- hab_lyrs %>% filter(str_detect(layer_name, 'CoastalClass'))
     coastal_shp_file <- file.path(dir_anx, 'data', coastal_lyrs[1, ]$dir, 
                                   paste(coastal_lyrs[1, ]$layer_name, '.shp', sep = ''))
@@ -397,7 +403,7 @@ if(!file.exists(rast_coastal_class_file)) {
     ptc <- proc.time()
     poly_coastal <- gBuffer(line_coastal, 
                             byid = TRUE,
-                            width = 1000,
+                            width = 2000,
                             capStyle = 'FLAT')
     proc.time() - ptc # 609 seconds for full shapefile
     writePolyShape(poly_coastal, poly_coastal_class_file)
@@ -407,49 +413,49 @@ if(!file.exists(rast_coastal_class_file)) {
   }
   
   ### Now to create the raster... 
-  #   # set tmp directory
-  #   tmpdir <- file.path(dir_neptune_data, 'home_big/ohara/R_raster_tmp')
-  #   dir.create(tmpdir, showWarnings = F)
-  #   rasterOptions(tmpdir = tmpdir)
-  # 
-  #   ptc <- proc.time()
-  #   rast_coastal_class <- rasterize(poly_coastal, rast_base, field = 'ID')
-  #   proc.time() - ptc 
-  #   
-  #   writeRaster(rast_coastal_class, rast_coastal_class_file, overwrite = TRUE)
+  
+  system.time({
+    base_te <- c(rast_base@extent[1], rast_base@extent[3], rast_base@extent[2], rast_base@extent[4])
+    library(gdalUtils)
+    rast_coastal_class <- gdal_rasterize(
+      src_datasource = path.expand(paste(poly_coastal_class_file, '.shp', sep = '')), 
+      dst_filename   = path.expand(rast_coastal_class_file),
+      a = 'ID', # attribute to burn
+      a_nodata = NA,
+      # at = TRUE,
+      te = base_te,
+      tr = c(500, 500),
+      output_Raster = TRUE
+    )
+  })
 
-  ### OR:
-  library(gdalUtils)
-  base_te <- c(rast_base@extent[1], rast_base@extent[3], rast_base@extent[2], rast_base@extent[4])
-  rast_benthic_class <- gdal_rasterize(src_datasource = path.expand(paste(poly_coastal_class_file, '.shp', sep= '')), 
-                                       dst_filename   = path.expand(rast_coastal_class_file),
-                                       a = 'ID', # attribute to burn
-                                       a_nodata = NA,
-                                       # at = TRUE, # all touched option...
-                                       te = base_te,
-                                       tr = c(500, 500),
-                                       output_Raster = TRUE)
+  ### now clip coastal zone raster to only intertidal
+  values(rast_coastal_class)[is.na(values(rast_zone_intertidal))] <- NA
+
+  ### Now to break down the coastal classes by type.
+  # * `coastalclasses` will be determined according to the rule from field `ID`:
+  #     * Initial digit (2) is unused?; delete
+  #     * Next two digits (0 - 34) denote the coastal class according to
+  #         http://alaskafisheries.noaa.gov/mapping/DataDictionary/Common/ShoreType.htm
+  #     * final one or two digits represents geographic region; delete
+  
+  ### First, ditch trailing digit for five-digit values (two-digit regions)
+  values(rast_coastal_class)[!is.na(values(rast_coastal_class)) & 
+                             values(rast_coastal_class) > 10000] <- 
+    floor(values(rast_coastal_class)[!is.na(values(rast_coastal_class)) & 
+                                     values(rast_coastal_class) > 10000]/10)
+  ### Then, ditch trailing digit for all values
+  values(rast_coastal_class)[!is.na(values(rast_coastal_class))] <- 
+    floor(values(rast_coastal_class)[!is.na(values(rast_coastal_class))]/10)
+  ### Then, subtract 200 to ditch the leading value
+  rast_coastal_class <- rast_coastal_class - 200
+
+  writeRaster(rast_coastal_class, rast_coastal_class_file, overwrite = TRUE)
+
 } else {
   rast_coastal_class <- raster(rast_coastal_class_file)
 }
 
-### Now to break down the coastal classes by type.
-# * `coastalclasses` will be determined according to the rule from field `ID`:
-#     * Initial digit (2) is unused?; delete
-#     * Next two digits (0 - 34) denote the coastal class according to
-#         http://alaskafisheries.noaa.gov/mapping/DataDictionary/Common/ShoreType.htm
-#     * final one or two digits represents geographic region; delete
-
-### First, ditch trailing digit for five-digit values (two-digit regions)
-values(rast_coastal_class)[!is.na(values(rast_coastal_class)) & 
-                           values(rast_coastal_class) > 10000] <- 
-  floor(values(rast_coastal_class)[!is.na(values(rast_coastal_class)) & 
-                                   values(rast_coastal_class) > 10000]/10)
-### Then, ditch trailing digit for all values
-values(rast_coastal_class)[!is.na(values(rast_coastal_class))] <- 
-  floor(values(rast_coastal_class)[!is.na(values(rast_coastal_class))]/10)
-### Then, subtract 200 to ditch the leading value
-rast_coastal_class <- rast_coastal_class - 200
 
 plot_raster(rast_coastal_class)
 
@@ -457,7 +463,7 @@ plot_raster(rast_coastal_class)
 
 
 ``` {r create_intertidal_rasters, echo = FALSE}
-
+### START HERE!
 ### Set up a list of file locations to be loaded as polygons.
   int_poly_lyrs <- hab_lyrs %>% filter(zone == 'intertidal' & layer_type == 'poly')
   int_poly_files  <- file.path(dir_anx, 'data', int_poly_lyrs$dir, 
