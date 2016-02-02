@@ -10,13 +10,13 @@
 x <- script_prov(this_script_file) 
 ```
 
-* *Run ID: `r x$run_id`; run tag: "`r x$run_tag`"*
-* *Run elapsed time: `r x$elapsed_time` seconds; run memory usage: `r x$memory_use` MB*
-* *System info: `r x$msg_sys`*
-* *Session info*
-    * *`r x$msg_ses`*
-    * *`r x$msg_base_pkgs`*
-    * *`r x$msg_att_pkgs`*
+- _Run ID: `r x$run_id`; run tag: "`r x$run_tag`"_
+- _Run elapsed time: `r x$elapsed_time` seconds; run memory usage: `r x$memory_use` MB_
+- _System info: `r x$msg_sys`_
+- _Session info_
+    - _`r x$msg_ses`_
+    - _`r x$msg_base_pkgs`_
+    - _`r x$msg_att_pkgs`_
 
 ``` {r,  echo = FALSE, message = FALSE}
 
