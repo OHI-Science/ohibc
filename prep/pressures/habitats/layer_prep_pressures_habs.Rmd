@@ -33,11 +33,11 @@ dir_anx  <- file.path(dir_neptune_data, 'git-annex/bcprep')
 dir_rast <- file.path(dir_hab, 'raster')
 
 ### provenance tracking
-# source('~/github/ohibc/src/R/prov.R')      
+# source('~/github/ohibc/src/R/prov.R')
 #   ### Provenance tracking functions: must source at start to initialize prov_track
-# dir_prov <- file.path(dir_hab, 'prov') 
+# dir_prov <- file.path(dir_hab, 'prov')
 #   ### set a provenance folder for this script
-# this_script_file <- file.path(dir_hab, 'layer_prep_pressures_habs.Rmd') 
+# this_script_file <- file.path(dir_hab, 'layer_prep_pressures_habs.Rmd')
 #   ### can't recognize the current script name on its own :(
 # prov_run_tag <- 'standard run'
 
@@ -45,16 +45,15 @@ dir_rast <- file.path(dir_hab, 'raster')
 # source(file.path(dir_spp, 'R/spp_fxn.R'))
 # git_prov(file.path(dir_spp, 'R/spp_fxn.R'), type = 'sourced_script')
 
-### set up proj4string options: BC Albers and WGS84
+### set up CRS for BC Albers based on proj4string.
 p4s_bcalb <- CRS('+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0')
+
 ```
 
 ``` {r raster plot function, echo = FALSE}
 plot_raster <- function(rast,
-#                             poly_rgn,
                             title = '', scale_label = '',
                             scale_limits = c(0, max(values(rast), na.rm = TRUE)),
-#                             by_id = 'loiczid',
                             rev_scale = FALSE) {
   require(ggplot2)
   require(RColorBrewer)
@@ -72,13 +71,16 @@ plot_raster <- function(rast,
     cols <- colorRampPalette(brewer.pal(11, 'Spectral'))(255) # rainbow color scheme, low = red
   }
 
+#   poly_rgn <- readShapePoly(fn = file.path(dir_rgn, 'ohibc_rgn'), proj4string = p4s_bcalb)
 #   poly_rgn_df <- fortify(poly_rgn, region = 'rgn_id') %>%
-#     rename(rgn_id = id) %>%
+#     rename(rgn_id = id, x = long, y = lat) %>%
 #     mutate(rgn_id = as.integer(rgn_id))
 
-  poly_land    <- readShapePoly(fn = file.path(dir_rgn, 'ohibc_land'), proj4string = p4s_bcalb)
+  poly_land <- readShapePoly(fn = file.path(dir_rgn, 'ohibc_land'), proj4string = p4s_bcalb)
   poly_land_df <- fortify(poly_land) %>%
     rename(x = long, y = lat)
+  
+  x <- c(159000, 1237700, 174000, 1223000) # from extent of poly_rgn; just hard code it.
 
   rast_plot <- ggplot(data = rast_pts, aes(x = x, y = y, group = group, fill = layer)) +
     ### omit ticks, axis text:
@@ -95,6 +97,7 @@ plot_raster <- function(rast,
     geom_raster(alpha = .8) +
     geom_polygon(data = poly_land_df, color = 'gray70', fill = 'gray75', size = 0.1) +
     # geom_polygon(data = poly_rgn_df,  color = 'gray20', fill = NA,       size = 0.1) +
+    coord_cartesian(xlim = c(x[1], x[2]), ylim = c(x[3], x[4]), expand = TRUE) +
     labs(title = title,
          fill  = scale_label,
          x = NULL, y = NULL)
@@ -115,23 +118,6 @@ Raster:
 
 hab_lyrs <- read_csv(file.path(dir_hab, 'pressures_hab_layers.csv'))
 
-# tmp <- hab_lyrs %>% mutate(
-#   layer_name = str_split(layer_name, ','))
-# 
-# layer_df <- data.frame()
-# for (i in 1:nrow(tmp)) { # i = 2
-#   tmp_info  <- tmp[i, ] %>% select(-layer_name)
-#   tmp_long <- unlist(tmp[i, ]$layer_name)
-#   tmp_df <- data.frame(tmp_info, tmp_long)
-#   layer_df <- bind_rows(layer_df, tmp_df)
-# }
-# hab_lyrs <- layer_df %>%
-#   mutate(category = str_trim(tolower(category)),
-#          data_desc = str_trim(tolower(data_desc)),
-#          data_ban2010 = str_trim(data_ban2010),
-#          tmp_long = str_trim(tmp_long)) %>%
-#   rename(layer_name = tmp_long)
-# 
 # hab_dirs <- read_csv(file.path(dir_hab, 'bcmca_shps_all.csv'))
 # 
 # hab_lyrs <- hab_lyrs %>%
@@ -142,8 +128,8 @@ hab_lyrs <- read_csv(file.path(dir_hab, 'pressures_hab_layers.csv'))
 # 
 # write_csv(hab_lyrs, file.path(dir_hab, 'pressures_hab_layers.csv'))
 
-
 DT::datatable(hab_lyrs)
+
 ```
 
 # Set up depth regions: coastal intertidal, shallow, shelf, slope, deep
@@ -190,20 +176,18 @@ if(!file.exists(rast_benthic_class_file)) {
                                  # at = TRUE,
                                  te = base_te,
                                  tr = c(500, 500),
-                                 output_Raster = TRUE)
+                                 output_Raster = FALSE)
   ### this saves an 80+ MB file; But raster::rasterize is really slow.
   
+  remove(rast_benthic_class) # clear memory
+  
 } else {
-  message(sprintf('Loading benthic_class raster from %s', rast_benthic_class_file))
-  rast_benthic_class <- raster(rast_benthic_class_file)
+  message(sprintf('Benthic_class raster already exists at: %s', rast_benthic_class_file))
 }
 
   # writeRaster(rast_benthic_class, rast_benthic_class_file, overwrite = TRUE)
 
-plot_raster(rast_benthic_class)
-
 ```
-
 
 Setting up zone rasters.  Cells will be identified with values according to zone:
 
@@ -215,7 +199,7 @@ Setting up zone rasters.  Cells will be identified with values according to zone
 * 6 = offshore
 * NA = not in a zone
 
-``` {r create_intertidal_raster, echo = FALSE}
+``` {r create_intertidal_zone_raster, echo = FALSE}
 
 rast_base <- raster(file.path(dir_rgn,  'ohibc_base_raster_500m.tif'))
 rast_zone_intertidal_file <- file.path(dir_rast, 'rast_zone_intertidal.tif')
@@ -266,16 +250,17 @@ if(!file.exists(rast_zone_intertidal_file)) {
   values(rast_zone_intertidal)[!is.na(values(rast_zone_intertidal))] <- 1
 
   writeRaster(rast_zone_intertidal, rast_zone_intertidal_file, overwrite = TRUE)
+  
+  remove(rast_zone_intertidal) # clean up memory
 
 } else {
-  message(sprintf('Intertidal zone raster exists; reading from %s', 
+  message(sprintf('Intertidal zone raster already exists: %s', 
           rast_zone_intertidal_file))
-  rast_zone_intertidal <- raster(rast_zone_intertidal_file)
 }
 
 ```
 
-``` {r create_deep_raster, echo = FALSE}
+``` {r create_deep_zone_raster, echo = FALSE}
 rast_base <- raster(file.path(dir_rgn,  'ohibc_base_raster_500m.tif'))
 rast_zone_deep_file <- file.path(dir_rast, 'rast_zone_deep.tif')
 
@@ -307,16 +292,17 @@ if(!file.exists(rast_zone_deep_file)) {
   values(rast_zone_deep)[!is.na(values(rast_zone_deep))] <- 5
 
   writeRaster(rast_zone_deep, rast_zone_deep_file, overwrite = TRUE)
+  
+  remove(rast_zone_deep) # clean up memory
 
 } else {
-  message(sprintf('Deep zone raster exists; reading from %s', 
+  message(sprintf('Deep zone raster already exists at: %s', 
           rast_zone_deep_file))
-  rast_zone_deep       <- raster(rast_zone_deep_file)
 }
 
 ```
 
-``` {r create_zones_from_depths, echo = FALSE}
+``` {r create_depth_rasters, echo = FALSE}
 
 rast_zone_coastal_file <- file.path(dir_rast, 'rast_zone_coastal.tif')
 rast_zone_shelf_file <- file.path(dir_rast, 'rast_zone_shelf.tif')
@@ -326,7 +312,7 @@ rast_zone_offshore_file <- file.path(dir_rast, 'rast_zone_offshore.tif')
 if(any(!file.exists(c(rast_zone_coastal_file, 
                       rast_zone_shelf_file, 
                       rast_zone_slope_file, 
-                      rast_zone_offshore_file))) {
+                      rast_zone_offshore_file)))) {
   ### Create each of these rasters based on benthic_class codes, and masking from
   ### deep and intertidal rasters created above.
   
@@ -367,33 +353,31 @@ if(any(!file.exists(c(rast_zone_coastal_file,
   writeRaster(rast_zone_slope,    rast_zone_slope_file,    overwrite = TRUE)
   writeRaster(rast_zone_offshore, rast_zone_offshore_file, overwrite = TRUE)
 
+  remove(rast_zone_coastal, rast_zone_shelf, rast_zone_slope, rast_zone_offshore) # clean up memory
+
 } else {
-  message('Coastal, shelf, slope, and offshore zone rasters exist:')
-  message(sprintf('Reading from: %s, %s, %s, %s', 
+  message('Coastal, shelf, slope, and offshore zone rasters already exist:')
+  message(sprintf('  %s \n  %s \n  %s \n  %s', 
           rast_zone_coastal_file, rast_zone_shelf_file, rast_zone_slope_file, rast_zone_offshore_file))
-  rast_zone_coastal  <- raster(rast_zone_coastal_file)
-  rast_zone_shelf    <- raster(rast_zone_shelf_file)
-  rast_zone_slope    <- raster(rast_zone_slope_file)
-  rast_zone_offshore <- raster(rast_zone_offshore_file)
+#   rast_zone_coastal  <- raster(rast_zone_coastal_file)
+#   rast_zone_shelf    <- raster(rast_zone_shelf_file)
+#   rast_zone_slope    <- raster(rast_zone_slope_file)
+#   rast_zone_offshore <- raster(rast_zone_offshore_file)
 }
-
-y <- sum(rast_zone_intertidal, rast_zone_coastal, rast_zone_shelf, rast_zone_slope, rast_zone_deep, na.rm = TRUE)
-values(y)[values(y) == 0] <- NA
-
-plot_raster(y)
-
-remove(y)
 
 ```
 
-``` {r setup_coastal_classes, echo = FALSE}
+``` {r rasterize_coastal_class, echo = FALSE}
 ### Set up coastal_classes raster:
-### * buffer the lines - add extra, then mask with intertidal
-### * rasterize and save
+### * buffer the lines - add extra width to avoid holes
+### * rasterize, then mask with intertidal zone
+### * translate codes to coastal class only, and save
 rast_base <- raster(file.path(dir_rgn,  'ohibc_base_raster_500m.tif'))
 rast_coastal_class_file <- file.path(dir_rast, 'rast_coastal_class.tif')
 
 if(!file.exists(rast_coastal_class_file)) {
+  message('No coastal class raster found at: ', rast_coastal_class_file)
+  
   poly_coastal_class_file <- file.path(dir_rast, 'poly_coastal_class')
   if(!file.exists(paste(poly_coastal_class_file, '.shp', sep = ''))) {
     coastal_lyrs <- hab_lyrs %>% filter(str_detect(layer_name, 'CoastalClass'))
@@ -451,37 +435,102 @@ if(!file.exists(rast_coastal_class_file)) {
   rast_coastal_class <- rast_coastal_class - 200
 
   writeRaster(rast_coastal_class, rast_coastal_class_file, overwrite = TRUE)
+  
+  remove(rast_coastal_class) # clean up memory
 
 } else {
-  rast_coastal_class <- raster(rast_coastal_class_file)
+  message('Coastal class raster already exists: ', rast_coastal_class_file)
 }
-
-
-plot_raster(rast_coastal_class)
 
 ```
 
 
-``` {r create_intertidal_rasters, echo = FALSE}
-### START HERE!
-### Set up a list of file locations to be loaded as polygons.
-  int_poly_lyrs <- hab_lyrs %>% filter(zone == 'intertidal' & layer_type == 'poly')
-  int_poly_files  <- file.path(dir_anx, 'data', int_poly_lyrs$dir, 
-                               paste(int_poly_lyrs$layer_name, '.shp', sep = ''))
-  int_poly_files <- int_poly_files[!str_detect(int_poly_files, 'BenthicClass')] %>% 
-    unique()
-  int_poly_list <- lapply(int_poly_files, function(x) {readShapePoly(x, proj4string = p4s_bcalb)})
-  names(int_poly_list) <- basename(int_poly_files)
-  
+``` {r create_rocky_intertidal_raster, echo = FALSE}
+### At some point, need to mask with land layer.  Coastal zone edges inland of intertidal.
+### Write up issue with different layers, and possible inputs.
+### Does each cell get just one value?
+### * if so: how to prioritize layers?
+### * if not: what determines which layers get used where? (based on pressure)
+### * Which sublayers inform the higher-level habitat layers.
 
-### Set up a list of file locations to be loaded as lines.
-  int_line_lyrs <- hab_lyrs %>% filter(zone == 'intertidal' & layer_type == 'line')
-  int_line_files  <- file.path(dir_anx, 'data', int_line_lyrs$dir, 
-                               paste(int_line_lyrs$layer_name, '.shp', sep = ''))
-  int_line_files <- int_line_files %>% 
-    unique()
-  int_line_list <- lapply(int_line_files, function(x) {readShapeLines(x, proj4string = p4s_bcalb)})
-  names(int_line_list) <- basename(int_line_files)
+rast_rocky_intertidal_file <- file.path(dir_rast, 'rast_rocky_intertidal.tif')
+
+if(!exists(rast_rocky_intertidal_file)) {
+  ### Set up a list of file locations to be loaded as polygons.  First line
+  ### determines which layers to read in and load.
+  tmp_hab_lyrs  <- hab_lyrs %>% 
+    filter(category == 'rocky intertidal' & load_layer == TRUE)
+  
+  ### Set up temp directory to store rasters; we'll save the completed raster then get rid of these.
+  dir_tmp <- file.path(dir_rast, 'tmp')
+  dir.create(dir_tmp)
+  
+  for (i in 1:nrow(tmp_hab_lyrs)) { # i = 1
+    message('Reading layer: ', tmp_hab_lyrs$layer_name[i])
+    tmp_shp <- readOGR(dsn   = file.path(dir_anx, 'data', tmp_hab_lyrs$dir[i]),
+                                 layer = tmp_hab_lyrs$layer_name[i], 
+                                 stringsAsFactors = FALSE)
+    if(tmp_hab_lyrs$layer_type[i] %in% c('line', 'point')) {
+      message(sprintf('Buffering a %s layer: %s', 
+                      tmp_hab_lyrs$layer_type[i], tmp_hab_lyrs$layer_name[i]))
+      system.time({
+        tmp_poly <- rgeos::gBuffer(tmp_shp, 
+                                   byid     = TRUE,
+                                   width    = 1500, ### extra wide to prevent gaps
+                                   capStyle = 'FLAT')
+      })
+    } else {
+      tmp_poly <- tmp_shp ### shp is already a polygon...
+    }
+    ### write poly to a temp file for the gdal_rasterize to access.
+    writePolyShape(tmp_poly, file.path(dir_tmp, sprintf('tmp_poly%s', i)))
+  }
+  
+  
+  tmp_rast_list <- list() ### initialize empty list to store rasters
+  base_te <- c(rast_base@extent[1], rast_base@extent[3], rast_base@extent[2], rast_base@extent[4])
+  library(gdalUtils)
+  
+  for (i in 1:nrow(tmp_hab_lyrs)) {
+    message(sprintf('Rasterizing temporary polygon %s of %s', i, nrow(tmp_hab_lyrs)))
+    system.time({
+      tmp_rast_list[[i]] <- gdal_rasterize(
+        src_datasource = path.expand(file.path(dir_tmp, sprintf('tmp_poly%s.shp', i))), 
+        dst_filename   = path.expand(file.path(dir_tmp, sprintf('tmp_rast%s.shp', i))),
+        a = 'ID', # attribute to burn
+        a_nodata = NA,
+        # at = TRUE,
+        te = base_te,
+        tr = c(500, 500),
+        output_Raster = TRUE
+      )
+    })
+  }
+  
+  names(tmp_rast_list) <- tmp_hab_lyrs$layer_name
+  
+  ### And now, process these beeyatches
+  ### * sum them, with na.rm = TRUE
+  ### * set non-NA values equal to 1 (or whatevs)
+  ### * clip to intertidal raster
+  rast_coastal_class <- raster(rast_coastal_class_file) ### load coastal_class; need to filter to appropriate cells
+  values(rast_coastal_class)[values(rast_coastal_class) %in% c(1:10, 21:23)] <- 1
+  
+  tmp_rast_list[[i+1]] <- rast_coastal_class
+  ### then add to tmp_rast_list; then brick it, then sum it, then turn 0 into NA, then clip, then save.
+  tmp_rast_brick <- stack(tmp_rast_list)
+  tmp_rast_total <- sum(tmp_rast_brick, na.rm = TRUE)
+  
+  values(tmp_rast_total)[values(tmp_rast_total) == 0] <- NA
+  values(tmp_rast_total)[!is.na(values(tmp_rast_total))] <- 1
+  
+  rast_zone_intertidal <- raster(rast_zone_intertidal_file)
+  values(tmp_rast_total)[is.na(values(rast_zone_intertidal))] <- NA
+
+  plot_raster(tmp_rast_total)
+  writeRaster(tmp_rast_total, rast_rocky_intertidal_file, overwrite = TRUE)
+}
+
 ```
 
 
