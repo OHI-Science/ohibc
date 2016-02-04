@@ -175,7 +175,7 @@ if(!file.exists(rast_benthic_class_file)) {
                                  a_nodata = NA,
                                  # at = TRUE,
                                  te = base_te,
-                                 tr = c(500, 500),
+                                 tr = raster::res(rast_base),
                                  output_Raster = FALSE)
   ### this saves an 80+ MB file; But raster::rasterize is really slow.
   
@@ -241,7 +241,7 @@ if(!file.exists(rast_zone_intertidal_file)) {
       a_nodata = NA,
       # at = TRUE,
       te = base_te,
-      tr = c(500, 500),
+      tr = raster::res(rast_base),
       output_Raster = TRUE
     )
   })
@@ -283,7 +283,7 @@ if(!file.exists(rast_zone_deep_file)) {
       a_nodata = NA,
       # at = TRUE,
       te = base_te,
-      tr = c(500, 500),
+      tr = raster::res(rast_base),
       output_Raster = TRUE
     )
   })
@@ -367,6 +367,36 @@ if(any(!file.exists(c(rast_zone_coastal_file,
 
 ```
 
+
+``` {r create_benth_type_raster, echo = FALSE}
+
+rast_benth_type_file <- file.path(dir_rast, 'rast_benth_type.tif')
+rast_benthic_class <- raster(rast_benthic_class_file)
+
+if(!file.exists(rast_benth_type_file)) {
+  ### Create a raster with substrate type based on benthic_class codes
+  
+  # * `benthic_class` will be divided to depth, substrate, and formation according to the rule for field `ID`:
+  #     * 1000's = depth              * 10's = substrate          * 1's = BPI
+  #         * 1000 <- 0 - 20 m            * 10 <- mud                 * 1 <- ridge
+  #         * 2000 <- 20 - 50 m           * 20 <- sand                * 2 <- depression
+  #         * 3000 <- 50 - 200 m          * 30 <- hard                * 3 <- flat
+  #         * 4000 <- 200 m +             * 90 <- unknown             * 4 <- slope
+  
+  rast_benth_type <- rast_benthic_class - round(rast_benthic_class, -3)
+  rast_benth_type <- floor(rast_benth_type/10) 
+  
+  writeRaster(rast_benth_type, rast_benth_type_file, overwrite = TRUE)
+
+  remove(rast_benth_type, rast_benthic_class) # clean up memory
+
+} else {
+  message('Benthic type raster already exists:', rast_benth_type_file)
+}
+
+```
+
+
 ``` {r rasterize_coastal_class, echo = FALSE}
 ### Set up coastal_classes raster:
 ### * buffer the lines - add extra width to avoid holes
@@ -408,7 +438,7 @@ if(!file.exists(rast_coastal_class_file)) {
       a_nodata = NA,
       # at = TRUE,
       te = base_te,
-      tr = c(500, 500),
+      tr = raster::res(rast_base),
       output_Raster = TRUE
     )
   })
@@ -445,43 +475,34 @@ if(!file.exists(rast_coastal_class_file)) {
 ```
 
 
-``` {r create_rocky_intertidal_raster, echo = FALSE}
-### At some point, need to mask with land layer.  Coastal zone edges inland of intertidal.
-### Write up issue with different layers, and possible inputs.
-### Does each cell get just one value?
-### * if so: how to prioritize layers?
-### * if not: what determines which layers get used where? (based on pressure)
-### * Which sublayers inform the higher-level habitat layers.
-
-rast_rocky_intertidal_file <- file.path(dir_rast, 'rast_rocky_intertidal.tif')
-
-if(!exists(rast_rocky_intertidal_file)) {
-  ### Set up a list of file locations to be loaded as polygons.  First line
-  ### determines which layers to read in and load.
-  tmp_hab_lyrs  <- hab_lyrs %>% 
-    filter(category == 'rocky intertidal' & load_layer == TRUE)
+``` {r rasterize_layers_function, echo = FALSE}
+  
+rasterize_layers <- function(tmp_hab_lyrs) {
   
   ### Set up temp directory to store rasters; we'll save the completed raster then get rid of these.
   dir_tmp <- file.path(dir_rast, 'tmp')
-  dir.create(dir_tmp)
+  dir.create(dir_tmp, showWarnings = FALSE)
   
   for (i in 1:nrow(tmp_hab_lyrs)) { # i = 1
     message('Reading layer: ', tmp_hab_lyrs$layer_name[i])
     tmp_shp <- readOGR(dsn   = file.path(dir_anx, 'data', tmp_hab_lyrs$dir[i]),
                                  layer = tmp_hab_lyrs$layer_name[i], 
                                  stringsAsFactors = FALSE)
+    ### create a buffer around points and lines
     if(tmp_hab_lyrs$layer_type[i] %in% c('line', 'point')) {
       message(sprintf('Buffering a %s layer: %s', 
                       tmp_hab_lyrs$layer_type[i], tmp_hab_lyrs$layer_name[i]))
       system.time({
         tmp_poly <- rgeos::gBuffer(tmp_shp, 
                                    byid     = TRUE,
-                                   width    = 1500, ### extra wide to prevent gaps
-                                   capStyle = 'FLAT')
+                                   width    = tmp_hab_lyrs$buffer_m[i],
+                                   capStyle = ifelse(tmp_hab_lyrs$layer_type[i] == 'line', 'FLAT', 'ROUND'))
       })
     } else {
       tmp_poly <- tmp_shp ### shp is already a polygon...
     }
+    ### If no ID field, add one and populate it
+    tmp_poly@data$raster_id <- c(1:nrow(tmp_poly@data))
     ### write poly to a temp file for the gdal_rasterize to access.
     writePolyShape(tmp_poly, file.path(dir_tmp, sprintf('tmp_poly%s', i)))
   }
@@ -489,19 +510,28 @@ if(!exists(rast_rocky_intertidal_file)) {
   
   tmp_rast_list <- list() ### initialize empty list to store rasters
   base_te <- c(rast_base@extent[1], rast_base@extent[3], rast_base@extent[2], rast_base@extent[4])
-  library(gdalUtils)
+  base_tr <- raster::res(rast_base)
   
-  for (i in 1:nrow(tmp_hab_lyrs)) {
-    message(sprintf('Rasterizing temporary polygon %s of %s', i, nrow(tmp_hab_lyrs)))
+  for (i in 1:nrow(tmp_hab_lyrs)) { # i = 1
+    src_file <- path.expand(file.path(dir_tmp, sprintf('tmp_poly%s.shp', i)))
+    dst_file <- path.expand(file.path(dir_tmp, sprintf('tmp_rast%s.tif', i)))
+    src_dbf <- foreign::read.dbf(file.path(dir_tmp, sprintf('tmp_poly%s.dbf', i)))
+    a <- names(src_dbf)
+    a <- ifelse('raster_id' %in% a, 'raster_id', a[1])
+
+    message(sprintf('Rasterizing temporary polygon %s of %s\n  src  = %s \n  dest = %s\n  attr = %s, class = %s',
+                    i, nrow(tmp_hab_lyrs), src_file, dst_file, a, class(src_dbf[[a]])))
+    ### save a temp raster since gdal_rasterize seems to hate creating new files?
+    # writeRaster(rast_base, path.expand(file.path(dir_tmp, sprintf('tmp_rast%s.tif', i))), overwrite = TRUE)
     system.time({
-      tmp_rast_list[[i]] <- gdal_rasterize(
-        src_datasource = path.expand(file.path(dir_tmp, sprintf('tmp_poly%s.shp', i))), 
-        dst_filename   = path.expand(file.path(dir_tmp, sprintf('tmp_rast%s.shp', i))),
+      tmp_rast_list[[i]] <- gdalUtils::gdal_rasterize(
+        src_datasource = src_file, 
+        dst_filename   = dst_file,
         a = 'ID', # attribute to burn
         a_nodata = NA,
         # at = TRUE,
         te = base_te,
-        tr = c(500, 500),
+        tr = base_tr,
         output_Raster = TRUE
       )
     })
@@ -509,27 +539,523 @@ if(!exists(rast_rocky_intertidal_file)) {
   
   names(tmp_rast_list) <- tmp_hab_lyrs$layer_name
   
-  ### And now, process these beeyatches
-  ### * sum them, with na.rm = TRUE
-  ### * set non-NA values equal to 1 (or whatevs)
-  ### * clip to intertidal raster
-  rast_coastal_class <- raster(rast_coastal_class_file) ### load coastal_class; need to filter to appropriate cells
-  values(rast_coastal_class)[values(rast_coastal_class) %in% c(1:10, 21:23)] <- 1
+  unlink(dir_tmp) ### ditch the temp directory
   
-  tmp_rast_list[[i+1]] <- rast_coastal_class
-  ### then add to tmp_rast_list; then brick it, then sum it, then turn 0 into NA, then clip, then save.
-  tmp_rast_brick <- stack(tmp_rast_list)
-  tmp_rast_total <- sum(tmp_rast_brick, na.rm = TRUE)
-  
-  values(tmp_rast_total)[values(tmp_rast_total) == 0] <- NA
-  values(tmp_rast_total)[!is.na(values(tmp_rast_total))] <- 1
-  
-  rast_zone_intertidal <- raster(rast_zone_intertidal_file)
-  values(tmp_rast_total)[is.na(values(rast_zone_intertidal))] <- NA
-
-  plot_raster(tmp_rast_total)
-  writeRaster(tmp_rast_total, rast_rocky_intertidal_file, overwrite = TRUE)
+  return(tmp_rast_list) ### A list object of temporary rasters
 }
+```
+
+``` {r create_rocky_intertidal_raster, echo = FALSE}
+rast_rocky_intertidal_file <- file.path(dir_rast, 'rast_rocky_intertidal.tif')
+
+if(!file.exists(rast_rocky_intertidal_file)) {
+  ### Set up a list of file locations to be loaded as polygons.  First line
+  ### determines which layers to read in and load.
+  rocky_int_hab_lyrs  <- hab_lyrs %>% 
+    filter(category == 'rocky intertidal' & load_layer == TRUE)
+
+  rocky_int_rast_list <- rasterize_layers(rocky_int_hab_lyrs)
+
+  message('Adding in coastal class layer')
+  rast_coastal_class <- raster(rast_coastal_class_file) ### load coastal_class; need to filter to appropriate cells
+  values(rast_coastal_class)[!values(rast_coastal_class) %in% c(1:10, 21:23)] <- NA
+  
+  ### then add to rocky_int_rast_list; then brick it, then sum it
+  rocky_int_rast_list[[length(rocky_int_rast_list) + 1]] <- rast_coastal_class
+  rocky_int_rast_brick <- stack(rocky_int_rast_list)
+  rocky_int_rast_total <- sum(rocky_int_rast_brick, na.rm = TRUE)
+  
+  ### convert zeroes to NA and all values to single value
+  values(rocky_int_rast_total)[values(rocky_int_rast_total) == 0] <- NA
+  values(rocky_int_rast_total)[!is.na(values(rocky_int_rast_total))] <- rocky_int_hab_lyrs$layer_id[1]
+  
+  ### clip to intertidal zone
+  message('Clipping to intertidal zone raster')
+  rast_zone_intertidal <- raster(rast_zone_intertidal_file)
+  values(rocky_int_rast_total)[is.na(values(rast_zone_intertidal))] <- NA
+
+  plot_raster(rocky_int_rast_total)
+  writeRaster(rocky_int_rast_total, rast_rocky_intertidal_file, overwrite = TRUE)
+} else {
+  message('Rocky intertidal zone raster already exists at: ', rast_rocky_intertidal_file)
+}
+
+```
+
+``` {r create_beach_raster, echo = FALSE}
+rast_beach_file <- file.path(dir_rast, 'rast_beach.tif')
+
+if(!file.exists(rast_beach_file)) {
+  ### Set up a list of file locations to be loaded as polygons.  First line
+  ### determines which layers to read in and load.
+  beach_hab_lyrs  <- hab_lyrs %>% 
+    filter(category == 'beach' & load_layer == TRUE)
+
+  beach_rast_list <- rasterize_layers(beach_hab_lyrs)
+
+  message('Adding in coastal class layer')
+  ### Filter the coastal class layer to appropriate cells
+  rast_coastal_class <- raster(rast_coastal_class_file) ### load coastal_class; need to filter to appropriate cells
+  values(rast_coastal_class)[!values(rast_coastal_class) %in% c(11:20, 24:26)] <- NA
+  
+  ### then add to beach_rast_list; then brick it, then sum it
+  beach_rast_list[[length(beach_rast_list) + 1]] <- rast_coastal_class
+  beach_rast_brick <- stack(beach_rast_list)
+  beach_rast_total <- sum(beach_rast_brick, na.rm = TRUE)
+  
+  ### convert zeroes to NA and all values to single value
+  values(beach_rast_total)[values(beach_rast_total) == 0] <- NA
+  values(beach_rast_total)[!is.na(values(beach_rast_total))] <- beach_hab_lyrs$layer_id[1]
+  
+  ### clip to intertidal zone
+  message('Clipping to intertidal zone raster')
+  rast_zone_intertidal <- raster(rast_zone_intertidal_file)
+  values(beach_rast_total)[is.na(values(rast_zone_intertidal))] <- NA
+
+  plot_raster(beach_rast_total)
+  writeRaster(beach_rast_total, rast_beach_file, overwrite = TRUE)
+} else {
+  message('Beach zone raster already exists at: ', rast_beach_file)
+}
+
+```
+
+``` {r create_mudflat_raster, echo = FALSE}
+rast_mudflat_file <- file.path(dir_rast, 'rast_mudflat.tif')
+
+if(!file.exists(rast_mudflat_file)) {
+  ### Set up a list of file locations to be loaded as polygons.  First line
+  ### determines which layers to read in and load.
+  mudflat_hab_lyrs  <- hab_lyrs %>% 
+    filter(category == 'mud flats' & load_layer == TRUE)
+
+  mudflat_rast_list <- rasterize_layers(mudflat_hab_lyrs)
+
+  message('Adding in coastal class layer')
+  ### Filter the coastal class layer to appropriate cells
+  rast_coastal_class <- raster(rast_coastal_class_file) ### load coastal_class; need to filter to appropriate cells
+  values(rast_coastal_class)[!values(rast_coastal_class) %in% c(11:20, 24:26)] <- NA
+  
+  ### then add to mudflat_rast_list; then brick it, then sum it
+  mudflat_rast_list[[length(mudflat_rast_list) + 1]] <- rast_coastal_class
+  mudflat_rast_brick <- stack(mudflat_rast_list)
+  mudflat_rast_total <- sum(mudflat_rast_brick, na.rm = TRUE)
+  
+  ### convert zeroes to NA and all values to single value
+  values(mudflat_rast_total)[values(mudflat_rast_total) == 0] <- NA
+  values(mudflat_rast_total)[!is.na(values(mudflat_rast_total))] <- mudflat_hab_lyrs$layer_id[1]
+  
+  ### clip to intertidal zone
+  message('Clipping to intertidal zone raster')
+  rast_zone_intertidal <- raster(rast_zone_intertidal_file)
+  values(mudflat_rast_total)[is.na(values(rast_zone_intertidal))] <- NA
+
+  plot_raster(mudflat_rast_total)
+  writeRaster(mudflat_rast_total, rast_mudflat_file, overwrite = TRUE)
+} else {
+  message('Mudflat zone raster already exists at: ', rast_mudflat_file)
+}
+
+```
+
+``` {r create_saltmarsh_raster, echo = FALSE}
+rast_saltmarsh_file <- file.path(dir_rast, 'rast_saltmarsh.tif')
+
+if(!file.exists(rast_saltmarsh_file)) {
+  ### Set up a list of file locations to be loaded as polygons.  First line
+  ### determines which layers to read in and load.
+  saltmarsh_hab_lyrs  <- hab_lyrs %>% 
+    filter(category == 'salt marsh' & load_layer == TRUE)
+
+  saltmarsh_rast_list <- rasterize_layers(saltmarsh_hab_lyrs)
+
+  saltmarsh_rast_brick <- stack(saltmarsh_rast_list)
+  saltmarsh_rast_total <- sum(saltmarsh_rast_brick, na.rm = TRUE)
+  
+  ### convert zeroes to NA and all values to single value
+  values(saltmarsh_rast_total)[values(saltmarsh_rast_total) == 0] <- NA
+  values(saltmarsh_rast_total)[!is.na(values(saltmarsh_rast_total))] <- saltmarsh_hab_lyrs$layer_id[1]
+  
+  ### clip to intertidal zone
+  message('Clipping to intertidal zone raster')
+  rast_zone_intertidal <- raster(rast_zone_intertidal_file)
+  values(saltmarsh_rast_total)[is.na(values(rast_zone_intertidal))] <- NA
+
+  plot_raster(saltmarsh_rast_total)
+  writeRaster(saltmarsh_rast_total, rast_saltmarsh_file, overwrite = TRUE)
+} else {
+  message('Saltmarsh zone raster already exists at: ', rast_saltmarsh_file)
+}
+
+```
+
+``` {r create_surfgrass_raster, echo = FALSE}
+rast_surfgrass_file <- file.path(dir_rast, 'rast_surfgrass.tif')
+
+if(!file.exists(rast_surfgrass_file)) {
+  ### Set up a list of file locations to be loaded as polygons.  First line
+  ### determines which layers to read in and load.
+  surfgrass_hab_lyrs  <- hab_lyrs %>% 
+    filter(category == 'surf grass' & load_layer == TRUE)
+
+  surfgrass_rast_list <- rasterize_layers(surfgrass_hab_lyrs)
+
+  surfgrass_rast_brick <- stack(surfgrass_rast_list)
+  surfgrass_rast_total <- sum(surfgrass_rast_brick, na.rm = TRUE)
+  
+  ### convert zeroes to NA and all values to single value
+  values(surfgrass_rast_total)[values(surfgrass_rast_total) == 0] <- NA
+  values(surfgrass_rast_total)[!is.na(values(surfgrass_rast_total))] <- surfgrass_hab_lyrs$layer_id[1]
+  
+  ### clip to intertidal zone
+  message('Clipping to intertidal zone raster')
+  rast_zone_intertidal <- raster(rast_zone_intertidal_file)
+  values(surfgrass_rast_total)[is.na(values(rast_zone_intertidal))] <- NA
+
+  plot_raster(surfgrass_rast_total)
+  writeRaster(surfgrass_rast_total, rast_surfgrass_file, overwrite = TRUE)
+} else {
+  message('Surfgrass zone raster already exists at: ', rast_surfgrass_file)
+}
+
+```
+
+``` {r create_duneveg_raster, echo = FALSE}
+### !!! ALL NAs: All dune veg is on land; until we buffer it 1 km inland, leave this layer out
+#   
+# rast_duneveg_file <- file.path(dir_rast, 'rast_duneveg.tif')
+
+# if(!file.exists(rast_duneveg_file)) {
+#   ### Set up a list of file locations to be loaded as polygons.  First line
+#   ### determines which layers to read in and load.
+#   duneveg_hab_lyrs  <- hab_lyrs %>% 
+#     filter(category == 'dune vegetation' & load_layer == TRUE)
+# 
+#   duneveg_rast_list <- rasterize_layers(duneveg_hab_lyrs)
+# 
+#   duneveg_rast_brick <- stack(duneveg_rast_list)
+#   duneveg_rast_total <- sum(duneveg_rast_brick, na.rm = TRUE) 
+#   
+#   ### convert zeroes to NA and all values to single value
+#   values(duneveg_rast_total)[values(duneveg_rast_total) == 0] <- NA
+#   values(duneveg_rast_total)[!is.na(values(duneveg_rast_total))] <- duneveg_hab_lyrs$layer_id[1]
+#   
+#   ### clip to intertidal zone
+#   message('Clipping to intertidal zone raster')
+#   rast_zone_intertidal <- raster(rast_zone_intertidal_file)
+#   values(duneveg_rast_total)[is.na(values(rast_zone_intertidal))] <- NA
+# 
+#   plot_raster(duneveg_rast_total) 
+#   writeRaster(duneveg_rast_total, rast_duneveg_file, overwrite = TRUE)
+
+# } else {
+#   message('Dune vegetation zone raster already exists at: ', rast_duneveg_file)
+# }
+
+```
+
+``` {r create_kelp_raster, echo = FALSE}
+rast_kelp_file <- file.path(dir_rast, 'rast_kelp.tif')
+
+if(!file.exists(rast_kelp_file)) {
+  ### Set up a list of file locations to be loaded as polygons.  First line
+  ### determines which layers to read in and load.
+  kelp_hab_lyrs  <- hab_lyrs %>% 
+    filter(category == 'kelp forest' & load_layer == TRUE)
+
+  kelp_rast_list <- rasterize_layers(kelp_hab_lyrs)
+
+  kelp_rast_brick <- stack(kelp_rast_list)
+  kelp_rast_total <- sum(kelp_rast_brick, na.rm = TRUE)
+  
+  ### convert zeroes to NA and all values to single value
+  values(kelp_rast_total)[values(kelp_rast_total) == 0] <- NA
+  values(kelp_rast_total)[!is.na(values(kelp_rast_total))] <- kelp_hab_lyrs$layer_id[1]
+  
+  ### NOTE: Not clipping to subtidal coastal region; all instances will probably
+  ### be in there, but let it be for now.
+  
+  plot_raster(kelp_rast_total)
+  writeRaster(kelp_rast_total, rast_kelp_file, overwrite = TRUE)
+} else {
+  message('Kelp zone raster already exists at: ', rast_kelp_file)
+}
+
+```
+
+``` {r create_rocky_reef_raster, echo = FALSE}
+rast_rocky_reef_file <- file.path(dir_rast, 'rast_rocky_reef.tif')
+
+if(!file.exists(rast_rocky_reef_file)) {
+  ### Set up a list of file locations to be loaded as polygons.  First line
+  ### determines which layers to read in and load.
+  rocky_reef_hab_lyrs  <- hab_lyrs %>% 
+    filter(category == 'rocky reef' & load_layer == TRUE)
+
+  rocky_reef_rast_list <- rasterize_layers(rocky_reef_hab_lyrs)
+
+  message('Adding in benthic class layer')
+  ### Filter the benthic class layer to appropriate cells
+  rast_benth_type <- raster(rast_benth_type_file) ### load benthic_class; need to filter to appropriate cells
+  values(rast_benth_type)[!values(rast_benth_type) == 3] <- NA ### benthic type 3 is hard substrate
+  
+  ### then add to rocky_reef_rast_list; then brick it, then sum it
+  rocky_reef_rast_list[[length(rocky_reef_rast_list) + 1]] <- rast_benth_type
+  rocky_reef_rast_brick <- stack(rocky_reef_rast_list)
+  rocky_reef_rast_total <- sum(rocky_reef_rast_brick, na.rm = FALSE) 
+    ### leaving in NAs and summing forces an AND situation - ALL layers 
+    ### must have a non-NA value.  So: benthic hard AND high rugosity
+  
+  ### convert zeroes to NA and all values to single value
+  values(rocky_reef_rast_total)[values(rocky_reef_rast_total) == 0] <- NA ### not needed?
+  values(rocky_reef_rast_total)[!is.na(values(rocky_reef_rast_total))] <- rocky_reef_hab_lyrs$layer_id[1]
+  
+  ### clip to non-offshore areas (less than 50 m, even including within 1 km of coast?)
+  message('Clipping against offshore raster')
+  rast_zone_offshore <- raster(rast_zone_offshore_file)
+  values(rocky_reef_rast_total)[!is.na(values(rast_zone_offshore))] <- NA
+  
+  plot_raster(rocky_reef_rast_total)
+  writeRaster(rocky_reef_rast_total, rast_rocky_reef_file, overwrite = TRUE)
+} else {
+  message('Rocky reef zone raster already exists at: ', rast_rocky_reef_file)
+}
+
+```
+
+``` {r create_seagrass_raster, echo = FALSE}
+### !!! This layer is having issues as well!  fix it.
+
+# rast_seagrass_file <- file.path(dir_rast, 'rast_seagrass.tif')
+# 
+# if(!file.exists(rast_seagrass_file)) {
+#   ### Set up a list of file locations to be loaded as polygons.  First line
+#   ### determines which layers to read in and load.
+#   seagrass_hab_lyrs  <- hab_lyrs %>% 
+#     filter(category == 'seagrass' & load_layer == TRUE)
+# 
+#   seagrass_rast_list <- rasterize_layers(seagrass_hab_lyrs)
+# 
+#   seagrass_rast_brick <- stack(seagrass_rast_list)
+#   seagrass_rast_total <- sum(seagrass_rast_brick, na.rm = TRUE)
+#   
+#   ### convert zeroes to NA and all values to single value
+#   values(seagrass_rast_total)[values(seagrass_rast_total) == 0] <- NA
+#   values(seagrass_rast_total)[!is.na(values(seagrass_rast_total))] <- seagrass_hab_lyrs$layer_id[1]
+#   
+#   ### NOTE: Not clipping to subtidal coastal region; all instances will probably
+#   ### be in there, but let it be for now.
+#   
+#   plot_raster(seagrass_rast_total)
+#   
+#   writeRaster(seagrass_rast_total, rast_seagrass_file, overwrite = TRUE)
+# } else {
+#   message('Seagrass zone raster already exists at: ', rast_seagrass_file)
+# }
+
+```
+
+
+``` {r create_shallow_suspension_raster, echo = FALSE}
+rast_shallow_suspension_file <- file.path(dir_rast, 'rast_shallow_suspension.tif')
+
+if(!file.exists(rast_shallow_suspension_file)) {
+  ### Set up a list of file locations to be loaded as polygons.  First line
+  ### determines which layers to read in and load.
+  shallow_suspension_hab_lyrs  <- hab_lyrs %>% 
+    filter(category == 'shallow suspension reefs' & load_layer == TRUE)
+
+  shallow_suspension_rast_list <- rasterize_layers(shallow_suspension_hab_lyrs)
+
+  shallow_suspension_rast_brick <- stack(shallow_suspension_rast_list)
+  shallow_suspension_rast_total <- sum(shallow_suspension_rast_brick, na.rm = TRUE) 
+
+  ### convert zeroes to NA and all values to single value
+  values(shallow_suspension_rast_total)[values(shallow_suspension_rast_total) == 0] <- NA ### not needed?
+  values(shallow_suspension_rast_total)[!is.na(values(shallow_suspension_rast_total))] <- shallow_suspension_hab_lyrs$layer_id[1]
+  
+  ### clip to non-offshore areas (less than 50 m, even including within 1 km of coast?)
+  message('Clipping against offshore raster')
+  rast_zone_offshore <- raster(rast_zone_offshore_file)
+  values(shallow_suspension_rast_total)[!is.na(values(rast_zone_offshore))] <- NA
+  
+  plot_raster(shallow_suspension_rast_total)
+  writeRaster(shallow_suspension_rast_total, rast_shallow_suspension_file, overwrite = TRUE)
+} else {
+  message('Shallow suspension reefs raster already exists at: ', rast_shallow_suspension_file)
+}
+
+```
+
+``` {r create_soft_bottom_rasters, echo = FALSE}
+rast_soft_shallow_file <- file.path(dir_rast, 'rast_soft_shallow.tif')
+rast_soft_shelf_file <- file.path(dir_rast, 'rast_soft_shelf.tif')
+rast_soft_slope_file <- file.path(dir_rast, 'rast_soft_slope.tif')
+rast_soft_deep_file <- file.path(dir_rast, 'rast_soft_deep.tif')
+
+if(!any(file.exists(rast_soft_shallow_file,
+                    rast_soft_shelf_file,
+                    rast_soft_slope_file,
+                    rast_soft_deep_file))) {
+
+  message('Loading benthic type layer')
+  ### Filter the benthic type layer to appropriate cells
+  rast_benth_type <- raster(rast_benth_type_file) ### load benthic_class; need to filter to appropriate cells
+  values(rast_benth_type)[!values(rast_benth_type) %in% c(1, 2)] <- NA ### benthic type 1 and 2 are mud and sand substrate
+  
+  ### Initialize all soft-bottom rasters using mud and sand substrate raster
+  rast_soft_shallow <- rast_soft_shelf <- rast_soft_slope <- rast_soft_deep <- rast_benth_type
+
+  ### load depth zone rasters
+  rast_zone_offshore <- raster(rast_zone_offshore_file)
+  rast_zone_shelf <- raster(rast_zone_shelf_file)
+  rast_zone_slope <- raster(rast_zone_slope_file)
+  rast_zone_deep <- raster(rast_zone_deep_file)
+
+  ### Shallow: clip against offshore
+  values(rast_soft_shallow)[!is.na(values(rast_zone_offshore))] <- NA  ### note: include NOT offshore
+  values(rast_soft_shallow)[!is.na(values(rast_soft_shallow))] <- hab_lyrs$layer_id[hab_lyrs$category == 'shallow soft bottom']
+  
+  values(rast_soft_shelf)[is.na(values(rast_zone_shelf))] <- NA
+  values(rast_soft_shelf)[!is.na(values(rast_soft_shelf))] <- hab_lyrs$layer_id[hab_lyrs$category == 'soft shelf']
+
+  values(rast_soft_slope)[is.na(values(rast_zone_slope))] <- NA
+  values(rast_soft_slope)[!is.na(values(rast_soft_slope))] <- hab_lyrs$layer_id[hab_lyrs$category == 'soft slope']
+  
+  values(rast_soft_deep)[is.na(values(rast_zone_deep))] <- NA
+  values(rast_soft_deep)[!is.na(values(rast_soft_deep))] <- hab_lyrs$layer_id[hab_lyrs$category == 'soft deep']
+  
+  soft_total <- stack(rast_soft_shallow, rast_soft_shelf, rast_soft_slope, rast_soft_deep) %>% 
+    sum(na.rm = TRUE)
+  values(soft_total)[values(soft_total == 0)] <- NA
+    
+  plot_raster(soft_total)
+  
+  writeRaster(rast_soft_shallow, rast_soft_shallow_file, overwrite = TRUE)
+  writeRaster(rast_soft_shelf, rast_soft_shelf_file, overwrite = TRUE)
+  writeRaster(rast_soft_slope, rast_soft_slope_file, overwrite = TRUE)
+  writeRaster(rast_soft_deep, rast_soft_deep_file, overwrite = TRUE)
+} else {
+  message('Soft bottom rasters already exists at: \n  %s\n  %s\n  %s\n  %s', 
+          rast_soft_shallow_file, rast_soft_shelf_file, rast_soft_slope_file, rast_soft_deep_file)
+}
+
+```
+
+``` {r create_hard_bottom_rasters, echo = FALSE}
+rast_hard_shallow_file <- file.path(dir_rast, 'rast_hard_shallow.tif')
+rast_hard_shelf_file   <- file.path(dir_rast, 'rast_hard_shelf.tif')
+rast_hard_slope_file   <- file.path(dir_rast, 'rast_hard_slope.tif')
+rast_hard_deep_file    <- file.path(dir_rast, 'rast_hard_deep.tif')
+
+if(!any(file.exists(rast_hard_shallow_file,
+                    rast_hard_shelf_file,
+                    rast_hard_slope_file,
+                    rast_hard_deep_file))) {
+
+  message('Loading benthic type layer')
+  ### Filter the benthic type layer to appropriate cells
+  rast_benth_type <- raster(rast_benth_type_file) ### load benthic_class; need to filter to appropriate cells
+  values(rast_benth_type)[!values(rast_benth_type) %in% c(3)] <- NA ### benthic type 3 is hard substrate
+  
+  ### Initialize all hard-bottom rasters using mud and sand substrate raster
+  rast_hard_shallow <- rast_hard_shelf <- rast_hard_slope <- rast_hard_deep <- rast_benth_type
+
+  ### load depth zone rasters
+  rast_zone_offshore <- raster(rast_zone_offshore_file)
+  rast_zone_shelf    <- raster(rast_zone_shelf_file)
+  rast_zone_slope    <- raster(rast_zone_slope_file)
+  rast_zone_deep     <- raster(rast_zone_deep_file)
+
+  ### Shallow: clip against offshore
+  values(rast_hard_shallow)[!is.na(values(rast_zone_offshore))] <- NA ### note: include NOT offshore
+  values(rast_hard_shallow)[!is.na(values(rast_hard_shallow))] <- -1 # hab_lyrs$layer_id[hab_lyrs$category == 'shallow hard bottom'] ### no place for this
+  
+  values(rast_hard_shelf)[is.na(values(rast_zone_shelf))] <- NA
+  values(rast_hard_shelf)[!is.na(values(rast_hard_shelf))] <- hab_lyrs$layer_id[hab_lyrs$category == 'hard shelf']
+
+  values(rast_hard_slope)[is.na(values(rast_zone_slope))] <- NA
+  values(rast_hard_slope)[!is.na(values(rast_hard_slope))] <- hab_lyrs$layer_id[hab_lyrs$category == 'hard slope']
+  
+  values(rast_hard_deep)[is.na(values(rast_zone_deep))] <- NA
+  values(rast_hard_deep)[!is.na(values(rast_hard_deep))] <- hab_lyrs$layer_id[hab_lyrs$category == 'hard deep']
+  
+  hard_total <- stack(rast_hard_shallow, rast_hard_shelf, rast_hard_slope, rast_hard_deep) %>% 
+    sum(na.rm = TRUE)
+  values(hard_total)[values(hard_total == 0)] <- NA
+  plot_raster(hard_total)
+  
+  writeRaster(rast_hard_shallow, rast_hard_shallow_file, overwrite = TRUE)
+  writeRaster(rast_hard_shelf, rast_hard_shelf_file, overwrite = TRUE)
+  writeRaster(rast_hard_slope, rast_hard_slope_file, overwrite = TRUE)
+  writeRaster(rast_hard_deep, rast_hard_deep_file, overwrite = TRUE)
+} else {
+  message('hard bottom rasters already exists at: \n  %s\n  %s\n  %s\n  %s', 
+          rast_hard_shallow_file, rast_hard_shelf_file, rast_hard_slope_file, rast_hard_deep_file)
+}
+
+```
+
+``` {r create_deep_suspension_raster, echo = FALSE}
+
+### NOTE: !!! This layer, check to make sure polygons have a count (or whatever) greater than zero... Perhaps add a default to the rasterize_layers function, so I can tell it a specific column to look for in these files for the cell value
+
+rast_deep_suspension_file <- file.path(dir_rast, 'rast_deep_suspension.tif')
+
+if(!file.exists(rast_deep_suspension_file)) {
+  ### Set up a list of file locations to be loaded as polygons.  First line
+  ### determines which layers to read in and load.
+  deep_suspension_hab_lyrs  <- hab_lyrs %>% 
+    filter(category == 'deep suspension reefs' & load_layer == TRUE)
+
+  deep_suspension_rast_list <- rasterize_layers(deep_suspension_hab_lyrs)
+
+  deep_suspension_rast_brick <- stack(deep_suspension_rast_list)
+  deep_suspension_rast_total <- sum(deep_suspension_rast_brick, na.rm = TRUE) 
+
+  ### convert zeroes to NA and all values to single value
+  values(deep_suspension_rast_total)[values(deep_suspension_rast_total) == 0] <- NA ### not needed?
+  values(deep_suspension_rast_total)[!is.na(values(deep_suspension_rast_total))] <- deep_suspension_hab_lyrs$layer_id[1]
+  
+  ### clip to offshore areas (anything deeper than 50 m)
+  message('Clipping against offshore raster')
+  rast_zone_offshore <- raster(rast_zone_offshore_file)
+  values(deep_suspension_rast_total)[is.na(values(rast_zone_offshore))] <- NA
+  
+  plot_raster(deep_suspension_rast_total)
+  writeRaster(deep_suspension_rast_total, rast_deep_suspension_file, overwrite = TRUE)
+} else {
+  message('Deep suspension reefs raster already exists at: ', rast_deep_suspension_file)
+}
+
+```
+
+
+``` {r create_hydro_vent_raster, echo = FALSE}
+### !!! this layer having problems - is it not buffering points properly?
+
+# rast_hydro_vent_file <- file.path(dir_rast, 'rast_hydro_vent.tif')
+# 
+# if(!file.exists(rast_hydro_vent_file)) {
+#   ### Set up a list of file locations to be loaded as polygons.  First line
+#   ### determines which layers to read in and load.
+#   hydro_vent_hab_lyrs  <- hab_lyrs %>% 
+#     filter(category == 'hydrothermal vents' & load_layer == TRUE)
+# 
+#   hydro_vent_rast_list <- rasterize_layers(hydro_vent_hab_lyrs)
+# 
+#   hydro_vent_rast_brick <- stack(hydro_vent_rast_list)
+#   hydro_vent_rast_total <- sum(hydro_vent_rast_brick, na.rm = TRUE) 
+# 
+#   ### convert zeroes to NA and all values to single value
+#   values(hydro_vent_rast_total)[values(hydro_vent_rast_total) == 0] <- NA
+#   values(hydro_vent_rast_total)[!is.na(values(hydro_vent_rast_total))] <- hydro_vent_hab_lyrs$layer_id[1]
+#   
+#   plot_raster(hydro_vent_rast_total)
+#   writeRaster(hydro_vent_rast_total, rast_hydro_vent_file, overwrite = TRUE)
+# } else {
+#   message('Hydrothermal vents raster already exists at: ', rast_hydro_vent_file)
+# }
 
 ```
 
