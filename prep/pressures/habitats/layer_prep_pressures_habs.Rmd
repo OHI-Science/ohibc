@@ -485,7 +485,8 @@ if(!file.exists(rast_bath_file)) {
   values(rast_bath)[x >=   -20 & x <    -5] <-   -20
   values(rast_bath)[x >=   -60 & x <   -20] <-   -60
   values(rast_bath)[x >=  -200 & x <   -60] <-  -200
-  values(rast_bath)[x >= -2000 & x <  -200] <- -2000
+  values(rast_bath)[x >= -1000 & x <  -200] <- -1000
+  values(rast_bath)[x >= -2000 & x < -1000] <- -2000
   values(rast_bath)[x >= -3000 & x < -2000] <- -3000
   values(rast_bath)[x <  -3000] <- -4000
 
@@ -497,6 +498,7 @@ if(!file.exists(rast_bath_file)) {
 plot_raster(etopo_bcalb, scale_limits = c(min(values(etopo_bcalb), na.rm = TRUE), 0))
 plot_raster(rast_bath, scale_limits = c(min(values(etopo_bcalb), na.rm = TRUE), 0))
 
+remove(etopo_bcalb, rast_bath)
 ```
 
 ``` {r child = 'hab_layer_prep.Rmd'}
