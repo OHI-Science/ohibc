@@ -50,7 +50,7 @@
         </layer-tree-group>
         <layer-tree-group expanded="1" checked="Qt::PartiallyChecked" name="BCMCA_ECO_Physical">
             <customproperties/>
-            <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="BCMCA_ECO_Physical_CoastalClasses_MARXAN_mod20151106113002021" name="BCMCA_ECO_Physical_CoastalClasses_MARXAN_mod">
+            <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="BCMCA_ECO_Physical_CoastalClasses_MARXAN_mod20151106113002021" name="BCMCA_ECO_Physical_CoastalClasses_MARXAN_mod">
                 <customproperties/>
             </layer-tree-layer>
             <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="BCMCA_ECO_Physical_Exposure_MARXAN_mod20151106133906815" name="BCMCA_ECO_Physical_Exposure_MARXAN_mod">
@@ -59,7 +59,7 @@
             <layer-tree-layer expanded="1" checked="Qt::Checked" id="BCMCA_ECO_Physical_BenthicClasses_DATA_mod20151106114735989" name="depth - BCMCA_ECO_Physical_BenthicClasses_DATA_mod">
                 <customproperties/>
             </layer-tree-layer>
-            <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="BCMCA_ECO_Physical_BenthicClasses_DATA_mod_copy20160126143147798" name="substrate - BCMCA_ECO_Physical_BenthicClasses_DATA_mod">
+            <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="BCMCA_ECO_Physical_BenthicClasses_DATA_mod_copy20160126143147798" name="substrate - BCMCA_ECO_Physical_BenthicClasses_DATA_mod">
                 <customproperties/>
             </layer-tree-layer>
             <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="BCMCA_ECO_Physical_BenthicClasses_DATA_mod_copy20160126112543856" name="topo - BCMCA_ECO_Physical_BenthicClasses_DATA_mod">
@@ -80,7 +80,7 @@
             <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="BCMCA_ECO_Physical_HydothermalVents_DATA20150806170203153" name="BCMCA_ECO_Physical_HydothermalVents_DATA">
                 <customproperties/>
             </layer-tree-layer>
-            <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="BCMCA_ECO_Physical_Seamounts_DATA20150806170203161" name="BCMCA_ECO_Physical_Seamounts_DATA">
+            <layer-tree-layer expanded="1" checked="Qt::Checked" id="BCMCA_ECO_Physical_Seamounts_DATA20150806170203161" name="BCMCA_ECO_Physical_Seamounts_DATA">
                 <customproperties/>
             </layer-tree-layer>
             <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="dfo_endeavour_vent_zones20150806170203186" name="dfo_endeavour_vent_zones">
@@ -221,7 +221,7 @@
                     <customproperties/>
                 </layer-tree-layer>
             </layer-tree-group>
-            <layer-tree-group expanded="0" checked="Qt::Unchecked" name="BCMCA_ECO_plants_habitat">
+            <layer-tree-group expanded="1" checked="Qt::Unchecked" name="BCMCA_ECO_plants_habitat">
                 <customproperties/>
                 <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="BCMCA_ECO_VascPlants_PriorityEelgrassHabitat_DATA20150806165725011" name="BCMCA_ECO_VascPlants_PriorityEelgrassHabitat_DATA">
                     <customproperties/>
@@ -299,10 +299,10 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>132689.73853526217862964</xmin>
-            <ymin>147137.24224251077976078</ymin>
-            <xmax>1264609.05774774984456599</xmax>
-            <ymax>1248919.6609779461286962</ymax>
+            <xmin>275584.70925330952741206</xmin>
+            <ymin>931972.05845042306464165</ymin>
+            <xmax>379185.45603042712900788</xmax>
+            <ymax>1045423.36803585686720908</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -847,8 +847,8 @@
             </legendlayer>
         </legendgroup>
         <legendgroup open="true" checked="Qt::PartiallyChecked" name="BCMCA_ECO_Physical">
-            <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="BCMCA_ECO_Physical_CoastalClasses_MARXAN_mod" showFeatureCount="0">
-                <filegroup open="true" hidden="false">
+            <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="BCMCA_ECO_Physical_CoastalClasses_MARXAN_mod" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
                     <legendlayerfile isInOverview="0" layerid="BCMCA_ECO_Physical_CoastalClasses_MARXAN_mod20151106113002021" visible="0"/>
                 </filegroup>
             </legendlayer>
@@ -862,8 +862,8 @@
                     <legendlayerfile isInOverview="0" layerid="BCMCA_ECO_Physical_BenthicClasses_DATA_mod20151106114735989" visible="1"/>
                 </filegroup>
             </legendlayer>
-            <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="substrate - BCMCA_ECO_Physical_BenthicClasses_DATA_mod" showFeatureCount="0">
-                <filegroup open="true" hidden="false">
+            <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="substrate - BCMCA_ECO_Physical_BenthicClasses_DATA_mod" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
                     <legendlayerfile isInOverview="0" layerid="BCMCA_ECO_Physical_BenthicClasses_DATA_mod_copy20160126143147798" visible="0"/>
                 </filegroup>
             </legendlayer>
@@ -897,9 +897,9 @@
                     <legendlayerfile isInOverview="0" layerid="BCMCA_ECO_Physical_HydothermalVents_DATA20150806170203153" visible="0"/>
                 </filegroup>
             </legendlayer>
-            <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="BCMCA_ECO_Physical_Seamounts_DATA" showFeatureCount="0">
+            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="BCMCA_ECO_Physical_Seamounts_DATA" showFeatureCount="0">
                 <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="BCMCA_ECO_Physical_Seamounts_DATA20150806170203161" visible="0"/>
+                    <legendlayerfile isInOverview="0" layerid="BCMCA_ECO_Physical_Seamounts_DATA20150806170203161" visible="1"/>
                 </filegroup>
             </legendlayer>
             <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="dfo_endeavour_vent_zones" showFeatureCount="0">
@@ -1114,7 +1114,7 @@
                     </filegroup>
                 </legendlayer>
             </legendgroup>
-            <legendgroup open="false" checked="Qt::Unchecked" name="BCMCA_ECO_plants_habitat">
+            <legendgroup open="true" checked="Qt::Unchecked" name="BCMCA_ECO_plants_habitat">
                 <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="BCMCA_ECO_VascPlants_PriorityEelgrassHabitat_DATA" showFeatureCount="0">
                     <filegroup open="true" hidden="false">
                         <legendlayerfile isInOverview="0" layerid="BCMCA_ECO_VascPlants_PriorityEelgrassHabitat_DATA20150806165725011" visible="0"/>
@@ -4759,7 +4759,7 @@
                 </spatialrefsys>
             </srs>
             <provider encoding="System">ogr</provider>
-            <previewExpression></previewExpression>
+            <previewExpression>COALESCE( "OBJECTID", '&lt;NULL>' )</previewExpression>
             <vectorjoins/>
             <expressionfields/>
             <edittypes>
@@ -4892,7 +4892,7 @@
                 </spatialrefsys>
             </srs>
             <provider encoding="System">ogr</provider>
-            <previewExpression></previewExpression>
+            <previewExpression>COALESCE( "OBJECTID", '&lt;NULL>' )</previewExpression>
             <vectorjoins/>
             <expressionfields/>
             <edittypes>
@@ -5025,7 +5025,7 @@
                 </spatialrefsys>
             </srs>
             <provider encoding="System">ogr</provider>
-            <previewExpression></previewExpression>
+            <previewExpression>COALESCE( "UNIT_ID", '&lt;NULL>' )</previewExpression>
             <vectorjoins/>
             <expressionfields/>
             <edittypes>
@@ -5134,7 +5134,7 @@
                 </spatialrefsys>
             </srs>
             <provider encoding="System">ogr</provider>
-            <previewExpression></previewExpression>
+            <previewExpression>COALESCE( "OBJECTID", '&lt;NULL>' )</previewExpression>
             <vectorjoins/>
             <expressionfields/>
             <edittypes>
@@ -5267,7 +5267,7 @@
                 </spatialrefsys>
             </srs>
             <provider encoding="System">ogr</provider>
-            <previewExpression></previewExpression>
+            <previewExpression>COALESCE( "OBJECTID", '&lt;NULL>' )</previewExpression>
             <vectorjoins/>
             <expressionfields/>
             <edittypes>
@@ -14077,7 +14077,7 @@
                 </spatialrefsys>
             </srs>
             <provider encoding="System">ogr</provider>
-            <previewExpression></previewExpression>
+            <previewExpression>COALESCE( "SHAPE_AREA", '&lt;NULL>' )</previewExpression>
             <vectorjoins/>
             <expressionfields/>
             <edittypes>
