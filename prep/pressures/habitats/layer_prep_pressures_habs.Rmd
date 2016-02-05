@@ -427,6 +427,9 @@ if(!file.exists(rast_coastal_class_file)) {
 
 ``` {r read_and_process_bathymetry, echo = FALSE}
 
+### Set up ETOPO raster for seafloor depths.  Note that the native resolution
+### is 2 arc-minutes, which will be a couple of kilometers more or less.
+
 # To install rhdf5 package: 
 #   source("https://bioconductor.org/biocLite.R")
 #     # try "http://" if you get "https:// URLs are not supported"
@@ -445,7 +448,6 @@ if(!file.exists(etopo_bc_file)) {
   etopo_tif <- file.path(dir_anx, 'data/ETOPO2v2_bathymetry/ETOPO2v2c.tif')
 
   etopo_sds <- sprintf('HDF5:"%s"://dataset0', etopo_hdf)
-
   gdal_translate(etopo_sds, dst_dataset = etopo_tif)
   
   etopo_rast <- raster(etopo_tif)
@@ -455,20 +457,24 @@ if(!file.exists(etopo_bc_file)) {
   # eliminates the ETOPO2 North Pole redundancies but has the same number of cells: 
   # 5,400 rows of data (180 x 30), each with 10,800 columns of data(360x30).
   etopo_rast <- setExtent(etopo_rast, extent(-180, 180, -90, 90))
-  crs(etopo_rast1 <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
+  crs(etopo_rast) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
   
   bbox_bc <- extent(-150, -120, 45, 75)
-  
   etopo_bc <- crop(etopo_rast, bbox_bc)
-  
   rast_base <- raster(file.path(dir_rgn,  'ohibc_base_raster_500m.tif'))
-  
   etopo_bcalb <- projectRaster(etopo_bc, rast_base)
   
-  plot_raster(etopo_bcalb, scale_limits = c(min(values(etopo_bc_alb), na.rm = TRUE), 0))
+  values(etopo_bcalb)[values(etopo_bcalb) > 0] <- NA
   
-  writeRaster(etopo_bcalb, etopo_bc_file)
+  writeRaster(etopo_bcalb, etopo_bc_file, overwrite = TRUE)
+  
+} else {
+  
+  etopo_bcalb <- raster(etopo_bc_file)
+  
 }
+
+plot_raster(etopo_bcalb, scale_limits = c(min(values(etopo_bcalb), na.rm = TRUE), 0))
 
 ```
 
