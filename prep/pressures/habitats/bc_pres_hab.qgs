@@ -15,7 +15,16 @@
                 </layer-tree-layer>
             </layer-tree-group>
         </layer-tree-group>
-        <layer-tree-group expanded="0" checked="Qt::Unchecked" name="BCMCA_ECO_Inverts">
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_bath20160208142053695" name="rast_bath">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_bath_raw20160208142053497" name="rast_bath_raw">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Checked" id="hab_total20160208141748320" name="hab_total">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-group expanded="1" checked="Qt::Unchecked" name="BCMCA_ECO_Inverts">
             <customproperties/>
             <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="BCMCA_ECO_Inverts_Coral_DFOobservers_MARXAN20150806173402547" name="BCMCA_ECO_Inverts_Coral_DFOobservers_MARXAN">
                 <customproperties/>
@@ -48,7 +57,7 @@
                 <customproperties/>
             </layer-tree-layer>
         </layer-tree-group>
-        <layer-tree-group expanded="1" checked="Qt::PartiallyChecked" name="BCMCA_ECO_Physical">
+        <layer-tree-group expanded="1" checked="Qt::Unchecked" name="BCMCA_ECO_Physical">
             <customproperties/>
             <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="BCMCA_ECO_Physical_CoastalClasses_MARXAN_mod20151106113002021" name="BCMCA_ECO_Physical_CoastalClasses_MARXAN_mod">
                 <customproperties/>
@@ -56,7 +65,7 @@
             <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="BCMCA_ECO_Physical_Exposure_MARXAN_mod20151106133906815" name="BCMCA_ECO_Physical_Exposure_MARXAN_mod">
                 <customproperties/>
             </layer-tree-layer>
-            <layer-tree-layer expanded="1" checked="Qt::Checked" id="BCMCA_ECO_Physical_BenthicClasses_DATA_mod20151106114735989" name="depth - BCMCA_ECO_Physical_BenthicClasses_DATA_mod">
+            <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="BCMCA_ECO_Physical_BenthicClasses_DATA_mod20151106114735989" name="depth - BCMCA_ECO_Physical_BenthicClasses_DATA_mod">
                 <customproperties/>
             </layer-tree-layer>
             <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="BCMCA_ECO_Physical_BenthicClasses_DATA_mod_copy20160126143147798" name="substrate - BCMCA_ECO_Physical_BenthicClasses_DATA_mod">
@@ -80,7 +89,7 @@
             <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="BCMCA_ECO_Physical_HydothermalVents_DATA20150806170203153" name="BCMCA_ECO_Physical_HydothermalVents_DATA">
                 <customproperties/>
             </layer-tree-layer>
-            <layer-tree-layer expanded="1" checked="Qt::Checked" id="BCMCA_ECO_Physical_Seamounts_DATA20150806170203161" name="BCMCA_ECO_Physical_Seamounts_DATA">
+            <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="BCMCA_ECO_Physical_Seamounts_DATA20150806170203161" name="BCMCA_ECO_Physical_Seamounts_DATA">
                 <customproperties/>
             </layer-tree-layer>
             <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="dfo_endeavour_vent_zones20150806170203186" name="dfo_endeavour_vent_zones">
@@ -299,10 +308,10 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>275584.70925330952741206</xmin>
-            <ymin>931972.05845042306464165</ymin>
-            <xmax>379185.45603042712900788</xmax>
-            <ymax>1045423.36803585686720908</ymax>
+            <xmin>116200</xmin>
+            <ymin>133925</ymin>
+            <xmax>1913800</xmax>
+            <ymax>1775075</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -469,6 +478,7 @@
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="BCMCA_hu_CommercialFish_SidestripeShrimp_data20150807121541242"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ts_xx_wv_gs320150514135603252"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_sho320150514153947990"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="hab_total20160208141748320"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="no_sho220150514153551447"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="BCMCA_ECO_Mammals_HarbourSealHaulouts_MARXAN20150806172539682"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ts_xx_wv_gs20150514134254031"/>
@@ -549,6 +559,7 @@
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="mapp_all_minus_regions20150417205250799"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="blerg20150417235950836"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="bcmca_hu_oceanenergy_offshorepetroleumtenures_exploratorywells_data20150806154424927"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_bath_raw20160208142053497"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="BCMCA_ECO_VascPlants_Surfgrass_Bioband_MARXAN20160126145308774"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="MaPP_boundary120150326111402706"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:54009" srcDatumTransform="-1" destDatumTransform="-1" layerid="ne_bath_200_clip20150326142422866"/>
@@ -681,6 +692,7 @@
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="BCMCA_hu_CommercialFish_Sablefish_Longline_data20150806155036864"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="BCMCA_hu_CommercialFish_ShrimpTrawl_data20150806155037509"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="BCMCA_hu_CommercialFish_GreenSeaUrchin_data20150807121527531"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_bath20160208142053695"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="BCMCA_hu_CommercialFish_RedSeaUrchin_data20150806155036428"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="BCMCA_hu_CommercialFish_HerringRoe_Gillnet_Data20150806155035607"/>
             <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="tall_seas120150514141606651"/>
@@ -777,6 +789,9 @@
             <item>ne_bath_2000_clip20160126162707869</item>
             <item>ne_bath_3000_clip20160126162707896</item>
             <item>ne_bath_4000_reproj20160126162707993</item>
+            <item>hab_total20160208141748320</item>
+            <item>rast_bath_raw20160208142053497</item>
+            <item>rast_bath20160208142053695</item>
         </custom-order>
     </layer-tree-canvas>
     <legend updateDrawingOrder="true">
@@ -794,7 +809,22 @@
                 </legendlayer>
             </legendgroup>
         </legendgroup>
-        <legendgroup open="false" checked="Qt::Unchecked" name="BCMCA_ECO_Inverts">
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_bath" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_bath20160208142053695" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_bath_raw" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_bath_raw20160208142053497" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="hab_total" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="hab_total20160208141748320" visible="1"/>
+            </filegroup>
+        </legendlayer>
+        <legendgroup open="true" checked="Qt::Unchecked" name="BCMCA_ECO_Inverts">
             <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="BCMCA_ECO_Inverts_Coral_DFOobservers_MARXAN" showFeatureCount="0">
                 <filegroup open="true" hidden="false">
                     <legendlayerfile isInOverview="0" layerid="BCMCA_ECO_Inverts_Coral_DFOobservers_MARXAN20150806173402547" visible="0"/>
@@ -846,7 +876,7 @@
                 </filegroup>
             </legendlayer>
         </legendgroup>
-        <legendgroup open="true" checked="Qt::PartiallyChecked" name="BCMCA_ECO_Physical">
+        <legendgroup open="true" checked="Qt::Unchecked" name="BCMCA_ECO_Physical">
             <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="BCMCA_ECO_Physical_CoastalClasses_MARXAN_mod" showFeatureCount="0">
                 <filegroup open="false" hidden="false">
                     <legendlayerfile isInOverview="0" layerid="BCMCA_ECO_Physical_CoastalClasses_MARXAN_mod20151106113002021" visible="0"/>
@@ -857,9 +887,9 @@
                     <legendlayerfile isInOverview="0" layerid="BCMCA_ECO_Physical_Exposure_MARXAN_mod20151106133906815" visible="0"/>
                 </filegroup>
             </legendlayer>
-            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="depth - BCMCA_ECO_Physical_BenthicClasses_DATA_mod" showFeatureCount="0">
+            <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="depth - BCMCA_ECO_Physical_BenthicClasses_DATA_mod" showFeatureCount="0">
                 <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="BCMCA_ECO_Physical_BenthicClasses_DATA_mod20151106114735989" visible="1"/>
+                    <legendlayerfile isInOverview="0" layerid="BCMCA_ECO_Physical_BenthicClasses_DATA_mod20151106114735989" visible="0"/>
                 </filegroup>
             </legendlayer>
             <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="substrate - BCMCA_ECO_Physical_BenthicClasses_DATA_mod" showFeatureCount="0">
@@ -897,9 +927,9 @@
                     <legendlayerfile isInOverview="0" layerid="BCMCA_ECO_Physical_HydothermalVents_DATA20150806170203153" visible="0"/>
                 </filegroup>
             </legendlayer>
-            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="BCMCA_ECO_Physical_Seamounts_DATA" showFeatureCount="0">
+            <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="BCMCA_ECO_Physical_Seamounts_DATA" showFeatureCount="0">
                 <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="BCMCA_ECO_Physical_Seamounts_DATA20150806170203161" visible="1"/>
+                    <legendlayerfile isInOverview="0" layerid="BCMCA_ECO_Physical_Seamounts_DATA20150806170203161" visible="0"/>
                 </filegroup>
             </legendlayer>
             <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="dfo_endeavour_vent_zones" showFeatureCount="0">
@@ -1402,7 +1432,7 @@
             </ComposerMap>
         </Composition>
     </Composer>
-    <projectlayers layercount="84">
+    <projectlayers layercount="87">
         <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
             <id>BCMCA_ECO_Algae_BoulderCobbleFloor_MARXAN20150806165932813</id>
             <datasource>/Volumes/data_edit/git-annex/bcprep/data/bcmca/bcmca_eco_set_plants_complete/MarxanData_Plants/Algae/BCMCA_ECO_Algae_BoulderCobbleFloor_MARXAN.shp</datasource>
@@ -6584,9 +6614,9 @@
             <srs>
                 <spatialrefsys>
                     <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +units=m +no_defs</proj4>
-                    <srsid>100001</srsid>
+                    <srsid>100003</srsid>
                     <srid>0</srid>
-                    <authid>USER:100001</authid>
+                    <authid>USER:100003</authid>
                     <description> * Generated CRS (+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +units=m +no_defs)</description>
                     <projectionacronym>aea</projectionacronym>
                     <ellipsoidacronym>GRS80</ellipsoidacronym>
@@ -6675,9 +6705,9 @@
             <srs>
                 <spatialrefsys>
                     <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +units=m +no_defs</proj4>
-                    <srsid>100001</srsid>
+                    <srsid>100003</srsid>
                     <srid>0</srid>
-                    <authid>USER:100001</authid>
+                    <authid>USER:100003</authid>
                     <description> * Generated CRS (+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +units=m +no_defs)</description>
                     <projectionacronym>aea</projectionacronym>
                     <ellipsoidacronym>GRS80</ellipsoidacronym>
@@ -6826,9 +6856,9 @@
             <srs>
                 <spatialrefsys>
                     <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +units=m +no_defs</proj4>
-                    <srsid>100001</srsid>
+                    <srsid>100003</srsid>
                     <srid>0</srid>
-                    <authid>USER:100001</authid>
+                    <authid>USER:100003</authid>
                     <description> * Generated CRS (+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +units=m +no_defs)</description>
                     <projectionacronym>aea</projectionacronym>
                     <ellipsoidacronym>GRS80</ellipsoidacronym>
@@ -6917,9 +6947,9 @@
             <srs>
                 <spatialrefsys>
                     <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +units=m +no_defs</proj4>
-                    <srsid>100001</srsid>
+                    <srsid>100003</srsid>
                     <srid>0</srid>
-                    <authid>USER:100001</authid>
+                    <authid>USER:100003</authid>
                     <description> * Generated CRS (+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +units=m +no_defs)</description>
                     <projectionacronym>aea</projectionacronym>
                     <ellipsoidacronym>GRS80</ellipsoidacronym>
@@ -14527,6 +14557,72 @@
                 </edittype>
             </edittypes>
         </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>hab_total20160208141748320</id>
+            <datasource>./raster/hab_total.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>hab_total</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="-1" classificationMax="24" classificationMinMaxOrigin="User" band="1" classificationMin="1" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="1" label="1.000000" color="#a31e1c"/>
+                            <item alpha="255" value="2" label="2.000000" color="#652794"/>
+                            <item alpha="255" value="3" label="3.000000" color="#9b0a49"/>
+                            <item alpha="255" value="4" label="4.000000" color="#575695"/>
+                            <item alpha="255" value="5" label="5.000000" color="#f1264f"/>
+                            <item alpha="255" value="6" label="6.000000" color="#b540dc"/>
+                            <item alpha="255" value="7" label="7.000000" color="#1bfdf2"/>
+                            <item alpha="255" value="8" label="8.000000" color="#64b146"/>
+                            <item alpha="255" value="9" label="9.000000" color="#89f1dd"/>
+                            <item alpha="255" value="10" label="10.000000" color="#6dc6f9"/>
+                            <item alpha="255" value="11" label="11.000000" color="#5ea592"/>
+                            <item alpha="255" value="12" label="12.000000" color="#8d5d48"/>
+                            <item alpha="255" value="13" label="13.000000" color="#65d70d"/>
+                            <item alpha="255" value="14" label="14.000000" color="#a2933f"/>
+                            <item alpha="255" value="15" label="15.000000" color="#98316a"/>
+                            <item alpha="255" value="16" label="16.000000" color="#259eab"/>
+                            <item alpha="255" value="17" label="17.000000" color="#8461ca"/>
+                            <item alpha="255" value="18" label="18.000000" color="#82dbac"/>
+                            <item alpha="255" value="19" label="19.000000" color="#11ac1b"/>
+                            <item alpha="255" value="20" label="20.000000" color="#6f3ffd"/>
+                            <item alpha="255" value="21" label="21.000000" color="#af65d4"/>
+                            <item alpha="255" value="22" label="22.000000" color="#139a66"/>
+                            <item alpha="255" value="23" label="23.000000" color="#9622cc"/>
+                            <item alpha="255" value="24" label="24.000000" color="#fb51fd"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
             <id>ne_bath_1000_clip20160126162707775</id>
             <datasource>/Volumes/data_edit/git-annex/bcprep/regions/rgn_development/_raw_data/bathymetry/ne_bath_1000_clip.shp</datasource>
@@ -15479,6 +15575,108 @@
                 </edittype>
             </edittypes>
         </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_bath20160208142053695</id>
+            <datasource>./raster/rast_bath.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_bath</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="-1" classificationMax="0" classificationMinMaxOrigin="User" band="1" classificationMin="-4000" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="-4000" label="-4000.000000" color="#08306b"/>
+                            <item alpha="255" value="-3480" label="-3480.000000" color="#0d57a1"/>
+                            <item alpha="255" value="-2960" label="-2960.000000" color="#2878b8"/>
+                            <item alpha="255" value="-2440" label="-2440.000000" color="#4997c9"/>
+                            <item alpha="255" value="-1920" label="-1920.000000" color="#72b2d7"/>
+                            <item alpha="255" value="-1400" label="-1400.000000" color="#a2cbe2"/>
+                            <item alpha="255" value="-880" label="-880.000000" color="#c7dcef"/>
+                            <item alpha="255" value="-400" label="-400.000000" color="#deebf7"/>
+                            <item alpha="255" value="0" label="0.000000" color="#f7fbff"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_bath_raw20160208142053497</id>
+            <datasource>./raster/rast_bath_raw.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_bath_raw</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="-1" classificationMax="0" classificationMinMaxOrigin="User" band="1" classificationMin="-4000" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="-4000" label="-4000.000000" color="#08306b"/>
+                            <item alpha="255" value="-3480" label="-3480.000000" color="#0d57a1"/>
+                            <item alpha="255" value="-2960" label="-2960.000000" color="#2878b8"/>
+                            <item alpha="255" value="-2440" label="-2440.000000" color="#4997c9"/>
+                            <item alpha="255" value="-1920" label="-1920.000000" color="#72b2d7"/>
+                            <item alpha="255" value="-1400" label="-1400.000000" color="#a2cbe2"/>
+                            <item alpha="255" value="-880" label="-880.000000" color="#c7dcef"/>
+                            <item alpha="255" value="-400" label="-400.000000" color="#deebf7"/>
+                            <item alpha="255" value="0" label="0.000000" color="#f7fbff"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
     </projectlayers>
     <properties>
         <WMSContactPerson type="QString"></WMSContactPerson>
@@ -15527,12 +15725,21 @@
             <LayerSnappingList type="QStringList">
                 <value>BCMCA_ECO_Algae_BoulderCobbleFloor_MARXAN20150806165932813</value>
                 <value>BCMCA_ECO_Algae_Cystoseira_MARXAN20150806165932874</value>
+                <value>BCMCA_ECO_Algae_Cystoseira_MARXAN20160126145453902</value>
                 <value>BCMCA_ECO_Algae_Eisenia_arborea_Data20150806165615556</value>
+                <value>BCMCA_ECO_Algae_Eisenia_arborea_MARXAN20160126145453962</value>
                 <value>BCMCA_ECO_Algae_Lithothrix_aspergillum_Data20150806165615581</value>
+                <value>BCMCA_ECO_Algae_Lithothrix_spp_MARXAN20160126145454058</value>
                 <value>BCMCA_ECO_Algae_MudflatsEstuarine_MARXAN20150806165932963</value>
                 <value>BCMCA_ECO_Algae_Postelsia_palmaeformis_Data20150806165615605</value>
+                <value>BCMCA_ECO_Algae_Postelsia_spp_MARXAN20160126145454197</value>
                 <value>BCMCA_ECO_Algae_Pterygophora_californica_Data20150806165615628</value>
+                <value>BCMCA_ECO_Algae_Pterygophora_spp_MARXAN20160126145454280</value>
                 <value>BCMCA_ECO_Algae_Rhodolith_spp_Data20150806165615652</value>
+                <value>BCMCA_ECO_Algae_Rhodolith_spp_MARXAN20160126145454372</value>
+                <value>BCMCA_ECO_Algae_RockyIntertidalExposed_MARXAN20160126145454431</value>
+                <value>BCMCA_ECO_Algae_RockyIntertidalSemiExposed_MARXAN20160126145454514</value>
+                <value>BCMCA_ECO_Algae_RockyIntertidalSheltered_MARXAN20160126145454601</value>
                 <value>BCMCA_ECO_Birds_MarineBirdSurveyEffort_DATA20150806164758363</value>
                 <value>BCMCA_ECO_Birds_SemiPalmatedPloverNests_ptData20150806164758410</value>
                 <value>BCMCA_ECO_FishInverts_GrdfshTrawlSurveyAreas_Data20150806150703815</value>
@@ -15544,7 +15751,12 @@
                 <value>BCMCA_ECO_Inverts_SpongeReefs_MARXAN20150806173402798</value>
                 <value>BCMCA_ECO_Inverts_Sponge_DFOobervers_MARXAN20150806173402730</value>
                 <value>BCMCA_ECO_Inverts_Sponge_DFOsurveys_MARXAN20150806173402761</value>
+                <value>BCMCA_ECO_Kelp_BullKelp_Bioband_MARXAN20160126145454676</value>
+                <value>BCMCA_ECO_Kelp_BullKelp_Polygons_MARXAN20160126145454764</value>
+                <value>BCMCA_ECO_Kelp_GiantKelp_Bioband_MARXAN20160126145454838</value>
                 <value>BCMCA_ECO_Kelp_GiantKelp_Polygons_DATA20150806165659758</value>
+                <value>BCMCA_ECO_Kelp_GiantKelp_Polygons_MARXAN20160126145454925</value>
+                <value>BCMCA_ECO_Kelp_GiantPerrenialKelp_MARXAN20160126145455001</value>
                 <value>BCMCA_ECO_Mammals_CaliforniaSeaLionHaulouts_PlyData20150806172255004</value>
                 <value>BCMCA_ECO_Mammals_CaliforniaSeaLionHaulouts_PtDATA20150806172255140</value>
                 <value>BCMCA_ECO_Mammals_Chlorophyll_DATA20150806172255178</value>
@@ -15554,6 +15766,8 @@
                 <value>BCMCA_ECO_Mammals_StellerSeaLionRookeries_PlyData20150806172255509</value>
                 <value>BCMCA_ECO_Mammals_StellerSeaLionRookeries_PtDATA20150806172255515</value>
                 <value>BCMCA_ECO_Physical_BenthicClasses_DATA_mod20151106114735989</value>
+                <value>BCMCA_ECO_Physical_BenthicClasses_DATA_mod_copy20160126112543856</value>
+                <value>BCMCA_ECO_Physical_BenthicClasses_DATA_mod_copy20160126143147798</value>
                 <value>BCMCA_ECO_Physical_CoastalClasses_MARXAN_mod20151106113002021</value>
                 <value>BCMCA_ECO_Physical_Ecosections_Data20150806170203048</value>
                 <value>BCMCA_ECO_Physical_Ecosections_MARXAN20151105143652808</value>
@@ -15563,8 +15777,11 @@
                 <value>BCMCA_ECO_Physical_Seamounts_DATA20150806170203161</value>
                 <value>BCMCA_ECO_Physical_highTidalCurrent_Data20150806170203129</value>
                 <value>BCMCA_ECO_VascPlants_DuneVegetation_DATA20150806165724928</value>
+                <value>BCMCA_ECO_VascPlants_Eelgrass_Bioband_MARXAN20160126145308469</value>
                 <value>BCMCA_ECO_VascPlants_Eelgrass_Polygons_DATA20150806165724952</value>
                 <value>BCMCA_ECO_VascPlants_PriorityEelgrassHabitat_DATA20150806165725011</value>
+                <value>BCMCA_ECO_VascPlants_SaltMarsh_Bioband_MARXAN20160126145308667</value>
+                <value>BCMCA_ECO_VascPlants_Surfgrass_Bioband_MARXAN20160126145308774</value>
                 <value>BCMCA_ECO_fishInverts_trawlObserver_MARXAN20150806150703951</value>
                 <value>BCMCA_ECO_fishInverts_trawlSurvey2003_MARXAN20150806150704001</value>
                 <value>BCMCA_ECO_fishInverts_trawlSurvey2004_MARXAN20150806150704025</value>
@@ -15581,34 +15798,15 @@
                 <value>DR20150323172928765</value>
                 <value>PacificCoastUpperOceanSubRegionsApril201320150806170203279</value>
                 <value>Sponge_Reefs_Hecate_Update_200820150806173323559</value>
+                <value>bcmca_eco_algae_stephanocystis_geminata_data20160126145018105</value>
                 <value>dfo_endeavour_vent_zones20150806170203186</value>
                 <value>foreman_rms_tidal_albA20150806170203209</value>
-                <value>ohi_bc_rgns120150514164411280</value>
-                <value>BCMCA_ECO_Physical_BenthicClasses_DATA_mod_copy20160126112543856</value>
-                <value>BCMCA_ECO_Physical_BenthicClasses_DATA_mod_copy20160126143147798</value>
-                <value>bcmca_eco_algae_stephanocystis_geminata_data20160126145018105</value>
-                <value>BCMCA_ECO_VascPlants_Eelgrass_Bioband_MARXAN20160126145308469</value>
-                <value>BCMCA_ECO_VascPlants_SaltMarsh_Bioband_MARXAN20160126145308667</value>
-                <value>BCMCA_ECO_VascPlants_Surfgrass_Bioband_MARXAN20160126145308774</value>
-                <value>BCMCA_ECO_Algae_Cystoseira_MARXAN20160126145453902</value>
-                <value>BCMCA_ECO_Algae_Eisenia_arborea_MARXAN20160126145453962</value>
-                <value>BCMCA_ECO_Algae_Lithothrix_spp_MARXAN20160126145454058</value>
-                <value>BCMCA_ECO_Algae_Postelsia_spp_MARXAN20160126145454197</value>
-                <value>BCMCA_ECO_Algae_Pterygophora_spp_MARXAN20160126145454280</value>
-                <value>BCMCA_ECO_Algae_Rhodolith_spp_MARXAN20160126145454372</value>
-                <value>BCMCA_ECO_Algae_RockyIntertidalExposed_MARXAN20160126145454431</value>
-                <value>BCMCA_ECO_Algae_RockyIntertidalSemiExposed_MARXAN20160126145454514</value>
-                <value>BCMCA_ECO_Algae_RockyIntertidalSheltered_MARXAN20160126145454601</value>
-                <value>BCMCA_ECO_Kelp_BullKelp_Bioband_MARXAN20160126145454676</value>
-                <value>BCMCA_ECO_Kelp_BullKelp_Polygons_MARXAN20160126145454764</value>
-                <value>BCMCA_ECO_Kelp_GiantKelp_Bioband_MARXAN20160126145454838</value>
-                <value>BCMCA_ECO_Kelp_GiantKelp_Polygons_MARXAN20160126145454925</value>
-                <value>BCMCA_ECO_Kelp_GiantPerrenialKelp_MARXAN20160126145455001</value>
-                <value>ne_bath_200_clip20160126162338877</value>
                 <value>ne_bath_1000_clip20160126162707775</value>
                 <value>ne_bath_2000_clip20160126162707869</value>
+                <value>ne_bath_200_clip20160126162338877</value>
                 <value>ne_bath_3000_clip20160126162707896</value>
                 <value>ne_bath_4000_reproj20160126162707993</value>
+                <value>ohi_bc_rgns120150514164411280</value>
             </LayerSnappingList>
             <LayerSnappingEnabledList type="QStringList">
                 <value>enabled</value>
@@ -15752,26 +15950,26 @@
                 <value>1</value>
                 <value>1</value>
                 <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
                 <value>0</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
-                <value>1</value>
                 <value>1</value>
                 <value>1</value>
                 <value>1</value>
@@ -15838,26 +16036,26 @@
                 <value>to_vertex_and_segment</value>
                 <value>to_vertex_and_segment</value>
                 <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
                 <value>to_vertex</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
-                <value>to_vertex_and_segment</value>
                 <value>to_vertex_and_segment</value>
                 <value>to_vertex_and_segment</value>
                 <value>to_vertex_and_segment</value>
@@ -15924,26 +16122,26 @@
                 <value>5.000000</value>
                 <value>5.000000</value>
                 <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
+                <value>5.000000</value>
                 <value>0.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
-                <value>5.000000</value>
                 <value>5.000000</value>
                 <value>5.000000</value>
                 <value>5.000000</value>
