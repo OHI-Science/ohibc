@@ -5,9 +5,9 @@ rasterize_layers <- function(tmp_hab_lyrs) {
   dir.create(dir_tmp, showWarnings = FALSE)
 
   for (i in 1:nrow(tmp_hab_lyrs)) { # i = 2
-    message('Reading layer: ', tmp_hab_lyrs$layer_name[i])
+    message('Reading layer: ', tmp_hab_lyrs$layer_fname[i])
     tmp_shp <- readOGR(dsn   = file.path(dir_anx, 'data', tmp_hab_lyrs$dir[i]),
-                       layer = tmp_hab_lyrs$layer_name[i],
+                       layer = tmp_hab_lyrs$layer_fname[i],
                        stringsAsFactors = FALSE)
     if(tmp_shp@proj4string@projargs != p4s_bcalb) {
       message('Proj4string: ', tmp_shp@proj4string)
@@ -17,7 +17,7 @@ rasterize_layers <- function(tmp_hab_lyrs) {
     ### create a buffer around points and lines
     if(!is.na(tmp_hab_lyrs$buffer_m[i])) {
       message(sprintf('Buffering a %s layer, %s m buffer: %s',
-                      tmp_hab_lyrs$layer_type[i], tmp_hab_lyrs$buffer_m[i], tmp_hab_lyrs$layer_name[i]))
+                      tmp_hab_lyrs$layer_type[i], tmp_hab_lyrs$buffer_m[i], tmp_hab_lyrs$layer_fname[i]))
       system.time({
         tmp_poly <- rgeos::gBuffer(tmp_shp,
                                    byid     = TRUE,
@@ -66,7 +66,7 @@ rasterize_layers <- function(tmp_hab_lyrs) {
     tmp_rast_list[[i]]@crs <- CRS(p4s_bcalb)
   }
 
-  names(tmp_rast_list) <- tmp_hab_lyrs$layer_name
+  names(tmp_rast_list) <- tmp_hab_lyrs$layer_fname
 
 
   return(tmp_rast_list) ### A list object of temporary rasters
@@ -126,3 +126,14 @@ plot_raster <- function(rast,
 
   print(rast_plot)
 }
+
+
+#
+# if (rgeosStatus()) {
+#   nc1 <- readShapePoly(system.file("shapes/sids.shp", package="maptools")[1],
+#                        proj4string=CRS("+proj=longlat +datum=NAD27"))
+#   lps <- coordinates(nc1)
+#   ID <- cut(lps[,1], quantile(lps[,1]), include.lowest=TRUE)
+#   reg4 <- unionSpatialPolygons(nc1, ID)
+#   row.names(reg4)
+# }

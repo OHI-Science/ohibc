@@ -1,7 +1,7 @@
 # Generate habitat rasters
 
 ``` {r create_rocky_intertidal_raster, echo = FALSE}
-rast_rocky_intertidal_file <- file.path(dir_rast, 'rast_rocky_intertidal.tif')
+rast_rocky_intertidal_file <- file.path(dir_rast, 'hab_lyr_rocky_intertidal.tif')
 
 if(!file.exists(rast_rocky_intertidal_file)) {
   ### Set up a list of file locations to be loaded as polygons.  First line
@@ -38,7 +38,7 @@ if(!file.exists(rast_rocky_intertidal_file)) {
 ```
 
 ``` {r create_beach_raster, echo = FALSE}
-rast_beach_file <- file.path(dir_rast, 'rast_beach.tif')
+rast_beach_file <- file.path(dir_rast, 'hab_lyr_beach.tif')
 
 if(!file.exists(rast_beach_file)) {
   ### Set up a list of file locations to be loaded as polygons.  First line
@@ -76,7 +76,7 @@ if(!file.exists(rast_beach_file)) {
 ```
 
 ``` {r create_mudflat_raster, echo = FALSE}
-rast_mudflat_file <- file.path(dir_rast, 'rast_mudflat.tif')
+rast_mudflat_file <- file.path(dir_rast, 'hab_lyr_mud_flats.tif')
 
 if(!file.exists(rast_mudflat_file)) {
   ### Set up a list of file locations to be loaded as polygons.  First line
@@ -114,7 +114,7 @@ if(!file.exists(rast_mudflat_file)) {
 ```
 
 ``` {r create_saltmarsh_raster, echo = FALSE}
-rast_saltmarsh_file <- file.path(dir_rast, 'rast_saltmarsh.tif')
+rast_saltmarsh_file <- file.path(dir_rast, 'hab_lyr_salt_marsh.tif')
 
 if(!file.exists(rast_saltmarsh_file)) {
   ### Set up a list of file locations to be loaded as polygons.  First line
@@ -145,7 +145,7 @@ if(!file.exists(rast_saltmarsh_file)) {
 ```
 
 ``` {r create_surfgrass_raster, echo = FALSE}
-rast_surfgrass_file <- file.path(dir_rast, 'rast_surfgrass.tif')
+rast_surfgrass_file <- file.path(dir_rast, 'hab_lyr_surf_grass.tif')
 
 if(!file.exists(rast_surfgrass_file)) {
   ### Set up a list of file locations to be loaded as polygons.  First line
@@ -178,7 +178,7 @@ if(!file.exists(rast_surfgrass_file)) {
 ``` {r create_duneveg_raster, echo = FALSE}
 ### !!! ALL NAs: All dune veg is on land; until we buffer it 1 km inland, leave this layer out
 #   
-# rast_duneveg_file <- file.path(dir_rast, 'rast_duneveg.tif')
+# rast_duneveg_file <- file.path(dir_rast, 'hab_lyr_dune_vegegation.tif')
 
 # if(!file.exists(rast_duneveg_file)) {
 #   ### Set up a list of file locations to be loaded as polygons.  First line
@@ -210,7 +210,7 @@ if(!file.exists(rast_surfgrass_file)) {
 ```
 
 ``` {r create_kelp_raster, echo = FALSE}
-rast_kelp_file <- file.path(dir_rast, 'rast_kelp.tif')
+rast_kelp_file <- file.path(dir_rast, 'hab_lyr_kelp_forest.tif')
 
 if(!file.exists(rast_kelp_file)) {
   ### Set up a list of file locations to be loaded as polygons.  First line
@@ -239,7 +239,7 @@ if(!file.exists(rast_kelp_file)) {
 ```
 
 ``` {r create_rocky_reef_raster, echo = FALSE}
-rast_rocky_reef_file <- file.path(dir_rast, 'rast_rocky_reef.tif')
+rast_rocky_reef_file <- file.path(dir_rast, 'hab_lyr_rocky_reef.tif')
 
 if(!file.exists(rast_rocky_reef_file)) {
   ### Set up a list of file locations to be loaded as polygons.  First line
@@ -281,7 +281,7 @@ if(!file.exists(rast_rocky_reef_file)) {
 ``` {r create_seagrass_raster, echo = FALSE}
 ### !!! This layer is having issues as well!  fix it.
 
-rast_seagrass_file <- file.path(dir_rast, 'rast_seagrass.tif')
+rast_seagrass_file <- file.path(dir_rast, 'hab_lyr_seagrass.tif')
 
 if(!file.exists(rast_seagrass_file)) {
   ### Set up a list of file locations to be loaded as polygons.  First line
@@ -311,7 +311,7 @@ if(!file.exists(rast_seagrass_file)) {
 ```
 
 ``` {r create_shallow_suspension_raster, echo = FALSE}
-rast_shallow_suspension_file <- file.path(dir_rast, 'rast_shallow_suspension.tif')
+rast_shallow_suspension_file <- file.path(dir_rast, 'hab_lyr_shallow_suspension_reefs.tif')
 
 if(!file.exists(rast_shallow_suspension_file)) {
   ### Set up a list of file locations to be loaded as polygons.  First line
@@ -342,10 +342,10 @@ if(!file.exists(rast_shallow_suspension_file)) {
 ```
 
 ``` {r create_soft_bottom_rasters, echo = FALSE}
-rast_soft_shallow_file <- file.path(dir_rast, 'rast_soft_shallow.tif')
-rast_soft_shelf_file <- file.path(dir_rast, 'rast_soft_shelf.tif')
-rast_soft_slope_file <- file.path(dir_rast, 'rast_soft_slope.tif')
-rast_soft_deep_file <- file.path(dir_rast, 'rast_soft_deep.tif')
+rast_soft_shallow_file <- file.path(dir_rast, 'hab_lyr_shallow_soft_bottom.tif')
+rast_soft_shelf_file <- file.path(dir_rast, 'hab_lyr_soft_shelf.tif')
+rast_soft_slope_file <- file.path(dir_rast, 'hab_lyr_soft_slope.tif')
+rast_soft_deep_file <- file.path(dir_rast, 'hab_lyr_soft_deep.tif')
 
 if(!any(file.exists(rast_soft_shallow_file,
                     rast_soft_shelf_file,
@@ -397,10 +397,10 @@ if(!any(file.exists(rast_soft_shallow_file,
 ```
 
 ``` {r create_hard_bottom_rasters, echo = FALSE}
-rast_hard_shallow_file <- file.path(dir_rast, 'rast_hard_shallow.tif')
-rast_hard_shelf_file   <- file.path(dir_rast, 'rast_hard_shelf.tif')
-rast_hard_slope_file   <- file.path(dir_rast, 'rast_hard_slope.tif')
-rast_hard_deep_file    <- file.path(dir_rast, 'rast_hard_deep.tif')
+rast_hard_shallow_file <- file.path(dir_rast, 'hab_lyr_shallow_hard_bottom.tif')
+rast_hard_shelf_file   <- file.path(dir_rast, 'hab_lyr_hard_shelf.tif')
+rast_hard_slope_file   <- file.path(dir_rast, 'hab_lyr_hard_slope.tif')
+rast_hard_deep_file    <- file.path(dir_rast, 'hab_lyr_hard_deep.tif')
 
 if(!any(file.exists(rast_hard_shallow_file,
                     rast_hard_shelf_file,
@@ -423,7 +423,7 @@ if(!any(file.exists(rast_hard_shallow_file,
 
   ### Shallow: clip against offshore
   values(rast_hard_shallow)[!is.na(values(rast_zone_offshore))] <- NA ### note: include NOT offshore
-  values(rast_hard_shallow)[!is.na(values(rast_hard_shallow))] <- -1 # hab_lyrs$layer_id[hab_lyrs$category == 'shallow hard bottom'] ### no place for this
+  values(rast_hard_shallow)[!is.na(values(rast_hard_shallow))] <- 99 # hab_lyrs$layer_id[hab_lyrs$category == 'shallow hard bottom'] ### no place for this
   
   values(rast_hard_shelf)[is.na(values(rast_zone_shelf))] <- NA
   values(rast_hard_shelf)[!is.na(values(rast_hard_shelf))] <- hab_lyrs$layer_id[hab_lyrs$category == 'hard shelf']
@@ -454,7 +454,7 @@ if(!any(file.exists(rast_hard_shallow_file,
 
 ### NOTE: !!! This layer, check to make sure polygons have a count (or whatever) greater than zero... Perhaps add a default to the rasterize_layers function, so I can tell it a specific column to look for in these files for the cell value
 
-rast_deep_suspension_file <- file.path(dir_rast, 'rast_deep_suspension.tif')
+rast_deep_suspension_file <- file.path(dir_rast, 'hab_lyr_deep_suspension_reefs.tif')
 
 if(!file.exists(rast_deep_suspension_file)) {
   ### Set up a list of file locations to be loaded as polygons.  First line
@@ -486,7 +486,7 @@ if(!file.exists(rast_deep_suspension_file)) {
 
 ``` {r create_hydro_vent_raster, echo = FALSE}
 
-rast_hydro_vent_file <- file.path(dir_rast, 'rast_hydro_vent.tif')
+rast_hydro_vent_file <- file.path(dir_rast, 'hab_hydrothermal_vents.tif')
 
 if(!file.exists(rast_hydro_vent_file)) {
   ### Set up a list of file locations to be loaded as polygons.  First line
