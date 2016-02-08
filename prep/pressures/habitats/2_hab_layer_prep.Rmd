@@ -347,7 +347,7 @@ rast_soft_shelf_file <- file.path(dir_rast, 'hab_lyr_soft_shelf.tif')
 rast_soft_slope_file <- file.path(dir_rast, 'hab_lyr_soft_slope.tif')
 rast_soft_deep_file <- file.path(dir_rast, 'hab_lyr_soft_deep.tif')
 
-if(!any(file.exists(rast_soft_shallow_file,
+if(any(!file.exists(rast_soft_shallow_file,
                     rast_soft_shelf_file,
                     rast_soft_slope_file,
                     rast_soft_deep_file))) {
@@ -355,7 +355,8 @@ if(!any(file.exists(rast_soft_shallow_file,
   message('Loading benthic type layer')
   ### Filter the benthic type layer to appropriate cells
   rast_benth_type <- raster(rast_benth_type_file) ### load benthic_class; need to filter to appropriate cells
-  values(rast_benth_type)[!values(rast_benth_type) %in% c(1, 2)] <- NA ### benthic type 1 and 2 are mud and sand substrate
+#  values(rast_benth_type)[!values(rast_benth_type) %in% c(1, 2)] <- NA ### benthic type 1 and 2 are mud and sand substrate
+  values(rast_benth_type)[!values(rast_benth_type) %in% c(1, 2, 9)] <- NA ### benthic type 1 and 2 are mud and sand substrate; 9 is unknown; for now assume unknown = soft
   
   ### Initialize all soft-bottom rasters using mud and sand substrate raster
   rast_soft_shallow <- rast_soft_shelf <- rast_soft_slope <- rast_soft_deep <- rast_benth_type
@@ -402,7 +403,7 @@ rast_hard_shelf_file   <- file.path(dir_rast, 'hab_lyr_hard_shelf.tif')
 rast_hard_slope_file   <- file.path(dir_rast, 'hab_lyr_hard_slope.tif')
 rast_hard_deep_file    <- file.path(dir_rast, 'hab_lyr_hard_deep.tif')
 
-if(!any(file.exists(rast_hard_shallow_file,
+if(any(!file.exists(rast_hard_shallow_file,
                     rast_hard_shelf_file,
                     rast_hard_slope_file,
                     rast_hard_deep_file))) {
@@ -423,7 +424,7 @@ if(!any(file.exists(rast_hard_shallow_file,
 
   ### Shallow: clip against offshore
   values(rast_hard_shallow)[!is.na(values(rast_zone_offshore))] <- NA ### note: include NOT offshore
-  values(rast_hard_shallow)[!is.na(values(rast_hard_shallow))] <- 99 # hab_lyrs$layer_id[hab_lyrs$category == 'shallow hard bottom'] ### no place for this
+  values(rast_hard_shallow)[!is.na(values(rast_hard_shallow))] <- hab_lyrs$layer_id[hab_lyrs$category == 'shallow hard bottom']
   
   values(rast_hard_shelf)[is.na(values(rast_zone_shelf))] <- NA
   values(rast_hard_shelf)[!is.na(values(rast_hard_shelf))] <- hab_lyrs$layer_id[hab_lyrs$category == 'hard shelf']
@@ -486,7 +487,7 @@ if(!file.exists(rast_deep_suspension_file)) {
 
 ``` {r create_hydro_vent_raster, echo = FALSE}
 
-rast_hydro_vent_file <- file.path(dir_rast, 'hab_hydrothermal_vents.tif')
+rast_hydro_vent_file <- file.path(dir_rast, 'hab_lyr_hydrothermal_vents.tif')
 
 if(!file.exists(rast_hydro_vent_file)) {
   ### Set up a list of file locations to be loaded as polygons.  First line
@@ -508,5 +509,44 @@ if(!file.exists(rast_hydro_vent_file)) {
 } else {
   message('Hydrothermal vents raster already exists at: ', rast_hydro_vent_file)
 }
+
+```
+
+``` {r create_seamount_raster, echo = FALSE}
+
+rast_seamount_file <- file.path(dir_rast, 'hab_lyr_seamounts.tif')
+
+if(!file.exists(rast_seamount_file)) {
+  ### Set up a list of file locations to be loaded as polygons.  First line
+  ### determines which layers to read in and load.
+  seamount_hab_lyrs  <- hab_lyrs %>% 
+    filter(category == 'seamounts' & load_layer == TRUE)
+
+  seamount_rast_list <- rasterize_layers(seamount_hab_lyrs)
+
+  ### Add in Pacific Offshore (deep_zone) shallower than 1000 m
+  seamount_bath <- raster(rast_zone_deep_file) ### Pacific Offshore region; "deep" zone
+  rast_bath_raw <- raster(rast_bath_raw_file)  ### raw bathymetry
+  values(seamount_bath)[values(rast_bath_raw) < -1000] <- NA ### deeper than 1000 m, assign NA
+  seamount_rast_list[[length(seamount_rast_list) + 1]] <- seamount_bath
+
+  seamount_rast_brick <- stack(seamount_rast_list)
+  seamount_rast_total <- sum(seamount_rast_brick, na.rm = TRUE) 
+
+  ### convert zeroes to NA and all values to single value
+  values(seamount_rast_total)[values(seamount_rast_total) == 0] <- NA
+  values(seamount_rast_total)[!is.na(values(seamount_rast_total))] <- seamount_hab_lyrs$layer_id[1]
+  
+  plot_raster(seamount_rast_total)
+  writeRaster(seamount_rast_total, rast_seamount_file, overwrite = TRUE)
+} else {
+  message('Seamounts raster already exists at: ', rast_seamount_file)
+}
+
+```
+
+``` {r delete_tmp_directory}
+
+unlink(file.path(dir_rast, 'tmp'), recursive = TRUE)
 
 ```
