@@ -19,8 +19,6 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 library(sp)        # the classes and methods that make up spatial ops in R
 library(rgdal)
 library(raster)
-library(DT)
-
 
 dir_git <- '~/github/ohibc'
 source(file.path(dir_git, 'src/R/common.R'))
@@ -145,6 +143,11 @@ rgn_poly_wgs84 <- readOGR(dsn = path.expand(dir_rgn),
                          layer = paste(rgn_lyr, '_wgs84', sep = ''),
                          verbose = FALSE, stringsAsFactors = FALSE)
 
+### In case we need to resample to 1 km... use base raster from 
+### regions folder (note: 500m base raster available too).  Used later in
+### finding zonal statistics anyway.
+rast_rgn <- raster(file.path(dir_rgn, 'ohibc_rgn_raster_1000m.tif'))
+
 ```
 
 ``` {r create_rast_bricks, echo = FALSE}
@@ -153,6 +156,7 @@ rgn_poly_wgs84 <- readOGR(dsn = path.expand(dir_rgn),
 ### then: reproject to BC Albers projection
 rb_a18_file <- file.path(dir_goal, 'int/oa/rbrick_a18_1km_raw.tif')
 rb_a20_file <- file.path(dir_goal, 'int/oa/rbrick_a20_1km_raw.tif')
+
 
 if(!file.exists(rb_a18_file) | reload) {
   message('Creating raster bricks from raw data')
@@ -163,9 +167,6 @@ if(!file.exists(rb_a18_file) | reload) {
     crop(rgn_poly_wgs84, snap = 'out') %>%
     raster::projectRaster(crs = p4s_bcalb)
 
-  ### resample to 1 km... use base raster from regions folder (note: 500m base raster available too)
-  rast_rgn <- raster(file.path(dir_rgn, 'ohibc_rgn_raster_1000m.tif')) %>%
-    raster::projectRaster(crs = p4s_bcalb) ### why is this not bc albers to begin with?
   
   ### why does resample fail on a raster brick:
   # rb_arag_18_resamp <- raster::resample(rbrick_arag_18, rast_base,
@@ -302,14 +303,33 @@ plot_rast(rbrick[['y2014']],
 
 ## Calculate mean pressure by region by year
 
-use 1000 m region ID raster to run zonal statistics on the pressures layers (within brick or separately?) and save as an output .csv.
+Using 1000 m region ID raster to run zonal statistics on the pressures layers (within brick or separately?) we can calculate the regional average pressures for each year of study, and save as a .csv.
 
 ``` {r calc_mean_pressures}
 
-oa_rgn_mean <- zonal(rbrick, rast_rgn, fun = 'mean') 
+oa_rgn_mean <- zonal(rbrick, rast_rgn, fun = 'mean')
 
-knitr::kable(oa_rgn_mean)
+oa_rgn_mean_df <- oa_rgn_mean %>%
+  as.data.frame() %>%
+  gather(year, pressure, y2005:y2014) %>%
+  rename(rgn_id = zone) %>%
+  mutate(pressure = round(pressure, 3),
+         year     = as.integer(str_replace(year, 'y', ''))) %>%
+  left_join(rgn_poly@data %>% select(rgn_id, rgn_name), by = 'rgn_id') %>%
+  arrange(rgn_id)
 
+oa_plot <- ggplot(oa_rgn_mean_df, aes(x = year, y = pressure, group = rgn_name)) +
+  ggtheme_plot + 
+  geom_point(aes(color = rgn_name)) +
+  geom_line(aes(color = rgn_name)) +
+  scale_x_continuous(breaks = oa_rgn_mean_df$year) + 
+  labs(y = 'oa pressure',
+         title = 'OA pressure by region, 2005:2014')
+
+print(oa_plot)
+
+write_csv(oa_rgn_mean_df, file.path(dir_goal, 'data/oa/oa_rgn_pressures.csv'))
+```
 
 -----
 

@@ -60,10 +60,10 @@ plot_rast <- function(rast,
   print(rast_plot)
 }
 
-# rast_base_500 <- raster(file.path(dir_rgn, 'ohibc_base_raster_500m.tif'))
+# rast_base_1000 <- raster(file.path(dir_rgn, 'ohibc_base_raster_1000m.tif'))
 # poly_rgn <- readOGR(dsn = path.expand(dir_rgn), layer = 'ohibc_rgn', stringsAsFactors = FALSE)
-# rast_rgns_500 <- rasterize(poly_rgn, rast_base_500,
+# rast_rgns_1000 <- rasterize(poly_rgn, rast_base_1000,
 #                           field = 'rgn_id',
-#                           filename = file.path(dir_rgn, 'ohibc_rgn_raster_500m'),
+#                           filename = file.path(dir_rgn, 'ohibc_rgn_raster_1000m.tif'),
 #                           overwrite = TRUE)
 
