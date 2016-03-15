@@ -14,7 +14,7 @@ output:
 ---
 
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
 library(sp)        # the classes and methods that make up spatial ops in R
 library(rgdal)
@@ -135,7 +135,7 @@ The resulting raster layers (in rasterBrick format) include annual means for eac
 
 rgn_lyr <- 'ohibc_rgn'
 
-cat(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
+message(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
 rgn_poly <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
                        verbose = FALSE, stringsAsFactors = FALSE)
 
