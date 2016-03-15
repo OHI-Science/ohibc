@@ -1,0 +1,81 @@
+rgn_id,year,pressure,rgn_name
+1,2005,0.241,North Coast
+1,2006,0.257,North Coast
+1,2007,0.347,North Coast
+1,2008,0.273,North Coast
+1,2009,0.257,North Coast
+1,2010,0.339,North Coast
+1,2011,0.321,North Coast
+1,2012,0.308,North Coast
+1,2013,0.394,North Coast
+1,2014,0.366,North Coast
+2,2005,0.239,Haida Gwaii
+2,2006,0.256,Haida Gwaii
+2,2007,0.337,Haida Gwaii
+2,2008,0.265,Haida Gwaii
+2,2009,0.256,Haida Gwaii
+2,2010,0.33,Haida Gwaii
+2,2011,0.314,Haida Gwaii
+2,2012,0.308,Haida Gwaii
+2,2013,0.39,Haida Gwaii
+2,2014,0.364,Haida Gwaii
+3,2005,0.243,Central Coast
+3,2006,0.244,Central Coast
+3,2007,0.327,Central Coast
+3,2008,0.259,Central Coast
+3,2009,0.243,Central Coast
+3,2010,0.332,Central Coast
+3,2011,0.302,Central Coast
+3,2012,0.295,Central Coast
+3,2013,0.37,Central Coast
+3,2014,0.353,Central Coast
+4,2005,0.256,North Vancouver Island
+4,2006,0.238,North Vancouver Island
+4,2007,0.314,North Vancouver Island
+4,2008,0.26,North Vancouver Island
+4,2009,0.239,North Vancouver Island
+4,2010,0.331,North Vancouver Island
+4,2011,0.288,North Vancouver Island
+4,2012,0.285,North Vancouver Island
+4,2013,0.357,North Vancouver Island
+4,2014,0.364,North Vancouver Island
+5,2005,0.262,West Vancouver Island
+5,2006,0.234,West Vancouver Island
+5,2007,0.309,West Vancouver Island
+5,2008,0.26,West Vancouver Island
+5,2009,0.228,West Vancouver Island
+5,2010,0.338,West Vancouver Island
+5,2011,0.279,West Vancouver Island
+5,2012,0.271,West Vancouver Island
+5,2013,0.348,West Vancouver Island
+5,2014,0.381,West Vancouver Island
+6,2005,0.27,Strait of Georgia
+6,2006,0.232,Strait of Georgia
+6,2007,0.313,Strait of Georgia
+6,2008,0.266,Strait of Georgia
+6,2009,0.229,Strait of Georgia
+6,2010,0.351,Strait of Georgia
+6,2011,0.284,Strait of Georgia
+6,2012,0.271,Strait of Georgia
+6,2013,0.351,Strait of Georgia
+6,2014,0.401,Strait of Georgia
+7,2005,0.24,Pacific Offshore
+7,2006,0.243,Pacific Offshore
+7,2007,0.3,Pacific Offshore
+7,2008,0.241,Pacific Offshore
+7,2009,0.24,Pacific Offshore
+7,2010,0.306,Pacific Offshore
+7,2011,0.281,Pacific Offshore
+7,2012,0.288,Pacific Offshore
+7,2013,0.355,Pacific Offshore
+7,2014,0.355,Pacific Offshore
+8,2005,0.238,Aristazabal Island
+8,2006,0.248,Aristazabal Island
+8,2007,0.337,Aristazabal Island
+8,2008,0.264,Aristazabal Island
+8,2009,0.247,Aristazabal Island
+8,2010,0.335,Aristazabal Island
+8,2011,0.31,Aristazabal Island
+8,2012,0.299,Aristazabal Island
+8,2013,0.378,Aristazabal Island
+8,2014,0.357,Aristazabal Island
