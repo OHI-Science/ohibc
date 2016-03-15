@@ -201,3 +201,11 @@ commit_prov <- function(script_file, tag) {
            uncommitted_changes = ifelse(git_staged == TRUE, FALSE, uncommitted_changes)) %>%
     dplyr::select(-git_staged)
 }
+
+source <- function(source_fn) {
+  ### redefine source to automatically follow up with a git_prov...
+  base::source(source_fn)
+  git_prov(source_fn, type = 'sourced_script')
+}
+
+

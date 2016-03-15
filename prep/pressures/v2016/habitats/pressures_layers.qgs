@@ -1,0 +1,2763 @@
+<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis projectname="" version="2.6.1-Brighton">
+    <title></title>
+    <layer-tree-group expanded="1" checked="Qt::PartiallyChecked" name="">
+        <customproperties/>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_zone_coastal20160201192556085" name="rast_zone_coastal">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_zone_intertidal20160201192556292" name="rast_zone_intertidal">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_zone_shelf20160201192559671" name="rast_zone_shelf">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_zone_slope20160201192559773" name="rast_zone_slope">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_zone_deep20160201192556188" name="rast_zone_deep">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_zone_offshore20160201192559568" name="rast_zone_offshore">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Checked" id="rast_bath20160204192954996" name="rast_bath">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Checked" id="rast_bath_raw20160204192954757" name="rast_bath_raw">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_surfgrass20160204183707368" name="rast_surfgrass">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_soft_slope20160204183707264" name="rast_soft_slope">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_soft_shelf20160204183707158" name="rast_soft_shelf">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_soft_shallow20160204183707051" name="rast_soft_shallow">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_soft_deep20160204183706945" name="rast_soft_deep">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_shallow_suspension20160204183705931" name="rast_shallow_suspension">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_saltmarsh20160204183703663" name="rast_saltmarsh">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_rocky_reef20160204183702596" name="rast_rocky_reef">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_mudflat20160204183659627" name="rast_mudflat">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_rocky_intertidal20160204183700626" name="rast_rocky_intertidal">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_kelp20160204183658034" name="rast_kelp">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_hard_slope20160204183657926" name="rast_hard_slope">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_hard_shelf20160204183657819" name="rast_hard_shelf">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_hard_shallow20160204183657712" name="rast_hard_shallow">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_hard_deep20160204183657644" name="rast_hard_deep">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_deep_suspension20160204183656408" name="rast_deep_suspension">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_coastal_class20160204183653131" name="rast_coastal_class">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_benthic_class_atF20160204183653061" name="rast_benthic_class_atF">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_benth_type20160204183652957" name="rast_benth_type">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_beach20160204183649903" name="rast_beach">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_coastal_class20160201192548735" name="rast_coastal_class">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="rast_benthic_class_atF20160201192548464" name="rast_benthic_class_atF">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="ohibc_inland_1km20151012111043679" name="ohibc_inland_1km">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="1" checked="Qt::Checked" id="ohibc_land20151012111043850" name="ohibc_land">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="ohibc_offshore_3nm20151012111043910" name="ohibc_offshore_3nm">
+            <customproperties/>
+        </layer-tree-layer>
+        <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="ohibc_rgn20151012111043974" name="ohibc_rgn">
+            <customproperties/>
+        </layer-tree-layer>
+    </layer-tree-group>
+    <relations/>
+    <mapcanvas>
+        <units>meters</units>
+        <extent>
+            <xmin>462538.39146885275840759</xmin>
+            <ymin>891827.15674969588872045</ymin>
+            <xmax>599146.88658168551046401</xmax>
+            <ymax>1000430.91036439803428948</ymax>
+        </extent>
+        <projections>1</projections>
+        <destinationsrs>
+            <spatialrefsys>
+                <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                <srsid>970</srsid>
+                <srid>3005</srid>
+                <authid>EPSG:3005</authid>
+                <description>NAD83 / BC Albers</description>
+                <projectionacronym>aea</projectionacronym>
+                <ellipsoidacronym>GRS80</ellipsoidacronym>
+                <geographicflag>false</geographicflag>
+            </spatialrefsys>
+        </destinationsrs>
+        <layer_coordinate_transform_info>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_surfgrass20160204183707368"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_hard_shallow20160204183657712"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_soft_slope20160204183707264"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_zone_slope20160201192559773"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_beach20160204183649903"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_inland_1km20151012111043679"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_kelp20160204183658034"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="poly_coastal_class20160201203011787"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_soft_deep20160204183706945"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_rgn20151012111043974"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_offshore_3nm20151012111043910"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_benthic_class_atF20160201192548464"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_hard_deep20160204183657644"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_soft_shelf20160204183707158"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_benthic_class_atF20160204183653061"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_soft_shallow20160204183707051"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_zone_coastal20160201192556085"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_zone_intertidal20160201192556292"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_zone_deep20160201192556188"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_deep_suspension20160204183656408"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_rocky_intertidal120160204183701674"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_shallow_suspension_error20160204183704631"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_zone_offshore20160201192559568"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_coastal_class20160201192548735"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_hard_shelf20160204183657819"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_saltmarsh20160204183703663"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_zone_shelf20160201192559671"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="ohibc_land20151012111043850"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_rocky_reef20160204183702596"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_bath20160204192954996"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_rocky_intertidal20160204183700626"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_mudflat20160204183659627"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_hard_slope20160204183657926"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_coastal_class20160204183653131"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_shallow_suspension20160204183705931"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_benth_type20160204183652957"/>
+            <layer_coordinate_transform destAuthId="EPSG:3005" srcAuthId="EPSG:3005" srcDatumTransform="-1" destDatumTransform="-1" layerid="rast_bath_raw20160204192954757"/>
+        </layer_coordinate_transform_info>
+    </mapcanvas>
+    <visibility-presets/>
+    <layer-tree-canvas>
+        <custom-order enabled="0">
+            <item>ohibc_inland_1km20151012111043679</item>
+            <item>ohibc_land20151012111043850</item>
+            <item>ohibc_offshore_3nm20151012111043910</item>
+            <item>ohibc_rgn20151012111043974</item>
+            <item>rast_benthic_class_atF20160201192548464</item>
+            <item>rast_coastal_class20160201192548735</item>
+            <item>rast_zone_coastal20160201192556085</item>
+            <item>rast_zone_deep20160201192556188</item>
+            <item>rast_zone_intertidal20160201192556292</item>
+            <item>rast_zone_offshore20160201192559568</item>
+            <item>rast_zone_shelf20160201192559671</item>
+            <item>rast_zone_slope20160201192559773</item>
+            <item>rast_beach20160204183649903</item>
+            <item>rast_benth_type20160204183652957</item>
+            <item>rast_benthic_class_atF20160204183653061</item>
+            <item>rast_coastal_class20160204183653131</item>
+            <item>rast_deep_suspension20160204183656408</item>
+            <item>rast_hard_deep20160204183657644</item>
+            <item>rast_hard_shallow20160204183657712</item>
+            <item>rast_hard_shelf20160204183657819</item>
+            <item>rast_hard_slope20160204183657926</item>
+            <item>rast_kelp20160204183658034</item>
+            <item>rast_mudflat20160204183659627</item>
+            <item>rast_rocky_intertidal20160204183700626</item>
+            <item>rast_rocky_reef20160204183702596</item>
+            <item>rast_saltmarsh20160204183703663</item>
+            <item>rast_shallow_suspension20160204183705931</item>
+            <item>rast_soft_deep20160204183706945</item>
+            <item>rast_soft_shallow20160204183707051</item>
+            <item>rast_soft_shelf20160204183707158</item>
+            <item>rast_soft_slope20160204183707264</item>
+            <item>rast_surfgrass20160204183707368</item>
+            <item>rast_bath_raw20160204192954757</item>
+            <item>rast_bath20160204192954996</item>
+        </custom-order>
+    </layer-tree-canvas>
+    <legend updateDrawingOrder="true">
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_zone_coastal" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_zone_coastal20160201192556085" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_zone_intertidal" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_zone_intertidal20160201192556292" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_zone_shelf" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_zone_shelf20160201192559671" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_zone_slope" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_zone_slope20160201192559773" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_zone_deep" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_zone_deep20160201192556188" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_zone_offshore" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_zone_offshore20160201192559568" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="rast_bath" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_bath20160204192954996" visible="1"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="rast_bath_raw" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_bath_raw20160204192954757" visible="1"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_surfgrass" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_surfgrass20160204183707368" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_soft_slope" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_soft_slope20160204183707264" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_soft_shelf" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_soft_shelf20160204183707158" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_soft_shallow" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_soft_shallow20160204183707051" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_soft_deep" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_soft_deep20160204183706945" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_shallow_suspension" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_shallow_suspension20160204183705931" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_saltmarsh" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_saltmarsh20160204183703663" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_rocky_reef" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_rocky_reef20160204183702596" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_mudflat" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_mudflat20160204183659627" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_rocky_intertidal" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_rocky_intertidal20160204183700626" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_kelp" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_kelp20160204183658034" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_hard_slope" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_hard_slope20160204183657926" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_hard_shelf" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_hard_shelf20160204183657819" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_hard_shallow" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_hard_shallow20160204183657712" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_hard_deep" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_hard_deep20160204183657644" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_deep_suspension" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_deep_suspension20160204183656408" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_coastal_class" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_coastal_class20160204183653131" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_benthic_class_atF" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_benthic_class_atF20160204183653061" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_benth_type" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_benth_type20160204183652957" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_beach" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_beach20160204183649903" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_coastal_class" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_coastal_class20160201192548735" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="rast_benthic_class_atF" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="rast_benthic_class_atF20160201192548464" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="ohibc_inland_1km" showFeatureCount="0">
+            <filegroup open="true" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="ohibc_inland_1km20151012111043679" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="ohibc_land" showFeatureCount="0">
+            <filegroup open="true" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="ohibc_land20151012111043850" visible="1"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="ohibc_offshore_3nm" showFeatureCount="0">
+            <filegroup open="true" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="ohibc_offshore_3nm20151012111043910" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="ohibc_rgn" showFeatureCount="0">
+            <filegroup open="true" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="ohibc_rgn20151012111043974" visible="0"/>
+            </filegroup>
+        </legendlayer>
+    </legend>
+    <projectlayers layercount="34">
+        <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+            <id>ohibc_inland_1km20151012111043679</id>
+            <datasource>../../regions/ohibc_inland_1km.shp</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>ohibc_inland_1km</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <provider encoding="System">ogr</provider>
+            <previewExpression></previewExpression>
+            <vectorjoins/>
+            <expressionfields/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+                    <symbol alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="244,96,96,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation/>
+                <sizescale scalemethod="area"/>
+            </renderer-v2>
+            <customproperties/>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
+            <displayfield>rgn_name</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Label"/>
+                <family fieldname="" name=".Helvetica Neue DeskInterface"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <editform>../../regions</editform>
+            <editforminit></editforminit>
+            <featformsuppress>0</featformsuppress>
+            <annotationform>../../regions</annotationform>
+            <editorlayout>generatedlayout</editorlayout>
+            <excludeAttributesWMS/>
+            <excludeAttributesWFS/>
+            <attributeactions/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+            <id>ohibc_land20151012111043850</id>
+            <datasource>../../regions/ohibc_land.shp</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>ohibc_land</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <provider encoding="System">ogr</provider>
+            <previewExpression></previewExpression>
+            <vectorjoins/>
+            <expressionfields/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+                    <symbol alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="53,172,128,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation/>
+                <sizescale scalemethod="area"/>
+            </renderer-v2>
+            <customproperties/>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
+            <displayfield>rgn_name</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Label"/>
+                <family fieldname="" name=".Helvetica Neue DeskInterface"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <editform>../../regions</editform>
+            <editforminit></editforminit>
+            <featformsuppress>0</featformsuppress>
+            <annotationform>../../regions</annotationform>
+            <editorlayout>generatedlayout</editorlayout>
+            <excludeAttributesWMS/>
+            <excludeAttributesWFS/>
+            <attributeactions/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+            <id>ohibc_offshore_3nm20151012111043910</id>
+            <datasource>../../regions/ohibc_offshore_3nm.shp</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>ohibc_offshore_3nm</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <provider encoding="System">ogr</provider>
+            <previewExpression></previewExpression>
+            <vectorjoins/>
+            <expressionfields/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+                    <symbol alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="62,60,153,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation/>
+                <sizescale scalemethod="area"/>
+            </renderer-v2>
+            <customproperties/>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
+            <displayfield>rgn_name</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Label"/>
+                <family fieldname="" name=".Helvetica Neue DeskInterface"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <editform>../../regions</editform>
+            <editforminit></editforminit>
+            <featformsuppress>0</featformsuppress>
+            <annotationform>../../regions</annotationform>
+            <editorlayout>generatedlayout</editorlayout>
+            <excludeAttributesWMS/>
+            <excludeAttributesWFS/>
+            <attributeactions/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+            <id>ohibc_rgn20151012111043974</id>
+            <datasource>../../regions/ohibc_rgn.shp</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>ohibc_rgn</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <provider encoding="System">ogr</provider>
+            <previewExpression></previewExpression>
+            <vectorjoins/>
+            <expressionfields/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+                    <symbol alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_map_unit_scale" v="0,0"/>
+                            <prop k="color" v="152,255,164,255"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_map_unit_scale" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_color" v="0,0,0,255"/>
+                            <prop k="outline_style" v="solid"/>
+                            <prop k="outline_width" v="0.26"/>
+                            <prop k="outline_width_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation/>
+                <sizescale scalemethod="area"/>
+            </renderer-v2>
+            <customproperties/>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
+            <displayfield>rgn_name</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Label"/>
+                <family fieldname="" name=".Helvetica Neue DeskInterface"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <editform>../../regions</editform>
+            <editforminit></editforminit>
+            <featformsuppress>0</featformsuppress>
+            <annotationform>../../regions</annotationform>
+            <editorlayout>generatedlayout</editorlayout>
+            <excludeAttributesWMS/>
+            <excludeAttributesWFS/>
+            <attributeactions/>
+            <edittypes>
+                <edittype widgetv2type="TextEdit" name="rgn_name">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_id">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="rgn_code">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_km2">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+                <edittype widgetv2type="TextEdit" name="area_hec">
+                    <widgetv2config IsMultiline="0" fieldEditable="1" UseHtml="0" labelOnTop="0"/>
+                </edittype>
+            </edittypes>
+        </maplayer>
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_bath20160204192954996</id>
+            <datasource>./raster/rast_bath.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_bath</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="0" classificationMinMaxOrigin="User" band="1" classificationMin="-4000" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="-4000" label="-4000.000000" color="#006d2c"/>
+                            <item alpha="255" value="-3000" label="-3333.333333" color="#1d904e"/>
+                            <item alpha="255" value="-2000" label="-2666.666667" color="#3fac76"/>
+                            <item alpha="255" value="-200" label="-2000.000000" color="#66c2a4"/>
+                            <item alpha="255" value="-60" label="-1333.333333" color="#98d7cd"/>
+                            <item alpha="255" value="-5" label="-666.666667" color="#c5e9ea"/>
+                            <item alpha="255" value="0" label="-0.000000" color="#f18efb"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_bath_raw20160204192954757</id>
+            <datasource>./raster/rast_bath_raw.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_bath_raw</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="0" classificationMinMaxOrigin="User" band="1" classificationMin="-4000" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="-4000" label="-4000.000000" color="#006d2c"/>
+                            <item alpha="255" value="-3000" label="-3333.333333" color="#1d904e"/>
+                            <item alpha="255" value="-2000" label="-2666.666667" color="#3fac76"/>
+                            <item alpha="255" value="-200" label="-2000.000000" color="#66c2a4"/>
+                            <item alpha="255" value="-60" label="-1333.333333" color="#98d7cd"/>
+                            <item alpha="255" value="-20" label="-666.666667" color="#c5e9ea"/>
+                            <item alpha="255" value="0" label="-0.000000" color="#edf8fb"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_beach20160204183649903</id>
+            <datasource>./raster/rast_beach.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_beach</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_benth_type20160204183652957</id>
+            <datasource>./raster/rast_benth_type.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_benth_type</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_benthic_class_atF20160201192548464</id>
+            <datasource>./raster/rast_benthic_class_atF.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_benthic_class_atF</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="-1" classificationMax="4090.92" classificationMinMaxOrigin="CumulativeCutFullExtentEstimated" band="1" classificationMin="1011" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="1011" label="1011.000000" color="#d7191c"/>
+                            <item alpha="255" value="1780.98" label="1780.980000" color="#fdae61"/>
+                            <item alpha="255" value="2550.96" label="2550.960000" color="#ffffc0"/>
+                            <item alpha="255" value="3320.94" label="3320.940000" color="#a6d96a"/>
+                            <item alpha="255" value="4090.92" label="4090.920000" color="#1a9641"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_benthic_class_atF20160204183653061</id>
+            <datasource>./raster/rast_benthic_class_atF.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_benthic_class_atF</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_coastal_class20160201192548735</id>
+            <datasource>./raster/rast_coastal_class.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_coastal_class</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="33.967" classificationMinMaxOrigin="CumulativeCutFullExtentEstimated" band="1" classificationMin="1" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="1" label="1.000000" color="#d01c8b"/>
+                            <item alpha="255" value="9.24175" label="9.241750" color="#f1b6da"/>
+                            <item alpha="255" value="17.4835" label="17.483500" color="#f7f7f7"/>
+                            <item alpha="255" value="25.7252" label="25.725250" color="#b8e186"/>
+                            <item alpha="255" value="33.967" label="33.967000" color="#4dac26"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_coastal_class20160204183653131</id>
+            <datasource>./raster/rast_coastal_class.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_coastal_class</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_deep_suspension20160204183656408</id>
+            <datasource>./raster/rast_deep_suspension.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_deep_suspension</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_hard_deep20160204183657644</id>
+            <datasource>./raster/rast_hard_deep.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_hard_deep</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_hard_shallow20160204183657712</id>
+            <datasource>./raster/rast_hard_shallow.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_hard_shallow</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_hard_shelf20160204183657819</id>
+            <datasource>./raster/rast_hard_shelf.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_hard_shelf</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_hard_slope20160204183657926</id>
+            <datasource>./raster/rast_hard_slope.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_hard_slope</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_kelp20160204183658034</id>
+            <datasource>./raster/rast_kelp.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_kelp</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_mudflat20160204183659627</id>
+            <datasource>./raster/rast_mudflat.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_mudflat</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_rocky_intertidal20160204183700626</id>
+            <datasource>./raster/rast_rocky_intertidal.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_rocky_intertidal</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_rocky_reef20160204183702596</id>
+            <datasource>./raster/rast_rocky_reef.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_rocky_reef</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_saltmarsh20160204183703663</id>
+            <datasource>./raster/rast_saltmarsh.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_saltmarsh</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_shallow_suspension20160204183705931</id>
+            <datasource>./raster/rast_shallow_suspension.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_shallow_suspension</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_soft_deep20160204183706945</id>
+            <datasource>./raster/rast_soft_deep.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_soft_deep</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_soft_shallow20160204183707051</id>
+            <datasource>./raster/rast_soft_shallow.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_soft_shallow</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_soft_shelf20160204183707158</id>
+            <datasource>./raster/rast_soft_shelf.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_soft_shelf</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_soft_slope20160204183707264</id>
+            <datasource>./raster/rast_soft_slope.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_soft_slope</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_surfgrass20160204183707368</id>
+            <datasource>./raster/rast_surfgrass.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_surfgrass</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="25" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0221b"/>
+                            <item alpha="255" value="1.04167" label="1.041667" color="#f7a590"/>
+                            <item alpha="255" value="2.08333" label="2.083333" color="#71abc0"/>
+                            <item alpha="255" value="3.125" label="3.125000" color="#dc5a62"/>
+                            <item alpha="255" value="4.16667" label="4.166667" color="#df51d4"/>
+                            <item alpha="255" value="5.20833" label="5.208333" color="#525cca"/>
+                            <item alpha="255" value="6.25" label="6.250000" color="#bc1afc"/>
+                            <item alpha="255" value="7.29167" label="7.291667" color="#44be1e"/>
+                            <item alpha="255" value="8.33333" label="8.333333" color="#5cbb7f"/>
+                            <item alpha="255" value="9.375" label="9.375000" color="#161ba2"/>
+                            <item alpha="255" value="10.4167" label="10.416667" color="#2110be"/>
+                            <item alpha="255" value="11.4583" label="11.458333" color="#a814c2"/>
+                            <item alpha="255" value="12.5" label="12.500000" color="#5c8a4f"/>
+                            <item alpha="255" value="13.5417" label="13.541667" color="#3b9d76"/>
+                            <item alpha="255" value="14.5833" label="14.583333" color="#dd69dd"/>
+                            <item alpha="255" value="15.625" label="15.625000" color="#1e31c5"/>
+                            <item alpha="255" value="16.6667" label="16.666667" color="#5bbf13"/>
+                            <item alpha="255" value="17.7083" label="17.708333" color="#d07c73"/>
+                            <item alpha="255" value="18.75" label="18.750000" color="#304b8f"/>
+                            <item alpha="255" value="19.7917" label="19.791667" color="#8a47f6"/>
+                            <item alpha="255" value="20.8333" label="20.833333" color="#cab16a"/>
+                            <item alpha="255" value="21.875" label="21.875000" color="#48c457"/>
+                            <item alpha="255" value="22.9167" label="22.916667" color="#bdb06b"/>
+                            <item alpha="255" value="23.9583" label="23.958333" color="#40c731"/>
+                            <item alpha="255" value="25" label="25.000000" color="#da443c"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_zone_coastal20160201192556085</id>
+            <datasource>./raster/rast_zone_coastal.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_zone_coastal</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="5" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0f9e8"/>
+                            <item alpha="255" value="1.25" label="1.250000" color="#bae4bc"/>
+                            <item alpha="255" value="2.5" label="2.500000" color="#7bccc4"/>
+                            <item alpha="255" value="3.75" label="3.750000" color="#43a2ca"/>
+                            <item alpha="255" value="5" label="5.000000" color="#0868ac"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_zone_deep20160201192556188</id>
+            <datasource>./raster/rast_zone_deep.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_zone_deep</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="5" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0f9e8"/>
+                            <item alpha="255" value="1.25" label="1.250000" color="#bae4bc"/>
+                            <item alpha="255" value="2.5" label="2.500000" color="#7bccc4"/>
+                            <item alpha="255" value="3.75" label="3.750000" color="#43a2ca"/>
+                            <item alpha="255" value="5" label="5.000000" color="#0868ac"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_zone_intertidal20160201192556292</id>
+            <datasource>./raster/rast_zone_intertidal.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_zone_intertidal</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="0" classificationMax="5" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0f9e8"/>
+                            <item alpha="255" value="1.25" label="1.250000" color="#bae4bc"/>
+                            <item alpha="255" value="2.5" label="2.500000" color="#7bccc4"/>
+                            <item alpha="255" value="3.75" label="3.750000" color="#43a2ca"/>
+                            <item alpha="255" value="5" label="5.000000" color="#0868ac"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_zone_offshore20160201192559568</id>
+            <datasource>./raster/rast_zone_offshore.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_zone_offshore</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="-1" classificationMax="5" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f1eef6"/>
+                            <item alpha="255" value="1.25" label="1.250000" color="#d7b5d8"/>
+                            <item alpha="255" value="2.5" label="2.500000" color="#df65b0"/>
+                            <item alpha="255" value="3.75" label="3.750000" color="#dd1c77"/>
+                            <item alpha="255" value="5" label="5.000000" color="#980043"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_zone_shelf20160201192559671</id>
+            <datasource>./raster/rast_zone_shelf.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_zone_shelf</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="-1" classificationMax="5" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0f9e8"/>
+                            <item alpha="255" value="1.25" label="1.250000" color="#bae4bc"/>
+                            <item alpha="255" value="2.5" label="2.500000" color="#7bccc4"/>
+                            <item alpha="255" value="3.75" label="3.750000" color="#43a2ca"/>
+                            <item alpha="255" value="5" label="5.000000" color="#0868ac"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>rast_zone_slope20160201192559773</id>
+            <datasource>./raster/rast_zone_slope.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>rast_zone_slope</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>970</srsid>
+                    <srid>3005</srid>
+                    <authid>EPSG:3005</authid>
+                    <description>NAD83 / BC Albers</description>
+                    <projectionacronym>aea</projectionacronym>
+                    <ellipsoidacronym>GRS80</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <noData>
+                <noDataList bandNo="1" useSrcNoData="1"/>
+            </noData>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="-1" classificationMax="5" classificationMinMaxOrigin="User" band="1" classificationMin="0" type="singlebandpseudocolor">
+                    <rasterTransparency/>
+                    <rastershader>
+                        <colorrampshader colorRampType="INTERPOLATED" clip="0">
+                            <item alpha="255" value="0" label="0.000000" color="#f0f9e8"/>
+                            <item alpha="255" value="1.25" label="1.250000" color="#bae4bc"/>
+                            <item alpha="255" value="2.5" label="2.500000" color="#7bccc4"/>
+                            <item alpha="255" value="3.75" label="3.750000" color="#43a2ca"/>
+                            <item alpha="255" value="5" label="5.000000" color="#0868ac"/>
+                        </colorrampshader>
+                    </rastershader>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+    </projectlayers>
+    <properties>
+        <WMSContactPerson type="QString"></WMSContactPerson>
+        <WMSOnlineResource type="QString"></WMSOnlineResource>
+        <WMSUseLayerIDs type="bool">false</WMSUseLayerIDs>
+        <WMSContactOrganization type="QString"></WMSContactOrganization>
+        <WMSKeywordList type="QStringList">
+            <value></value>
+        </WMSKeywordList>
+        <WFSUrl type="QString"></WFSUrl>
+        <Paths>
+            <Absolute type="bool">false</Absolute>
+        </Paths>
+        <WMSServiceTitle type="QString"></WMSServiceTitle>
+        <WFSLayers type="QStringList"/>
+        <WMSContactMail type="QString"></WMSContactMail>
+        <PositionPrecision>
+            <DecimalPlaces type="int">2</DecimalPlaces>
+            <Automatic type="bool">true</Automatic>
+            <DegreeFormat type="QString">D</DegreeFormat>
+        </PositionPrecision>
+        <WCSUrl type="QString"></WCSUrl>
+        <WMSContactPhone type="QString"></WMSContactPhone>
+        <WMSServiceCapabilities type="bool">false</WMSServiceCapabilities>
+        <WMSServiceAbstract type="QString"></WMSServiceAbstract>
+        <WMSAddWktGeometry type="bool">false</WMSAddWktGeometry>
+        <Measure>
+            <Ellipsoid type="QString">GRS80</Ellipsoid>
+        </Measure>
+        <WMSPrecision type="QString">8</WMSPrecision>
+        <WFSTLayers>
+            <Insert type="QStringList"/>
+            <Update type="QStringList"/>
+            <Delete type="QStringList"/>
+        </WFSTLayers>
+        <Gui>
+            <SelectionColorBluePart type="int">0</SelectionColorBluePart>
+            <CanvasColorGreenPart type="int">255</CanvasColorGreenPart>
+            <CanvasColorRedPart type="int">255</CanvasColorRedPart>
+            <SelectionColorRedPart type="int">255</SelectionColorRedPart>
+            <SelectionColorAlphaPart type="int">255</SelectionColorAlphaPart>
+            <SelectionColorGreenPart type="int">255</SelectionColorGreenPart>
+            <CanvasColorBluePart type="int">255</CanvasColorBluePart>
+        </Gui>
+        <Digitizing>
+            <LayerSnappingList type="QStringList">
+                <value>ohibc_inland_1km20151012111043679</value>
+                <value>ohibc_land20151012111043850</value>
+                <value>ohibc_offshore_3nm20151012111043910</value>
+                <value>ohibc_rgn20151012111043974</value>
+            </LayerSnappingList>
+            <LayerSnappingEnabledList type="QStringList">
+                <value>disabled</value>
+                <value>disabled</value>
+                <value>disabled</value>
+                <value>disabled</value>
+            </LayerSnappingEnabledList>
+            <AvoidIntersectionsList type="QStringList"/>
+            <LayerSnappingToleranceUnitList type="QStringList">
+                <value>0</value>
+                <value>0</value>
+                <value>0</value>
+                <value>0</value>
+            </LayerSnappingToleranceUnitList>
+            <LayerSnapToList type="QStringList">
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+            </LayerSnapToList>
+            <LayerSnappingToleranceList type="QStringList">
+                <value>0.000000</value>
+                <value>0.000000</value>
+                <value>0.000000</value>
+                <value>0.000000</value>
+            </LayerSnappingToleranceList>
+        </Digitizing>
+        <Identify>
+            <disabledLayers type="QStringList"/>
+        </Identify>
+        <Macros>
+            <pythonCode type="QString"></pythonCode>
+        </Macros>
+        <WMSAccessConstraints type="QString"></WMSAccessConstraints>
+        <WCSLayers type="QStringList"/>
+        <Legend>
+            <filterByMap type="bool">false</filterByMap>
+        </Legend>
+        <SpatialRefSys>
+            <ProjectCRSProj4String type="QString">+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</ProjectCRSProj4String>
+            <ProjectCrs type="QString">EPSG:3005</ProjectCrs>
+            <ProjectCRSID type="int">970</ProjectCRSID>
+            <ProjectionsEnabled type="int">1</ProjectionsEnabled>
+        </SpatialRefSys>
+        <DefaultStyles>
+            <Fill type="QString"></Fill>
+            <Line type="QString"></Line>
+            <Marker type="QString"></Marker>
+            <RandomColors type="bool">true</RandomColors>
+            <AlphaInt type="int">255</AlphaInt>
+            <ColorRamp type="QString"></ColorRamp>
+        </DefaultStyles>
+        <WMSFees type="QString"></WMSFees>
+        <WMSImageQuality type="int">90</WMSImageQuality>
+        <WMSUrl type="QString"></WMSUrl>
+    </properties>
+</qgis>

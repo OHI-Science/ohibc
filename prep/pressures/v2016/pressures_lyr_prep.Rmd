@@ -1,0 +1,224 @@
+---
+title: 'OHIBC: Pressures layers prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+# Step 1: define the function
+
+- inputs: pathnames for pressure raster, region shapefile; log_x = FALSE (or allow a function?); qtile = 100; others?
+- spTransform the region shapefile to the same CRS as the raster (use raster as native? or shapefile? maybe shapefile is better!)
+- clip pressure raster to shapefile
+- apply quantile, then log transform?
+
+
+here is a setup code chunk with many of the common parameters:
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+library(sp)        # the classes and methods that make up spatial ops in R
+library(rgdal)
+library(raster)
+library(DT)
+
+source('src/R/common.R')  
+  ### an OHIBC specific version of common.R; must be in ohibc working dir
+
+dir_git <- '~/github/ohibc'
+dir_anx  <- file.path(dir_neptune_data, 'git-annex/bcprep')
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+
+### goal specific folders and info
+goal      <- 'pressures'
+scenario  <- 'v2016'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+source('~/github/ohibc/src/R/prov.R')      
+  ### Provenance tracking functions: must source at start to initialize prov_track
+dir_prov <- file.path(dir_goal, 'prov') 
+  ### set a provenance folder for this script
+this_script_file <- file.path(dir_goal, 'pressures_lyr_prep.Rmd') 
+  ### can't recognize the current script name on its own :(
+prov_run_tag <- 'standard run'
+
+### goal-specific source scripts
+source(file.path(dir_goal, 'pressures_lyr_fxns.R'))
+
+### other support functions
+source(file.path(dir_git, 'src/R/rast_tools.R'))
+
+### set up proj4string options: BC Albers and WGS84
+p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
+              'EPSG:4326 WGS 84'          = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
+p4s_bcalb <- p4s_opts[1]
+```
+
+
+``` {r load_rgn, echo = FALSE}
+
+rgn_lyr <- 'ohibc_rgn'
+
+cat(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
+rgn_poly <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
+                       verbose = FALSE, stringsAsFactors = FALSE)
+
+rgn_poly_wgs84 <- readOGR(dsn = path.expand(dir_rgn), 
+                         layer = paste(rgn_lyr, '_wgs84', sep = ''),
+                         verbose = FALSE, stringsAsFactors = FALSE)
+
+```
+
+``` {r read_aragonite_lyrs, echo = FALSE}
+
+library(ncdf4)
+
+### read in 1880-1889 data
+oa_data_dir <- file.path(dir_neptune_data, 'git-annex/globalprep/Pressures_OceanAcidification/v2015')
+data_nc_18 <- nc_open(file.path(oa_data_dir, 'input/cesm_co2sys_1880-1889.nc'))
+# print(data_nc_18)
+
+### read in 2005-2014 data
+data_nc_20 = nc_open(file.path(oa_data_dir, 'input/cesm_co2sys_2005-2014.nc'))
+# print(data_nc_20)
+
+### longitude values are stored in the variable 'TLONG'; lat in 'TLAT'
+long <- ncvar_get(data_nc_18, varid = 'TLONG') #same lat and long for both data sets so just reading in from data_nc_18 works
+lat  <- ncvar_get(data_nc_18, varid = 'TLAT')
+
+### select the surface aragonite variable (OARG)
+arag_18 <- ncvar_get(data_nc_18, varid = 'OARG')
+arag_20 <- ncvar_get(data_nc_20, varid = 'OARG')
+
+### land cells are given large, strange value, so set these to NA
+### arag cell values range from zero to 5; set all out of that to NA?
+land_val <- max(arag_18, na.rm = TRUE)
+arag_18[arag_18 >= land_val] <- NA
+message('Range of Arag sat state, 1880-1889: ', paste(round(range(arag_18, na.rm = TRUE), 3), collapse = ', '))
+arag_20[arag_20 >= land_val] <- NA 
+message('Range of Arag sat state, 2005-2014: ', paste(round(range(arag_20, na.rm = TRUE), 3), collapse = ', '))
+
+```
+
+``` {r create_rast_bricks, echo = FALSE}
+### generate raster bricks for decades 1880-1889 and 2005-2014
+### then: clip to extents of region (in WGS 84 CRS)
+### then: reproject to BC Albers projection
+
+reload <- FALSE
+
+if(reload) {
+  rbrick_arag_18 <- annual_mean(arag_18, yr_init = 1880) %>%
+    raster::crop(rgn_poly_wgs84, snap = 'out') %>%
+    raster::projectRaster(crs = p4s_bcalb)
+  rbrick_arag_20 <- annual_mean(arag_20, yr_init = 2005) %>%
+    crop(rgn_poly_wgs84, snap = 'out') %>%
+    raster::projectRaster(crs = p4s_bcalb)
+
+  ### resample to 1 km... use base raster from regions folder (note: 500m base raster available too)
+  rast_base <- raster(file.path(dir_rgn, 'ohibc_base_raster_1000m.tif')) %>%
+    raster::projectRaster(crs = p4s_bcalb) ### why is this not bc albers to begin with?
+  
+  ### why does resample fail on a raster brick:
+  # rb_arag_18_resamp <- raster::resample(rbrick_arag_18, rast_base,
+  #                              method   = 'ngb',
+  #                              progress = 'text',
+  #                              filename = file.path(dir_goal, 'int/oa/rbrick_arag_18_raw.tif'),
+  #                              overwrite = TRUE)
+  # rb_arag_20_resamp <- resample(rbrick_arag_20, rast_base,
+  #                              method   = 'ngb',
+  #                              progress = 'text',
+  #                              filename = file.path(dir_goal, 'int/oa/rbrick_arag_20_raw.tif'),
+  #                              overwrite = TRUE)
+  
+  rb_a18_resamp <- resample_brick(rbrick_arag_18, rast_base,
+                                 filename = file.path(dir_goal, 'int/oa/rbrick_a18_1km_raw.tif'))
+  rb_a20_resamp <- resample_brick(rbrick_arag_20, rast_base,
+                                 filename = file.path(dir_goal, 'int/oa/rbrick_a20_1km_raw.tif'))
+} else {
+  rb_a18_resamp <- brick(file.path(dir_goal, 'int/oa/rbrick_a18_1km_raw.tif'))
+  rb_a20_resamp <- brick(file.path(dir_goal, 'int/oa/rbrick_a20_1km_raw.tif'))
+  
+  names(rb_a18_resamp) <- paste('y', c(1880:1889), sep = '')
+  names(rb_a20_resamp) <- paste('y', c(2005:2014), sep = '')
+}
+
+
+```
+
+
+``` {r rescale_values, echo = FALSE}
+### Get decadal mean of 1880-1889 as baseline
+oa_mean_baseline <- calc(rb_a18_resamp, mean)
+# plot(oa_mean_baseline)
+# plot(rgn_poly, add = TRUE)
+
+
+### get raster brick of change in aragonite sat state
+oa_delta <- oa_mean_baseline - rb_a20_resamp
+names(oa_delta) <- names(rb_a20_resamp)
+# plot(oa_delta)
+
+### BC doesn't appear to have any cells with arag sat state less than 1, or
+### anywhere even close (based on global data). 
+oa_rescaled <- oa_delta
+oa_means <- rb_a20_resamp
+
+values(oa_rescaled)[values(oa_means) <= 1] <- 1    
+  ### all values at or less than 1 are given a value of 1
+values(oa_rescaled)[values(oa_means)  < 0] <- 0
+  ### all values less than 0 (indicating a decrease in acidity) are capped at 0
+plot(oa_rescaled)
+
+```
+
+``` {r interpolate_mask_save, echo = FALSE}
+### from raster bricks, interpolate/extrapolate to extent of raster.  First,
+### set up thin plate spline model from x-y of raster and values of raster
+oa_rescaled_int <- interpolate_brick(oa_rescaled, subset_n = 2000)
+  ### sampling to avoid memory problems; the Tps model seems to choke
+  ### with too many points
+
+# plot(oa_rescaled_int)
+# plot(oa_rescaled)
+
+### mask to OHIBC regions
+oa_resc_int_rgn <- mask(oa_rescaled_int, rgn_poly)
+# plot(oa_resc_int_rgn[[1]])
+# plot(rgn_poly, add = TRUE)
+
+oa_raster_files <- c(file.path(dir_goal, sprintf('data/oa/oa_rescaled_%s.tif', 
+                                                 str_replace(names(oa_resc_int_rgn), 'y', ''))))
+writeRaster(oa_resc_int_rgn,
+            filename  = oa_raster_files, 
+            bylayer   = TRUE, 
+            overwrite = TRUE)
+
+oa_raster_files <- c(file.path(dir_goal, sprintf('data/oa/oa_rescaled_%s.tif', 
+                                                 c(2005:2014))))
+
+# rlist <- list()
+# for (i in 1:length(oa_raster_files)) {
+#   rlist[i] <- raster(oa_raster_files[i])
+# }
+# rbrick <- brick(rlist)
+# names(rbrick) <- str_replace(names(rbrick), 'oa_rescaled_', 'y')
+
+plot_rast(rbrick[['y2014']], 
+          title = 'OA rescaled 2014', 
+          scale_label = 'oa')
+
+```
+
+-----
+
+``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
+```
