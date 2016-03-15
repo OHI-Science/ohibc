@@ -15,11 +15,11 @@ plot_rast <- function(rast,
   rast_pts <- rast_pts %>%
     mutate(group = 1) ### need 'group' variable to plot below...
 
-#   if(rev_scale == TRUE) {
-#     cols <- rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) # rainbow color scheme, low = blue
-#   } else {
-  cols <- colorRampPalette(brewer.pal(11, 'Spectral'))(255) # rainbow color scheme, low = red
-#   }
+  if(rev_scale == TRUE) {
+    cols <- rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) # rainbow color scheme, low = blue
+  } else {
+    cols <- colorRampPalette(brewer.pal(11, 'Spectral'))(255) # rainbow color scheme, low = red
+  }
 
   ### set up polys for land and regions, using simplified shapes
   p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'

@@ -121,7 +121,7 @@ annual_mean <- function(stressor_data, yr_init, yr_count = 10) {
 ### resample was giving errors when applying it to a raster brick.
 ### Wrapper around resample that loops over each layer in brick.
 resample_brick <- function(rbrick, rbase,
-                           fmethod   = 'ngb',
+                           method   = 'ngb',
                            progress = 'text',
                            filename,
                            overwrite = TRUE) {
@@ -130,7 +130,7 @@ resample_brick <- function(rbrick, rbase,
   for (i in 1:nlayers(rbrick)) {
     message('Processing layer ', i, ' of ', nlayers(rbrick))
     rbrick_list[[i]] <- raster::resample(rbrick[[i]], rbase,
-                                         method    = fmethod,
+                                         method    = method,
                                          progress  = progress,
                                          filename  = str_replace(filename, '.tif', '_resample_tmp.tif'),
                                          overwrite = overwrite)
