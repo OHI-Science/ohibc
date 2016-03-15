@@ -22,10 +22,10 @@ plot_rast <- function(rast,
   }
 
   ### set up polys for land and regions, using simplified shapes
-  p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+  p4s_bcalb   <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
   poly_rgn    <- readShapePoly(fn = file.path(dir_rgn, 'ohibc_rgn_simple'),
                                 proj4string = CRS(p4s_bcalb))
-  poly_rgn_df <- fortify(rgn_poly, region = 'rgn_id') %>%
+  poly_rgn_df <- fortify(poly_rgn, region = 'rgn_id') %>%
     rename(x = long, y = lat, rgn_id = id) %>%
     mutate(rgn_id = as.integer(rgn_id))
 
