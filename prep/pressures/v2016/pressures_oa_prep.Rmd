@@ -267,12 +267,14 @@ plot_rast(oa_rescaled[['y2014']],
 Now that $\Delta \Omega_{year}$ has been determined at a 1 degree cell scale, we interpolate that to the coastlines to fill NAs.  Using `raster::interpolate()`, we select a random sample of points from the $\Delta \Omega_{year}$ raster (for speed and memory) and apply the thin plate spline model (`fields::Tps()`).
 
 ``` {r interpolate_mask_save, echo = FALSE, message = FALSE}
-oa_raster_file <- c(file.path(dir_goal, 'data/oa/oa_rescaled_2005-2014_1000pts.tif'))
+n_samples = 2000
+oa_raster_file <- c(file.path(dir_goal, sprintf('output/oa/oa_rescaled_2005-2014_%spts.tif', n_samples)))
+
 
 if(!file.exists(oa_raster_file) | reload) {
   ### from raster bricks, interpolate/extrapolate to extent of raster.  First,
   ### set up thin plate spline model from x-y of raster and values of raster
-  oa_rescaled_int <- interpolate_brick(oa_rescaled, subset_n = 1000)
+  oa_rescaled_int <- interpolate_brick(oa_rescaled, subset_n = n_samples)
     ### sampling to avoid memory problems; the Tps model seems to choke
     ### with too many points
   
@@ -305,7 +307,7 @@ plot_rast(rbrick[['y2014']],
 
 Using 1000 m region ID raster to run zonal statistics on the pressures layers (within brick or separately?) we can calculate the regional average pressures for each year of study, and save as a .csv.
 
-``` {r calc_mean_pressures}
+``` {r calc_mean_pressures_by_year}
 
 oa_rgn_mean <- zonal(rbrick, rast_rgn, fun = 'mean')
 
@@ -328,7 +330,44 @@ oa_plot <- ggplot(oa_rgn_mean_df, aes(x = year, y = pressure, group = rgn_name))
 
 print(oa_plot)
 
-write_csv(oa_rgn_mean_df, file.path(dir_goal, 'data/oa/oa_rgn_pressures.csv'))
+```
+
+## Smooth annual pressures with running average
+
+For each study year, calculate a running average of pressure score for each region, using the study year and the prior X number of years to determine the mean pressure.
+
+``` {r calc_mean_pressures_running_avg}
+
+num_yrs <- 3  ### calc 3 yr running average by region
+
+study_yrs <- c(2005:2014)
+
+oa_running_avg <- data.frame()
+for (yr in study_yrs) { ### yr <- 2005 ### yr <- 2014
+  yr_first <- max(yr - num_yrs + 1, min(oa_rgn_mean_df$year)) ###
+  oa_block <- oa_rgn_mean_df %>%
+    filter(year <= yr & year >= yr_first) %>%
+    group_by(rgn_id) %>%
+    summarize(year = yr, pressure_mean = mean(pressure))
+  oa_running_avg <- rbind(oa_running_avg, oa_block)
+}
+
+oa_rgn_mean_df <- oa_rgn_mean_df %>% 
+  left_join(oa_running_avg, by = c('rgn_id', 'year'))
+  
+
+oa_plot <- ggplot(oa_rgn_mean_df, aes(x = year, y = pressure_mean, group = rgn_name)) +
+  ggtheme_plot + 
+  geom_point(aes(color = rgn_name)) +
+  geom_line(aes(color = rgn_name)) +
+  scale_x_continuous(breaks = oa_rgn_mean_df$year) + 
+  labs(y = 'oa pressure',
+         title = 'OA pressure by region, 3 year avg, 2005:2014')
+
+print(oa_plot)
+
+write_csv(oa_rgn_mean_df, file.path(dir_goal, 'output/oa/oa_rgn_pressures.csv'))
+
 ```
 
 -----
