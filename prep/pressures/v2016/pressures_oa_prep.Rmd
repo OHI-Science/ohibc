@@ -37,7 +37,7 @@ source('~/github/ohibc/src/R/prov.R')
   ### Provenance tracking functions: must source at start to initialize prov_track
 dir_prov <- file.path(dir_goal, 'prov') 
   ### set a provenance folder for this script
-this_script_file <- file.path(dir_goal, 'pressures_lyr_prep.Rmd') 
+this_script_file <- file.path(dir_goal, 'pressures_oa_prep.Rmd') 
   ### can't recognize the current script name on its own :(
 prov_run_tag <- 'standard run'
 
@@ -97,10 +97,12 @@ library(ncdf4)
 ### read in 1880-1889 data
 oa_data_dir <- file.path(dir_neptune_data, 'git-annex/globalprep/Pressures_OceanAcidification/v2015')
 data_nc_18 <- nc_open(file.path(oa_data_dir, 'input/cesm_co2sys_1880-1889.nc'))
+git_prov(file.path(oa_data_dir, 'input/cesm_co2sys_1880-1889.nc'), type = 'input')
 # print(data_nc_18)
 
 ### read in 2005-2014 data
 data_nc_20 = nc_open(file.path(oa_data_dir, 'input/cesm_co2sys_2005-2014.nc'))
+git_prov(file.path(oa_data_dir, 'input/cesm_co2sys_2005-2014.nc'), type = 'input')
 # print(data_nc_20)
 
 ### longitude values are stored in the variable 'TLONG'; lat in 'TLAT'

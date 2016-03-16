@@ -202,10 +202,99 @@ commit_prov <- function(script_file, tag) {
     dplyr::select(-git_staged)
 }
 
-source <- function(source_fn) {
-  ### redefine source to automatically follow up with a git_prov...
-  base::source(source_fn)
-  git_prov(source_fn, type = 'sourced_script')
+
+### Redefine common read and write functions to include a call to git_prov.
+### 'nogit = TRUE' to override call to git_prov()
+
+### functions from base:
+source <- function(source_fn, ..., nogit = FALSE) {
+  base::source(file = source_fn, ...)
+  if(!nogit) git_prov(source_fn, type = 'sourced_script')
 }
 
+read.csv <- function(file, ..., stringsAsFactors = FALSE, nogit = FALSE) {
+  x <- utils::read.csv(file, ..., stringsAsFactors = stringsAsFactors)
+  if(!nogit) git_prov(file, type = 'input')
+  return(x)
+}
 
+write.csv <- function(x, file, ..., row.names = FALSE, nogit = FALSE) {
+  utils::write.csv(x, file = file, ..., row.names = row.names)
+  if(!nogit) git_prov(file, type = 'output')
+}
+
+### functions from readr:
+read_csv <- function(file, ..., nogit = FALSE) {
+  x <- readr::read_csv(file, ...)
+  if(!nogit) git_prov(file, type = 'input')
+  return(x)
+}
+
+write_csv <- function(x, path, ..., nogit = FALSE) {
+  readr::write_csv(x, path = path, ...)
+  if(!nogit) git_prov(path, type = 'output')
+}
+
+### functions to read/write shapefiles:
+readOGR <- function(dsn, layer, ..., stringsAsFactors = FALSE, nogit = FALSE) {
+  x <- rgdal::readOGR(dsn = dsn, layer = layer, ..., stringsAsFactors = stringsAsFactors)
+  if(!nogit) git_prov(sprintf('%s/%s.shp', dsn, layer), type = 'input')
+  return(x)
+}
+
+writeOGR <- function(obj, dsn, layer, ..., driver = 'ESRI Shapefile', nogit = FALSE) {
+  rgdal::writeOGR(obj, dsn = dsn, layer = layer, ..., driver = driver)
+  if(!nogit) git_prov(sprintf('%s/%s.shp', dsn, layer), type = 'output')
+}
+
+readShapePoly <- function(fn, ..., nogit = FALSE) {
+  x <- maptools::readShapePoly(fn, ...)
+  if(!nogit) git_prov(paste(fn, '.shp', sep = ''), type = 'input')
+  return(x)
+}
+
+writePolyShape <- function(x, fn, ..., nogit = FALSE) {
+  maptools::writePolyShape(x, fn, ...)
+  if(!nogit) git_prov(paste(fn, '.shp', sep = ''), type = 'output')
+}
+
+### functions to read/write rasters:
+raster <- function(x, ..., nogit = FALSE) {
+  if(is.character(x) & !nogit) {
+    y <- raster::raster(x, ...)
+    git_prov(x, type = 'input')
+    return(y)
+  } else {
+    raster::raster(x, ...)
+  }
+}
+brick <- function(x, ..., nogit = FALSE) {
+  if(is.character(x) & !nogit) {
+    y <- raster::brick(x, ...)
+    git_prov(x, type = 'input')
+    return(y)
+  } else {
+    raster::brick(x, ...)
+  }
+}
+writeRaster <- function(x, filename, ..., bylayer = FALSE, nogit = FALSE) {
+  raster::writeRaster(x, filename, ..., bylayer = bylayer)
+  if(bylayer == TRUE & !nogit) {
+    message('please run git_prov() manually on individual output layers')
+  } else {
+    if(!nogit) git_prov(paste(filename, '.shp', sep = ''), type = 'output')
+  }
+}
+
+gdal_rasterize <- function(..., nogit = FALSE) {
+  message("Don't forget to run git_prov() on the inputs and outputs...")
+  gdalUtils::gdal_rasterize(...)
+}
+
+rasterize <- function(x, y, ..., filename = '', nogit = FALSE) {
+  z <- raster::rasterize(x, y, ..., filename = filename)
+  if(filename != '' & !nogit) {
+    git_prov(filename, type = 'output')
+  }
+  return(z)
+}
