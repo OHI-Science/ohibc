@@ -237,7 +237,7 @@ uv_delta_ln <- calc(uv_delta, fun = function(x) log(x + 1))
 
 plot_rast(uv_delta_ln, 
           title = 'log+1 change in UV anomalies, 1997-2004 to 2010-2014', 
-          scale_label = 'count',
+          scale_label = 'log(count+1)',
           rev_scale = TRUE)
 
 ref_pt = quantile(uv_delta_ln, prob=0.9999)
@@ -245,7 +245,7 @@ ref_pt = quantile(uv_delta_ln, prob=0.9999)
 uv_delta_resc <- calc(uv_delta_ln, fun = function(x) ifelse(x > ref_pt, 1, x/ref_pt))
 plot_rast(uv_delta_resc, 
           title = 'rescaled change in UV anomalies, 1997-2004 to 2010-2014', 
-          scale_label = 'count',
+          scale_label = 'scaled pressure',
           rev_scale = TRUE)
 
 writeRaster(uv_delta_resc, file.path(dir_goal, 'output/uv/uv_rescaled_2010-2014.tif'))
@@ -263,6 +263,8 @@ uv_rgn_mean <- zonal(uv_delta_resc, rast_rgn, fun = 'mean') %>%
   as.data.frame() %>%
   rename(pressure = mean, rgn_id = zone) %>%
   left_join(rgn_poly@data %>% select(rgn_id, rgn_name), by = 'rgn_id')
+
+knitr::kable(uv_rgn_mean)
 
 write_csv(uv_rgn_mean, file.path(dir_goal, 'output/uv/uv_rgn_pressures.csv'))
 
