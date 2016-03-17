@@ -20,37 +20,45 @@ include the above as the start of a .Rmd; include the below as the last lines.
 
 here is a setup code chunk with many of the common parameters:
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
-library(sp)        # the classes and methods that make up spatial ops in R
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(sp)
 library(rgdal)
 library(raster)
 library(DT)
 
 dir_git <- '~/github/ohibc'
 dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+dir_anx <- file.path(dir_neptune_data, 'git-annex/bcprep')
 
 source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
-source(file.path(dir_git, 'src/R/poly_plot_scores.R')) ### score plotting script
 
 ### goal specific folders and info
-dir_spp  <- file.path(dir_git, 'prep/spp_ico')
-scenario <- 'v2016'
-dir_anx  <- file.path(dir_neptune_data, 'git-annex/bcprep')
+goal      <- 'pressures'
+scenario  <- 'v2016'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
 
 ### provenance tracking
-source('~/github/ohibc/src/R/prov.R')      
+source(file.path(dir_git, 'src/R/prov.R')      
   ### Provenance tracking functions: must source at start to initialize prov_track
-dir_prov <- file.path(dir_spp, 'prov') 
+dir_prov <- file.path(dir_goal, 'prov')
   ### set a provenance folder for this script
-this_script_file <- file.path(dir_spp, 'data_prep_spp.Rmd') 
+this_script_file <- file.path(dir_goal, 'SCRIPTNAME.Rmd') 
   ### can't recognize the current script name on its own :(
 prov_run_tag <- 'standard run'
 
-### goal-specific source scripts
-source(file.path(dir_spp, 'R/spp_fxn.R'))
-git_prov(file.path(dir_spp, 'R/spp_fxn.R'), type = 'sourced_script')
+### support scripts
+source(file.path(dir_git, 'src/R/poly_plot_scores.R')) 
+  ### score plotting scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### raster plotting and analyzing scripts
+source(file.path(dir_spp, 'R/SCRIPT_FXN.R'))
+  ### goal- or script-specific support functions
 
 ### set up proj4string options: BC Albers and WGS84
-p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
-              'EPSG:4326 WGS 84'          = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
-p4s_bcalb <- p4s_opts[1]
+p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+
 ```
