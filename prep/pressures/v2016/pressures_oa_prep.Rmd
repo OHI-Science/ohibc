@@ -78,10 +78,10 @@ Not applicable.
 
 Raw data was provided by Woods Hole on December 16, 2014. This data is an update to the work done by Feely et al. (2009).
 
-Native Data Resolution: 1 degree
-Values: Surface Ω aragonite saturation state
-Time Range: 1880-1889 and 2005-2014 (monthly data was provided for each year)
-Format: NetCDF
+* Native Data Resolution: 1 degree
+* Values: Surface Ω aragonite saturation state
+* Time Range: 1880-1889 and 2005-2014 (monthly data was provided for each year)
+* Format: NetCDF
 
 # Methods
 

@@ -1,5 +1,5 @@
 ---
-title: 'OHIBC: Ultraviolet Anomalies Pressure layers prep'
+title: 'OHIBC: Sea Level Rise Pressure layers prep'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -38,7 +38,7 @@ source('~/github/ohibc/src/R/prov.R')
   ### Provenance tracking functions: must source at start to initialize prov_track
 dir_prov <- file.path(dir_goal, 'prov') 
   ### set a provenance folder for this script
-this_script_file <- file.path(dir_goal, 'pressures_uv_prep.Rmd') 
+this_script_file <- file.path(dir_goal, 'pressures_slr_prep.Rmd') 
   ### can't recognize the current script name on its own :(
 prov_run_tag <- 'standard run'
 
@@ -60,30 +60,25 @@ reload = FALSE
 There are two parts to creating this layer:
 
 1. Data prep to get raw data into the correct format:
-    * Read anomalies data as raster for 1997-2001 and 2010-2014.
+    * Read sea level rise data as raster
     * Clip rasters to extents of OHIBC region, and reproject into BC Albers projection.
 2. Creating the pressure layers for OHIBC:
-    * Determine change in anomalies since baseline.
-    * Set negative values to zero (only interested in increases).
-    * Resample to 1 km.
-    * Log transform results.
-    * Interpolate to coastline at 1 km resolution.
-    * Rescale zero to 1, where 1 is 99.99%ile
+    * All negative values, indicating decreases in sea level, were set to zero
+    * Data was resampled from the native cell resolution (0.25 degrees) to ~ 1km
+    * The reference point was set as the 99.99th quantile of the data distribution to rescale all values from 0 to 1
+    * All NA cells were filled in through nearest neighbor interpolation
     
 This process is completed entirely within this script.
 
-# Updates
-
-Not applicable.
-
 # Data
 
-The Ultraviolet Radiation pressures layer uses the Aura OMI GLobal Surface UVB Data Product.
+Reference: The altimeter products were produced and distributed by Aviso (http://www.aviso.altimetry.fr/), as part of the Ssalto ground processing segment. AVISO
 
-* Native Data Resolution: 1 degree
-* Values: Level-3 OMI Surface UV Irradiance and Erythemal Dose- OMUVBd
-* Time Range: Daily data from 2004 - 2014
-* Format: HDF5
+* Downloaded: January 12, 2015
+* Description: Annual rate of sea level rise in mm
+* Native data resolution: 0.25 degree grid cells
+* Time range: January 1993 - June 2014
+* Format: NetCDF
 
 # Methods
 
@@ -91,28 +86,22 @@ The Ultraviolet Radiation pressures layer uses the Aura OMI GLobal Surface UVB D
 
 ### Read raw data
 
-Raw data is read in for 1997-2001 and 2010-2014 datasets.
+What is really the format here?  velocity? only single year?  use as a trend, or get multi-year data from same source?
 
-``` {r read_uv_layers}
+``` {r read_slr_data}
 
-dir_uv_data <- file.path(dir_neptune_data, 
-                         'git-annex/globalprep/Pressures_UV', 
-                         'data/uv_omi_aura_2013_2014/uv_baseline_anomaly')
+library(ncdf4)
 
-gl_uv_curr <- raster(file.path(dir_uv_data, 
-                               'omi_aura_uv_anomaly_2010m01-2014m12_raw.tif'))
-gl_uv_past    <- raster(file.path(dir_uv_data, 
-                                  'toms_ep_uv_anomaly_1997m01-2001m12_raw.tif'))
-# data       = raster('uv_anomaly_difference_2010m01-2014m12_minus_1997m01-2001m12_raw.tif'))
+dir_data_slr <- file.path('~/github/ohiprep/globalprep',
+                          'Pressures_SeaLevelRise/v2015')
+  
+rast_slr_raw <- raster(file.path(dir_data_slr, 'raw/MSL_Map_MERGED_Global_IB_RWT_NoGIA_Adjust.nc'))
 
-range_uvpast    <- range(values(gl_uv_past), na.rm = TRUE)
-range_uvcurr <- range(values(gl_uv_curr), na.rm = TRUE)
-
+range_slr <- range(values(rast_slr_raw), na.rm = TRUE)
 ```
 
-Range of UV~1997-2001~ for global dataset: `r paste(range_uvpast, collapse = ' - ')`.
+Range of SLR velocity for global dataset: `r paste(range_slr, collapse = ' - ')` mm yr^-1^.
 
-Range of UV~2010-2014~ for global dataset: `r paste(range_uvcurr, collapse = ' - ')`.
 
 ### Convert raw global data to OHIBC region data
 
@@ -142,43 +131,30 @@ rast_rgn <- raster(file.path(dir_rgn, 'ohibc_rgn_raster_1000m.tif'))
 ``` {r create_rast_bricks, echo = FALSE}
 ### clip rasters to extents of region (in WGS 84 CRS)
 ### then: reproject to BC Albers projection
-bc_uv_past_file <- file.path(dir_goal, 'int/uv/rast_uv_past_raw.tif')
-bc_uv_curr_file <- file.path(dir_goal, 'int/uv/rast_uv_curr_raw.tif')
+bc_slr_file <- file.path(dir_goal, 'int/slr/rast_slr_raw.tif')
 
 
-if(!file.exists(bc_uv_past_file) | reload) {
+if(!file.exists(bc_slr_file) | reload) {
+  rast_slr_raw <- rotate(rast_slr_raw) ### b/c error: extents do not overlap
   message('Cropping raster layers from raw data')
-  bc_uv_past <- raster::crop(gl_uv_past, rgn_poly_wgs84, snap = 'out') %>%
-    raster::projectRaster(crs = p4s_bcalb)
-  bc_uv_curr <- raster::crop(gl_uv_curr, rgn_poly_wgs84, snap = 'out') %>%
+  bc_slr <- raster::crop(rast_slr_raw, rgn_poly_wgs84, snap = 'out') %>%
     raster::projectRaster(crs = p4s_bcalb)
 
   message('Resampling rasters to new resolution')
-  bc_uv_past_resamp <- raster::resample(bc_uv_past, rast_rgn,
+  bc_slr_resamp <- raster::resample(bc_slr, rast_rgn,
                                method   = 'ngb',
                                progress = 'text',
-                               filename = bc_uv_past_file,
+                               filename = bc_slr_file,
                                overwrite = TRUE)
-  bc_uv_curr_resamp <- resample(bc_uv_curr, rast_rgn,
-                               method   = 'ngb',
-                               progress = 'text',
-                               filename = bc_uv_curr_file,
-                               overwrite = TRUE)
-  
+  git_prov(bc_slr_file, type = 'output')
 } else {
   message('Reading raster bricks from files')
-  bc_uv_past_resamp <- raster(bc_uv_past_file)
-  bc_uv_curr_resamp <- raster(bc_uv_curr_file)
+  bc_slr_resamp <- raster(bc_slr_file)
 }
 
-plot_rast(bc_uv_past_resamp, 
-          title = 'UV anomalies, 1997-2001', 
-          scale_label = 'count',
-          rev_scale = TRUE)
-
-plot_rast(bc_uv_curr_resamp, 
-          title = 'UV anomalies, 2010-2014', 
-          scale_label = 'count',
+plot_rast(bc_slr_resamp, 
+          title = 'SLR velocity', 
+          scale_label = 'mm/yr',
           rev_scale = TRUE)
 
 ```
@@ -194,62 +170,52 @@ Values below zero (drop in UV anomaly frequency) are set to zero.
 
 This difference value is log+1 transformed, then rescaled from zero (no change in anomalies) to 1 (at 99.99%ile of anomalies).
 
-``` {r interpolate_uv_anomalies}
+``` {r interpolate_slr_anomalies}
 
 ### because original data appear to be on different grids, interpolate
 ### each to create a more even surface - more sensible for subtraction.
-### Col 3 is values from past raster, col 4 is values from current;
 ### use these to parameterize the tps_models
 subset_n <- 2000 ### how many sample cells to use to create tps model
 
-xy <- data.frame(xyFromCell(bc_uv_past_resamp, 1:ncell(bc_uv_past_resamp)))
-tmpdf <- cbind(xy, getValues(bc_uv_past_resamp), getValues(bc_uv_curr_resamp)) %>%
+xy <- data.frame(xyFromCell(bc_slr_resamp, 1:ncell(bc_slr_resamp)))
+tmpdf <- cbind(xy, getValues(bc_slr_resamp)) %>%
   sample_n(min(subset_n, nrow(xy)))
 xy1 <- tmpdf[ , 1:2]
 v1  <- tmpdf[ , 3]
-v2  <- tmpdf[ , 4]
-tps_model1 <- fields::Tps(xy1, v1)
-tps_model2 <- fields::Tps(xy1, v2)
-message('interpolating uv past values')
-bc_uv_past_int <- interpolate(bc_uv_past_resamp, tps_model1)
-message('interpolating uv recent values')
-bc_uv_curr_int <- interpolate(bc_uv_curr_resamp, tps_model2)
+tps_model <- fields::Tps(xy1, v1)
+message('interpolating slr velocity values')
+bc_slr_int <- interpolate(bc_slr_resamp, tps_model)
 
 ### mask to regions
-values(bc_uv_past_int)[is.na(values(rast_rgn))] <- NA
-values(bc_uv_curr_int)[is.na(values(rast_rgn))] <- NA
+values(bc_slr_int)[is.na(values(rast_rgn))] <- NA
+
+plot_rast(bc_slr_int, 
+          title = 'SLR velocity smoothed', 
+          scale_label = 'mm/yr',
+          rev_scale = TRUE)
 
 ```
 
 ``` {r rescale_uv_pressures}
 
-### determine change in anomalies
-uv_delta <- bc_uv_curr_int - bc_uv_past_int
+### If SLR velocity is negative, set to zero
+bc_slr_pos <- bc_slr_int
+values(bc_slr_pos)[values(bc_slr_pos) < 0] <- 0
 
-### If change in anomalies is negative, set to zero
-values(uv_delta)[values(uv_delta) < 0] <- 0
-
-plot_rast(uv_delta, 
-          title = 'change in UV anomalies, 1997-2004 to 2010-2014', 
-          scale_label = 'count',
+plot_rast(bc_slr_pos, 
+          title = 'SLR pos velocity', 
+          scale_label = 'mm/yr',
           rev_scale = TRUE)
 
-uv_delta_ln <- calc(uv_delta, fun = function(x) log(x + 1))
+ref_pt = quantile(bc_slr_pos, prob=0.9999)
 
-plot_rast(uv_delta_ln, 
-          title = 'log+1 change in UV anomalies, 1997-2004 to 2010-2014', 
-          scale_label = 'log(count+1)',
-          rev_scale = TRUE)
-
-ref_pt = quantile(uv_delta_ln, prob=0.9999)
-
-uv_delta_resc <- calc(uv_delta_ln, fun = function(x) ifelse(x > ref_pt, 1, x/ref_pt))
-plot_rast(uv_delta_resc, 
-          title = 'rescaled change in UV anomalies, 1997-2004 to 2010-2014', 
+bc_slr_resc <- calc(bc_slr_pos, fun = function(x) ifelse(x > ref_pt, 1, x/ref_pt))
+plot_rast(bc_slr_resc, 
+          title = 'rescaled SLR velocity', 
           scale_label = 'scaled pressure',
           rev_scale = TRUE)
 
-writeRaster(uv_delta_resc, file.path(dir_goal, 'output/uv/uv_rescaled_2010-2014.tif'), 
+writeRaster(bc_slr_resc, file.path(dir_goal, 'output/slr/slr_rescaled.tif'), 
             overwrite = TRUE)
 
 ```
@@ -261,14 +227,14 @@ Using 1000 m region ID raster to run zonal statistics on the pressures layers, c
 
 ``` {r calc_mean_pressures_by_year}
 
-uv_rgn_mean <- zonal(uv_delta_resc, rast_rgn, fun = 'mean') %>%
+slr_rgn_mean <- zonal(bc_slr_resc, rast_rgn, fun = 'mean') %>%
   as.data.frame() %>%
   rename(pressure = mean, rgn_id = zone) %>%
   left_join(rgn_poly@data %>% select(rgn_id, rgn_name), by = 'rgn_id')
 
-knitr::kable(uv_rgn_mean)
+knitr::kable(slr_rgn_mean)
 
-write_csv(uv_rgn_mean, file.path(dir_goal, 'output/uv/uv_rgn_pressures.csv'))
+write_csv(slr_rgn_mean, file.path(dir_goal, 'output/slr/slr_rgn_pressures.csv'))
 
 ```
 
