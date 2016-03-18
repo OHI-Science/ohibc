@@ -282,7 +282,7 @@ writeRaster <- function(x, filename, ..., bylayer = FALSE, nogit = FALSE) {
   if(bylayer == TRUE & !nogit) {
     message('please run git_prov() manually on individual output layers')
   } else {
-    if(!nogit) git_prov(paste(filename, '.shp', sep = ''), type = 'output')
+    if(!nogit) git_prov(filename, type = 'output')
   }
 }
 
