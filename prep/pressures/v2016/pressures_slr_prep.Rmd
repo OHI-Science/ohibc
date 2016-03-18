@@ -107,7 +107,7 @@ Range of SLR velocity for global dataset: `r paste(range_slr, collapse = ' - ')`
 
 The raw data, in WGS84 coordinate ref system, is rasterized, clipped down to a bounding box around the OHIBC region, and reprojected into BC Albers projection.  This data is then resampled to 1 km resolution using nearest neighbor method.
 
-The resulting raster layers include total UV anomalies for each coarse cell (approx 1 degree, from original resolution) the two time periods.
+The resulting raster layers include mean SLR velocity for each coarse cell (approx .25 degree, from original resolution)
 
 ``` {r load_rgn, echo = FALSE}
 
@@ -128,7 +128,7 @@ rast_rgn <- raster(file.path(dir_rgn, 'ohibc_rgn_raster_1000m.tif'))
 
 ```
 
-``` {r create_rast_bricks, echo = FALSE}
+``` {r create_slr_rasts, echo = FALSE}
 ### clip rasters to extents of region (in WGS 84 CRS)
 ### then: reproject to BC Albers projection
 bc_slr_file <- file.path(dir_goal, 'int/slr/rast_slr_raw.tif')
@@ -162,13 +162,9 @@ plot_rast(bc_slr_resamp,
 
 ## Rescale values as pressures
 
-Baseline UV anomaly frequency is based upon the count within 1997 to 2001.
+Values below zero (lowering sea level) are set to zero.
 
-Change in UV anomaly frequency is determined by simple subtraction of the 1997-2001 raster from the 2010-2014 raster.  Because the raw rasters seem to be on different grids, differences at native resolution cell edges are very uneven; so we interpolate each layer using thin plate spline before subtracting.
-
-Values below zero (drop in UV anomaly frequency) are set to zero.
-
-This difference value is log+1 transformed, then rescaled from zero (no change in anomalies) to 1 (at 99.99%ile of anomalies).
+Then rescaled from zero (no positive sea level rise) to 1 (at 99.99%ile of velocity).
 
 ``` {r interpolate_slr_anomalies}
 
@@ -196,7 +192,7 @@ plot_rast(bc_slr_int,
 
 ```
 
-``` {r rescale_uv_pressures}
+``` {r rescale_slr_pressures}
 
 ### If SLR velocity is negative, set to zero
 bc_slr_pos <- bc_slr_int
@@ -225,7 +221,7 @@ writeRaster(bc_slr_resc, file.path(dir_goal, 'output/slr/slr_rescaled.tif'),
 
 Using 1000 m region ID raster to run zonal statistics on the pressures layers, calculate the regional average pressures for the study period, and save as a .csv.
 
-``` {r calc_mean_pressures_by_year}
+``` {r calc_mean_slr_pressures_by_year}
 
 slr_rgn_mean <- zonal(bc_slr_resc, rast_rgn, fun = 'mean') %>%
   as.data.frame() %>%

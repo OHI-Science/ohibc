@@ -139,7 +139,7 @@ rast_rgn <- raster(file.path(dir_rgn, 'ohibc_rgn_raster_1000m.tif'))
 
 ```
 
-``` {r create_rast_bricks, echo = FALSE}
+``` {r create_uv_rasts, echo = FALSE}
 ### clip rasters to extents of region (in WGS 84 CRS)
 ### then: reproject to BC Albers projection
 bc_uv_past_file <- file.path(dir_goal, 'int/uv/rast_uv_past_raw.tif')
@@ -259,7 +259,7 @@ writeRaster(uv_delta_resc, file.path(dir_goal, 'output/uv/uv_rescaled_2010-2014.
 
 Using 1000 m region ID raster to run zonal statistics on the pressures layers, calculate the regional average pressures for the study period, and save as a .csv.
 
-``` {r calc_mean_pressures_by_year}
+``` {r calc_mean_uv_pressures_by_year}
 
 uv_rgn_mean <- zonal(uv_delta_resc, rast_rgn, fun = 'mean') %>%
   as.data.frame() %>%
