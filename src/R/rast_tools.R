@@ -26,7 +26,7 @@ plot_rast <- function(rast,
 
   if(exists('git_prov')) poly_rgn <- readShapePoly(fn = file.path(dir_rgn, 'ohibc_rgn_simple'),
                                  proj4string = CRS(p4s_bcalb),
-                                 nogit = TRUE) ### from prov.R
+                                 nogit = TRUE) ### see prov.R
   else poly_rgn <- readShapePoly(fn = file.path(dir_rgn, 'ohibc_rgn_simple'),
                                  proj4string = CRS(p4s_bcalb))
 

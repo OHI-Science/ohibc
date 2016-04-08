@@ -68,8 +68,6 @@ spp_rgn2cell <- function(poly_rgn,
       dplyr::select(csq = CsquareCode, loiczid = LOICZID, cell_area = CellArea)
     stopifnot(sum(duplicated(am_cells$csq)) == 0)
 
-    git_prov(file_loc)
-
     rgn_df <- rgn_df %>%
       left_join(am_cells, by = 'loiczid')
 
@@ -79,9 +77,7 @@ spp_rgn2cell <- function(poly_rgn,
   } else {
     ### File already exists, just read it
     message(sprintf('Reading loiczid cell proportions by region from: \n  %s\n', rgn2cell_file))
-    rgn_df <- read.csv(rgn2cell_file, stringsAsFactors = FALSE)
-
-    git_prov(rgn2cell_file)
+    rgn_df <- read_csv(rgn2cell_file)
   }
 
   return(list(rgn_df, loiczid_raster))
@@ -90,9 +86,9 @@ spp_rgn2cell <- function(poly_rgn,
 
 ##############################################################################=
 spp_am_cell_summary <- function(rgn2cell_df,
-                                        am_cells_spp,
-                                        spp_all,
-                                        fn_tag = '', reload = FALSE) {
+                                am_cells_spp,
+                                spp_all,
+                                fn_tag = '', reload = FALSE) {
   # Calculate category and trend scores per cell for Aquamaps species.
   # * load AM species <-> cell lookup
   # * filter to appropriate cells (in regions, meets probability threshold)
@@ -135,9 +131,7 @@ spp_am_cell_summary <- function(rgn2cell_df,
     write_csv(am_cells_spp_sum, am_cells_spp_sum_file)
   } else {
     message(sprintf('Cell-by-cell summary for Aquamaps species already exists.  Reading from:\n  %s\n', am_cells_spp_sum_file))
-    am_cells_spp_sum <- read.csv(am_cells_spp_sum_file, stringsAsFactors = FALSE)
-
-    git_prov(am_cells_spp_sum_file)
+    am_cells_spp_sum <- read_csv(am_cells_spp_sum_file)
   }
 
   return(invisible(am_cells_spp_sum))
@@ -162,8 +156,6 @@ spp_get_am_cells <- function(rgn2cell_df, n_max = -1, prob_filter = .40, reload 
     am_cells_spp <- read_csv(spp_cell_file, col_types = '_ccn__', n_max = n_max) %>%
       rename(am_sid = SpeciesID, csq = CsquareCode, prob = probability)
 
-    git_prov(spp_cell_file)
-
     ### filter out to just cells in BC regions
     am_cells_spp1 <- rgn2cell_df %>%
       left_join(am_cells_spp, by = 'csq')
@@ -178,8 +170,6 @@ spp_get_am_cells <- function(rgn2cell_df, n_max = -1, prob_filter = .40, reload 
   } else {
     message(sprintf('Reading Aquamaps species per cell file from: \n  %s\n', am_cells_spp_file))
     am_cells_spp1 <- read_csv(am_cells_spp_file)
-
-    git_prov(am_cells_spp_file)
   }
 
   return(am_cells_spp1)
@@ -187,32 +177,36 @@ spp_get_am_cells <- function(rgn2cell_df, n_max = -1, prob_filter = .40, reload 
 
 
 ##############################################################################=
-spp_get_iucn_cells <- function(rgn2cell_df, reload = TRUE, verbose = FALSE) {
-  message('Building IUCN species to cell table.  This might take a few minutes.\n')
-  iucn_map_files      <- file.path(dir_anx_global, 'iucn_intersections', list.files(file.path(dir_anx_global, 'iucn_intersections')))
+spp_get_iucn_cells <- function(rgn2cell_df, reload = FALSE, verbose = FALSE) {
+  iucn_cells_global_file <- file.path(dir_neptune_data, sprintf('git-annex/globalprep/_raw_data/iucn_spp/iucn_cells_%s.csv', scenario))
+  if(file.exists(iucn_cells_global_file) & !reload) {
+    message('Reading IUCN cells file from global assessment: \n  ', iucn_cells_global_file)
+    iucn_cells_spp1 <- read_csv(iucn_cells_global_file)
+  } else {
+    message('Building IUCN species to cell table.  This might take a few minutes.\n')
+    iucn_map_files      <- file.path(dir_anx_global, 'iucn_intersections', list.files(file.path(dir_anx_global, 'iucn_intersections')))
 
-  ### read each into dataframe, within a list
-  read_intersections <- function(spp_group) {
-    if(verbose) message(sprintf('Reading intersections for %s...\n',
-                            str_replace(tolower(basename(spp_group)), '.csv', '')))
-    spp_group_cells <- read.csv(spp_group)
-    # git_prov(spp_group)
-    return(spp_group_cells)
+    ### read each into dataframe, within a list
+    read_intersections <- function(spp_group) {
+      if(verbose) message(sprintf('Reading intersections for %s...\n',
+                                  str_replace(tolower(basename(spp_group)), '.csv', '')))
+      spp_group_cells <- read_csv(spp_group)
+      return(spp_group_cells)
+    }
+    iucn_cells_spp_list <- lapply(iucn_map_files, read_intersections)
+
+    ### combine list of dataframes to single dataframe
+    iucn_cells_spp      <- bind_rows(iucn_cells_spp_list)
+    # This creates a full data frame of all IUCN species, across all species groups, for all cells.
+
+    names(iucn_cells_spp) <- tolower(names(iucn_cells_spp))
+
+    iucn_cells_spp1 <- rgn2cell_df %>%
+      rename(prop_area_rgn = prop_area) %>%
+      left_join(iucn_cells_spp %>%
+                  rename(prop_area_spp = prop_area),
+                by = 'loiczid')
   }
-  iucn_cells_spp_list <- lapply(iucn_map_files, read_intersections)
-
-  ### combine list of dataframes to single dataframe
-  iucn_cells_spp      <- bind_rows(iucn_cells_spp_list)
-  # This creates a full data frame of all IUCN species, across all species groups, for all cells.
-
-  names(iucn_cells_spp) <- tolower(names(iucn_cells_spp))
-
-  iucn_cells_spp1 <- rgn2cell_df %>%
-    rename(prop_area_rgn = prop_area) %>%
-    left_join(iucn_cells_spp %>%
-                rename(prop_area_spp = prop_area),
-              by = 'loiczid')
-
   return(iucn_cells_spp1)
 }
 
@@ -267,9 +261,7 @@ spp_iucn_cell_summary <- function(spp_all, iucn_cells_spp, fn_tag = '', reload =
     write_csv(iucn_cells_spp_sum, iucn_cells_spp_sum_file)
   } else {
     message(sprintf('Cell-by-cell summary for IUCN species already exists.  Reading from:\n  %s\n', iucn_cells_spp_sum_file))
-    iucn_cells_spp_sum <- read.csv(iucn_cells_spp_sum_file, stringsAsFactors = FALSE)
-
-    git_prov(iucn_cells_spp_sum_file)
+    iucn_cells_spp_sum <- read_csv(iucn_cells_spp_sum_file)
   }
   return(invisible(iucn_cells_spp_sum))
 }
@@ -337,7 +329,6 @@ spp_append_bcsee <- function(spp_all) {
            date_gl = Global.Status.Review.Date, date_pr = Prov.Status.Review.Date,
            date_pr_change = Prov.Status.Change.Date)
 
-  git_prov(bcsee_file)
   ### For spp with > 1 scientific synonyms, separate at ';', gather into
   ### a new sciname column to be rbind()ed to main list.
   ### Note: str_split() was not cooperating properly within mutate().
