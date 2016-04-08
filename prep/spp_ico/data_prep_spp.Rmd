@@ -14,6 +14,9 @@ output:
 ---
 
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
 library(sp)        # the classes and methods that make up spatial ops in R
 library(rgdal)
 library(raster)
@@ -40,7 +43,6 @@ prov_run_tag <- 'standard run'
 
 source(file.path(dir_git, 'src/R/poly_plot_scores.R'))
 source(file.path(dir_spp, 'R/spp_fxn.R'))
-git_prov(file.path(dir_spp, 'R/spp_fxn.R'), type = 'sourced_script')
 
 ### set up proj4string options: BC Albers and WGS84
 p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
@@ -138,15 +140,15 @@ Currently this uses the global species lookup table. How this list is generated 
     * Convert text extinction risk category and popn trends to number values
     * Identify parent/subpopulations and aliases within `spatial_source` field.
 
-``` {r read global species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-spp_global_file <- file.path(dir_anx_global, 'v2015/intermediate/spp_all.csv')
-spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
-git_prov(spp_global_file)
+``` {r read global species list, eval = TRUE}
+spp_global_file <- file.path(dir_anx_global, scenario, 'int/spp_all_cleaned.csv')
+spp_all <- read_csv(spp_global_file)
+
 ```
 
 Variables in `spp_all`: `r paste(names(spp_all), collapse = ' | ')`
 
-``` {r print global species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+``` {r print global species list, eval = TRUE}
 knitr::kable(head(spp_all %>% 
                 dplyr::select(sciname, am_sid, iucn_sid, popn_trend, popn_category, spatial_source)),
              align = c('l', 'c', 'c', 'c', 'c', 'c'),
@@ -161,24 +163,24 @@ Data downloaded from BC Species and Ecosystems Explorer includes information on 
 
 See [this table]('iucn_to_ns.html') for info on NatureServe codes
 
-``` {r append bcsee scores, echo = TRUE, message = FALSE, warning = FALSE}
+``` {r append bcsee scores, echo = TRUE}
 
 spp_all <- spp_append_bcsee(spp_all)
 
 spp_all <- spp_all %>%
   mutate(iucn_score = category_score,
-         category_score = ifelse(!is.na(status_pr_score), status_pr_score, category_score))
+         category_score = ifelse(!is.na(status_pr_score), status_pr_score, category_score)) %>%
+  filter(!is.na(category_score))
 
 write_csv(spp_all, file.path(dir_spp, scenario, 'int/spp_all.csv'))
-git_prov(file.path(dir_spp, scenario, 'int/spp_all.csv'), type = 'output')
 
-DT::datatable(spp_all %>% 
-                dplyr::select(sciname, am_sid, iucn_sid, popn_trend, 
-                       IUCN_cat = popn_category, NS_cat = status_pr, spatial_source),
-              rownames = FALSE,
-              caption = 'BC-specific species list:',
-              class = 'stripe hover compact',
-              options  = list(dom = 'tp'))
+# DT::datatable(spp_all %>% 
+#                 dplyr::select(sciname, am_sid, iucn_sid, popn_trend, 
+#                        IUCN_cat = popn_category, NS_cat = status_pr, spatial_source) ,
+#               rownames = FALSE,
+#               caption = 'BC-specific species list:',
+#               class = 'stripe hover compact',
+#               options  = list(dom = 'tp'))
 
 ```
 
@@ -188,7 +190,7 @@ DT::datatable(spp_all %>%
 
 Using OHIBC region polygons, determine 0.5° raster cells corresponding to each region.
 
-``` {r set up region-to-cell lookup, echo = FALSE, message = FALSE, warning = FALSE}
+``` {r set up region-to-cell lookup}
 
 ### Read in OHIBC polygons, in WGS84 CRS
 dir_rgn <- '~/github/ohibc/prep/regions'
@@ -197,7 +199,6 @@ rgn_lyr <- 'ohibc_rgn_wgs84'
 cat(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
 poly_bc_rgn <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
                        verbose = FALSE, stringsAsFactors = FALSE)
-git_prov(file.path(dir_rgn, sprintf('%s.shp', rgn_lyr)))
 
 rgn_p4s <- proj4string(poly_bc_rgn)
 names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
@@ -213,7 +214,7 @@ loiczid_rast     <- rgn2cell_list[[2]]
 
 *Note that `subs()` can't deal with duplicate cell IDs; for cells included in two or more regions, displaying the minimum region ID value*
 
-``` {r spp plot regions raster, echo = FALSE, cache = TRUE, message = FALSE, warning = FALSE, fig.height = 4, fig.width = 6, fig.align = 'center'}
+``` {r spp plot regions raster, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
 
 rgn2cell_clean <- rgn2cell_df %>% 
   group_by(loiczid) %>% 
@@ -234,7 +235,7 @@ spp_plot_raster(rgn2cell_clean, loiczid_rast, which_id = 'rgn_id',
 
 These species-per-cell tables are generated from global SPP goal data, from AquaMaps data and IUCN range maps, filtered to just OHIBC regions.
 
-``` {r AM species summary, echo = FALSE, message = FALSE, warning = FALSE}
+``` {r AM species summary}
 
 am_cells_spp <- spp_get_am_cells(rgn2cell_df, n_max = -1, prob_filter = 0, reload = FALSE)
 
@@ -248,9 +249,9 @@ DT::datatable(am_cells_sum,
 
 ```
 
-``` {r IUCN species summary, echo = FALSE, message = FALSE, warning = FALSE}
+``` {r IUCN species summary}
 
-iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df)
+iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df, reload = FALSE)
 
 iucn_cells_sum <- spp_iucn_cell_summary(spp_all, iucn_cells_spp, reload = FALSE)
 
@@ -264,7 +265,7 @@ DT::datatable(iucn_cells_sum,
 
 ### Map of species count by cell
 
-``` {r spp plot species count raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
+``` {r spp plot species count raster, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
 
 cells_sum <- iucn_cells_sum %>%
   dplyr::select(loiczid, n_cat_iucn = n_cat_species) %>%
@@ -297,7 +298,7 @@ In this section we perform the model calculations:
 * From raster-level summaries, we generate a region-level summary based on area-weighted average extinction risk and population trend.
 * From the region-level summary of risk, we determine the SPP goal status based on the goal model equation.  SPP trend is identical to the regional average population trend score.
 
-``` {r summing by cells and rgn, echo = FALSE, message = FALSE, warning = FALSE}
+``` {r summing by cells and rgn}
 
 sum_by_cell <- spp_calc_cell_means(am_cells_sum, iucn_cells_sum)
 
@@ -321,7 +322,7 @@ DT::datatable(sum_by_rgn,
 ### Map of mean extinction risk category value by cell
 
 *Category value range: least concern = 0, extinct = 1*
-``` {r spp plot cell score raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE,  fig.height = 4, fig.width = 6, fig.align = 'center'}
+``` {r spp plot cell score raster, cache = TRUE,  fig.height = 4, fig.width = 6, fig.align = 'center'}
 
 scale_limits = c(min(sum_by_cell$weighted_mean_cat,  na.rm = TRUE), 
                  max(sum_by_cell$weighted_mean_cat,  na.rm = TRUE))
@@ -342,7 +343,7 @@ spp_plot_raster(as.data.frame(sum_by_cell), loiczid_rast,
 
 Status and trend layers saved to `data` folder.  
 
-``` {r save status and trend, echo = FALSE, message = FALSE, warning = FALSE}
+``` {r save status and trend, eval = TRUE}
 
 spp_status <- sum_by_rgn %>%
   dplyr::select(rgn_id, score = status)
@@ -355,8 +356,6 @@ cat(sprintf('Writing SPP status and trend based only on IUCN categories to:\n  %
 
 write_csv(spp_status, file.path(dir_spp, scenario, 'data/spp_status.csv'))
 write_csv(spp_trend,  file.path(dir_spp, scenario, 'data/spp_trend.csv'))
-git_prov(file.path(dir_spp, scenario, 'data/spp_status.csv'), type = 'output')
-git_prov(file.path(dir_spp, scenario, 'data/spp_trend.csv'),  type = 'output')
 
 ```
 
@@ -364,7 +363,7 @@ git_prov(file.path(dir_spp, scenario, 'data/spp_trend.csv'),  type = 'output')
 
 The maps and tables show status based upon rankings from NatureServe (where available) and IUCN (where NatureServe is not available).  Currently no trend information is taken from NatureServe, so trend is based entirely on IUCN rankings.
 
-``` {r spp plot scores as polygons, echo = FALSE, message = FALSE, fig.height = 4, fig.width = 6, fig.align = 'center'}
+``` {r spp plot scores as polygons, fig.height = 4, fig.width = 6, fig.align = 'center', eval = TRUE}
 
 poly_plot_scores(spp_status, scale_label = 'SPP Status', title = 'OHIBC SPP Status')
 
@@ -393,17 +392,16 @@ DT::datatable(spp_trend %>%
 
 Create final outputs for 3nm zone for resilience calculations.  In this step, rather than using full assessment regions, only the three-nautical-mile offshore zone is examined.
 
-``` {r read 3nm shapefile, eval = TRUE, echo = FALSE, message = FALSE}
+``` {r read 3nm shapefile, eval = TRUE}
 ### Read in OHIBC 3nm offshore polygons, in WGS84 CRS
 rgn_lyr <- 'ohibc_offshore_3nm_wgs84'
 cat(sprintf('Reading OHIBC 3nm offshore regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
 poly_bc_3nm <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
                        verbose = FALSE, stringsAsFactors = FALSE)
-git_prov(file.path(dir_rgn, sprintf('%s.shp', rgn_lyr)))
 ```
 
 
-``` {r calc 3nm SPP status and trend, eval = TRUE, echo = FALSE, message = FALSE}
+``` {r calc 3nm SPP status and trend, eval = TRUE}
 
 rgn_p4s <- proj4string(poly_bc_3nm)
 names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
@@ -423,8 +421,6 @@ cat(sprintf('Writing SPP status and trend for 3nm regions to:\n  %s\n  %s\n',
             file.path(dir_spp, scenario, 'data/spp_trend_3nm.csv')))
 write_csv(spp_status_3nm, file.path(dir_spp, scenario, 'data/spp_status_3nm.csv'))
 write_csv(spp_trend_3nm,  file.path(dir_spp, scenario, 'data/spp_trend_3nm.csv'))
-git_prov(file.path(dir_spp, scenario, 'data/spp_status_3nm.csv'), type = 'output')
-git_prov(file.path(dir_spp, scenario, 'data/spp_trend_3nm.csv'),  type = 'output')
 
 ```
 
