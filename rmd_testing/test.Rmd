@@ -17,14 +17,17 @@ output:
 
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
 dir_git <- '~/github/ohibc'
-source(file.path(dir_git, 'src/R/common.R'))
+library(dplyr)
+library(readr)
+library(stringr)
 
 dir_test <- file.path(dir_git, 'rmd_testing')
 
 ### set up provenance tracking for this script:
-source(file.path(dir_git, 'src/R/prov.R'))          ### initializes prov_track and loads functions
-dir_prov <- file.path(dir_test, 'prov')             ### sets the directory for final provenance .csv (for script_prov())
-this_script_file <- file.path(dir_test, 'test.Rmd') ### can't recognize the current script name on its own :(
+prov_parent_script_file <- file.path(dir_test, 'test.Rmd') 
+  ### can't recognize the current script name on its own :(
+source(file.path(dir_git, 'src/R/prov.R'))          
+  ### initializes prov_track and loads functions
 
 ```
 
@@ -33,22 +36,26 @@ this_script_file <- file.path(dir_test, 'test.Rmd') ### can't recognize the curr
 ``` {r read global species list, echo = FALSE, message = FALSE, warning = FALSE}
 table1_file <- file.path(dir_test, 'table1.csv')
 table1      <- read.csv(table1_file, stringsAsFactors = FALSE)
-git_prov(table1_file)
 
 table2_file <- file.path(dir_test, 'table2.csv')
 write.csv(table1, table2_file)
-git_prov(table2_file, type = 'sourced script')
 
 table3_file <- file.path(dir_test, 'table3.csv')
 write.csv(table1, table3_file)
-git_prov(table3_file, type = 'Output')
 
 table4_file <- file.path(dir_test, 'table4.csv')
-git_prov(table4_file, type = 'output')
 
-table3_file <- file.path(dir_neptune_data, 'git-annex/bcprep', 'table3.csv')
+table3_file <- file.path('~', 'table3.csv')
 write.csv(table1, table2_file)
-git_prov(table3_file, type = 'output')
+
+```
+
+``` {r}
+source(file.path(dir_test, 'test_source.R'))
+
+tableA      <- read_csv(tableA_file)
+
+write_csv(tableA, tableB_file)
 
 ```
 
