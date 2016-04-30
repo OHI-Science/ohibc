@@ -17,8 +17,8 @@ x <- script_prov(this_script_file)
     - _`r x$msg_ses`_
     - _`r x$msg_base_pkgs`_
     - _`r x$msg_att_pkgs`_
-
-``` {r,  echo = FALSE, message = FALSE}
+    
+``` {r prov_plot,  echo = FALSE, message = FALSE}
 
 # DT::datatable(script_track[ , 1:9],
 #               caption = 'Provenance summary for this run:',
@@ -26,10 +26,38 @@ x <- script_prov(this_script_file)
 #               class = 'stripe hover compact',
 #               options  = list(dom = 'tp'))
 
-knitr::kable(script_track[ , 1:9] %>% 
-               arrange(run_id, type, file_loc),
-             caption = 'Provenance summary for this run:',              
-             row.names = FALSE,
+plot_prov(script_track)
+
+```
+
+``` {r prov_table,  echo = FALSE, message = FALSE}
+
+# DT::datatable(script_track[ , 1:9],
+#               caption = 'Provenance summary for this run:',
+#               rownames = FALSE,
+#               class = 'stripe hover compact',
+#               options  = list(dom = 'tp'))
+
+prov_tbl <- script_track[ , 1:9] %>%
+  mutate(commit_url = str_replace(commit_url, 'Previous commit: ', ''),
+         commit_url = ifelse(commit_url == 'no version control info found', NA, commit_url),
+         commit_id  = ifelse(is.na(commit_url), NA,
+                             sprintf('[%s](%s)', str_sub(commit_url, -6, -1), commit_url)))
+                             # sprintf('<a href = %s>%s</a>', commit_url, str_sub(commit_url, -6, -1))))
+
+run_id   <- first(prov_tbl$run_id)
+run_tag  <- first(prov_tbl$run_tag)
+run_date <- first(prov_tbl$run_date)
+
+prov_tbl1 <- prov_tbl %>%
+  mutate(file_name = basename(as.character(file_loc)),
+         file_dir  = dirname(as.character(file_loc))) %>%
+  dplyr::select(file_name, file_dir, filetype, uncomm_chgs = uncommitted_changes, commit_id)
+
+knitr::kable(prov_tbl1 %>% 
+               arrange(filetype, file_name),
+             caption = sprintf('Provenance summary for run %s: %s (%s)', run_id, run_tag, run_date),             
+             # row.names = FALSE,
              class = 'stripe hover compact')
 
 ```

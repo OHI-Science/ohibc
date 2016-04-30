@@ -19,7 +19,9 @@ poly_plot_scores <- function(score_df,
 #     sc_index <-
 #   }
 
-  poly_rgn <- readShapePoly(fn = file.path(dir_spatial, 'ohibc_rgn'), proj4string = CRS(p4s))
+  poly_rgn <- readShapePoly(fn = file.path(dir_spatial, 'ohibc_rgn'),
+                            proj4string = CRS(p4s),
+                            nogit = TRUE) ### see prov.R
   poly_rgn_df <- fortify(poly_rgn, region = 'rgn_id') %>%
     rename(rgn_id = id) %>%
     mutate(rgn_id = as.integer(rgn_id))
@@ -29,7 +31,9 @@ poly_plot_scores <- function(score_df,
 
   head(poly_rgn_df)
 
-  poly_land    <- readShapePoly(fn = file.path(dir_spatial, 'ohibc_land'), proj4string = CRS(p4s))
+  poly_land    <- readShapePoly(fn = file.path(dir_spatial, 'ohibc_land'),
+                                proj4string = CRS(p4s),
+                                nogit = TRUE)
   poly_land_df <- fortify(poly_land)
 
   df_plot <- ggplot(data = poly_rgn_df, aes(x = long, y = lat, group = group, fill = score)) +
