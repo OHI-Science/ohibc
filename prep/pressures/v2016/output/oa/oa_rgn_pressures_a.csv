@@ -1,0 +1,81 @@
+rgn_id,year,pressure,rgn_name,pressure_mean
+1,2005,0.241,North Coast,0.241
+1,2006,0.258,North Coast,0.2495
+1,2007,0.348,North Coast,0.282333333333333
+1,2008,0.272,North Coast,0.292666666666667
+1,2009,0.256,North Coast,0.292
+1,2010,0.337,North Coast,0.288333333333333
+1,2011,0.32,North Coast,0.304333333333333
+1,2012,0.307,North Coast,0.321333333333333
+1,2013,0.394,North Coast,0.340333333333333
+1,2014,0.366,North Coast,0.355666666666667
+2,2005,0.239,Haida Gwaii,0.239
+2,2006,0.255,Haida Gwaii,0.247
+2,2007,0.337,Haida Gwaii,0.277
+2,2008,0.266,Haida Gwaii,0.286
+2,2009,0.256,Haida Gwaii,0.286333333333333
+2,2010,0.329,Haida Gwaii,0.283666666666667
+2,2011,0.314,Haida Gwaii,0.299666666666667
+2,2012,0.308,Haida Gwaii,0.317
+2,2013,0.39,Haida Gwaii,0.337333333333333
+2,2014,0.364,Haida Gwaii,0.354
+3,2005,0.242,Central Coast,0.242
+3,2006,0.244,Central Coast,0.243
+3,2007,0.326,Central Coast,0.270666666666667
+3,2008,0.259,Central Coast,0.276333333333333
+3,2009,0.242,Central Coast,0.275666666666667
+3,2010,0.331,Central Coast,0.277333333333333
+3,2011,0.302,Central Coast,0.291666666666667
+3,2012,0.295,Central Coast,0.309333333333333
+3,2013,0.371,Central Coast,0.322666666666667
+3,2014,0.352,Central Coast,0.339333333333333
+4,2005,0.256,North Vancouver Island,0.256
+4,2006,0.24,North Vancouver Island,0.248
+4,2007,0.313,North Vancouver Island,0.269666666666667
+4,2008,0.261,North Vancouver Island,0.271333333333333
+4,2009,0.239,North Vancouver Island,0.271
+4,2010,0.33,North Vancouver Island,0.276666666666667
+4,2011,0.29,North Vancouver Island,0.286333333333333
+4,2012,0.286,North Vancouver Island,0.302
+4,2013,0.358,North Vancouver Island,0.311333333333333
+4,2014,0.362,North Vancouver Island,0.335333333333333
+5,2005,0.262,West Vancouver Island,0.262
+5,2006,0.234,West Vancouver Island,0.248
+5,2007,0.308,West Vancouver Island,0.268
+5,2008,0.26,West Vancouver Island,0.267333333333333
+5,2009,0.227,West Vancouver Island,0.265
+5,2010,0.337,West Vancouver Island,0.274666666666667
+5,2011,0.279,West Vancouver Island,0.281
+5,2012,0.271,West Vancouver Island,0.295666666666667
+5,2013,0.348,West Vancouver Island,0.299333333333333
+5,2014,0.38,West Vancouver Island,0.333
+6,2005,0.272,Strait of Georgia,0.272
+6,2006,0.233,Strait of Georgia,0.2525
+6,2007,0.315,Strait of Georgia,0.273333333333333
+6,2008,0.264,Strait of Georgia,0.270666666666667
+6,2009,0.227,Strait of Georgia,0.268666666666667
+6,2010,0.346,Strait of Georgia,0.279
+6,2011,0.282,Strait of Georgia,0.285
+6,2012,0.269,Strait of Georgia,0.299
+6,2013,0.351,Strait of Georgia,0.300666666666667
+6,2014,0.393,Strait of Georgia,0.337666666666667
+7,2005,0.24,Pacific Offshore,0.24
+7,2006,0.243,Pacific Offshore,0.2415
+7,2007,0.3,Pacific Offshore,0.261
+7,2008,0.241,Pacific Offshore,0.261333333333333
+7,2009,0.24,Pacific Offshore,0.260333333333333
+7,2010,0.306,Pacific Offshore,0.262333333333333
+7,2011,0.281,Pacific Offshore,0.275666666666667
+7,2012,0.288,Pacific Offshore,0.291666666666667
+7,2013,0.356,Pacific Offshore,0.308333333333333
+7,2014,0.355,Pacific Offshore,0.333
+8,2005,0.238,Aristazabal Island,0.238
+8,2006,0.248,Aristazabal Island,0.243
+8,2007,0.335,Aristazabal Island,0.273666666666667
+8,2008,0.263,Aristazabal Island,0.282
+8,2009,0.244,Aristazabal Island,0.280666666666667
+8,2010,0.334,Aristazabal Island,0.280333333333333
+8,2011,0.311,Aristazabal Island,0.296333333333333
+8,2012,0.3,Aristazabal Island,0.315
+8,2013,0.382,Aristazabal Island,0.331
+8,2014,0.355,Aristazabal Island,0.345666666666667
