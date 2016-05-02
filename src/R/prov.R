@@ -241,21 +241,53 @@ plot_prov <- function(df) {
 
   df <- df %>%
     filter(run_id == max(run_id)) %>%
-    mutate(to   = rdf_subject,
-           from = rdf_object,
+    mutate(from = rdf_subject,
+           to   = rdf_object,
            rel  = rdf_predicate)
+  ### NOTE: from subject to object is active; this will ensure that the
+  ### sequence goes down the page.  But predicates are usually
+  ### passive voice, so e.g. subject WASGENERATEDBY.  So: edges
+  ### should have direction set to reverse.
 
+  shapes_df <- data.frame(
+    filetype  = c('input',          'output',      'script',      'sourced_script'),
+    shape     = c('oval',           'oval',        'rectangle',   'rectangle'),
+    color     = c(hsv(.6, .5, .7), hsv(.3, .5, .7), hsv(.1, .5, .7), hsv(.1, .5, .7)),
+    fillcolor = c(hsv(.6, .3, .9), hsv(.3, .4, .9), hsv(.1, .4, .9), hsv(.15, .2, 1)))
+    # fontcolor, fontname
   nodes_df <- df %>%
     dplyr::select(file_loc, filetype, commit_url) %>%
-    mutate(nodes = file_loc,
-           label = basename(file_loc),
-           shape = ifelse(filetype == 'input', 'oval', 'rectangle')) %>%
+    mutate(nodes   = file_loc,
+           label   = basename(file_loc),
+           style   = 'filled',
+           fontsize  = 6,
+           fontcolor = 'grey20',
+           fontname  = 'Helvetica',
+           penwidth  = 2,
+           tooltip = commit_url) %>%
+    left_join(shapes_df, by = 'filetype') %>%
+    # tooltip as commit hash (or link?)
+    # sides, distortion for different shapes!
+    # style to differentiate script vs sourced? or alpha to differentiate source ins/outs?
     unique()
+
+  arrows_df <- data.frame(
+    rel   = c('prov:used (data)', 'prov:wasGeneratedBy', 'prov:used (script)'),
+    color = c( hsv(.6, .5, .4),    hsv(.3, .5, .4),       hsv(.1, .5, .4)))
 
   edges_df <- df %>%
     dplyr::select(from, to, rel) %>%
     filter(!from == to) %>%
-    mutate(label = rel) %>%
+    mutate(label = rel,
+           fontsize  = 6,
+           fontcolor = 'grey20',
+           fontname  = 'Helvetica',
+           penwidth  = 1,
+           #arrowhead = 'diamond', # if dir is 'back', use arrowtail
+           #arrowtail = 'box',
+           arrowsize = .5,
+           dir       = 'back') %>%
+    left_join(arrows_df, by = 'rel') %>%
     unique()
 
   prov_gr <- create_graph(nodes_df = nodes_df,
