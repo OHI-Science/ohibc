@@ -53,9 +53,9 @@ write.csv(table1, table2_file)
 ``` {r}
 source(file.path(dir_test, 'test_source.R'))
 
-tableA      <- read_csv(tableA_file)
-
-write_csv(tableA, tableB_file)
+# tableA      <- read_csv(tableA_file)
+# 
+# write_csv(tableA, tableB_file)
 
 ```
 
