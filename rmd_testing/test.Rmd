@@ -24,8 +24,6 @@ library(stringr)
 dir_test <- file.path(dir_git, 'rmd_testing')
 
 ### set up provenance tracking for this script:
-prov_parent_script_file <- file.path(dir_test, 'test.Rmd') 
-  ### can't recognize the current script name on its own :(
 source(file.path(dir_git, 'src/R/prov.R'))          
   ### initializes prov_track and loads functions
 
@@ -50,7 +48,7 @@ write.csv(table1, table2_file)
 
 ```
 
-``` {r}
+``` {r, message = FALSE, echo = FALSE}
 source(file.path(dir_test, 'test_source.R'))
 
 # tableA      <- read_csv(tableA_file)

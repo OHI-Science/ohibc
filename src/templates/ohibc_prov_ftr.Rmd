@@ -8,16 +8,16 @@
 ###   of the parent document.
 
 message('call script_prov')
-x <- script_prov(prov_parent_script_file) 
+script_prov_out_df <- script_prov(prov_parent_script_file) 
 ```
 
-- _Run ID: `r x$run_id`; run tag: "`r x$run_tag`"_
-- _Run elapsed time: `r x$elapsed_time` seconds; run memory usage: `r x$memory_use` MB_
-- _System info: `r x$msg_sys`_
+- _Run ID: `r script_prov_out_df$run_id` (`r script_prov_out_df$run_hash %>% str_sub(1, 7)`); run tag: "`r script_prov_out_df$run_tag`"_
+- _Run elapsed time: `r script_prov_out_df$elapsed_time` seconds; run memory usage: `r script_prov_out_df$memory_use` MB_
+- _System info: `r script_prov_out_df$msg_sys`_
 - _Session info_
-    - _`r x$msg_ses`_
-    - _`r x$msg_base_pkgs`_
-    - _`r x$msg_att_pkgs`_
+    - _`r script_prov_out_df$msg_ses`_
+    - _`r script_prov_out_df$msg_base_pkgs`_
+    - _`r script_prov_out_df$msg_att_pkgs`_
     
 ``` {r provenance_plot,  echo = FALSE, message = FALSE}
 
@@ -44,13 +44,14 @@ plot_prov(script_track)
 message('create the data table')
 
 prov_tbl <- script_track %>% #[ , 1:10] %>%
-  mutate(commit_url = str_replace(commit_url, 'Previous commit: ', ''),
-         commit_url = ifelse(commit_url == 'no version control info found', NA, commit_url),
-         commit_id  = ifelse(is.na(commit_url), NA,
-                             sprintf('[%s](%s)', str_sub(commit_url, -6, -1), commit_url)))
+  mutate(commit_url  = str_replace(commit_url, 'Previous commit: ', ''),
+         commit_url  = ifelse(commit_url == 'no version control info found', NA, commit_url),
+         commit_hash = ifelse(is.na(commit_url), NA,
+                             sprintf('[%s](%s)', str_sub(commit_url, -40, -34), commit_url)))
                              # sprintf('<a href = %s>%s</a>', commit_url, str_sub(commit_url, -6, -1))))
 
 run_id   <- first(prov_tbl$run_id)
+run_hash <- first(prov_tbl$run_hash) %>% str_sub(1, 7)
 run_tag  <- first(prov_tbl$run_tag)
 run_date <- first(prov_tbl$run_date)
 
@@ -60,12 +61,12 @@ prov_tbl1 <- prov_tbl %>%
   # dplyr::select(file_name, file_dir, filetype, uncomm_chgs = uncommitted_changes, commit_id)
   dplyr::select(file_name, file_dir, filetype, 
 #   parent_fn, rdf_subject, rdf_object, rdf_predicate,
-    uncomm_chgs = uncommitted_changes, commit_id)
+    uncomm_chgs = uncommitted_changes, commit_hash)
 
 
 knitr::kable(prov_tbl1 %>% 
                arrange(filetype, file_name),
-             caption = sprintf('Provenance summary for run %s: %s (%s)', run_id, run_tag, run_date),             
+             caption = sprintf('Provenance summary for run %s (%s): %s (%s)', run_id, run_hash, run_tag, run_date),             
              # row.names = FALSE,
              class = 'stripe hover compact')
 
