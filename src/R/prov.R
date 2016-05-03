@@ -21,26 +21,35 @@
 ###   a log for this run of this script, with all the info from the
 ###   prov_track variable as well as session/system info.
 
-prov_track   <- NULL ### initialize the prov_track global variable when source()d
-script_track <- NULL ### initialize the script_track global variable when source()d
-prov_run_tag <- 'standard run' ### set up a default at the start; main script can change it
-prov_start_time <- proc.time() ### initialize process timing
+## print knitr options
 
-### warn if no parent script file has been identified:
-if(!exists('prov_parent_script_file'))
-  stop('Set prov_parent_script_file to be the current script full file path.')
+# [r - Need the filename of the Rnw when knitr runs in rStudio - Stack Overflow](http://stackoverflow.com/questions/20957129/need-the-filename-of-the-rnw-when-knitr-runs-in-rstudio)
+# [Objects: Objects to manipulate options, patterns and hooks | knitr](http://yihui.name/knitr/objects/)
 
-### set directory for final provenance .csv (for script_prov()):
-if(!exists('dir_prov'))
-  dir_prov <- file.path(dirname(prov_parent_script_file), 'prov')
+# set up current directory and file for knitted script
+prov_script_dir <- file.path(getwd(), knitr:::.knitEnv$input.dir) %>%
+  str_replace(path.expand('~'), '~')
+prov_parent_script_file <- file.path(dir_test, knitr:::knit_concord$get("infile"))
+
+### set directory for provenance log .csv (for script_prov()):
+prov_log_dir <- file.path(prov_script_dir, 'prov')
 
 ### set the prov_parent_id variable to the parent script; this will be
 ### temporarily modified during a 'source' call so files operated on
 ### by sourced script will get a new parent.
 prov_parent_id <- prov_parent_script_file
 
+prov_track   <- NULL ### initialize the prov_track global variable when source()d
+script_track <- NULL ### initialize the script_track global variable when source()d
+prov_run_tag <- 'standard run' ### set up a default at the start; main script can change it
+prov_start_time <- proc.time() ### initialize process timing
+
+options(stringsAsFactors = FALSE)
+
+
+
 ###############################=
-git_prov <- function(git_file, filetype = c('input', 'output', 'script', 'sourced_script')[1]) {
+git_prov <- function(git_file, filetype = c('input', 'output', 'parent_script', 'sourced_script')[1]) {
 ### This function determines the most recent commit for a given file.
 
   ### attempt to read git_info for script or input
@@ -81,12 +90,11 @@ git_prov <- function(git_file, filetype = c('input', 'output', 'script', 'source
                        'commit_url'    = git_commit_url,
                        'commit_author' = sub('Author: ', '', git_info[2]),
                        'commit_date'   = sub('Date: ', '', git_info[3]),
-                       'uncommitted_changes' = as.logical(git_uncommitted),
-                       stringsAsFactors = FALSE)
+                       'uncommitted_changes' = as.logical(git_uncommitted))
 
   ### Binds git_df to the global prov_track variable, and reassigns it to the higher environment
   prov_track <<- prov_track %>%
-    rbind(git_df, stringsAsFactors = FALSE)
+    rbind(git_df)
 
   return(invisible(git_df))
 }
@@ -109,10 +117,11 @@ script_prov <- function(script_file, tag = prov_run_tag, commit_outputs = TRUE) 
                                                                       function(x) paste(x$Package, x$Version, sep = '_')),
                                                                collapse = ', '))
   ### Gather git info using system calls.  Convert commit # and remote origin url into a url for that commit.
-  msg_git <- git_prov(script_file, filetype = 'script')
-  run_time  = (proc.time() - prov_start_time)[3]
-  run_mem <- NA
+  msg_git  <- git_prov(script_file, filetype = 'parent_script')
+  run_time <- (proc.time() - prov_start_time)[3]
+  run_mem  <- NA
 
+  backwards_predicates <- c('output', 'source') ### for those annoying prov predicates that flip the subject/object
   script_track <<- prov_track %>%
     mutate(elapsed_time  = run_time,
            memory_use    = run_mem,
@@ -120,8 +129,8 @@ script_prov <- function(script_file, tag = prov_run_tag, commit_outputs = TRUE) 
            ses_info      = msg_ses,
            base_pkgs     = msg_base_pkgs,
            attached_pkgs = msg_att_pkgs,
-           rdf_subject   = ifelse(filetype == 'output', parent_fn, file_loc),
-           rdf_object    = ifelse(filetype == 'output', file_loc, parent_fn))
+           rdf_subject   = ifelse(filetype %in% backwards_predicates, parent_fn, file_loc),
+           rdf_object    = ifelse(filetype %in% backwards_predicates, file_loc, parent_fn))
 
   script_track <<- script_track %>%
     mutate(rdf_predicate = 'UNDEFINED', ### initialize value to default
@@ -129,10 +138,10 @@ script_prov <- function(script_file, tag = prov_run_tag, commit_outputs = TRUE) 
                                   'prov:wasGeneratedBy',
                                   rdf_predicate),
            rdf_predicate = ifelse(str_detect(filetype, 'in'),
-                                  'prov:used (data)',
+                                  'prov:used',
                                   rdf_predicate),
            rdf_predicate = ifelse(str_detect(filetype, 'source'),
-                                  'prov:used (script)',
+                                  'prov:wasExecutedBy',
                                   rdf_predicate),
            rdf_predicate = ifelse(path.expand(rdf_subject) == path.expand(rdf_object),
                                   ifelse(uncommitted_changes,
@@ -140,12 +149,17 @@ script_prov <- function(script_file, tag = prov_run_tag, commit_outputs = TRUE) 
                                          'prov:(isPrettyMuchIdenticalTo)'),
                                   rdf_predicate))
 
-  if(!exists('dir_prov')) {
+  run_hash = digest::sha1(script_track)
+  script_track <<- script_track %>%
+    mutate(run_hash = run_hash)
+
+
+  if(!exists('prov_log_dir')) {
     warning('No provenance directory assigned - this run will not be logged.\n')
     run_id <- 'NOT LOGGED'
   } else {
-    if(!dir.exists(dir_prov)) dir.create(dir_prov)
-    prov_log_file <- path.expand(file.path(dir_prov, sprintf('%s.csv', basename(script_file))))
+    if(!dir.exists(prov_log_dir)) dir.create(prov_log_dir)
+    prov_log_file <- path.expand(file.path(prov_log_dir, sprintf('%s.csv', basename(script_file))))
       ### takes full script file (including extension) and adds .csv extension
     if(!file.exists(prov_log_file)) {
       warning(sprintf('No log file found at %s - initializing new log file.\n', prov_log_file))
@@ -171,11 +185,12 @@ script_prov <- function(script_file, tag = prov_run_tag, commit_outputs = TRUE) 
         bind_rows(script_track)
     }
     message(sprintf('Writing updated log file to %s.\n', prov_log_file))
-    write.csv(log_df, prov_log_file, row.names = FALSE)
+    write_csv(log_df, prov_log_file)
   }
 
   ### Return all message strings within a named list for convenient reference.
   return(invisible(list('run_id'        = run_id,
+                        'run_hash'      = run_hash,
                         'run_tag'       = tag,
                         'elapsed_time'  = run_time,
                         'memory_use'    = run_mem,
@@ -183,7 +198,7 @@ script_prov <- function(script_file, tag = prov_run_tag, commit_outputs = TRUE) 
                         'msg_ses'       = msg_ses,
                         'msg_git'       = msg_git,
                         'msg_base_pkgs' = msg_base_pkgs,
-                        'msg_att_pkgs' = msg_att_pkgs)))
+                        'msg_att_pkgs'  = msg_att_pkgs)))
 }
 
 commit_prov <- function(script_file, tag) {
@@ -237,7 +252,7 @@ commit_prov <- function(script_file, tag) {
 }
 
 plot_prov <- function(df) {
-  library(DiagrammeR)
+  library(DiagrammeR, quietly = TRUE)
 
   df <- df %>%
     filter(run_id == max(run_id)) %>%
@@ -247,58 +262,58 @@ plot_prov <- function(df) {
   ### NOTE: from subject to object is active; this will ensure that the
   ### sequence goes down the page.  But predicates are usually
   ### passive voice, so e.g. subject WASGENERATEDBY.  So: edges
-  ### should have direction set to reverse.
+  ### should have direction set to reverse?
 
   shapes_df <- data.frame(
-    filetype  = c('input',          'output',      'script',      'sourced_script'),
-    shape     = c('oval',           'oval',        'rectangle',   'rectangle'),
-    color     = c(hsv(.6, .5, .7), hsv(.3, .5, .7), hsv(.1, .5, .7), hsv(.1, .5, .7)),
-    fillcolor = c(hsv(.6, .3, .9), hsv(.3, .4, .9), hsv(.1, .4, .9), hsv(.15, .2, 1)))
+    filetype  = c('input',         'output',        'parent_script', 'sourced_script'),
+    shape     = c('oval',          'oval',          'rectangle',     'rectangle'),
+    color     = c( hsv(.6, .5, .7), hsv(.3, .5, .7), hsv(.1, .5, .7), hsv(.1, .5, .7)),
+    fillcolor = c( hsv(.6, .3, .9), hsv(.3, .4, .9), hsv(.1, .4, .9), hsv(.15, .2, 1)))
     # fontcolor, fontname
   nodes_df <- df %>%
     dplyr::select(file_loc, filetype, commit_url) %>%
     mutate(nodes   = file_loc,
            label   = basename(file_loc),
+           tooltip = commit_url,
            style   = 'filled',
            fontsize  = 6,
            fontcolor = 'grey20',
            fontname  = 'Helvetica',
-           penwidth  = 2,
-           tooltip = commit_url) %>%
+           penwidth  = 2) %>%
     left_join(shapes_df, by = 'filetype') %>%
-    # tooltip as commit hash (or link?)
     # sides, distortion for different shapes!
     # style to differentiate script vs sourced? or alpha to differentiate source ins/outs?
     unique()
 
   arrows_df <- data.frame(
-    rel   = c('prov:used (data)', 'prov:wasGeneratedBy', 'prov:used (script)'),
+    rel   = c('prov:used', 'prov:wasGeneratedBy', 'prov:wasExecutedBy'),
     color = c( hsv(.6, .5, .4),    hsv(.3, .5, .4),       hsv(.1, .5, .4)))
 
   edges_df <- df %>%
     dplyr::select(from, to, rel) %>%
-    filter(!from == to) %>%
-    mutate(label = rel,
+    filter(from != to) %>%
+    mutate(label = str_replace(rel, 'prov:', ''),
+           #dir       = 'back',
+           tooltip   = rel,
            fontsize  = 6,
            fontcolor = 'grey20',
            fontname  = 'Helvetica',
            penwidth  = 1,
            #arrowhead = 'diamond', # if dir is 'back', use arrowtail
            #arrowtail = 'box',
-           arrowsize = .5,
-           dir       = 'back') %>%
+           arrowsize = .5) %>%
     left_join(arrows_df, by = 'rel') %>%
     unique()
 
   prov_gr <- create_graph(nodes_df = nodes_df,
                           edges_df = edges_df,
-                          graph_attrs  = NULL,
-                          node_attrs   = NULL,
-                          edge_attrs   = NULL,
-                          directed     = TRUE,
-                          graph_name   = NULL,
-                          graph_time   = NULL,
-                          graph_tz     = NULL,
+                          # graph_attrs  = NULL,
+                          # node_attrs   = NULL,
+                          # edge_attrs   = NULL,
+                          # directed     = TRUE,
+                          # graph_name   = NULL,
+                          # graph_time   = NULL,
+                          # graph_tz     = NULL,
                           generate_dot = TRUE)
 
   render_graph(prov_gr)
@@ -333,54 +348,54 @@ source <- function(source_fn, ..., nogit = FALSE) {
   if(!nogit) git_prov(source_fn, filetype = 'sourced_script')
 }
 
-read.csv <- function(file, ..., stringsAsFactors = FALSE, nogit = FALSE) {
+read.csv <- function(file, stringsAsFactors = FALSE, nogit = FALSE, ...) {
   x <- utils::read.csv(file, ..., stringsAsFactors = stringsAsFactors)
   if(!nogit) git_prov(file, filetype = 'input')
   return(x)
 }
 
-write.csv <- function(x, file, ..., row.names = FALSE, nogit = FALSE) {
+write.csv <- function(x, file, row.names = FALSE, nogit = FALSE, ...) {
   utils::write.csv(x, file = file, ..., row.names = row.names)
   if(!nogit) git_prov(file, filetype = 'output')
 }
 
 ### functions from readr:
-read_csv <- function(file, ..., nogit = FALSE) {
+read_csv <- function(file, nogit = FALSE, ...) {
   x <- readr::read_csv(file, ...)
   if(!nogit) git_prov(file, filetype = 'input')
   return(x)
 }
 
-write_csv <- function(x, path, ..., nogit = FALSE) {
+write_csv <- function(x, path, nogit = FALSE, ...) {
   readr::write_csv(x, path = path, ...)
   if(!nogit) git_prov(path, filetype = 'output')
 }
 
 ### functions to read/write shapefiles:
-readOGR <- function(dsn, layer, ..., stringsAsFactors = FALSE, nogit = FALSE) {
+readOGR <- function(dsn, layer, stringsAsFactors = FALSE, nogit = FALSE, ...) {
   x <- rgdal::readOGR(dsn = dsn, layer = layer, ..., stringsAsFactors = stringsAsFactors)
   if(!nogit) git_prov(sprintf('%s/%s.shp', dsn, layer), filetype = 'input')
   return(x)
 }
 
-writeOGR <- function(obj, dsn, layer, ..., driver = 'ESRI Shapefile', nogit = FALSE) {
+writeOGR <- function(obj, dsn, layer, driver = 'ESRI Shapefile', nogit = FALSE, ...) {
   rgdal::writeOGR(obj, dsn = dsn, layer = layer, ..., driver = driver)
   if(!nogit) git_prov(sprintf('%s/%s.shp', dsn, layer), filetype = 'output')
 }
 
-readShapePoly <- function(fn, ..., nogit = FALSE) {
+readShapePoly <- function(fn, nogit = FALSE, ...) {
   x <- maptools::readShapePoly(fn, ...)
   if(!nogit) git_prov(paste(fn, '.shp', sep = ''), filetype = 'input')
   return(x)
 }
 
-writePolyShape <- function(x, fn, ..., nogit = FALSE) {
+writePolyShape <- function(x, fn, nogit = FALSE, ...) {
   maptools::writePolyShape(x, fn, ...)
   if(!nogit) git_prov(paste(fn, '.shp', sep = ''), filetype = 'output')
 }
 
 ### functions to read/write rasters:
-raster <- function(x, ..., nogit = FALSE) {
+raster <- function(x, nogit = FALSE, ...) {
   if(is.character(x) & !nogit) {
     y <- raster::raster(x, ...)
     git_prov(x, filetype = 'input')
@@ -390,7 +405,7 @@ raster <- function(x, ..., nogit = FALSE) {
   }
 }
 
-brick <- function(x, ..., nogit = FALSE) {
+brick <- function(x, nogit = FALSE, ...) {
   if(is.character(x) & !nogit) {
     y <- raster::brick(x, ...)
     git_prov(x, filetype = 'input')
@@ -400,12 +415,12 @@ brick <- function(x, ..., nogit = FALSE) {
   }
 }
 
-writeRaster <- function(x, filename, ..., bylayer = FALSE, nogit = FALSE) {
+writeRaster <- function(x, filename, bylayer = FALSE, nogit = FALSE, ...) {
   raster::writeRaster(x, filename, ..., bylayer = bylayer)
   if(bylayer == TRUE & !nogit) {
     message('please run git_prov() manually on individual output layers')
   } else {
-    if(!nogit) git_prov(filename, type = 'output')
+    if(!nogit) git_prov(filename, filetype = 'output')
   }
 }
 
@@ -414,7 +429,7 @@ gdal_rasterize <- function(..., nogit = FALSE) {
   gdalUtils::gdal_rasterize(...)
 }
 
-rasterize <- function(x, y, ..., filename = '', nogit = FALSE) {
+rasterize <- function(x, y, filename = '', nogit = FALSE, ...) {
   z <- raster::rasterize(x, y, ..., filename = filename)
   if(filename != '' & !nogit) {
     git_prov(filename, filetype = 'output')
