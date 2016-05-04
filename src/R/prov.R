@@ -29,7 +29,7 @@
 # set up current directory and file for knitted script
 prov_script_dir <- file.path(getwd(), knitr:::.knitEnv$input.dir) %>%
   str_replace(path.expand('~'), '~')
-prov_parent_script_file <- file.path(dir_test, knitr:::knit_concord$get("infile"))
+prov_parent_script_file <- file.path(prov_script_dir, knitr:::knit_concord$get("infile"))
 
 ### set directory for provenance log .csv (for script_prov()):
 prov_log_dir <- file.path(prov_script_dir, 'prov')
@@ -121,7 +121,7 @@ script_prov <- function(script_file, tag = prov_run_tag, commit_outputs = TRUE) 
   run_time <- (proc.time() - prov_start_time)[3]
   run_mem  <- NA
 
-  backwards_predicates <- c('output', 'source') ### for those annoying prov predicates that flip the subject/object
+  backwards_predicates <- c('output', 'sourced_script') ### for those annoying prov predicates that flip the subject/object
   script_track <<- prov_track %>%
     mutate(elapsed_time  = run_time,
            memory_use    = run_mem,
@@ -251,7 +251,7 @@ commit_prov <- function(script_file, tag) {
     dplyr::select(-git_staged)
 }
 
-plot_prov <- function(df) {
+plot_prov <- function(df, plot_dir = c('TB', 'LR')[1]) {
   library(DiagrammeR, quietly = TRUE)
 
   df <- df %>%
@@ -307,7 +307,7 @@ plot_prov <- function(df) {
 
   prov_gr <- create_graph(nodes_df = nodes_df,
                           edges_df = edges_df,
-                          # graph_attrs  = NULL,
+                          graph_attrs  = sprintf('rankdir = %s', plot_dir),
                           # node_attrs   = NULL,
                           # edge_attrs   = NULL,
                           # directed     = TRUE,
@@ -317,6 +317,7 @@ plot_prov <- function(df) {
                           generate_dot = TRUE)
 
   render_graph(prov_gr)
+
 }
 
 
