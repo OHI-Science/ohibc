@@ -69,6 +69,12 @@ source(file.path(dir_test, '2_model_sample.R'))
 
 ```
 
+### using peek_csv: check to see if tablex.csv shows up in the log?
+
+`r z <- peek_csv('tablex.csv'); knitr::kable(z[1])`
+
+`r knitr::kable(z[2])`
+
 ``` {r display table, echo = FALSE, message = FALSE, warning = FALSE}
 DT::datatable(table1,   ### does not display system and session info
               caption  = 'this is a sample table:',              
