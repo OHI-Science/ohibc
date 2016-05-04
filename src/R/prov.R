@@ -41,7 +41,8 @@ prov_parent_id <- prov_parent_script_file
 
 prov_track   <- NULL ### initialize the prov_track global variable when source()d
 script_track <- NULL ### initialize the script_track global variable when source()d
-prov_run_tag <- 'standard run' ### set up a default at the start; main script can change it
+if(!exists('prov_run_tag'))
+  prov_run_tag  <- 'standard run' ### set up a default at the start; main script can change it before or after the source call.
 prov_start_time <- proc.time() ### initialize process timing
 
 options(stringsAsFactors = FALSE)
@@ -49,7 +50,7 @@ options(stringsAsFactors = FALSE)
 
 
 ###############################=
-git_prov <- function(git_file, filetype = c('input', 'output', 'parent_script', 'sourced_script')[1]) {
+git_prov <- function(git_file, filetype = c('input', 'output', 'parent_script', 'sourced_script')[1], nolog = FALSE) {
 ### This function determines the most recent commit for a given file.
 
   ### attempt to read git_info for script or input
@@ -92,9 +93,12 @@ git_prov <- function(git_file, filetype = c('input', 'output', 'parent_script', 
                        'commit_date'   = sub('Date: ', '', git_info[3]),
                        'uncommitted_changes' = as.logical(git_uncommitted))
 
-  ### Binds git_df to the global prov_track variable, and reassigns it to the higher environment
-  prov_track <<- prov_track %>%
-    rbind(git_df)
+  ### Binds git_df to the global prov_track variable, and reassigns it to the higher environment.
+  ### nolog argument to git_prov allows to check git info without logging it (for peek_csv() below)
+  if(!nolog) {
+    prov_track <<- prov_track %>%
+      rbind(git_df)
+  }
 
   return(invisible(git_df))
 }
@@ -438,3 +442,21 @@ rasterize <- function(x, y, filename = '', nogit = FALSE, ...) {
   return(z)
 }
 
+peek_csv <- function(filename, gitpeek = FALSE, nolog = TRUE, n_max = 5) {
+  z <- readr::read_csv(filename, n_max = n_max)
+  if(gitpeek) {
+    z_git <- git_prov(filename, nolog = nolog)
+    z_git <- z_git %>%
+      mutate(commit_url  = str_replace(commit_url, 'Previous commit: ', ''),
+             commit_url  = ifelse(commit_url == 'no version control info found', NA, commit_url),
+             commit_hash = ifelse(is.na(commit_url), NA,
+                                  sprintf('[%s](%s)', str_sub(commit_url, -40, -34), commit_url)),
+             file_name = basename(as.character(file_loc)),
+             file_dir  = dirname(as.character(file_loc))) %>%
+      dplyr::select(file_name, file_dir, filetype,
+                    uncomm_chgs = uncommitted_changes, commit_hash)
+
+    return(list(z, z_git))
+  }
+  return(z)
+}
