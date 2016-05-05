@@ -37,7 +37,7 @@ read in some data A and data B.  Modify some things, and save as layer 1.
 tableA_file <- file.path(dir_test, 'tableA.csv')
 tableA      <- read.csv(tableA_file, stringsAsFactors = FALSE)
 
-tableA1_file <- file.path(dir_test, 'tableA1.csv')
+tableA1_file <- file.path('~', 'tableA2.csv')
 tableA1      <- read.csv(tableA1_file, stringsAsFactors = FALSE)
 
 tableB_file <- file.path(dir_test, 'tableB.csv')

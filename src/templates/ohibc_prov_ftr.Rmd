@@ -18,7 +18,7 @@ script_prov_out_df <- script_prov(prov_parent_script_file)
     - _`r script_prov_out_df$msg_ses`_
     - _`r script_prov_out_df$msg_base_pkgs`_
     - _`r script_prov_out_df$msg_att_pkgs`_
-    
+
 ``` {r provenance_plot,  echo = FALSE, message = FALSE, warning = FALSE}
 
 # DT::datatable(script_track[ , 1:9],
@@ -29,7 +29,6 @@ script_prov_out_df <- script_prov(prov_parent_script_file)
 
 message('call plot_prov')
 
-print(head(script_track))
 plot_prov(script_track)
 
 # plot_prov(script_track, plot_dir = 'LR')
@@ -43,8 +42,6 @@ plot_prov(script_track)
 #               rownames = FALSE,
 #               class = 'stripe hover compact',
 #               options  = list(dom = 'tp'))
-
-message('create the data table')
 
 prov_tbl <- script_track %>% #[ , 1:10] %>%
   mutate(commit_url  = str_replace(commit_url, 'Previous commit: ', ''),
