@@ -253,7 +253,7 @@ plot_prov <- function(df) {
     filetype  = c('input',          'output',      'script',      'sourced_script'),
     shape     = c('oval',           'oval',        'rectangle',   'rectangle'),
     color     = c(hsv(.6, .5, .7), hsv(.3, .5, .7), hsv(.1, .5, .7), hsv(.1, .5, .7)),
-    fillcolor = c(hsv(.6, .3, .9), hsv(.3, .4, .9), hsv(.1, .4, .9), hsv(.15, .2, 1)))
+    fillcolor = c(hsv(.6, .3, .9), hsv(.3, .4, .9), hsv(.15, .5, .9), hsv(.15, .5, 1)))
     # fontcolor, fontname
   nodes_df <- df %>%
     dplyr::select(file_loc, filetype, commit_url) %>%
@@ -278,7 +278,7 @@ plot_prov <- function(df) {
   edges_df <- df %>%
     dplyr::select(from, to, rel) %>%
     filter(!from == to) %>%
-    mutate(label = rel,
+    mutate(label = str_replace(rel, 'prov:', ''),
            fontsize  = 6,
            fontcolor = 'grey20',
            fontname  = 'Helvetica',
@@ -286,7 +286,8 @@ plot_prov <- function(df) {
            #arrowhead = 'diamond', # if dir is 'back', use arrowtail
            #arrowtail = 'box',
            arrowsize = .5,
-           dir       = 'back') %>%
+           tooltip   = rel,
+           dir       = 'forward') %>%
     left_join(arrows_df, by = 'rel') %>%
     unique()
 
