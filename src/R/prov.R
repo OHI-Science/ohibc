@@ -32,7 +32,7 @@
 prov_script_dir <- file.path(getwd(), knitr:::.knitEnv$input.dir) %>%
   str_replace(path.expand('~'), '~')
 if(length(prov_script_dir) == 0) {
-  prov_script_dir  <- 'Rmd_not_knitted'
+  prov_script_dir  <- getwd() ### default for non-knitted operations
 }
 
 prov_parent_script_file <- file.path(prov_script_dir, knitr:::knit_concord$get("infile"))

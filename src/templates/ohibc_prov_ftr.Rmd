@@ -32,7 +32,9 @@ message('call plot_prov')
 plot_prov(script_track)
 
 # plot_prov(script_track, plot_dir = 'LR')
-
+svg("~/github/ohibc/rmd_testing/plots.svg")
+plot_prov(script_track)
+dev.off()
 ```
 
 ``` {r provenance_table,  echo = FALSE, message = FALSE, warning = FALSE}
