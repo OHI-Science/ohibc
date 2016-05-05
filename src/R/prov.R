@@ -267,7 +267,11 @@ commit_prov <- function(script_file, tag) {
 }
 
 plot_prov <- function(df, plot_dir = c('TB', 'LR')[1]) {
+  # devtools::install_github("rich-iannone/DiagrammeR")
+  # devtools::install_github("rich-iannone/DiagrammeRsvg")
+  message('For now, gotta use the install_github version of DiagrammeR and DiagrammeRsvg')
   library(DiagrammeR, quietly = TRUE)
+  library(DiagrammeRsvg, quietly = TRUE)
 
   df <- df %>%
     filter(run_id == max(run_id)) %>%
@@ -338,7 +342,10 @@ plot_prov <- function(df, plot_dir = c('TB', 'LR')[1]) {
                           # graph_tz     = NULL,
                           generate_dot = TRUE)
 
-  render_graph(prov_gr)
+  # render_graph(prov_gr) %>%
+  #   print()
+
+  return(invisible(prov_gr))
 
 }
 
