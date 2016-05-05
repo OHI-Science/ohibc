@@ -7,7 +7,6 @@
 ###   'this_script_file' needs to be set (in the parent) to the filename
 ###   of the parent document.
 
-message('call script_prov')
 script_prov_out_df <- script_prov(prov_parent_script_file) 
 ```
 
@@ -27,14 +26,16 @@ script_prov_out_df <- script_prov(prov_parent_script_file)
 #               class = 'stripe hover compact',
 #               options  = list(dom = 'tp'))
 
-message('call plot_prov')
-
-plot_prov(script_track)
+prov_plot_out <- plot_prov(script_track)
 
 # plot_prov(script_track, plot_dir = 'LR')
-svg("~/github/ohibc/rmd_testing/plots.svg")
-plot_prov(script_track)
-dev.off()
+prov_plot_fn <- file.path(prov_log_dir, sprintf('%s.svg', basename(prov_parent_script_file)))
+message('saving flow chart to ', prov_plot_fn)
+export_graph(prov_plot_out, prov_plot_fn)
+# export_graph(prov_plot_out, file.path(prov_log_dir, sprintf('%s.png', basename(prov_parent_script_file))))
+
+render_graph(prov_plot_out)
+
 ```
 
 ``` {r provenance_table,  echo = FALSE, message = FALSE, warning = FALSE}
