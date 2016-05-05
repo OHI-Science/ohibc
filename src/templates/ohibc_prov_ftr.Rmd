@@ -29,9 +29,10 @@ script_prov_out_df <- script_prov(prov_parent_script_file)
 
 message('call plot_prov')
 
+print(head(script_track))
 plot_prov(script_track)
 
-plot_prov(script_track, plot_dir = 'LR')
+# plot_prov(script_track, plot_dir = 'LR')
 
 ```
 

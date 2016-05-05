@@ -37,6 +37,9 @@ read in some data A and data B.  Modify some things, and save as layer 1.
 tableA_file <- file.path(dir_test, 'tableA.csv')
 tableA      <- read.csv(tableA_file, stringsAsFactors = FALSE)
 
+tableA1_file <- file.path(dir_test, 'tableA1.csv')
+tableA1      <- read.csv(tableA1_file, stringsAsFactors = FALSE)
+
 tableB_file <- file.path(dir_test, 'tableB.csv')
 tableB      <- read_csv(tableB_file)
 
@@ -51,7 +54,7 @@ This sources a script that modifies another new layer (tableC) and saves it as t
 
 ``` {r source a script that processes other layers, echo = FALSE, message = FALSE, warning = FALSE}
 
-source('1_data_prep_sample.R')
+source(file.path(dir_test, '1_data_prep_sample.R'))
 
 ```
 
@@ -69,11 +72,7 @@ source(file.path(dir_test, '2_model_sample.R'))
 
 ```
 
-### using peek_csv: check to see if tablex.csv shows up in the log?
 
-`r z <- peek_csv('tablex.csv'); knitr::kable(z[1])`
-
-`r knitr::kable(z[2])`
 
 ``` {r display table, echo = FALSE, message = FALSE, warning = FALSE}
 DT::datatable(table1,   ### does not display system and session info

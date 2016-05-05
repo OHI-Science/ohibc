@@ -26,18 +26,29 @@
 # [r - Need the filename of the Rnw when knitr runs in rStudio - Stack Overflow](http://stackoverflow.com/questions/20957129/need-the-filename-of-the-rnw-when-knitr-runs-in-rstudio)
 # [Objects: Objects to manipulate options, patterns and hooks | knitr](http://yihui.name/knitr/objects/)
 
-# set up current directory and file for knitted script
+### set up current directory and file for knitted script.
+### If not being knitted (e.g. run chunk at a time) the knitr::: call returns
+### character(0) so set to a valid temp string.
 prov_script_dir <- file.path(getwd(), knitr:::.knitEnv$input.dir) %>%
   str_replace(path.expand('~'), '~')
-prov_parent_script_file <- file.path(prov_script_dir, knitr:::knit_concord$get("infile"))
+if(length(prov_script_dir) == 0) {
+  prov_script_dir  <- 'Rmd_not_knitted'
+}
 
-### set directory for provenance log .csv (for script_prov()):
-prov_log_dir <- file.path(prov_script_dir, 'prov')
+prov_parent_script_file <- file.path(prov_script_dir, knitr:::knit_concord$get("infile"))
+if(length(prov_parent_script_file) == 0) {
+  prov_parent_script_file  <- 'Rmd_not_knitted'
+}
 
 ### set the prov_parent_id variable to the parent script; this will be
 ### temporarily modified during a 'source' call so files operated on
 ### by sourced script will get a new parent.
 prov_parent_id <- prov_parent_script_file
+
+
+### set directory for provenance log .csv (for script_prov()):
+prov_log_dir <- file.path(prov_script_dir, 'prov')
+
 
 prov_track   <- NULL ### initialize the prov_track global variable when source()d
 script_track <- NULL ### initialize the script_track global variable when source()d
@@ -275,7 +286,7 @@ plot_prov <- function(df, plot_dir = c('TB', 'LR')[1]) {
     fillcolor = c( hsv(.6, .3, .9), hsv(.3, .4, .9), hsv(.1, .4, .9), hsv(.15, .2, 1)))
     # fontcolor, fontname
   nodes_df <- df %>%
-    dplyr::select(file_loc, filetype, commit_url) %>%
+    dplyr::select(file_loc, filetype, commit_url, uncommitted_changes) %>%
     mutate(nodes   = file_loc,
            label   = basename(file_loc),
            tooltip = commit_url,
@@ -288,6 +299,11 @@ plot_prov <- function(df, plot_dir = c('TB', 'LR')[1]) {
     # sides, distortion for different shapes!
     # style to differentiate script vs sourced? or alpha to differentiate source ins/outs?
     unique()
+
+  ### special cases: no git tracking, or uncommitted changes
+  nodes_df <- nodes_df %>%
+    mutate(color = ifelse(uncommitted_changes == TRUE, 'yellow', color),
+           color = ifelse(str_detect('no version control', commit_url), 'red', color))
 
   arrows_df <- data.frame(
     rel   = c('prov:used', 'prov:wasGeneratedBy', 'prov:wasExecutedBy'),
@@ -442,21 +458,3 @@ rasterize <- function(x, y, filename = '', nogit = FALSE, ...) {
   return(z)
 }
 
-peek_csv <- function(filename, gitpeek = FALSE, nolog = TRUE, n_max = 5) {
-  z <- readr::read_csv(filename, n_max = n_max)
-  if(gitpeek) {
-    z_git <- git_prov(filename, nolog = nolog)
-    z_git <- z_git %>%
-      mutate(commit_url  = str_replace(commit_url, 'Previous commit: ', ''),
-             commit_url  = ifelse(commit_url == 'no version control info found', NA, commit_url),
-             commit_hash = ifelse(is.na(commit_url), NA,
-                                  sprintf('[%s](%s)', str_sub(commit_url, -40, -34), commit_url)),
-             file_name = basename(as.character(file_loc)),
-             file_dir  = dirname(as.character(file_loc))) %>%
-      dplyr::select(file_name, file_dir, filetype,
-                    uncomm_chgs = uncommitted_changes, commit_hash)
-
-    return(list(z, z_git))
-  }
-  return(z)
-}
