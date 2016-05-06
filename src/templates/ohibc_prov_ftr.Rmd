@@ -59,8 +59,8 @@ run_tag  <- first(prov_tbl$run_tag)
 run_date <- first(prov_tbl$run_date)
 
 prov_tbl1 <- prov_tbl %>%
-  mutate(file_name = basename(as.character(file_loc)),
-         file_dir  = dirname(as.character(file_loc))) %>%
+  mutate(file_name = basename(file_loc),
+         file_dir  = dirname(file_loc) %>% str_replace(path.expand('~'), '~')) %>%
   # dplyr::select(file_name, file_dir, filetype, uncomm_chgs = uncommitted_changes, commit_id)
   dplyr::select(file_name, file_dir, filetype, 
 #   parent_fn, rdf_subject, rdf_object, rdf_predicate,
