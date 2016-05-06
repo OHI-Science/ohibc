@@ -30,9 +30,11 @@
 ### If not being knitted (e.g. run chunk at a time) the knitr::: call returns
 ### character(0) so set to a valid temp string.
 prov_script_dir <- file.path(getwd(), knitr:::.knitEnv$input.dir) %>%
-  str_replace(path.expand('~'), '~')
+  str_sub(1, -3) %>%                            ### ditch annoying '/.' at the end
+  str_replace(path.expand('~'), '~')            ### ditch specific home for generic home
+
 if(length(prov_script_dir) == 0) {
-  prov_script_dir  <- getwd() ### default for non-knitted operations
+  prov_script_dir  <- getwd()  ### default for non-knitted operations
 }
 
 prov_parent_script_file <- file.path(prov_script_dir, knitr:::knit_concord$get("infile"))
@@ -45,10 +47,8 @@ if(length(prov_parent_script_file) == 0) {
 ### by sourced script will get a new parent.
 prov_parent_id <- prov_parent_script_file
 
-
 ### set directory for provenance log .csv (for script_prov()):
 prov_log_dir <- file.path(prov_script_dir, 'prov')
-
 
 prov_track   <- NULL ### initialize the prov_track global variable when source()d
 script_track <- NULL ### initialize the script_track global variable when source()d
@@ -174,7 +174,7 @@ script_prov <- function(script_file, tag = prov_run_tag, commit_outputs = TRUE) 
     run_id <- 'NOT LOGGED'
   } else {
     if(!dir.exists(prov_log_dir)) dir.create(prov_log_dir)
-    prov_log_file <- path.expand(file.path(prov_log_dir, sprintf('%s.csv', basename(script_file))))
+    prov_log_file <- file.path(prov_log_dir, sprintf('%s.csv', basename(script_file)))
       ### takes full script file (including extension) and adds .csv extension
     if(!file.exists(prov_log_file)) {
       warning(sprintf('No log file found at %s - initializing new log file.\n', prov_log_file))
