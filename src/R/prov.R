@@ -95,6 +95,10 @@ git_prov <- function(git_file, filetype = c('input', 'output', 'parent_script', 
     message(sprintf('File `%s`: most recent commit info: %s; uncommitted changes = %s', git_file,
                     paste(git_info[1], git_info[2], git_info[3], collapse = '; '), git_uncommitted))
   }
+  
+  git_file <- git_file %>%
+    str_replace(dir_M, 'Mazu:') %>%
+    str_replace(dir_N, 'Neptune:')
 
   git_df <- data.frame('parent_fn'     = prov_parent_id,
                        'file_loc'      = git_file,
