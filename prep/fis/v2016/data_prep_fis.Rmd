@@ -1,0 +1,16 @@
+fisheries reporting:
+* fisheries reporting is in zones (denoted by polygons)
+* some fisheries are reported by cells (4 km cells?)
+
+We will work at 1 km resolution (?)
+* create a raster of rgn_id at 1 km resolution
+  * does this already exist?
+    * yes: prep/spatial/ohibc_rgn_raster_1000m.tif
+      * NOTE: the raster has some problems; e.g. Haida Gwaii is filled in
+    * also 500 m raster if desired
+* create a raster of fishery zones (for csv reporting)
+  * at 1 km resolution
+* rasterize layers for each year:
+  * use nearest neighbor if reclassifying
+  * use cell center (default) otherwise; this allows for gdal_rasterize
+  * stack together all years of a single fishery for processing
