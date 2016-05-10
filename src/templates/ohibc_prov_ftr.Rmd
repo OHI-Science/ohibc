@@ -66,6 +66,9 @@ DT::datatable(prov_tbl1 %>%
               class = 'stripe hover compact',
               options  = list(dom = 'tp'))
 
+### DT::datatable creates interactive tables with inactive links; perhaps cut the commit_hash down?
+### knitr::kable creates active links, but no interactivity.  Which?
+### 
 # knitr::kable(prov_tbl1 %>% 
 #                arrange(filetype, file_name),
 #              caption = sprintf('Provenance summary for run %s (%s): %s (%s)', run_id, run_hash, run_tag, run_date),             
