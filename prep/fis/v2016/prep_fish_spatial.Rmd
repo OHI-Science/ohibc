@@ -210,7 +210,7 @@ rasterize_list(sardine_polys, fld_name = 'sum_estton')
 
 ```
 
-``` {r aggregate_to_rgn, eval = FALSE}
+``` {r aggregate_to_rgn, eval = TRUE}
 if(!exists('rast_rgn'))
   rast_rgn <- raster(file.path(dir_git, 'prep/spatial/ohibc_rgn_raster_1000m.tif'))
 
@@ -220,8 +220,9 @@ zonestats <- function(stock, value, yrs, fun = 'sum') {
   fis_df <- data.frame()
   for (yr in yrs) { # yr <- 2001
     tmp_rast <- raster(file.path(dir_rast, sprintf('%s%s_%s.tif', stock, yr, value)))
-    tmp_zonal <- zonal(tmp_rast, rast_rgn, fun = fun, digits=0, na.rm=TRUE) %>%
-      as.data.frame()
+    tmp_zonal <- zonal(tmp_rast, rast_rgn, fun = fun, digits = 0, na.rm = TRUE) %>%
+      as.data.frame() %>%
+      mutate(year = yr)
     fis_df <- bind_rows(tmp_zonal, fis_df)
   }
 names(fis_df) <- c('rgn_id', value, 'year')
@@ -230,35 +231,61 @@ return(fis_df)
 
 ### dungeness crabs!
 fis_stock <- 'crabtrap_dungeness'
-fis_value <- 'catch_kg'
-fis_fun   <- 'sum'
+fis_value <- c('catch_kg', 'effort_hr')
 yrs <- c(2001:2011)
 
-catch_df  <- zonestats(fis_stock, 'catch_kg',  yrs, fis_fun)
-effort_df <- zonestats(fis_stock, 'effort_hr', yrs, fis_fun)
-write_csv(catch_df, file.path(dir_goal, sprintf('int/%s_catch_kg.csv', fis_stock)))
-write_csv(effort_df, file.path(dir_goal, sprintf('int/%s_effort_hr.csv', fis_stock)))
+for(x in fis_value) {
+  message('Processing ', fis_stock, ' ', x)
+  value_df <- zonestats(fis_stock, x, yrs, 'sum')
+  write_csv(value_df,  file.path(dir_goal, sprintf('int/%s_%s.csv', fis_stock, x)))
+}
 
 ### Geoduck!
 fis_stock <- 'dive_geoduck'
-fis_fun   <- 'sum'
+fis_value <- c('catch_kg', 'effort_hr')
 yrs <- c(2003:2011)
 
-catch_df  <- zonestats(fis_stock, 'catch_kg',  yrs, fis_fun)
-effort_df <- zonestats(fis_stock, 'effort_hr', yrs, fis_fun)
-write_csv(catch_df, file.path(dir_goal, sprintf('int/%s_catch_kg.csv', fis_stock)))
-write_csv(effort_df, file.path(dir_goal, sprintf('int/%s_effort_hr.csv', fis_stock)))
+for(x in fis_value) {
+  message('Processing ', fis_stock, ' ', x)
+  value_df <- zonestats(fis_stock, x, yrs, 'sum')
+  write_csv(value_df,  file.path(dir_goal, sprintf('int/%s_%s.csv', fis_stock, x)))
+}
 
-### Spot prawns!
+### Spot prawns! Do these manually since years are different
 fis_stock <- 'prawntrap_prawns'
-fis_fun   <- 'sum'
-yrs <- c(2001:2002)
+fis_value <- c('catch_kg', 'effort_trp', 'effort_hr')
+yrs <- c(2001:2011)
 
-catch_df  <- zonestats(fis_stock, 'catch_kg',  yrs, fis_fun)
-effort_df <- zonestats(fis_stock, 'effort_trp', yrs, fis_fun)
-write_csv(catch_df, file.path(dir_goal, sprintf('int/%s_catch_kg.csv', fis_stock)))
-write_csv(effort_df, file.path(dir_goal, sprintf('int/%s_effort_trp.csv', fis_stock)))
+catch_df      <- zonestats(fis_stock, fis_value[1], yrs, 'sum')
+effort_trp_df <- zonestats(fis_stock, fis_value[2], c(2001:2009), 'sum')
+effort_hr_df  <- zonestats(fis_stock, fis_value[3], c(2010:2011), 'sum')
+write_csv(catch_df,      file.path(dir_goal, sprintf('int/%s_%s.csv', fis_stock, fis_value[1])))
+write_csv(effort_trp_df, file.path(dir_goal, sprintf('int/%s_%s.csv', fis_stock, fis_value[2])))
+write_csv(effort_hr_df,  file.path(dir_goal, sprintf('int/%s_%s.csv', fis_stock, fis_value[3])))
 
+### Groundfish longline!
+fis_stock <- 'longline_'
+fis_value <- c('sablewt', 'halibwt', 'popwt', 'hakewt', 'otherwt')
+yrs <- c(2006:2012)
+for(x in fis_value) {
+  message('Processing ', fis_stock, ' ', x)
+  value_df <- zonestats(fis_stock, x, yrs, 'sum')
+  write_csv(value_df,  file.path(dir_goal, sprintf('int/%s%s.csv', fis_stock, x)))
+}
+
+### Groundfish trawl!
+fis_stock <- 'trawl_'
+fis_value <- c('sablewt', 'halibwt', 'popwt', 'hakewt', 'otherwt')
+yrs <- c(1996:2012)
+for(x in fis_value) {
+  message('Processing ', fis_stock, ' ', x)
+  value_df <- zonestats(fis_stock, x, yrs, 'sum')
+  write_csv(value_df,  file.path(dir_goal, sprintf('int/%s%s.csv', fis_stock, x)))
+}
+
+```
+
+``` {r wait for new data, eval = FALSE}
 ### Sardines!
 fis_stock <- 'sardines'
 fis_fun   <- 'sum'
@@ -269,80 +296,31 @@ write_csv(catch_df, file.path(dir_goal, sprintf('int/%s_catch_estton.csv', fis_s
 
 ```
 
-``` {r fish_mgmt_zones_by_rgn}
-if(!exists('rast_rgn'))
-  rast_rgn <- raster(file.path(dir_git, 'prep/spatial/ohibc_rgn_raster_1000m.tif'))
 
-### count cells of each fishery management zone that fall within each OHIBC region.
-### e.g. zone 100 (300 cells) falls between region 1 (100 cells) and region 2 (200 cells)
-### set up df with columns: rgn_id, pfma_id, pfmsa_id, gfma_id using getValues.
-### If all rasters are same extents, then the return from getValues() should be a vector
-### of cell values that correspond to the same order of cells for each vector.
+``` {r plot fisheries}
+### each .csv from above includes three columns: rgn_id, a value notation, and year.
+dir_csv <- file.path(dir_goal, 'int')
+csv_list <- list.files(dir_csv) %>% basename()
 
-rast_pfma  <- raster(file.path(dir_anx, 'fis', scenario, 'spatial', 
-                              'DFO_BC_PFMA_AREAS_50K_V3_1.tif'))
-rast_pfmsa <- raster(file.path(dir_anx, 'fis', scenario, 'spatial', 
-                              'DFO_BC_PFMA_SUBAREAS_50K_V3_1.tif'))
-rast_gfma  <- raster(file.path(dir_anx, 'fis', scenario, 'spatial', 
-                              'MajorMinor_GroundfishManagementAreas.tif'))
+registerDoParallel()
 
-if(!(extent(rast_pfma)  == extent(rast_rgn))) {
-  message('rgn and pfma extents not equal... fix them!')
-} else {
-  rgn_pfma_df <- data.frame(
-      rgn_id   = round(getValues(rast_rgn)),
-      pfma_id  = round(getValues(rast_pfma))) %>%
-    group_by(rgn_id) %>%
-    mutate(n_cells_rgn = n()) %>%
-    group_by(pfma_id) %>%
-    mutate(n_pfma_tot = n()) %>%
-    group_by(rgn_id, pfma_id) %>%
-    mutate(n_pfma_rgn = n()) %>%
-    filter(!is.na(rgn_id)) %>%
-    distinct()
+foreach(fish_file = csv_list) %dopar% {
+  df <- read_csv(file.path(dir_csv, fish_file))
+  val_name <- names(df)[2]
+  names(df)[2] <- 'val_tmp'
+  
+  fish_plot <- ggplot(df %>% 
+                        mutate(rgn_id = as.factor(rgn_id)), 
+                      aes(x = year, y = val_tmp, 
+                          fill = rgn_id, group = rgn_id)) +
+    geom_area(color = NA) +
+    labs(title = str_replace(fish_file, '.csv', '') %>% 
+           str_replace_all('_', ' '),
+         x = 'year',
+         y = val_name %>% str_replace('_', ' '),
+         fill = 'Region')
+  ggsave(file.path(dir_csv, 'plots', str_replace(fish_file, '.csv', '.png')))
 }
-
-if(!(extent(rast_pfmsa)  == extent(rast_rgn))) {
-  message('rgn and pfmsa extents not equal... fix them!')
-} else {
-  rgn_pfmsa_df <- data.frame(
-      rgn_id   = round(getValues(rast_rgn)),
-      pfma_id  = round(getValues(rast_pfma)),
-      pfmsa_id = round(getValues(rast_pfmsa))) %>%
-    group_by(rgn_id) %>%
-    mutate(n_cells_rgn = n(),
-           pfmsa_label = paste0(pfma_id, '-', pfmsa_id)) %>%
-    group_by(pfmsa_label) %>%
-    mutate(n_pfmsa_tot = n()) %>%
-    group_by(rgn_id, pfmsa_label) %>%
-    mutate(n_pfmsa_rgn = n()) %>%
-    filter(!is.na(rgn_id)) %>%
-    distinct()
-}
-
-if(!(extent(rast_gfma)  == extent(rast_rgn))) {
-  message('rgn and gfma extents not equal... fix them!')
-} else {
-  rgn_gfma_df <- data.frame(
-      rgn_id   = round(getValues(rast_rgn)),
-      gfma_id  = round(getValues(rast_gfma))) %>%
-    group_by(rgn_id) %>%
-    mutate(n_cells_rgn = n()) %>%
-    group_by(gfma_id) %>%
-    mutate(n_gfma_tot = n()) %>%
-    group_by(rgn_id, gfma_id) %>%
-    mutate(n_gfma_rgn = n()) %>%
-    filter(!is.na(rgn_id)) %>%
-    distinct()
-}
-
-x <- xx <- rast_pfma
-y <- yy <- rast_pfmsa
-values(xx)[is.na(values(x)) & !is.na(values(y))] <- 10000
-values(xx)[is.na(values(y)) & !is.na(values(x))]  <- 3000
-plot(xx)
-
-### WHY ARE THERE MISSING ZONES?
 
 ```
 
