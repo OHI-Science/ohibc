@@ -300,11 +300,13 @@ write_csv(catch_df, file.path(dir_goal, sprintf('int/%s_catch_estton.csv', fis_s
 ``` {r plot fisheries}
 ### each .csv from above includes three columns: rgn_id, a value notation, and year.
 dir_csv <- file.path(dir_goal, 'int')
-csv_list <- list.files(dir_csv) %>% basename()
+csv_list <- list.files(dir_csv, full.names = FALSE)
+csv_list <- csv_list[!csv_list %in% list.dirs(dir_csv, full.names = FALSE)]
+  ### remove 'plots' directory and any other directories floating around in there
 
 registerDoParallel()
 
-foreach(fish_file = csv_list) %dopar% {
+foreach(fish_file = csv_list) %dopar% { # fish_file <- csv_list[1]
   df <- read_csv(file.path(dir_csv, fish_file))
   val_name <- names(df)[2]
   names(df)[2] <- 'val_tmp'
@@ -314,12 +316,14 @@ foreach(fish_file = csv_list) %dopar% {
                       aes(x = year, y = val_tmp, 
                           fill = rgn_id, group = rgn_id)) +
     geom_area(color = NA) +
+    scale_fill_brewer(palette = 'YlGnBu') + 
     labs(title = str_replace(fish_file, '.csv', '') %>% 
            str_replace_all('_', ' '),
          x = 'year',
          y = val_name %>% str_replace('_', ' '),
          fill = 'Region')
   ggsave(file.path(dir_csv, 'plots', str_replace(fish_file, '.csv', '.png')))
+  return(invisible(TRUE))
 }
 
 ```
