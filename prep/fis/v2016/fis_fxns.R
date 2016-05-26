@@ -90,7 +90,7 @@ rasterize_list <- function(poly_list, fld_name, shp_area = 1.6e7) {
     names(poly@data)[names(poly@data) == fld_name] <- 'fld'
     if("shape_area" %in% names(poly@data)) { ### autodetect shape area from field
       poly@data <- poly@data %>%
-        mutate(fld_per_km2 = fld/(shape_area/1e6))
+        mutate(fld_per_km2 = fld/(shape_area/1e6)) ### returns field value per square kilometer!
     } else { ### assign area manually
       message('No shape_area field; assuming poly areas of ', shp_area)
       poly@data <- poly@data %>%
