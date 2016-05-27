@@ -1,0 +1,61 @@
+---
+title: 'OHIBC: data prep for wild-capture fisheries'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+here is a setup code chunk with many of the common parameters:
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(sp)
+library(rgdal)
+library(raster)
+library(DT)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+
+
+### goal specific folders and info
+goal      <- 'fis'
+scenario  <- 'v2016'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+source(file.path(dir_git, 'src/R/prov.R'))   
+  ### Provenance tracking functions: must source at start to initialize prov_track
+prov_run_tag <- 'standard run'
+
+### support scripts
+source(file.path(dir_git, 'src/R/poly_plot_scores.R')) 
+  ### score plotting scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### raster plotting and analyzing scripts
+source(file.path(dir_goal, 'fis_fxns.R'))
+  ### goal- or script-specific support functions
+
+### set up proj4string options: BC Albers and WGS84
+p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+
+```
+
+``` {r read and process the bbmsy file}
+
+bmsy <- read_csv(file.path(dir_goal, 'fake_bsmy_data.csv'))
+
+### need match up from stock name to file name

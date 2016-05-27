@@ -136,6 +136,8 @@ for (dir in fish_dirs) { # dir = 'groundfish_longline' # dir = 'spot_prawn'
 
 ```
 
+Harvest rasters are set up to assign the value per km^2 to each cell; summing the values across all cells within a region provides the total value for the region, according to the reported units (e.g. a species reporting catch_kg per polygon will result in a total catch for the region in kilograms)
+
 ``` {r setup_harvest_rasters, eval = FALSE}
 
 if(!exists('rast_rgn')) 
@@ -161,6 +163,10 @@ rasterize_list(geoduck_polys, fld_name = 'catch_kg')
 rasterize_list(geoduck_polys, fld_name = 'effort_hr')
 ```
 
+Dungeness crab data are reported by weight in kilograms;
+Geoduck data are reported by weight in kilograms;
+Prawn data are reported by weight in kilograms.
+
 ``` {r setup prawn rasters, eval = FALSE}
 ### spot_prawn: 2001 through 2011
 #   ID ET_ID GRIDCELL PNT_COUNT Catch_kg Effort_trp SEASON Shape_Leng Shape_Area
@@ -173,6 +179,7 @@ rasterize_list(prawn_polys[1:9], fld_name = 'effort_trp', shp_area = 1.6e7) # 20
 rasterize_list(prawn_polys[10:11], fld_name = 'effort_hr', shp_area = 1.6e7)  # 2010-2011
 ```
 
+Groundfish data are reported by weight; not sure what the units are?
 ``` {r setup groundfish rasters, eval = FALSE}
 # groundfish_longline: BlockId, Sector, NumVessels, EffortHrs, SableWt, HalibWt, POPWt, HakeWt, OtherWt, Shape_Leng, Shape_Area
 #   2006 - 2012; 4-digit extension (e.g. Longline_2006_BCA)
@@ -196,6 +203,8 @@ rasterize_list(gf_trawl_polys, fld_name = 'hakewt')
 rasterize_list(gf_trawl_polys, fld_name = 'otherwt')
 
 ```
+
+Sardine data are reported by ton (tonne?) - incomplete as of 5/26/16
 
 ``` {r setup sardine rasters, eval = FALSE}
 ### pacific_sardine: 2002, 2003, 2004 (?)
