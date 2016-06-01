@@ -4,16 +4,6 @@ dir_M             <- c('Windows' = '//mazu.nceas.ucsb.edu/ohi',
                        'Darwin'  = '/Volumes/ohi',    ### connect (cmd-K) to smb://mazu/ohi
                        'Linux'   = '/home/shares/ohi')[[ Sys.info()[['sysname']] ]]
 
-dir_N <- dir_neptune_data <- c('Windows' = '//neptune.nceas.ucsb.edu/data_edit',
-                     'Darwin'  = '/Volumes/data_edit',
-                     'Linux'   = '/var/data/ohi')[[ Sys.info()[['sysname']] ]]
-
-# WARN rather than stop if directory doesn't exist
-if (!file.exists(sprintf('%s/',dir_neptune_data))){
-  warning(sprintf("The directory for variable dir_neptune_data set in src/R/common.R does not exist. Do you need to mount %s?", dir_neptune_data))
-
-}
-
 # install (if necessary) and load commonly used libraries
 packages <- c('dplyr', 'tidyr', 'stringr', 'readr', 'ggplot2')
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {

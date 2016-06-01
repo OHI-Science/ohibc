@@ -68,67 +68,82 @@ names(fish_stat_df)[4:6] <- c('b_bmsy', 'f', 'f_fmsy')
 
 ```
 
-``` {r process_Bprime}
+``` {r rescale_Bprime}
 
-overfished_th    <- .8   ### overfished threshold for bPrime = 1
-underfished_th   <- 1.5  ### underfished threshold for bPrime = 1
-# b_max     <- 3.35 ### local observed max b_bmsy - severely UNDERfished
-b_max     <- max(fish_stat_df$b_bmsy, na.rm = TRUE) ### local observed max b_bmsy - severely UNDERfished
-# b_max_mod <- 1.8  ### not sure, but in the denominator of bPrime underfished step
-  ### this number ends up creating B' greater than 1... should it be something like:
-  ### b_max_mod <- b_max - 1.5?  so B' -> 1 as b_bmsy -> underfishing threshold
-b_max_mod <- b_max - underfished_th
+rescale_bprime <- function(fish_stat_df) {
+  overfished_th    <- .8   ### overfished threshold for bPrime = 1
+  underfished_th   <- 1.5  ### underfished threshold for bPrime = 1
+  
+  fish_stat_df <- fish_stat_df %>%
+    # group_by(stock) %>% ### grouping by stock will set b_max by max per stock, instead of max overall
+    mutate(b_max     = max(b_bmsy, na.rm = TRUE),
+           b_max_mod = b_max - underfished_th) %>%
+    ungroup() %>%
+    mutate(bPrime = NA,
+           bPrime = ifelse(b_bmsy < overfished_th, 
+                           b_bmsy / overfished_th,       ### overfished stock     
+                           bPrime),
+           bPrime = ifelse(b_bmsy >= overfished_th & b_bmsy < underfished_th, 
+                           1,                          ### appropriately fished stock
+                           bPrime),
+           bPrime = ifelse(b_bmsy >= underfished_th, 
+                           (b_max - b_bmsy) / b_max_mod, ### underfished stock
+                           bPrime))
+  
+  return(fish_stat_df)
+}
 
-fish_stat_df <- fish_stat_df %>%
-  mutate(bPrime = NA,
-         bPrime = ifelse(b_bmsy < overfished_th, 
-                         b_bmsy / overfished_th,       ### overfished stock     
-                         bPrime),
-         bPrime = ifelse(b_bmsy >= overfished_th & b_bmsy < underfished_th, 
-                         1,                          ### appropriately fished stock
-                         bPrime),
-         bPrime = ifelse(b_bmsy >= underfished_th, 
-                         (b_max - b_bmsy) / b_max_mod, ### underfished stock
-                         bPrime))
 
 ```
 
-``` {r process_Fprime}
+``` {r rescale_Fprime}
 
-### check thresholds for
-### * IF OVERFISHED:
-###   * f_fmsy >= b_bmsy + 1.5: gross overfishing?
-###   * f_fmsy >= b_bmsy + 0.2: moderate overfishing?
-###   * f_fmsy >= b_bmsy - 0.2: OK fishing?
-###   * f_fmsy below that:      underfishing?
-### * IF NOT OVERFISHED:
-###   * f_fmsy >= 1.2: overfishing?
-###   * f_fmsy >= 0.8: OK fishing?
-###   * f_fmsy below that: underfishing?
+rescale_fprime <- function(fish_stat_df) {
+  ### check thresholds for
+  ### * IF OVERFISHED:
+  ###   * f_fmsy >= b_bmsy + 1.5: gross overfishing?
+  ###   * f_fmsy >= b_bmsy + 0.2: moderate overfishing?
+  ###   * f_fmsy >= b_bmsy - 0.2: OK fishing?
+  ###   * f_fmsy below that:      underfishing?
+  ### * IF NOT OVERFISHED:
+  ###   * f_fmsy >= 1.2: overfishing?
+  ###   * f_fmsy >= 0.8: OK fishing?
+  ###   * f_fmsy below that: underfishing?
+  
+  underfishing_th  <- .8   
+  overfishing_th   <- 1.2  
+  
+  fish_stat_df <- fish_stat_df %>%
+    # group_by(stock) %>% ### grouping by stock will set f_max by max per stock, instead of max overall
+    mutate(f_max     = max(f_bmsy, na.rm = TRUE),
+           f_max_mod = f_max - overfishing_th) %>%
+    ungroup() %>%
+    mutate(fPrime = NA,
+           fPrime = ifelse(b_bmsy < overfished_th & f_fmsy >= (b_bmsy + 1.5),
+                           0,                     ### overfished, gross overfishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy < overfished_th & (f_fmsy >= (b_bmsy + 0.2) & f_fmsy < (b_bmsy + 1.5)),
+                           (b_bmsy + 1.5 - f_fmsy)/1.5, ### overfished, overfishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy < overfished_th & (f_fmsy >= (b_bmsy - 0.2) & f_fmsy < (b_bmsy + 0.2)),
+                           1,                     ### overfished, moderate fishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy < overfished_th & f_fmsy < (b_bmsy - 0.2),
+                           f_fmsy/(b_bmsy - 0.2), ### overfished, low fishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy >= overfished_th & f_fmsy < underfishing_th,
+                           f_fmsy/underfishing_th, ### NOT overfished, low fishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy >= overfished_th & (f_fmsy >= underfishing_th & f_fmsy < overfishing_th),
+                           1,                     ### NOT overfished, OK fishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy >= overfished_th & f_fmsy >= overfishing_th,
+                           (f_max - f_fmsy) / f_max_mod,  ### NOT overfished, overfishing
+                           fPrime))
+  
+  return(fish_stat_df)
+}
 
-fish_stat_df <- fish_stat_df %>%
-  mutate(fPrime = NA,
-         fPrime = ifelse(b_bmsy < overfished_th & f_fmsy >= (b_bmsy + 1.5),
-                         0,                     ### overfished, gross overfishing
-                         fPrime),
-         fPrime = ifelse(b_bmsy < overfished_th & (f_fmsy >= (b_bmsy + 0.2) & f_fmsy < (b_bmsy + 1.5)),
-                         (b_bmsy + 1.5 - f_fmsy)/1.5, ### overfished, overfishing
-                         fPrime),
-         fPrime = ifelse(b_bmsy < overfished_th & (f_fmsy >= (b_bmsy - 0.2) & f_fmsy < (b_bmsy + 0.2)),
-                         1,                     ### overfished, moderate fishing
-                         fPrime),
-         fPrime = ifelse(b_bmsy < overfished_th & f_fmsy < (b_bmsy - 0.2),
-                         f_fmsy/(b_bmsy - 0.2), ### overfished, low fishing
-                         fPrime),
-         fPrime = ifelse(b_bmsy >= overfished_th & f_fmsy < 0.8,
-                         f_fmsy/0.8,            ### NOT overfished, low fishing
-                         fPrime),
-         fPrime = ifelse(b_bmsy >= overfished_th & (f_fmsy >= 0.8 & f_fmsy < 1.2),
-                         1,                     ### NOT overfished, OK fishing
-                         fPrime),
-         fPrime = ifelse(b_bmsy >= overfished_th & f_fmsy >= 1.2,
-                         (2.5 - f_fmsy) / 1.3,  ### NOT overfished, overfishing
-                         fPrime))
          
 ```
 

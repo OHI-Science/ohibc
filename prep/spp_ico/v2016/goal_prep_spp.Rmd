@@ -1,0 +1,433 @@
+---
+title: 'OHIBC goal prep: Species (Biodiversity subgoal)'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr2.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(sp)        # the classes and methods that make up spatial ops in R
+library(rgdal)
+library(raster)
+library(DT)
+
+scenario <- 'v2016'
+goal     <- 'spp_ico'
+dir_git <- '~/github/ohibc'
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_rgn  <- file.path(dir_git, 'prep/spatial')
+
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_anx        <- file.path(dir_M, 'git-annex/bcprep') ### git-annex: goal-specific large files
+dir_anx_global <- file.path(dir_M, 'git-annex/globalprep/spp_ico')
+
+
+source(file.path(dir_git, 'src/R/prov.R'))    
+source(file.path(dir_git, 'src/R/map_scores.R'))
+source(file.path(dir_goal, 'spp_fxn.R'))
+
+### set up proj4string options: BC Albers and WGS84
+p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
+              'EPSG:4326 WGS 84'          = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
+p4s_bcalb <- p4s_opts[1]
+```
+
+# Summary: OHIBC Species Subgoal (Biodiversity)
+
+This script prepares scores (status and trend) for species richness in 
+British Columbia's coastal regions.  Spatial data from IUCN and Aquamaps is
+combined with extinction risk information from IUCN and conservation rank
+info based on province-level NatureServe categories.
+
+Currently, the Species Richness sub-goal model is identical to the OHI Global 
+model: a region's status is based upon an area-weighted average of species
+health across each BC reporting region.
+
+From Halpern et al (2012):
+
+> The target for the Species sub-goal is to have all species at a risk status of Least Concern. We scaled the lower end of the biodiversity goal to be 0 when 75% species are extinct, a level comparable to the five documented mass extinctions and would constitute a catastrophic loss of biodiversity. The Status of assessed species was calculated as the area- and threat status-weighted average of the number of threatened species within each 0.5 degree grid cell.
+
+**Mean risk status per cell:**
+
+$$\bar{R}_{cell} = \frac{\displaystyle\sum_{species}(Risk)}{n_{spp}}$$
+
+**Mean risk status per region:**
+
+$$\bar{R}_{SPP} = \frac{\displaystyle\sum_{cells}(\bar{R}_{cell} * A_{cell} * pA_{cell-rgn})}{A_{rgn}}$$
+
+**Species goal model**
+
+$$X_{SPP} = \frac{((1 - \bar{R}_{SPP}) - 0.25)}{(1 - 0.25)} * 100%$$
+
+where:
+
+* $X_{SPP}$ is Species goal status
+* $\bar{R}_{cell}$ is mean extinction risk for one cell
+* $\bar{R}_{SPP}$ is area-weighted mean extinction risk for a region
+* $A_{cell}$ is cell area
+* $pA_{cell-rgn}$ is percent of cell area included in region
+* *Risk* is scaled value for species extinction risk category, based on: 
+    * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
+* SPP trend is calculated in a similar area-weighted mean, but population trend values are assigned according to:
+    * 'Decreasing' = -0.5, 'Stable' = 0.0, 'Increasing' = +0.5
+
+-----
+
+# Data sources
+
+AquaMaps
+
+* From http://www.aquamaps.org/main/home.php: "AquaMaps are computer-generated predictions of natural occurrence of marine species, based on the environmental tolerance of a given species with respect to depth, salinity, temperature, primary productivity, and its association with sea ice or coastal areas."
+* Citation: Kaschner, K., J. Rius-Barile, K. Kesner-Reyes, C.Garilao, S.O. Kullander, T. Rees and R. Froese (2013). AquaMaps: Predicted range maps for aquatic species. World wide web electronic publication, www.aquamaps.org, Version 08/2013.
+
+IUCN Red List spatial data: species range map shapefiles
+
+* Species range map shapefiles downloaded from: http://www.iucnredlist.org/technical-documents/spatial-data
+* Citation: IUCN 2014. The IUCN Red List of Threatened Species. Version 2014.1. <http://www.iucnredlist.org>. Downloaded on 21 September 2015.
+
+IUCN Red List species index: list of all IUCN red list species, incl IUCN species ID and extinction risk category
+
+* Extinction risk categories downloaded from: http://api.iucnredlist.org/index/all.csv
+* Habitat and subpopulation information, by species, scraped from: http://www.iucnredlist.org/details/<species ID>/0
+* Citation: IUCN 2015. The IUCN Red List of Threatened Species. Version 2015-3. <http://www.iucnredlist.org>. Downloaded on 9 September 2015.
+
+NatureServe/BC CDC conservation rank info from BC Species and Ecosystems Explorer: 
+
+* BC Conservation Data Centre: http://www.env.gov.bc.ca/atrisk/toolintro.html
+* NatureServe conservation status: http://explorer.natureserve.org/ranking.htm#global
+* Citation: B.C. Conservation Data Centre. 2013. BC Species and Ecosystems Explorer. B.C. Ministry of Environment, Victoria B.C. Available: <http://a100.gov.bc.ca/pub/eswp/>.  Downloaded on 3 August 2015.
+
+NOTE: Davies and Baum (2012) could potentially provide a small number of additional species, as in the California Current OHI, but for now we are not considering this in our assessment.
+
+-----
+
+# Methods
+
+## Load species lookup table from global SPP goal
+
+Currently this uses the global species lookup table. How this list is generated (file locations are in `~/github/ohiprep/globalprep/SPP_ICO`):
+
+* in `ingest_iucn.R`:
+    * Pull full IUCN list from http://api.iucnredlist.org/index/all.csv
+    * Filter the list to marine species as indicated on each species page
+    * Standardize old extinction risk categories
+    * Append population trend and parent/subpop info from species web pages
+    * Write to `spp_iucn_mar.csv` in git-annex.
+* in `spp_fxn.R::create_spp_master_lookup()`:
+    * Pull in Aquamaps species information table, create sciname field and standardize categories
+    * Pull in IUCN marine species info from `ingest_iucn.R`
+    * `full_join()` the two species lists
+    * Determine overall category, trend, and spatial info source (preferring IUCN)
+    * Remove duplicate records and data-deficient records
+    * Convert text extinction risk category and popn trends to number values
+    * Identify parent/subpopulations and aliases within `spatial_source` field.
+
+``` {r read global species list, eval = TRUE}
+spp_global_file <- file.path(dir_anx_global, scenario, 'int/spp_all_cleaned.csv')
+spp_all <- read_csv(spp_global_file)
+
+```
+
+Variables in `spp_all`: `r paste(names(spp_all), collapse = ' | ')`
+
+``` {r print global species list, eval = TRUE}
+knitr::kable(head(spp_all %>% 
+                dplyr::select(sciname, am_sid, iucn_sid, pop_trend, pop_cat, spatial_source)),
+             align = c('l', 'c', 'c', 'c', 'c', 'c'),
+             caption = 'Quick glance at global spp_all dataframe:')
+```
+
+-----
+
+## Append BC-specific species risk assessment codes
+
+Data downloaded from BC Species and Ecosystems Explorer includes information on global status and provincial status for species, as assessed by NatureServe.
+
+See [this table]('iucn_to_ns.html') for info on NatureServe codes
+
+``` {r append bcsee scores, echo = TRUE}
+
+spp_all <- spp_append_bcsee(spp_all)
+
+spp_all <- spp_all %>%
+  mutate(iucn_score = cat_score,
+         cat_score = ifelse(!is.na(status_pr_score), status_pr_score, cat_score)) %>%
+  filter(!is.na(cat_score))
+
+### NOTE: if we want to exclude BLI data, this is where we would have to do it
+# spp_all1 <- spp_all %>%
+#   mutate(spatial_source = ifelse(spatial_source == 'iucn-bli' & !is.na(am_sid), 'am', spatial_source)) %>%
+#   filter(!spatial_source == 'iucn-bli')
+
+write_csv(spp_all, file.path(dir_goal, 'int/spp_all.csv'))
+
+
+
+# DT::datatable(spp_all %>% 
+#                 dplyr::select(sciname, am_sid, iucn_sid, pop_trend, 
+#                        IUCN_cat = pop_cat, NS_cat = status_pr, spatial_source) ,
+#               rownames = FALSE,
+#               caption = 'BC-specific species list:',
+#               class = 'stripe hover compact',
+#               options  = list(dom = 'tp'))
+
+```
+
+-----
+
+## Define assessment regions 
+
+Using OHIBC region polygons, determine 0.5° raster cells corresponding to each region.
+
+``` {r set up region-to-cell lookup}
+
+### Read in OHIBC polygons, in WGS84 CRS
+rgn_lyr <- 'ohibc_rgn_wgs84'
+
+cat(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
+poly_bc_rgn <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
+                       verbose = FALSE, stringsAsFactors = FALSE)
+
+rgn_p4s <- proj4string(poly_bc_rgn)
+names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
+message(sprintf('Region loaded: CRS = %s \n  (%s)\n', names(rgn_p4s), rgn_p4s))
+
+rgn2cell_list <- spp_rgn2cell(poly_bc_rgn, reload = TRUE)
+
+rgn2cell_df      <- rgn2cell_list[[1]]
+loiczid_rast     <- rgn2cell_list[[2]]
+```
+
+### Map of region ID per cell
+
+*Note that `subs()` can't deal with duplicate cell IDs; for cells included in two or more regions, displaying the minimum region ID value*
+
+``` {r spp plot regions raster, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
+
+rgn2cell_clean <- rgn2cell_df %>% 
+  group_by(loiczid) %>% 
+  summarize(rgn_id = min(rgn_id)) %>% 
+  as.data.frame()
+
+spp_plot_raster(rgn2cell_clean, loiczid_rast, which_id = 'rgn_id', 
+                poly_rgn = poly_bc_rgn,
+                title = 'Region ID', scale_label = 'rgn_id', 
+                scale_limits = range(rgn2cell_clean$rgn_id))
+
+
+```
+
+-----
+
+## Generate species per cell tables for Aquamaps and IUCN
+
+These species-per-cell tables are generated from global SPP goal data, from AquaMaps data and IUCN range maps, filtered to just OHIBC regions.
+
+``` {r AM species summary}
+
+am_cells_spp <- spp_get_am_cells(rgn2cell_df, n_max = -1, prob_filter = 0, reload = FALSE)
+
+am_cells_sum <- spp_am_cell_summary(rgn2cell_df, am_cells_spp, spp_all, fn_tag = '', reload = TRUE)
+
+DT::datatable(am_cells_sum,
+              rownames = FALSE,
+              caption  = 'Aquamaps cell summary:',
+              class    = 'stripe hover compact',
+              options  = list(dom = 'tp'))
+
+```
+
+``` {r IUCN species summary}
+
+iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df, reload = FALSE)
+
+iucn_cells_sum <- spp_iucn_cell_summary(spp_all, iucn_cells_spp, fn_tag = '', reload = TRUE)
+
+DT::datatable(iucn_cells_sum,
+              rownames = FALSE,
+              caption  = 'IUCN cell summary: ',
+              class    = 'stripe hover compact',
+              options  = list(dom = 'tp'))
+
+```
+
+### Map of species count by cell
+
+``` {r spp plot species count raster, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
+
+cells_sum <- iucn_cells_sum %>%
+  dplyr::select(loiczid, n_cat_iucn = n_cat_species) %>%
+  full_join(am_cells_sum %>%
+              dplyr::select(loiczid, n_cat_am = n_cat_species),
+            by = 'loiczid') %>%
+  mutate(n_cat_am   = ifelse(is.na(n_cat_am), 0, n_cat_am),
+         n_cat_iucn = ifelse(is.na(n_cat_iucn), 0, n_cat_iucn),
+         n_cat      = n_cat_am + n_cat_iucn) %>%
+  as.data.frame()
+
+spp_plot_raster(cells_sum, loiczid_rast, which_id = 'n_cat', 
+                poly_rgn = poly_bc_rgn,
+                title = 'Species count', scale_label = 'spp count', 
+                scale_limits = c(0, max(cells_sum$n_cat)))
+
+```
+
+-----
+
+# Calculate goal model
+
+## Summarize mean category & trend per cell & region
+
+In this section we perform the model calculations:
+
+* We calculate mean extinction risk score across all species identified in each cell, based on NatureServe province-level rankings where available, and IUCN category ranks elsewhere.
+    * IUCN ranks exclude subpopulation scores due to lack of spatially explicit distribution info for subpopulations.
+* We calculate mean population trend across all species identified in each cell, based on IUCN population trend information.
+* From raster-level summaries, we generate a region-level summary based on area-weighted average extinction risk and population trend.
+* From the region-level summary of risk, we determine the SPP goal status based on the goal model equation.  SPP trend is identical to the regional average population trend score.
+
+``` {r summing by cells and rgn}
+
+sum_by_cell <- spp_calc_cell_means(am_cells_sum, iucn_cells_sum)
+
+sum_by_rgn  <- spp_calc_rgn_means(sum_by_cell, rgn2cell_df)
+
+DT::datatable(sum_by_cell,
+              rownames = FALSE,
+              caption  = 'summary by raster cell',
+              class    = 'stripe hover compact',
+              options  = list(dom = 'tp'))
+
+DT::datatable(sum_by_rgn,
+              rownames = FALSE,
+              caption  = 'summary by region',
+              class    = 'stripe hover compact',
+              options  = list(dom = 'tp'))
+
+```
+
+
+### Map of mean extinction risk category value by cell
+
+*Category value range: least concern = 0, extinct = 1*
+``` {r spp plot cell score raster, cache = TRUE,  fig.height = 4, fig.width = 6, fig.align = 'center'}
+
+scale_limits = c(min(sum_by_cell$weighted_mean_cat,  na.rm = TRUE), 
+                 max(sum_by_cell$weighted_mean_cat,  na.rm = TRUE))
+
+
+spp_plot_raster(as.data.frame(sum_by_cell), loiczid_rast, 
+                which_id = 'weighted_mean_cat', 
+                poly_rgn = poly_bc_rgn,
+                title = 'Mean extinction risk', scale_label = 'spp risk', 
+                scale_limits = scale_limits,
+                rev_scale = TRUE)
+
+```
+
+-----
+
+## Create and save final output files
+
+Status and trend layers saved to `data` folder.  
+
+``` {r save status and trend, eval = TRUE}
+
+spp_status <- sum_by_rgn %>%
+  dplyr::select(rgn_id, score = status)
+spp_trend <- sum_by_rgn %>%
+  dplyr::select(rgn_id, score = rgn_mean_trend)
+
+spp_status_file <- file.path(dir_goal, 'output/spp_status.csv')
+spp_trend_file <- file.path(dir_goal, 'output/spp_trend.csv')
+
+cat(sprintf('Writing SPP status and trend based only on IUCN categories to:\n  %s\n  %s\n', 
+            spp_status_file,
+            spp_trend_file))
+
+write_csv(spp_status, spp_status_file)
+write_csv(spp_trend,  spp_trend_file)
+
+```
+
+### Plot map of status by region
+
+The maps and tables show status based upon rankings from NatureServe (where available) and IUCN (where NatureServe is not available).  Currently no trend information is taken from NatureServe, so trend is based entirely on IUCN rankings.
+
+``` {r spp plot scores as polygons, fig.height = 4, fig.width = 6, fig.align = 'center', eval = TRUE}
+
+map_scores(sum_by_rgn,
+           score_vars   = c('status', 'rgn_mean_trend'),
+           scale_labels = c('SPP status', 'SPP trend'),
+           map_titles   = 'OHIBC Species subgoal')
+
+DT::datatable(spp_status %>%
+                full_join(poly_bc_rgn@data, by = 'rgn_id'),
+              rownames = FALSE,
+              caption = 'SPP Status by region:',
+              class = 'stripe hover compact',
+              options  = list(dom = 'tp'))
+
+DT::datatable(spp_trend %>%
+                full_join(poly_bc_rgn@data, by = 'rgn_id'),
+              rownames = FALSE,
+              caption = 'SPP Trend by region:',
+              class = 'stripe hover compact',
+              options  = list(dom = 'tp'))
+
+
+```
+
+-----
+
+## Summarize mean category/trend within 3 nm of shore
+
+Create final outputs for 3nm zone for resilience calculations.  In this step, rather than using full assessment regions, only the three-nautical-mile offshore zone is examined.
+
+``` {r read 3nm shapefile, eval = TRUE}
+### Read in OHIBC 3nm offshore polygons, in WGS84 CRS
+rgn_lyr <- 'ohibc_offshore_3nm_wgs84'
+cat(sprintf('Reading OHIBC 3nm offshore regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
+poly_bc_3nm <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
+                       verbose = FALSE, stringsAsFactors = FALSE)
+```
+
+
+``` {r calc 3nm SPP status and trend, eval = TRUE}
+
+rgn_p4s <- proj4string(poly_bc_3nm)
+names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
+message(sprintf('Region loaded: CRS = %s \n  (%s)\n', names(rgn_p4s), rgn_p4s))
+
+rgn2cell_3nm_df <- spp_rgn2cell(poly_bc_3nm, rgn_tag = '_3nm', reload = FALSE)[[1]]
+
+sum_by_rgn_3nm <- spp_calc_rgn_means(sum_by_cell, rgn2cell_3nm_df, rgn_tag = '_3nm')
+
+spp_status_3nm <- sum_by_rgn_3nm %>%
+  dplyr::select(rgn_id, score = status)
+spp_trend_3nm  <- sum_by_rgn_3nm %>%
+  dplyr::select(rgn_id, score = rgn_mean_trend)
+
+cat(sprintf('Writing SPP status and trend for 3nm regions to:\n  %s\n  %s\n', 
+            file.path(dir_goal, 'output/spp_status_3nm.csv'),
+            file.path(dir_goal, 'output/spp_trend_3nm.csv')))
+write_csv(spp_status_3nm, file.path(dir_goal, 'output/spp_status_3nm.csv'))
+write_csv(spp_trend_3nm,  file.path(dir_goal, 'output/spp_trend_3nm.csv'))
+
+```
+
+
+
+``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
+```
