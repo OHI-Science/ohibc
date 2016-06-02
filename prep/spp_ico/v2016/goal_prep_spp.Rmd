@@ -166,7 +166,7 @@ spp_all <- spp_all %>%
   filter(!is.na(cat_score))
 
 ### NOTE: if we want to exclude BLI data, this is where we would have to do it
-# spp_all1 <- spp_all %>%
+# spp_all <- spp_all %>%
 #   mutate(spatial_source = ifelse(spatial_source == 'iucn-bli' & !is.na(am_sid), 'am', spatial_source)) %>%
 #   filter(!spatial_source == 'iucn-bli')
 
@@ -299,9 +299,9 @@ In this section we perform the model calculations:
 
 ``` {r summing by cells and rgn}
 
-sum_by_cell <- spp_calc_cell_means(am_cells_sum, iucn_cells_sum)
+sum_by_cell <- spp_calc_cell_means(am_cells_sum, iucn_cells_sum, fn_tag = '')
 
-sum_by_rgn  <- spp_calc_rgn_means(sum_by_cell, rgn2cell_df)
+sum_by_rgn  <- spp_calc_rgn_means(sum_by_cell, rgn2cell_df, rgn_tag = '')
 
 DT::datatable(sum_by_cell,
               rownames = FALSE,
