@@ -318,6 +318,11 @@ rl_habitats_(id = 155077, key = api_key)
 # about 17 seconds... do it this way? this also caches json text for later....
 ### But using mode = append, it causes issues trying to access the same destination file too quickly - need to pause and slow it down?
 
+### NOT available through rredlist as of now
+download.file('http://apiv3.iucnredlist.org/api/v3/species/history/id/22679859?token=fb71ae836f415f04f41176f6d30c4a9e4cea620d46b9e5021bf2fb142ea51bf5',
+               file.path(dir_goal, 'api_tmp.txt'), mode = 'a')
+
+
 ```
 
 ``` {r get time-series IUCN categories for all BC species}
