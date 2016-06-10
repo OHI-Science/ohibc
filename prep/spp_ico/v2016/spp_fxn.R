@@ -389,7 +389,7 @@ spp_append_bcsee <- function(spp_all) {
 }
 
 
-
+##############################################################################=
 spp_plot_raster <- function(rast_data, rast_cells,
                             which_id,
                             poly_rgn,
