@@ -260,6 +260,65 @@ knitr::kable(head(spp_clean),
 -----
 
 ## time series scraping
+``` {r trying_new_api}
+
+library(rredlist)
+
+### low-level functions in rredlist have _ at the end - return only the
+###   json format (faster); otherwise return a dataframe (slower)
+
+api_key <- 'fb71ae836f415f04f41176f6d30c4a9e4cea620d46b9e5021bf2fb142ea51bf5'
+
+### helpful functions in rredlist:
+# rl_citation   Get the citation Red List API version (for Rmd?)
+# rl_sp_count   Species count (to help figure how many pages)
+# rl_sp         Get species (in pages of 10k)
+# rl_habitats	  Get species habitats by taxon name or IUCN id
+# rl_sp_country	Get species by country (for ICO?)
+
+rl_citation(api_key)
+#   [1] "IUCN 2015. IUCN Red List of Threatened Species. Version 2015-4 <www.iucnredlist.org>"
+
+rl_sp_count(api_key)
+#   $count
+#   [1] "82065"
+#   
+#   $note
+#   [1] "This total includes species, subspecies and subpopulation"
+
+rl_sp_count_(api_key)
+#   [1] "{\"count\":\"82065\",\"note\":\"This total includes species, subspecies and subpopulation\"}"
+
+x <- rl_sp(page = 1, key = api_key)$result
+head(x)
+#    taxonid kingdom_name phylum_name     class_name    order_name  family_name genus_name         scientific_name infra_rank infra_name population category
+# 1 22709696     ANIMALIA    CHORDATA           AVES PASSERIFORMES MUSCICAPIDAE   Luscinia   Luscinia megarhynchos       <NA>       <NA>       <NA>       LC
+# 2   173286     ANIMALIA  ARTHROPODA        INSECTA   LEPIDOPTERA     PIERIDAE    Euchloe          Euchloe eversi       <NA>       <NA>       <NA>       LC
+# 3   182454     ANIMALIA    CHORDATA ACTINOPTERYGII  SILURIFORMES   MOCHOKIDAE Synodontis    Synodontis frontosus       <NA>       <NA>       <NA>       LC
+# 4 22679163     ANIMALIA    CHORDATA           AVES   GALLIFORMES  PHASIANIDAE   Tragopan        Tragopan blythii       <NA>       <NA>       <NA>       VU
+# 5    58563     ANIMALIA    CHORDATA       AMPHIBIA         ANURA      RANIDAE Lithobates        Lithobates bwana       <NA>       <NA>       <NA>       VU
+# 6 22698790     ANIMALIA    CHORDATA           AVES PASSERIFORMES   TYRANNIDAE  Mionectes Mionectes striaticollis       <NA>       <NA>       <NA>       LC
+
+rl_habitats(id = 155077, key = api_key)
+# system.time(for (i in 1:100) rl_habitats(id = 155077, key = api_key)) 
+# 30.48 sec elapsed
+#   $id
+#   [1] "155077"
+#   
+#   $result
+#     code                                    habitat suitability season majorimportance
+#   1 10.3 Marine Oceanic - Bathypelagic (1000-4000m)    Suitable     NA              NA
+rl_habitats_(id = 155077, key = api_key)
+# system.time(for (i in 1:100) rl_habitats_(id = 155077, key = api_key)) 
+# 29.83 sec elapsed
+#   [1] "{\"id\":\"155077\",\"result\":[{\"code\":\"10.3\",\"habitat\":\"Marine Oceanic - Bathypelagic (1000-4000m)\",\"suitability\":\"Suitable\",\"season\":null,\"majorimportance\":null}]}"
+### quicker to go directly?
+# system.time(for (i in 1:100) download.file('http://apiv3.iucnredlist.org/api/v3/habitats/species/id/155077?token=fb71ae836f415f04f41176f6d30c4a9e4cea620d46b9e5021bf2fb142ea51bf5',
+#               file.path(dir_goal, 'api_tmp.txt'), mode = 'a'))
+# about 17 seconds... do it this way? this also caches json text for later....
+### But using mode = append, it causes issues trying to access the same destination file too quickly - need to pause and slow it down?
+
+```
 
 ``` {r get time-series IUCN categories for all BC species}
 # for each species, read the .htm file cached in git-annex.
