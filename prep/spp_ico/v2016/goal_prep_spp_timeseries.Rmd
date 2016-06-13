@@ -379,7 +379,7 @@ Using the modified spp_clean dataframe, and the species-to-cell tables identifie
 spp_clean1 <- read_csv(file.path(dir_goal, 'int/spp_info_timeseries.csv'))
 
 ts_years <- unique(spp_clean1$year)
-ts_years <- ts_years[ts_years >= 1990]
+ts_years <- ts_years[ts_years >= 1980]
 names(ts_years) <- paste0('yr', ts_years)
 
 am_cells_sum <- vector('list', length = length(ts_years))
@@ -478,6 +478,36 @@ sum_by_rgn  <- spp_calc_rgn_means(sum_by_cell,
                                   rgn2cell_df, 
                                   rgn_tag = '')
 
+trend_start_yr <- 1995
+trend_df <- data.frame()
+for(yr in trend_start_yr:max(sum_by_rgn$year)) { # yr <- 2015
+  tmp_df <- sum_by_rgn %>%
+    filter(year <= yr & year > yr - 5) %>%
+    group_by(rgn_id) %>%
+    do(trend_lm05 = lm(status ~ year, data = .)$coefficients[2]) %>%
+    mutate(year     = yr,
+           trend_lm05 = as.numeric(trend_lm05) * 5) ### comes out as character for some reason
+  trend_df <- trend_df %>%
+    bind_rows(tmp_df)
+}
+
+trend_start_yr2 <- 2000
+trend_df2 <- data.frame()
+for(yr in trend_start_yr2:max(sum_by_rgn$year)) { # yr <- 2015
+  tmp_df <- sum_by_rgn %>%
+    filter(year <= yr & year > yr - 10) %>%
+    group_by(rgn_id) %>%
+    do(trend_lm10 = lm(status ~ year, data = .)$coefficients[2]) %>%
+    mutate(year       = yr,
+           trend_lm10 = as.numeric(trend_lm10) * 5) ### comes out as character for some reason
+  trend_df2 <- trend_df2 %>%
+    bind_rows(tmp_df)
+}
+
+sum_by_rgn <- sum_by_rgn %>%
+  left_join(trend_df,  by = c('year', 'rgn_id')) %>%
+  left_join(trend_df2, by = c('year', 'rgn_id'))
+
 DT::datatable(sum_by_cell,
               rownames = FALSE,
               caption  = 'summary by raster cell',
@@ -516,24 +546,30 @@ spp_plot_raster(as.data.frame(sum_by_cell %>% filter(year == 2015)),
 
 ## Create and save final output files
 
-Status and trend layers saved to `data` folder.  
+Status and trend layers saved to `output` folder.  
 
-``` {r save_status_and_trend, eval = TRUE}
+``` {r save_status_and_trend, eval = FALSE}
 
 spp_status <- sum_by_rgn %>%
   dplyr::select(rgn_id, score = status, year)
 spp_trend  <- sum_by_rgn %>%
   dplyr::select(rgn_id, score = rgn_mean_trend, year)
+spp_trend_lm  <- sum_by_rgn %>%
+  dplyr::select(rgn_id, score = trend_lm, year)
+
 
 spp_status_file <- file.path(dir_goal, 'output/spp_status.csv')
 spp_trend_file <- file.path(dir_goal, 'output/spp_trend.csv')
+spp_trend_lm_file <- file.path(dir_goal, 'output/spp_trend_lm.csv')
 
-cat(sprintf('Writing SPP status and trend based only on IUCN categories to:\n  %s\n  %s\n', 
+cat(sprintf('Writing SPP status and trend (both popn trend and linear model trend) to:\n  %s\n  %s\n  %s', 
             spp_status_file,
-            spp_trend_file))
+            spp_trend_file,
+            spp_trend_lm_file))
 
-write_csv(spp_status, spp_status_file)
-write_csv(spp_trend,  spp_trend_file)
+write_csv(spp_status,    spp_status_file)
+write_csv(spp_trend,     spp_trend_file)
+write_csv(spp_trend_lm,  spp_trend_lm_file)
 
 ```
 
@@ -542,7 +578,7 @@ write_csv(spp_trend,  spp_trend_file)
 
 The maps and tables show status based upon rankings from NatureServe (where available) and IUCN (where NatureServe is not available).  Currently no trend information is taken from NatureServe, so trend is based entirely on IUCN rankings.
 
-``` {r spp_plot_scores_as_polygons, fig.height = 4, fig.width = 6, fig.align = 'center', eval = TRUE}
+``` {r spp_plot_scores_as_polygons, fig.height = 4, fig.width = 6, fig.align = 'center', eval = FALSE}
 
 map_scores(sum_by_rgn %>%
              filter(year == 2015),
@@ -557,8 +593,11 @@ DT::datatable(spp_status %>%
               class = 'stripe hover compact',
               options  = list(dom = 'tp'))
 
-DT::datatable(spp_trend %>%
-                full_join(poly_bc_rgn@data, by = 'rgn_id'),
+DT::datatable(spp_trend %>% rename(trend_pop = score) %>%
+                full_join(spp_trend_lm %>% rename(trend_lm = score), 
+                          by = c('rgn_id', 'year')) %>%
+                full_join(poly_bc_rgn@data, 
+                          by = 'rgn_id'),
               rownames = FALSE,
               caption = 'SPP Trend by region:',
               class = 'stripe hover compact',
@@ -570,8 +609,7 @@ DT::datatable(spp_trend %>%
 
 ``` {r spp_plot_scores_over_time, fig.height = 4, fig.width = 6, fig.align = 'center'}
 status_ts_plot <- ggplot(spp_status %>%
-                           full_join(poly_bc_rgn@data, by = 'rgn_id') %>%
-                           filter(year >= 1990), 
+                           full_join(poly_bc_rgn@data, by = 'rgn_id'), 
                          aes(x = year, y = score, color = rgn_code, group = rgn_code)) +
   ggtheme_plot +
   geom_line(size = 2) +
@@ -582,6 +620,42 @@ status_ts_plot <- ggplot(spp_status %>%
        color = 'Region')
 
 print(status_ts_plot)
+
+spp_trend_all <- sum_by_rgn %>%
+  dplyr::select(rgn_id, rgn_mean_trend, trend_lm05, trend_lm10, year) %>%
+  gather(trend, score, rgn_mean_trend:trend_lm10)
+
+trend_ts_plot <- ggplot(spp_trend_all %>%
+                           full_join(poly_bc_rgn@data, by = 'rgn_id'), 
+                         aes(x = year, y = score, color = rgn_code, group = rgn_code)) +
+  ggtheme_plot +
+  geom_line(size = 2, alpha = .6) +
+  scale_colour_brewer(palette = 'PRGn') +
+  facet_wrap(~ trend, dir = 'v', scales = 'fixed') +
+  labs(x = 'year',
+       y = 'SPP trend',
+       title = 'SPP trend static, 5-yr, 10-yr',
+       color = 'Region')
+
+print(trend_ts_plot)
+
+spp_st_trend_all <- sum_by_rgn %>%
+  dplyr::select(rgn_id, status, trend_lm05, trend_lm10, year) %>%
+  gather(st_trend, score, status:trend_lm10)
+
+st_trend_ts_plot <- ggplot(spp_st_trend_all %>%
+                             full_join(poly_bc_rgn@data, by = 'rgn_id'), 
+                           aes(x = year, y = score, color = rgn_code, group = rgn_code)) +
+  ggtheme_plot +
+  geom_line(size = 2, alpha = .6) +
+  scale_colour_brewer(palette = 'PRGn') +
+  facet_wrap(~ st_trend, dir = 'v', scales = 'free_y') +
+  labs(x = 'year',
+       y = 'SPP trend',
+       title = 'SPP status and trend',
+       color = 'Region')
+
+print(st_trend_ts_plot)
 ```
 
 -----
