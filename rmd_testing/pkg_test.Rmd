@@ -23,7 +23,7 @@ library(stringr)
 
 dir_test <- file.path(dir_git, 'rmd_testing')
 
-devtools::install('~/github/ohibc/provRmd')
+devtools::install_github('oharac/provRmd')
 library(provRmd)
 prov_setup()
 
