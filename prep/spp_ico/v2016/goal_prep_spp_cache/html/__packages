@@ -11,3 +11,5 @@ ggplot2
 tmap
 RColorBrewer
 maptools
+XML
+jsonlite
