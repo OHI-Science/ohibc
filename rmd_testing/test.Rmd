@@ -24,8 +24,9 @@ library(stringr)
 dir_test <- file.path(dir_git, 'rmd_testing')
 
 ### set up provenance tracking for this script:
-source(file.path(dir_git, 'src/R/prov.R'))          
-  ### initializes prov_track and loads functions
+# document(); install()
+library(provRmd)
+prov_setup()### initializes prov_track and loads functions
 
 ```
 
@@ -71,9 +72,9 @@ DT::datatable(table1,   ### does not display system and session info
 
 The code for the R code chunk header looks like this:
 
-`{r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}`
+`{r child = system.file('footer/prov_ftr1.Rmd', package = 'provRmd')}`
 
 Note that it is executed as if it were just part of this main document; it numbers the section ("Provenance") as a continuation of the numbering, and the variables are evaluated in the environment of the main document.
 
-``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
+``` {r child = system.file('footer/prov_ftr1.Rmd', package = 'provRmd')}
 ```
