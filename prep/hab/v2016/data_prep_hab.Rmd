@@ -1,0 +1,319 @@
+---
+title: 'OHIBC: data_prep_hab.Rmd'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(raster)
+library(rgdal)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+dir_git     <- '~/github/ohibc'
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal      <- 'hab'
+scenario  <- 'v2016'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### support scripts
+# source(file.path('~/github/ohibc/src/R/map_scores.R'))
+  ### score plotting scripts
+# source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### raster plotting and analyzing scripts
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+```
+
+# Summary
+
+create layers for HAB, CP, CS goals; calculate HAB goal
+
+# Updates from previous assessment
+
+***
+
+# Data Source [NOTE: can be copied from README.md in rawdata file]
+**Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+
+**Downloaded**: [date downloaded or received]
+
+**Description**:  [e.g., surface aragonite state]
+
+**Native data resolution**: [e.g., 1 degree, 30 m, etc.]   
+
+**Time range**: [e.g., 1880-1899, monthly data provided for each year] 
+
+**Format**:  [e.g. NetCDF]
+
+***
+  
+# Methods
+
+- Salt Marsh health
+    - take CEC land cover rasters for 2005 and 2010, filter to just value = 14; mask to coastal region (1km inland + 1 km offshore?)
+    - calc coverage in each region for both years
+    - determine linear trend based on the two points
+    - backfill all study years based on linear model
+    - WHAT IS REFERENCE POINT?
+    
+``` {r read and filter land cover rasters}
+
+rast_saltmarsh_05_file <- file.path(dir_goal_anx, 'raster/land_cover_sm_05_100m.tif')
+rast_saltmarsh_10_file <- file.path(dir_goal_anx, 'raster/land_cover_sm_10_100m.tif')
+
+if(!file.exists(rast_saltmarsh_05_file) | !file.exists(rast_saltmarsh_10_file)) {
+
+  rast_base <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_100m.tif'))
+
+  rast_lc_05_file <- file.path(dir_anx, '_raw_data/cec',
+                               'Land_Cover_2005v2_TIFF/LandCover_2005v2',
+                               'data/NA_LandCover_2005V2_25haMMU.tif')
+  rast_lc_10_file <- file.path(dir_anx, '_raw_data/cec',
+                               'Land_Cover_2010_TIFF/LandCover_2010',
+                               'data/NA_LandCover_2010_25haMMU.tif')
+  
+  rast_lc_05 <- raster(rast_lc_05_file)
+  rast_lc_10 <- raster(rast_lc_05_file)
+  ### CRS: +proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs
+  ### extents: -4418000, 4832000, -3873500, 4876500
+
+  new_ext <- raster::extent(c('xmin' = -2250000, 'xmax' = -1550000, 'ymin' = 600000, 'ymax' = 1650000))
+  rast_lc_05 <- raster::crop(rast_lc_05, new_ext)
+  rast_lc_10 <- raster::crop(rast_lc_10, new_ext)
+  
+  values(rast_lc_05)[values(rast_lc_05) != 14] <- NA
+  values(rast_lc_10)[values(rast_lc_10) != 14] <- NA
+  
+  rast_lc_05_bcalb <- raster::projectRaster(rast_lc_05, rast_base, 
+                                            method = 'ngb',
+                                            filename = rast_saltmarsh_05_file, 
+                                            progress = 'text',
+                                            overwrite = TRUE)
+  rast_lc_10_bcalb <- raster::projectRaster(rast_lc_10, rast_base, 
+                                            method = 'ngb',
+                                            filename = rast_saltmarsh_10_file, 
+                                            progress = 'text',
+                                            overwrite = TRUE)
+}
+
+git_prov(rast_saltmarsh_05_file, filetype = 'output')
+git_prov(rast_saltmarsh_10_file, filetype = 'output')
+
+```
+
+``` {r zonal stats wetland areas 2005 and 2010}
+
+rast_lc_05_bcalb <- raster(rast_saltmarsh_05_file)
+rast_lc_10_bcalb <- raster(rast_saltmarsh_10_file)
+# rast_1km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_1km_raster_100m.tif'))
+rast_10km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_10km_raster_100m.tif'))
+
+zonal_05_file <- file.path(dir_goal, 'int', 'zonal_stats_2005_10km.csv')
+zonal_10_file <- file.path(dir_goal, 'int', 'zonal_stats_2010_10km.csv')
+
+if(!file.exists(zonal_05_file) | !file.exists(zonal_10_file)) {
+  
+  ### NOTE: The crosstab function returns this warning - does it affect the
+  ### outcomes, or does the function coerce the correct outcome?
+      # Warning message:
+      # In FUN(X[[i]], ...) : integer overflow - use sum(as.numeric(.))
+  
+  ptm <- proc.time()
+  stats_05 <- raster::crosstab(rast_lc_05_bcalb, rast_10km_100m, useNA = TRUE, progress = 'text') %>%
+    as.data.frame() %>%
+    setNames(c('value', 'rgn_id', 'n_cells')) %>%
+    mutate(value   = as.integer(as.character(value)),
+           rgn_id = as.integer(as.character(rgn_id))) %>%
+    arrange(rgn_id)
+  message('Elapsed: ', (proc.time() - ptm)[3], ' sec')
+  
+  ptm <- proc.time()
+  stats_10 <- raster::crosstab(rast_lc_10_bcalb, rast_10km_100m, useNA = TRUE, progress = 'text') %>%
+    as.data.frame() %>%
+    setNames(c('value', 'rgn_id', 'n_cells')) %>%
+    mutate(value   = as.integer(as.character(value)),
+           rgn_id = as.integer(as.character(rgn_id))) %>%
+    arrange(rgn_id)
+  message('Elapsed: ', (proc.time() - ptm)[3], ' sec')
+  
+  write_csv(stats_05, zonal_05_file)
+  write_csv(stats_10, zonal_10_file)
+  
+} else {
+  
+  message('Zonal stats layers already exist: \n  ', zonal_05_file, '\n  ', zonal_10_file)
+  git_prov(zonal_05_file, filetype = 'output')
+  git_prov(zonal_05_file, filetype = 'output')
+  
+}
+
+```
+
+Once the wetlands raster is cross-tabulated against the OHI inland raster we have the number of wetland cells within each region.  NA values are non-wetland.
+
+-----
+
+## Calculate protected area and total area by region
+
+Grouping by rgn_id, the number of wetland cells per region is simply the number of non-NA cells; the total number of cells includes both value and NA cells.
+
+Since the cells are 1 hectare, we can easily calculate area by multiplying cell count * 0.01 km^2^ per cell.
+
+Finally we can calculate the status of a region for any given year by finding the ratio of wetland:total.  This is computed for both 2005 and 2010.
+
+``` {r summarize_zonal_stats, eval = TRUE}
+
+stats_05 <- read_csv(zonal_05_file)
+stats_10 <- read_csv(zonal_10_file)
+
+rgn_names <- foreign::read.dbf(file.path(dir_spatial, 'ohibc_rgn.dbf'),
+                               as.is = TRUE) %>%
+  dplyr::select(rgn_id, rgn_name)
+
+### Determine total cells per region (n_cells_tot) and then a cumulative
+### total of cells per region
+wetland_05 <- stats_05 %>%
+  group_by(rgn_id) %>%
+  mutate(n_tot = sum(n_cells)) %>% ### sum before filtering out NAs
+  filter(!is.na(value) & !is.na(rgn_id)) %>%
+  summarize(n_wet_05 = n_cells,
+            n_tot = n_tot)
+
+wetland_10 <- stats_10 %>%
+  group_by(rgn_id) %>%
+  mutate(n_tot = sum(n_cells)) %>% ### sum before filtering out NAs
+  filter(!is.na(value) & !is.na(rgn_id)) %>%
+  summarize(n_wet_10 = n_cells,
+            n_tot = n_tot)
+  
+wetland_df <- wetland_05 %>%
+  left_join(wetland_10, by = c('rgn_id', 'n_tot')) %>%
+  left_join(rgn_names, by = 'rgn_id') %>%
+  mutate(cells_per_year = (n_wet_10 - n_wet_05)/5)
+
+
+write_csv(wetland_df, file.path(dir_goal, 'int', 'wetland_stats_10km.csv'))
+
+```
+
+``` {r expand time series}
+
+wetland_df <- read_csv(file.path(dir_goal, 'int', 'wetland_stats_10km.csv'))
+
+wetland_ts <- wetland_df %>%
+  left_join(data.frame(rgn_id = rep(1:8, times = 21), 
+                       year   = rep(1995:2015, each = 8)),
+            by = 'rgn_id') ### region 7 drops out - Pacific Offshore
+
+wetland_ts <- wetland_ts %>%
+  mutate(n_wet_calc = n_wet_05 + cells_per_year * (year - 2005),
+         n_wet_calc = ifelse(n_wet_calc < 0, 0, n_wet_calc),
+         pct_wet    = n_wet_calc / n_tot) %>%
+  dplyr::select(rgn_id, rgn_name, year, n_wet = n_wet_calc, n_tot, pct_wet)
+
+write_csv(wetland_ts, file.path(dir_goal, 'int', 'wetland_time_series_10km.csv'))
+
+```
+
+  
+## Plot scores time series
+
+To examine results, we plot the estimated status and trend over time.
+
+``` {r spp_plot_scores_over_time, fig.height = 4, fig.width = 6, fig.align = 'center'}
+library(ggplot2)
+library(plotly)
+
+wetland_ts <- read_csv(file.path(dir_goal, 'int', 'wetland_time_series_1km.csv')) %>%
+  rename(n_wet_1km = n_wet, n_tot_1km = n_tot, pct_wet_1km = pct_wet) %>%
+  left_join(read_csv(file.path(dir_goal, 'int', 'wetland_time_series_10km.csv')) %>%
+              rename(n_wet_10km = n_wet, n_tot_10km = n_tot, pct_wet_10km = pct_wet),
+            by = c('rgn_id', 'rgn_name', 'year'))
+
+wetland_plot <- ggplot(wetland_ts %>%
+                         filter(!is.na(year)),
+                       aes(x = year, color = rgn_name, group = rgn_name)) +
+  ggtheme_plot +
+  geom_line(aes(y = pct_wet_1km), size = 2, alpha = .6) +
+  geom_line(aes(y = pct_wet_10km), size = 1, alpha = 1) +
+  scale_colour_brewer(palette = 'PRGn') +
+  labs(x = 'year',
+       y = 'Percent of area as wetland',
+       color = 'Region')
+
+ggplotly(wetland_plot)
+
+
+
+wetland_pct_2010 <- wetland_ts %>%
+  filter(year %in% c(2005, 2010)) %>%
+  group_by(rgn_id) %>%
+  mutate(rpct_1km  =  pct_wet_1km / first(pct_wet_1km),
+         rpct_10km = pct_wet_10km / first(pct_wet_10km)) %>%
+  filter(year == 2010) %>%
+  gather(key = buffer, value = rel_pct, rpct_1km:rpct_10km) %>%
+  left_join(foreign::read.dbf(file.path(dir_spatial, 'ohibc_rgn.dbf'),
+                               as.is = TRUE) %>%
+              dplyr::select(rgn_id, rgn_code),
+            by = 'rgn_id')
+
+
+wetland_barchart <- ggplot(wetland_pct_2010,
+                             aes(x = rgn_code, 
+                                 fill = buffer)) +
+  ggtheme_plot +
+  geom_bar(aes(y = rel_pct), position = 'dodge', stat = 'identity') +
+  # scale_x_log10() + scale_y_log10() +
+  scale_fill_brewer(palette = 'Greens') +
+  labs(x = 'region',
+       y = 'Rel change in % wetland area (2005 to 2010)',
+       fill = 'Buffer')
+
+ggplotly(wetland_barchart)
+
+
+```
+  
+- Salt marsh extent
+    - use land cover rasters?
+    - use polygons from Blue Carbon?
+
+- Seagrass extent
+    - Use polygons from Blue Carbon
+    - include lines (with buffer perhaps)
+    
+- Seagrass health
+    - Pressures-based 
+
+***
+
+# Citation information  
+[citation information: include if these data will have their own specific citation.]
+
+***
+
+``` {r child = 'prov/prov_ftr2.Rmd'}
+```
+

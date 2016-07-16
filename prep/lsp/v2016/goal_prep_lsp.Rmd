@@ -40,7 +40,6 @@ dir_goal_anx <- file.path(dir_anx, 'lsp', scenario)  ### git-annex: goal-specifi
 
 ### provenance tracking
 library(provRmd); prov_setup()
-# source('~/github/ohibc/src/R/prov.R')      
 
 ### set up the default BC projection to be BC Albers
 p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
@@ -119,8 +118,8 @@ Analysis will be done using raster::crosstab() comparing the WDPA raster to vari
 ```{r get_analysis_rasters, echo = FALSE, eval = TRUE}
 
 ### check for presence of buffer rasters
-rast_3nm_file <- file.path(dir_rast, 'ohibc_offshore_3nm.tif')
-rast_1km_file <- file.path(dir_rast, 'ohibc_inland_1km.tif')
+rast_3nm_file <- file.path(spatial, 'ohibc_offshore_3nm_raster_500m.tif')
+rast_1km_file <- file.path(spatial, 'ohibc_inland_1km_raster_500m.tif')
 
 reload <- FALSE
 
@@ -441,5 +440,7 @@ ggplotly(trend_ts_plot)
 ```
 
 -----
-``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
+
+``` {r child = 'prov/prov_ftr2.Rmd'}
 ```
+
