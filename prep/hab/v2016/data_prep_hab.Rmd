@@ -128,10 +128,11 @@ git_prov(rast_saltmarsh_10_file, filetype = 'output')
 rast_lc_05_bcalb <- raster(rast_saltmarsh_05_file)
 rast_lc_10_bcalb <- raster(rast_saltmarsh_10_file)
 # rast_1km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_1km_raster_100m.tif'))
-rast_10km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_10km_raster_100m.tif'))
+# rast_10km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_10km_raster_100m.tif'))
+rast_2km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_2km_raster_100m.tif'))
 
-zonal_05_file <- file.path(dir_goal, 'int', 'zonal_stats_2005_10km.csv')
-zonal_10_file <- file.path(dir_goal, 'int', 'zonal_stats_2010_10km.csv')
+zonal_05_file <- file.path(dir_goal, 'int', 'zonal_stats_2005_2km.csv')
+zonal_10_file <- file.path(dir_goal, 'int', 'zonal_stats_2010_2km.csv')
 
 if(!file.exists(zonal_05_file) | !file.exists(zonal_10_file)) {
   
@@ -141,7 +142,7 @@ if(!file.exists(zonal_05_file) | !file.exists(zonal_10_file)) {
       # In FUN(X[[i]], ...) : integer overflow - use sum(as.numeric(.))
   
   ptm <- proc.time()
-  stats_05 <- raster::crosstab(rast_lc_05_bcalb, rast_10km_100m, useNA = TRUE, progress = 'text') %>%
+  stats_05 <- raster::crosstab(rast_lc_05_bcalb, rast_2km_100m, useNA = TRUE, progress = 'text') %>%
     as.data.frame() %>%
     setNames(c('value', 'rgn_id', 'n_cells')) %>%
     mutate(value   = as.integer(as.character(value)),
@@ -150,7 +151,7 @@ if(!file.exists(zonal_05_file) | !file.exists(zonal_10_file)) {
   message('Elapsed: ', (proc.time() - ptm)[3], ' sec')
   
   ptm <- proc.time()
-  stats_10 <- raster::crosstab(rast_lc_10_bcalb, rast_10km_100m, useNA = TRUE, progress = 'text') %>%
+  stats_10 <- raster::crosstab(rast_lc_10_bcalb, rast_2km_100m, useNA = TRUE, progress = 'text') %>%
     as.data.frame() %>%
     setNames(c('value', 'rgn_id', 'n_cells')) %>%
     mutate(value   = as.integer(as.character(value)),
@@ -214,13 +215,13 @@ wetland_df <- wetland_05 %>%
   mutate(cells_per_year = (n_wet_10 - n_wet_05)/5)
 
 
-write_csv(wetland_df, file.path(dir_goal, 'int', 'wetland_stats_10km.csv'))
+write_csv(wetland_df, file.path(dir_goal, 'int', 'wetland_stats_2km.csv'))
 
 ```
 
 ``` {r expand time series}
 
-wetland_df <- read_csv(file.path(dir_goal, 'int', 'wetland_stats_10km.csv'))
+wetland_df <- read_csv(file.path(dir_goal, 'int', 'wetland_stats_2km.csv'))
 
 wetland_ts <- wetland_df %>%
   left_join(data.frame(rgn_id = rep(1:8, times = 21), 
@@ -233,7 +234,7 @@ wetland_ts <- wetland_ts %>%
          pct_wet    = n_wet_calc / n_tot) %>%
   dplyr::select(rgn_id, rgn_name, year, n_wet = n_wet_calc, n_tot, pct_wet)
 
-write_csv(wetland_ts, file.path(dir_goal, 'int', 'wetland_time_series_10km.csv'))
+write_csv(wetland_ts, file.path(dir_goal, 'int', 'wetland_time_series_2km.csv'))
 
 ```
 
@@ -250,6 +251,9 @@ wetland_ts <- read_csv(file.path(dir_goal, 'int', 'wetland_time_series_1km.csv')
   rename(n_wet_1km = n_wet, n_tot_1km = n_tot, pct_wet_1km = pct_wet) %>%
   left_join(read_csv(file.path(dir_goal, 'int', 'wetland_time_series_10km.csv')) %>%
               rename(n_wet_10km = n_wet, n_tot_10km = n_tot, pct_wet_10km = pct_wet),
+            by = c('rgn_id', 'rgn_name', 'year')) %>%
+  left_join(read_csv(file.path(dir_goal, 'int', 'wetland_time_series_2km.csv')) %>%
+              rename(n_wet_2km = n_wet, n_tot_2km = n_tot, pct_wet_2km = pct_wet),
             by = c('rgn_id', 'rgn_name', 'year'))
 
 wetland_plot <- ggplot(wetland_ts %>%
