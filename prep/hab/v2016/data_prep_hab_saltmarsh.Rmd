@@ -1,5 +1,5 @@
 ---
-title: 'OHIBC: data_prep_hab.Rmd'
+title: 'OHIBC: data_prep_hab_saltmarsh.Rmd'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -274,10 +274,11 @@ ggplotly(wetland_plot)
 wetland_pct_2010 <- wetland_ts %>%
   filter(year %in% c(2005, 2010)) %>%
   group_by(rgn_id) %>%
-  mutate(rpct_1km  =  pct_wet_1km / first(pct_wet_1km),
+  mutate(rpct_01km  =  pct_wet_1km / first(pct_wet_1km),
+         rpct_02km  =  pct_wet_2km / first(pct_wet_2km),
          rpct_10km = pct_wet_10km / first(pct_wet_10km)) %>%
   filter(year == 2010) %>%
-  gather(key = buffer, value = rel_pct, rpct_1km:rpct_10km) %>%
+  gather(key = buffer, value = rel_pct, rpct_01km:rpct_10km) %>%
   left_join(foreign::read.dbf(file.path(dir_spatial, 'ohibc_rgn.dbf'),
                                as.is = TRUE) %>%
               dplyr::select(rgn_id, rgn_code),
@@ -318,6 +319,7 @@ ggplotly(wetland_barchart)
 
 ***
 
-``` {r child = 'prov/prov_ftr2.Rmd'}
+``` {r prov_footer, results = 'asis'}
+prov_wrapup()
 ```
 

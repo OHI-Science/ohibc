@@ -26,10 +26,10 @@ dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region
 source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
 
 ### goal specific folders and info
-dir_hab  <- file.path(dir_git, 'prep/pressures/habitats')
 scenario <- 'v2016'
-dir_anx  <- file.path(dir_neptune_data, 'git-annex/bcprep')
-#dir_rast <- file.path(dir_anx, 'pressures/habitats')
+dir_hab  <- file.path(dir_git, 'prep/pressures', scenario, 'habitats')
+dir_anx  <- file.path(dir_M, 'git-annex/bcprep')
+#dir_rast <- file.path(dir_anx, 'pressures', scenario, 'habitats')
 dir_rast <- file.path(dir_hab, 'raster')
 
 ### provenance tracking

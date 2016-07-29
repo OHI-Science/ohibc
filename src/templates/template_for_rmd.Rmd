@@ -78,6 +78,7 @@ p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 
 ***
 
-``` {r child = 'prov/prov_ftr2.Rmd'}
+``` {r prov_footer, results = 'asis'}
+prov_wrapup()
 ```
 

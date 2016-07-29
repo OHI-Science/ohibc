@@ -1,5 +1,6 @@
 library(dplyr)
 library(tidyr)
+library(stringr)
 library(ggplot2)
 
 status_df <- data.frame('rgn_id' = rep(c('low', 'med', 'high'), each = 5),
@@ -12,21 +13,35 @@ trend_df <- status_df %>%
   do(slope = lm(status ~ year, .)) %>%
   mutate(trend = coef(slope)[2] * 5)
 
+trend_df2 <- status_df %>%
+  group_by(rgn_id) %>%
+  mutate(stat_norm = status/first(status)) %>%
+  do(slope = lm(stat_norm ~ year, .)) %>%
+  mutate(trend = coef(slope)[2] * 5)
+
 lfs_df <- status_df %>%
   left_join(trend_df, by = 'rgn_id') %>%
   group_by(rgn_id) %>%
-  summarize(year = 2020,
-            lfs_lin = last(status) + last(trend),
-            lfs_pct = last(status) * (1 + last(trend)/100),
-            lfs_linB = last(status) + .67*last(trend),
-            lfs_pctB = last(status) * (1 + .67*last(trend)/100)) %>%
-  gather(type, status, lfs_lin:lfs_pctB) %>%
+  mutate(trend_norm = trend/first(status)) %>%
+  summarize(trend = last(trend),
+            trend_norm = last(trend_norm),
+            year = 2020,
+            lfs_lin = last(status) + trend,
+            lfs_pct = last(status) * (1 + trend / 100),
+            lfs_linB = last(status) + .67 * trend,
+            lfs_pctB = last(status) * (1 + .67 * trend / 100),
+            lfs_norm = last(status) * (1 + trend_norm),
+            lfs_normB = last(status) * (1 + .67 * trend_norm)) %>%
+  gather(type, status, lfs_lin:lfs_normB) %>%
   bind_rows(status_df) %>%
   mutate(rgn_id = factor(rgn_id, levels = c('high', 'med', 'low'))) %>%
-  left_join(data.frame(type = c('lfs_lin', 'lfs_linB', 'lfs_pct', 'lfs_pctB'),
-                       nx   = c(    1,          1,        -1,          -1),
-                       ny   = c(  .25,          0,       .25,        -.25)),
+  left_join(data.frame(type = c('lfs_lin', 'lfs_linB', 'lfs_pct', 'lfs_pctB', 'lfs_norm', 'lfs_normB'),
+                       nx   = c(   -1,          1,        -1,          +1,        -1,         +1),
+                       ny   = c(  .25,          0,         0,           0,         0,          0)),
             by = 'type')
+
+lfs_df <- lfs_df %>%
+  filter(!str_detect(type, 'lin'))
 
 lfs_plot <- ggplot(lfs_df, aes(x = year, y = status, color = rgn_id)) +
   geom_abline(slope = 1,
