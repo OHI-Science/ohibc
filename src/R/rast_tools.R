@@ -76,3 +76,48 @@ plot_rast <- function(rast,
 #                           filename = file.path(dir_rgn, 'ohibc_rgn_raster_1000m.tif'),
 #                           overwrite = TRUE)
 
+gdal_rast2 <- function(src, base_rast, dst = NULL, value = NULL) {
+  if(!str_detect(src, '.shp$')) src <- paste0(src, '.shp')
+  ### add .shp if not present on src
+
+  if(is.null(dst)) dst <- src %>% str_replace('.shp$', '.tif')
+  ### if no dst, save it in same place as src
+
+  if(is.null(value)) { ### default: choose first numeric column as value
+    tmp_dbf  <- foreign::read.dbf(str_replace(src, '.shp$', '.dbf'))
+    num_cols <- sapply(tmp_dbf, class) %in% c('numeric', 'integer')
+    if(sum(num_cols) == 0) {
+      message('No numeric column found in source shapefile')
+      stop()
+    } else
+      value <- names(tmp_dbf)[sapply(tmp_dbf, class) %in% c('numeric', 'integer')][1]
+  }
+
+  dst_tmp  <- dst %>% str_replace('.tif', '_tmp.tif')
+
+  base_tr  <- raster::res(base_rast)
+  base_ext <- raster::extent(base_rast)
+  base_te  <- c(base_ext[1], base_ext[3], base_ext[2], base_ext[4])
+
+  file.copy(base_rast@file@name, dst_tmp) ### set up a file at the temp location
+
+  rast_tmp <- gdalUtils::gdal_rasterize(
+    src_datasource = path.expand(src),
+    dst_filename   = path.expand(dst_tmp),
+    a = value, # attribute to burn
+    a_nodata = NA,
+    # at = TRUE,
+    te = base_te,
+    tr = base_tr,
+    output_Raster = TRUE)
+
+  ### writeRaster to write a compressed version in final location
+  raster::writeRaster(rast_tmp, dst, overwrite = TRUE)
+
+  ### unlink the temp raster because it's huge
+  unlink(dst_tmp) ### delete temp
+
+  ### reload raster from the compressed file and return it
+  rast <- raster::raster(dst)
+}
+
