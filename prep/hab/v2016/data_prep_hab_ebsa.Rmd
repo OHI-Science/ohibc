@@ -72,18 +72,39 @@ create layers for HAB, CP, CS goals; calculate HAB goal
 
 - EBSA layers as spatial extent of pressure-based models
     
-``` {r read and filter EBSA shapefile to relevant layers}
+``` {r create_OHI_EBSA_shp}
 
 poly_ebsa <- readOGR(dsn = file.path(dir_anx, '_raw_data/dfo_khunter/ebsa'), 
                      layer = 'eco_bio_sig_areas', 
                      stringsAsFactors = FALSE)
 
-x <- poly_ebsa@data
+ebsa_sar_2012 <- read_csv(file.path(dir_goal, 'raw/ebsa_sar_2012.csv'))
 
+poly_ebsa@data <- poly_ebsa@data %>% 
+  setNames(tolower(names(.))) %>%
+  left_join(ebsa_sar_2012, by = c('id' = 'ebsa_id')) %>%
+  select(ebsa_id = id, name, label, phys = physical, unique, agg = aggregation, conf) %>%
+  mutate(agg = ifelse(!is.na(unique), unique, agg),
+         phys = ifelse(str_detect(label, 'Seamount'), 'seamount', phys),
+         phys = ifelse(str_detect(label, 'Hydrothermal'), 'hydrothermal', phys)) %>%
+  select(-unique, -label)
 
-git_prov(rast_saltmarsh_05_file, filetype = 'output')
-git_prov(rast_saltmarsh_10_file, filetype = 'output')
+poly_ebsa_trim <- poly_ebsa[!(is.na(poly_ebsa@data$phys) & is.na(poly_ebsa@data$agg)), ]
 
+poly_sg_sponges <- readOGR(dsn = file.path(dir_anx, '_raw_data/dfo_khunter',
+                                           'mgmt_related_boundaries'), 
+                     layer = 'Strait_of_Georgia_Sponge_Reef_Fishing_Closures', 
+                     stringsAsFactors = FALSE)
+poly_sg_sponges@data <- poly_sg_sponges@data %>%
+  mutate(id   = OBJECTID + 100,
+         name = 'Sponge Reef',
+         phys = NA,
+         agg  = 'sponges',
+         conf = NA) %>%
+  select(-OBJECTID, -Shape_Leng, -Shape_Area)
+
+plot(poly_ebsa_trim)
+plot(poly_sg_sponges, border = 'red', add = TRUE)
 ```
 
 ``` {r zonal stats wetland areas 2005 and 2010}

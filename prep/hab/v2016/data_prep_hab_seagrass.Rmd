@@ -19,7 +19,6 @@ knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
 
 library(raster)
 library(rgdal)
-library(rgeos)
 
 source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
 
@@ -37,8 +36,10 @@ dir_goal_anx <- file.path(dir_anx, goal, scenario)
 library(provRmd); prov_setup()
 
 ### support scripts
-source(file.path(dir_git, 'src/R/rast_tools.R')) 
-  ### gdal_rast2, plotting
+# source(file.path('~/github/ohibc/src/R/map_scores.R'))
+  ### score plotting scripts
+# source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### raster plotting and analyzing scripts
 
 ### set up the default BC projection to be BC Albers
 p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
@@ -70,16 +71,12 @@ create layers for HAB, CP, CS goals; calculate HAB goal
   
 # Methods
 
-- Salt Marsh health for status and trend
+- Salt Marsh health
     - take CEC land cover rasters for 2005 and 2010, filter to just value = 14; mask to coastal region (1km inland + 1 km offshore?)
     - calc coverage in each region for both years
     - determine linear trend based on the two points
     - backfill all study years based on linear model
     - WHAT IS REFERENCE POINT?
-- Salt marsh extent for weighting
-    - To align with seagrass extent, which will be based on seagrass biobands, we will use salt marsh biobands.
-    - Buffer biobands by 1 km, with square end
-    - Rasterize buffer to 0.5 km and summarize area per region
     
 ``` {r read and filter land cover rasters}
 
@@ -148,7 +145,7 @@ if(!file.exists(zonal_05_file) | !file.exists(zonal_10_file)) {
   stats_05 <- raster::crosstab(rast_lc_05_bcalb, rast_2km_100m, useNA = TRUE, progress = 'text') %>%
     as.data.frame() %>%
     setNames(c('value', 'rgn_id', 'n_cells')) %>%
-    mutate(value  = as.integer(as.character(value)),
+    mutate(value   = as.integer(as.character(value)),
            rgn_id = as.integer(as.character(rgn_id))) %>%
     arrange(rgn_id)
   message('Elapsed: ', (proc.time() - ptm)[3], ' sec')
@@ -157,7 +154,7 @@ if(!file.exists(zonal_05_file) | !file.exists(zonal_10_file)) {
   stats_10 <- raster::crosstab(rast_lc_10_bcalb, rast_2km_100m, useNA = TRUE, progress = 'text') %>%
     as.data.frame() %>%
     setNames(c('value', 'rgn_id', 'n_cells')) %>%
-    mutate(value  = as.integer(as.character(value)),
+    mutate(value   = as.integer(as.character(value)),
            rgn_id = as.integer(as.character(rgn_id))) %>%
     arrange(rgn_id)
   message('Elapsed: ', (proc.time() - ptm)[3], ' sec')
@@ -244,9 +241,9 @@ write_csv(wetland_ts, file.path(dir_goal, 'int', 'wetland_time_series_2km.csv'))
   
 ## Plot scores time series
 
-To examine results, we plot the estimated status and trend over time.  This chunk is not run.
+To examine results, we plot the estimated status and trend over time.
 
-``` {r spp_plot_scores_over_time, eval = FALSE, fig.height = 4, fig.width = 6, fig.align = 'center'}
+``` {r spp_plot_scores_over_time, fig.height = 4, fig.width = 6, fig.align = 'center'}
 library(ggplot2)
 library(plotly)
 
@@ -305,75 +302,15 @@ ggplotly(wetland_barchart)
 ```
   
 - Salt marsh extent
+    - use land cover rasters?
+    - use polygons from Blue Carbon?
 
-``` {r create_saltmarsh_bioband_buffer}
-
-sm_buffer_file <- path.expand(file.path(dir_goal, 'shp', 'buffer_saltmarsh.shp'))
-
-bioband_saltmarsh_file <- file.path(dir_anx, '_raw_data', 'bcmca',
-                                'bcmca_eco_set_plants_complete',
-                                'MarxanData_Plants/VascularPlants',
-                                'BCMCA_ECO_VascPlants_SaltMarsh_Bioband_MARXAN.shp')
-if(!file.exists(sm_buffer_file)) {
-
-  bioband_saltmarsh <- readOGR(dsn   = dirname(path.expand(bioband_saltmarsh_file)), 
-                               layer = basename(bioband_saltmarsh_file) %>% str_replace('.shp', ''),
-                               stringsAsFactors = FALSE)
-  
-  poly_saltmarsh <- gBuffer(bioband_saltmarsh, byid = FALSE, width = 1000, capStyle = 'FLAT')
-  
-  spdf_saltmarsh <- SpatialPolygonsDataFrame(poly_saltmarsh, data.frame(1), match.ID = FALSE)
-  
-  writeOGR(spdf_saltmarsh, dsn = dirname(sm_buffer_file), 
-           layer = basename(sm_buffer_file) %>% str_replace('.shp', ''),
-           driver = 'ESRI Shapefile',
-           overwrite_layer = TRUE)
-} else {
-  ### manual git_prov() calls
-  git_prov(bioband_saltmarsh_file)
-  git_prov(sm_buffer_file, filetype = 'output')
-}
-
-```
-
-``` {r create_saltmarsh_buffer_raster}
-sm_buffer_rast_file <- path.expand(file.path(dir_goal, 'tif', 'buffer_saltmarsh.tif'))
-if(!file.exists(sm_buffer_rast_file)) {
-sm_buffer_file <- path.expand(file.path(dir_goal, 'shp', 'buffer_saltmarsh.shp'))
-
-base_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
-
-gdal_rast2(src = sm_buffer_file, base_rast, sm_buffer_rast_file)
-
-} else {
-  ### manual git_prov() calls
-  git_prov(sm_buffer_file, filetype = 'input')
-  git_prov(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
-  git_prov(sm_buffer_rast_file, filetype = 'output')
-}
-
-
-```
-
-``` {r crosstab_saltmarsh_vs_rgns}
-
-base_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif')) %>%
-  setNames('rgn_id')
-sm_buffer_rast <- raster(sm_buffer_rast_file) %>%
-  setNames('saltmarsh')
-
-sm_buffer_df <- raster::crosstab(sm_buffer_rast, base_rast, 
-                                 long = TRUE, useNA = TRUE,
-                                 progress = 'text') %>%
-  group_by(rgn_id) %>%
-  mutate(area_tot = sum(Freq) * .25) %>%   ### get total area in region
-  filter(!is.na(saltmarsh) & !is.na(rgn_id)) %>%
-  mutate(area_marsh = sum(Freq) * .25) %>% ### get just marsh area in region
-  select(-Freq, -saltmarsh)
-
-write_csv(sm_buffer_df, file.path(dir_goal, 'int', 'saltmarsh_bioband_area.csv'))
-
-```
+- Seagrass extent
+    - Use polygons from Blue Carbon
+    - include lines (with buffer perhaps)
+    
+- Seagrass health
+    - Pressures-based 
 
 ***
 
