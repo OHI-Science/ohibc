@@ -47,7 +47,7 @@ p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 
 # Summary
 
-create layers for HAB, CP, CS goals; calculate HAB goal
+Create saltmarsh layers for HAB, CP, CS goals.  The areas calculated in this script will be used in the goal_prep script to compare area to pressure, and calculate a score.
 
 # Updates from previous assessment
 

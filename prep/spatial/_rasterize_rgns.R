@@ -4,6 +4,9 @@ library(tidyr)
 library(gdalUtils)
 library(raster)
 
+source('src/R/rast_tools.R')
+### to use the gdal_rast2 function
+
 ### file path for ohibc_rgn and ohibc_land
 # rgn_shp_file  <- '~/github/ohibc/prep/spatial/ohibc_rgn.shp'
 rgn_shp_file  <- '~/github/ohibc/prep/spatial/ohibc_inland_2km.shp'
@@ -16,18 +19,20 @@ writeOGR(x,
          overwrite_layer = TRUE,
          driver = 'ESRI Shapefile')
 
-### output for rasters
-# rgn_rast_tmp_file  <- '~/github/ohibc/prep/spatial/ohibc_rgn_raster_tmp_250m.tif'
-# rgn_rast_file  <- '~/github/ohibc/prep/spatial/ohibc_rgn_raster_250m.tif'
-# rgn_rast_tmp_file  <- '~/github/ohibc/prep/spatial/ohibc_rgn_raster_tmp_100m.tif'
-# rgn_rast_file  <- '~/github/ohibc/prep/spatial/ohibc_rgn_raster_100m.tif'
-# rgn_rast_tmp_file  <- '~/github/ohibc/prep/spatial/ohibc_inland_1km_raster_tmp_100m.tif'
-# rgn_rast_file  <- '~/github/ohibc/prep/spatial/ohibc_inland_1km_raster_100m.tif'
-rgn_rast_tmp_file  <- '~/github/ohibc/prep/spatial/ohibc_inland_2km_raster_tmp_100m.tif'
-rgn_rast_file  <- '~/github/ohibc/prep/spatial/ohibc_inland_2km_raster_100m.tif'
+rgn_base_file  <- '~/github/ohibc/prep/spatial/ohibc_rgn_raster_500m.tif'
+rgn_base <- raster(rgn_base_file)
 
-base_te <- c(154000,168000,1876000,1741000)
-res <- c(100, 100)
+# gdal_rast2(rgn_shp_file, rast_base, dst = rgn_rast_file)
+
+### output for rasters
+# rgn_rast_file  <- '~/github/ohibc/prep/spatial/ohibc_rgn_raster_500m_1.tif'
+# rgn_rast_file  <- '~/github/ohibc/prep/spatial/ohibc_rgn_raster_250m.tif'
+# rgn_rast_file  <- '~/github/ohibc/prep/spatial/ohibc_rgn_raster_100m.tif'
+# rgn_rast_file  <- '~/github/ohibc/prep/spatial/ohibc_inland_1km_raster_100m.tif'
+# rgn_rast_file  <- '~/github/ohibc/prep/spatial/ohibc_inland_2km_raster_100m.tif'
+
+base_te <- extent(rast_base)
+base_tr <- res(rast_base)
 
 rast_rgn <- gdalUtils::gdal_rasterize(
   src_datasource = path.expand(rgn_shp_file),

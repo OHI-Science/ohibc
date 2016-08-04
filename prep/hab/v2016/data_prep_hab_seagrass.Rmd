@@ -1,5 +1,5 @@
 ---
-title: 'OHIBC: data_prep_hab_saltmarsh.Rmd'
+title: 'OHIBC: data_prep_hab_seagrass.Rmd'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -19,6 +19,7 @@ knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
 
 library(raster)
 library(rgdal)
+library(rgeos)
 
 source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
 
@@ -36,10 +37,8 @@ dir_goal_anx <- file.path(dir_anx, goal, scenario)
 library(provRmd); prov_setup()
 
 ### support scripts
-# source(file.path('~/github/ohibc/src/R/map_scores.R'))
-  ### score plotting scripts
-# source(file.path(dir_git, 'src/R/rast_tools.R')) 
-  ### raster plotting and analyzing scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### gdal_rast2, plotting
 
 ### set up the default BC projection to be BC Albers
 p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
@@ -48,7 +47,7 @@ p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 
 # Summary
 
-create layers for HAB, CP, CS goals; calculate HAB goal
+Create seagrass layers for HAB, CP, CS goals.  The areas calculated in this script will be used in the goal_prep script to compare area to pressure, and calculate a score.
 
 # Updates from previous assessment
 
@@ -71,246 +70,265 @@ create layers for HAB, CP, CS goals; calculate HAB goal
   
 # Methods
 
-- Salt Marsh health
-    - take CEC land cover rasters for 2005 and 2010, filter to just value = 14; mask to coastal region (1km inland + 1 km offshore?)
-    - calc coverage in each region for both years
-    - determine linear trend based on the two points
-    - backfill all study years based on linear model
-    - WHAT IS REFERENCE POINT?
+Sea Grass health base on pressures-based model: nutrient inputs
+
+- Pull nutrient rasters from global fertilizer plume model
+- Reproject to extents and resolution of OHIBC region 500 m raster
+- Data includes years 2002 - 2013
     
-``` {r read and filter land cover rasters}
+``` {r read and clip pressure raster}
 
-rast_saltmarsh_05_file <- file.path(dir_goal_anx, 'raster/land_cover_sm_05_100m.tif')
-rast_saltmarsh_10_file <- file.path(dir_goal_anx, 'raster/land_cover_sm_10_100m.tif')
+### Nutrient pressures layers are on Mazu here:
+### Mazu:marine_threats/impact_layers_2013_redo/impact_layers/work/land_based/before_2007/raw_global_results
+### Still need to get the updated versions.
 
-if(!file.exists(rast_saltmarsh_05_file) | !file.exists(rast_saltmarsh_10_file)) {
+dir_nutr <- file.path(dir_M, 'marine_threats/impact_layers_2013_redo/impact_layers',
+                      'work/land_based/before_2007',
+                      'raw_global_results')
+nutr_files <- list.files(dir_nutr, pattern = '*fert*', full.names = TRUE)
+new_rast_files <- file.path(dir_goal, 'tif', basename(nutr_files)) %>%
+    str_replace('global', 'bc')
 
-  rast_base <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_100m.tif'))
+### cropping sped up this loop slightly, but also added time for the crop
+### operation.  Leaving it out for simplicity.
 
-  rast_lc_05_file <- file.path(dir_anx, '_raw_data/cec',
-                               'Land_Cover_2005v2_TIFF/LandCover_2005v2',
-                               'data/NA_LandCover_2005V2_25haMMU.tif')
-  rast_lc_10_file <- file.path(dir_anx, '_raw_data/cec',
-                               'Land_Cover_2010_TIFF/LandCover_2010',
-                               'data/NA_LandCover_2010_25haMMU.tif')
-  
-  rast_lc_05 <- raster(rast_lc_05_file)
-  rast_lc_10 <- raster(rast_lc_05_file)
-  ### CRS: +proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs
-  ### extents: -4418000, 4832000, -3873500, 4876500
+rast_base <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
 
-  new_ext <- raster::extent(c('xmin' = -2250000, 'xmax' = -1550000, 'ymin' = 600000, 'ymax' = 1650000))
-  rast_lc_05 <- raster::crop(rast_lc_05, new_ext)
-  rast_lc_10 <- raster::crop(rast_lc_10, new_ext)
-  
-  values(rast_lc_05)[values(rast_lc_05) != 14] <- NA
-  values(rast_lc_10)[values(rast_lc_10) != 14] <- NA
-  
-  rast_lc_05_bcalb <- raster::projectRaster(rast_lc_05, rast_base, 
-                                            method = 'ngb',
-                                            filename = rast_saltmarsh_05_file, 
-                                            progress = 'text',
-                                            overwrite = TRUE)
-  rast_lc_10_bcalb <- raster::projectRaster(rast_lc_10, rast_base, 
-                                            method = 'ngb',
-                                            filename = rast_saltmarsh_10_file, 
-                                            progress = 'text',
-                                            overwrite = TRUE)
-}
-
-git_prov(rast_saltmarsh_05_file, filetype = 'output')
-git_prov(rast_saltmarsh_10_file, filetype = 'output')
-
-```
-
-``` {r zonal stats wetland areas 2005 and 2010}
-
-rast_lc_05_bcalb <- raster(rast_saltmarsh_05_file)
-rast_lc_10_bcalb <- raster(rast_saltmarsh_10_file)
-# rast_1km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_1km_raster_100m.tif'))
-# rast_10km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_10km_raster_100m.tif'))
-rast_2km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_2km_raster_100m.tif'))
-
-zonal_05_file <- file.path(dir_goal, 'int', 'zonal_stats_2005_2km.csv')
-zonal_10_file <- file.path(dir_goal, 'int', 'zonal_stats_2010_2km.csv')
-
-if(!file.exists(zonal_05_file) | !file.exists(zonal_10_file)) {
-  
-  ### NOTE: The crosstab function returns this warning - does it affect the
-  ### outcomes, or does the function coerce the correct outcome?
-      # Warning message:
-      # In FUN(X[[i]], ...) : integer overflow - use sum(as.numeric(.))
-  
-  ptm <- proc.time()
-  stats_05 <- raster::crosstab(rast_lc_05_bcalb, rast_2km_100m, useNA = TRUE, progress = 'text') %>%
-    as.data.frame() %>%
-    setNames(c('value', 'rgn_id', 'n_cells')) %>%
-    mutate(value   = as.integer(as.character(value)),
-           rgn_id = as.integer(as.character(rgn_id))) %>%
-    arrange(rgn_id)
-  message('Elapsed: ', (proc.time() - ptm)[3], ' sec')
-  
-  ptm <- proc.time()
-  stats_10 <- raster::crosstab(rast_lc_10_bcalb, rast_2km_100m, useNA = TRUE, progress = 'text') %>%
-    as.data.frame() %>%
-    setNames(c('value', 'rgn_id', 'n_cells')) %>%
-    mutate(value   = as.integer(as.character(value)),
-           rgn_id = as.integer(as.character(rgn_id))) %>%
-    arrange(rgn_id)
-  message('Elapsed: ', (proc.time() - ptm)[3], ' sec')
-  
-  write_csv(stats_05, zonal_05_file)
-  write_csv(stats_10, zonal_10_file)
-  
+if(any(!file.exists(new_rast_files))) {
+  for(i in 1:length(nutr_files)) {
+    message('Processing nutrient layer ', nutr_files[i])
+    rast_nutr <- raster(nutr_files[i])
+    message('... Reprojecting nutrient layer and saving to ', new_rast_files[i])
+    rast_nutr_reproj <- raster::projectRaster(rast_nutr, rast_base, 
+                                              filename = new_rast_files[i],
+                                              overwrite = TRUE)
+  }
 } else {
-  
-  message('Zonal stats layers already exist: \n  ', zonal_05_file, '\n  ', zonal_10_file)
-  git_prov(zonal_05_file, filetype = 'output')
-  git_prov(zonal_05_file, filetype = 'output')
-  
+  ### force git provenance registration
+  git_prov(nutr_files, filetype = 'input')
+  git_prov(new_rast_files, filetype = 'output')
 }
 
 ```
 
-Once the wetlands raster is cross-tabulated against the OHI inland raster we have the number of wetland cells within each region.  NA values are non-wetland.
+Sea grass extent for mapping and weighting
 
------
+- Based on seagrass biobands: eelgrass and surf grass.
+- Buffer biobands by 1 km, with square end
+- Rasterize buffer to 0.5 km and summarize area per region
 
-## Calculate protected area and total area by region
+``` {r create_saltmarsh_bioband_buffer}
 
-Grouping by rgn_id, the number of wetland cells per region is simply the number of non-NA cells; the total number of cells includes both value and NA cells.
+eelg_buffer_file  <- path.expand(file.path(dir_goal, 'shp', 'buffer_eelgrass.shp'))
+surfg_buffer_file <- path.expand(file.path(dir_goal, 'shp', 'buffer_surfgrass.shp'))
 
-Since the cells are 1 hectare, we can easily calculate area by multiplying cell count * 0.01 km^2^ per cell.
+bioband_eelgrass_file  <- file.path(dir_anx, '_raw_data', 'bcmca',
+                                'bcmca_eco_set_plants_complete',
+                                'MarxanData_Plants/VascularPlants',
+                                'BCMCA_ECO_VascPlants_Eelgrass_Bioband_MARXAN.shp')
+bioband_surfgrass_file <- file.path(dir_anx, '_raw_data', 'bcmca',
+                                'bcmca_eco_set_plants_complete',
+                                'MarxanData_Plants/VascularPlants',
+                                'BCMCA_ECO_VascPlants_Surfgrass_Bioband_MARXAN.shp')
+if(!file.exists(eelg_buffer_file) | !file.exists(surfg_buffer_file)) {
 
-Finally we can calculate the status of a region for any given year by finding the ratio of wetland:total.  This is computed for both 2005 and 2010.
-
-``` {r summarize_zonal_stats, eval = TRUE}
-
-stats_05 <- read_csv(zonal_05_file)
-stats_10 <- read_csv(zonal_10_file)
-
-rgn_names <- foreign::read.dbf(file.path(dir_spatial, 'ohibc_rgn.dbf'),
-                               as.is = TRUE) %>%
-  dplyr::select(rgn_id, rgn_name)
-
-### Determine total cells per region (n_cells_tot) and then a cumulative
-### total of cells per region
-wetland_05 <- stats_05 %>%
-  group_by(rgn_id) %>%
-  mutate(n_tot = sum(n_cells)) %>% ### sum before filtering out NAs
-  filter(!is.na(value) & !is.na(rgn_id)) %>%
-  summarize(n_wet_05 = n_cells,
-            n_tot = n_tot)
-
-wetland_10 <- stats_10 %>%
-  group_by(rgn_id) %>%
-  mutate(n_tot = sum(n_cells)) %>% ### sum before filtering out NAs
-  filter(!is.na(value) & !is.na(rgn_id)) %>%
-  summarize(n_wet_10 = n_cells,
-            n_tot = n_tot)
+  bioband_eelgrass  <- readOGR(dsn   = dirname(path.expand(bioband_eelgrass_file)), 
+                               layer = basename(bioband_eelgrass_file) %>% str_replace('.shp', ''),
+                               stringsAsFactors = FALSE)
+  bioband_surfgrass <- readOGR(dsn   = dirname(path.expand(bioband_surfgrass_file)), 
+                               layer = basename(bioband_surfgrass_file) %>% str_replace('.shp', ''),
+                               stringsAsFactors = FALSE)
   
-wetland_df <- wetland_05 %>%
-  left_join(wetland_10, by = c('rgn_id', 'n_tot')) %>%
-  left_join(rgn_names, by = 'rgn_id') %>%
-  mutate(cells_per_year = (n_wet_10 - n_wet_05)/5)
-
-
-write_csv(wetland_df, file.path(dir_goal, 'int', 'wetland_stats_2km.csv'))
+  poly_eelgrass <- gBuffer(bioband_eelgrass, byid = FALSE, width = 1000, capStyle = 'FLAT') %>% 
+    SpatialPolygonsDataFrame(data.frame(1), match.ID = FALSE)
+  poly_surfgrass <- gBuffer(bioband_surfgrass, byid = FALSE, width = 1000, capStyle = 'FLAT') %>% 
+    SpatialPolygonsDataFrame(data.frame(1), match.ID = FALSE)
+  
+  writeOGR(poly_eelgrass, dsn = dirname(eelg_buffer_file), 
+           layer = basename(eelg_buffer_file) %>% str_replace('.shp', ''),
+           driver = 'ESRI Shapefile',
+           overwrite_layer = TRUE)
+  writeOGR(poly_surfgrass, dsn = dirname(surfg_buffer_file), 
+           layer = basename(surfg_buffer_file) %>% str_replace('.shp', ''),
+           driver = 'ESRI Shapefile',
+           overwrite_layer = TRUE)
+} else {
+  ### manual git_prov() calls
+  git_prov(bioband_eelgrass_file)
+  git_prov(bioband_surfgrass_file)
+  git_prov(eelg_buffer_file,  filetype = 'output')
+  git_prov(surfg_buffer_file, filetype = 'output')
+}
 
 ```
 
-``` {r expand time series}
+``` {r create_seagrass_buffer_raster}
+eelg_buffer_rast_file  <- path.expand(file.path(dir_goal, 'tif', 'buffer_eelgrass.tif'))
+surfg_buffer_rast_file <- path.expand(file.path(dir_goal, 'tif', 'buffer_surfgrass.tif'))
 
-wetland_df <- read_csv(file.path(dir_goal, 'int', 'wetland_stats_2km.csv'))
+if(!file.exists(eelg_buffer_rast_file) | !file.exists(surfg_buffer_rast_file)) {
 
-wetland_ts <- wetland_df %>%
-  left_join(data.frame(rgn_id = rep(1:8, times = 21), 
-                       year   = rep(1995:2015, each = 8)),
-            by = 'rgn_id') ### region 7 drops out - Pacific Offshore
+base_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
 
-wetland_ts <- wetland_ts %>%
-  mutate(n_wet_calc = n_wet_05 + cells_per_year * (year - 2005),
-         n_wet_calc = ifelse(n_wet_calc < 0, 0, n_wet_calc),
-         pct_wet    = n_wet_calc / n_tot) %>%
-  dplyr::select(rgn_id, rgn_name, year, n_wet = n_wet_calc, n_tot, pct_wet)
+gdal_rast2(src = eelg_buffer_file, base_rast, eelg_buffer_rast_file)
+gdal_rast2(src = surfg_buffer_file, base_rast, surfg_buffer_rast_file)
 
-write_csv(wetland_ts, file.path(dir_goal, 'int', 'wetland_time_series_2km.csv'))
+} else {
+  ### manual git_prov() calls
+  git_prov(eelg_buffer_file, filetype = 'input')
+  git_prov(surfg_buffer_file, filetype = 'input')
+  git_prov(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
+  git_prov(eelg_buffer_rast_file, filetype = 'output')
+  git_prov(surfg_buffer_rast_file, filetype = 'output')
+}
+
+eelg_rast  <- raster(eelg_buffer_rast_file)
+surfg_rast <- raster(surfg_buffer_rast_file)
+
+seagrass_rast <- stack(list(eelg_rast, surfg_rast * 2)) %>%
+  calc(sum, na.rm = TRUE)
+values(seagrass_rast)[values(seagrass_rast) == 0] <- NA
+
+plot(seagrass_rast)
+
+writeRaster(seagrass_rast, file.path(dir_goal, 'tif', 'buffer_seagrass.tif'), overwrite = TRUE)
 
 ```
 
-  
-## Plot scores time series
+After creating buffer shapefiles and rasters, tabulate seagrass area per OHIBC region
 
-To examine results, we plot the estimated status and trend over time.
+``` {r crosstab_seagrass_vs_rgns}
 
-``` {r spp_plot_scores_over_time, fig.height = 4, fig.width = 6, fig.align = 'center'}
-library(ggplot2)
-library(plotly)
+seagrass_rast <- raster(file.path(dir_goal, 'tif', 'buffer_seagrass.tif')) %>%
+  setNames('seagrass')
 
-wetland_ts <- read_csv(file.path(dir_goal, 'int', 'wetland_time_series_1km.csv')) %>%
-  rename(n_wet_1km = n_wet, n_tot_1km = n_tot, pct_wet_1km = pct_wet) %>%
-  left_join(read_csv(file.path(dir_goal, 'int', 'wetland_time_series_10km.csv')) %>%
-              rename(n_wet_10km = n_wet, n_tot_10km = n_tot, pct_wet_10km = pct_wet),
-            by = c('rgn_id', 'rgn_name', 'year')) %>%
-  left_join(read_csv(file.path(dir_goal, 'int', 'wetland_time_series_2km.csv')) %>%
-              rename(n_wet_2km = n_wet, n_tot_2km = n_tot, pct_wet_2km = pct_wet),
-            by = c('rgn_id', 'rgn_name', 'year'))
+rgn_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif')) %>%
+  setNames('rgn_id')
 
-wetland_plot <- ggplot(wetland_ts %>%
-                         filter(!is.na(year)),
-                       aes(x = year, color = rgn_name, group = rgn_name)) +
-  ggtheme_plot +
-  geom_line(aes(y = pct_wet_1km), size = 2, alpha = .6) +
-  geom_line(aes(y = pct_wet_10km), size = 1, alpha = 1) +
-  scale_colour_brewer(palette = 'PRGn') +
-  labs(x = 'year',
-       y = 'Percent of area as wetland',
-       color = 'Region')
-
-ggplotly(wetland_plot)
-
-
-
-wetland_pct_2010 <- wetland_ts %>%
-  filter(year %in% c(2005, 2010)) %>%
+sg_buffer_df <- raster::crosstab(seagrass_rast, rgn_rast, 
+                                 long = TRUE, useNA = TRUE,
+                                 progress = 'text') %>%
   group_by(rgn_id) %>%
-  mutate(rpct_01km  =  pct_wet_1km / first(pct_wet_1km),
-         rpct_02km  =  pct_wet_2km / first(pct_wet_2km),
-         rpct_10km = pct_wet_10km / first(pct_wet_10km)) %>%
-  filter(year == 2010) %>%
-  gather(key = buffer, value = rel_pct, rpct_01km:rpct_10km) %>%
-  left_join(foreign::read.dbf(file.path(dir_spatial, 'ohibc_rgn.dbf'),
-                               as.is = TRUE) %>%
-              dplyr::select(rgn_id, rgn_code),
-            by = 'rgn_id')
+  mutate(area_tot = sum(Freq) * .25) %>%   ### get total area in region
+  filter(!is.na(seagrass) & !is.na(rgn_id)) %>%
+  group_by(rgn_id, area_tot) %>%
+  summarize(area_seagrass = sum(Freq) * .25) ### get just seagrass area in region
 
 
-wetland_barchart <- ggplot(wetland_pct_2010,
-                             aes(x = rgn_code, 
-                                 fill = buffer)) +
-  ggtheme_plot +
-  geom_bar(aes(y = rel_pct), position = 'dodge', stat = 'identity') +
-  # scale_x_log10() + scale_y_log10() +
-  scale_fill_brewer(palette = 'Greens') +
-  labs(x = 'region',
-       y = 'Rel change in % wetland area (2005 to 2010)',
-       fill = 'Buffer')
-
-ggplotly(wetland_barchart)
-
+write_csv(sg_buffer_df, file.path(dir_goal, 'int', 'seagrass_bioband_area.csv'))
 
 ```
-  
-- Salt marsh extent
-    - use land cover rasters?
-    - use polygons from Blue Carbon?
 
-- Seagrass extent
-    - Use polygons from Blue Carbon
-    - include lines (with buffer perhaps)
+# Calculate sea grass pressures and status
+
+Sea Grass health pressures-based model: nutrient inputs
+
+- create raster stack of all years of nutrients
+- determine max nutrient load across all years and cells
+- calculate pressure raster based on 0-110% of max nutrient load
+    - 0.0 is zero nutrient load
+    - 1.0 is 110% of max nutrient load
+- mask pressure raster to seagrass presence
     
-- Seagrass health
-    - Pressures-based 
+``` {r create_seagrass_nutrient_rasters}
+
+### first, calculate the nutrient pressures
+nutr_layers <- list.files(file.path(dir_goal, 'tif'), 
+                          pattern = '*_fert_*', 
+                          full.names = TRUE)
+
+nutr_stack <- lapply(nutr_layers, raster) %>%
+  stack()
+
+### mask nutrient input stack to just OHIBC regions (some Puget Sound cells in there...)
+rgn_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif')) %>%
+  setNames('rgn_id')
+
+nutr_stack <- mask(nutr_stack, rgn_rast)
+
+### find max value in whole EEZ and normalize to 110%
+max_nutr <- maxValue(nutr_stack) %>% ### gets max for each layer
+  max()                              ### finds max across all layers
+
+nutr_prs_stack <- nutr_stack / (max_nutr * 1.10)
+
+### now mask the pressures by seagrass presence
+seagrass_rast <- raster(file.path(dir_goal, 'tif', 'buffer_seagrass.tif'))
+
+seagrass_nutr_stack <- mask(nutr_prs_stack, seagrass_rast)
+names(seagrass_nutr_stack) <- names(seagrass_nutr_stack) %>%
+    str_replace('bc_plumes_fert_', 'seagrass_nutr_') %>%
+    str_replace('_raw', '')
+
+outfile_names <- file.path(dir_goal, 'tif', paste0(names(seagrass_nutr_stack), '.tif'))
+                           
+writeRaster(seagrass_nutr_stack, 
+            filename = outfile_names,
+            bylayer = TRUE,
+            overwrite = TRUE)
+
+
+```
+
+From seagrass pressure rasters, tabulate pressures vs seagrass cells
+
+- number of cells at each pressure for each year
+
+``` {r crosstab_sg_pressures}
+### now crosstab seagrass nutrient pressures by regions
+nutr_layer_files <- list.files(file.path(dir_goal, 'tif'), pattern = 'seagrass_nutr',
+                          full.names = TRUE)
+
+seagrass_nutr_stack <- raster::stack(nutr_layer_files)
+
+tmp_list <- vector('list', length = nlayers(seagrass_nutr_stack))
+for (i in 1:nlayers(seagrass_nutr_stack)) { # i <- 1
+  nutr_year <- names(seagrass_nutr_stack[[i]]) %>%
+    str_replace('seagrass_nutr_', '')
+  
+  nutr_rast <- seagrass_nutr_stack[[i]] %>%
+    setNames('nutr_pressure')
+  message('Crosstabulating ', names(nutr_rast), ' for ', nutr_year)
+  nutr_df <- raster::crosstab(nutr_rast, rgn_rast,
+                              digits = 4,
+                              long = TRUE,
+                              useNA = TRUE, 
+                              progress = 'text')
+  nutr_df <- nutr_df %>%
+    mutate(nutr_pressure = as.numeric(as.character(nutr_pressure)), ### dammit factors!
+           year = as.integer(nutr_year))
+  
+  tmp_list[[i]] <- nutr_df
+}
+
+seagrass_nutr_df <- bind_rows(tmp_list)
+
+write_csv(seagrass_nutr_df, file.path(dir_goal, 'int', 'seagrass_nutr_df.csv'))
+
+```
+
+Summarize area-weighted mean pressure values by region and year
+
+- sum(pressure * number of cells) / sum(number of cells)
+- calculate status as (1 - mean pressure)
+    
+``` {r determine_seagrass_status}
+
+seagrass_nutr_df <- read_csv(file.path(dir_goal, 'int', 'seagrass_nutr_df.csv'))
+
+### summarize to regional means
+seagrass_status_df <- seagrass_nutr_df %>%
+  filter(!is.na(nutr_pressure)) %>% 
+  group_by(rgn_id, year) %>%
+  summarize(mean_pressure = sum(nutr_pressure * Freq) / sum(Freq),
+            area_seagrass = sum(Freq) * .25) %>%
+  mutate(status = 1 - mean_pressure)
+
+write_csv(seagrass_status_df, file.path(dir_goal, 'int', 'seagrass_status_df.csv'))
+
+DT::datatable(seagrass_status_df)
+
+```
 
 ***
 

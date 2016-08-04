@@ -93,7 +93,7 @@ gdal_rast2 <- function(src, base_rast, dst = NULL, value = NULL) {
       value <- names(tmp_dbf)[sapply(tmp_dbf, class) %in% c('numeric', 'integer')][1]
   }
 
-  dst_tmp  <- dst %>% str_replace('.tif', '_tmp.tif')
+  dst_tmp  <- dst %>% str_replace('.tif$', '_tmp.tif')
 
   base_tr  <- raster::res(base_rast)
   base_ext <- raster::extent(base_rast)
