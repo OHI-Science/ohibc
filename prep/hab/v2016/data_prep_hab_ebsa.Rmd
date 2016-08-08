@@ -91,12 +91,14 @@ poly_ebsa@data <- poly_ebsa@data %>%
 
 poly_ebsa_trim <- poly_ebsa[!(is.na(poly_ebsa@data$phys) & is.na(poly_ebsa@data$agg)), ]
 
+# Note: Strait of Georgia sponge reefs not in main EBSA polygons; use
+# sponge reef closures layer to capture these.  
 poly_sg_sponges <- readOGR(dsn = file.path(dir_anx, '_raw_data/dfo_khunter',
                                            'mgmt_related_boundaries'), 
                      layer = 'Strait_of_Georgia_Sponge_Reef_Fishing_Closures', 
                      stringsAsFactors = FALSE)
 poly_sg_sponges@data <- poly_sg_sponges@data %>%
-  mutate(id   = OBJECTID + 100,
+  mutate(ebsa_id   = OBJECTID + 100,
          name = 'Sponge Reef',
          phys = NA,
          agg  = 'sponges',
@@ -105,196 +107,19 @@ poly_sg_sponges@data <- poly_sg_sponges@data %>%
 
 plot(poly_ebsa_trim)
 plot(poly_sg_sponges, border = 'red', add = TRUE)
-```
 
-``` {r zonal stats wetland areas 2005 and 2010}
+### combine both into one big spatialpolygonsdataframe
+poly_ebsa_hab <- rbind(poly_ebsa_trim, poly_sg_sponges)
 
-rast_lc_05_bcalb <- raster(rast_saltmarsh_05_file)
-rast_lc_10_bcalb <- raster(rast_saltmarsh_10_file)
-# rast_1km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_1km_raster_100m.tif'))
-# rast_10km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_10km_raster_100m.tif'))
-rast_2km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_2km_raster_100m.tif'))
-
-zonal_05_file <- file.path(dir_goal, 'int', 'zonal_stats_2005_2km.csv')
-zonal_10_file <- file.path(dir_goal, 'int', 'zonal_stats_2010_2km.csv')
-
-if(!file.exists(zonal_05_file) | !file.exists(zonal_10_file)) {
-  
-  ### NOTE: The crosstab function returns this warning - does it affect the
-  ### outcomes, or does the function coerce the correct outcome?
-      # Warning message:
-      # In FUN(X[[i]], ...) : integer overflow - use sum(as.numeric(.))
-  
-  ptm <- proc.time()
-  stats_05 <- raster::crosstab(rast_lc_05_bcalb, rast_2km_100m, useNA = TRUE, progress = 'text') %>%
-    as.data.frame() %>%
-    setNames(c('value', 'rgn_id', 'n_cells')) %>%
-    mutate(value   = as.integer(as.character(value)),
-           rgn_id = as.integer(as.character(rgn_id))) %>%
-    arrange(rgn_id)
-  message('Elapsed: ', (proc.time() - ptm)[3], ' sec')
-  
-  ptm <- proc.time()
-  stats_10 <- raster::crosstab(rast_lc_10_bcalb, rast_2km_100m, useNA = TRUE, progress = 'text') %>%
-    as.data.frame() %>%
-    setNames(c('value', 'rgn_id', 'n_cells')) %>%
-    mutate(value   = as.integer(as.character(value)),
-           rgn_id = as.integer(as.character(rgn_id))) %>%
-    arrange(rgn_id)
-  message('Elapsed: ', (proc.time() - ptm)[3], ' sec')
-  
-  write_csv(stats_05, zonal_05_file)
-  write_csv(stats_10, zonal_10_file)
-  
-} else {
-  
-  message('Zonal stats layers already exist: \n  ', zonal_05_file, '\n  ', zonal_10_file)
-  git_prov(zonal_05_file, filetype = 'output')
-  git_prov(zonal_05_file, filetype = 'output')
-  
-}
+### save locally for next step: rasterization
+writeOGR(poly_ebsa_hab)
 
 ```
 
-Once the wetlands raster is cross-tabulated against the OHI inland raster we have the number of wetland cells within each region.  NA values are non-wetland.
-
------
-
-## Calculate protected area and total area by region
-
-Grouping by rgn_id, the number of wetland cells per region is simply the number of non-NA cells; the total number of cells includes both value and NA cells.
-
-Since the cells are 1 hectare, we can easily calculate area by multiplying cell count * 0.01 km^2^ per cell.
-
-Finally we can calculate the status of a region for any given year by finding the ratio of wetland:total.  This is computed for both 2005 and 2010.
-
-``` {r summarize_zonal_stats, eval = TRUE}
-
-stats_05 <- read_csv(zonal_05_file)
-stats_10 <- read_csv(zonal_10_file)
-
-rgn_names <- foreign::read.dbf(file.path(dir_spatial, 'ohibc_rgn.dbf'),
-                               as.is = TRUE) %>%
-  dplyr::select(rgn_id, rgn_name)
-
-### Determine total cells per region (n_cells_tot) and then a cumulative
-### total of cells per region
-wetland_05 <- stats_05 %>%
-  group_by(rgn_id) %>%
-  mutate(n_tot = sum(n_cells)) %>% ### sum before filtering out NAs
-  filter(!is.na(value) & !is.na(rgn_id)) %>%
-  summarize(n_wet_05 = n_cells,
-            n_tot = n_tot)
-
-wetland_10 <- stats_10 %>%
-  group_by(rgn_id) %>%
-  mutate(n_tot = sum(n_cells)) %>% ### sum before filtering out NAs
-  filter(!is.na(value) & !is.na(rgn_id)) %>%
-  summarize(n_wet_10 = n_cells,
-            n_tot = n_tot)
-  
-wetland_df <- wetland_05 %>%
-  left_join(wetland_10, by = c('rgn_id', 'n_tot')) %>%
-  left_join(rgn_names, by = 'rgn_id') %>%
-  mutate(cells_per_year = (n_wet_10 - n_wet_05)/5)
-
-
-write_csv(wetland_df, file.path(dir_goal, 'int', 'wetland_stats_2km.csv'))
-
-```
-
-``` {r expand time series}
-
-wetland_df <- read_csv(file.path(dir_goal, 'int', 'wetland_stats_2km.csv'))
-
-wetland_ts <- wetland_df %>%
-  left_join(data.frame(rgn_id = rep(1:8, times = 21), 
-                       year   = rep(1995:2015, each = 8)),
-            by = 'rgn_id') ### region 7 drops out - Pacific Offshore
-
-wetland_ts <- wetland_ts %>%
-  mutate(n_wet_calc = n_wet_05 + cells_per_year * (year - 2005),
-         n_wet_calc = ifelse(n_wet_calc < 0, 0, n_wet_calc),
-         pct_wet    = n_wet_calc / n_tot) %>%
-  dplyr::select(rgn_id, rgn_name, year, n_wet = n_wet_calc, n_tot, pct_wet)
-
-write_csv(wetland_ts, file.path(dir_goal, 'int', 'wetland_time_series_2km.csv'))
-
-```
-
-  
-## Plot scores time series
-
-To examine results, we plot the estimated status and trend over time.
-
-``` {r spp_plot_scores_over_time, fig.height = 4, fig.width = 6, fig.align = 'center'}
-library(ggplot2)
-library(plotly)
-
-wetland_ts <- read_csv(file.path(dir_goal, 'int', 'wetland_time_series_1km.csv')) %>%
-  rename(n_wet_1km = n_wet, n_tot_1km = n_tot, pct_wet_1km = pct_wet) %>%
-  left_join(read_csv(file.path(dir_goal, 'int', 'wetland_time_series_10km.csv')) %>%
-              rename(n_wet_10km = n_wet, n_tot_10km = n_tot, pct_wet_10km = pct_wet),
-            by = c('rgn_id', 'rgn_name', 'year')) %>%
-  left_join(read_csv(file.path(dir_goal, 'int', 'wetland_time_series_2km.csv')) %>%
-              rename(n_wet_2km = n_wet, n_tot_2km = n_tot, pct_wet_2km = pct_wet),
-            by = c('rgn_id', 'rgn_name', 'year'))
-
-wetland_plot <- ggplot(wetland_ts %>%
-                         filter(!is.na(year)),
-                       aes(x = year, color = rgn_name, group = rgn_name)) +
-  ggtheme_plot +
-  geom_line(aes(y = pct_wet_1km), size = 2, alpha = .6) +
-  geom_line(aes(y = pct_wet_10km), size = 1, alpha = 1) +
-  scale_colour_brewer(palette = 'PRGn') +
-  labs(x = 'year',
-       y = 'Percent of area as wetland',
-       color = 'Region')
-
-ggplotly(wetland_plot)
-
-
-
-wetland_pct_2010 <- wetland_ts %>%
-  filter(year %in% c(2005, 2010)) %>%
-  group_by(rgn_id) %>%
-  mutate(rpct_01km  =  pct_wet_1km / first(pct_wet_1km),
-         rpct_02km  =  pct_wet_2km / first(pct_wet_2km),
-         rpct_10km = pct_wet_10km / first(pct_wet_10km)) %>%
-  filter(year == 2010) %>%
-  gather(key = buffer, value = rel_pct, rpct_01km:rpct_10km) %>%
-  left_join(foreign::read.dbf(file.path(dir_spatial, 'ohibc_rgn.dbf'),
-                               as.is = TRUE) %>%
-              dplyr::select(rgn_id, rgn_code),
-            by = 'rgn_id')
-
-
-wetland_barchart <- ggplot(wetland_pct_2010,
-                             aes(x = rgn_code, 
-                                 fill = buffer)) +
-  ggtheme_plot +
-  geom_bar(aes(y = rel_pct), position = 'dodge', stat = 'identity') +
-  # scale_x_log10() + scale_y_log10() +
-  scale_fill_brewer(palette = 'Greens') +
-  labs(x = 'region',
-       y = 'Rel change in % wetland area (2005 to 2010)',
-       fill = 'Buffer')
-
-ggplotly(wetland_barchart)
+``` {r select_and_rasterize_ebsas}
 
 
 ```
-  
-- Salt marsh extent
-    - use land cover rasters?
-    - use polygons from Blue Carbon?
-
-- Seagrass extent
-    - Use polygons from Blue Carbon
-    - include lines (with buffer perhaps)
-    
-- Seagrass health
-    - Pressures-based 
 
 ***
 

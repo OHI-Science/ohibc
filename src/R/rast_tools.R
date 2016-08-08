@@ -76,12 +76,27 @@ plot_rast <- function(rast,
 #                           filename = file.path(dir_rgn, 'ohibc_rgn_raster_1000m.tif'),
 #                           overwrite = TRUE)
 
-gdal_rast2 <- function(src, base_rast, dst = NULL, value = NULL) {
+gdal_rast2 <- function(src, base_rast, dst = NULL, value = NULL, override_p4s = FALSE) {
+
+  src <- path.expand(src)
+
   if(!str_detect(src, '.shp$')) src <- paste0(src, '.shp')
   ### add .shp if not present on src
 
   if(is.null(dst)) dst <- src %>% str_replace('.shp$', '.tif')
   ### if no dst, save it in same place as src
+
+  ### check projections
+  shp_prj <- ogrInfo(dsn = dirname(src),
+                     layer = basename(src) %>% str_replace('.shp$', '')) %>%
+    .$p4s
+  rst_prj <- base_rast@crs@projargs
+  if(shp_prj != rst_prj & override_p4s == FALSE) {
+    message('Shapefile and raster file do not seem to have same proj4string:')
+    message('  shapefile: ', shp_prj)
+    message('  raster:    ', rst_prj)
+    stop()
+  }
 
   if(is.null(value)) { ### default: choose first numeric column as value
     tmp_dbf  <- foreign::read.dbf(str_replace(src, '.shp$', '.dbf'))
@@ -90,7 +105,7 @@ gdal_rast2 <- function(src, base_rast, dst = NULL, value = NULL) {
       message('No numeric column found in source shapefile')
       stop()
     } else
-      value <- names(tmp_dbf)[sapply(tmp_dbf, class) %in% c('numeric', 'integer')][1]
+      value <- names(tmp_dbf)[num_cols][1]
   }
 
   dst_tmp  <- dst %>% str_replace('.tif$', '_tmp.tif')

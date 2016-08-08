@@ -76,7 +76,7 @@ Sea Grass health base on pressures-based model: nutrient inputs
 - Reproject to extents and resolution of OHIBC region 500 m raster
 - Data includes years 2002 - 2013
     
-``` {r read and clip pressure raster}
+``` {r read_and_clip_pressure_raster}
 
 ### Nutrient pressures layers are on Mazu here:
 ### Mazu:marine_threats/impact_layers_2013_redo/impact_layers/work/land_based/before_2007/raw_global_results
@@ -117,81 +117,116 @@ Sea grass extent for mapping and weighting
 - Buffer biobands by 1 km, with square end
 - Rasterize buffer to 0.5 km and summarize area per region
 
-``` {r create_saltmarsh_bioband_buffer}
+``` {r create_saltmarsh_bioband_buffer, eval = FALSE}
 
-eelg_buffer_file  <- path.expand(file.path(dir_goal, 'shp', 'buffer_eelgrass.shp'))
-surfg_buffer_file <- path.expand(file.path(dir_goal, 'shp', 'buffer_surfgrass.shp'))
-
-bioband_eelgrass_file  <- file.path(dir_anx, '_raw_data', 'bcmca',
-                                'bcmca_eco_set_plants_complete',
-                                'MarxanData_Plants/VascularPlants',
-                                'BCMCA_ECO_VascPlants_Eelgrass_Bioband_MARXAN.shp')
-bioband_surfgrass_file <- file.path(dir_anx, '_raw_data', 'bcmca',
-                                'bcmca_eco_set_plants_complete',
-                                'MarxanData_Plants/VascularPlants',
-                                'BCMCA_ECO_VascPlants_Surfgrass_Bioband_MARXAN.shp')
-if(!file.exists(eelg_buffer_file) | !file.exists(surfg_buffer_file)) {
-
-  bioband_eelgrass  <- readOGR(dsn   = dirname(path.expand(bioband_eelgrass_file)), 
-                               layer = basename(bioband_eelgrass_file) %>% str_replace('.shp', ''),
-                               stringsAsFactors = FALSE)
-  bioband_surfgrass <- readOGR(dsn   = dirname(path.expand(bioband_surfgrass_file)), 
-                               layer = basename(bioband_surfgrass_file) %>% str_replace('.shp', ''),
-                               stringsAsFactors = FALSE)
-  
-  poly_eelgrass <- gBuffer(bioband_eelgrass, byid = FALSE, width = 1000, capStyle = 'FLAT') %>% 
-    SpatialPolygonsDataFrame(data.frame(1), match.ID = FALSE)
-  poly_surfgrass <- gBuffer(bioband_surfgrass, byid = FALSE, width = 1000, capStyle = 'FLAT') %>% 
-    SpatialPolygonsDataFrame(data.frame(1), match.ID = FALSE)
-  
-  writeOGR(poly_eelgrass, dsn = dirname(eelg_buffer_file), 
-           layer = basename(eelg_buffer_file) %>% str_replace('.shp', ''),
-           driver = 'ESRI Shapefile',
-           overwrite_layer = TRUE)
-  writeOGR(poly_surfgrass, dsn = dirname(surfg_buffer_file), 
-           layer = basename(surfg_buffer_file) %>% str_replace('.shp', ''),
-           driver = 'ESRI Shapefile',
-           overwrite_layer = TRUE)
-} else {
-  ### manual git_prov() calls
-  git_prov(bioband_eelgrass_file)
-  git_prov(bioband_surfgrass_file)
-  git_prov(eelg_buffer_file,  filetype = 'output')
-  git_prov(surfg_buffer_file, filetype = 'output')
-}
+# eelg_buffer_file  <- path.expand(file.path(dir_goal, 'shp', 'buffer_eelgrass.shp'))
+# surfg_buffer_file <- path.expand(file.path(dir_goal, 'shp', 'buffer_surfgrass.shp'))
+# 
+# bioband_eelgrass_file  <- file.path(dir_anx, '_raw_data', 'bcmca',
+#                                 'bcmca_eco_set_plants_complete',
+#                                 'MarxanData_Plants/VascularPlants',
+#                                 'BCMCA_ECO_VascPlants_Eelgrass_Bioband_MARXAN.shp')
+# bioband_surfgrass_file <- file.path(dir_anx, '_raw_data', 'bcmca',
+#                                 'bcmca_eco_set_plants_complete',
+#                                 'MarxanData_Plants/VascularPlants',
+#                                 'BCMCA_ECO_VascPlants_Surfgrass_Bioband_MARXAN.shp')
+# if(!file.exists(eelg_buffer_file) | !file.exists(surfg_buffer_file)) {
+# 
+#   bioband_eelgrass  <- readOGR(dsn   = dirname(path.expand(bioband_eelgrass_file)), 
+#                                layer = basename(bioband_eelgrass_file) %>% str_replace('.shp', ''),
+#                                stringsAsFactors = FALSE)
+#   bioband_surfgrass <- readOGR(dsn   = dirname(path.expand(bioband_surfgrass_file)), 
+#                                layer = basename(bioband_surfgrass_file) %>% str_replace('.shp', ''),
+#                                stringsAsFactors = FALSE)
+#   
+#   poly_eelgrass <- gBuffer(bioband_eelgrass, byid = FALSE, width = 1000, capStyle = 'FLAT') %>% 
+#     SpatialPolygonsDataFrame(data.frame(1), match.ID = FALSE)
+#   poly_surfgrass <- gBuffer(bioband_surfgrass, byid = FALSE, width = 1000, capStyle = 'FLAT') %>% 
+#     SpatialPolygonsDataFrame(data.frame(1), match.ID = FALSE)
+#   
+#   writeOGR(poly_eelgrass, dsn = dirname(eelg_buffer_file), 
+#            layer = basename(eelg_buffer_file) %>% str_replace('.shp', ''),
+#            driver = 'ESRI Shapefile',
+#            overwrite_layer = TRUE)
+#   writeOGR(poly_surfgrass, dsn = dirname(surfg_buffer_file), 
+#            layer = basename(surfg_buffer_file) %>% str_replace('.shp', ''),
+#            driver = 'ESRI Shapefile',
+#            overwrite_layer = TRUE)
+# } else {
+#   ### manual git_prov() calls
+#   git_prov(bioband_eelgrass_file)
+#   git_prov(bioband_surfgrass_file)
+#   git_prov(eelg_buffer_file,  filetype = 'output')
+#   git_prov(surfg_buffer_file, filetype = 'output')
+# }
 
 ```
 
-``` {r create_seagrass_buffer_raster}
-eelg_buffer_rast_file  <- path.expand(file.path(dir_goal, 'tif', 'buffer_eelgrass.tif'))
-surfg_buffer_rast_file <- path.expand(file.path(dir_goal, 'tif', 'buffer_surfgrass.tif'))
+``` {r create_seagrass_bioband_buffer_raster, eval = FALSE}
+# eelg_buffer_rast_file  <- path.expand(file.path(dir_goal, 'tif', 'buffer_eelgrass.tif'))
+# surfg_buffer_rast_file <- path.expand(file.path(dir_goal, 'tif', 'buffer_surfgrass.tif'))
+# 
+# if(!file.exists(eelg_buffer_rast_file) | !file.exists(surfg_buffer_rast_file)) {
+# 
+# base_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
+# 
+# gdal_rast2(src = eelg_buffer_file, base_rast, eelg_buffer_rast_file)
+# gdal_rast2(src = surfg_buffer_file, base_rast, surfg_buffer_rast_file)
+# 
+# } else {
+#   ### manual git_prov() calls
+#   git_prov(eelg_buffer_file, filetype = 'input')
+#   git_prov(surfg_buffer_file, filetype = 'input')
+#   git_prov(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
+#   git_prov(eelg_buffer_rast_file, filetype = 'output')
+#   git_prov(surfg_buffer_rast_file, filetype = 'output')
+# }
+# 
+# eelg_rast  <- raster(eelg_buffer_rast_file)
+# surfg_rast <- raster(surfg_buffer_rast_file)
+# 
+# seagrass_rast <- stack(list(eelg_rast, surfg_rast * 2)) %>%
+#   calc(sum, na.rm = TRUE)
+# values(seagrass_rast)[values(seagrass_rast) == 0] <- NA
+# 
+# plot(seagrass_rast)
+# 
+# writeRaster(seagrass_rast, file.path(dir_goal, 'tif', 'buffer_seagrass.tif'), overwrite = TRUE)
 
-if(!file.exists(eelg_buffer_rast_file) | !file.exists(surfg_buffer_rast_file)) {
+```
 
-base_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
+``` {r create_bluecarbon_seagrass_raster, eval = TRUE}
 
-gdal_rast2(src = eelg_buffer_file, base_rast, eelg_buffer_rast_file)
-gdal_rast2(src = surfg_buffer_file, base_rast, surfg_buffer_rast_file)
+seagrass_rast_file <- file.path(dir_goal, 'tif/bluecarbon_seagrass.tif') %>%
+  path.expand()
 
+if(!file.exists(seagrass_rast_file)) {
+  
+  base_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
+  
+  seagrass_poly_file <- file.path(dir_anx, '_raw_data/cec/BlueCarbon_SHP',
+                                  'NA_BlueCarbon/data/Seagrass/na_seagrass_areas_Feb2015.shp') %>%
+    path.expand()
+  ### contains polys for all of North America.  Read it in; filter to just Canada BC; reproject
+  seagrass_poly <- readOGR(dsn = path.expand(dirname(seagrass_poly_file)),
+                           layer = basename(seagrass_poly_file) %>% str_replace('.shp$', ''))
+  seagrass_poly_bc <- seagrass_poly[seagrass_poly@data$STATE_ABB == 'CA-BC', ]
+  seagrass_poly_bcalb <- spTransform(seagrass_poly_bc, base_rast@crs)
+  writeOGR(seagrass_poly_bcalb, 
+           dsn = path.expand(file.path(dir_goal, 'shp')),
+           layer = 'bluecarbon_seagrass',
+           driver = 'ESRI Shapefile')
+  
+  gdal_rast2(src = file.path(dir_goal, 'shp/bluecarbon_seagrass.shp'), 
+             base_rast, seagrass_rast_file, value = 'OBJECTID', override_p4s = TRUE)
+  
 } else {
-  ### manual git_prov() calls
-  git_prov(eelg_buffer_file, filetype = 'input')
-  git_prov(surfg_buffer_file, filetype = 'input')
-  git_prov(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
-  git_prov(eelg_buffer_rast_file, filetype = 'output')
-  git_prov(surfg_buffer_rast_file, filetype = 'output')
+  
+  git_prov(seagrass_poly_file, filetype = 'input')
+  git_prov(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'), filetype = 'input') ### base raster
+  git_prov(seagrass_rast_file, filetype = 'output')
+ 
 }
-
-eelg_rast  <- raster(eelg_buffer_rast_file)
-surfg_rast <- raster(surfg_buffer_rast_file)
-
-seagrass_rast <- stack(list(eelg_rast, surfg_rast * 2)) %>%
-  calc(sum, na.rm = TRUE)
-values(seagrass_rast)[values(seagrass_rast) == 0] <- NA
-
-plot(seagrass_rast)
-
-writeRaster(seagrass_rast, file.path(dir_goal, 'tif', 'buffer_seagrass.tif'), overwrite = TRUE)
 
 ```
 
@@ -199,13 +234,13 @@ After creating buffer shapefiles and rasters, tabulate seagrass area per OHIBC r
 
 ``` {r crosstab_seagrass_vs_rgns}
 
-seagrass_rast <- raster(file.path(dir_goal, 'tif', 'buffer_seagrass.tif')) %>%
+seagrass_rast <- raster(file.path(dir_goal, 'tif', 'bluecarbon_seagrass.tif')) %>%
   setNames('seagrass')
 
 rgn_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif')) %>%
   setNames('rgn_id')
 
-sg_buffer_df <- raster::crosstab(seagrass_rast, rgn_rast, 
+seagrass_df <- raster::crosstab(seagrass_rast, rgn_rast, 
                                  long = TRUE, useNA = TRUE,
                                  progress = 'text') %>%
   group_by(rgn_id) %>%
@@ -215,7 +250,7 @@ sg_buffer_df <- raster::crosstab(seagrass_rast, rgn_rast,
   summarize(area_seagrass = sum(Freq) * .25) ### get just seagrass area in region
 
 
-write_csv(sg_buffer_df, file.path(dir_goal, 'int', 'seagrass_bioband_area.csv'))
+write_csv(seagrass_df, file.path(dir_goal, 'int', 'bluecarbon_seagrass_area.csv'))
 
 ```
 
@@ -253,7 +288,7 @@ max_nutr <- maxValue(nutr_stack) %>% ### gets max for each layer
 nutr_prs_stack <- nutr_stack / (max_nutr * 1.10)
 
 ### now mask the pressures by seagrass presence
-seagrass_rast <- raster(file.path(dir_goal, 'tif', 'buffer_seagrass.tif'))
+seagrass_rast <- raster(file.path(dir_goal, 'tif', 'bluecarbon_seagrass.tif'))
 
 seagrass_nutr_stack <- mask(nutr_prs_stack, seagrass_rast)
 names(seagrass_nutr_stack) <- names(seagrass_nutr_stack) %>%
