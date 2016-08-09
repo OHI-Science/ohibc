@@ -102,6 +102,7 @@ if(any(!file.exists(new_rast_files))) {
     rast_nutr_reproj <- raster::projectRaster(rast_nutr, rast_base, 
                                               filename = new_rast_files[i],
                                               overwrite = TRUE)
+    git_prov(new_rast_files, filetype = 'output')
   }
 } else {
   ### force git provenance registration
@@ -200,13 +201,14 @@ Sea grass extent for mapping and weighting
 seagrass_rast_file <- file.path(dir_goal, 'tif/bluecarbon_seagrass.tif') %>%
   path.expand()
 
+seagrass_poly_file <- file.path(dir_anx, '_raw_data/cec/BlueCarbon_SHP',
+                                'NA_BlueCarbon/data/Seagrass/na_seagrass_areas_Feb2015.shp') %>%
+  path.expand()
+
 if(!file.exists(seagrass_rast_file)) {
   
   base_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
   
-  seagrass_poly_file <- file.path(dir_anx, '_raw_data/cec/BlueCarbon_SHP',
-                                  'NA_BlueCarbon/data/Seagrass/na_seagrass_areas_Feb2015.shp') %>%
-    path.expand()
   ### contains polys for all of North America.  Read it in; filter to just Canada BC; reproject
   seagrass_poly <- readOGR(dsn = path.expand(dirname(seagrass_poly_file)),
                            layer = basename(seagrass_poly_file) %>% str_replace('.shp$', ''))
@@ -272,8 +274,7 @@ nutr_layers <- list.files(file.path(dir_goal, 'tif'),
                           pattern = '*_fert_*', 
                           full.names = TRUE)
 
-nutr_stack <- lapply(nutr_layers, raster) %>%
-  stack()
+nutr_stack <- stack(nutr_layers)
 
 ### mask nutrient input stack to just OHIBC regions (some Puget Sound cells in there...)
 rgn_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif')) %>%
@@ -314,7 +315,7 @@ From seagrass pressure rasters, tabulate pressures vs seagrass cells
 nutr_layer_files <- list.files(file.path(dir_goal, 'tif'), pattern = 'seagrass_nutr',
                           full.names = TRUE)
 
-seagrass_nutr_stack <- raster::stack(nutr_layer_files)
+seagrass_nutr_stack <- stack(nutr_layer_files)
 
 tmp_list <- vector('list', length = nlayers(seagrass_nutr_stack))
 for (i in 1:nlayers(seagrass_nutr_stack)) { # i <- 1

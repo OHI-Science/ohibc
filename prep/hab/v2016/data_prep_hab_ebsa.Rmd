@@ -37,7 +37,7 @@ library(provRmd); prov_setup()
 ### support scripts
 # source(file.path('~/github/ohibc/src/R/map_scores.R'))
   ### score plotting scripts
-# source(file.path(dir_git, 'src/R/rast_tools.R')) 
+source(file.path(dir_git, 'src/R/rast_tools.R'))
   ### raster plotting and analyzing scripts
 
 ### set up the default BC projection to be BC Albers
@@ -84,12 +84,14 @@ poly_ebsa@data <- poly_ebsa@data %>%
   setNames(tolower(names(.))) %>%
   left_join(ebsa_sar_2012, by = c('id' = 'ebsa_id')) %>%
   select(ebsa_id = id, name, label, phys = physical, unique, agg = aggregation, conf) %>%
-  mutate(agg = ifelse(!is.na(unique), unique, agg),
+  mutate(agg  = ifelse(!is.na(unique), unique, agg),
          phys = ifelse(str_detect(label, 'Seamount'), 'seamount', phys),
-         phys = ifelse(str_detect(label, 'Hydrothermal'), 'hydrothermal', phys)) %>%
+         phys = ifelse(str_detect(label, 'Hydrothermal'), 'hydrothermal', phys),
+         hab  = (agg %in% c('corals', 'sponges') | 
+                   phys %in% c('soft bank', 'seamount', 'hydrothermal'))) %>%
   select(-unique, -label)
 
-poly_ebsa_trim <- poly_ebsa[!(is.na(poly_ebsa@data$phys) & is.na(poly_ebsa@data$agg)), ]
+poly_ebsa_trim <- poly_ebsa[poly_ebsa@data$hab == TRUE, ]
 
 # Note: Strait of Georgia sponge reefs not in main EBSA polygons; use
 # sponge reef closures layer to capture these.  
@@ -102,24 +104,47 @@ poly_sg_sponges@data <- poly_sg_sponges@data %>%
          name = 'Sponge Reef',
          phys = NA,
          agg  = 'sponges',
-         conf = NA) %>%
+         conf = NA,
+         hab  = TRUE) %>%
   select(-OBJECTID, -Shape_Leng, -Shape_Area)
 
 plot(poly_ebsa_trim)
 plot(poly_sg_sponges, border = 'red', add = TRUE)
 
-### combine both into one big spatialpolygonsdataframe
-poly_ebsa_hab <- rbind(poly_ebsa_trim, poly_sg_sponges)
+### Need to re-ID the polygons to prep for rbind...
+poly_ebsa_trim  <- poly_ebsa_trim %>% spChFIDs(as.character(1:nrow(poly_ebsa_trim)))
+poly_sg_sponges <- poly_sg_sponges %>% spChFIDs(as.character(1:nrow(poly_sg_sponges) + nrow(poly_ebsa_trim)))
+poly_ebsa_hab <- rbind(poly_ebsa_trim2, poly_sg_sponges2, makeUniqueIDs = TRUE)
 
 ### save locally for next step: rasterization
-writeOGR(poly_ebsa_hab)
+writeOGR(poly_ebsa_hab, dsn = path.expand(file.path(dir_goal, 'shp')),
+         layer = 'ebsa_hab', driver = 'ESRI Shapefile')
 
 ```
 
 ``` {r select_and_rasterize_ebsas}
 
+base_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
 
+gdal_rast2(src = file.path(dir_goal, 'shp', 'ebsa_hab'),
+           base_rast,
+           dst = file.path(dir_goal, 'tif', 'ebsa_hab.tif'),
+           value = 'ebsa_id',
+           override_p4s = TRUE)
+           
 ```
+
+***
+
+OK, now to get all the trawl pressures layers
+
+* Groundfish trawl (use new trawl data only?)
+    * `effort` field
+* Scallop trawl
+    * which field? this is a confusing set of attributes
+* Shrimp trawl? is this bottom trawl? http://thisfish.info/fishery/shrimp-bottom-trawl-british-columbia/
+    * `sum_tow_ti`?  is that total tow time? others look like catch by spp
+
 
 ***
 
