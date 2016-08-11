@@ -1,5 +1,5 @@
 ---
-title: 'OHIBC: data_prep_hab_saltmarsh.Rmd'
+title: 'OHIBC: data_prep_hab_ebsa.Rmd'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -30,6 +30,7 @@ dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
 goal      <- 'hab'
 scenario  <- 'v2016'
 dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
 
 ### provenance tracking
 library(provRmd); prov_setup()
@@ -42,6 +43,9 @@ source(file.path(dir_git, 'src/R/rast_tools.R'))
 
 ### set up the default BC projection to be BC Albers
 p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+### set up base raster/region raster file
+rast_base_file <- file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif')
 
 ```
 
@@ -71,10 +75,12 @@ create layers for HAB, CP, CS goals; calculate HAB goal
 # Methods
 
 - EBSA layers as spatial extent of pressure-based models
+- EBSA rasters will be created at 500 m resolution; should be fine since features are large
+    - stored on git-annex
     
 ``` {r create_OHI_EBSA_shp}
 
-poly_ebsa <- readOGR(dsn = file.path(dir_anx, '_raw_data/dfo_khunter/ebsa'), 
+poly_ebsa <- readOGR(dsn = file.path(dir_anx, '_raw_data/dfo_khunter/management_boundaries/ebsa'), 
                      layer = 'eco_bio_sig_areas', 
                      stringsAsFactors = FALSE)
 
@@ -88,7 +94,8 @@ poly_ebsa@data <- poly_ebsa@data %>%
          phys = ifelse(str_detect(label, 'Seamount'), 'seamount', phys),
          phys = ifelse(str_detect(label, 'Hydrothermal'), 'hydrothermal', phys),
          hab  = (agg %in% c('corals', 'sponges') | 
-                   phys %in% c('soft bank', 'seamount', 'hydrothermal'))) %>%
+                   phys %in% c('soft bank', 'seamount', 'hydrothermal')),
+         ebsa_id = ifelse(ebsa_id == 0, 200, ebsa_id)) %>%
   select(-unique, -label)
 
 poly_ebsa_trim <- poly_ebsa[poly_ebsa@data$hab == TRUE, ]
@@ -96,7 +103,7 @@ poly_ebsa_trim <- poly_ebsa[poly_ebsa@data$hab == TRUE, ]
 # Note: Strait of Georgia sponge reefs not in main EBSA polygons; use
 # sponge reef closures layer to capture these.  
 poly_sg_sponges <- readOGR(dsn = file.path(dir_anx, '_raw_data/dfo_khunter',
-                                           'mgmt_related_boundaries'), 
+                                           'management_boundaries/mgmt_related_boundaries'), 
                      layer = 'Strait_of_Georgia_Sponge_Reef_Fishing_Closures', 
                      stringsAsFactors = FALSE)
 poly_sg_sponges@data <- poly_sg_sponges@data %>%
@@ -114,21 +121,22 @@ plot(poly_sg_sponges, border = 'red', add = TRUE)
 ### Need to re-ID the polygons to prep for rbind...
 poly_ebsa_trim  <- poly_ebsa_trim %>% spChFIDs(as.character(1:nrow(poly_ebsa_trim)))
 poly_sg_sponges <- poly_sg_sponges %>% spChFIDs(as.character(1:nrow(poly_sg_sponges) + nrow(poly_ebsa_trim)))
-poly_ebsa_hab <- rbind(poly_ebsa_trim2, poly_sg_sponges2, makeUniqueIDs = TRUE)
+poly_ebsa_hab <- rbind(poly_ebsa_trim, poly_sg_sponges, makeUniqueIDs = TRUE)
 
 ### save locally for next step: rasterization
-writeOGR(poly_ebsa_hab, dsn = path.expand(file.path(dir_goal, 'shp')),
-         layer = 'ebsa_hab', driver = 'ESRI Shapefile')
+writeOGR(poly_ebsa_hab, dsn = path.expand(file.path(dir_goal_anx, 'shp')),
+         layer = 'ebsa_hab', driver = 'ESRI Shapefile',
+         overwrite_layer = TRUE)
 
 ```
 
 ``` {r select_and_rasterize_ebsas}
 
-base_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
+base_rast <- raster(rast_base_file)
 
-gdal_rast2(src = file.path(dir_goal, 'shp', 'ebsa_hab'),
+gdal_rast2(src = file.path(dir_goal_anx, 'shp', 'ebsa_hab'),
            base_rast,
-           dst = file.path(dir_goal, 'tif', 'ebsa_hab.tif'),
+           dst = file.path(dir_goal_anx, 'tif', 'ebsa_hab.tif'),
            value = 'ebsa_id',
            override_p4s = TRUE)
            
@@ -144,6 +152,462 @@ OK, now to get all the trawl pressures layers
     * which field? this is a confusing set of attributes
 * Shrimp trawl? is this bottom trawl? http://thisfish.info/fishery/shrimp-bottom-trawl-british-columbia/
     * `sum_tow_ti`?  is that total tow time? others look like catch by spp
+
+``` {r create_groundfish_trawl_effort_layers}
+
+dir_fis <- file.path(dir_anx, '_raw_data/dfo_khunter/fisheries')
+
+trawl_gf_polys <- list.files(file.path(dir_fis, 'groundfish_trawl_2007_2015'),
+                             pattern = '.shp$', full.names = TRUE)
+trawl_gf_rasts <- file.path(dir_goal_anx, 'tif',
+                            basename(trawl_gf_polys) %>%
+                              str_replace('GFTrawl', 'groundfish_trawl') %>%
+                              str_replace('_legal_limfields', '') %>%
+                              str_replace('.shp$', '.tif'))
+# x <- lapply(trawl_gf_polys %>% str_replace('.shp', '.dbf'), foreign::read.dbf)
+# lapply(x, names)
+### All shapefiles consistent:
+### [1] "Count_"     "Sum_CATCH_" "Sum_EFFORT" "Shape_Leng" "Shape_Le_1" "Shape_Area"
+
+
+rast_base <- raster(rast_base_file)
+
+if(any(!file.exists(trawl_gf_rasts))) {
+  library(parallel)
+  
+  tmp <- mclapply(trawl_gf_polys, mc.cores = 12, FUN = function(poly_file) {
+    # poly_file <- trawl_gf_polys[1]
+    new_rast_file <- file.path(dir_goal_anx, 'tif',
+                               basename(poly_file) %>%
+                                 str_replace('GFTrawl', 'groundfish_trawl') %>%
+                                 str_replace('_legal_limfields', '') %>%
+                                 str_replace('.shp$', '.tif'))
+    
+    gdal_rast2(src = poly_file,
+               rast_base,
+               dst = new_rast_file,
+               override_p4s = TRUE,
+               value = 'Sum_EFFORT')
+  })
+} 
+
+### force git provenance registration
+git_prov(trawl_gf_polys, filetype = 'input')
+git_prov(trawl_gf_rasts, filetype = 'output')
+
+```
+
+``` {r create_scallop_trawl_effort_layers}
+
+dir_fis <- file.path(dir_anx, '_raw_data/dfo_khunter/fisheries')
+
+trawl_scallop_polys <- list.files(file.path(dir_fis, 'scallop_trawl_2005_2015'),
+                             pattern = '.shp$', full.names = TRUE)
+warning('NOTE: odd things going on with attributes in the scallop shapefiles.')
+# x <- lapply(trawl_scallop_polys %>% str_replace('.shp', '.dbf'), foreign::read.dbf)
+# lapply(x, names)
+# [[1]]
+# [1] "OBJECTID_1" "Count_"     "Sum_num_tw" "Sum_tm_fsh" "Sum_tt_lnd" "Shape_Leng" "Shape_Area"
+# 
+# [[2]]
+# [1] "OBJECTID_1" "Count_"     "Sum_num_tw" "Sum_tm_fsh" "Sum_tt_lnd" "Shape_Leng" "Shape_Area"
+# 
+# [[3]]
+# [1] "OBJECTID_1" "Count_"     "Sum_num_tw" "Sum_tm_fsh" "Sum_tt_lnd" "Shape_Leng" "Shape_Area"
+# 
+# [[4]]
+#  [1] "OBJECTID"   "ET_ID"      "ET_Index"   "Count_"     "Sum_counte" "Sum_cfv"    "Sum_year"   "Sum_gear_c"
+#  [9] "Sum_month"  "Sum_day"    "Sum_hour"   "Sum_stat_a" "Sum_sub_ar" "Sum_mx_dpt" "Sum_mn_dpt" "Sum_num_tw"
+# [17] "Sum_tm_fsh" "Sum_tt_lnd" "Sum_lat_de" "Sum_lat_mi" "Sum_long_d" "Sum_long_m" "Sum_page_n" "Sum_line_n"
+# [25] "Sum_DscrdW" "Shape_Leng" "Shape_Area"
+# 
+# [[5]]
+#  [1] "OBJECTID"   "ET_ID"      "ET_Index"   "Count_"     "Sum_counte" "Sum_cfv"    "Sum_year"   "Sum_gear_c"
+#  [9] "Sum_month"  "Sum_day"    "Sum_hour"   "Sum_stat_a" "Sum_sub_ar" "Sum_mx_dpt" "Sum_mn_dpt" "Sum_num_tw"
+# [17] "Sum_tm_fsh" "Sum_tt_lnd" "Sum_lat_de" "Sum_lat_mi" "Sum_long_d" "Sum_long_m" "Sum_page_n" "Sum_line_n"
+# [25] "Sum_DscrdW" "Shape_Leng" "Shape_Area"
+# 
+# [[6]]
+#  [1] "OBJECTID"   "ET_ID"      "ET_Index"   "Count_"     "Sum_OBJECT" "Sum_ET_ID"  "Sum_Count_" "Sum_Sum_co"
+#  [9] "Sum_Sum_cf" "Sum_Sum_ye" "Sum_Sum_ge" "Sum_Sum_mo" "Sum_Sum_da" "Sum_Sum_ho" "Sum_Sum_st" "Sum_Sum_su"
+# [17] "Sum_Sum_mx" "Sum_Sum_mn" "Sum_Sum_nu" "Sum_Sum_tm" "Sum_Sum_tt" "Sum_Sum_la" "Sum_Sum__1" "Sum_Sum_lo"
+# [25] "Sum_Sum__2" "Sum_Sum_pa" "Sum_Sum_li" "Sum_Sum_Ds" "Sum_Shape_" "Sum_Shape1" "Shape_Leng" "Shape_Area"
+# 
+# [[7]]
+#  [1] "OBJECTID"   "ET_ID"      "ET_Index"   "Count_"     "Sum_counte" "Sum_cfv"    "Sum_year"   "Sum_gear_c"
+#  [9] "Sum_month"  "Sum_day"    "Sum_hour"   "Sum_stat_a" "Sum_sub_ar" "Sum_mx_dpt" "Sum_mn_dpt" "Sum_num_tw"
+# [17] "Sum_tm_fsh" "Sum_tt_lnd" "Sum_lat_de" "Sum_lat_mi" "Sum_long_d" "Sum_long_m" "Sum_page_n" "Sum_line_n"
+# [25] "Sum_DscrdW" "Shape_Leng" "Shape_Area"
+# 
+# [[8]]
+#  [1] "OBJECTID"   "ET_ID"      "ET_Index"   "Count_"     "Sum_counte" "Sum_cfv"    "Sum_year"   "Sum_gear_c"
+#  [9] "Sum_month"  "Sum_day"    "Sum_hour"   "Sum_stat_a" "Sum_sub_ar" "Sum_mx_dpt" "Sum_mn_dpt" "Sum_num_tw"
+# [17] "Sum_tm_fsh" "Sum_tt_lnd" "Sum_lat_de" "Sum_lat_mi" "Sum_long_d" "Sum_long_m" "Sum_page_n" "Sum_line_n"
+# [25] "Sum_DscrdW" "Shape_Leng" "Shape_Area"
+# 
+# [[9]]
+#  [1] "OBJECTID"   "ET_ID"      "ET_Index"   "Count_"     "Sum_counte" "Sum_cfv"    "Sum_year"   "Sum_gear_c"
+#  [9] "Sum_month"  "Sum_day"    "Sum_hour"   "Sum_stat_a" "Sum_sub_ar" "Sum_mx_dpt" "Sum_mn_dpt" "Sum_num_tw"
+# [17] "Sum_tm_fsh" "Sum_tt_lnd" "Sum_lat_de" "Sum_lat_mi" "Sum_long_d" "Sum_long_m" "Sum_page_n" "Sum_line_n"
+# [25] "Sum_DscrdW" "Shape_Leng" "Shape_Area"
+# 
+# [[10]]
+#  [1] "OBJECTID"   "ET_ID"      "ET_Index"   "Count_"     "Sum_counte" "Sum_cfv"    "Sum_year"   "Sum_gear_c"
+#  [9] "Sum_month"  "Sum_day"    "Sum_hour"   "Sum_stat_a" "Sum_sub_ar" "Sum_mx_dpt" "Sum_mn_dpt" "Sum_num_tw"
+# [17] "Sum_tm_fsh" "Sum_tt_lnd" "Sum_lat_de" "Sum_lat_mi" "Sum_long_d" "Sum_long_m" "Sum_page_n" "Sum_line_n"
+# [25] "Sum_DscrdW" "Shape_Leng" "Shape_Area"
+# 
+# [[11]]
+# [1] "OBJECTID_1" "Count_"     "Sum_num_tw" "Sum_tm_fsh" "Sum_tt_lnd" "Shape_Leng" "Shape_Area"
+
+### Use sum_tm_fsh for now: "sum time fished"? 
+### others in 1, 2, 3, 11: count of trawlers? number of trawls? total tonnage landed?
+
+trawl_scallop_rasts <- file.path(dir_goal_anx, 'tif',
+                            basename(trawl_scallop_polys) %>%
+                              str_replace('Scalloptrawl', 'scallop_trawl') %>%
+                              str_replace('_legal_limfields', '') %>%
+                              str_replace('.shp$', '.tif'))
+
+rast_base <- raster(rast_base_file)
+
+if(any(!file.exists(trawl_scallop_rasts))) {
+  library(parallel)
+  
+  tmp <- mclapply(trawl_scallop_polys, mc.cores = 12, FUN = function(poly_file) {
+    # poly_file <- trawl_scallop_polys[1]
+    new_rast_file <- file.path(dir_goal_anx, 'tif',
+                               basename(poly_file) %>%
+                                 str_replace('Scalloptrawl', 'scallop_trawl') %>%
+                                 str_replace('_legal_limfields', '') %>%
+                                 str_replace('.shp$', '.tif'))
+    
+    gdal_rast2(src = poly_file,
+               rast_base,
+               dst = new_rast_file,
+               override_p4s = TRUE,
+               value = 'Sum_tm_fsh')
+  })
+}
+
+### force git provenance registration
+git_prov(trawl_scallop_polys, filetype = 'input')
+git_prov(trawl_scallop_rasts, filetype = 'output')
+
+```
+
+``` {r create_shrimp_trawl_effort_layers}
+
+dir_fis <- file.path(dir_anx, '_raw_data/dfo_khunter/fisheries')
+
+trawl_shrimp_polys <- list.files(file.path(dir_fis, 'shrimp_trawl_2005_2015'),
+                             pattern = '.shp$', full.names = TRUE)
+trawl_shrimp_rasts <- file.path(dir_goal_anx, 'tif',
+                            basename(trawl_gf_polys) %>%
+                              str_replace('Shrimptrawl', 'shrimp_trawl') %>%
+                              str_replace('_legal_limfields', '') %>%
+                              str_replace('.shp$', '.tif'))
+# x <- lapply(trawl_shrimp_polys %>% str_replace('.shp', '.dbf'), foreign::read.dbf)
+# lapply(x, names) %>% unique()
+# [[1]]
+#  [1] "OBJECTID_1" "Count_"     "Sum_tow_ti" "Sum_pinks"  "Sum_sdstrp" "Sum_prawns" "Sum_hmpbck" "Sum_docks" 
+#  [9] "Sum_smth_p" "Sum_flxd_p" "Sum_othr_w" "Sum_spny_p" "Shape_Leng" "Shape_Area"
+# 
+# [[2]]
+#  [1] "OBJECTID_1" "Count_"     "Sum_tow_ti" "Sum_prawns" "Sum_hmpbck" "Sum_docks"  "Sum_smth_p" "Sum_flxd_p"
+#  [9] "Sum_othr_w" "Sum_spny_p" "Shape_Leng" "Shape_Area"
+### Reasonably consistent: use Sum_tow_ti ("Sum tow time"?)
+
+rast_base <- raster(rast_base_file)
+
+if(any(!file.exists(trawl_shrimp_rasts))) {
+  library(parallel)
+  
+  tmp <- mclapply(trawl_shrimp_polys, mc.cores = 12, FUN = function(poly_file) {
+    # poly_file <- trawl_shrimp_polys[1]
+    new_rast_file <- file.path(dir_goal_anx, 'tif',
+                               basename(tolower(poly_file)) %>%
+                                 str_replace('shrimptrawl', 'shrimp_trawl') %>%
+                                 str_replace('_legal_limfields', '') %>%
+                                 str_replace('.shp$', '.tif'))
+    
+    gdal_rast2(src = poly_file,
+               rast_base,
+               dst = new_rast_file,
+               override_p4s = TRUE,
+               value = 'Sum_tow_ti')
+  })
+} 
+
+### force git provenance registration
+git_prov(trawl_shrimp_polys, filetype = 'input')
+git_prov(trawl_shrimp_rasts, filetype = 'output')
+
+```
+
+***
+
+### sum pressures rasters and mask to EBSA locations
+
+``` {r sum_pressures_and_mask}
+trawl_rast_files <- list.files(file.path(dir_goal_anx, 'tif'),
+                             pattern = 'trawl', full.names = TRUE)
+trawl_rast_files <- trawl_rast_files[!str_detect(trawl_rast_files, 'total')]
+
+trawl_rasts <- lapply(trawl_rast_files, raster) %>%
+  setNames(basename(trawl_rast_files) %>% str_replace('.tif', ''))
+
+### determine maximum trawl amount 
+
+ebsa_rast <- raster(file.path(dir_goal_anx, 'tif', 'ebsa_hab.tif'))
+
+trawl_years <- data.frame('x' = names(trawl_rasts),
+                    stringsAsFactors = FALSE) %>%
+  separate(x, c('fis', 'year'), sep = '_trawl_')
+
+### initialize list of trawl totals
+trawl_years  <- unique(trawl_years$year)
+trawl_layers <- paste0('trawl_totals_', trawl_years)
+trawl_totals <- vector('list', length = length(trawl_years)) %>%
+  setNames(trawl_layers)
+
+### loop over each year, make stack of all trawl layers for that year,
+### then sum them (with na.rm = TRUE)
+for(i in 1:length(trawl_years)) { # i = 3
+  year_layers <- str_detect(names(trawl_rasts), as.character(trawl_years[i]))
+  trawl_totals[[trawl_layers[i]]] <- trawl_rasts[year_layers] %>% 
+    stack() %>% 
+    calc(sum, na.rm = TRUE)
+}
+
+trawl_totals <- stack(trawl_totals)
+
+writeRaster(trawl_totals, bylayer = TRUE,
+            filename  = file.path(dir_goal_anx, 'tif', paste0(trawl_layers, '.tif')),
+            overwrite = TRUE)
+
+```
+
+***
+
+Calculate trawl pressure as any trawl activity in a cell - binary method.  This represents the long-term damage caused by trawling on these fragile and slow-growing ecosystems (corals, seamounts, sponge reefs, hydrothermal vents).
+
+``` {r crosstab_ebsa_habs_to_rgns_binary}
+
+ebsa_trawl_rgn_file <- file.path(dir_goal, 'int', 'ebsa_trawl_rgn_df.csv')
+
+trawl_rast_files <- list.files(file.path(dir_goal_anx, 'tif'), 
+                               pattern = 'trawl_totals',
+                               full.names = TRUE)
+
+ebsa_rast <- raster(file.path(dir_goal_anx, 'tif', 'ebsa_hab.tif'))
+
+if(!file.exists(ebsa_trawl_rgn_file)) {
+  ### now crosstab ebsa trawl effort by regions
+  
+  trawl_rasts <- lapply(trawl_rast_files, raster) %>%
+    setNames(basename(trawl_rast_files) %>% str_replace('.tif$', ''))
+    ### need a list or vector for mclapply; stack is treated as one obj?
+  
+  trawl_rasts_bin <- lapply(trawl_rasts, FUN = function(rast) {
+    rast1 <- rast ### set new raster without affecting original
+    values(rast1)[values(rast) > 0] <- 1
+    ### using this method, zeros stay zero instead of NaN.  Zeros
+    ### indicate EBSA area with no trawl pressure, so leave 'em in
+    names(rast1) <- names(rast) ### the recalc turns raster name into "layer"
+    return(rast1)
+  })
+  
+  ### Need to re-mask by the EBSA areas, since the na.rm = TRUE call above
+  ### will turn all NA cells (non-EBSA areas) into zeros.
+  ebsa_trawl_rasts_bin <- trawl_rasts_bin %>%
+    parallel::mclapply(FUN = function(trawl_layer) {
+                         mask(trawl_layer, ebsa_rast)
+                         }, 
+                       mc.cores = 12)
+  
+  rgn_rast <- raster(rast_base_file) %>%
+    setNames('rgn_id')
+  
+  ebsa_trawl_rgn_list <- ebsa_trawl_rasts_bin %>%
+    parallel::mclapply(mc.cores = 12,
+      FUN = function(rast) { ### rast <- ebsa_trawl_rasts_bin[[1]]
+        trawl_year <- names(rast) %>%
+          str_replace('trawl_totals_', '')
+  
+        rast <- rast %>%
+          setNames('trawl_effort')
+        message('Crosstabulating ', names(rast), ' for ', trawl_year)
+        trawl_df <- raster::crosstab(rast, rgn_rast,
+                                    digits = 0,
+                                    long = TRUE,
+                                    useNA = TRUE,
+                                    progress = 'text')
+        trawl_df <- trawl_df %>%
+          mutate(trawl_effort = as.numeric(as.character(trawl_effort)), ### dammit factors!
+                 year = as.integer(trawl_year))
+      })
+    
+  message('binding cross-tabbed dataframes from each year of trawl effort')
+  ebsa_trawl_rgn_df <- bind_rows(ebsa_trawl_rgn_list)
+  
+  write_csv(ebsa_trawl_rgn_df, ebsa_trawl_rgn_file)
+
+} else {
+  message('Trawl effort dataframe exists: ', ebsa_trawl_rgn_file)
+  git_prov(trawl_rast_files,  filetype = 'input')
+  git_prov(rast_base_file,    filetype = 'input')
+  git_prov(ebsa_trawl_rgn_file, filetype = 'output')
+}
+```
+
+*** 
+
+With the trawl effort on ebsas by region, determine scores based on any non-zero trawl effort = 1.
+
+``` {r calc_scores_ebsa_binary}
+
+### reference point NOT based on max trawl value; based on trawl effort in all cells
+### read dataframe of ebsa trawl effort by region
+ebsa_trawl_rgn_file <- file.path(dir_goal, 'int', 'ebsa_trawl_rgn_df.csv')
+ebsa_trawl_rgn_df <- read_csv(ebsa_trawl_rgn_file) %>%
+  mutate(trawl_effort = ifelse(is.nan(trawl_effort), 0, trawl_effort))
+
+### EBSA cells with any trawl pressure are scored 1; EBSA cells with no
+### pressure are scored 0; non-EBSA cells are NA.  EBSA hab pressure
+### is mean value across EBSAs only.
+ebsa_trawl_rgn_sum <- ebsa_trawl_rgn_df %>%
+  filter(!is.na(trawl_effort) &!is.na(rgn_id)) %>% ### this eliminates non-EBSA cells (NA = non-EBSA)
+  mutate(effort_area = trawl_effort * Freq) %>%
+  group_by(rgn_id, year) %>%
+  summarize(area_ebsa_rgn = sum(Freq) * .25, ### each cell is .25 km^2
+            mean_effort = mean(effort_area)/sum(Freq),
+            hab_status = 1 - mean_effort)
+
+write_csv(ebsa_trawl_rgn_sum, file.path(dir_goal, 'int', 'ebsa_trawl_rgn_summary.csv'))
+
+```
+***
+
+pull in soft bottom habitat and run again against trawl data.  Reference point will be based on highest trawl effort on soft bottom habitat, scaled to 110% of that max value.
+
+``` {r get_softbottom_raster}
+soft_btm_rast_file <- file.path(dir_goal_anx, 'tif', 'chi_soft_bottom.tif')
+
+if(!file.exists(soft_btm_rast_file)) {
+  ### reproject soft bottom based on global soft bottom Mollweide raster
+  rast_base <- raster(rast_base_file)
+
+  soft_btm_rast <- raster(file.path(dir_M, 'model/GL-NCEAS-Habitats_v2013a/data/soft_bottom_mol.tif'))
+  soft_btm_rast_bcalb <- projectRaster(soft_btm_rast, rast_base, 
+                           filename = soft_btm_rast_file,
+                           overwrite = TRUE)
+}
+
+```
+
+``` {r crosstab_soft_bottom_habs_to_rgns}
+
+soft_btm_rast      <- raster(file.path(dir_goal_anx, 'tif', 'chi_soft_bottom.tif'))
+
+sb_trawl_rgn_file <- file.path(dir_goal, 'int', 'soft_btm_trawl_rgn_df.csv')
+
+trawl_rast_files <- list.files(file.path(dir_goal_anx, 'tif'), 
+                               pattern = 'trawl_totals',
+                               full.names = TRUE)
+
+
+if(!file.exists(sb_trawl_rgn_file)) {
+  ### now crosstab soft bottom trawl effort by regions
+  
+  trawl_rasts <- lapply(trawl_rast_files, raster) %>%
+    setNames(basename(trawl_rast_files) %>% str_replace('.tif$', ''))
+    ### need a list or vector for mclapply; stack is treated as one obj?
+  
+  ### mask by the soft bottom areas
+  sb_trawl_rasts <- trawl_rasts %>%
+    parallel::mclapply(FUN = function(x) {mask(x, soft_btm_rast)}, 
+                       mc.cores = 12)
+  
+  rgn_rast <- raster(rast_base_file) %>%
+    setNames('rgn_id')
+  
+  sb_trawl_rgn_list <- sb_trawl_rasts %>%
+    parallel::mclapply(mc.cores = 12,
+      FUN = function(sb_trawl_rast) { ### sb_trawl_rast <- sb_trawl_rasts[[1]]
+        trawl_year <- names(sb_trawl_rast) %>%
+          str_replace('trawl_totals_', '')
+  
+        trawl_rast <- sb_trawl_rast %>%
+          setNames('trawl_effort')
+        message('Crosstabulating ', names(trawl_rast), ' for ', trawl_year)
+        trawl_df <- raster::crosstab(trawl_rast, rgn_rast,
+                                    digits = 0,
+                                    long = TRUE,
+                                    useNA = TRUE,
+                                    progress = 'text')
+        trawl_df <- trawl_df %>%
+          mutate(trawl_effort = as.numeric(as.character(trawl_effort)), ### dammit factors!
+                 year = as.integer(trawl_year))
+      })
+
+  message('binding cross-tabbed dataframes from each year of trawl effort')
+  sb_trawl_rgn_df <- bind_rows(sb_trawl_rgn_list)
+  
+  write_csv(sb_trawl_rgn_df, sb_trawl_rgn_file)
+
+} else {
+  message('Soft-bottom trawl effort dataframe exists: ', sb_trawl_rgn_file)
+  git_prov(trawl_rast_files,  filetype = 'input')
+  git_prov(rast_base_file,    filetype = 'input')
+  git_prov(sb_trawl_rgn_file, filetype = 'output')
+}
+```
+
+*** 
+
+With the trawl effort on soft-bottom habitats by region, determine scores based on reference point (110% of max trawl effort in all soft-bottom habitat within EEZ)
+
+``` {r calc_scores_soft_btm_trawl}
+
+### Determine maximum trawl effort overall; currently sum of all trawl
+### types; should it be max for each trawl type?
+### reference point 
+trawl_rast_files <- list.files(file.path(dir_goal_anx, 'tif'), 
+                               pattern = 'trawl_totals',
+                               full.names = TRUE)
+
+trawl_rasts <- lapply(trawl_rast_files, raster)
+
+### Mask to just soft-bottom to find max soft bottom trawl effort as ref
+soft_btm_rast      <- raster(file.path(dir_goal_anx, 'tif', 'chi_soft_bottom.tif'))
+sb_trawl_rasts <- trawl_rasts %>%
+  parallel::mclapply(FUN = function(x) {mask(x, soft_btm_rast)}, 
+                     mc.cores = 12)
+sb_trawl_effort_ref <- sb_trawl_rasts %>%
+  stack() %>%
+  maxValue() %>%
+  max() * 1.10
+
+### read dataframe of ebsa trawl effort by region
+sb_trawl_rgn_file <- file.path(dir_goal, 'int', 'soft_btm_trawl_rgn_df.csv')
+sb_trawl_rgn_df <- read_csv(sb_trawl_rgn_file)
+
+### Calculate area-weighted mean pressure
+sb_trawl_rgn_sum <- sb_trawl_rgn_df %>%
+  filter(!is.na(trawl_effort) &!is.na(rgn_id)) %>% ### this eliminates non-soft-btm cells (NA = non-soft-btm)
+  mutate(effort_area = trawl_effort * Freq) %>%
+  group_by(rgn_id, year) %>%
+  summarize(area_sb_rgn = sum(Freq) * .25, ### each cell is .25 km^2
+            mean_effort = mean(effort_area)/sum(Freq),
+            mean_effort_rescale = mean_effort/sb_trawl_effort_ref,
+            hab_status = 1 - mean_effort_rescale)
+
+write_csv(sb_trawl_rgn_sum, file.path(dir_goal, 'int', 'soft_btm_trawl_rgn_summary.csv'))
+
+```
+
+***
 
 
 ***

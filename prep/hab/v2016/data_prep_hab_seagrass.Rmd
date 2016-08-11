@@ -43,6 +43,9 @@ source(file.path(dir_git, 'src/R/rast_tools.R'))
 ### set up the default BC projection to be BC Albers
 p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 
+### set up base raster file
+rast_base_file <- file.path(dir_spatial, 'ohibc_rgn_raster_100m.tif')
+
 ```
 
 # Summary
@@ -73,8 +76,10 @@ Create seagrass layers for HAB, CP, CS goals.  The areas calculated in this scri
 Sea Grass health base on pressures-based model: nutrient inputs
 
 - Pull nutrient rasters from global fertilizer plume model
-- Reproject to extents and resolution of OHIBC region 500 m raster
+- Reproject to extents and resolution of OHIBC region 100 m raster
+    - fine resolution to match seagrass raster
 - Data includes years 2002 - 2013
+- these files will be saved on git-annex
     
 ``` {r read_and_clip_pressure_raster}
 
@@ -86,24 +91,28 @@ dir_nutr <- file.path(dir_M, 'marine_threats/impact_layers_2013_redo/impact_laye
                       'work/land_based/before_2007',
                       'raw_global_results')
 nutr_files <- list.files(dir_nutr, pattern = '*fert*', full.names = TRUE)
-new_rast_files <- file.path(dir_goal, 'tif', basename(nutr_files)) %>%
+new_rast_files <- file.path(dir_goal_anx, 'tif', basename(nutr_files)) %>%
     str_replace('global', 'bc')
 
 ### cropping sped up this loop slightly, but also added time for the crop
 ### operation.  Leaving it out for simplicity.
 
-rast_base <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
+rast_base <- raster(rast_base_file)
 
 if(any(!file.exists(new_rast_files))) {
-  for(i in 1:length(nutr_files)) {
-    message('Processing nutrient layer ', nutr_files[i])
-    rast_nutr <- raster(nutr_files[i])
-    message('... Reprojecting nutrient layer and saving to ', new_rast_files[i])
-    rast_nutr_reproj <- raster::projectRaster(rast_nutr, rast_base, 
-                                              filename = new_rast_files[i],
-                                              overwrite = TRUE)
-    git_prov(new_rast_files, filetype = 'output')
-  }
+  library(parallel)
+  
+  tmp <- mclapply(nutr_files, mc.cores = 12, FUN = function(x) {
+    new_rast_file <- file.path(dir_goal_anx, 'tif', basename(x)) %>%
+      str_replace('global', 'bc')
+    old_rast <- raster(x)
+    raster::projectRaster(old_rast, rast_base, 
+                          filename = new_rast_file,
+                          overwrite = TRUE)
+  })
+  
+  git_prov(new_rast_files, filetype = 'output')
+  
 } else {
   ### force git provenance registration
   git_prov(nutr_files, filetype = 'input')
@@ -116,98 +125,22 @@ Sea grass extent for mapping and weighting
 
 - Based on seagrass biobands: eelgrass and surf grass.
 - Buffer biobands by 1 km, with square end
-- Rasterize buffer to 0.5 km and summarize area per region
-
-``` {r create_saltmarsh_bioband_buffer, eval = FALSE}
-
-# eelg_buffer_file  <- path.expand(file.path(dir_goal, 'shp', 'buffer_eelgrass.shp'))
-# surfg_buffer_file <- path.expand(file.path(dir_goal, 'shp', 'buffer_surfgrass.shp'))
-# 
-# bioband_eelgrass_file  <- file.path(dir_anx, '_raw_data', 'bcmca',
-#                                 'bcmca_eco_set_plants_complete',
-#                                 'MarxanData_Plants/VascularPlants',
-#                                 'BCMCA_ECO_VascPlants_Eelgrass_Bioband_MARXAN.shp')
-# bioband_surfgrass_file <- file.path(dir_anx, '_raw_data', 'bcmca',
-#                                 'bcmca_eco_set_plants_complete',
-#                                 'MarxanData_Plants/VascularPlants',
-#                                 'BCMCA_ECO_VascPlants_Surfgrass_Bioband_MARXAN.shp')
-# if(!file.exists(eelg_buffer_file) | !file.exists(surfg_buffer_file)) {
-# 
-#   bioband_eelgrass  <- readOGR(dsn   = dirname(path.expand(bioband_eelgrass_file)), 
-#                                layer = basename(bioband_eelgrass_file) %>% str_replace('.shp', ''),
-#                                stringsAsFactors = FALSE)
-#   bioband_surfgrass <- readOGR(dsn   = dirname(path.expand(bioband_surfgrass_file)), 
-#                                layer = basename(bioband_surfgrass_file) %>% str_replace('.shp', ''),
-#                                stringsAsFactors = FALSE)
-#   
-#   poly_eelgrass <- gBuffer(bioband_eelgrass, byid = FALSE, width = 1000, capStyle = 'FLAT') %>% 
-#     SpatialPolygonsDataFrame(data.frame(1), match.ID = FALSE)
-#   poly_surfgrass <- gBuffer(bioband_surfgrass, byid = FALSE, width = 1000, capStyle = 'FLAT') %>% 
-#     SpatialPolygonsDataFrame(data.frame(1), match.ID = FALSE)
-#   
-#   writeOGR(poly_eelgrass, dsn = dirname(eelg_buffer_file), 
-#            layer = basename(eelg_buffer_file) %>% str_replace('.shp', ''),
-#            driver = 'ESRI Shapefile',
-#            overwrite_layer = TRUE)
-#   writeOGR(poly_surfgrass, dsn = dirname(surfg_buffer_file), 
-#            layer = basename(surfg_buffer_file) %>% str_replace('.shp', ''),
-#            driver = 'ESRI Shapefile',
-#            overwrite_layer = TRUE)
-# } else {
-#   ### manual git_prov() calls
-#   git_prov(bioband_eelgrass_file)
-#   git_prov(bioband_surfgrass_file)
-#   git_prov(eelg_buffer_file,  filetype = 'output')
-#   git_prov(surfg_buffer_file, filetype = 'output')
-# }
-
-```
-
-``` {r create_seagrass_bioband_buffer_raster, eval = FALSE}
-# eelg_buffer_rast_file  <- path.expand(file.path(dir_goal, 'tif', 'buffer_eelgrass.tif'))
-# surfg_buffer_rast_file <- path.expand(file.path(dir_goal, 'tif', 'buffer_surfgrass.tif'))
-# 
-# if(!file.exists(eelg_buffer_rast_file) | !file.exists(surfg_buffer_rast_file)) {
-# 
-# base_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
-# 
-# gdal_rast2(src = eelg_buffer_file, base_rast, eelg_buffer_rast_file)
-# gdal_rast2(src = surfg_buffer_file, base_rast, surfg_buffer_rast_file)
-# 
-# } else {
-#   ### manual git_prov() calls
-#   git_prov(eelg_buffer_file, filetype = 'input')
-#   git_prov(surfg_buffer_file, filetype = 'input')
-#   git_prov(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
-#   git_prov(eelg_buffer_rast_file, filetype = 'output')
-#   git_prov(surfg_buffer_rast_file, filetype = 'output')
-# }
-# 
-# eelg_rast  <- raster(eelg_buffer_rast_file)
-# surfg_rast <- raster(surfg_buffer_rast_file)
-# 
-# seagrass_rast <- stack(list(eelg_rast, surfg_rast * 2)) %>%
-#   calc(sum, na.rm = TRUE)
-# values(seagrass_rast)[values(seagrass_rast) == 0] <- NA
-# 
-# plot(seagrass_rast)
-# 
-# writeRaster(seagrass_rast, file.path(dir_goal, 'tif', 'buffer_seagrass.tif'), overwrite = TRUE)
-
-```
+- Rasterize buffer to 0.1 km and summarize area per region
+- this raster will be stored on git-annex
 
 ``` {r create_bluecarbon_seagrass_raster, eval = TRUE}
 
-seagrass_rast_file <- file.path(dir_goal, 'tif/bluecarbon_seagrass.tif') %>%
+seagrass_rast_file <- file.path(dir_goal_anx, 'tif/bluecarbon_seagrass.tif') %>%
   path.expand()
 
 seagrass_poly_file <- file.path(dir_anx, '_raw_data/cec/BlueCarbon_SHP',
-                                'NA_BlueCarbon/data/Seagrass/na_seagrass_areas_Feb2015.shp') %>%
+                                'NA_BlueCarbon/data',
+                                'Seagrass/na_seagrass_areas_Feb2015.shp') %>%
   path.expand()
 
 if(!file.exists(seagrass_rast_file)) {
   
-  base_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
+  base_rast <- raster(rast_base_file)
   
   ### contains polys for all of North America.  Read it in; filter to just Canada BC; reproject
   seagrass_poly <- readOGR(dsn = path.expand(dirname(seagrass_poly_file)),
@@ -215,44 +148,54 @@ if(!file.exists(seagrass_rast_file)) {
   seagrass_poly_bc <- seagrass_poly[seagrass_poly@data$STATE_ABB == 'CA-BC', ]
   seagrass_poly_bcalb <- spTransform(seagrass_poly_bc, base_rast@crs)
   writeOGR(seagrass_poly_bcalb, 
-           dsn = path.expand(file.path(dir_goal, 'shp')),
-           layer = 'bluecarbon_seagrass',
+           dsn    = path.expand(file.path(dir_goal_anx, 'shp')),
+           layer  = 'bluecarbon_seagrass',
            driver = 'ESRI Shapefile')
   
-  gdal_rast2(src = file.path(dir_goal, 'shp/bluecarbon_seagrass.shp'), 
+  gdal_rast2(src = file.path(dir_goal_anx, 'shp/bluecarbon_seagrass.shp'), 
              base_rast, seagrass_rast_file, value = 'OBJECTID', override_p4s = TRUE)
   
 } else {
   
   git_prov(seagrass_poly_file, filetype = 'input')
-  git_prov(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'), filetype = 'input') ### base raster
+  git_prov(rast_base_file, filetype = 'input') ### base raster
   git_prov(seagrass_rast_file, filetype = 'output')
  
 }
 
 ```
 
-After creating buffer shapefiles and rasters, tabulate seagrass area per OHIBC region
+After creating buffer shapefiles and rasters, tabulate seagrass area per OHIBC region. This CSV stored in github.
 
 ``` {r crosstab_seagrass_vs_rgns}
 
-seagrass_rast <- raster(file.path(dir_goal, 'tif', 'bluecarbon_seagrass.tif')) %>%
-  setNames('seagrass')
+seagrass_rgns_file <- file.path(dir_goal, 'int', 'bluecarbon_seagrass_area.csv')
 
-rgn_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif')) %>%
-  setNames('rgn_id')
+if(!file.exists(seagrass_rgns_file)) {
+  seagrass_rast <- raster(file.path(dir_goal_anx, 'tif', 'bluecarbon_seagrass.tif')) %>%
+    setNames('seagrass')
+  
+  rgn_rast <- raster(rast_base_file) %>%
+    setNames('rgn_id')
+  
+  seagrass_df <- raster::crosstab(seagrass_rast, rgn_rast, 
+                                   long = TRUE, useNA = TRUE,
+                                   progress = 'text') %>%
+    group_by(rgn_id) %>%
+    mutate(area_tot = sum(Freq) * .01) %>%   ### get total area in region
+    filter(!is.na(seagrass) & !is.na(rgn_id)) %>%
+    group_by(rgn_id, area_tot) %>%
+    summarize(area_seagrass = sum(Freq) * .01) ### get just seagrass area in region
+  
+  
+  write_csv(seagrass_df, seagrass_rgns_file)
 
-seagrass_df <- raster::crosstab(seagrass_rast, rgn_rast, 
-                                 long = TRUE, useNA = TRUE,
-                                 progress = 'text') %>%
-  group_by(rgn_id) %>%
-  mutate(area_tot = sum(Freq) * .25) %>%   ### get total area in region
-  filter(!is.na(seagrass) & !is.na(rgn_id)) %>%
-  group_by(rgn_id, area_tot) %>%
-  summarize(area_seagrass = sum(Freq) * .25) ### get just seagrass area in region
-
-
-write_csv(seagrass_df, file.path(dir_goal, 'int', 'bluecarbon_seagrass_area.csv'))
+} else {
+  
+  git_prov(file.path(dir_goal_anx, 'tif', 'bluecarbon_seagrass.tif'), filetype = 'input')
+  git_prov(rast_base_file, filetype = 'input')
+  git_prov(seagrass_rgns_file, filetype = 'output')
+}
 
 ```
 
@@ -270,39 +213,68 @@ Sea Grass health pressures-based model: nutrient inputs
 ``` {r create_seagrass_nutrient_rasters}
 
 ### first, calculate the nutrient pressures
-nutr_layers <- list.files(file.path(dir_goal, 'tif'), 
+nutr_layers <- list.files(file.path(dir_goal_anx, 'tif'), 
                           pattern = '*_fert_*', 
                           full.names = TRUE)
 
-nutr_stack <- stack(nutr_layers)
+outfile_names <- file.path(dir_goal_anx, 'tif', 
+                           basename(nutr_layers) %>%
+                             str_replace('bc_plumes_fert_', 'seagrass_nutr_') %>%
+                             str_replace('_raw', ''))
 
-### mask nutrient input stack to just OHIBC regions (some Puget Sound cells in there...)
-rgn_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif')) %>%
-  setNames('rgn_id')
+if(any(!file.exists(outfile_names))) {
+  
+  library(parallel)
+  
+  ### mask nutrient input stack to just OHIBC regions (some Puget Sound cells in there...)
+  rgn_rast <- raster(rast_base_file) %>%
+    setNames('rgn_id')
+  
+  # nutr_stack <- mask(nutr_stack, rgn_rast)
+  ### NOTE: slowish; mask by 
+  
+  message('masking nutrient layers to BC EEZ')
+  nutr_stack_list <- mclapply(nutr_layers, mc.cores = 12,
+    FUN = function(rast_file) { ### rast_file <- nutr_layers[1]
+      nutr_layer <- raster(rast_file)
+      mask(nutr_layer, rgn_rast)
+    })
+  
+  nutr_stack <- stack(nutr_stack_list)
+  
+  ### find max value in whole EEZ and normalize to 110%
+  nutr_ref <- maxValue(nutr_stack) %>% ### gets max for each layer
+    max() * 1.10                       ### finds max across all layers
+  
+  message('rescaling nutrient layers to reference point: ', nutr_ref)
+  nutr_prs_list <- mclapply(nutr_stack_list, mc.cores = 12,
+    FUN = function(nutr_layer) {
+      nutr_layer / (max_nutr * 1.10)
+    })
 
-nutr_stack <- mask(nutr_stack, rgn_rast)
+  ### now mask the pressures by seagrass presence
+  seagrass_rast <- raster(file.path(dir_goal_anx, 'tif', 'bluecarbon_seagrass.tif'))
 
-### find max value in whole EEZ and normalize to 110%
-max_nutr <- maxValue(nutr_stack) %>% ### gets max for each layer
-  max()                              ### finds max across all layers
-
-nutr_prs_stack <- nutr_stack / (max_nutr * 1.10)
-
-### now mask the pressures by seagrass presence
-seagrass_rast <- raster(file.path(dir_goal, 'tif', 'bluecarbon_seagrass.tif'))
-
-seagrass_nutr_stack <- mask(nutr_prs_stack, seagrass_rast)
-names(seagrass_nutr_stack) <- names(seagrass_nutr_stack) %>%
-    str_replace('bc_plumes_fert_', 'seagrass_nutr_') %>%
-    str_replace('_raw', '')
-
-outfile_names <- file.path(dir_goal, 'tif', paste0(names(seagrass_nutr_stack), '.tif'))
-                           
-writeRaster(seagrass_nutr_stack, 
-            filename = outfile_names,
-            bylayer = TRUE,
-            overwrite = TRUE)
-
+  message('masking nutrient layers by seagrass presence layer')
+  seagrass_nutr_stack_list <- mclapply(nutr_prs_list, mc.cores = 12,
+    FUN = function(nutr_prs_layer) { ### nutr_prs_layer <- nutr_prs_list[[1]]
+      mask(nutr_prs_layer, seagrass_rast)
+    })
+  
+  seagrass_nutr_stack <- stack(seagrass_nutr_stack_list)
+  
+  writeRaster(seagrass_nutr_stack, 
+              filename = outfile_names,
+              bylayer = TRUE,
+              overwrite = TRUE,
+              progress = 'text')
+} else {
+  
+  git_prov(nutr_layers,    filetype = 'input')
+  git_prov(rast_base_file, filetype = 'input')
+  git_prov(outfile_names,  filetype = 'output')
+  
+}
 
 ```
 
@@ -311,36 +283,80 @@ From seagrass pressure rasters, tabulate pressures vs seagrass cells
 - number of cells at each pressure for each year
 
 ``` {r crosstab_sg_pressures}
-### now crosstab seagrass nutrient pressures by regions
-nutr_layer_files <- list.files(file.path(dir_goal, 'tif'), pattern = 'seagrass_nutr',
-                          full.names = TRUE)
 
-seagrass_nutr_stack <- stack(nutr_layer_files)
+seagrass_nutr_df_file <- file.path(dir_goal, 'int', 'seagrass_nutr_df.csv')
 
-tmp_list <- vector('list', length = nlayers(seagrass_nutr_stack))
-for (i in 1:nlayers(seagrass_nutr_stack)) { # i <- 1
-  nutr_year <- names(seagrass_nutr_stack[[i]]) %>%
-    str_replace('seagrass_nutr_', '')
+nutr_layer_files <- list.files(file.path(dir_goal_anx, 'tif'), 
+                               pattern = 'seagrass_nutr',
+                               full.names = TRUE)
+
+if(!file.exists(seagrass_nutr_df_file)) {
+  ### now crosstab seagrass nutrient pressures by regions
   
-  nutr_rast <- seagrass_nutr_stack[[i]] %>%
-    setNames('nutr_pressure')
-  message('Crosstabulating ', names(nutr_rast), ' for ', nutr_year)
-  nutr_df <- raster::crosstab(nutr_rast, rgn_rast,
-                              digits = 4,
-                              long = TRUE,
-                              useNA = TRUE, 
-                              progress = 'text')
-  nutr_df <- nutr_df %>%
-    mutate(nutr_pressure = as.numeric(as.character(nutr_pressure)), ### dammit factors!
-           year = as.integer(nutr_year))
+  seagrass_nutr_list <- lapply(nutr_layer_files, raster) %>%
+    setNames(basename(nutr_layer_files) %>% str_replace('.tif$', ''))
+    ### need a list or vector for mclapply; stack is treated as one obj?
   
-  tmp_list[[i]] <- nutr_df
+  rgn_rast <- raster(rast_base_file) %>%
+    setNames('rgn_id')
+  
+  # library(parallel)
+  # sg_nutr_df_list <- mclapply(seagrass_nutr_list, mc.cores = 12,
+  #   FUN = function(sg_nutr_rast) { ### sg_nutr_rast <- seagrass_nutr_list[[1]]
+  #     nutr_year <- names(sg_nutr_rast) %>%
+  #       str_replace('seagrass_nutr_', '')
+  #     
+  #     nutr_rast <- sg_nutr_rast %>%
+  #       setNames('nutr_pressure')
+  #     message('Crosstabulating ', names(nutr_rast), ' for ', nutr_year)
+  #     nutr_df <- raster::crosstab(nutr_rast, rgn_rast,
+  #                                 digits = 4,
+  #                                 long = TRUE,
+  #                                 useNA = TRUE, 
+  #                                 progress = 'text')
+  #     nutr_df <- nutr_df %>%
+  #       mutate(nutr_pressure = as.numeric(as.character(nutr_pressure)), ### dammit factors!
+  #              year = as.integer(nutr_year))    
+  #   })
+  
+  sg_nutr_df_list <- vector('list', length = length(seagrass_nutr_list))
+  for (i in 1:length(seagrass_nutr_list)) { # i <- 1
+    
+    ptm <- proc.time()
+    
+    nutr_year <- names(seagrass_nutr_list[[i]]) %>%
+      str_replace('seagrass_nutr_', '')
+    message('cross tabulating nutrient pressures for ', nutr_year)
+  
+    nutr_rast <- seagrass_nutr_list[[i]] %>%
+      setNames('nutr_pressure')
+    message('Crosstabulating ', names(nutr_rast), ' for ', nutr_year)
+    nutr_df <- raster::crosstab(nutr_rast, rgn_rast,
+                                digits = 4,
+                                long = TRUE,
+                                useNA = TRUE,
+                                progress = 'text')
+    nutr_df <- nutr_df %>%
+      mutate(nutr_pressure = as.numeric(as.character(nutr_pressure)), ### dammit factors!
+             year = as.integer(nutr_year))
+  
+    write_csv(nutr_df, file.path(dir_goal, 'tmp', paste0('nutr_df_tmp_', nutr_year, '.csv')))
+    sg_nutr_df_list[[i]] <- nutr_df
+    
+    message('  - elapsed time: ', (proc.time() - ptm)[3], ' sec')
+  }
+  
+  message('binding cross-tabbed dataframes from each year of nutrient input')
+  seagrass_nutr_df <- bind_rows(sg_nutr_df_list)
+  
+  write_csv(seagrass_nutr_df, seagrass_nutr_df_file)
+
+} else {
+  message('Seagrass nutrient dataframe exists: ', seagrass_nutr_df_file)
+  git_prov(nutr_layer_files,      filetype = 'input')
+  git_prov(rast_base_file,        filetype = 'input')
+  git_prov(seagrass_nutr_df_file, filetype = 'output')
 }
-
-seagrass_nutr_df <- bind_rows(tmp_list)
-
-write_csv(seagrass_nutr_df, file.path(dir_goal, 'int', 'seagrass_nutr_df.csv'))
-
 ```
 
 Summarize area-weighted mean pressure values by region and year
@@ -357,10 +373,10 @@ seagrass_status_df <- seagrass_nutr_df %>%
   filter(!is.na(nutr_pressure)) %>% 
   group_by(rgn_id, year) %>%
   summarize(mean_pressure = sum(nutr_pressure * Freq) / sum(Freq),
-            area_seagrass = sum(Freq) * .25) %>%
+            area_seagrass = sum(Freq) * .01) %>%
   mutate(status = 1 - mean_pressure)
 
-write_csv(seagrass_status_df, file.path(dir_goal, 'int', 'seagrass_status_df.csv'))
+write_csv(seagrass_status_df, file.path(dir_goal, 'int', 'seagrass_rgn_summary.csv'))
 
 DT::datatable(seagrass_status_df)
 

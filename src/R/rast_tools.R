@@ -76,7 +76,7 @@ plot_rast <- function(rast,
 #                           filename = file.path(dir_rgn, 'ohibc_rgn_raster_1000m.tif'),
 #                           overwrite = TRUE)
 
-gdal_rast2 <- function(src, base_rast, dst = NULL, value = NULL, override_p4s = FALSE) {
+gdal_rast2 <- function(src, rast_base, dst = NULL, value = NULL, override_p4s = FALSE) {
 
   src <- path.expand(src)
 
@@ -90,7 +90,7 @@ gdal_rast2 <- function(src, base_rast, dst = NULL, value = NULL, override_p4s = 
   shp_prj <- ogrInfo(dsn = dirname(src),
                      layer = basename(src) %>% str_replace('.shp$', '')) %>%
     .$p4s
-  rst_prj <- base_rast@crs@projargs
+  rst_prj <- rast_base@crs@projargs
   if(shp_prj != rst_prj & override_p4s == FALSE) {
     message('Shapefile and raster file do not seem to have same proj4string:')
     message('  shapefile: ', shp_prj)
@@ -110,11 +110,11 @@ gdal_rast2 <- function(src, base_rast, dst = NULL, value = NULL, override_p4s = 
 
   dst_tmp  <- dst %>% str_replace('.tif$', '_tmp.tif')
 
-  base_tr  <- raster::res(base_rast)
-  base_ext <- raster::extent(base_rast)
+  base_tr  <- raster::res(rast_base)
+  base_ext <- raster::extent(rast_base)
   base_te  <- c(base_ext[1], base_ext[3], base_ext[2], base_ext[4])
 
-  file.copy(base_rast@file@name, dst_tmp) ### set up a file at the temp location
+  file.copy(rast_base@file@name, dst_tmp) ### set up a file at the temp location
 
   rast_tmp <- gdalUtils::gdal_rasterize(
     src_datasource = path.expand(src),
