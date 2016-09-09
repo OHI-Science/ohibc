@@ -1,36 +1,22 @@
-# load required libraries
-suppressWarnings(require(ohicore))
+## calculate_scores.R 
 
-# set working directory to the scenario directory, ie containing conf and layers directories
-setwd('~/github/ohibc/region2016')
+## calculate_scores.R ensures all files are properly configured and calculates OHI scores.
+  ## - configure_toolbox.r ensures your files are properly configured. It is a script in your repository.
+  ## - CalculateAll() calculates OHI scores. It is a function in the `ohicore` R package 
+  ##   (this can be written in R as `ohicore::CalculateAll()`).  
 
-# load scenario configuration
-conf = Conf('conf')
+## When you begin, configure_toolbox.r and CalculateAll() will calculate scores using
+## the 'templated' data and goal models provided. We suggest you work
+## goal-by-goal as you prepare data in the prep folder and develop goal models
+## in functions.r. Running configure_toolbox.r and a specific goal model line-by-line 
+## in functions.R is a good workflow.
 
-# run checks on scenario layers
-CheckLayers('layers.csv', 'layers', flds_id=conf$config$layers_id_fields)
+## run the configure_toolbox.r script to check configuration
+source('~/github/ohibc/region2016/calculate_scores.r')
 
-# load scenario layers
-layers = Layers('layers.csv', 'layers')
+## calculate scenario scores
+scores = ohicore::CalculateAll(conf, layers)
 
-# calculate scenario scores
-scores = CalculateAll(conf, layers, debug=F)
+## save scores as scores.csv
 write.csv(scores, 'scores.csv', na='', row.names=F)
-
-# merge to published branch (to display on app). Make sure all local work is committed.
-merge_branches = F #change to T, or run line 33-41.
-
-if (merge_branches) {
-  # switch to draft branch and get latest
-  system('git checkout draft; git pull')
-
-  # merge published with the draft branch
-  system('git checkout published')
-  system('git merge draft')
-  system('git push origin published')
-
-  # switch to draft branch and get latest
-  system('git checkout draft; git pull')
-}
-
 

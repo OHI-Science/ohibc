@@ -1,24 +1,26 @@
-R version 3.2.2 (2015-08-14)
+R version 3.3.0 (2016-05-03)
 Platform: x86_64-apple-darwin13.4.0 (64-bit)
-Running under: OS X 10.10.5 (Yosemite)
+Running under: OS X 10.11.4 (El Capitan)
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] tools     stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] tidyr_0.2.0       cleangeo_0.1      ohicore_0.1       yaml_2.1.13       brew_1.0-6        jsonlite_0.9.17   shinyapps_0.4.1.4
- [8] shiny_0.12.2      rgdal_1.0-4       sp_1.1-1          readr_0.1.1       dplyr_0.4.3       git2r_0.11.0      stringr_1.0.0    
+ [1] ohicore_0.1   yaml_2.1.13   brew_1.0-6    jsonlite_1.0  tidyr_0.6.0   git2r_0.15.0  stringr_1.1.0
+ [8] readr_1.0.0   rgdal_1.1-10  sp_1.2-3      dplyr_0.5.0  
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.1        RColorBrewer_1.1-2 plyr_1.8.3         tools_3.2.2        digest_0.6.8       gtable_0.1.2       lattice_0.20-33   
- [8] DBI_0.3.1          rstudioapi_0.3.1   parallel_3.2.2     proto_0.3-10       knitr_1.11         httr_1.0.0         rgeos_0.3-11      
-[15] rCharts_0.4.1      ggvis_0.4.2        grid_3.2.2         R6_2.1.1           foreign_0.8-65     RJSONIO_1.3-0      whisker_0.3-2     
-[22] ggplot2_1.0.1      reshape2_1.4.1     magrittr_1.5       maptools_0.8-36    scales_0.3.0       htmltools_0.2.6    MASS_7.3-43       
-[29] assertthat_0.1     mime_0.4           xtable_1.7-4       colorspace_1.2-6   httpuv_1.3.3       stringi_0.5-5      lazyeval_0.1.10   
-[36] munsell_0.4.2      markdown_0.7.7     zoo_1.7-12        
+ [1] Rcpp_0.12.7         plyr_1.8.4          base64enc_0.1-3     viridis_0.3.4      
+ [5] digest_0.6.10       tibble_1.2          gtable_0.2.0        lattice_0.20-34    
+ [9] shiny_0.13.2        DBI_0.5             gridExtra_2.2.1     httr_1.2.1         
+[13] knitr_1.14          htmlwidgets_0.7     grid_3.3.0          R6_2.1.3           
+[17] plotly_3.6.0        ggplot2_2.1.0       reshape2_1.4.1      magrittr_1.5       
+[21] scales_0.4.0        htmltools_0.3.5     assertthat_0.1      mime_0.5           
+[25] xtable_1.8-2        colorspace_1.2-6    httpuv_1.3.3        stringi_1.1.1      
+[29] lazyeval_0.2.0.9000 munsell_0.4.3       zoo_1.7-13         
 
 
 
@@ -33,32 +35,26 @@ Maintainer: Ben Best <bbest@nceas.ucsb.edu>
 License: MIT
 LazyData: TRUE
 Depends: R (>= 3.1.0)
-Imports: RColorBrewer, RJSONIO, dplyr (>= 0.3), ggplot2 (>= 1.0.0),
-        ggvis (>= 0.4), httr, markdown (>= 0.6.3), plyr (>= 1.8.0),
-        rCharts, reshape2, shiny (>= 0.10.0), stringr, knitr (>= 1.5)
+Imports: dplyr (>= 0.3), ggplot2 (>= 1.0.0), plyr (>= 1.8.0), reshape2,
+        stringr, git2r, rgdal, sp, methods, tidyr, RColorBrewer,
+        htmlwidgets, plotly
 Suggests: testthat
 Collate: 'CalculateAll.R' 'CalculateGoalIndex.R'
-        'CalculatePressuresAll.R' 'CalculatePressuresComponent.R'
-        'CalculatePressuresMatrix.R' 'CalculatePressuresScore.R'
-        'CalculateResilienceAll.R' 'CalculateResilienceComponent.R'
-        'CalculateResilienceScore.R' 'CalculateStatusComponent.R'
-        'CalculateSubgoal.R' 'CheckLayers.R' 'Conf.R' 'Layers.R'
-        'PlotChloroplethMap.R' 'PlotFlower.R' 'ReportScores.R'
-        'ReportScoresComparison.R' 'ScoreScaling.R'
-        'SelectLayersData.R' 'SpatialSchemes.R'
-        'TransformSpatialScheme.R' 'aster.R' 'compare_scores_df.R'
-        'data.R' 'gapfill_georegions.R' 'get_scenarios.R'
-        'launch_app.R' 'launch_cmp.R' 'name_to_rgn.R' 'read_git_csv.R'
-        'shp_to_geojson.R' 'trace_git_csv_value.R' 'write_shortcuts.R'
-        'zzz.R'
+        'CalculatePressuresAll.R' 'CalculateResilienceAll.R'
+        'CheckLayers.R' 'Conf.R' 'Layers.R' 'PlotFlower.R'
+        'ScoreScaling.R' 'SelectLayersData.R' 'compare_scores_df.R'
+        'gapfill_georegions.R' 'name_to_rgn.R' 'read_git_csv.R'
+        'shp_to_geojson.R' 'trace_git_csv_value.R' 'mapvalues.R'
+        'change_plot.R'
+RoxygenNote: 5.0.1
+Built: R 3.3.0; ; 2016-08-04 16:47:33 UTC; unix
 RemoteType: github
-RemoteHost: api.github.com
+RemoteHost: https://api.github.com
 RemoteRepo: ohicore
 RemoteUsername: ohi-science
-RemoteRef: dev
-RemoteSha: 951a458152b7b891978d42d79d8292f4558829ff
+RemoteRef: master
+RemoteSha: 410cebbbd111f4523746518116ea9a5dc27a7125
 GithubRepo: ohicore
 GithubUsername: ohi-science
-GithubRef: dev
-GithubSHA1: 951a458152b7b891978d42d79d8292f4558829ff
-Built: R 3.2.2; ; 2015-09-23 00:14:04 UTC; unix
+GithubRef: master
+GithubSHA1: 410cebbbd111f4523746518116ea9a5dc27a7125
