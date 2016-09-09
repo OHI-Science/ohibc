@@ -71,16 +71,21 @@ Create saltmarsh layers for HAB, CP, CS goals.  The areas calculated in this scr
 # Methods
 
 - Salt Marsh health for status and trend
-    - take CEC land cover rasters for 2005 and 2010, filter to just value = 14; mask to coastal region (1km inland + 1 km offshore?)
+    - take CEC land cover rasters for 2005 and 2010, examine for changes in urban and agricultural land use
+        - urban and agricultural land use as proxy for development in coastal zone
+        - will also examine barren land
+            
+            > 15. Cropland: Areas dominated by intensively managed crops. These areas typically require human activities for their maintenance. This includes areas used for the production of annual crops, such as corn, soybeans, wheat, maize, vegetables, tobacco, cotton etc and also perennial grasses for grazing and woody crops such as orchards and vineyards. Crop vegetation accounts for greater than 20 percent of total vegetation.  This class does not represent natural grasslands used for light to moderate grazing.  [LCCS Code: 10037// 10025 // 21441 // 21453]
+            > 16. Barren Lands: Areas characterized by bare rock, gravel, sand, silt, clay, or other earthen material, with little or no "green" vegetation present regardless of its inherent ability to support life. Generally, vegetation accounts for less than 10% of total cover.  [LCCS Code : 6001 // 6004]
+            > 17. Urban and Built-up: Areas that contain at least 30 percent or greater urban constructed materials for human activities (cities, towns, transportation etc.). [LCCS Code : 5003]
+
     - calc coverage in each region for both years
     - determine linear trend based on the two points
     - backfill all study years based on linear model
     - WHAT IS REFERENCE POINT?
 - Salt marsh extent for weighting
-    - To align with seagrass extent, which will be based on seagrass biobands, we will use salt marsh biobands.
-    - Buffer biobands by 1 km, with square end
-    - Rasterize buffer to 0.5 km and summarize area per region
-    
+    - To align with seagrass extent, use CEC saltmarsh polygons
+
 ``` {r read and filter land cover rasters}
 
 rast_saltmarsh_05_file <- file.path(dir_goal_anx, 'raster/land_cover_sm_05_100m.tif')
@@ -98,7 +103,7 @@ if(!file.exists(rast_saltmarsh_05_file) | !file.exists(rast_saltmarsh_10_file)) 
                                'data/NA_LandCover_2010_25haMMU.tif')
   
   rast_lc_05 <- raster(rast_lc_05_file)
-  rast_lc_10 <- raster(rast_lc_05_file)
+  rast_lc_10 <- raster(rast_lc_10_file)
   ### CRS: +proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs
   ### extents: -4418000, 4832000, -3873500, 4876500
 
@@ -106,8 +111,8 @@ if(!file.exists(rast_saltmarsh_05_file) | !file.exists(rast_saltmarsh_10_file)) 
   rast_lc_05 <- raster::crop(rast_lc_05, new_ext)
   rast_lc_10 <- raster::crop(rast_lc_10, new_ext)
   
-  values(rast_lc_05)[values(rast_lc_05) != 14] <- NA
-  values(rast_lc_10)[values(rast_lc_10) != 14] <- NA
+  values(rast_lc_05)[!values(rast_lc_05) %in% c(15, 16, 17)] <- NA
+  values(rast_lc_10)[!values(rast_lc_10) %in% c(15, 16, 17)] <- NA
   
   rast_lc_05_bcalb <- raster::projectRaster(rast_lc_05, rast_base, 
                                             method = 'ngb',
@@ -126,16 +131,16 @@ git_prov(rast_saltmarsh_10_file, filetype = 'output')
 
 ```
 
-``` {r zonal stats wetland areas 2005 and 2010}
+``` {r zonal stats landuse areas 2005 and 2010}
 
 rast_lc_05_bcalb <- raster(rast_saltmarsh_05_file)
 rast_lc_10_bcalb <- raster(rast_saltmarsh_10_file)
-# rast_1km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_1km_raster_100m.tif'))
+rast_1km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_1km_raster_100m.tif'))
 # rast_10km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_10km_raster_100m.tif'))
-rast_2km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_2km_raster_100m.tif'))
+# rast_2km_100m <- raster(file.path(dir_spatial, 'ohibc_inland_2km_raster_100m.tif'))
 
-zonal_05_file <- file.path(dir_goal, 'int', 'zonal_stats_2005_2km.csv')
-zonal_10_file <- file.path(dir_goal, 'int', 'zonal_stats_2010_2km.csv')
+zonal_05_file <- file.path(dir_goal, 'int', 'zonal_stats_2005_1km.csv')
+zonal_10_file <- file.path(dir_goal, 'int', 'zonal_stats_2010_1km.csv')
 
 if(!file.exists(zonal_05_file) | !file.exists(zonal_10_file)) {
   
@@ -145,7 +150,7 @@ if(!file.exists(zonal_05_file) | !file.exists(zonal_10_file)) {
       # In FUN(X[[i]], ...) : integer overflow - use sum(as.numeric(.))
   
   ptm <- proc.time()
-  stats_05 <- raster::crosstab(rast_lc_05_bcalb, rast_2km_100m, useNA = TRUE, progress = 'text') %>%
+  stats_05 <- raster::crosstab(rast_lc_05_bcalb, rast_1km_100m, useNA = TRUE, progress = 'text') %>%
     as.data.frame() %>%
     setNames(c('value', 'rgn_id', 'n_cells')) %>%
     mutate(value  = as.integer(as.character(value)),
@@ -154,7 +159,7 @@ if(!file.exists(zonal_05_file) | !file.exists(zonal_10_file)) {
   message('Elapsed: ', (proc.time() - ptm)[3], ' sec')
   
   ptm <- proc.time()
-  stats_10 <- raster::crosstab(rast_lc_10_bcalb, rast_2km_100m, useNA = TRUE, progress = 'text') %>%
+  stats_10 <- raster::crosstab(rast_lc_10_bcalb, rast_1km_100m, useNA = TRUE, progress = 'text') %>%
     as.data.frame() %>%
     setNames(c('value', 'rgn_id', 'n_cells')) %>%
     mutate(value  = as.integer(as.character(value)),
@@ -175,17 +180,15 @@ if(!file.exists(zonal_05_file) | !file.exists(zonal_10_file)) {
 
 ```
 
-Once the wetlands raster is cross-tabulated against the OHI inland raster we have the number of wetland cells within each region.  NA values are non-wetland.
+Once the landuse raster is cross-tabulated against the OHI inland raster we have the number of human landuse cells within each region.  NA values are non-human-landuse.
 
 -----
 
-## Calculate protected area and total area by region
+## Calculate land use change area and total area by region
 
-Grouping by rgn_id, the number of wetland cells per region is simply the number of non-NA cells; the total number of cells includes both value and NA cells.
+Grouping by rgn_id, the number of human landuse cells per region is simply the number of non-NA cells; the total number of cells includes both value and NA cells.
 
 Since the cells are 1 hectare, we can easily calculate area by multiplying cell count * 0.01 km^2^ per cell.
-
-Finally we can calculate the status of a region for any given year by finding the ratio of wetland:total.  This is computed for both 2005 and 2010.
 
 ``` {r summarize_zonal_stats, eval = TRUE}
 
@@ -196,182 +199,160 @@ rgn_names <- foreign::read.dbf(file.path(dir_spatial, 'ohibc_rgn.dbf'),
                                as.is = TRUE) %>%
   dplyr::select(rgn_id, rgn_name)
 
+landuse_codes <- c('15' = 'cropland', '16' = 'barren', '17' = 'urban')
+
 ### Determine total cells per region (n_cells_tot) and then a cumulative
 ### total of cells per region
-wetland_05 <- stats_05 %>%
+landuse_05 <- stats_05 %>%
   group_by(rgn_id) %>%
-  mutate(n_tot = sum(n_cells)) %>% ### sum before filtering out NAs
-  filter(!is.na(value) & !is.na(rgn_id)) %>%
-  summarize(n_wet_05 = n_cells,
-            n_tot = n_tot)
+  mutate(n_tot = sum(n_cells),
+         landuse = landuse_codes[as.character(value)]) %>% ### sum before filtering out NAs
+  filter(!is.na(value) & !is.na(rgn_id))
 
-wetland_10 <- stats_10 %>%
+landuse_10 <- stats_10 %>%
   group_by(rgn_id) %>%
-  mutate(n_tot = sum(n_cells)) %>% ### sum before filtering out NAs
-  filter(!is.na(value) & !is.na(rgn_id)) %>%
-  summarize(n_wet_10 = n_cells,
-            n_tot = n_tot)
+  mutate(n_tot = sum(n_cells),
+         landuse = landuse_codes[as.character(value)]) %>% ### sum before filtering out NAs
+  filter(!is.na(value) & !is.na(rgn_id))
   
-wetland_df <- wetland_05 %>%
-  left_join(wetland_10, by = c('rgn_id', 'n_tot')) %>%
+landuse_df <- landuse_05 %>%
+  rename(n_cells_05 = n_cells) %>%
+  left_join(landuse_10 %>%
+              select(rgn_id, landuse, n_cells_10 = n_cells), 
+            by = c('rgn_id', 'landuse')) %>%
+  filter(landuse != 'barren') %>% ### not really helpful
   left_join(rgn_names, by = 'rgn_id') %>%
-  mutate(cells_per_year = (n_wet_10 - n_wet_05)/5)
+  mutate(area_per_year_km2 = (n_cells_10 - n_cells_05)/5 * 0.01) %>%
+  gather(year, cells, starts_with('n_cells'))
 
+landuse_df <- landuse_df %>%
+  mutate(area_tot_km2 = n_tot * .01, ### 100 m cells = 1 hectare
+         area_landuse_km2 = cells * .01,
+         year = as.integer(str_replace(year, 'n_cells_', 20)),
+         pct_cover = area_landuse_km2/area_tot_km2 * 100) %>%
+  select(-value, -cells, -n_tot)
 
-write_csv(wetland_df, file.path(dir_goal, 'int', 'wetland_stats_2km.csv'))
+write_csv(landuse_df, file.path(dir_goal, 'int', 'landuse_stats_1km.csv'))
 
 ```
 
-``` {r expand time series}
+``` {r expand_time_series}
 
-wetland_df <- read_csv(file.path(dir_goal, 'int', 'wetland_stats_2km.csv'))
+landuse_df <- read_csv(file.path(dir_goal, 'int', 'landuse_stats_1km.csv'))
 
-wetland_ts <- wetland_df %>%
+landuse_ts <- landuse_df %>%
+  rename(value_year = year) %>%
+  filter(value_year == 2005) %>%
   left_join(data.frame(rgn_id = rep(1:8, times = 21), 
                        year   = rep(1995:2015, each = 8)),
             by = 'rgn_id') ### region 7 drops out - Pacific Offshore
 
-wetland_ts <- wetland_ts %>%
-  mutate(n_wet_calc = n_wet_05 + cells_per_year * (year - 2005),
-         n_wet_calc = ifelse(n_wet_calc < 0, 0, n_wet_calc),
-         pct_wet    = n_wet_calc / n_tot) %>%
-  dplyr::select(rgn_id, rgn_name, year, n_wet = n_wet_calc, n_tot, pct_wet)
+landuse_ts <- landuse_ts %>%
+  mutate(a_calc = area_landuse_km2 + area_per_year_km2 * (year - 2005),
+         a_calc = ifelse(a_calc < 0, 0, a_calc),
+         pct_area    = 100 * a_calc / area_tot_km2) %>%
+  dplyr::select(rgn_id, rgn_name, year, landuse, area_calc_km2 = a_calc, area_tot_km2, area_per_year_km2, pct_area)
 
-write_csv(wetland_ts, file.path(dir_goal, 'int', 'wetland_time_series_2km.csv'))
+write_csv(landuse_ts, file.path(dir_goal, 'int', 'landuse_time_series_1km.csv'))
 
 ```
 
   
 ## Plot scores time series
 
-To examine results, we plot the estimated status and trend over time.  This chunk is not run.
+To examine results, we plot the estimated status and trend over time.
 
-``` {r spp_plot_scores_over_time, eval = FALSE, fig.height = 4, fig.width = 6, fig.align = 'center'}
+``` {r spp_plot_scores_over_time, fig.height = 4, fig.width = 6, fig.align = 'center'}
 library(ggplot2)
 library(plotly)
 
-wetland_ts <- read_csv(file.path(dir_goal, 'int', 'wetland_time_series_1km.csv')) %>%
-  rename(n_wet_1km = n_wet, n_tot_1km = n_tot, pct_wet_1km = pct_wet) %>%
-  left_join(read_csv(file.path(dir_goal, 'int', 'wetland_time_series_10km.csv')) %>%
-              rename(n_wet_10km = n_wet, n_tot_10km = n_tot, pct_wet_10km = pct_wet),
-            by = c('rgn_id', 'rgn_name', 'year')) %>%
-  left_join(read_csv(file.path(dir_goal, 'int', 'wetland_time_series_2km.csv')) %>%
-              rename(n_wet_2km = n_wet, n_tot_2km = n_tot, pct_wet_2km = pct_wet),
-            by = c('rgn_id', 'rgn_name', 'year'))
+landuse_ts <- read_csv(file.path(dir_goal, 'int', 'landuse_time_series_1km.csv'))
 
-wetland_plot <- ggplot(wetland_ts %>%
+landuse_plot <- ggplot(landuse_ts %>%
                          filter(!is.na(year)),
-                       aes(x = year, color = rgn_name, group = rgn_name)) +
+                       aes(x = year, y = pct_area, group = rgn_name)) +
   ggtheme_plot +
-  geom_line(aes(y = pct_wet_1km), size = 2, alpha = .6) +
-  geom_line(aes(y = pct_wet_10km), size = 1, alpha = 1) +
+  geom_point(aes(shape = landuse)) +
+  geom_line(aes(color = rgn_name, group = landuse), size = 1, alpha = 1) +
   scale_colour_brewer(palette = 'PRGn') +
   labs(x = 'year',
-       y = 'Percent of area as wetland',
+       y = 'Percent of area as human landuse',
        color = 'Region')
 
-ggplotly(wetland_plot)
-
-
-
-wetland_pct_2010 <- wetland_ts %>%
-  filter(year %in% c(2005, 2010)) %>%
-  group_by(rgn_id) %>%
-  mutate(rpct_01km  =  pct_wet_1km / first(pct_wet_1km),
-         rpct_02km  =  pct_wet_2km / first(pct_wet_2km),
-         rpct_10km = pct_wet_10km / first(pct_wet_10km)) %>%
-  filter(year == 2010) %>%
-  gather(key = buffer, value = rel_pct, rpct_01km:rpct_10km) %>%
-  left_join(foreign::read.dbf(file.path(dir_spatial, 'ohibc_rgn.dbf'),
-                               as.is = TRUE) %>%
-              dplyr::select(rgn_id, rgn_code),
-            by = 'rgn_id')
-
-
-wetland_barchart <- ggplot(wetland_pct_2010,
-                             aes(x = rgn_code, 
-                                 fill = buffer)) +
-  ggtheme_plot +
-  geom_bar(aes(y = rel_pct), position = 'dodge', stat = 'identity') +
-  # scale_x_log10() + scale_y_log10() +
-  scale_fill_brewer(palette = 'Greens') +
-  labs(x = 'region',
-       y = 'Rel change in % wetland area (2005 to 2010)',
-       fill = 'Buffer')
-
-ggplotly(wetland_barchart)
-
+ggplotly(landuse_plot)
 
 ```
   
-- Salt marsh extent
+# Salt marsh extent for mapping and weighting
 
-``` {r create_saltmarsh_bioband_buffer}
+``` {r create_bluecarbon_saltmarsh_raster, eval = TRUE}
 
-sm_buffer_file <- path.expand(file.path(dir_goal, 'shp', 'buffer_saltmarsh.shp'))
+saltmarsh_rast_file <- file.path(dir_goal_anx, 'tif/bluecarbon_saltmarsh.tif') %>%
+  path.expand()
 
-bioband_saltmarsh_file <- file.path(dir_anx, '_raw_data', 'bcmca',
-                                'bcmca_eco_set_plants_complete',
-                                'MarxanData_Plants/VascularPlants',
-                                'BCMCA_ECO_VascPlants_SaltMarsh_Bioband_MARXAN.shp')
-if(!file.exists(sm_buffer_file)) {
+saltmarsh_poly_file <- file.path(dir_anx, '_raw_data/cec/BlueCarbon_SHP',
+                                'NA_BlueCarbon/data',
+                                'Saltmarsh/na_saltmarsh_areas_08FEB2015.shp') %>%
+  path.expand()
 
-  bioband_saltmarsh <- readOGR(dsn   = dirname(path.expand(bioband_saltmarsh_file)), 
-                               layer = basename(bioband_saltmarsh_file) %>% str_replace('.shp', ''),
-                               stringsAsFactors = FALSE)
+if(!file.exists(saltmarsh_rast_file)) {
   
-  poly_saltmarsh <- gBuffer(bioband_saltmarsh, byid = FALSE, width = 1000, capStyle = 'FLAT')
+  base_rast <- raster(rast_base_file)
   
-  spdf_saltmarsh <- SpatialPolygonsDataFrame(poly_saltmarsh, data.frame(1), match.ID = FALSE)
+  ### contains polys for all of North America.  Read it in; filter to just Canada BC; reproject
+  saltmarsh_poly <- readOGR(dsn = path.expand(dirname(saltmarsh_poly_file)),
+                           layer = basename(saltmarsh_poly_file) %>% str_replace('.shp$', ''))
+  saltmarsh_poly_bc <- saltmarsh_poly[saltmarsh_poly@data$STATE_ABB == 'CA-BC', ]
+  saltmarsh_poly_bcalb <- spTransform(saltmarsh_poly_bc, base_rast@crs)
+  writeOGR(saltmarsh_poly_bcalb, 
+           dsn    = path.expand(file.path(dir_goal_anx, 'shp')),
+           layer  = 'bluecarbon_saltmarsh',
+           driver = 'ESRI Shapefile')
   
-  writeOGR(spdf_saltmarsh, dsn = dirname(sm_buffer_file), 
-           layer = basename(sm_buffer_file) %>% str_replace('.shp', ''),
-           driver = 'ESRI Shapefile',
-           overwrite_layer = TRUE)
+  gdal_rast2(src = file.path(dir_goal_anx, 'shp/bluecarbon_saltmarsh.shp'), 
+             base_rast, saltmarsh_rast_file, value = 'OBJECTID', override_p4s = TRUE)
+  
 } else {
-  ### manual git_prov() calls
-  git_prov(bioband_saltmarsh_file)
-  git_prov(sm_buffer_file, filetype = 'output')
+  
+  git_prov(saltmarsh_poly_file, filetype = 'input')
+  git_prov(rast_base_file, filetype = 'input') ### base raster
+  git_prov(saltmarsh_rast_file, filetype = 'output')
+ 
 }
 
 ```
 
-``` {r create_saltmarsh_buffer_raster}
-sm_buffer_rast_file <- path.expand(file.path(dir_goal, 'tif', 'buffer_saltmarsh.tif'))
-if(!file.exists(sm_buffer_rast_file)) {
-sm_buffer_file <- path.expand(file.path(dir_goal, 'shp', 'buffer_saltmarsh.shp'))
-
-base_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
-
-gdal_rast2(src = sm_buffer_file, base_rast, sm_buffer_rast_file)
-
-} else {
-  ### manual git_prov() calls
-  git_prov(sm_buffer_file, filetype = 'input')
-  git_prov(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
-  git_prov(sm_buffer_rast_file, filetype = 'output')
-}
-
-
-```
+After creating blue carbon saltmarsh raster, tabulate saltmarsh area per OHIBC region. This CSV stored in github.
 
 ``` {r crosstab_saltmarsh_vs_rgns}
 
-base_rast <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif')) %>%
-  setNames('rgn_id')
-sm_buffer_rast <- raster(sm_buffer_rast_file) %>%
-  setNames('saltmarsh')
+saltmarsh_rgns_file <- file.path(dir_goal, 'int', 'bluecarbon_saltmarsh_area.csv')
 
-sm_buffer_df <- raster::crosstab(sm_buffer_rast, base_rast, 
-                                 long = TRUE, useNA = TRUE,
-                                 progress = 'text') %>%
-  group_by(rgn_id) %>%
-  mutate(area_tot = sum(Freq) * .25) %>%   ### get total area in region
-  filter(!is.na(saltmarsh) & !is.na(rgn_id)) %>%
-  mutate(area_marsh = sum(Freq) * .25) %>% ### get just marsh area in region
-  select(-Freq, -saltmarsh)
+if(!file.exists(saltmarsh_rgns_file)) {
+  saltmarsh_rast <- raster(file.path(dir_goal_anx, 'tif', 'bluecarbon_saltmarsh.tif')) %>%
+    setNames('saltmarsh')
+  
+  rgn_rast <- raster(rast_base_file) %>%
+    setNames('rgn_id')
+  
+  saltmarsh_df <- raster::crosstab(saltmarsh_rast, rgn_rast, 
+                                   long = TRUE, useNA = TRUE,
+                                   progress = 'text') %>%
+    group_by(rgn_id) %>%
+    mutate(area_tot = sum(Freq) * .01) %>%   ### get total area in region
+    filter(!is.na(saltmarsh) & !is.na(rgn_id)) %>%
+    group_by(rgn_id, area_tot) %>%
+    summarize(area_saltmarsh = sum(Freq) * .01) ### get just saltmarsh area in region
+  
+  
+  write_csv(saltmarsh_df, saltmarsh_rgns_file)
 
-write_csv(sm_buffer_df, file.path(dir_goal, 'int', 'saltmarsh_bioband_area.csv'))
+} else {
+  
+  git_prov(file.path(dir_goal_anx, 'tif', 'bluecarbon_saltmarsh.tif'), filetype = 'input')
+  git_prov(rast_base_file, filetype = 'input')
+  git_prov(saltmarsh_rgns_file, filetype = 'output')
+}
 
 ```
 

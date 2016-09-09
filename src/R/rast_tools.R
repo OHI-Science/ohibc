@@ -87,25 +87,31 @@ gdal_rast2 <- function(src, rast_base, dst = NULL, value = NULL, override_p4s = 
   ### if no dst, save it in same place as src
 
   ### check projections
+  message('Checking projections...')
   shp_prj <- ogrInfo(dsn = dirname(src),
                      layer = basename(src) %>% str_replace('.shp$', '')) %>%
     .$p4s
   rst_prj <- rast_base@crs@projargs
-  if(shp_prj != rst_prj & override_p4s == FALSE) {
+  if(str_trim(shp_prj) != str_trim(rst_prj) & override_p4s == FALSE) {
     message('Shapefile and raster file do not seem to have same proj4string:')
     message('  shapefile: ', shp_prj)
     message('  raster:    ', rst_prj)
-    stop()
+    stop('Exiting process; please resolve projections or set override_p4s = TRUE')
+  } else {
+    message('Shapefile and raster file seem to have same proj4string:\n  ', shp_prj)
   }
 
   if(is.null(value)) { ### default: choose first numeric column as value
+    message('No "value" set...')
     tmp_dbf  <- foreign::read.dbf(str_replace(src, '.shp$', '.dbf'))
     num_cols <- sapply(tmp_dbf, class) %in% c('numeric', 'integer')
     if(sum(num_cols) == 0) {
       message('No numeric column found in source shapefile')
       stop()
-    } else
+    } else {
       value <- names(tmp_dbf)[num_cols][1]
+      message('Using "', value, '" column')
+    }
   }
 
   dst_tmp  <- dst %>% str_replace('.tif$', '_tmp.tif')
@@ -114,9 +120,11 @@ gdal_rast2 <- function(src, rast_base, dst = NULL, value = NULL, override_p4s = 
   base_ext <- raster::extent(rast_base)
   base_te  <- c(base_ext[1], base_ext[3], base_ext[2], base_ext[4])
 
+  message('Initializing temp raster file at final location: \n  ', dst_tmp)
   file.copy(rast_base@file@name, dst_tmp) ### set up a file at the temp location
 
-  rast_tmp <- gdalUtils::gdal_rasterize(
+  message('Using gdalUtils::gdal_rasterize to rasterize polygons to temp raster')
+  rast_tmp <- gdal_rasterize(
     src_datasource = path.expand(src),
     dst_filename   = path.expand(dst_tmp),
     a = value, # attribute to burn
@@ -127,12 +135,14 @@ gdal_rast2 <- function(src, rast_base, dst = NULL, value = NULL, override_p4s = 
     output_Raster = TRUE)
 
   ### writeRaster to write a compressed version in final location
-  raster::writeRaster(rast_tmp, dst, overwrite = TRUE)
+  message('Writing final raster file using raster::writeRaster (for compression)\n  ', dst)
+  writeRaster(rast_tmp, dst, overwrite = TRUE)
 
   ### unlink the temp raster because it's huge
+  message('Unlinking temp raster')
   unlink(dst_tmp) ### delete temp
 
   ### reload raster from the compressed file and return it
-  rast <- raster::raster(dst)
+  rast <- raster(dst)
 }
 

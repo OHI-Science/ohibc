@@ -123,11 +123,6 @@ if(any(!file.exists(new_rast_files))) {
 
 Sea grass extent for mapping and weighting
 
-- Based on seagrass biobands: eelgrass and surf grass.
-- Buffer biobands by 1 km, with square end
-- Rasterize buffer to 0.1 km and summarize area per region
-- this raster will be stored on git-annex
-
 ``` {r create_bluecarbon_seagrass_raster, eval = TRUE}
 
 seagrass_rast_file <- file.path(dir_goal_anx, 'tif/bluecarbon_seagrass.tif') %>%
@@ -165,7 +160,7 @@ if(!file.exists(seagrass_rast_file)) {
 
 ```
 
-After creating buffer shapefiles and rasters, tabulate seagrass area per OHIBC region. This CSV stored in github.
+After creating blue carbon seagrass raster, tabulate seagrass area per OHIBC region. This CSV stored in github.
 
 ``` {r crosstab_seagrass_vs_rgns}
 

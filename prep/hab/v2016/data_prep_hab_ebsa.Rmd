@@ -566,37 +566,22 @@ if(!file.exists(sb_trawl_rgn_file)) {
 
 *** 
 
-With the trawl effort on soft-bottom habitats by region, determine scores based on reference point (110% of max trawl effort in all soft-bottom habitat within EEZ)
+With the trawl effort on soft-bottom habitats by region, determine scores based on log of trawl effort:  this amplifies the effects of small trawl effort relative to large trawl effort.  This suggests that damage due to each additional unit of effort does not have the same ecological impact as those first few hours of trawling effort.  Reference point (110% of max trawl effort in all soft-bottom habitat within EEZ)
 
 ``` {r calc_scores_soft_btm_trawl}
 
-### Determine maximum trawl effort overall; currently sum of all trawl
-### types; should it be max for each trawl type?
-### reference point 
-trawl_rast_files <- list.files(file.path(dir_goal_anx, 'tif'), 
-                               pattern = 'trawl_totals',
-                               full.names = TRUE)
-
-trawl_rasts <- lapply(trawl_rast_files, raster)
-
-### Mask to just soft-bottom to find max soft bottom trawl effort as ref
-soft_btm_rast      <- raster(file.path(dir_goal_anx, 'tif', 'chi_soft_bottom.tif'))
-sb_trawl_rasts <- trawl_rasts %>%
-  parallel::mclapply(FUN = function(x) {mask(x, soft_btm_rast)}, 
-                     mc.cores = 12)
-sb_trawl_effort_ref <- sb_trawl_rasts %>%
-  stack() %>%
-  maxValue() %>%
-  max() * 1.10
-
 ### read dataframe of ebsa trawl effort by region
 sb_trawl_rgn_file <- file.path(dir_goal, 'int', 'soft_btm_trawl_rgn_df.csv')
-sb_trawl_rgn_df <- read_csv(sb_trawl_rgn_file)
+sb_trawl_rgn_df <- read_csv(sb_trawl_rgn_file) %>%
+  mutate(trawl_effort_log = log(trawl_effort + 1))
+
+sb_trawl_effort_ref <- sb_trawl_rgn_df$trawl_effort_log %>%
+  max(na.rm = TRUE) * 1.10
 
 ### Calculate area-weighted mean pressure
 sb_trawl_rgn_sum <- sb_trawl_rgn_df %>%
-  filter(!is.na(trawl_effort) &!is.na(rgn_id)) %>% ### this eliminates non-soft-btm cells (NA = non-soft-btm)
-  mutate(effort_area = trawl_effort * Freq) %>%
+  filter(!is.na(trawl_effort_log) &!is.na(rgn_id)) %>% ### this eliminates non-soft-btm cells (NA = non-soft-btm)
+  mutate(effort_area = trawl_effort_log * Freq) %>%
   group_by(rgn_id, year) %>%
   summarize(area_sb_rgn = sum(Freq) * .25, ### each cell is .25 km^2
             mean_effort = mean(effort_area)/sum(Freq),
@@ -604,7 +589,7 @@ sb_trawl_rgn_sum <- sb_trawl_rgn_df %>%
             hab_status = 1 - mean_effort_rescale)
 
 write_csv(sb_trawl_rgn_sum, file.path(dir_goal, 'int', 'soft_btm_trawl_rgn_summary.csv'))
-
+x <- read_csv(file.path(dir_goal, 'int', 'soft_btm_trawl_rgn_summary.csv'))
 ```
 
 ***
