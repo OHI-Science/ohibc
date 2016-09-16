@@ -1,0 +1,224 @@
+---
+title: 'OHIBC: CW trash layers prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(rgdal)
+library(raster)
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+dir_git     <- '~/github/ohibc'
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal     <- 'cw'
+scenario <- 'v2016'
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### support scripts
+source(file.path('~/github/ohibc/src/R/map_scores.R'))
+  ### score plotting scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### raster plotting and analyzing scripts
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+```
+
+#Summary
+
+This data is incorporated into the OHI British Columbia Clean Waters (CW) goal.
+
+***
+
+#Data Source
+
+**Reference**: [van Sebille et al, 2015](http://iopscience.iop.org/article/10.1088/1748-9326/10/12/124006/meta)
+
+**Downloaded**: September 8, 2016 from Figshare: https://figshare.com/articles/data_of_microplastic_abundance_and_mass_from_Figure_3_of_Van_Sebille_et_al_2015_ERL_paper/1613256
+
+**Native Data Resolution**:   1.0° in WGS84 projection
+
+**Values**: Count (number/km2) and mass density (g/km2), based upon three different ocean circulation models (Lebreton, Maximenko, van Sebille)  
+
+**Time Range**: N/A
+
+**Format**: CSV
+
+***
+
+# Methods
+
+## Read in data
+
+from: van Sebille et al 2015. A global inventory of small floating plastic debris.
+
+``` {r read_vanSebille_data}
+dir_data_vs <- file.path(dir_M, 'git-annex/bcprep/_raw_data/vanSebille_plastics')
+
+vs_files_all <- list.files(dir_data_vs, full.names = TRUE) %>%
+  setNames(basename(.) %>% str_replace('.csv', ''))
+
+# [1] "gridcell_areas"            "latitudes"                 "lebretonmodel_abundance"  
+# [4] "lebretonmodel_mass"        "longitudes"                "maximenkomodel_abundance" 
+# [7] "maximenkomodel_mass"       "vansebillemodel_abundance" "vansebillemodel_mass"     
+
+vs_files <- vs_files_all[c(3, 4, 6:9)] ### select just data layers for models
+
+vs_rasts <- vector('list', length = length(vs_files)) %>%
+  setNames(names(vs_files))
+
+for (i in 1:length(vs_files)) { ### i = 1
+  vs_file <- vs_files[i]
+  vs_fn <- names(vs_files)[i]
+  
+  vs_matrix <- read_csv(vs_file, col_names = FALSE) %>%
+    data.matrix() %>%
+    .[2:181, 1:360]
+    ### it appears that row 361 is glitchy; ditch it, and ditch +90 N row as well
+  rownames(vs_matrix) <- c(90:-89)
+  colnames(vs_matrix) <- c(0:359)
+  
+  vs_rast <- raster(vs_matrix)
+  extent(vs_rast) <- c(0, 360, -90, 90)
+  vs_rast <- rotate(vs_rast)
+  crs(vs_rast) <- CRS('+init=epsg:4326')
+  
+  vs_rasts[[vs_fn]] <- vs_rast
+}
+
+vs_stack <- stack(vs_rasts)
+
+bc_rgn_rast <- raster(file.path(dir_spatial, 'raster', 'ohibc_rgn_wgs84_30min.tif'))
+
+vs_stack_crop <- crop(vs_stack, bc_rgn_rast)
+plot(vs_stack_crop)
+
+### Assume go with van Sebille model by mass
+writeRaster(vs_stack_crop[['vansebillemodel_mass']], 
+            file.path(dir_goal_anx, 'int/cw_trash_mass_vansebille.tif'), 
+            overwrite = TRUE)
+
+```
+
+Crop to BC and interpolate using Thin Plate Spline
+
+``` {r interpolate_bc_sla}
+
+trash_dens <- raster(file.path(dir_goal_anx, 'int/cw_trash_mass_vansebille.tif'))
+
+trash_dens_int_file <- file.path(dir_goal_anx, 'int/cw_trash_mass_int.tif')
+
+if(!file.exists(trash_dens_int_file)) {
+  message('Interpolating BC trash mass data')
+
+  xy <- data.frame(xyFromCell(trash_dens, 1:ncell(trash_dens)))
+
+  v  <- getValues(trash_dens)
+  tmpdf <- cbind(xy, v) %>%
+    filter(!is.na(v)) 
+  xy1 <- tmpdf[ , 1:2]
+  v1  <- tmpdf[ , 3]
+  tps_model <- fields::Tps(xy1, v1)
+
+  trash_dens_int <- interpolate(trash_dens, tps_model)
+
+  trash_dens_gapfilled <- trash_dens
+  values(trash_dens_gapfilled)[is.na(values(trash_dens))] <- values(trash_dens_int)[is.na(values(trash_dens))] 
+
+  message('Writing gapfilled BC trash mass to: ', trash_dens_int_file)
+  writeRaster(trash_dens_gapfilled, trash_dens_int_file, overwrite = TRUE)
+  
+} else {
+  message('Reading gapfilled BC trash mass from: ', trash_dens_int_file)
+
+  trash_dens_gapfilled <- raster(trash_dens_int_file)
+}
+
+plot(trash_dens_gapfilled)
+
+```
+
+Reproject into BC Albers at 1000 m resolution
+
+```{r reproject}
+
+rast_dens_int <- raster(file.path(dir_goal_anx, 'int/cw_trash_mass_int.tif'))
+
+### reproject to BC Albers
+rast_base_bcalb   <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif'))
+
+trash_dens_bcalb <- projectRaster(from = rast_dens_int, to = rast_base_bcalb, method = 'ngb')
+values(trash_dens_bcalb)[is.na(values(rast_base_bcalb))] <- NA
+
+
+writeRaster(trash_dens_bcalb, file.path(dir_goal_anx, 'int/cw_trash_mass_bcalb.tif'), overwrite = TRUE)
+
+``` 
+
+``` {r plot plastic pollution rasters}
+
+plot(trash_dens_bcalb, main = 'Mass density (g/km2)')
+
+```
+
+
+## Log Transform
+
+Transform the values to a log(x + 1) value.
+
+```{r log_transform}
+
+trash_dens_bcalb <- raster(file.path(dir_goal_anx, 'int/cw_trash_mass_bcalb.tif'))
+
+trash_dens_log <- calc(trash_dens_bcalb, fun = function(x) {log(x + 1)})
+
+writeRaster(trash_dens_log, file.path(dir_goal_anx, 'int/cw_trash_mass_log.tif'), overwrite = TRUE)
+
+plot(trash_dens_log, main = 'Mass density\nlog(g/km2)')
+
+```
+
+## Rescale zero to 1
+
+Using the 99.99%ile, rescale all values to range from zero to 1.
+
+```{r quantile}
+
+trash_dens_log <- raster(file.path(dir_goal_anx, 'int/cw_trash_mass_log.tif'))
+
+trash_dens_ref <- quantile(trash_dens_log, prob = c(0.001, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 0.99, 0.999, 0.9999))
+
+trash_dens_99 <- trash_dens_ref[10]
+
+print(hist(trash_dens_log, main = 'Mass density (log(g/km2))'))
+
+trash_dens_rescale <- calc(trash_dens_log, fun = function(x) {ifelse(x > trash_dens_99, 1, x / trash_dens_99)}) %>%
+  setNames('log_mass')
+
+writeRaster(trash_dens_rescale, file.path(dir_goal_anx, 'rescaled_layers/cw_trash_dens_rescale.tif'), overwrite = TRUE)
+
+plot(trash_dens_rescale, main = 'CW trash pressure layer: rescaled mass density')
+
+```
+

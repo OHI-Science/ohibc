@@ -22,7 +22,8 @@ rm(packages)
 ggtheme_basic <- theme(axis.ticks = element_blank(),
                        text = element_text(family = 'Helvetica', color = 'gray30', size = 8),
                        plot.title = element_text(size = rel(1.25), hjust = 0, face = 'bold'),
-                       legend.position = 'right')
+                       legend.position = 'right',
+                       legend.key = element_rect(colour = NA, fill = NA))
 
 ggtheme_plot <- ggtheme_basic +
   theme(panel.border     = element_blank(),

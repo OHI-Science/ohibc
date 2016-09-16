@@ -1,0 +1,374 @@
+---
+title: 'OHIBC: Ocean Acidification Pressure layers prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(sp)        # the classes and methods that make up spatial ops in R
+library(rgdal)
+library(raster)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))
+  ### an OHIBC specific version of common.R
+dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+
+### goal specific folders and info
+goal      <- 'pressures'
+scenario  <- 'v2016'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### set up provenance tracking for this script:
+source(file.path(dir_git, 'src/R/prov.R'))          
+  ### initializes prov_track and loads functions
+
+### goal-specific source scripts
+source(file.path(dir_goal, 'pressures_lyr_fxns.R'))
+
+### other support functions
+source(file.path(dir_git, 'src/R/rast_tools.R'))
+
+### set up proj4string options: BC Albers and WGS84
+p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+
+reload = FALSE
+```
+
+# Summary
+
+There are two parts to creating this layer:
+
+1. Data prep to get raw data into the correct format:
+    * Aggregate monthly values for aragonite saturation state to an annual mean value per cell, for baseline decade and current study period.
+    * Clip rasters to extents of OHIBC region, and reproject into BC Albers projection.
+    * Determine baseline by calculating decadal mean for 1880-1889.
+2. Creating the pressure layers for OHIBC:
+    * Determine change in aragonite saturation state since baseline for each year of study period (2005-2014)
+    * Rescale to values from 0 - 1.
+    * Interpolate to coastline at 1 km resolution.
+    
+This process is completed entirely within this script.
+
+# Updates
+
+Not applicable.
+
+# Data
+
+Raw data was provided by Woods Hole on December 16, 2014. This data is an update to the work done by Feely et al. (2009).
+
+* Native Data Resolution: 1 degree
+* Values: Surface Ω aragonite saturation state
+* Time Range: 1880-1889 and 2005-2014 (monthly data was provided for each year)
+* Format: NetCDF
+
+# Methods
+
+## Data Prep
+
+### Read raw data
+
+Raw data is read in for 1880 - 1889 and 2005 - 2014 datasets.  Latitude, longitude, and aragonite saturation state $\Omega$ are extracted for each year in each dataset.  Land cells are set to NA.
+
+``` {r read_aragonite_lyrs, echo = FALSE}
+
+library(ncdf4)
+
+### read in 1880-1889 data
+oa_data_dir <- file.path(dir_M, 'git-annex/globalprep/prs_oa/v2015')
+data_nc_18 <- nc_open(file.path(oa_data_dir, 'input/cesm_co2sys_1880-1889.nc'))
+git_prov(file.path(oa_data_dir, 'input/cesm_co2sys_1880-1889.nc'), filetype = 'input')
+# print(data_nc_18)
+
+### read in 2005-2014 data
+data_nc_20 = nc_open(file.path(oa_data_dir, 'input/cesm_co2sys_2005-2014.nc'))
+git_prov(file.path(oa_data_dir, 'input/cesm_co2sys_2005-2014.nc'), filetype = 'input')
+# print(data_nc_20)
+
+### longitude values are stored in the variable 'TLONG'; lat in 'TLAT'
+long <- ncvar_get(data_nc_18, varid = 'TLONG') #same lat and long for both data sets so just reading in from data_nc_18 works
+lat  <- ncvar_get(data_nc_18, varid = 'TLAT')
+
+### select the surface aragonite variable (OARG)
+arag_18 <- ncvar_get(data_nc_18, varid = 'OARG')
+arag_20 <- ncvar_get(data_nc_20, varid = 'OARG')
+
+### land cells are given large, strange value, so set these to NA
+### arag cell values range from zero to 5; set all out of that to NA?
+land_val <- max(arag_18, na.rm = TRUE)
+arag_18[arag_18 >= land_val] <- NA
+range_a18 <- round(range(arag_18, na.rm = TRUE), 3)
+arag_20[arag_20 >= land_val] <- NA 
+range_a20 <- round(range(arag_20, na.rm = TRUE), 3)
+
+```
+
+Range of $\Omega_{1880-1889}$ for global dataset: `r paste(range_a18, collapse = ' - ')`.
+
+Range of $\Omega_{2005-2014}$ for global dataset: `r paste(range_a20, collapse = ' - ')`.
+
+### Convert raw global data to OHIBC region data
+
+The raw data, in WGS84 coordinate ref system, is rasterized, clipped down to a bounding box around the OHIBC region, and reprojected into BC Albers projection.  This data is then resampled to 1 km resolution using nearest neighbor method.
+
+The resulting raster layers (in rasterBrick format) include annual means for each coarse cell (approx 1 degree, from original resolution) for each year in the dataset.  The two decades (1880-1889 and 2005-2014) are assigned to two separate rasterBricks.
+
+``` {r load_rgn, echo = FALSE}
+
+rgn_lyr <- 'ohibc_rgn'
+
+message(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
+rgn_poly <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
+                       verbose = FALSE, stringsAsFactors = FALSE)
+
+rgn_poly_wgs84 <- readOGR(dsn = path.expand(dir_rgn), 
+                         layer = paste(rgn_lyr, '_wgs84', sep = ''),
+                         verbose = FALSE, stringsAsFactors = FALSE)
+
+### In case we need to resample to 1 km... use base raster from 
+### regions folder (note: 500m base raster available too).  Used later in
+### finding zonal statistics anyway.
+rast_rgn <- raster(file.path(dir_rgn, 'ohibc_rgn_raster_1000m.tif'))
+
+```
+
+``` {r create_rast_bricks, echo = FALSE}
+### generate raster bricks for decades 1880-1889 and 2005-2014
+### then: clip to extents of region (in WGS 84 CRS)
+### then: reproject to BC Albers projection
+rb_a18_file <- file.path(dir_goal, 'int/oa/rbrick_a18_1km_raw.tif')
+rb_a20_file <- file.path(dir_goal, 'int/oa/rbrick_a20_1km_raw.tif')
+
+
+if(!file.exists(rb_a18_file) | reload) {
+  message('Creating raster bricks from raw data')
+  rbrick_arag_18 <- annual_mean(arag_18, yr_init = 1880) %>%
+    raster::crop(rgn_poly_wgs84, snap = 'out') %>%
+    raster::projectRaster(crs = p4s_bcalb)
+  rbrick_arag_20 <- annual_mean(arag_20, yr_init = 2005) %>%
+    crop(rgn_poly_wgs84, snap = 'out') %>%
+    raster::projectRaster(crs = p4s_bcalb)
+
+  
+  ### why does resample fail on a raster brick:
+  # rb_arag_18_resamp <- raster::resample(rbrick_arag_18, rast_base,
+  #                              method   = 'ngb',
+  #                              progress = 'text',
+  #                              filename = file.path(dir_goal, 'int/oa/rbrick_arag_18_raw.tif'),
+  #                              overwrite = TRUE)
+  # rb_arag_20_resamp <- resample(rbrick_arag_20, rast_base,
+  #                              method   = 'ngb',
+  #                              progress = 'text',
+  #                              filename = file.path(dir_goal, 'int/oa/rbrick_arag_20_raw.tif'),
+  #                              overwrite = TRUE)
+  
+  message('Resampling raster bricks to new resolution')
+  rb_a18_resamp <- resample_brick(rbrick_arag_18, rast_rgn,
+                                 filename = rb_a18_file)
+  rb_a20_resamp <- resample_brick(rbrick_arag_20, rast_rgn,
+                                 filename = rb_a20_file)
+} else {
+  message('Reading raster bricks from files')
+  rb_a18_resamp <- brick(rb_a18_file)
+  rb_a20_resamp <- brick(rb_a20_file)
+  
+  names(rb_a18_resamp) <- paste('y', c(1880:1889), sep = '')
+  names(rb_a20_resamp) <- paste('y', c(2005:2014), sep = '')
+}
+
+plot_rast(rb_a18_resamp[['y1880']], 
+          title = 'Annual mean arag. sat state, 1880', 
+          scale_label = 'omega',
+          rev_scale = FALSE)
+
+plot_rast(rb_a20_resamp[['y2014']], 
+          title = 'Annual mean arag. sat state, 2014', 
+          scale_label = 'omega',
+          rev_scale = FALSE)
+
+```
+
+### Calculate baseline
+
+Determine the mean cell value across the entire decade from 1880-1889, as a baseline for ocean aragonite saturation levels.
+
+```{r calculate_decadal_mean}
+### Get decadal mean of 1880-1889 as baseline
+oa_mean_baseline <- calc(rb_a18_resamp, mean)
+# plot(oa_mean_baseline)
+# plot(rgn_poly, add = TRUE)
+plot_rast(oa_mean_baseline, 
+          title = 'Decadal mean arag. sat state, 1880-1889', 
+          scale_label = 'omega',
+          rev_scale = FALSE)
+```
+
+## Rescale values as pressures
+
+Baseline aragonite saturation state $\Omega_{base}$ is based upon the decadal average from 1880-1889.
+
+Deviation from aragonite saturation state is determined for each year in the study period:
+
+$$\Delta \Omega_{year} = \frac{(\Omega_{base} - \Omega_{year})}{(\Omega_{base} - 1)}$$
+
+Note that current is subtracted from the baseline; this way, a reduction in $\Omega$ becomes a positive pressure value.  It is then normalized by the current mean state; so a decrease in $\Omega$ while the current state is high indicates less pressure than the same decrease when the current state is near 1. 
+
+$\Delta \Omega_{year}$ is then modified to account for increases in aragonite saturation state (pressure = 0) and arag sat state less than 1 (pressure = 1).
+
+``` {r rescale_values, echo = FALSE}
+
+### get raster brick of change in aragonite sat state.
+### Note that by dividing by the distance from baseline to 1, we are
+### normalizing - so a given drop in omega, with a high current sat state, 
+### will result in a lower pressure than the same drop at a lower 
+### saturation state.  Dropping very close to 1 creates a pressure 
+### approaching 1.0.
+
+oa_delta <- (oa_mean_baseline - rb_a20_resamp)
+oa_delta <- oa_delta/(oa_mean_baseline - 1)
+names(oa_delta) <- names(rb_a20_resamp)
+
+### If current mean sat state > 1, set pressure to 1.  If delta
+### is negative (current state > baseline state) set to zero. 
+oa_rescaled <- oa_delta
+oa_means <- rb_a20_resamp
+
+values(oa_rescaled)[values(oa_means) <= 1] <- 1    
+  ### all values at or less than 1 are given a value of 1
+values(oa_rescaled)[values(oa_delta)  < 0] <- 0
+  ### all delta less than 0 (indicating a decrease in acidity) are capped at 0
+plot_rast(oa_rescaled[['y2014']], 
+          title = 'OA rescaled 2014', 
+          scale_label = 'oa',
+          rev_scale = TRUE)
+
+```
+
+### Interpolate layer to coastline at 1 km
+
+Now that $\Delta \Omega_{year}$ has been determined at a 1 degree cell scale, we interpolate that to the coastlines to fill NAs.  Using `raster::interpolate()`, we select a random sample of points from the $\Delta \Omega_{year}$ raster (for speed and memory) and apply the thin plate spline model (`fields::Tps()`).
+
+``` {r interpolate_mask_save, echo = FALSE, message = FALSE}
+n_samples = 2000
+oa_raster_file <- c(file.path(dir_goal, sprintf('output/oa/oa_rescaled_2005-2014_%spts.tif', n_samples)))
+
+
+if(!file.exists(oa_raster_file) | reload) {
+  ### from raster bricks, interpolate/extrapolate to extent of raster.  First,
+  ### set up thin plate spline model from x-y of raster and values of raster
+  oa_rescaled_int <- interpolate_brick(oa_rescaled, subset_n = n_samples)
+    ### sampling to avoid memory problems; the Tps model seems to choke
+    ### with too many points
+  
+  # plot(oa_rescaled_int)
+  # plot(oa_rescaled)
+  
+  ### mask to OHIBC regions
+  rbrick <- mask(oa_rescaled_int, rgn_poly)
+  # plot(oa_resc_int_rgn[[1]])
+  # plot(rgn_poly, add = TRUE)
+  
+  writeRaster(rbrick,
+              filename  = oa_raster_file, 
+              bylayer   = FALSE, 
+              bandorder = 'BIL',
+              overwrite = TRUE)
+} else {
+  rbrick <- brick(oa_raster_file)
+  names(rbrick) <- paste('y', c(2005:2014), sep = '')
+}
+
+plot_rast(rbrick[['y2014']], 
+          title = 'OA rescaled 2014, interpolated to 1 km', 
+          scale_label = 'oa',
+          rev_scale = TRUE)
+
+```
+
+## Calculate mean pressure by region by year
+
+Using 1000 m region ID raster to run zonal statistics on the pressures layers (within brick or separately?) we can calculate the regional average pressures for each year of study, and save as a .csv.
+
+``` {r calc_mean_pressures_by_year}
+
+oa_rgn_mean <- zonal(rbrick, rast_rgn, fun = 'mean')
+
+oa_rgn_mean_df <- oa_rgn_mean %>%
+  as.data.frame() %>%
+  gather(year, pressure, y2005:y2014) %>%
+  rename(rgn_id = zone) %>%
+  mutate(pressure = round(pressure, 3),
+         year     = as.integer(str_replace(year, 'y', ''))) %>%
+  left_join(rgn_poly@data %>% select(rgn_id, rgn_name), by = 'rgn_id') %>%
+  arrange(rgn_id)
+
+oa_plot <- ggplot(oa_rgn_mean_df, aes(x = year, y = pressure, group = rgn_name)) +
+  ggtheme_plot + 
+  geom_point(aes(color = rgn_name)) +
+  geom_line(aes(color = rgn_name)) +
+  scale_x_continuous(breaks = oa_rgn_mean_df$year) + 
+  labs(y = 'oa pressure',
+         title = 'OA pressure by region, 2005:2014')
+
+print(oa_plot)
+
+```
+
+## Smooth annual pressures with running average
+
+For each study year, calculate a running average of pressure score for each region, using the study year and the prior X number of years to determine the mean pressure.
+
+``` {r calc_mean_pressures_running_avg}
+
+num_yrs <- 3  ### calc 3 yr running average by region
+
+study_yrs <- c(2005:2014)
+
+oa_running_avg <- data.frame()
+for (yr in study_yrs) { ### yr <- 2005 ### yr <- 2014
+  yr_first <- max(yr - num_yrs + 1, min(oa_rgn_mean_df$year)) ###
+  oa_block <- oa_rgn_mean_df %>%
+    filter(year <= yr & year >= yr_first) %>%
+    group_by(rgn_id) %>%
+    summarize(year = yr, pressure_mean = mean(pressure))
+  oa_running_avg <- rbind(oa_running_avg, oa_block)
+}
+
+oa_rgn_mean_df <- oa_rgn_mean_df %>% 
+  left_join(oa_running_avg, by = c('rgn_id', 'year'))
+  
+
+oa_plot <- ggplot(oa_rgn_mean_df, aes(x = year, y = pressure_mean, group = rgn_name)) +
+  ggtheme_plot + 
+  geom_point(aes(color = rgn_name)) +
+  geom_line(aes(color = rgn_name)) +
+  scale_x_continuous(breaks = oa_rgn_mean_df$year) + 
+  labs(y = 'oa pressure',
+         title = 'OA pressure by region, 3 year avg, 2005:2014')
+
+print(oa_plot)
+
+write_csv(oa_rgn_mean_df, file.path(dir_goal, 'output/oa/oa_rgn_pressures.csv'))
+
+```
+
+-----
+
+``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
+```

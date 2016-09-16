@@ -1,0 +1,15 @@
+base
+sp
+rgdal
+raster
+DT
+dplyr
+tidyr
+stringr
+readr
+ggplot2
+tmap
+RColorBrewer
+maptools
+XML
+jsonlite

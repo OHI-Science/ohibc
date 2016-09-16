@@ -1,0 +1,173 @@
+---
+title: 'OHIBC goal prep: Species (Biodiversity subgoal)'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr2.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(sp)        # the classes and methods that make up spatial ops in R
+library(rgdal)
+library(raster)
+library(DT)
+
+scenario <- 'v2016'
+goal     <- 'spp_ico'
+dir_git <- '~/github/ohibc'
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_rgn  <- file.path(dir_git, 'prep/spatial')
+
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_anx        <- file.path(dir_M, 'git-annex/bcprep') ### git-annex: goal-specific large files
+dir_anx_global <- file.path(dir_M, 'git-annex/globalprep/spp_ico')
+
+
+source(file.path(dir_git, 'src/R/prov.R'))    
+source(file.path(dir_git, 'src/R/map_scores.R'))
+source(file.path(dir_goal, 'spp_fxn.R'))
+
+### set up proj4string options: BC Albers and WGS84
+p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
+              'EPSG:4326 WGS 84'          = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
+p4s_bcalb <- p4s_opts[1]
+```
+
+## time series scraping
+``` {r trying_new_api}
+
+library(rredlist)
+
+### low-level functions in rredlist have _ at the end - return only the
+###   json format (faster); otherwise return a dataframe (slower)
+
+api_key <- 'fb71ae836f415f04f41176f6d30c4a9e4cea620d46b9e5021bf2fb142ea51bf5'
+
+### helpful functions in rredlist:
+# rl_citation   Get the citation Red List API version (for Rmd?)
+# rl_sp_count   Species count (to help figure how many pages)
+# rl_sp         Get species (in pages of 10k)
+# rl_habitats	  Get species habitats by taxon name or IUCN id
+# rl_sp_country	Get species by country (for ICO?)
+
+rl_citation(api_key)
+#   [1] "IUCN 2015. IUCN Red List of Threatened Species. Version 2015-4 <www.iucnredlist.org>"
+
+rl_sp_count(api_key)
+#   $count
+#   [1] "82065"
+#   
+#   $note
+#   [1] "This total includes species, subspecies and subpopulation"
+
+rl_sp_count_(api_key)
+#   [1] "{\"count\":\"82065\",\"note\":\"This total includes species, subspecies and subpopulation\"}"
+
+x <- rl_sp(page = 1, key = api_key)$result
+head(x)
+#    taxonid kingdom_name phylum_name     class_name    order_name  family_name genus_name         scientific_name infra_rank infra_name population category
+# 1 22709696     ANIMALIA    CHORDATA           AVES PASSERIFORMES MUSCICAPIDAE   Luscinia   Luscinia megarhynchos       <NA>       <NA>       <NA>       LC
+# 2   173286     ANIMALIA  ARTHROPODA        INSECTA   LEPIDOPTERA     PIERIDAE    Euchloe          Euchloe eversi       <NA>       <NA>       <NA>       LC
+# 3   182454     ANIMALIA    CHORDATA ACTINOPTERYGII  SILURIFORMES   MOCHOKIDAE Synodontis    Synodontis frontosus       <NA>       <NA>       <NA>       LC
+# 4 22679163     ANIMALIA    CHORDATA           AVES   GALLIFORMES  PHASIANIDAE   Tragopan        Tragopan blythii       <NA>       <NA>       <NA>       VU
+# 5    58563     ANIMALIA    CHORDATA       AMPHIBIA         ANURA      RANIDAE Lithobates        Lithobates bwana       <NA>       <NA>       <NA>       VU
+# 6 22698790     ANIMALIA    CHORDATA           AVES PASSERIFORMES   TYRANNIDAE  Mionectes Mionectes striaticollis       <NA>       <NA>       <NA>       LC
+
+rl_habitats(id = 155077, key = api_key)
+# system.time(for (i in 1:100) rl_habitats(id = 155077, key = api_key)) 
+# 30.48 sec elapsed
+#   $id
+#   [1] "155077"
+#   
+#   $result
+#     code                                    habitat suitability season majorimportance
+#   1 10.3 Marine Oceanic - Bathypelagic (1000-4000m)    Suitable     NA              NA
+rl_habitats_(id = 155077, key = api_key)
+# system.time(for (i in 1:100) rl_habitats_(id = 155077, key = api_key)) 
+# 29.83 sec elapsed
+#   [1] "{\"id\":\"155077\",\"result\":[{\"code\":\"10.3\",\"habitat\":\"Marine Oceanic - Bathypelagic (1000-4000m)\",\"suitability\":\"Suitable\",\"season\":null,\"majorimportance\":null}]}"
+### quicker to go directly?
+# system.time(for (i in 1:100) download.file('http://apiv3.iucnredlist.org/api/v3/habitats/species/id/155077?token=fb71ae836f415f04f41176f6d30c4a9e4cea620d46b9e5021bf2fb142ea51bf5',
+#               file.path(dir_goal, 'api_tmp.txt'), mode = 'a'))
+# about 17 seconds... do it this way? this also caches json text for later....
+### But using mode = append, it causes issues trying to access the same destination file too quickly - need to pause and slow it down?
+```
+
+
+``` {r get_full_spp_list}
+library(jsonlite)
+
+### Get total spp count to determine number of pages
+spp_npage_url <- sprintf('http://apiv3.iucnredlist.org/api/v3/speciescount?token=%s', api_key)
+n_spp <- fromJSON(spp_npage_url) %>%
+  .$count %>% as.integer()
+n_pages <- ceiling(n_spp/10000)
+
+### Get all pages and bind into total species list
+spp_page_url <- 'http://apiv3.iucnredlist.org/api/v3/species/page/%s?token=%s'
+
+pages <- vector('list', length = n_pages)
+for (page in 0:n_pages - 1) { # page <- 0     ### NOTE: pages start at page 0 on the api
+  message('Retrieving page ', page)
+  spp_page <- fromJSON(sprintf(spp_page_url, page, api_key))
+  message('Retrieved ', spp_page[1], ' spp listings')
+  pages[page + 1] <- spp_page[3]
+}
+
+spp_df_all <- rbind.pages(pages)
+head(spp_df_all, 1)
+#   taxonid kingdom_name phylum_name class_name order_name family_name genus_name    scientific_name infra_rank infra_name population category
+# 1  196485     ANIMALIA  ARTHROPODA  ARACHNIDA    ARANEAE THERIDIIDAE  Phycosoma Phycosoma spundana       <NA>       <NA>       <NA>       VU
+
+spp_df_all <- spp_df_all %>%
+  dplyr::select(-infra_rank, -infra_name) %>%
+  rename(iucn_sid = taxonid, sciname = scientific_name) %>%
+  setNames(names(.) %>%
+             str_replace('_name', ''))
+
+write_csv(spp_df_all, file.path(dir_goal, 'api_testing/spp_list_all.csv'))
+
+```
+
+``` {r get_habitats_list_from_api}
+### For each species, get habitat
+### NOTE: This looks like it has to go one species at a time, so will take quite a while
+###   even on multi-core processing.
+spp_hab_url <- 'http://apiv3.iucnredlist.org/api/v3/habitats/species/id/%s?token=%s'
+
+sid_list <- spp_list_all$iucn_sid [1:500]
+
+library(parallel)
+get_habs <- function(sid) {
+  spp_hab <- fromJSON(sprintf(spp_hab_url, sid, api_key))
+  return(paste(tolower(spp_hab$result$habitat), collapse = '; '))
+}
+
+# system.time(habs_list_sc <- lapply(sid_list, get_habs)) # 10.37 sec
+system.time(habs_list_mc <- mclapply(sid_list, get_habs, mc.cores = 12)) # 5.1 sec for 20 spp, 168.216 sec for 500 spp
+
+habs_df <- data.frame('iucn_sid' = sid_list, 'habs' = unlist(habs_list_mc))
+
+write_csv(habs_df, file.path(dir_goal, 'api_testing/habs_list_all.csv'))
+
+### simple loop method:
+# for (i in 1:length(sid_list)) { # i <- 8 # i = 7
+#   sid <- sid_list[i]
+#   message(i, '. Retrieving habitats for ', sid)
+#   spp_hab <- fromJSON(sprintf(spp_hab_url, sid, api_key))
+#   habs_list[i] <- paste(tolower(spp_hab$result$habitat), collapse = '; ')
+# }
+# names(habs_list) <- sid_list
+
+
+```

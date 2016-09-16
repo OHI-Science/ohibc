@@ -1,0 +1,34 @@
+ebsa_id,ebsa_name,ecoregion,physical,unique,aggregation,conf
+1,Hecate Strait front,northern shelf,,,zooplankton,I
+2,McIntyre Bay,northern shelf,plankton agg,,zooplankton,H
+3,Dogfish Bank,northern shelf,soft bank,,,H
+4,Learmonth Bank,northern shelf,plankton agg,,,H
+5,Brooks Peninsula,northern shelf,,,,H
+6,Cape St. James,northern shelf,,,corals,H
+7,Shelf break,northern shelf,plankton agg,,"corals, sponges",H
+8,Scott Islands,northern shelf,plankton productivity,,,H
+9,North Island Straits,northern shelf,,,,H
+10,Sponge reefs,northern shelf,,sponges,,H
+11,Sponge reefs,northern shelf,,sponges,,H
+12,Sponge reefs,northern shelf,,sponges,,H
+13,Sponge reefs,northern shelf,,sponges,,H
+14,Chatham Sound,northern shelf,plankton productivity,,,H
+15,Haida Gwaii nearshore,northern shelf,productivity,,,H
+16,Central mainland,northern shelf,,,,H
+17,Bella Bella nearshore,northern shelf,plankton agg,,,H
+18,River mouths and estuaries,northern shelf,,,,H
+19,Brooks Peninsula,southern shelf,plankton productivity,,,H
+20,Shelf break,southern shelf,"plankton productivity, plankton agg",,,H
+21,Continental shelf off Barkley Sound,southern shelf,"productivity, plankton agg",,,H
+22,Juan de Fuca eddy,southern shelf,productivity,,,H
+23,Barkley Sound and Alberni Inlet,southern shelf,,,,H
+24,Juan de Fuca strait,southern shelf,,,,H
+25,River mouths and estuaries,southern shelf,,,,H
+26,Strait of Georgia,strait of georgia,,,,M
+27,Discovery Passage,strait of georgia,,,,L-M
+28,Desolation Sound and Pendrell Sound,strait of georgia,,,,H
+29,Baynes Sound,strait of georgia,,,,H
+30,Southern Gulf Islands,strait of georgia,,,,H
+31,Fraser River and Boundary Bay,strait of georgia,,,,H
+32,Sponge Reefs,strait of georgia,,sponges,,H
+33,All river mouths and estuaries,strait of georgia,,,,H
