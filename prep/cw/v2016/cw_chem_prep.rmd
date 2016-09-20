@@ -95,7 +95,9 @@ These data cover a time period of 2002-2013.  Each layer is read in, reprojected
 
 ``` {r read_and_clip_pesticide_raster}
 
-rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif'))
+poly_eez_base <- readOGR(path.expand(dir_spatial), 'ohibc_rgn')
+rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif')) %>%
+  crop(poly_eez_base)
 
 ### Pesticide pressures layers are on Mazu here:
 ### Mazu:marine_threats/impact_layers_2013_redo/impact_layers/work/land_based/before_2007/raw_global_results
@@ -110,7 +112,8 @@ pest_files <- list.files(dir_pest, pattern = '*pest*', full.names = TRUE)
 new_rast_files <- file.path(dir_goal_anx, 'tmp', basename(pest_files)) %>%
     str_replace('global_plumes', 'cw')
 
-if(any(!file.exists(new_rast_files))) { # i = 1
+reload <- FALSE
+if(any(!file.exists(new_rast_files)) | reload) { # i = 1
   for (i in 1:length(pest_files)) {
     message('Processing ', basename(pest_files[i]))
     raw_rast <- raster(pest_files[i])
@@ -136,7 +139,7 @@ if(any(!file.exists(new_rast_files))) { # i = 1
 pest_layers_files <- list.files(file.path(dir_goal_anx, 'tmp'), pattern = '*pest*', full.names = TRUE)
 pest_log_files <- file.path(dir_goal_anx, 'int', str_replace(basename(pest_layers_files), '.tif', '_log.tif'))
 
-pest_stack <- stack(as.list(pest_layers_files))
+pest_stack <- stack(pest_layers_files)
 
 pest_log <- calc(pest_stack, fun = function(x) {log(x + 1)}) %>%
   setNames(basename(pest_log_files) %>% str_replace('.tif', ''))
@@ -162,13 +165,12 @@ pest_rescale_files <- file.path(dir_goal_anx, 'rescaled_layers',
 
 pest_log <- stack(as.list(pest_log_files))
 
-pest_ref <- quantile(pest_log, prob = c(0.001, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 0.99, 0.999, 0.9999))
-  ### returns a quantile set for each layer
-pest_99 <- pest_ref[ , 10] %>% max()
-  ### column 10 is 99.99%; find max over all layers
+pest_ref <- quantile(pest_log, prob = 0.9999) %>% 
+  max()
+  ### quantile returns vector of 99.99%iles by layer; find max over all layers
 
 pest_rescale <- calc(pest_log, fun = function(x) {
-    ifelse(x > pest_99, 1, x / pest_99)
+    ifelse(x > pest_ref, 1, x / pest_ref)
   }) %>%
   setNames(basename(pest_rescale_files) %>% str_replace('.tif', ''))
 
@@ -190,21 +192,22 @@ Data are already log-transformed and normalized.  Here we reproject and clip to 
 # only one ocean pollution raster for both time periods (so only normalized by one time period)
 
 dir_threats <- file.path(dir_M, 
-                      'marine_threats/impact_layers_2013_redo/impact_layers',
-                      'final_impact_layers/threats_2013_final')
+                         'marine_threats/impact_layers_2013_redo/impact_layers',
+                         'final_impact_layers/threats_2013_final')
 
 ocean_pollution <- raster(file.path(dir_threats, 
-                      'normalized_by_one_time_period/ocean_pollution.tif'))
+                          'normalized_by_one_time_period/ocean_pollution.tif'))
 
 op_bcalb <- projectRaster(ocean_pollution, rast_base)
 values(op_bcalb)[is.na(values(rast_base))] <- NA ### only OHIBC EEZ
 
 ### max is 0.8973; re-rescale to new 99.99%ile?
-op_newref <- quantile(op_bcalb, prob = c(0.001, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 0.99, 0.999, 0.9999))
-op_new99 <- op_newref[10]
+op_newref <- quantile(op_bcalb, prob = 0.9999)
 
-op_bcalb_rescale <- op_bcalb / op_new99
-values(op_bcalb_rescale)[values(op_bcalb_rescale) > 1] <- 1
+op_bcalb_rescale <- calc(op_bcalb, fun = function(x) {
+    ifelse(x > op_newref, 1, x / op_newref)
+  }) %>%
+  setNames('ocean_pollution')
 
 writeRaster(op_bcalb_rescale, 
             file.path(dir_goal_anx, 'rescaled_layers', 'cw_ocean_poll_rescaled.tif'),
@@ -231,13 +234,13 @@ inorganic_poll_07_10 <- raster(file.path(dir_threats,
 ip_bcalb <- projectRaster(inorganic_poll_07_10, rast_base)
 values(ip_bcalb)[is.na(values(rast_base))] <- NA ### only OHIBC EEZ
 
-### max is 0.8973; re-rescale?
-ip_newref <- quantile(ip_bcalb, prob = c(0.001, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 0.99, 0.999, 0.9999))
-ip_new99 <- ip_newref[10]
+### max is 0.8973; re-rescale
+ip_newref <- quantile(ip_bcalb, prob = 0.9999)
 
-ip_bcalb_rescale <- ip_bcalb / ip_new99
-values(ip_bcalb_rescale)[values(ip_bcalb_rescale) > 1] <- 1
-
+ip_bcalb_rescale <- calc(ip_bcalb, fun = function(x) {
+    ifelse(x > ip_newref, 1, x / ip_newref)
+  }) %>%
+  setNames('inorganic')
 
 writeRaster(ip_bcalb_rescale, 
             file.path(dir_goal_anx, 'rescaled_layers', 'cw_inorg_rescaled.tif'),
@@ -258,6 +261,7 @@ pest_rescale <- stack(as.list(pest_rescale_files))
 ocean_rescale <- raster(file.path(dir_goal_anx, 'rescaled_layers', 'cw_ocean_poll_rescaled.tif'))
 inorg_rescale <- raster(file.path(dir_goal_anx, 'rescaled_layers', 'cw_inorg_rescaled.tif'))
 
+
 chem_total <- vector('list', length = nlayers(pest_rescale))
 
 for (i in 1:nlayers(pest_rescale)) { # i = 1
@@ -273,7 +277,7 @@ for (i in 1:nlayers(pest_rescale)) { # i = 1
 chem_stack_sum <- stack(chem_total)
 
 writeRaster(chem_stack_sum, 
-            filename  = file.path(dir_goal_anx, 'rescaled_layers', paste0(names(chem_stack), '.tif')),
+            filename  = file.path(dir_goal_anx, 'rescaled_layers', paste0(names(chem_stack_sum), '.tif')),
             bylayer   = TRUE,
             overwrite = TRUE)
 
@@ -294,7 +298,7 @@ chem_total <- vector('list', length = nlayers(pest_rescale))
 
 for (i in 1:nlayers(pest_rescale)) { # i = 1
   year <- names(pest_rescale[[i]]) %>%
-               str_replace('cw_pest', 'cw_geom_mean')
+               str_replace('cw_pest', 'cw_chem_gmean')
   message('Processing ', year)
   chem_year <- stack(list(ocean_rescale, inorg_rescale, pest_rescale[[i]]))
   
@@ -306,8 +310,7 @@ for (i in 1:nlayers(pest_rescale)) { # i = 1
   chem_year_inv <- 1 - chem_year
   
   chem_year_prod <- chem_year_inv %>%
-    calc(fun = prod, na.rm = TRUE) %>%
-    setNames(year)
+    calc(fun = prod, na.rm = TRUE)
   
   chem_year_gm <- 1 - (chem_year_prod ^ (1/chem_year_layers)) 
     ### ^ (1/chem_year_layers) term finishes converting product to geometric mean,
@@ -316,15 +319,23 @@ for (i in 1:nlayers(pest_rescale)) { # i = 1
   ### set to NA any non-EEZ cells
   values(chem_year_gm)[is.na(values(rast_base))] <- NA
   
-  chem_total[[i]] <- chem_year_gm
+  chem_total[[i]] <- chem_year_gm %>%
+    setNames(year)
 }
+
 chem_stack_gm <- stack(chem_total)
 
 writeRaster(chem_stack_gm, 
-            filename  = file.path(dir_goal_anx, 'rescaled_layers', paste0(names(chem_stack), '.tif')),
+            filename  = file.path(dir_goal_anx, 'rescaled_layers', paste0(names(chem_stack_gm), '.tif')),
             bylayer   = TRUE,
             overwrite = TRUE)
 
 ```
 
+
+***
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup()
+```
 
