@@ -73,7 +73,9 @@ This data was used in the Clean Waters goal in OHI 2015
 
 ``` {r read_and_clip_pressure_raster}
 
-rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif'))
+poly_eez_base <- readOGR(path.expand(dir_spatial), 'ohibc_rgn')
+rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif')) %>%
+  crop(poly_eez_base)
 
 ### Nutrient pressures layers are on Mazu here:
 ### Mazu:marine_threats/impact_layers_2013_redo/impact_layers/work/land_based/before_2007/raw_global_results
@@ -90,8 +92,9 @@ new_rast_files <- file.path(dir_goal_anx, 'tmp', basename(nutr_files)) %>%
 
 ### cropping sped up this loop slightly, but also added time for the crop
 ### operation.  Leaving it out for simplicity.
+reload <- FALSE
 
-if(any(!file.exists(new_rast_files))) {
+if(any(!file.exists(new_rast_files)) | reload) {
   for (i in 1:length(nutr_files)) {
     message('Processing ', basename(nutr_files[i]))
     raw_rast <- raster(nutr_files[i])
@@ -157,5 +160,11 @@ writeRaster(fert_rescale, filename = fert_rescale_files,
 
 plot(fert_rescale)
 
+```
+
+***
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup()
 ```
 

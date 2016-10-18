@@ -109,27 +109,40 @@ for (i in 1:length(vs_files)) { ### i = 1
 
 vs_stack <- stack(vs_rasts)
 
+### get BC raster at WGS84 projection to provide extents for cropping
 bc_rgn_rast <- raster(file.path(dir_spatial, 'raster', 'ohibc_rgn_wgs84_30min.tif'))
 
-vs_stack_crop <- crop(vs_stack, bc_rgn_rast)
+bc_ext <- extent(bc_rgn_rast) %>% round()
+
+vs_stack_crop <- crop(vs_stack, bc_ext)
 plot(vs_stack_crop)
 
-### Assume go with van Sebille model by mass
+### Save raster of van Sebille model by mass
 writeRaster(vs_stack_crop[['vansebillemodel_mass']], 
             file.path(dir_goal_anx, 'int/cw_trash_mass_vansebille.tif'), 
             overwrite = TRUE)
 
+### create North East Pacific raster: north of Equator; west of 100 W and east of 100 E
+n_pac_ext <- extent(c(-180, -100, 0, 90))
+vs_mass_npac <- crop(vs_stack[['vansebillemodel_mass']], n_pac_ext)
+plot(vs_mass_npac)
+
+### Save the global Van Sebille mass map cropped to the North Pacific for additional reference point options
+writeRaster(vs_mass_npac, 
+            file.path(dir_goal_anx, 'int/cw_trash_mass_vansebille_n_pac.tif'), 
+            overwrite = TRUE)
+
 ```
 
-Crop to BC and interpolate using Thin Plate Spline
+Crop to BC and interpolate using Thin Plate Spline to gapfill Strait of Georgia and coastal fjords.
 
 ``` {r interpolate_bc_sla}
 
 trash_dens <- raster(file.path(dir_goal_anx, 'int/cw_trash_mass_vansebille.tif'))
 
-trash_dens_int_file <- file.path(dir_goal_anx, 'int/cw_trash_mass_int.tif')
+trash_dens_interp_file <- file.path(dir_goal_anx, 'int/cw_trash_mass_interp.tif')
 
-if(!file.exists(trash_dens_int_file)) {
+if(!file.exists(trash_dens_interp_file)) {
   message('Interpolating BC trash mass data')
 
   xy <- data.frame(xyFromCell(trash_dens, 1:ncell(trash_dens)))
@@ -141,18 +154,18 @@ if(!file.exists(trash_dens_int_file)) {
   v1  <- tmpdf[ , 3]
   tps_model <- fields::Tps(xy1, v1)
 
-  trash_dens_int <- interpolate(trash_dens, tps_model)
+  trash_dens_interp <- interpolate(trash_dens, tps_model)
 
   trash_dens_gapfilled <- trash_dens
-  values(trash_dens_gapfilled)[is.na(values(trash_dens))] <- values(trash_dens_int)[is.na(values(trash_dens))] 
+  values(trash_dens_gapfilled)[is.na(values(trash_dens))] <- values(trash_dens_interp)[is.na(values(trash_dens))] 
 
-  message('Writing gapfilled BC trash mass to: ', trash_dens_int_file)
-  writeRaster(trash_dens_gapfilled, trash_dens_int_file, overwrite = TRUE)
+  message('Writing gapfilled BC trash mass to: ', trash_dens_interp_file)
+  writeRaster(trash_dens_gapfilled, trash_dens_interp_file, overwrite = TRUE)
   
 } else {
-  message('Reading gapfilled BC trash mass from: ', trash_dens_int_file)
+  message('Reading gapfilled BC trash mass from: ', trash_dens_interp_file)
 
-  trash_dens_gapfilled <- raster(trash_dens_int_file)
+  trash_dens_gapfilled <- raster(trash_dens_interp_file)
 }
 
 plot(trash_dens_gapfilled)
@@ -163,12 +176,14 @@ Reproject into BC Albers at 1000 m resolution
 
 ```{r reproject}
 
-rast_dens_int <- raster(file.path(dir_goal_anx, 'int/cw_trash_mass_int.tif'))
+rast_dens_interp <- raster(file.path(dir_goal_anx, 'int/cw_trash_mass_interp.tif'))
 
 ### reproject to BC Albers
-rast_base_bcalb   <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif'))
+poly_eez_base <- readOGR(path.expand(dir_spatial), 'ohibc_rgn')
+rast_base_bcalb <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif')) %>%
+  crop(poly_eez_base)
 
-trash_dens_bcalb <- projectRaster(from = rast_dens_int, to = rast_base_bcalb, method = 'ngb')
+trash_dens_bcalb <- projectRaster(from = rast_dens_interp, to = rast_base_bcalb, method = 'ngb')
 values(trash_dens_bcalb)[is.na(values(rast_base_bcalb))] <- NA
 
 
@@ -199,26 +214,101 @@ plot(trash_dens_log, main = 'Mass density\nlog(g/km2)')
 
 ```
 
-## Rescale zero to 1
+## Rescale marine plastics pressure from zero to 1
 
-Using the 99.99%ile, rescale all values to range from zero to 1.
+Rescale all values to range from zero to 1, using several reference points for comparison.  These rescalings will be done on both log-transformed and raw (linear) scales.
 
-```{r quantile}
+* 99.99% quantile across BC EEZ
+    * Using this reference point for only the BC EEZ results in high pressures of trash; the distribution is relatively uniform across the EEZ, so the reference point is relatively low compared to the mean trash density.  While this will still allow relative ranking, it may create a harsh penalty to the Clean Waters goal if the reference point is actually quite low.
+* 110% of maximum value
+    * Since the marine plastics raster from Van Sebille is relatively coarse (1 degree cells) it may be unnecessary to use a 99.99% (or other) quantile to filter out outliers, as they would presumably be averaged across a large area.  While we could simply use the max value, we apply a 110% increase on the assumption that BC trash is relatively low and so could potentially get worse over time.
+* 99.99% and 100% quantile of entire North Pacific basin
+    * To further examine whether the reference point based on the BC EEZ is extremely low, we examine the score based on a higher reference point - using the values estimated for the entire North Pacific ocean basin.  This should capture a larger range of debris values, providing a better idea of what is the "worst" case.  While the cells are large and should spatially average extreme values, some filtering of outliers may prove useful, so we will examine both the 99.99%ile and 100%ile.
 
+```{r linear_rescales}
+
+### bring in linear-scaled BC map at 1000 m BC Albers projection
+trash_dens_lin <- raster(file.path(dir_goal_anx, 'int/cw_trash_mass_bcalb.tif'))
+
+# print(hist(trash_dens_lin, main = 'Mass density (log(g/km2))'))
+
+### bring in N Pacific raster; we are not mapping so scale and projection are unimportant
+trash_dens_npac <- raster(file.path(dir_goal_anx, 'int/cw_trash_mass_vansebille_n_pac.tif'))
+
+# print(hist(trash_dens_npac, main = 'Mass density (log(g/km2)), NE Pacific'))
+
+
+trash_ref_9999qtile      <- quantile(trash_dens_lin, prob = 0.9999)
+trash_ref_110max         <- max(values(trash_dens_lin), na.rm = TRUE) * 1.1
+trash_ref_9999qtile_npac <- quantile(trash_dens_npac, prob = 0.9999)
+
+trash_9999qtile <- calc(trash_dens_lin, fun = function(x) {ifelse(x > trash_ref_9999qtile, 1, x / trash_ref_9999qtile)}) %>%
+  setNames('linear_mass')
+trash_110max <- calc(trash_dens_lin, fun = function(x) {ifelse(x > trash_ref_110max, 1, x / trash_ref_110max)}) %>%
+  setNames('linear_mass')
+trash_9999qtile_npac <- calc(trash_dens_lin, fun = function(x) {ifelse(x > trash_ref_9999qtile_npac, 1, x / trash_ref_9999qtile_npac)}) %>%
+  setNames('linear_mass')
+
+
+writeRaster(trash_9999qtile, file.path(dir_goal_anx, 'rescaled_layers/cw_trash_9999qtile_eez_lin.tif'), overwrite = TRUE)
+writeRaster(trash_110max, file.path(dir_goal_anx, 'rescaled_layers/cw_trash_110max_eez_lin.tif'), overwrite = TRUE)
+writeRaster(trash_9999qtile_npac, file.path(dir_goal_anx, 'rescaled_layers/cw_trash_9999qtile_npac_lin.tif'), overwrite = TRUE)
+
+plot(trash_9999qtile, main = 'CW trash pressure layer: \n mass density/99.99%ile in BC EEZ')
+plot(trash_9999qtile_npac, main = 'CW trash pressure layer: \n mass density/99.99%ile in NE Pac')
+
+```
+
+```{r log_rescales}
+
+### bring in log-transformed BC map at 1000 m BC Albers projection
 trash_dens_log <- raster(file.path(dir_goal_anx, 'int/cw_trash_mass_log.tif'))
 
-trash_dens_ref <- quantile(trash_dens_log, prob = c(0.001, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 0.99, 0.999, 0.9999))
+# print(hist(trash_dens_log, main = 'Mass density (log(g/km2))'))
 
-trash_dens_99 <- trash_dens_ref[10]
+### bring in N Pacific raster; we are not mapping so scale and projection are unimportant
+trash_dens_npac <- raster(file.path(dir_goal_anx, 'int/cw_trash_mass_vansebille_n_pac.tif'))
+trash_npac_log <- log(values(trash_dens_npac) + 1)
 
-print(hist(trash_dens_log, main = 'Mass density (log(g/km2))'))
+# print(hist(trash_npac_log, main = 'Mass density (log(g/km2)), NE Pacific'))
 
-trash_dens_rescale <- calc(trash_dens_log, fun = function(x) {ifelse(x > trash_dens_99, 1, x / trash_dens_99)}) %>%
+
+trash_logref_9999qtile      <- quantile(trash_dens_log, prob = 0.9999)
+trash_logref_110max         <- max(values(trash_dens_log), na.rm = TRUE) * 1.1
+trash_logref_9999qtile_npac <- quantile(trash_npac_log, prob = 0.9999, na.rm = TRUE)
+
+trash_log_9999qtile <- calc(trash_dens_log, fun = function(x) {ifelse(x > trash_logref_9999qtile, 1, x / trash_logref_9999qtile)}) %>%
+  setNames('log_mass')
+trash_log_110max <- calc(trash_dens_log, fun = function(x) {ifelse(x > trash_logref_110max, 1, x / trash_logref_110max)}) %>%
+  setNames('log_mass')
+trash_log_9999qtile_npac <- calc(trash_dens_log, fun = function(x) {ifelse(x > trash_logref_9999qtile_npac, 1, x / trash_logref_9999qtile_npac)}) %>%
   setNames('log_mass')
 
-writeRaster(trash_dens_rescale, file.path(dir_goal_anx, 'rescaled_layers/cw_trash_dens_rescale.tif'), overwrite = TRUE)
 
-plot(trash_dens_rescale, main = 'CW trash pressure layer: rescaled mass density')
+writeRaster(trash_log_9999qtile, file.path(dir_goal_anx, 'rescaled_layers/cw_trash_9999qtile_eez_log.tif'), overwrite = TRUE)
+writeRaster(trash_log_110max, file.path(dir_goal_anx, 'rescaled_layers/cw_trash_110max_eez_log.tif'), overwrite = TRUE)
+writeRaster(trash_log_9999qtile_npac, file.path(dir_goal_anx, 'rescaled_layers/cw_trash_9999qtile_npac_log.tif'), overwrite = TRUE)
 
+plot(trash_log_9999qtile, main = 'CW trash pressure layer: \nlog(mass density)/99.99%ile in BC EEZ')
+plot(trash_log_9999qtile_npac, main = 'CW trash pressure layer: \nlog(mass density)/99.99%ile in NE Pac')
+
+```
+
+Reference points:
+
+* 99.99%ile within BC EEZ:  `r exp(trash_ref_9999qtile) - 1` g/km^2^ (log(x+1) = `r trash_logref_9999qtile`)
+    * Linear-scaled file at: ``r file.path(dir_goal_anx, 'rescaled_layers/cw_trash_9999qtile_eez.tif')``
+    * Log-scaled file at: ``r file.path(dir_goal_anx, 'rescaled_layers/cw_trash_9999qtile_eez_log.tif')``
+* 110% of max within BC EEZ:  `r trash_ref_110max` (equiv to `r exp(trash_logref_110max) - 1` g/km^2^)
+    * Linear-scaled file at: ``r file.path(dir_goal_anx, 'rescaled_layers/cw_trash_110max_eez.tif')``
+    * Log-scaled file at: ``r file.path(dir_goal_anx, 'rescaled_layers/cw_trash_110max_eez_log.tif')``
+* 99.99%ile within NE Pacific:  `r trash_ref_9999qtile_npac` (equiv to `r exp(trash_logref_9999qtile_npac) - 1` g/km^2^)
+    * Linear-scaled file at: ``r file.path(dir_goal_anx, 'rescaled_layers/cw_trash_9999qtile_npac.tif')``
+    * Log-scaled file at: ``r file.path(dir_goal_anx, 'rescaled_layers/cw_trash_9999qtile_npac_log.tif')``
+
+***
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup()
 ```
 

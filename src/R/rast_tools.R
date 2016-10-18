@@ -1,4 +1,5 @@
-plot_rast <- function(rast,
+plot_rast_map <- function(rast,
+                      rgn_poly = NULL,
                       title = '',
                       scale_label  = '',
                       scale_limits = NULL,
@@ -9,50 +10,53 @@ plot_rast <- function(rast,
     library(pkg, character.only = TRUE)
   }
 
+  # if(!exists('World')) data(World)
 
-
-  ### set up polys for land and regions, using simplified shapes
-  p4s_bcalb   <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
-
-  if(exists('git_prov')) poly_rgn <- readShapePoly(fn = file.path(dir_rgn, 'ohibc_rgn_simple'),
-                                 proj4string = CRS(p4s_bcalb),
-                                 nogit = TRUE) ### see prov.R
-  else poly_rgn <- readShapePoly(fn = file.path(dir_rgn, 'ohibc_rgn_simple'),
-                                 proj4string = CRS(p4s_bcalb))
+  if(!exists('.poly_bc_continent')) {
+    bc_cont <- rgdal::readOGR(path.expand('~/github/ohibc/prep/spatial'), 'ohibc_continent')
+    assign('.poly_bc_continent', bc_cont, envir = .GlobalEnv)
+    ### assign to global and hide it...
+  }
 
   if(is.null(scale_limits))
-    scale_limits <- c(min(rast_pts$layer, na.rm = TRUE),
-                      max(rast_pts$layer, na.rm = TRUE))
+    scale_limits <- c(min(values(rast), na.rm = TRUE),
+                      max(values(rast), na.rm = TRUE))
 
   rast_pal <- ifelse(rev_scale, '-RdYlBu', 'RdYlBu')
 
-  rast_map  <- tm_shape(rast) +
-    tm_raster(palette = rast_pal,
-              auto.palette.mapping = FALSE,
-              legend.show = TRUE,
-              textNA = 'no data') +
-    tm_shape(maps::map('world', plot = FALSE) +
-    tm_polygons(col = 'grey45', border.col = 'grey40')
-  rast_plot <- ggplot(data = rast_pts, aes(x, y, group = group, fill = layer)) +
-    ### omit ticks, axis text:
-    theme(axis.ticks = element_blank(), axis.text = element_blank()) +
-    ### set text style, title size and position, and legend position:
-    theme(text = element_text(family = 'Helvetica', color = 'gray30', size = 12),
-          plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
-          legend.position = 'right') +
-    ### Blank background and grid:
-    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-          panel.background = element_blank()) +
-    scale_fill_gradientn(colours = cols, na.value = 'gray80',
-                         limits = scale_limits) +
-    geom_raster(alpha = .8) +
-    geom_polygon(data = poly_land_df, color = 'gray60', fill = 'gray75', size = 0.02) +
-    geom_polygon(data = poly_rgn_df, color = 'gray20', fill = NA, size = 0.05) +
-    labs(title = title,
-         fill  = scale_label,
-         x = NULL, y = NULL)
+  message('building raster map')
+  rast_map  <- tm_shape(rast, is.master = TRUE) +
+      tm_raster(palette = rast_pal,
+                n = 10,
+                auto.palette.mapping = FALSE,
+                legend.show = TRUE,
+                textNA = 'no data',
+                showNA = FALSE,
+                alpha = .8) +
+    tm_shape(.poly_bc_continent) +
+      tm_polygons(col = 'grey45', border.col = 'grey40', lwd = .25)
 
-  print(rast_plot)
+  if(!is.null(rgn_poly)) rast_map <- rast_map +
+    tm_shape(rgn_poly) +
+      tm_borders(col = 'blue', lwd = .5, alpha = .3)
+
+  rast_map <- rast_map +
+    tm_layout(title = title, title.size = .75,
+              bg.color = '#ddeeff',
+      # title.position = c('left', 'top'),
+      frame = FALSE,
+      legend.text.size = .6,
+      legend.title.size = .7,
+      legend.outside = FALSE,
+      legend.position = c('right', 'top'),
+      legend.bg.color = 'white',
+      legend.bg.alpha = .9,
+      attr.outside = TRUE)
+
+  message('printing raster map')
+  print(rast_map)
+
+  return(invisible(rast_map))
 }
 
 # rast_base_1000 <- raster(file.path(dir_rgn, 'ohibc_base_raster_1000m.tif'))
