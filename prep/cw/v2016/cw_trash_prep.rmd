@@ -296,13 +296,15 @@ plot(trash_log_9999qtile_npac, main = 'CW trash pressure layer: \nlog(mass densi
 
 Reference points:
 
-* 99.99%ile within BC EEZ:  `r exp(trash_ref_9999qtile) - 1` g/km^2^ (log(x+1) = `r trash_logref_9999qtile`)
+* 99.99%ile within BC EEZ:  `r trash_ref_9999qtile` g/km^2^ (log(x+1) = `r trash_logref_9999qtile`)
     * Linear-scaled file at: ``r file.path(dir_goal_anx, 'rescaled_layers/cw_trash_9999qtile_eez.tif')``
     * Log-scaled file at: ``r file.path(dir_goal_anx, 'rescaled_layers/cw_trash_9999qtile_eez_log.tif')``
-* 110% of max within BC EEZ:  `r trash_ref_110max` (equiv to `r exp(trash_logref_110max) - 1` g/km^2^)
+    
+* 110% of max within BC EEZ:  `r trash_ref_110max` g/km^2^  (log(x+1) = `r trash_logref_110max`)
     * Linear-scaled file at: ``r file.path(dir_goal_anx, 'rescaled_layers/cw_trash_110max_eez.tif')``
     * Log-scaled file at: ``r file.path(dir_goal_anx, 'rescaled_layers/cw_trash_110max_eez_log.tif')``
-* 99.99%ile within NE Pacific:  `r trash_ref_9999qtile_npac` (equiv to `r exp(trash_logref_9999qtile_npac) - 1` g/km^2^)
+    
+* 99.99%ile within NE Pacific:  `r trash_ref_9999qtile_npac` g/km^2^  (log(x+1) = `r trash_logref_9999qtile_npac`)
     * Linear-scaled file at: ``r file.path(dir_goal_anx, 'rescaled_layers/cw_trash_9999qtile_npac.tif')``
     * Log-scaled file at: ``r file.path(dir_goal_anx, 'rescaled_layers/cw_trash_9999qtile_npac_log.tif')``
 

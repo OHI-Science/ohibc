@@ -5,17 +5,14 @@ dir_M             <- c('Windows' = '//mazu.nceas.ucsb.edu/ohi',
                        'Linux'   = '/home/shares/ohi')[[ Sys.info()[['sysname']] ]]
 
 # install (if necessary) and load commonly used libraries
-packages <- c('dplyr', 'tidyr', 'stringr', 'readr', 'ggplot2')
+packages <- c('tidyverse')
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   cat(sprintf("Installing %s\n", setdiff(packages, rownames(installed.packages()))))
   install.packages(setdiff(packages, rownames(installed.packages())))
 }
 
-library(dplyr)
-library(tidyr)
+library(tidyverse)
 library(stringr)
-library(readr)
-library(ggplot2)
 rm(packages)
 
 ### generic theme for all plots

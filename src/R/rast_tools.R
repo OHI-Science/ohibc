@@ -1,3 +1,26 @@
+filter_rast <- function(rast, vals, cut = TRUE, revalue = NA) {
+  ### revalue = NA leaves original values for cells in 'vals';
+  ###   otherwise set to a new number (e.g. 1)
+  ### cut = TRUE sets all cells not in 'vals' to NA
+  ### cut = FALSE and revalue = NA would return the original raster
+  rast_filtered <- rast
+
+  for(i in 1:nlayers(rast_filtered)) {
+    message('processing layer ', names(rast_filtered)[i])
+    if(cut) {
+      message('Cell values not in ', paste(vals, collapse = ', '), ' are set to NA')
+      values(rast_filtered[[i]])[!values(rast_filtered[[i]]) %in% vals] <- NA
+    }
+    if(!is.na(revalue)) {
+      message('Cell values in ', paste(vals, collapse = ', '), ' are set to ', revalue)
+      values(rast_filtered[[i]])[values(rast_filtered[[i]]) %in% vals] <- revalue
+    }
+  }
+
+
+  return(rast_filtered)
+}
+
 plot_rast_map <- function(rast,
                       rgn_poly = NULL,
                       title = '',
