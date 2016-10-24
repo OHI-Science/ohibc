@@ -22,16 +22,12 @@ spp_rgn2cell <- function(poly_rgn,
   loiczid_raster_file  <- file.path(dir_anx_global, 'rgns/loiczid_raster.grd')
   loiczid_raster <- raster::raster(loiczid_raster_file)
   rst_p4s <- proj4string(loiczid_raster)
-  names(rst_p4s) <- names(p4s_opts[p4s_opts == rst_p4s])
-  message(sprintf('LOICZID raster loaded: CRS = %s \n  (%s)', names(rst_p4s), rst_p4s))
-
-  if(rst_p4s != rgn_p4s) warning('Mismatched CRS between region and raster.')
+  message(sprintf('LOICZID raster loaded: CRS = %s ', rst_p4s))
 
   ### Crop LOICZID raster to rounded extents of region polygon
   poly_ext <- raster::extent(poly_rgn)
   poly_ext <- raster::extent(floor(poly_ext[1]), ceiling(poly_ext[2]), floor(poly_ext[3]), ceiling(poly_ext[4]))
   loiczid_raster <- raster::crop(loiczid_raster, poly_ext)
-
 
   rgn2cell_file <- file.path(dir_goal, sprintf('int/cell_id_by_rgn%s.csv', rgn_tag))
 
