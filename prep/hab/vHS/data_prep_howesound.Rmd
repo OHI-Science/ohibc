@@ -1,0 +1,478 @@
+---
+title: 'OHIBC: data_prep_howesound.Rmd'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(raster)
+library(rgdal)
+library(rgeos)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+dir_git     <- path.expand('~/github/ohibc')
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal      <- 'hab'
+scenario  <- 'vHS'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_v2016_anx <- file.path(dir_anx, goal, 'v2016')
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### support scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### gdal_rast2, plotting
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+
+```
+
+# Summary
+
+Clip existing habitat layers (salt marsh/forest raster, salt marsh and seagrass polygons) for HAB, CP, CS goals for Howe Sound assessment.  For CP, calculate values based on population, exposure, and elevation weighting as required for different protective habitats.
+
+***
+
+# Data Sources
+
+* **Seagrass and salt marsh polygons**
+    * **Reference**: CEC. 2016. North America’s Blue Carbon: Assessing Seagrass, Salt Marsh and Mangrove Distribution and Carbon Sinks. Montreal, Canada: Commission for Environmental Cooperation. 54 pp.
+    * **Downloaded**: http://www.cec.org/sites/default/files/Atlas/Files/blue_carbon/BlueCarbon_Shapefile.zip (downloaded 8/25/16)
+    * **Description**:  shapefiles of marine seagrass, mangrove, and salt marsh habitat in North America
+    * **Native data resolution**: NA   
+    * **Time range**: NA (data were collected over many years but no time series available)
+    * **Format**:  vector shapefiles
+* **Land cover raster 1990-2000-2010**
+    * **Reference**: Land Use 1990, 2000 and 2010. 2015. Agriculture and Agri-Foods Canada.
+    * **Downloaded**: http://open.canada.ca/data/en/dataset/18e3ef1a-497c-40c6-8326-aac1a34a0dec (downloaded 10/7/16)
+    * **Description**:  Land cover raster covering all of Canada south of 60° N
+    * **Native data resolution**: 30 meters   
+    * **Time range**: 1990, 2000, 2010
+    * **Format**:  GeoTIFF
+* **Exposure polylines and coastal class polylines**
+    * **Reference**: 
+        * British Columbia Marine Conservation Analysis Project Team. 2011. Shorezone exposure. Marine Atlas of Pacific Canada: A Product of the British Columbia Marine Conservation Analysis. Available from www.bcmca.ca.
+        * British Columbia Marine Conservation Analysis Project Team. 2011. Coastal classes. Marine Atlas of Pacific Canada: A Product of the British Columbia Marine Conservation Analysis. Available from www.bcmca.ca.
+    * **Downloaded**: http://bcmca.ca/datafiles/sets/bcmca_eco_set_physical_atlas.zip (downloaded 11/5/15)
+    * **Description**:  Marxan-prepared polylines representing exposure and coastal class along BC coastline
+    * **Native data resolution**: NA; shorezone reference units are 400 m
+    * **Time range**: NA
+    * **Format**:  Polyline shapefiles
+* **Elevation raster**
+    * **Reference**: National Geophysical Data Center. 2006. 2-minute Gridded Global Relief Data (ETOPO2) v2. National Geophysical Data Center, NOAA. doi:10.7289/V5J1012Q [7/26/16].
+    * **Downloaded**: https://www.ngdc.noaa.gov/mgg/global/etopo2.html (downloaded 7/26/16)
+    * **Description**:  Global elevation and bathymetry
+    * **Native data resolution**: 2 arc-minutes   
+    * **Time range**: NA
+    * **Format**:  NetCDF, GeoTIFF
+* **Population density raster**
+    * **Reference**: Center for International Earth Science Information Network - CIESIN - Columbia University. 2016. Documentation for the Gridded Population of the World, Version 4 (GPWv4). Palisades NY: NASA Socioeconomic Data and Applications Center (SEDAC). http://dx.doi.org/10.7927/H4D50JX4 Accessed 25 Oct 2016.
+    * **Downloaded**: http://sedac.ciesin.columbia.edu/data/collection/gpw-v4/sets/browse (downloaded 10/25/16)
+    * **Description**:  Population density raster, adjusted to UN 2015 values; pop density in persons per km^2^
+    * **Native data resolution**: ???? 2.5 arc-minutes   
+    * **Time range**: 2000, 2005, 2010, 2015, 2020 (only 2015 used for this analysis)
+    * **Format**:  GeoTIFF
+
+***
+  
+# Methods
+
+Define extents for Howe Sound in BC Albers projection.
+
+``` {r set up the extents for Howe Sound}
+ext_howe <- extent(c(1170000, 1210000, 470000, 530000))
+```
+
+Crop region rasters (at 500 m resolution) to Howe Sound extents, then use these to process layers:
+
+* crop exposure polylines and coastal class polylines
+    * identify appropriate exposure and coastal classes and rank from low to high (0 to 1) in terms of vulnerability
+    * buffer out to (2 km? cap ends?)
+    * raster::rasterize using the mean function
+* reproject elevation raster and population raster (most recent year, just for weighting) to region raster parameters
+* crop land cover raster to region raster extents
+
+## Prepare support rasters
+
+### create inland and offshore buffer area rasters
+
+Create rasters at 500 m resolution for inland (2 km buffer) and offshore (3 nm buffer, which effectively captures all of Howe Sound).  These rasters will be used to mask analysis areas.
+
+``` {r prep region rasters}
+
+rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif')) %>%
+  crop(ext_howe)
+
+rast_rgn      <- gdal_rast2(src = file.path(dir_spatial, layer = 'howe_sound_rgn'),
+                                 rast_base = rast_base,
+                                 dst = file.path(dir_goal, 'raster/howe_rgn.tif'),
+                                 value = 'id',
+                                 override_p4s = TRUE)
+rast_inland   <- gdal_rast2(src = file.path(dir_spatial, layer = 'howe_sound_inland_2km'),
+                                 rast_base = rast_base,
+                                 dst = file.path(dir_goal, 'raster/howe_inland_2km.tif'),
+                                 value = 'rgn_id',
+                                 override_p4s = TRUE)
+rast_offshore <- gdal_rast2(src = file.path(dir_spatial, layer = 'howe_sound_offshore_3nm'),
+                                 rast_base = rast_base,
+                                 dst = file.path(dir_goal, 'raster/howe_offshore_3nm.tif'),
+                                 value = 'rgn_id',
+                                 override_p4s = TRUE)
+
+```
+
+### create population density and elevation rasters
+
+Prepare population density and elevation rasters by reprojecting global rasters to the extents, projection, and resolution of Howe Sound base region raster.  These rasters are used as weighting factors in the Coastal Protection goal.
+
+``` {r prep pop and elev rasters}
+
+topo_rast_file  <- file.path(dir_goal, 'raster/howe_topo.tif')
+pdens_rast_file <- file.path(dir_goal, 'raster/howe_pdens.tif')
+
+if(!file.exists(topo_rast_file) | !file.exists(pdens_rast_file)) {
+  message('Creating files: \n  ', paste(c(topo_rast_file, pdens_rast_file), collapse = '\n  '))
+
+  ### Gridded Pop of the World raster at Mazu: 
+  ###   git-annex/globalprep/_raw_data/CIESEandCIAT_population/d2015
+  
+  # pop_gl <- raster(file.path(dir_anx, '../globalprep/_raw_data/CIESEandCIAT_population/d2015/pop_count_data', 'glp15ag.asc'))
+  # crs(pop_gl) <- '+init=epsg:4326'
+  # rast_pop   <- projectRaster(pop_gl, rast_rgn, method = 'ngb')
+  
+  pop_dens_gl <- raster(file.path(dir_anx, 
+                                  '../globalprep/_raw_data/CIESEandCIAT_population', 
+                                  'd2015/pop_density_data/glfedens15/glds15ag',
+                                  'dblbnd.adf'))
+  crs(pop_dens_gl) <- '+init=epsg:4326'
+  rast_pdens <- projectRaster(pop_dens_gl, rast_rgn) ### NOTE: uses bilinear
+  writeRaster(rast_pdens, pdens_rast_file, overwrite = TRUE)  
+  
+  ### ETOPO v2 in Mazu:
+  ### git-annex/bcprep/_raw_data/bathymetry/ETOPO2v2_bathymetry
+  etopo <- raster(file.path(dir_anx, '_raw_data/bathymetry/ETOPO2v2_bathymetry',
+                            'ETOPO2v2c.tif'))
+  ### add CRS and extent info:
+  crs(etopo) <- '+init=epsg:4326'
+  extent(etopo) <- c(-180, 180, -90, 90)
+  
+  rast_topo <- projectRaster(etopo, rast_rgn)
+  
+  writeRaster(rast_topo, topo_rast_file, overwrite = TRUE) 
+  
+} else {
+  
+  message('Files exist: \n  ', paste(c(topo_rast_file, pdens_rast_file), collapse = '\n  '))
+  git_prov(c(topo_rast_file, pdens_rast_file), filetype = 'output')
+  
+}
+
+
+```
+
+### Prepare exposure raster
+
+Exposure raster is created by extending a 2 km buffer from shoreline polylines to create polygons with values indicating levels of wave exposure, from 1 (very protected) to 6 (very exposed), with only values 1-4 appearing in Howe Sound.  The buffer polygons are rasterized, and where two buffers overlap (at boundaries between two exposure classes), the results are averaged to approximate an intermediate exposure class.
+
+Because the exposure raster is based off a 2 km buffer from shoreline polylines, it also acts as a masking layer to avoid including inland habitats.
+
+``` {r prep_exposure_raster}
+
+expos_rast_file  <- file.path(dir_goal, 'raster/howe_expos.tif')
+
+if(!file.exists(expos_rast_file)) {
+  message('Creating file: \n  ', expos_rast_file)
+
+  dir_bcmca <- file.path(dir_anx, '_raw_data/bcmca/bcmca_eco_set_physical_complete/MarxanData_Physical')
+  
+  # poly_coastal_class <- readOGR(dir_bcmca, 'BCMCA_ECO_Physical_CoastalClasses_MARXAN') %>%
+  #   crop(rast_rgn)
+  poly_exposure <- readOGR(dir_bcmca, 'BCMCA_ECO_Physical_Exposure_MARXAN') %>%
+    crop(rast_rgn)
+  
+  poly_exp_2km <- poly_exposure %>%
+    gBuffer(width = 2000, byid = TRUE, capStyle = 'FLAT')
+  
+  ### hunch: third digit is exposure: 
+  # 6: Very Exposed
+  # 5: Exposed
+  # 4: Semi-exposed
+  # 3: Semi-protected
+  # 2: Protected
+  # 1: Very Protected
+  
+  poly_exp_2km@data <- poly_exp_2km@data %>%
+    mutate(exposure = floor((ID - 2400)/10))
+  
+  rast_expos <- rasterize(poly_exp_2km, rast_rgn, field = 'exposure', fun = 'mean')
+  expos_max <- maxValue(rast_expos); expos_min <- 0; # minValue(rast_expos)
+  rast_expos <- (rast_expos - expos_min) / (expos_max - expos_min)
+  
+  rast_expos <- mask(rast_expos, rast_rgn)
+  
+  writeRaster(rast_expos, expos_rast_file, overwrite = TRUE)
+  
+} else {
+  
+  message('File exists: \n  ', expos_rast_file)
+  git_prov(expos_rast_file, filetype = 'output')
+  
+}
+```
+
+## Analysis of coastal protection
+
+Coastal protection for seagrass and salt will be mitigated by exposure; habitat in areas with higher exposure will be valued as providing more protection.
+
+Coastal protection for trees/forest will be mitigated by exposure and elevation (0 m = 1.0, 5 m or higher = 0)
+
+All three will be scaled relative to population density, as log(pop density + 1).
+
+### Seagrass status and trend
+
+Seagrass coastal protection value will be based on the nutrient pressure per cell, weighted by exposure and population density.  A raw pressure value will also be included, for calculation of Carbon Storage and Habitat goals.
+
+``` {r process_seagrass_rast}
+
+### load all BC seagrass nutrient pressure rasters; already rescaled
+### to 1.1 * max pressure across all BC.
+seagrass_years <- c(2002:2013)
+
+stack_seagrass_allbc <- stack(file.path(dir_v2016_anx, 'raster', 
+                                 sprintf('seagrass_nutr_%s.tif', seagrass_years)))
+nutr_ref <- maxValue(stack_seagrass_allbc) %>% max()
+
+### now chop it down to size.
+stack_seagrass_howe <- stack_seagrass_allbc %>%
+  crop(rast_rgn)
+
+### modify nutr pressures by exposure ratings in Howe Sound; this also masks
+### to just the howe sound area of interest.  First reproject the exposure to 100 m:
+rast_expos_100m <- raster(file.path(dir_goal, 'raster/howe_expos.tif')) %>%
+  projectRaster(stack_seagrass_howe[[1]]) ### NOTE: bilinear
+
+stack_seagrass_expos <- stack_seagrass_howe * rast_expos_100m
+  
+### now modify by pop density
+rast_pdens_log <- raster(file.path(dir_goal, 'raster/howe_pdens.tif')) %>%
+  calc(fun = function(x) {log(x + 1)})
+
+rast_pdens_log <- rast_pdens_log/maxValue(rast_pdens_log)
+
+rast_pdens_log_100m <- rast_pdens_log %>%
+  projectRaster(stack_seagrass_howe[[1]]) ### NOTE: bilinear
+
+stack_seagrass_expos_pop <- stack_seagrass_expos * rast_pdens_log_100m 
+
+names(stack_seagrass_expos_pop) <- seagrass_years
+
+### also create just a masked raw pressure raster stack...
+stack_seagrass_howe_pres <- stack_seagrass_howe %>%
+  mask(rast_expos_100m) %>%
+  setNames(seagrass_years)
+
+### create dataframe to average cell values
+
+seagrass_expos_pop_vec <- lapply(as.list(stack_seagrass_expos_pop), 
+                FUN = function(x) {
+                  mean(values(x), na.rm = TRUE)}) %>%
+  setNames(seagrass_years) %>%
+  unlist() 
+
+seagrass_raw_pres_vec <- lapply(as.list(stack_seagrass_howe_pres), 
+                FUN = function(x) {
+                  mean(values(x), na.rm = TRUE)}) %>%
+  setNames(seagrass_years) %>%
+  unlist() 
+
+
+seagrass_df <- data.frame(year = names(seagrass_expos_pop_vec),
+                    pres_expos_pop_mean_sg = seagrass_expos_pop_vec,
+                    cp_score_sg = 1 - seagrass_expos_pop_vec,
+                    pres_mean_sg = seagrass_raw_pres_vec)
+
+seagrass_df <- seagrass_df %>%
+  mutate(sg_area_km2 = sum(!is.na(values(stack_seagrass_expos_pop[[1]]))) * .01)
+
+write_csv(seagrass_df, file.path(dir_goal, 'int/howe_seagrass_status_trend.csv'))
+
+```
+
+### Salt Marsh status and trend
+
+For salt marshes, we will determine rate of salt marsh change within 2 km inland and offshore.  Salt marsh presence will be established using categories 71, 73, and 74 from the Government of Canada 30 m land use rasters for 1990, 2000, and 2010.  
+
+Salt marsh health status for coastal protection is determined by summing the weighted vulnerability value of salt marshes over the whole Howe Sound area.  Vulnerability value is weighted by exposure (0.25 = very protected, 1.0 = semi exposed, categories from BCMCA) and population density (log(ppl/km^2 + 1), then rescaled to highest value = 1).  As saltmarsh is lost, the sum drops; saltmarsh lost in exposed and/or highly populated areas counts as a higher penalty.  The reference point for a score of 1 will be the 1990 salt marsh sum(weighted vulnerability value).
+
+Salt marsh trend will be based on percentage of change from 2000 to 2010 divided across the ten year interval.
+
+Simple area of salt marsh extent will be included as well, for calculation of Carbon Storage and Habitat goals.
+
+``` {r process_saltmarsh_rast}
+
+landuse_files <- c('1990' = file.path(dir_v2016_anx, 'raster/land_cover_1990_30m_crop.tif'),
+                   '2000' = file.path(dir_v2016_anx, 'raster/land_cover_2000_30m_crop.tif'),
+                   '2010' = file.path(dir_v2016_anx, 'raster/land_cover_2010_30m_crop.tif'))
+
+stack_landuse <- stack(landuse_files) %>%
+  crop(rast_rgn)
+
+stack_sm <- filter_rast(stack_landuse, vals = c(71, 73, 74), revalue = 1)
+
+### multiply saltmarsh values by exposure to de-emphasize protective value
+### near already protected areas
+rast_expos_30m <- raster(file.path(dir_goal, 'raster/howe_expos.tif')) %>%
+  projectRaster(stack_sm) ### NOTE: bilinear
+
+stack_sm_expos <- stack_sm * rast_expos_30m
+
+### multiply by rescaled log population density to emphasize 
+### protection value near high population densities
+rast_pdens_log <- raster(file.path(dir_goal, 'raster/howe_pdens.tif')) %>%
+  calc(fun = function(x) {log(x + 1)})
+
+rast_pdens_log <- rast_pdens_log/maxValue(rast_pdens_log)
+
+rast_pdens_log_30m <- rast_pdens_log %>%
+  projectRaster(stack_sm) ### NOTE: bilinear
+
+stack_sm_expos_pop <- stack_sm_expos * rast_pdens_log_30m
+
+### write final rasters
+sm_rast_files <- file.path(dir_goal_anx, sprintf('raster/howe_sound_sm_%s.tif', c(1990, 2000, 2010)))
+writeRaster(stack_sm_expos_pop, filename = sm_rast_files, bylayer = TRUE, overwrite = TRUE)
+
+### create dataframe to sum cell values
+
+saltmarsh_df <- data.frame(year = c(1990, 2000, 2010))
+
+for (i in 1:3) {
+  saltmarsh_df$sum_sm[i] <- values(stack_sm_expos_pop[[i]]) %>%
+    sum(na.rm = TRUE)
+  saltmarsh_df$area_sm_km2[i] <- sum(!is.na(values(stack_sm_expos_pop[[i]]))) * (.03 * .03)
+}
+
+saltmarsh_df <- saltmarsh_df %>%
+  mutate(cp_score_sm = sum_sm / first(sum_sm),
+         cp_loss_sm  = (cp_score_sm - lag(cp_score_sm, 1)) / lag(cp_score_sm, 1),
+         cp_trend_sm = cp_loss_sm / 10)
+
+write_csv(saltmarsh_df, file.path(dir_goal, 'int/howe_saltmarsh_status_trend.csv'))
+
+
+```
+
+### Coastal forest status and trend
+
+Coastal protection values for coastal forests are calculated similar to salt marsh; vulnerability factors include exposure and population, and in addition, elevation is considered.  Anything at sea level is vulnerable (1) up to an elevation of 5 m (vulnerability = 0).  This 5 m value is taken from InVEST, due to the inundation/storm surge from an extreme event.
+
+Simple area of extent for coastal forests will be included as well, for use in calculating Carbon Storage and Habitat goals.
+
+``` {r process_coastal_forest_rast}
+
+# landuse_files <- c('1990' = file.path(dir_v2016_anx, 'raster/land_cover_1990_30m_crop.tif'),
+#                    '2000' = file.path(dir_v2016_anx, 'raster/land_cover_2000_30m_crop.tif'),
+#                    '2010' = file.path(dir_v2016_anx, 'raster/land_cover_2010_30m_crop.tif'))
+# 
+# stack_landuse <- stack(landuse_files) %>%
+#   crop(rast_rgn)
+
+stack_cf <- filter_rast(stack_landuse, vals = c(41, 42, 45, 46), revalue = 1)
+
+### multiply saltmarsh values by exposure to de-emphasize protective value
+### near already protected areas
+# rast_expos_30m <- raster(file.path(dir_goal, 'raster/howe_expos.tif')) %>%
+#   projectRaster(stack_cf) ### NOTE: bilinear
+
+stack_cf_expos <- stack_cf * rast_expos_30m
+
+### multiply by rescaled log population density to emphasize 
+### protection value near high population densities
+# rast_pdens_log <- raster(file.path(dir_goal, 'raster/howe_pdens.tif')) %>%
+#   calc(fun = function(x) {log(x + 1)})
+# 
+# rast_pdens_log <- rast_pdens_log/maxValue(rast_pdens_log)
+# 
+# rast_pdens_log_30m <- rast_pdens_log %>%
+#   projectRaster(stack_cf) ### NOTE: bilinear
+
+stack_cf_expos_pop <- stack_cf_expos * rast_pdens_log_30m
+
+### multiply by elevation vulnerability; areas above 5 m
+### in elevation are not vulnerable to typical storm surge (from InVEST)
+elev_lim <- 5
+rast_elev_30m <- raster(file.path(dir_goal, 'raster/howe_topo.tif')) %>%
+  projectRaster(stack_cf) %>%
+  calc(fun = function(x) {ifelse(x <= 0, NA,
+                            ifelse(x > elev_lim, 0,
+                              (1 - x/elev_lim))
+                            )
+                          })
+
+stack_cf_expos_pop_elev <- stack_cf_expos_pop * rast_elev_30m
+
+### write final rasters
+cf_rast_files <- file.path(dir_goal_anx, sprintf('raster/howe_sound_cf_%s.tif', c(1990, 2000, 2010)))
+writeRaster(stack_cf_expos_pop_elev, filename = cf_rast_files, bylayer = TRUE, overwrite = TRUE)
+
+### create dataframe to sum cell values
+
+coastalforest_df <- data.frame(year = c(1990, 2000, 2010))
+
+for (i in 1:3) {
+  coastalforest_df$sum_cf[i] <- values(stack_cf_expos_pop_elev[[i]]) %>%
+    sum(na.rm = TRUE)
+  coastalforest_df$area_cf_km2[i] <- sum(!is.na(values(stack_cf_expos_pop_elev[[i]]))) * (.03 * .03)
+  coastalforest_df$area_nonzero_cf_km2[i] <- sum(values(stack_cf_expos_pop_elev[[i]]) != 0, na.rm = TRUE) * (.03 * .03)
+}
+
+coastalforest_df <- coastalforest_df %>%
+  mutate(cp_score_cf = sum_cf / first(sum_cf),
+         cp_loss_cf  = (cp_score_cf - lag(cp_score_cf, 1)) / lag(cp_score_cf, 1),
+         cp_trend_cf = cp_loss_cf / 10)
+
+write_csv(coastalforest_df, file.path(dir_goal, 'int/howe_forest_status_trend.csv'))
+
+```
+
+## results
+
+### seagrass
+
+`r DT::datatable(seagrass_df)`
+
+### saltmarsh
+
+`r DT::datatable(saltmarsh_df)`
+
+### coastal forests
+
+`r DT::datatable(coastalforest_df)`
+
+
+***
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup()
+```
+

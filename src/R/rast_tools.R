@@ -169,7 +169,6 @@ gdal_rast2 <- function(src, rast_base, dst = NULL, value = NULL, override_p4s = 
     git_prov(dst, 'output')
   }
 
-  print(rast)
   return(invisible(rast))
 }
 
