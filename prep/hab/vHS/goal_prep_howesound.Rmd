@@ -133,8 +133,6 @@ Protection weights are assigned based on vulnerability values from [InVEST Coast
 | Natural Habitats  | Coral reef; mangrove; coastal forest | High dune; marsh | Low dune | Seagrass; kelp | No habitat |
 | Protection weight | 4          | 3     | 2          | 1      | 0           |
 
-***QUESTION*** do we weight the habitats by reference area, or by current area? not an issue in global.
-
 ``` {r load_cp_data}
 
 cp_cf <- read_csv(file.path(dir_goal, 'int/howe_forest_status_trend.csv')) %>%
@@ -173,10 +171,8 @@ cp_scores_summary <- cp_scores %>%
   mutate(a_ref = first(area)) %>%
   filter(status_yr == max(status_yr)) %>%
   ungroup() %>%
-  mutate(cp_st_tot = sum(score * hab_weight * area) / sum(hab_weight * area),
-         cp_st_tot_ref = sum(score * hab_weight * a_ref) / sum(hab_weight * a_ref),
-         cp_tr_tot = sum(trend * hab_weight * area) / sum(hab_weight * area),
-         cp_tr_tot_ref = sum(trend * hab_weight * a_ref) / sum(hab_weight * a_ref)) %>%
+  mutate(cp_st_tot = sum(score * hab_weight * a_ref) / sum(hab_weight * a_ref),
+         cp_tr_tot = sum(trend * hab_weight * a_ref) / sum(hab_weight * a_ref)) %>%
   left_join(trend_yrs, by = 'hab')
   
 write_csv(cp_scores_summary, file.path(dir_goal, 'output', 'cp_scores_summary.csv'))
@@ -253,7 +249,7 @@ cs_sg <- read_csv(file.path(dir_goal, 'int/howe_seagrass_status_trend.csv')) %>%
   select(-pres_mean_sg)
 cs_sg$trend <- lm(formula = c_cref ~ status_yr, 
                    data = cs_sg %>% 
-                     filter(status_yr > 1990))[['coefficients']]['status_yr']
+                     filter(status_yr %in% c(2003:2013)))[['coefficients']]['status_yr']
   ### trend is in absolute change per year
 
 cs_weights <- c('sg' = 138, 'sm' = 218, 'cf' = 4.6)
@@ -266,11 +262,11 @@ cs_scores <- cs_cf %>%
 cs_scores_summary <- cs_scores %>%
   group_by(hab) %>%
   mutate(a_ref = first(area)) %>%
+  filter(status_yr == max(status_yr)) %>%
   ungroup() %>% 
-  mutate(cs_st_tot = sum(c_cref * hab_weight * area) / sum(hab_weight * area),
-         cs_tr_tot = sum(trend * hab_weight * area) / sum(hab_weight * area),
-         cs_st_tot_ref = sum(c_cref * hab_weight * a_ref) / sum(hab_weight * a_ref),
-         cs_tr_tot_ref = sum(trend * hab_weight * a_ref) / sum(hab_weight * a_ref))
+  mutate(cs_st_tot = sum(c_cref * hab_weight * a_ref) / sum(hab_weight * a_ref),
+         cs_tr_tot = sum(trend * hab_weight * a_ref) / sum(hab_weight * a_ref)) %>%
+  left_join(trend_yrs, by = 'hab')
   
 write_csv(cs_scores_summary, file.path(dir_goal, 'output', 'cs_scores_summary.csv'))
 
@@ -341,7 +337,7 @@ hab_sg <- read_csv(file.path(dir_goal, 'int/howe_seagrass_status_trend.csv')) %>
   select(-pres_mean_sg)
 hab_sg$trend <- lm(formula = c_cref ~ status_yr, 
                    data = hab_sg %>% 
-                     filter(status_yr > 1990))[['coefficients']]['status_yr']
+                     filter(status_yr %in% c(2003:2013)))[['coefficients']]['status_yr']
   ### trend is in absolute change per year
 
 hab_scores <- hab_cf %>%
@@ -354,7 +350,8 @@ hab_scores_summary <- hab_scores %>%
   filter(status_yr == max(status_yr)) %>%
   ungroup() %>% 
   mutate(hab_st_tot = sum(c_cref) / n(),
-         hab_tr_tot = sum(trend) / n())
+         hab_tr_tot = sum(trend) / n()) %>%
+  left_join(trend_yrs, by = 'hab')
   
 write_csv(hab_scores_summary, file.path(dir_goal, 'output', 'hab_scores_summary.csv'))
 

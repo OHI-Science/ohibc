@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Compiled on Wed Oct 26 11:16:33 2016 by ohara" />
+<meta name="author" content="Compiled on Wed Oct 26 15:40:07 2016 by ohara" />
 
 
 <title>OHIBC: goal_prep_howesound.Rmd</title>
@@ -109,7 +109,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">OHIBC: goal_prep_howesound.Rmd</h1>
-<h4 class="author"><em><em>Compiled on Wed Oct 26 11:16:33 2016 by ohara</em></em></h4>
+<h4 class="author"><em><em>Compiled on Wed Oct 26 15:40:07 2016 by ohara</em></em></h4>
 
 </div>
 
@@ -227,6 +227,7 @@ $(document).ready(function () {
 <p><span class="math display">\[x_{CP} = \displaystyle\sum_{i=1}^{n}\left(\frac{P_i}{P_{i_{ref}}} * w_i * A_i\right) \bigg/ \displaystyle\sum_{i=1}^{n}\left(w_i * A_i\right)\]</span></p>
 <p>Protection weights are assigned based on vulnerability values from <a href="http://data.naturalcapitalproject.org/nightly-build/invest-users-guide/html/coastal_vulnerability.html">InVEST Coastal Vulnerability Model</a>:</p>
 <table style="width:72%;">
+<caption>Coastal Protection</caption>
 <colgroup>
 <col width="6%"></col>
 <col width="15%"></col>
@@ -272,9 +273,7 @@ $(document).ready(function () {
 </tr>
 </tbody>
 </table>
-<p><strong><em>QUESTION</em></strong> do we weight the habitats by reference area, or by current area? not an issue in global.</p>
 <table>
-<caption>Coastal Protection</caption>
 <thead>
 <tr class="header">
 <th align="right">status_yr</th>
@@ -285,9 +284,7 @@ $(document).ready(function () {
 <th align="right">hab_weight</th>
 <th align="right">a_ref</th>
 <th align="right">cp_st_tot</th>
-<th align="right">cp_st_tot_ref</th>
 <th align="right">cp_tr_tot</th>
-<th align="right">cp_tr_tot_ref</th>
 <th align="left">trend_yrs</th>
 </tr>
 </thead>
@@ -300,9 +297,7 @@ $(document).ready(function () {
 <td align="right">-0.0123467</td>
 <td align="right">4</td>
 <td align="right">4.3236</td>
-<td align="right">0.8606953</td>
 <td align="right">0.8555392</td>
-<td align="right">-0.010238</td>
 <td align="right">-0.0103957</td>
 <td align="left">2000-2010</td>
 </tr>
@@ -314,9 +309,7 @@ $(document).ready(function () {
 <td align="right">-0.0019996</td>
 <td align="right">3</td>
 <td align="right">0.6282</td>
-<td align="right">0.8606953</td>
 <td align="right">0.8555392</td>
-<td align="right">-0.010238</td>
 <td align="right">-0.0103957</td>
 <td align="left">2000-2010</td>
 </tr>
@@ -328,9 +321,7 @@ $(document).ready(function () {
 <td align="right">0.0000217</td>
 <td align="right">1</td>
 <td align="right">1.7200</td>
-<td align="right">0.8606953</td>
 <td align="right">0.8555392</td>
-<td align="right">-0.010238</td>
 <td align="right">-0.0103957</td>
 <td align="left">2003:2013</td>
 </tr>
@@ -382,37 +373,10 @@ $(document).ready(function () {
 <th align="right">a_ref</th>
 <th align="right">cs_st_tot</th>
 <th align="right">cs_tr_tot</th>
-<th align="right">cs_st_tot_ref</th>
-<th align="right">cs_tr_tot_ref</th>
+<th align="left">trend_yrs</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">1990</td>
-<td align="right">4.3236</td>
-<td align="left">cf</td>
-<td align="right">1.0000000</td>
-<td align="right">-0.0202123</td>
-<td align="right">4.6</td>
-<td align="right">4.3236</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
-</tr>
-<tr class="even">
-<td align="right">2000</td>
-<td align="right">4.3137</td>
-<td align="left">cf</td>
-<td align="right">0.9977102</td>
-<td align="right">-0.0202123</td>
-<td align="right">4.6</td>
-<td align="right">4.3236</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
-</tr>
 <tr class="odd">
 <td align="right">2010</td>
 <td align="right">3.4398</td>
@@ -421,36 +385,9 @@ $(document).ready(function () {
 <td align="right">-0.0202123</td>
 <td align="right">4.6</td>
 <td align="right">4.3236</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
-</tr>
-<tr class="even">
-<td align="right">1990</td>
-<td align="right">0.6282</td>
-<td align="left">sm</td>
-<td align="right">1.0000000</td>
-<td align="right">-0.0022923</td>
-<td align="right">218.0</td>
-<td align="right">0.6282</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
-</tr>
-<tr class="odd">
-<td align="right">2000</td>
-<td align="right">0.4743</td>
-<td align="left">sm</td>
-<td align="right">0.7550143</td>
-<td align="right">-0.0022923</td>
-<td align="right">218.0</td>
-<td align="right">0.6282</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
+<td align="right">0.8957291</td>
+<td align="right">-0.0017853</td>
+<td align="left">2000-2010</td>
 </tr>
 <tr class="even">
 <td align="right">2010</td>
@@ -460,166 +397,21 @@ $(document).ready(function () {
 <td align="right">-0.0022923</td>
 <td align="right">218.0</td>
 <td align="right">0.6282</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
+<td align="right">0.8957291</td>
+<td align="right">-0.0017853</td>
+<td align="left">2000-2010</td>
 </tr>
 <tr class="odd">
-<td align="right">2002</td>
-<td align="right">1.7200</td>
-<td align="left">sg</td>
-<td align="right">0.9977629</td>
-<td align="right">0.0000666</td>
-<td align="right">138.0</td>
-<td align="right">1.7200</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
-</tr>
-<tr class="even">
-<td align="right">2003</td>
-<td align="right">1.7200</td>
-<td align="left">sg</td>
-<td align="right">0.9982825</td>
-<td align="right">0.0000666</td>
-<td align="right">138.0</td>
-<td align="right">1.7200</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
-</tr>
-<tr class="odd">
-<td align="right">2004</td>
-<td align="right">1.7200</td>
-<td align="left">sg</td>
-<td align="right">0.9982637</td>
-<td align="right">0.0000666</td>
-<td align="right">138.0</td>
-<td align="right">1.7200</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
-</tr>
-<tr class="even">
-<td align="right">2005</td>
-<td align="right">1.7200</td>
-<td align="left">sg</td>
-<td align="right">0.9975240</td>
-<td align="right">0.0000666</td>
-<td align="right">138.0</td>
-<td align="right">1.7200</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
-</tr>
-<tr class="odd">
-<td align="right">2006</td>
-<td align="right">1.7200</td>
-<td align="left">sg</td>
-<td align="right">0.9992422</td>
-<td align="right">0.0000666</td>
-<td align="right">138.0</td>
-<td align="right">1.7200</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
-</tr>
-<tr class="even">
-<td align="right">2007</td>
-<td align="right">1.7200</td>
-<td align="left">sg</td>
-<td align="right">0.9979980</td>
-<td align="right">0.0000666</td>
-<td align="right">138.0</td>
-<td align="right">1.7200</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
-</tr>
-<tr class="odd">
-<td align="right">2008</td>
-<td align="right">1.7200</td>
-<td align="left">sg</td>
-<td align="right">0.9989703</td>
-<td align="right">0.0000666</td>
-<td align="right">138.0</td>
-<td align="right">1.7200</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
-</tr>
-<tr class="even">
-<td align="right">2009</td>
-<td align="right">1.7200</td>
-<td align="left">sg</td>
-<td align="right">0.9988825</td>
-<td align="right">0.0000666</td>
-<td align="right">138.0</td>
-<td align="right">1.7200</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
-</tr>
-<tr class="odd">
-<td align="right">2010</td>
-<td align="right">1.7200</td>
-<td align="left">sg</td>
-<td align="right">0.9980020</td>
-<td align="right">0.0000666</td>
-<td align="right">138.0</td>
-<td align="right">1.7200</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
-</tr>
-<tr class="even">
-<td align="right">2011</td>
-<td align="right">1.7200</td>
-<td align="left">sg</td>
-<td align="right">0.9983952</td>
-<td align="right">0.0000666</td>
-<td align="right">138.0</td>
-<td align="right">1.7200</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
-</tr>
-<tr class="odd">
-<td align="right">2012</td>
-<td align="right">1.7200</td>
-<td align="left">sg</td>
-<td align="right">0.9991031</td>
-<td align="right">0.0000666</td>
-<td align="right">138.0</td>
-<td align="right">1.7200</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
-</tr>
-<tr class="even">
 <td align="right">2013</td>
 <td align="right">1.7200</td>
 <td align="left">sg</td>
 <td align="right">0.9985326</td>
-<td align="right">0.0000666</td>
+<td align="right">0.0000511</td>
 <td align="right">138.0</td>
 <td align="right">1.7200</td>
-<td align="right">0.98151</td>
-<td align="right">-0.0005282</td>
-<td align="right">0.9762355</td>
-<td align="right">-0.00059</td>
+<td align="right">0.8957291</td>
+<td align="right">-0.0017853</td>
+<td align="left">2003:2013</td>
 </tr>
 </tbody>
 </table>
@@ -660,6 +452,7 @@ $(document).ready(function () {
 <th align="right">trend</th>
 <th align="right">hab_st_tot</th>
 <th align="right">hab_tr_tot</th>
+<th align="left">trend_yrs</th>
 </tr>
 </thead>
 <tbody>
@@ -670,16 +463,18 @@ $(document).ready(function () {
 <td align="right">0.7320917</td>
 <td align="right">-0.0022923</td>
 <td align="right">0.8653121</td>
-<td align="right">-0.0011128</td>
+<td align="right">-0.0011206</td>
+<td align="left">2000-2010</td>
 </tr>
 <tr class="even">
 <td align="right">2013</td>
 <td align="right">1.7200</td>
 <td align="left">sg</td>
 <td align="right">0.9985326</td>
-<td align="right">0.0000666</td>
+<td align="right">0.0000511</td>
 <td align="right">0.8653121</td>
-<td align="right">-0.0011128</td>
+<td align="right">-0.0011206</td>
+<td align="left">2003:2013</td>
 </tr>
 </tbody>
 </table>
@@ -689,8 +484,8 @@ $(document).ready(function () {
 <div id="provenance" class="section level1">
 <h1><span class="header-section-number">6</span> Provenance</h1>
 <ul>
-<li><em>Run ID: 3 (0fb3004); run tag: “standard run”</em></li>
-<li><em>Run elapsed time: 14.852 seconds; run memory usage: NA MB</em></li>
+<li><em>Run ID: 8 (1ac589c); run tag: “standard run”</em></li>
+<li><em>Run elapsed time: 16.948 seconds; run memory usage: NA MB</em></li>
 <li><em>System info: </em>
 <ul>
 <li><em>System: Linux, Release: 4.4.0-45-generic. Machine: x86_64. User: ohara.</em></li>
@@ -713,15 +508,15 @@ $(document).ready(function () {
 <title>
 ~/github/ohibc/src/R/rast_tools.R
 </title>
-<g id="a_node1"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/6f999be7faa869eaee776f12488f628e1be4f143"> <polygon fill="#fffacc" stroke="yellow" stroke-width="3" points="722.781,-36 668.781,-36 668.781,-0 722.781,-0 722.781,-36"></polygon> <text text-anchor="middle" x="695.781" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">rast_tools.R</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/int/howe_forest_status_trend.csv --> <g id="node2" class="node">
+<g id="a_node1"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/c90edd5c888d8c8d136fef25fc1107f1dedae22e"> <polygon fill="#fffacc" stroke="#b38f59" stroke-width="2" points="722.781,-36 668.781,-36 668.781,-0 722.781,-0 722.781,-36"></polygon> <text text-anchor="middle" x="695.781" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">rast_tools.R</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/int/howe_forest_status_trend.csv --> <g id="node2" class="node">
 <title>
 ~/github/ohibc/prep/hab/vHS/int/howe_forest_status_trend.csv
 </title>
-<g id="a_node2"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/0eed5c3498f4e2d581857723cb04911ace4a023b"> <ellipse fill="#a1bce6" stroke="yellow" stroke-width="3" cx="52.7808" cy="-176.4" rx="52.5625" ry="18"></ellipse> <text text-anchor="middle" x="52.7808" y="-174.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">howe_forest_status_trend.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cp_data --> <g id="node10" class="node">
+<g id="a_node2"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/c90edd5c888d8c8d136fef25fc1107f1dedae22e"> <ellipse fill="#a1bce6" stroke="yellow" stroke-width="3" cx="52.7808" cy="-176.4" rx="52.5625" ry="18"></ellipse> <text text-anchor="middle" x="52.7808" y="-174.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">howe_forest_status_trend.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cp_data --> <g id="node10" class="node">
 <title>
 ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cp_data
 </title>
-<g id="a_node10"><a xlink:title="no version control info found"> <polygon fill="#e6c18a" stroke="red" stroke-width="3" points="287.157,-115.2 156.405,-115.2 156.405,-79.2 287.157,-79.2 287.157,-115.2"></polygon> <text text-anchor="middle" x="221.781" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_howesound.Rmd#load_cp_data</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/int/howe_forest_status_trend.csv&#45;&gt;~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cp_data --> <g id="edge2" class="edge">
+<g id="a_node10"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/c90edd5c888d8c8d136fef25fc1107f1dedae22e"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="287.157,-115.2 156.405,-115.2 156.405,-79.2 287.157,-79.2 287.157,-115.2"></polygon> <text text-anchor="middle" x="221.781" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_howesound.Rmd#load_cp_data</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/int/howe_forest_status_trend.csv&#45;&gt;~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cp_data --> <g id="edge2" class="edge">
 <title>
 <sub>/github/ohibc/prep/hab/vHS/int/howe_forest_status_trend.csv-&gt;</sub>/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cp_data
 </title>
@@ -729,7 +524,7 @@ $(document).ready(function () {
 <title>
 ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cs_data
 </title>
-<g id="a_node11"><a xlink:title="no version control info found"> <polygon fill="#e6c18a" stroke="red" stroke-width="3" points="444.821,-115.2 314.741,-115.2 314.741,-79.2 444.821,-79.2 444.821,-115.2"></polygon> <text text-anchor="middle" x="379.781" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_howesound.Rmd#load_cs_data</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/int/howe_forest_status_trend.csv&#45;&gt;~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cs_data --> <g id="edge6" class="edge">
+<g id="a_node11"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/c90edd5c888d8c8d136fef25fc1107f1dedae22e"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="444.821,-115.2 314.741,-115.2 314.741,-79.2 444.821,-79.2 444.821,-115.2"></polygon> <text text-anchor="middle" x="379.781" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_howesound.Rmd#load_cs_data</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/int/howe_forest_status_trend.csv&#45;&gt;~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cs_data --> <g id="edge6" class="edge">
 <title>
 <sub>/github/ohibc/prep/hab/vHS/int/howe_forest_status_trend.csv-&gt;</sub>/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cs_data
 </title>
@@ -737,7 +532,7 @@ $(document).ready(function () {
 <title>
 ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_hab_data
 </title>
-<g id="a_node12"><a xlink:title="no version control info found"> <polygon fill="#e6c18a" stroke="red" stroke-width="3" points="138.827,-115.2 4.7344,-115.2 4.7344,-79.2 138.827,-79.2 138.827,-115.2"></polygon> <text text-anchor="middle" x="71.7808" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_howesound.Rmd#load_hab_data</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/int/howe_forest_status_trend.csv&#45;&gt;~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_hab_data --> <g id="edge10" class="edge">
+<g id="a_node12"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/c90edd5c888d8c8d136fef25fc1107f1dedae22e"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="138.827,-115.2 4.7344,-115.2 4.7344,-79.2 138.827,-79.2 138.827,-115.2"></polygon> <text text-anchor="middle" x="71.7808" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_howesound.Rmd#load_hab_data</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/int/howe_forest_status_trend.csv&#45;&gt;~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_hab_data --> <g id="edge10" class="edge">
 <title>
 <sub>/github/ohibc/prep/hab/vHS/int/howe_forest_status_trend.csv-&gt;</sub>/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_hab_data
 </title>
@@ -745,7 +540,7 @@ $(document).ready(function () {
 <title>
 ~/github/ohibc/prep/hab/vHS/int/howe_saltmarsh_status_trend.csv
 </title>
-<g id="a_node3"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/0eed5c3498f4e2d581857723cb04911ace4a023b"> <ellipse fill="#a1bce6" stroke="yellow" stroke-width="3" cx="182.781" cy="-176.4" rx="58.6932" ry="18"></ellipse> <text text-anchor="middle" x="182.781" y="-174.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">howe_saltmarsh_status_trend.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/int/howe_saltmarsh_status_trend.csv&#45;&gt;~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cp_data --> <g id="edge3" class="edge">
+<g id="a_node3"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/c90edd5c888d8c8d136fef25fc1107f1dedae22e"> <ellipse fill="#a1bce6" stroke="yellow" stroke-width="3" cx="182.781" cy="-176.4" rx="58.6932" ry="18"></ellipse> <text text-anchor="middle" x="182.781" y="-174.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">howe_saltmarsh_status_trend.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/int/howe_saltmarsh_status_trend.csv&#45;&gt;~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cp_data --> <g id="edge3" class="edge">
 <title>
 <sub>/github/ohibc/prep/hab/vHS/int/howe_saltmarsh_status_trend.csv-&gt;</sub>/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cp_data
 </title>
@@ -761,7 +556,7 @@ $(document).ready(function () {
 <title>
 ~/github/ohibc/prep/hab/vHS/int/howe_seagrass_status_trend.csv
 </title>
-<g id="a_node4"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/0eed5c3498f4e2d581857723cb04911ace4a023b"> <ellipse fill="#a1bce6" stroke="yellow" stroke-width="3" cx="317.781" cy="-176.4" rx="57.8607" ry="18"></ellipse> <text text-anchor="middle" x="317.781" y="-174.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">howe_seagrass_status_trend.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/int/howe_seagrass_status_trend.csv&#45;&gt;~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cp_data --> <g id="edge4" class="edge">
+<g id="a_node4"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/c90edd5c888d8c8d136fef25fc1107f1dedae22e"> <ellipse fill="#a1bce6" stroke="yellow" stroke-width="3" cx="317.781" cy="-176.4" rx="57.8607" ry="18"></ellipse> <text text-anchor="middle" x="317.781" y="-174.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">howe_seagrass_status_trend.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/int/howe_seagrass_status_trend.csv&#45;&gt;~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cp_data --> <g id="edge4" class="edge">
 <title>
 <sub>/github/ohibc/prep/hab/vHS/int/howe_seagrass_status_trend.csv-&gt;</sub>/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#load_cp_data
 </title>
@@ -777,23 +572,23 @@ $(document).ready(function () {
 <title>
 ~/github/ohibc/prep/hab/vHS/output/cp_scores_summary.csv
 </title>
-<g id="a_node5"><a xlink:title="New commit: https://github.com/OHI-Science/ohibc/commit/1a61a123988d191fe659112b8ca47c6ad7122a04"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="221.781" cy="-18" rx="45.4651" ry="18"></ellipse> <text text-anchor="middle" x="221.781" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">cp_scores_summary.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/output/cs_scores_summary.csv --> <g id="node6" class="node">
+<g id="a_node5"><a xlink:title="New commit: https://github.com/OHI-Science/ohibc/commit/3bcd15ff8fed71f0c8097c8043ba86443695ed9f"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="221.781" cy="-18" rx="45.4651" ry="18"></ellipse> <text text-anchor="middle" x="221.781" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">cp_scores_summary.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/output/cs_scores_summary.csv --> <g id="node6" class="node">
 <title>
 ~/github/ohibc/prep/hab/vHS/output/cs_scores_summary.csv
 </title>
-<g id="a_node6"><a xlink:title="New commit: https://github.com/OHI-Science/ohibc/commit/1a61a123988d191fe659112b8ca47c6ad7122a04"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="379.781" cy="-18" rx="45.0939" ry="18"></ellipse> <text text-anchor="middle" x="379.781" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">cs_scores_summary.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/output/hab_scores_summary.csv --> <g id="node7" class="node">
+<g id="a_node6"><a xlink:title="New commit: https://github.com/OHI-Science/ohibc/commit/3bcd15ff8fed71f0c8097c8043ba86443695ed9f"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="379.781" cy="-18" rx="45.0939" ry="18"></ellipse> <text text-anchor="middle" x="379.781" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">cs_scores_summary.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/output/hab_scores_summary.csv --> <g id="node7" class="node">
 <title>
 ~/github/ohibc/prep/hab/vHS/output/hab_scores_summary.csv
 </title>
-<g id="a_node7"><a xlink:title="New commit: https://github.com/OHI-Science/ohibc/commit/1a61a123988d191fe659112b8ca47c6ad7122a04"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="71.7808" cy="-18" rx="47.0146" ry="18"></ellipse> <text text-anchor="middle" x="71.7808" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">hab_scores_summary.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd --> <g id="node8" class="node">
+<g id="a_node7"><a xlink:title="New commit: https://github.com/OHI-Science/ohibc/commit/3bcd15ff8fed71f0c8097c8043ba86443695ed9f"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="71.7808" cy="-18" rx="47.0146" ry="18"></ellipse> <text text-anchor="middle" x="71.7808" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">hab_scores_summary.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd --> <g id="node8" class="node">
 <title>
 ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd
 </title>
-<g id="a_node8"><a xlink:title="no version control info found"> <polygon fill="#e6c18a" stroke="red" stroke-width="3" points="540.304,-194.4 449.258,-194.4 449.258,-158.4 540.304,-158.4 540.304,-194.4"></polygon> <text text-anchor="middle" x="494.781" y="-174.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_howesound.Rmd</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#setup --> <g id="node9" class="node">
+<g id="a_node8"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/c90edd5c888d8c8d136fef25fc1107f1dedae22e"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="540.304,-194.4 449.258,-194.4 449.258,-158.4 540.304,-158.4 540.304,-194.4"></polygon> <text text-anchor="middle" x="494.781" y="-174.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_howesound.Rmd</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#setup --> <g id="node9" class="node">
 <title>
 ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#setup
 </title>
-<g id="a_node9"><a xlink:title="no version control info found"> <polygon fill="#e6c18a" stroke="red" stroke-width="3" points="750.313,-115.2 641.249,-115.2 641.249,-79.2 750.313,-79.2 750.313,-115.2"></polygon> <text text-anchor="middle" x="695.781" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_howesound.Rmd#setup</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd&#45;&gt;~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#setup --> <g id="edge14" class="edge">
+<g id="a_node9"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/c90edd5c888d8c8d136fef25fc1107f1dedae22e"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="750.313,-115.2 641.249,-115.2 641.249,-79.2 750.313,-79.2 750.313,-115.2"></polygon> <text text-anchor="middle" x="695.781" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_howesound.Rmd#setup</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd&#45;&gt;~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#setup --> <g id="edge14" class="edge">
 <title>
 <sub>/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd-&gt;</sub>/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#setup
 </title>
@@ -813,7 +608,7 @@ $(document).ready(function () {
 <title>
 ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#prov_footer
 </title>
-<g id="a_node13"><a xlink:title="no version control info found"> <polygon fill="#e6c18a" stroke="red" stroke-width="3" points="622.981,-115.2 498.58,-115.2 498.58,-79.2 622.981,-79.2 622.981,-115.2"></polygon> <text text-anchor="middle" x="560.781" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_howesound.Rmd#prov_footer</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd&#45;&gt;~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#prov_footer --> <g id="edge18" class="edge">
+<g id="a_node13"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/c90edd5c888d8c8d136fef25fc1107f1dedae22e"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="622.981,-115.2 498.58,-115.2 498.58,-79.2 622.981,-79.2 622.981,-115.2"></polygon> <text text-anchor="middle" x="560.781" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_howesound.Rmd#prov_footer</text> </a> </g> </g> <!-- ~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd&#45;&gt;~/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#prov_footer --> <g id="edge18" class="edge">
 <title>
 <sub>/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd-&gt;</sub>/github/ohibc/prep/hab/vHS/goal_prep_howesound.Rmd#prov_footer
 </title>
@@ -835,8 +630,8 @@ $(document).ready(function () {
 </title>
 <g id="a_edge13"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M71.7808,-79.0668C71.7808,-67.9726 71.7808,-53.4093 71.7808,-41.4011"></path> <polygon fill="#3d6633" stroke="#3d6633" points="73.5309,-41.0853 71.7808,-36.0853 70.0309,-41.0853 73.5309,-41.0853"></polygon> </a> </g> <text text-anchor="middle" x="94.7872" y="-55.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> </g>
 </svg>
-<div id="htmlwidget-b0cb5e8521ae23653536" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b0cb5e8521ae23653536">{"x":{"filter":"none","caption":"<caption>Provenance summary for run 3 (0fb3004): standard run (Wed Oct 26 11:16:51 2016)\u003c/caption>","data":[[0,0,0,0,0,0,1,2,3,4,5,6,7,8,9,10,11,12,13],["goal_prep_howesound.Rmd","goal_prep_howesound.Rmd#load_cp_data","goal_prep_howesound.Rmd#load_cs_data","goal_prep_howesound.Rmd#load_hab_data","goal_prep_howesound.Rmd#prov_footer","goal_prep_howesound.Rmd#setup","rast_tools.R","howe_forest_status_trend.csv","howe_saltmarsh_status_trend.csv","howe_seagrass_status_trend.csv","cp_scores_summary.csv","howe_forest_status_trend.csv","howe_saltmarsh_status_trend.csv","howe_seagrass_status_trend.csv","cs_scores_summary.csv","howe_forest_status_trend.csv","howe_saltmarsh_status_trend.csv","howe_seagrass_status_trend.csv","hab_scores_summary.csv"],["prov_footer","load_cp_data","load_cs_data","load_hab_data","prov_footer","setup","setup","load_cp_data","load_cp_data","load_cp_data","load_cp_data","load_cs_data","load_cs_data","load_cs_data","load_cs_data","load_hab_data","load_hab_data","load_hab_data","load_hab_data"],["~/github/ohibc/prep/hab/vHS","~/github/ohibc/prep/hab/vHS","~/github/ohibc/prep/hab/vHS","~/github/ohibc/prep/hab/vHS","~/github/ohibc/prep/hab/vHS","~/github/ohibc/prep/hab/vHS","~/github/ohibc/src/R","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/output","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/output","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/output"],["parent_script","parent_chunk","parent_chunk","parent_chunk","parent_chunk","parent_chunk","sourced_script","input","input","input","output","input","input","input","output","input","input","input","output"],[null,null,null,null,null,null,true,true,true,true,false,true,true,true,false,true,true,true,false],[null,null,null,null,null,null,"6f999be","0eed5c3","0eed5c3","0eed5c3","1a61a12","0eed5c3","0eed5c3","0eed5c3","1a61a12","0eed5c3","0eed5c3","0eed5c3","1a61a12"]],"container":"<table class=\"stripe hover compact\">\n  <thead>\n    <tr>\n      <th>sequence\u003c/th>\n      <th>file_name\u003c/th>\n      <th>parent_chunk\u003c/th>\n      <th>file_dir\u003c/th>\n      <th>filetype\u003c/th>\n      <th>uncomm_chgs\u003c/th>\n      <th>commit_hash_short\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"dom":"tp","columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-51639c072426e52db268" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-51639c072426e52db268">{"x":{"filter":"none","caption":"<caption>Provenance summary for run 8 (1ac589c): standard run (Wed Oct 26 15:40:26 2016)\u003c/caption>","data":[[0,0,0,0,0,0,1,2,3,4,5,6,7,8,9,10,11,12,13],["goal_prep_howesound.Rmd","goal_prep_howesound.Rmd#load_cp_data","goal_prep_howesound.Rmd#load_cs_data","goal_prep_howesound.Rmd#load_hab_data","goal_prep_howesound.Rmd#prov_footer","goal_prep_howesound.Rmd#setup","rast_tools.R","howe_forest_status_trend.csv","howe_saltmarsh_status_trend.csv","howe_seagrass_status_trend.csv","cp_scores_summary.csv","howe_forest_status_trend.csv","howe_saltmarsh_status_trend.csv","howe_seagrass_status_trend.csv","cs_scores_summary.csv","howe_forest_status_trend.csv","howe_saltmarsh_status_trend.csv","howe_seagrass_status_trend.csv","hab_scores_summary.csv"],["prov_footer","load_cp_data","load_cs_data","load_hab_data","prov_footer","setup","setup","load_cp_data","load_cp_data","load_cp_data","load_cp_data","load_cs_data","load_cs_data","load_cs_data","load_cs_data","load_hab_data","load_hab_data","load_hab_data","load_hab_data"],["~/github/ohibc/prep/hab/vHS","~/github/ohibc/prep/hab/vHS","~/github/ohibc/prep/hab/vHS","~/github/ohibc/prep/hab/vHS","~/github/ohibc/prep/hab/vHS","~/github/ohibc/prep/hab/vHS","~/github/ohibc/src/R","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/output","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/output","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/int","~/github/ohibc/prep/hab/vHS/output"],["parent_script","parent_chunk","parent_chunk","parent_chunk","parent_chunk","parent_chunk","sourced_script","input","input","input","output","input","input","input","output","input","input","input","output"],[true,true,true,true,true,true,false,true,true,true,false,true,true,true,false,true,true,true,false],["c90edd5","c90edd5","c90edd5","c90edd5","c90edd5","c90edd5","c90edd5","c90edd5","c90edd5","c90edd5","3bcd15f","c90edd5","c90edd5","c90edd5","3bcd15f","c90edd5","c90edd5","c90edd5","3bcd15f"]],"container":"<table class=\"stripe hover compact\">\n  <thead>\n    <tr>\n      <th>sequence\u003c/th>\n      <th>file_name\u003c/th>\n      <th>parent_chunk\u003c/th>\n      <th>file_dir\u003c/th>\n      <th>filetype\u003c/th>\n      <th>uncomm_chgs\u003c/th>\n      <th>commit_hash_short\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"dom":"tp","columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 
 
