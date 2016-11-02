@@ -179,6 +179,14 @@ write_csv(cp_scores_summary, file.path(dir_goal, 'output', 'cp_scores_summary.cs
 
 knitr::kable(cp_scores_summary, caption = 'Coastal Protection')
 
+cp_scores_layer <- cp_scores_summary %>%
+  select(cp_status = cp_st_tot,
+         cp_trend  = cp_tr_tot) %>%
+  distinct()
+
+write_csv(cp_scores_layer, file.path(dir_goal, 'output', 'cp_scores.csv'))
+
+
 ```               
                   
 ***
@@ -273,6 +281,14 @@ write_csv(cs_scores_summary, file.path(dir_goal, 'output', 'cs_scores_summary.cs
 
 knitr::kable(cs_scores_summary, caption = 'Carbon Storage')
 
+cs_scores_layer <- cs_scores_summary %>%
+  select(cs_status = cs_st_tot,
+         cs_trend  = cs_tr_tot) %>%
+  distinct()
+
+write_csv(cs_scores_layer, file.path(dir_goal, 'output', 'cs_scores.csv'))
+
+
 ```               
 
 ***
@@ -356,6 +372,13 @@ hab_scores_summary <- hab_scores %>%
 write_csv(hab_scores_summary, file.path(dir_goal, 'output', 'hab_scores_summary.csv'))
 
 knitr::kable(hab_scores_summary, caption = 'Habitats')
+
+hab_scores_layer <- hab_scores_summary %>%
+  select(hab_status = hab_st_tot,
+         hab_trend  = hab_tr_tot) %>%
+  distinct()
+
+write_csv(hab_scores_layer, file.path(dir_goal, 'output', 'hab_scores.csv'))
 
 ```     
 

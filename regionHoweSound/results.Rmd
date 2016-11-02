@@ -1,0 +1,184 @@
+---
+title: 'OHIBC: data_prep_spp.Rmd'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R;
+  ### includes library(tidyverse); library(stringr)
+
+dir_git     <- '~/github/ohibc'
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+results_rgn <- 'regionHoweSound'
+dir_results <- file.path(dir_git, results_rgn)
+dir_results_anx <- file.path(dir_anx, results_rgn)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### support scripts
+source(file.path('~/github/ohibc/src/R/map_scores.R'))
+  ### score plotting scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### raster plotting and analyzing scripts
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+```
+
+[REFERENCE RMD FILE: https://cdn.rawgit.com/OHI-Science/ohiprep/master/globalprep/prs_oa/v2016/oa_dataprep.html]
+
+# Summary
+
+Gather results from OHI Howe Sound goals into a single report; create visuals for each goal
+
+***
+
+# Gather scores for all Howe Sound goals
+
+``` {r get_all_scores}
+
+
+get_scores <- function(layer) { # layer <- hs_layers[1, ]
+  dir_goal <- file.path(layer$base_dir, layer$dir, layer$scenario, 'output')
+
+  st_df <- read_csv(file.path(dir_goal, layer$status_fn))
+  
+  ### add rgn_id and year if not present
+  if(!('rgn_id' %in% names(st_df))) st_df$rgn_id <- 1
+  if(!('year' %in% names(st_df)))   st_df$year   <- NA
+  
+  ### rename status column to score
+  names(st_df)[names(st_df) == layer$status] <- 'score'
+  
+  ### select and add dimension column
+  st_df <- st_df %>%
+    select(rgn_id, score, year) %>%
+    mutate(score = score/layer$layer_scale) %>% ### to account for 0-1 vs 0-100
+    mutate(dimension = 'status')
+  
+  ### gather trend info
+  tr_df <- read_csv(file.path(dir_goal, layer$trend_fn))
+  
+  ### add rgn_id and year if not present
+  if(!('rgn_id' %in% names(tr_df))) tr_df$rgn_id <- 1
+  if(!('year' %in% names(tr_df)))   tr_df$year   <- NA
+  
+  ### rename status column to score
+  names(tr_df)[names(tr_df) == layer$trend] <- 'score'
+  
+  ### select and dimension column
+  tr_df <- tr_df %>%
+    select(rgn_id, score, year) %>%
+    mutate(dimension = 'trend')
+  
+  score_df <- bind_rows(st_df, tr_df) %>%
+    mutate(goal = layer$goal)
+  
+}
+
+hs_layers <- read_csv(file.path(dir_results, 'layers.csv')) %>%
+  filter(layer_include == TRUE)
+
+### convert layers dataframe into a list of df rows; this allows
+### lapply to work on each as a dataframe instead of atomic vector
+hs_layers_list <- split(hs_layers, seq(nrow(hs_layers)))
+
+scores <- lapply(hs_layers_list, get_scores) %>%
+  bind_rows()
+
+write_csv(scores, file.path(dir_results, 'scores.csv'))
+
+```
+
+# Create flower plot
+
+``` {r create_flower_plot}
+
+layers <- read_csv(file.path(dir_results, 'layers.csv'))
+
+status_df <- read_csv(file.path(dir_results, 'scores.csv')) %>%
+  filter(dimension == 'status') %>%
+  left_join(layers %>% select(goal, weight), by = 'goal') %>%
+  bind_rows(.[1, ] %>%
+              mutate(goal = 'kittens', score = NA, weight = .3))
+
+# source(file.path(dir_git, 'src/R/plot_flower.R'))
+# # source('https://raw.githubusercontent.com/OHI-Science/bhi/draft/baltic2015/PlotFlowerMulti.R')
+# ohicore::PlotFlower(main       = 'Howe Sound',
+#                     lengths    = ifelse(is.na(scores$score), 100, scores$score),
+#                     widths     = scores$weight,
+#                     fill.col   = ifelse(is.na(scores$cols.goals.all), 'grey80', scores$cols.goals.all),
+#                     labels     = ifelse(is.na(scores$score),
+#                                         paste(scores$goal, '-', sep='\n'),
+#                                         paste(as.character(scores$goal), round(scores$score), sep='\n')),
+#                     center     = 'X',
+#                     max.length = 1)
+# dev.off()
+
+# PlotFlower = function (lengths, widths, labels, disk=0.5, max.length,
+#                   center=NULL, main=NULL, fill.col=NULL, plot.outline=TRUE,
+#                   label.offset=0.15, xlim=c(-1.2, 1.2), ylim=c(-1.2, 1.2), uin=NULL,
+#                   tol=0.04, cex=1, bty="n", lty=1, 
+#                   label.col='black', label.font=3, label.cex=NULL, ...)
+# plot_flower(lengths = status_df$score, widths = status_df$weight, labels = status_df$goal, max.length = 1)
+
+status_df <- status_df %>% ### last + half(previous_width) + half(current_width)
+  mutate(pos = cumsum(weight) - 0.5 * weight, #+ 0.5 * lag(weight, 1, default = 0),
+         pos_end = last(pos) + 0.5 * last(weight))
+  
+p_labels <- status_df$goal
+p_breaks <- status_df$pos
+p_limits <- c(0, status_df$pos_end[1])
+p_score  <- round(weighted.mean(status_df$score, status_df$weight, na.rm = TRUE) * 100, 0)
+
+hs_flower <- ggplot(data = status_df, aes(x = pos, y = score, fill = score, width = weight)) +
+  geom_bar(aes(y = 1), stat = 'identity', color = 'grey95', fill = 'grey90') +
+  geom_bar(stat = 'identity', color = 'grey20', size = .2) +
+  coord_polar(start = - status_df$pos[1]/status_df$pos_end[1] * 2 * pi) + 
+  scale_fill_gradientn(colors = brewer.pal(n = 11, name = 'RdYlBu'), limits = c(0, 1),
+                       breaks = seq(0, 1, .2), labels = seq(0, 100, 20)) +
+  scale_x_continuous(labels = p_labels, breaks = p_breaks, limits = p_limits) + 
+  scale_y_continuous(limits = c(-.5, 1))
+
+hs_flower <- hs_flower + 
+  ggtheme_plot +
+  theme(panel.grid.major = element_blank(),
+        axis.line = element_blank(),
+        axis.text.y = element_blank(),
+        axis.title = element_blank()) +
+  geom_text(aes(label = p_score), x = 0, y = -.5, hjust = .5, vjust = .5)
+
+ggsave(filename = file.path(dir_results, 'howe_sound_flower.png'),
+       height = 9, width = 11, units = 'cm',
+       plot = hs_flower)
+
+```
+***
+
+# Citation information  
+[citation information: include if these data will have their own specific citation.]
+
+***
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup()
+```
+
