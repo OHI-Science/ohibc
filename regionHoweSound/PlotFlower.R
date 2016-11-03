@@ -71,7 +71,7 @@
 ##' }
 ##' @import ggplot2
 ##' @export
-plot_flower = function (lengths, widths, labels, disk=0.5, max.length,
+PlotFlower = function (lengths, widths, labels, disk=0.5, max.length,
                   center=NULL, main=NULL, fill.col=NULL, plot.outline=TRUE,
                   label.offset=0.15, xlim=c(-1.2, 1.2), ylim=c(-1.2, 1.2), uin=NULL,
                   tol=0.04, cex=1, bty="n", lty=1,
