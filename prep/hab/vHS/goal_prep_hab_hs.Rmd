@@ -1,5 +1,5 @@
 ---
-title: 'OHIBC: goal_prep_howesound.Rmd'
+title: 'OHIBC Howe Sound: Habitat goal scores (CP, CS, HAB)'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:

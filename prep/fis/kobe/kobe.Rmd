@@ -1,0 +1,191 @@
+---
+title: 'OHIBC: Fisheries modified Kobe plots'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output:
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes:
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R;
+### includes library(tidyverse); library(stringr)
+library(ggplot2)
+
+
+dir_git     <- '~/github/ohibc'
+
+### goal specific folders and info
+goal      <- 'fis'
+scenario  <- 'kobe'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+
+```
+
+Kobe plot based upon B' and F', which are in turn based upon $F/F_{MSY}$ and $B/B_{MSY}$ relative to thresholds
+
+$$x_{fis} = \displaystyle\sum_{i=1}^{n}w_i*\left(\frac{F' + B'}{2}\right)$$
+
+* To calculate B', we define categories in which a given stock is overfished, underfished, or adequately fished.
+    * $B' = \frac{B/B_{MSY}}{0.8}$  when $B/B_{MSY}$ indicates an overfished stock ($B/B_{MSY} < 0.8$, where 0.8 is the overfished threshold)
+    * $B' = 1$ when $B/B_{MSY}$ indicates an appropriately fished stock ($0.8 <= B/B_{MSY} < 1.5$, where 1.5 is the underfished threshold)
+    * $B' = \frac{(B/B_{MSY})_{max} - (B/B_{MSY})}{(B/B_{MSY})_{max} - 1.5}$ when $B/B_{MSY}$ indicates underfished stock ($B/B_{MSY} >= 1.5$).  Note that $(B/B_{MSY})_{max}$ is the highest ratio found within the assessment region; here we will consider all fisheries within the entire BC EEZ)
+* To calculate F', we examine fishing pressure within two regimes: overfished stock ($B/B_{MSY} < 0.8$) and not overfished stock.
+    * $F' = 0$  when overfished, and grossly overfishing ($F/F_{MSY} > B/B_{MSY} + 1.5$)
+    * $F' = \frac{(B/B_{MSY} + 1.5) - F/F_{MSY}}{1.5}$  when overfished, and moderately overfishing ($B/B_{MSY} + 0.2 < F/F_{MSY} <= B/B_{MSY} + 1.5$)
+    * $F' = 1$  when overfished, and appropriately fishing ($B/B_{MSY} - 0.2 <= F/F_{MSY} < B/B_{MSY} + 0.2$)
+    * $F' = \frac{F/F_{MSY}}{B/B_{MSY} - 0.2}$  when overfished, and underfishing ($F/F_{MSY} < B/B_{MSY} - 0.2$)
+
+    * $F' = \frac{F/F_{MSY}}{0.8}$  when _not_ overfished, and underfishing ($F/F_{MSY} < 0.8$, where 0.8 is the underfishing threshold)
+    * $F' = 1$  when _not_ overfished, and appropriate fishing ($0.8 <= F/F_{MSY} < 1.2$, where 0.8 and 1.2 are under- and over-fishing thresholds)
+    * $F' = \frac{(F/F_{MSY})_{max} - F/F_{MSY}}{(F/F_{MSY})_{max} - 1.2}$  when _not_ overfished, and overfishing ($0.8 <= F/F_{MSY} < 1.2$, where 1.2 is the overfishing threshold)
+
+
+* To calculate $B'$, we define categories in which a given stock is overfished, underfished, or adequately fished based on $B/B_{MSY}$.  These are based on $B/B_{MSY}$ thresholds of $\theta_{OF}$ = 0.8 (overfished) and $\theta_{UF}$ = 1.5 (underfished): 
+
+| $B'$ calculation        | Stock condition                                |
+| :---------------------: | :--------------------------------------------- |
+| $B' = \frac{B/B_{MSY}}{0.8}$ | Overfished ($B/B_{MSY} < \theta_{OF}$) |
+| $B' = 1$                | Appropriately fished ($\theta_{OF} <= B/B_{MSY} < \theta_{UF}$) |
+| $B' = \frac{(B/B_{MSY})_{max} - (B/B_{MSY})}{(B/B_{MSY})_{max} - 1.5}$ | Underfished ($B/B_{MSY} >= \theta_{UF}$) |
+
+* To calculate F', we examine fishing pressure within two regimes: overfished stock ($B/B_{MSY} < \theta_{OF}$) and not overfished stock ($B/B_{MSY} >= \theta_{OF}$).  Within each regime we divide fishing pressure into overfishing, underfishing, and appropriate fishing pressures based on $F/F_{MSY}$, including under- and overfishing $F/F_{MSY}$ thresholds of $\psi_{UF}$ = 0.8 and $\psi_{OF}$ = 1.2, respectively.
+
+| $F'$ calculation        | Stock condition    | Fishing pressure                       |
+| :---------------------: | :----------------- | :---------------------------           |
+| $F' = 0$                | Overfished         | Gross overfishing ($F/F_{MSY} > B/B_{MSY} + 1.5$) |
+| $F' = \frac{(B/B_{MSY} + 1.5) - F/F_{MSY}}{1.5}$ | Overfished | Moderate overfishing ($B/B_{MSY} + 0.2 < F/F_{MSY} <= B/B_{MSY} + 1.5$) |
+| $F' = 1$                | Overfished         | Appropriate fishing ($B/B_{MSY} - 0.2 <= F/F_{MSY} < B/B_{MSY} + 0.2$) |
+| $F' = \frac{F/F_{MSY}}{B/B_{MSY} - 0.2}$  | Overfished | Underfishing ($F/F_{MSY} < B/B_{MSY} - 0.2$) |
+| $F' = \frac{F/F_{MSY}}{\psi_{UF}}$ | _Not_ overfished | Underfishing ($F/F_{MSY} < \psi_{UF}$)
+| $F' = 1$                | _Not_ overfished   | Appropriate fishing ($\psi_{UF} <= F/F_{MSY} < \psi_{OF}$) |
+| $F' = \frac{(F/F_{MSY})_{max} - F/F_{MSY}}{(F/F_{MSY})_{max} - \psi_{OF}}$  | _Not_ overfished | Overfishing ($F/F_{MSY} >= \psi_{OF}$) |
+
+``` {r rescale_Bprime}
+
+rescale_bprime <- function(fish_stat_df,
+                           overfished_th  = 0.8,
+                           underfished_th = 1.5) {
+  
+  fish_stat_df <- fish_stat_df %>%
+    # group_by(stock) %>% ### grouping by stock will set b_max by max per stock, instead of max overall
+    mutate(b_max     = max(b_bmsy, na.rm = TRUE)) %>%
+    ungroup() %>%
+    mutate(bPrime = NA,
+           bPrime = ifelse(b_bmsy < overfished_th, 
+                           b_bmsy / overfished_th,       ### overfished stock     
+                           bPrime),
+           bPrime = ifelse(b_bmsy >= overfished_th & b_bmsy < underfished_th, 
+                           1,                          ### appropriately fished stock
+                           bPrime),
+           bPrime = ifelse(b_bmsy >= underfished_th, 
+                           (b_max - b_bmsy) / (b_max - underfished_th), ### underfished stock
+                           bPrime))
+  
+  return(fish_stat_df)
+}
+
+
+```
+
+``` {r rescale_Fprime}
+
+rescale_fprime <- function(fish_stat_df,
+                           overfished_th  = 0.8,
+                           underfishing_th = 0.8, 
+                           overfishing_th = 1.2) {
+  ### check thresholds for
+  ### * IF OVERFISHED:
+  ###   * f_fmsy >= b_bmsy + 1.5: gross overfishing?
+  ###   * f_fmsy >= b_bmsy + 0.2: moderate overfishing?
+  ###   * f_fmsy >= b_bmsy - 0.2: OK fishing?
+  ###   * f_fmsy below that:      underfishing?
+  ### * IF NOT OVERFISHED:
+  ###   * f_fmsy >= 1.2: overfishing?
+  ###   * f_fmsy >= 0.8: OK fishing?
+  ###   * f_fmsy below that: underfishing?
+  
+  
+  fish_stat_df <- fish_stat_df %>%
+    # group_by(stock) %>% ### grouping by stock will set f_max by max per stock, instead of max overall
+    mutate(f_max     = max(f_fmsy, na.rm = TRUE),
+           f_max_mod = f_max - overfishing_th) %>%
+    ungroup() %>%
+    mutate(fPrime = NA,
+           fPrime = ifelse(b_bmsy < overfished_th & f_fmsy >= (b_bmsy + 1.5),
+                           0,                     ### overfished, gross overfishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy < overfished_th & (f_fmsy >= (b_bmsy + 0.2) & f_fmsy < (b_bmsy + 1.5)),
+                           (b_bmsy + 1.5 - f_fmsy)/1.5, ### overfished, overfishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy < overfished_th & (f_fmsy >= (b_bmsy - 0.2) & f_fmsy < (b_bmsy + 0.2)),
+                           1,                     ### overfished, moderate fishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy < overfished_th & f_fmsy < (b_bmsy - 0.2),
+                           f_fmsy/(b_bmsy - 0.2), ### overfished, low fishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy >= overfished_th & f_fmsy < underfishing_th,
+                           f_fmsy/underfishing_th, ### NOT overfished, low fishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy >= overfished_th & (f_fmsy >= underfishing_th & f_fmsy < overfishing_th),
+                           1,                     ### NOT overfished, OK fishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy >= overfished_th & f_fmsy >= overfishing_th,
+                           (f_max - f_fmsy) / f_max_mod,  ### NOT overfished, overfishing
+                           fPrime))
+  
+  return(fish_stat_df)
+}
+
+         
+```
+
+The following plots assume a local maximum B/Bmsy of 3.5, and a local maximum F/Fmsy of 2.5.
+``` {r generate_kobe_plot, eval = TRUE}
+
+f_fmsy_max <- 2.5
+b_bmsy_max <- 3.5
+reso = 0.01
+
+fish_stat_df <- data.frame(f_fmsy = rep(seq(0, f_fmsy_max, reso), each  = b_bmsy_max/reso + 1),
+                           b_bmsy = rep(seq(0, b_bmsy_max, reso), times = f_fmsy_max/reso + 1))
+
+kobe <- fish_stat_df %>% 
+  rescale_bprime(overfished_th = 0.8) %>%
+  rescale_fprime(overfished_th = 0.8) %>%
+  mutate(x = (fPrime + bPrime)/2)
+
+kobe_fPrime_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = fPrime)) +
+  ggtheme_plot + 
+  geom_raster(alpha = .8) +
+  scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
+  labs(title = 'F\' = f(B/Bmsy, F/Fmsy)',
+       fill = 'F\' value',
+       x = 'B/Bmsy',
+       y = 'F/Fmsy')
+
+print(kobe_fPrime_plot)
+ggsave(filename = file.path(dir_goal, 'kobe_fPrime.png'), width = 8, units = 'cm')
+
+kobe_fis_score_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = x)) +
+  ggtheme_plot + 
+  geom_raster(alpha = .8) +
+  scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
+  labs(title = 'FIS = f(B/Bmsy, F/Fmsy)',
+       fill = 'FIS score',
+       x = 'B/Bmsy',
+       y = 'F/Fmsy')
+
+print(kobe_fis_score_plot)
+ggsave(filename = file.path(dir_goal, 'kobe_fis_score.png'), width = 8, units = 'cm')
+```
+

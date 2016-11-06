@@ -25,9 +25,9 @@ dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer re
 dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
 
 ### goal specific folders and info
-results_rgn <- 'regionHoweSound'
-dir_results <- file.path(dir_git, results_rgn)
-dir_results_anx <- file.path(dir_anx, results_rgn)
+scenario_rgn <- 'regionHoweSound'
+dir_scenario <- file.path(dir_git, scenario_rgn)
+dir_scenario_anx <- file.path(dir_anx, scenario_rgn)
 
 ### provenance tracking
 library(provRmd); prov_setup()
@@ -94,7 +94,7 @@ get_scores <- function(layer) { # layer <- hs_layers[1, ]
   
 }
 
-hs_layers <- read_csv(file.path(dir_results, 'layers.csv')) %>%
+hs_layers <- read_csv(file.path(dir_scenario, 'layers.csv')) %>%
   filter(layer_include == TRUE)
 
 ### convert layers dataframe into a list of df rows; this allows
@@ -104,7 +104,7 @@ hs_layers_list <- split(hs_layers, seq(nrow(hs_layers)))
 scores <- lapply(hs_layers_list, get_scores) %>%
   bind_rows()
 
-write_csv(scores, file.path(dir_results, 'scores.csv'))
+write_csv(scores, file.path(dir_scenario, 'scores.csv'))
 
 ```
 
@@ -112,71 +112,32 @@ write_csv(scores, file.path(dir_results, 'scores.csv'))
 
 ``` {r create_flower_plot}
 
-layers <- read_csv(file.path(dir_results, 'layers.csv'))
+layers <- read_csv(file.path(dir_scenario, 'layers.csv'))
 
-status_df <- read_csv(file.path(dir_results, 'scores.csv')) %>%
+status_df <- read_csv(file.path(dir_scenario, 'scores.csv')) %>%
   filter(dimension == 'status') %>%
   left_join(layers %>% select(goal, weight), by = 'goal') %>%
   bind_rows(.[1, ] %>%
-              mutate(goal = 'kittens', score = NA, weight = .3))
+              mutate(goal = 'foo', score = NA, weight = .3))
 
 # PlotFlower = function (lengths, widths, labels, disk=0.5, max.length,
 #                   center=NULL, main=NULL, fill.col=NULL, plot.outline=TRUE,
 #                   label.offset=0.15, xlim=c(-1.2, 1.2), ylim=c(-1.2, 1.2), uin=NULL,
 #                   tol=0.04, cex=1, bty="n", lty=1, 
 #                   label.col='black', label.font=3, label.cex=NULL, ...)
-# ohicore::PlotFlower(lengths = status_df$score, widths = status_df$weight, labels = status_df$goal, max.length = 1)
+# ohicore::PlotFlower(lengths = status_df$score, widths = status_df$weight, labels = status_df$goal, max.length = 1, plot.outline=TRUE)
 
-plot_flower <- function(score_df,
-                        filename = NULL, ### give it a file name to save the plot
-                        showplot = TRUE) {
-  
-  ### set up positions for the bar centers
-  score_df <- score_df %>% ### last + half(previous_width) + half(current_width)
-    mutate(pos = cumsum(weight) - 0.5 * weight, #+ 0.5 * lag(weight, 1, default = 0),
-           pos_end = last(pos) + 0.5 * last(weight))
-    
-  p_labels <- score_df$goal
-  p_breaks <- score_df$pos
-  p_limits <- c(0, score_df$pos_end[1])
-  p_score  <- round(weighted.mean(score_df$score, score_df$weight, na.rm = TRUE) * 100, 0)
-  
-  plot_obj <- ggplot(data = score_df, aes(x = pos, y = score, fill = score, width = weight)) +
-    ### sets up the background/borders to the external boundary (100%) of plot:
-    geom_bar(aes(y = 1), stat = 'identity', color = 'grey95', fill = 'grey90') +
-    ### plots the actual scores on top of background/borders:
-    geom_bar(stat = 'identity', color = 'grey20', size = .2) +
-    ### turns linear bar chart into polar coordinates:
-    coord_polar(start = - score_df$pos[1]/score_df$pos_end[1] * 2 * pi) + 
-    ### sets petal colors to the red-yellow-blue color scale:
-    scale_fill_gradientn(colors = brewer.pal(n = 11, name = 'RdYlBu'), limits = c(0, 1),
-                         breaks = seq(0, 1, .2), labels = seq(0, 100, 20)) +
-    ### uses weights to assign widths to petals:
-    scale_x_continuous(labels = p_labels, breaks = p_breaks, limits = p_limits) + 
-    ### setting the limits to -.5 leaves an open hole in the middle (bars start at 0):
-    scale_y_continuous(limits = c(-.5, 1))
-  
-  plot_obj <- plot_obj + 
-    ggtheme_plot +
-    theme(panel.grid.major = element_blank(),
-          axis.line = element_blank(),
-          axis.text.y = element_blank(),
-          axis.title = element_blank()) +
-    geom_text(aes(label = p_score), x = 0, y = -.5, hjust = .5, vjust = .5)
-  
-  if(showplot) {
-    print(plot_obj)
-  }
-  
-  if(!is.null(filename)) {
-    ggsave(filename = filename,
-         height = 9, width = 11, units = 'cm',
-         plot = plot_obj)
-  }
-}
+source(file.path(dir_scenario, 'plot_flower.R'))
+plot_flower(status_df,
+            score_ref   = 1,    ### scale from 0-1 or 0-100? default is 0-100
+            outline     = FALSE,   ### show the outer borders; default is yes indeedy
+            filename    = NULL, #file.path(dir_scenario, 'howe_sound_flower1.png'))
+            center_text = NULL, ### pass it a number or label; default is blank
+            incl_center_score = TRUE, ### overridden if center_text != NULL
+            incl_goal_labels  = TRUE, ### show goal labels? FALSE hides the goal labels
+            incl_legend = FALSE, ### show the legend? FALSE hides the legend
+            show_plot   = TRUE)
 
-plot_flower(score_df = status_df, 
-            filename = file.path(dir_results, 'howe_sound_flower.png'))
 
 ```
 ***
