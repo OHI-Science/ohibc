@@ -17,7 +17,7 @@ output:
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
                       echo = FALSE, message = FALSE, warning = FALSE)
 
-source('~/github/ohibc/src/R/common.R'))  ### an OHIBC specific version of common.R;
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R;
   ### includes library(tidyverse); library(stringr)
 
 dir_git     <- '~/github/ohibc'

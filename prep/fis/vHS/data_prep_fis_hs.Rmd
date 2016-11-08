@@ -17,7 +17,7 @@ output:
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
                       echo = FALSE, message = FALSE, warning = FALSE)
 
-source('~/github/ohibc/src/R/common.R'))  ### an OHIBC specific version of common.R;
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R;
   ### includes library(tidyverse); library(stringr)
 
 dir_git     <- '~/github/ohibc'
@@ -50,7 +50,8 @@ The Fisheries goal for Howe Sound will be calculated based on only important loc
 
 ***
 
-# Data Source [NOTE: can be copied from README.md in rawdata file]
+# Data Source 
+
 **Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
 
 **Downloaded**: [date downloaded or received]
@@ -107,10 +108,86 @@ In absence of estimates related to the status of the stock and of the fishery at
     * The average fishing mortality (or an index of fishing mortality) that did not lead to stock decline over a productive period; or
     * The fishing mortality equal to natural mortality inferred from life history characteristics of the species.
 
-***
+# Results
 
-# Citation information  
-[citation information: include if these data will have their own specific citation.]
+Since the only fishery of interest in Howe Sound is the shrimp fishery, for which data to calculate $B/B_{MSY}$ and $F/F_{MSY}$ is not currently available, we must rely on the PA status and pressure.  
+
+As noted above, shrimp trawl stock status is listed as "Healthy", suggesting a $B/B_{MSY}$ of 1.0 or greater;  harvest relative to removal reference is listed as "at or below reference," suggesting a $F/F_{MSY}$ of 1.0 or less.  While a healthy stock being harvested at or below its removal reference would qualify as a 100% score for the fishery, it is possible that the stock is actually being underutilized relative to its maximum sustainable yield.
+
+``` {r generate_scores}
+
+stock_status_df <- data.frame(fishery = 'shrimp_trawl', b_bmsy = 1, f_fmsy = 1)
+
+write_csv(stock_status_df, file.path(dir_goal, 'output', 'stock_status.csv'))
+
+fis_scores <- data.frame(rgn_id = 1, status = 1, trend = 0)
+
+write_csv(fis_scores, file.path(dir_goal, 'output', 'fis_scores.csv'))
+
+```
+
+`r knitr::kable(stock_status_df)`
+
+`r knitr::kable(fis_scores)`
+
+``` {r generate_kobe_plot_crit, eval = TRUE}
+
+source(file.path(dir_goal, '../v2016/kobe_fxns.R'))
+
+kobe <- generate_kobe_df()
+  
+kobe_fPrime_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = fPrime)) +
+  ggtheme_plot + 
+  geom_raster(alpha = .8) +
+  scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
+  annotate(geom = 'rect', 
+           xmin = 1, xmax = max(kobe$b_bmsy), ymin = 0, ymax = 1,
+           color = rgb(.6, .6, 1, .5), fill = rgb(.6, .6, 1, .2)) +
+  annotate(geom = 'text',
+           x = max(kobe$b_bmsy) - .25, hjust = 1,
+           y = 0.25, vjust = 0.5,
+           color = 'grey20',
+           label = 'underutilized fishery') +
+  geom_point(x = 1, y = 1, size = 2, shape = 1, color = 'blue', fill = NA) +
+  annotate(geom = 'text',
+           x = 1.1, y = 1.1, 
+           label = 'shrimp trawl', 
+           color = 'grey20') +
+  labs(title = 'F\' = f(B/Bmsy, F/Fmsy)',
+       fill = 'F\' value',
+       x = 'B/Bmsy',
+       y = 'F/Fmsy')
+
+print(kobe_fPrime_plot)
+ggsave(filename = file.path(dir_goal, 'figs/hs_kobe_fPrime.png'), width = 8, height = 6, units = 'cm')
+
+kobe_fis_score_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = x)) +
+  ggtheme_plot + 
+  geom_raster(alpha = .8) +
+  scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
+  annotate(geom = 'rect', 
+           xmin = 1, xmax = max(kobe$b_bmsy), ymin = 0, ymax = 1,
+           color = rgb(.6, .6, 1, .5), fill = rgb(.6, .6, 1, .2)) +
+  annotate(geom = 'text',
+           x = max(kobe$b_bmsy) - .5, hjust = 1,
+           y = 0.25, vjust = 0.5,
+           color = 'grey20',
+           label = 'underutilized fishery') +
+  geom_point(x = 1, y = 1, size = 2, shape = 1, color = 'blue', fill = NA) +
+  annotate(geom = 'text',
+           x = 1.1, y = 1.1, 
+           label = 'shrimp trawl', 
+           color = 'grey20') +
+  labs(title = 'FIS = f(B/Bmsy, F/Fmsy)',
+       fill = 'FIS score',
+       x = 'B/Bmsy',
+       y = 'F/Fmsy')
+
+print(kobe_fis_score_plot)
+ggsave(filename = file.path(dir_goal, 'figs/hs_kobe_fis_score.png'), width = 8, height = 6, units = 'cm')
+
+```
+
 
 ***
 
