@@ -287,7 +287,7 @@ kobe_fPrime_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = fPrim
        y = 'F/Fmsy')
 
 print(kobe_fPrime_plot)
-ggsave(filename = file.path(dir_goal, 'kobe_fPrime_crit.png'), width = 8, units = 'cm')
+ggsave(filename = file.path(dir_goal, 'kobe_fPrime_crit.png'), width = 8, height = 6, units = 'cm')
 
 kobe_fis_score_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = x)) +
   ggtheme_plot + 
@@ -299,6 +299,6 @@ kobe_fis_score_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = x)
        y = 'F/Fmsy')
 
 print(kobe_fis_score_plot)
-ggsave(filename = file.path(dir_goal, 'kobe_fis_score_crit.png'), width = 8, units = 'cm')
+ggsave(filename = file.path(dir_goal, 'kobe_fis_score_crit.png'), width = 8, height = 6, units = 'cm')
 ```
 
