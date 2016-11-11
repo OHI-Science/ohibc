@@ -28,7 +28,7 @@ dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer re
 dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
 
 ### goal specific folders and info
-goal      <- 'hab'
+goal      <- 'hab_cs_cp'
 scenario  <- 'vHS'
 dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
 dir_v2016_anx <- file.path(dir_anx, goal, 'v2016')
