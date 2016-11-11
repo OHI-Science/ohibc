@@ -4,7 +4,7 @@ plot_flower <- function(score_df,
                         filename    = NULL,   ### give it a file name to save the plot; default is no save
                         center_text = NULL, ### pass it a number or label; default is blank
                         incl_center_score = TRUE, ### overridden if center_text != NULL
-                        incl_goal_labels  = TRUE, ### show goal labels? FALSE hides the goal labels
+                        incl_goal_labels = TRUE, ### show goal labels? FALSE hides the goal labels
                         incl_legend = TRUE, ### show the legend? FALSE hides the legend
                         show_plot   = TRUE) {
 
@@ -25,31 +25,39 @@ plot_flower <- function(score_df,
 
   ### some parameters for the plot:
   blank_circle_dia <- 100
-  border_line <- 'grey90'
-  border_fill <- 'white'
-  na_line     <- 'grey90'
-  na_fill     <- 'grey90'
-  goal_line   <- 'grey20'
+  light_line <- 'grey90'
+  white_fill <- 'white'
+  light_fill <- 'grey80'
+  med_line   <- 'grey50'
+  med_fill   <- 'grey52'
+  dark_line  <- 'grey20'
+  dark_fill  <- 'grey22'
 
   ### set up basic plot parameters
-  plot_obj <- ggplot(data = score_df %>%  ### temp set NAs to zero, so will draw a line
-                       mutate(score = ifelse(is.na(score), 0, score)),
+  plot_obj <- ggplot(data = score_df,
                      aes(x = pos, y = score, fill = score, width = weight))
 
   if(outline) {
     plot_obj <- plot_obj +
       ### sets up the background/borders to the external boundary (100%) of plot:
       geom_bar(aes(y = 100),
-               stat = 'identity', color = border_line, fill = border_fill) +
+               stat = 'identity', color = light_line, fill = white_fill, size = .2) +
+      geom_errorbar(aes(x = pos, ymin = 100, ymax = 100, width = weight),
+                    size = 0.5, color = light_line, show.legend = NA) +
       ### lays any NA bars on top of background, with darker grey:
       geom_bar(data = score_df_na, aes(x = pos, y = score),
-               stat = 'identity', color = na_line, fill = na_fill, size = .2)
+               stat = 'identity', color = light_line, fill = light_fill, size = .2)
   }
 
   ### establish the basics of the flower plot...
   plot_obj <- plot_obj +
     ### plots the actual scores on top of background/borders:
-      geom_bar(stat = 'identity', color = goal_line, size = .2) +
+      geom_bar(stat = 'identity', color = dark_line, size = .2) +
+      geom_errorbar(aes(x = pos, ymin = score, ymax = score),
+                    size = 0.5, color = dark_line, show.legend = NA) +
+    ### plot zero as a baseline:
+      geom_errorbar(aes(x = pos, ymin = 0, ymax = 0),
+                    size = 0.5, color = dark_line, show.legend = NA) +
     ### turns linear bar chart into polar coordinates:
       coord_polar(start = - score_df$pos[1]/score_df$pos_end[1] * 2 * pi) +
     ### sets petal colors to the red-yellow-blue color scale:
@@ -59,17 +67,21 @@ plot_flower <- function(score_df,
       scale_x_continuous(labels = p_labels, breaks = p_breaks, limits = p_limits) +
     ### setting the limits to a negative leaves an open hole in the middle (bars go from zero outward)
     ### if including goal labels, extend outer limits to make room for them.
-      scale_y_continuous(limits = c(-blank_circle_dia, ifelse(incl_goal_labels, 120, 100)))
+      scale_y_continuous(limits = c(-blank_circle_dia, ifelse(incl_goal_labels, 150, 100)))
 
 
   ### fill the center?
   ###   if center text is available use it; if not, see if center_score is desired
   if(!is.null(center_text)) {
     plot_obj <- plot_obj +
-      geom_text(aes(label = center_text), x = 0, y = -blank_circle_dia, hjust = .5, vjust = .5)
+      geom_text(aes(label = center_text), x = 0, y = -blank_circle_dia,
+                hjust = .5, vjust = .5,
+                color = dark_line)
   } else if(incl_center_score) {
     plot_obj <- plot_obj +
-      geom_text(aes(label = p_score), x = 0, y = -blank_circle_dia, hjust = .5, vjust = .5)
+      geom_text(aes(label = p_score), x = 0, y = -blank_circle_dia,
+                hjust = .5, vjust = .5,
+                color = dark_line)
   }
 
   ### clean up the theme
@@ -83,11 +95,14 @@ plot_flower <- function(score_df,
 
   ### include or exclude goal labels; dynamic if no border
   if(incl_goal_labels) {
+    ### if no outline, labels go near bars; otherwise place near outer edge
+    goal_labels <- score_df %>%
+      mutate(goal_label_y = ifelse(outline, 150, max_score + 50))
     plot_obj <- plot_obj +
-      ### if no outline, labels go near bars; otherwise place near outer edge
-        geom_text(data = score_df %>%
-                    mutate(score_label_y = ifelse(outline, 120, score + 20)),
-                  aes(label = goal, x = pos, y = score_label_y), hjust = .5, vjust = .5)
+      geom_text(data = goal_labels,
+                aes(label = goal, x = pos, y = goal_label_y),
+                hjust = .5, vjust = .5,
+                color = dark_line)
   }
 
   ### include or exclude the legend
@@ -104,7 +119,7 @@ plot_flower <- function(score_df,
 
   if(!is.null(filename)) {
     ggsave(filename = filename,
-           height = 9, width = 11, units = 'cm',
+           height = 6, width = 8, units = 'cm',
            plot = plot_obj)
   }
 

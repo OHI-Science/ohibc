@@ -5,11 +5,11 @@ rgn_id,score,year,dimension,goal
 1.0,-0.001785340640864554,NA,trend,cs
 1.0,0.865312136432155,NA,status,hab
 1.0,-0.0011205597309259367,NA,trend,hab
+1.0,0.8209523809523809,NA,status,spp
+1.0,0.001141853315766371,NA,trend,spp
 1.0,0.41619999999999996,2015,status,lsp
 1.0,0.059491,2015,trend,lsp
-1.0,0.810713263906629,2012,status,spp
-1.0,-0.100423610766522,2012,trend,spp
-1.0,0.59,NA,status,ico
-1.0,-0.166667,NA,trend,ico
+1.0,0.6566666666666667,NA,status,ico
+1.0,0.0035136799958931774,NA,trend,ico
 1.0,1.0,NA,status,fis
 1.0,0.0,NA,trend,fis

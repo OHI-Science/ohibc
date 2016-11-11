@@ -130,16 +130,45 @@ status_df <- read_csv(file.path(dir_scenario, 'scores.csv')) %>%
 source(file.path(dir_scenario, 'plot_flower.R'))
 plot_flower(status_df,
             score_ref   = 1,    ### scale from 0-1 or 0-100? default is 0-100
-            outline     = FALSE,   ### show the outer borders; default is yes indeedy
-            filename    = NULL, #file.path(dir_scenario, 'howe_sound_flower1.png'))
+            outline     = TRUE,   ### show the outer borders; default is yes indeedy
+            filename    = file.path(dir_scenario, 'howe_sound_flower.png'),
             center_text = NULL, ### pass it a number or label; default is blank
             incl_center_score = TRUE, ### overridden if center_text != NULL
             incl_goal_labels  = TRUE, ### show goal labels? FALSE hides the goal labels
-            incl_legend = FALSE, ### show the legend? FALSE hides the legend
+            incl_legend = TRUE, ### show the legend? FALSE hides the legend
             show_plot   = TRUE)
 
 
 ```
+
+
+``` {r create_diff_flower_plot}
+
+layers <- read_csv(file.path(dir_scenario, 'layers.csv'))
+
+diff_df <- read_csv(file.path(dir_scenario, 'scores.csv')) %>%
+  filter(dimension == 'status') %>%
+  left_join(layers %>% select(goal, weight), by = 'goal') %>%
+  bind_rows(.[1, ] %>%
+              mutate(goal = 'foo', score = NA, weight = .3)) %>%
+  rowwise() %>%
+  mutate(score_old = runif(1, .5, 1)) %>%
+  rename(score_new = score)
+
+source(file.path(dir_scenario, 'plot_flower_diff.R'))
+plot_flower_diff(diff_df,
+                 score_cols  = c('score_old', 'score_new'),
+                 score_ref   = 1,    ### scale from 0-1 or 0-100? default is 0-100
+                 outline     = TRUE,   ### show the outer borders; default is yes indeedy
+                 filename    = file.path(dir_scenario, 'howe_sound_diff_flower.png'),
+                 center_text = NULL, ### pass it a number or label; default is blank
+                 incl_center_diff = TRUE, ### overridden if center_text != NULL
+                 incl_goal_labels = TRUE, ### show goal labels? FALSE hides the goal labels
+                 incl_legend = TRUE, ### show the legend? FALSE hides the legend
+                 show_plot   = TRUE)
+
+```
+
 ***
 
 # Citation information  
