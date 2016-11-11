@@ -17,23 +17,25 @@ output:
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
                       echo = FALSE, message = FALSE, warning = FALSE)
 
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
 scenario <- 'vHS'
 goal     <- 'spp_ico'
 dir_git <- '~/github/ohibc'
 dir_goal <- file.path(dir_git, 'prep', goal, scenario)
 dir_rgn  <- file.path(dir_git, 'prep/spatial')
-
-source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
-
-library(provRmd)
-prov_setup()
-
 dir_anx        <- file.path(dir_M, 'git-annex/bcprep') ### git-annex: goal-specific large files
 dir_anx_global <- file.path(dir_M, 'git-annex/globalprep/spp_ico')
 
 
+
 source(file.path(dir_git, 'src/R/map_scores.R'))
+
+library(provRmd)
+prov_setup()
+
 source(file.path(dir_goal, 'spp_fxn.R'))
+
 
 ### set up proj4string options: BC Albers and WGS84
 p4s_wgs84 <- c('EPSG:4326 WGS 84' = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
@@ -130,9 +132,11 @@ loiczid_rast     <- rgn2cell_list[[2]]
 
 ## Identify Howe Sound-specific species
 
+These are identified by comparing the full AM and IUCN cell-species files to the limited cells that appear in the Howe Sound region.
+
 ``` {r identify_HS_species}
 
-am_cells_spp <- spp_get_am_cells(rgn2cell_df, n_max = -1, prob_filter = 0, reload = FALSE) %>%
+am_cells_spp <- spp_get_am_cells(rgn2cell_df, prob_filter = 0, reload = FALSE) %>%
   filter(loiczid %in% rgn2cell_df$loiczid)
 
 iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df, reload = FALSE) %>%
@@ -140,11 +144,16 @@ iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df, reload = FALSE) %>%
 
 ```
 
+Number of Howe Sound species according to dataset:
+
+* AquaMaps: `r length(am_cells_spp$am_sid %>% unique())`
+* IUCN: `r length(iucn_cells_spp$iucn_sid %>% unique())`
+
 -----
 
-## Load species lookup table from global SPP goal
+## Load Species information table from global SPP goal
 
-Currently this uses the global species lookup table. How this list is generated (file locations are in `~/github/ohiprep/globalprep/SPP_ICO`):
+Currently this uses the global species lookup table. How this list is generated (file locations are in `~/github/ohiprep/globalprep/spp_ico`):
 
 * in `ingest_iucn.R`:
     * Pull full IUCN list from http://api.iucnredlist.org/index/all.csv
@@ -161,14 +170,6 @@ Currently this uses the global species lookup table. How this list is generated 
     * Convert text extinction risk category and popn trends to number values
     * Identify parent/subpopulations and aliases within `spatial_source` field.
 
-``` {r read_global_species_list, eval = TRUE}
-
-spp_global_file <- file.path(dir_anx_global, 'v2016', 'int/spp_all_cleaned.csv')
-spp_info <- read_csv(spp_global_file)
-
-```
-
-Variables in `spp_info`: `r paste(names(spp_info), collapse = ' | ')`
 
 -----
 
@@ -176,9 +177,12 @@ Variables in `spp_info`: `r paste(names(spp_info), collapse = ' | ')`
 
 Data downloaded from BC Species and Ecosystems Explorer includes information on global status and provincial status for species, as assessed by NatureServe.
 
-See [this table]('iucn_to_ns.html') for info on NatureServe codes
+See [this table]('iucn_to_ns.html') for info on NatureServe codes.
 
-``` {r append_bcsee_scores, echo = TRUE}
+``` {r append_bcsee_scores}
+
+spp_global_file <- file.path(dir_anx_global, 'v2016', 'int/spp_all_cleaned.csv')
+spp_info <- read_csv(spp_global_file)
 
 spp_info <- spp_append_bcsee(spp_info)
 
@@ -214,9 +218,15 @@ write_csv(spp_clean, file.path(dir_goal, 'int/spp_info_clean.csv'))
 
 ```
 
+Variables in `spp_clean`: `r paste(names(spp_clean), collapse = ' | ')`
+
 -----
 
+## Build risk category time series from past IUCN assessments
+
 ``` {r get_species_past_assessments, eval = TRUE}
+
+spp_clean <- read_csv(file.path(dir_goal, 'int/spp_info_clean.csv'))
 
 spp_cat_ts_file <- file.path(dir_goal, 'int', 'spp_cat_timeseries.csv')
 
@@ -244,7 +254,7 @@ if(!file.exists(spp_cat_ts_file)) {
     spp_past_list[[i]] <- get_past_assess(sid)
     message(i, '. Found past assessments for ', sid, ': ', paste(spp_past_list[[i]]$year, collapse = ', '))
   }
-  spp_past_df <- rbind_all(spp_past_list)
+  spp_past_df <- bind_rows(spp_past_list)
   
   ### Clean up the time series
   
@@ -280,7 +290,7 @@ if(!file.exists(spp_cat_ts_file)) {
     filter(!is.na(cat_ts_score) & !is.na(year)) %>%
     arrange(iucn_sid, year)
   
-  write_csv(spp_past_df, file.path(dir_goal, 'int', 'spp_cat_timeseries.csv'))
+  write_csv(spp_past_df, spp_cat_ts_file)
 }
 
 
@@ -298,6 +308,8 @@ spp_past_df_hs <- spp_past_df_hs %>%
   group_by(iucn_sid) %>%
   fill(cat_ts, cat_txt, cat_ts_score) %>% ### fills all the way to latest year (2015)
   ungroup()
+
+spp_clean <- read_csv(file.path(dir_goal, 'int/spp_info_clean.csv'))
 
 spp_clean1 <- spp_clean %>% 
   left_join(spp_past_df_hs, by = 'iucn_sid')
@@ -328,6 +340,10 @@ spp_clean1 <- spp_clean1 %>%
 write_csv(spp_clean1, file.path(dir_goal, 'int/spp_info_timeseries.csv'))
 
 ```
+
+A peek at the resulting dataframe, recent years only: 
+
+`r knitr::kable(spp_clean1 %>% filter(year > 2014) %>% head(8) %>% arrange(desc(year)))`
 
 <!--### plot the changing species?
 
@@ -379,7 +395,6 @@ spp_table_info <- spp_info_timeseries %>%
          province_cat_score = pr_score) %>%
   distinct()
   
-DT::datatable(spp_table_info, caption = 'Howe Sound species list')
 
 spp_risk_ts <- spp_info_timeseries %>%
   select(pr_score, cat_ts_score, year) %>%
@@ -388,7 +403,8 @@ spp_risk_ts <- spp_info_timeseries %>%
   summarize(mean_cat_ts = mean(cat_ts_score))
 
 spp_status_ts <- spp_risk_ts %>%
-  mutate(status = (.75 - mean_cat_ts)/.75)
+  mutate(rgn_id = 1,
+         status = (.75 - mean_cat_ts)/.75)
   
 spp_status_ts$trend <- spp_status_ts %>%
   do(trend = lm(status ~ year, data = .)$coefficients[2] * 5) %>%
@@ -396,13 +412,34 @@ spp_status_ts$trend <- spp_status_ts %>%
 
 write_csv(spp_status_ts, file.path(dir_goal, 'summary/spp_status_ts.csv'))
 
+DT::datatable(spp_status_ts %>% arrange(desc(year)), caption = 'Howe Sound species status and trend')
+
 ```
+
+## Identify Howe Sound iconic species
+
+Combining global ICO list with CORI-supplied Howe Sound ICO list, we come up with a master list of all iconic species within the Howe Sound region.
+
+``` {r generate_ico_list}
+
+ico_list <- read_csv(file.path(dir_goal, 'ico_list_howe_sound_from_global.csv')) %>%
+  select(sciname = `Specie Scientific Name`) %>%
+  bind_rows(read_csv(file.path(dir_goal, 'ico_list_howesound.csv')) %>%
+              select(sciname)) %>%
+    distinct() %>%
+  filter(!is.na(sciname)) %>%
+  arrange(sciname)
+
+write_csv(ico_list, file.path(dir_goal, 'int', 'ico_list_scinames.csv'))
+```
+
+The full list of species considered Iconic for the Howe Sound assessment:
+
+`r ico_list$sciname %>% paste(collapse = ', ')`
 
 ``` {r summarize_ico}
 
-ico_list <- read_csv(file.path(dir_goal, 'ico_list_howe_sound.csv')) %>%
-  select(sciname = `Specie Scientific Name`) %>%
-  distinct()
+ico_list <- read_csv(file.path(dir_goal, 'int', 'ico_list_scinames.csv'))
 
 ico_info_timeseries <- read_csv(file.path(dir_goal, 'int/spp_info_timeseries.csv')) %>%
   filter(sciname %in% ico_list$sciname)
@@ -413,7 +450,6 @@ ico_table_info <- ico_info_timeseries %>%
          province_cat_score = pr_score) %>%
   distinct()
   
-DT::datatable(ico_table_info, caption = 'Howe Sound iconic species list')
 
 ico_risk_ts <- ico_info_timeseries %>%
   select(pr_score, cat_ts_score, year) %>%
@@ -422,7 +458,8 @@ ico_risk_ts <- ico_info_timeseries %>%
   summarize(mean_cat_ts = mean(cat_ts_score))
 
 ico_status_ts <- ico_risk_ts %>%
-  mutate(status = 1 - mean_cat_ts)
+  mutate(rgn_id = 1,
+         status = 1 - mean_cat_ts)
   
 ico_status_ts$trend <- ico_status_ts %>%
   do(trend = lm(status ~ year, data = .)$coefficients[2] * 5) %>%
@@ -430,7 +467,64 @@ ico_status_ts$trend <- ico_status_ts %>%
 
 write_csv(ico_status_ts, file.path(dir_goal, 'summary/ico_status_ts.csv'))
 
+DT::datatable(ico_status_ts %>% arrange(desc(year)), caption = 'Howe Sound iconic species status and trend')
+
 ```
+
+``` {r visuals_for_spp_and_ico, eval = FALSE}
+
+spp_df <- read_csv(file.path(dir_goal, 'int/spp_info_timeseries.csv')) %>%
+  filter(year == max(year)) %>%
+  select(iucn_sid, sciname, cat_ts_score) %>%
+  arrange(cat_ts_score) %>%
+  mutate(risk_score = 1 - cat_ts_score,
+         spp_status = (.75 - cat_ts_score)/.75,
+         x = 1:nrow(.))
+
+spp_plot <- ggplot(spp_df, aes(x = 1, y = risk_score)) +
+  geom_boxplot() +
+  geom_jitter()
+
+ico_df <- read_csv(file.path(dir_goal, 'int/spp_info_timeseries.csv')) %>%
+  filter(year == max(year)) %>%
+  filter(sciname %in% ico_list$sciname) %>%
+  select(iucn_sid, sciname, cat_ts_score) %>%
+  arrange(cat_ts_score) %>%
+  mutate(risk_score = 1 - cat_ts_score,
+         x = 1:nrow(.))
+
+ico_plot <- ggplot(ico_df, aes(x = 1, y = risk_score)) +
+  geom_boxplot() +
+  geom_jitter()
+
+```
+
+``` {r save_howe_sound_status_trend}
+
+ico_df <- read_csv(file.path(dir_goal, 'summary/ico_status_ts.csv')) %>%
+  filter(year == max(year)) %>%
+  select(-year)
+  
+write_csv(ico_df %>%
+            select(rgn_id, score = status),
+          file.path(dir_goal, 'output/ico_status.csv'))
+write_csv(ico_df %>%
+            select(rgn_id, score = trend),
+          file.path(dir_goal, 'output/ico_trend.csv'))
+
+
+spp_df <- read_csv(file.path(dir_goal, 'summary/spp_status_ts.csv')) %>%
+  filter(year == max(year)) %>%
+  select(-year)
+  
+write_csv(spp_df %>%
+            select(rgn_id, score = status),
+          file.path(dir_goal, 'output/spp_status.csv'))
+write_csv(spp_df %>%
+            select(rgn_id, score = trend),
+          file.path(dir_goal, 'output/spp_trend.csv'))
+```
+
 
 ***
 
