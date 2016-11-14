@@ -1,5 +1,5 @@
 ---
-title: "OHIBC goal prep: Lasting Special Places"
+title: "OHIBC Howe Sound: Lasting Special Places"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,7 +18,6 @@ knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
                       echo = FALSE, message = FALSE, warning = FALSE)
 
 library(sp)        # the classes and methods that make up spatial ops in R
-# library(gdalUtils) # for gdal_rasterize() function
 library(maptools)  # tools for reading and manipulating spatial objects
 library(rgeos)
 library(rgdal)
@@ -28,21 +27,24 @@ library(raster)
 dir_git  <- '~/github/ohibc'         ### set wd to work in Github OHIBC location
 source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
 
-scenario <- 'v2016'
+scenario <- 'vHS'
 
 dir_spatial <- file.path(dir_git, 'prep/spatial') ### github: general buffer region shapefiles
 dir_goal    <- file.path(dir_git, 'prep/lsp', scenario)
 dir_rast    <- file.path(dir_goal, 'raster')            ### goal-specific raster files are small
 source(file.path(dir_goal, 'lsp_fxns.R'))
+source(file.path(dir_git, 'src/R/rast_tools.R'))
 
 dir_anx <- file.path(dir_M, 'git-annex/bcprep') 
-dir_goal_anx <- file.path(dir_anx, 'lsp', scenario)  ### git-annex: goal-specific large files
+dir_goal_anx <- file.path(dir_anx, 'lsp', 'v2016')  
+  ### git-annex: goal-specific large files; note in v2016 scenario instead of vHS
 
 ### provenance tracking
 library(provRmd); prov_setup()
 
 ### set up the default BC projection to be BC Albers
 p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+ext_howe <- extent(c(1170000, 1210000, 470000, 530000))
 
 ```
 
@@ -72,26 +74,63 @@ If the WDPA-MPA shapefile has already been rasterized for the global assessment,
 
 NOTE: If BC WDPA file does not yet exist, `get_wdpa_poly()` creates it from the original WDPA-MPA file.  This takes a long time, due to reading in the full WDPA-MPA geodatabase into a SpatialPolygonsDataFrame.
 
-``` {r set up BC WDPA polygons, echo = TRUE, eval = TRUE, warning = FALSE}
-poly_wdpa_bc <- get_wdpa_poly(p4s_bcalb, reload = FALSE)  ### defaults to BC Albers
+``` {r setup_BC_WDPA_polygons}
+poly_hs_wdpa <- get_wdpa_poly(p4s_bcalb, reload = FALSE) %>%  ### defaults to BC Albers
+  spTransform(CRS(p4s_bcalb)) %>%
+  crop(ext_howe)
+
+writeOGR(poly_hs_wdpa,
+         dsn = path.expand(file.path(dir_goal, 'spatial')),
+         layer = 'hs_wdpa_poly',
+         driver = 'ESRI Shapefile',
+         overwrite_layer = TRUE)
+
+```
+
+## Read in BC Parks, Ecological Reserves, and Protected Areas data
+
+DataBC offers spatial data on BC protected areas with small differences from the WDPA dataset.  We will use this as well.
+
+``` {r setup_BC_PEP_polygons}
+poly_hs_pep <- readOGR(dsn = file.path(dir_anx, '_raw_data/databc/TA_PEP_SVW'),
+                       layer = 'TA_PEP_SVW_polygon',
+                       stringsAsFactors = FALSE) %>%
+  spTransform(CRS(p4s_bcalb)) %>%
+  crop(ext_howe)
+
+writeOGR(poly_hs_pep,
+         dsn = path.expand(file.path(dir_goal, 'spatial')),
+         layer = 'hs_pep_poly',
+         driver = 'ESRI Shapefile',
+         overwrite_layer = TRUE)
+
 ```
 
 -----
 
 ## Rasterize the BC WDPA-MPA shapefile to Howe Sound extents
 
-``` {r rasterize BC WDPA, echo = TRUE, eval = TRUE}
+``` {r rasterize_HS_WDPA_and_PEP}
 
-rast_eez <- raster(file.path(dir_spatial, 'ohibc_rgn_raster_500m.tif'))
+rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif')) %>%
+  crop(ext_howe)
 
-wdpa_bc_shp_file  <- file.path(dir_goal_anx, 'int', 'wdpa_bc_bcalb.shp')
-wdpa_bc_rast_file <- file.path(dir_rast, 'rast_wdpa_bc.tif')
+hs_wdpa_shp_file  <- file.path(dir_goal, 'spatial', 'hs_wdpa_poly.shp')
+hs_wdpa_rast_file <- file.path(dir_goal, 'spatial', 'hs_wdpa_rast_500m.tif')
+hs_pep_shp_file  <- file.path(dir_goal, 'spatial', 'hs_pep_poly.shp')
+hs_pep_rast_file <- file.path(dir_goal, 'spatial', 'hs_pep_rast_500m.tif')
 
-lsp_rasterize(wdpa_bc_shp_file, 
-              wdpa_bc_rast_file, 
-              rast_eez, 'STATUS_YR')
+rast_wdpa <- gdal_rast2(src = hs_wdpa_shp_file,
+                        rast_base = rast_base, 
+                        dst = hs_wdpa_rast_file, 
+                        value = 'STATUS_YR', 
+                        override_p4s = TRUE)
 
-rast_wdpa_bc <- raster::raster(wdpa_bc_rast_file)
+rast_pep  <- gdal_rast2(src = hs_pep_shp_file,
+                        rast_base = rast_base, 
+                        dst = hs_pep_rast_file, 
+                        value = 'OBJECTID', ### no year field available
+                        override_p4s = TRUE)
 
 ```
 
@@ -108,34 +147,48 @@ Analysis will be done using raster::crosstab() comparing the WDPA raster to vari
     * Read in buffer shapefiles to SpatialPolygonsDataFrames
     * rasterize to same extents/resolution as 500m base raster.
 
-```{r get_analysis_rasters, echo = FALSE, eval = TRUE}
+```{r get_analysis_rasters}
 
 ### check for presence of buffer rasters
-rast_3nm_file <- file.path(spatial, 'ohibc_offshore_3nm_raster_500m.tif')
-rast_1km_file <- file.path(spatial, 'ohibc_inland_1km_raster_500m.tif')
+rast_3nm_file <- file.path(dir_goal, 'spatial/hs_offshore_3nm_raster_500m.tif')
+rast_1km_file <- file.path(dir_goal, 'spatial/hs_inland_1km_raster_500m.tif')
 
-reload <- FALSE
+reload <- TRUE
 
 if(!file.exists(rast_3nm_file) | !file.exists(rast_1km_file) | reload == TRUE) {
   message('Creating region buffer rasters from region buffer shapefiles')
-  ### Unfortunately: raster::rasterize() fills in large chunks where there
-  ### should be islands.  Need to use gdal_rasterize().
-  
-  poly_3nm_file <- file.path(dir_spatial, 'ohibc_offshore_3nm.shp')
-  poly_1km_file <- file.path(dir_spatial, 'ohibc_inland_1km.shp')
-  # poly_3nm <- readShapePoly(str_replace(poly_3nm_file, '.shp', ''), proj4string = CRS(p4s_bcalb))
-  # poly_1km <- readShapePoly(str_replace(poly_1km_file, '.shp', ''), proj4string = CRS(p4s_bcalb))
 
-  lsp_rasterize(poly_3nm_file, rast_3nm_file, rast_eez, 'rgn_id')
-  lsp_rasterize(poly_1km_file, rast_1km_file, rast_eez, 'rgn_id')
+  rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif')) %>%
+    crop(ext_howe)
+
+  poly_3nm_file <- file.path(dir_spatial, 'howe_sound_offshore_3nm.shp')
+  poly_1km_file <- file.path(dir_spatial, 'howe_sound_inland_1km.shp')
+
+  rast_1km  <- gdal_rast2(src = poly_1km_file,
+                          rast_base = rast_base, 
+                          dst = rast_1km_file, 
+                          value = 'rgn_id',
+                          override_p4s = TRUE)
+  rast_3nm  <- gdal_rast2(src = poly_3nm_file,
+                          rast_base = rast_base, 
+                          dst = rast_3nm_file, 
+                          value = 'rgn_id',
+                          override_p4s = TRUE)
 } 
-
-rast_3nm <- raster::raster(rast_3nm_file)
-rast_1km <- raster::raster(rast_1km_file)
 
 ```
 
-``` {r plot raster, echo = TRUE, eval = TRUE, cache = TRUE}
+``` {r plot raster}
+
+### hide git prov outputs for this chunk for now...
+rast_3nm  <- raster(file.path(dir_goal, 'spatial/hs_offshore_3nm_raster_500m.tif'),
+                    nogit = TRUE)
+rast_1km  <- raster(file.path(dir_goal, 'spatial/hs_inland_1km_raster_500m.tif'),
+                    nogit = TRUE)
+rast_wdpa <- raster(file.path(dir_goal, 'spatial/hs_wdpa_rast_500m.tif'),
+                    nogit = TRUE)
+rast_pep  <- raster(file.path(dir_goal, 'spatial/hs_pep_rast_500m.tif'),
+                    nogit = TRUE)
 
 library(tmap)
 
@@ -143,8 +196,11 @@ rast_map <- tm_shape(rast_3nm, is.master = TRUE) +
   tm_raster(alpha = 1, palette = 'Blues') + 
   tm_shape(rast_1km) +
   tm_raster(alpha = 1, palette = 'Greens') + 
-  tm_shape(rast_wdpa_bc) +
-  tm_raster(alpha = .5, palette = 'Reds')
+  tm_shape(rast_wdpa) +
+  tm_raster(alpha = .5, palette = 'Reds') +
+  tm_shape(rast_pep) +
+  tm_raster(alpha = .5, palette = 'Oranges')
+
 
 print(rast_map)
 
@@ -154,43 +210,37 @@ print(rast_map)
 
 # Calculate goal model
 
-``` {r lsp_zonal_stats, eval = TRUE}
+``` {r lsp_zonal_stats}
+
+rast_3nm  <- raster(file.path(dir_goal, 'spatial/hs_offshore_3nm_raster_500m.tif'))
+rast_1km  <- raster(file.path(dir_goal, 'spatial/hs_inland_1km_raster_500m.tif'))
+rast_pep  <- raster(file.path(dir_goal, 'spatial/hs_pep_rast_500m.tif'))
+rast_wdpa_pep <- raster(file.path(dir_goal, 'spatial/hs_wdpa_rast_500m.tif'))
+  ### will adjust values of this to include pep areas
+
+### for any non-WDPA cells with PEP values, set to 1 (distinct from WDPA values, which are all years)
+values(rast_wdpa_pep)[!is.na(values(rast_pep)) & is.na(values(rast_wdpa_pep))] <- 1
 
 zonal_3nm_file <- file.path(dir_goal, 'int', 'zonal_stats_3nm.csv')
 zonal_1km_file <- file.path(dir_goal, 'int', 'zonal_stats_1km.csv')
 
-if(!file.exists(zonal_3nm_file) | !file.exists(zonal_1km_file)) {
-  
-  ### NOTE: The crosstab function returns this warning - does it affect the
-  ### outcomes, or does the function coerce the correct outcome?
-      # Warning message:
-      # In FUN(X[[i]], ...) : integer overflow - use sum(as.numeric(.))
-  
-  ptm <- proc.time()
-  stats_3nm <- raster::crosstab(rast_wdpa_bc, rast_3nm, useNA = TRUE, progress = 'text') %>%
-    as.data.frame() %>%
-    setNames(c('year', 'rgn_id', 'n_cells')) %>%
-    mutate(year   = as.integer(as.character(year)),
-           rgn_id = as.integer(as.character(rgn_id))) %>%
-    arrange(rgn_id, year)
-  
-  stats_1km <- raster::crosstab(rast_wdpa_bc, rast_1km, useNA = TRUE, progress = 'text') %>%
-    as.data.frame() %>%
-    setNames(c('year', 'rgn_id', 'n_cells')) %>%
-    mutate(year   = as.integer(as.character(year)),
-           rgn_id = as.integer(as.character(rgn_id))) %>%
-    arrange(rgn_id, year)
-  
-  message('Elapsed: ', (proc.time() - ptm)[3], ' sec')
-  
-  
-  write_csv(stats_3nm, zonal_3nm_file)
-  write_csv(stats_1km, zonal_1km_file)
-} else {
-  message('Zonal stats layers already exist: \n  ', zonal_3nm_file, '\n  ', zonal_1km_file)
-  stats_3nm <- read_csv(file.path(dir_goal, 'int', 'zonal_stats_3nm.csv'))
-  stats_1km <- read_csv(file.path(dir_goal, 'int', 'zonal_stats_1km.csv'))
-}
+stats_3nm <- raster::crosstab(rast_wdpa_pep, rast_3nm, useNA = TRUE, progress = 'text') %>%
+  as.data.frame() %>%
+  setNames(c('year', 'rgn_id', 'n_cells')) %>%
+  mutate(year   = as.integer(as.character(year)),
+         rgn_id = as.integer(as.character(rgn_id))) %>%
+  arrange(rgn_id, year)
+
+stats_1km <- raster::crosstab(rast_wdpa_pep, rast_1km, useNA = TRUE, progress = 'text') %>%
+  as.data.frame() %>%
+  setNames(c('year', 'rgn_id', 'n_cells')) %>%
+  mutate(year   = as.integer(as.character(year)),
+         rgn_id = as.integer(as.character(rgn_id))) %>%
+  arrange(rgn_id, year)
+
+write_csv(stats_3nm, zonal_3nm_file)
+write_csv(stats_1km, zonal_1km_file)
+
 
 ```
 
@@ -221,39 +271,38 @@ Finally we can calculate the status of a region for any given year by finding th
 
 ``` {r summarize_zonal_stats, eval = TRUE}
 
-lsp_thresh <- 0.30
+stats_3nm <- read_csv(file.path(dir_goal, 'int', 'zonal_stats_3nm.csv'))
+stats_1km <- read_csv(file.path(dir_goal, 'int', 'zonal_stats_1km.csv'))
 
-rgn_names <- foreign::read.dbf(file.path(dir_spatial, 'ohibc_rgn.dbf'),
-                               as.is = TRUE) %>%
-  select(rgn_id, rgn_name)
+lsp_thresh <- 0.30
 
 ### Determine total cells per region (n_cells_tot) and then a cumulative
 ### total of cells per region
 prot_1km <- stats_1km %>%
-  group_by(rgn_id) %>%
+  filter(!is.na(rgn_id)) %>% ### ditch cells outside region boundaries
   mutate(n_cells_tot = sum(n_cells),
          n_cells_cum = cumsum(n_cells),
          a_tot_km2   = n_cells_tot / 4,
          a_prot_km2  = n_cells_cum / 4) %>%
-  ungroup() %>%
   filter(!is.na(year))  %>% ### this ditches non-protected cell counts but already counted in n_cells_tot
   mutate(pct_prot   = round(n_cells_cum / n_cells_tot, 4),
          lsp_status = round(ifelse(pct_prot > lsp_thresh, 100, (pct_prot / lsp_thresh) * 100), 2)) %>%
-  left_join(rgn_names, by = 'rgn_id') %>%
-  distinct()
+  distinct() %>%
+  complete(year = c(1, 1960:2016)) %>%
+  fill(rgn_id:lsp_status)
 
 prot_3nm <- stats_3nm %>%
-  group_by(rgn_id) %>%
+  filter(!is.na(rgn_id)) %>% ### ditch cells outside region boundaries
   mutate(n_cells_tot = sum(n_cells),
          n_cells_cum = cumsum(n_cells),
          a_tot_km2   = n_cells_tot / 4,
          a_prot_km2  = n_cells_cum / 4) %>%
-  ungroup() %>%
   filter(!is.na(year))  %>% ### this ditches non-protected cell counts but already counted in n_cells_tot
   mutate(pct_prot   = round(n_cells_cum / n_cells_tot, 4),
          lsp_status = round(ifelse(pct_prot > lsp_thresh, 100, (pct_prot / lsp_thresh) * 100), 2)) %>%
-  left_join(rgn_names, by = 'rgn_id') %>%
-  distinct()
+  distinct()  %>%
+  complete(year = c(1, 1960:2016)) %>%
+  fill(rgn_id:lsp_status)
 
 write_csv(prot_3nm, file.path(dir_goal, 'int', 'area_protected_3nm.csv'))
 write_csv(prot_1km, file.path(dir_goal, 'int', 'area_protected_1km.csv'))
@@ -261,13 +310,11 @@ write_csv(prot_1km, file.path(dir_goal, 'int', 'area_protected_1km.csv'))
 ```
 
 
-### Protected areas and status (3 nm offshore, 2010+ only):
+### Protected areas and status (latest year only):
 
-`r DT::datatable(prot_3nm %>% filter(year >= 2010) %>% select(-year, -contains('cell')), caption = '3 nautical mile offshore zone - area in km^2^')`
+`r knitr::kable(prot_3nm %>% filter(year == max(year)) %>% select(-contains('cell')), caption = '3 nautical mile offshore zone - area in km^2^')`
 
-### Protected areas and status (1 km inland, 2010+ only):
-
-`r DT::datatable(prot_1km %>% filter(year >= 2010) %>% select(-year, -contains('cell')), caption = '1 kilometer inland zone - area in km^2^')`
+`r knitr::kable(prot_1km %>% filter(year == max(year)) %>% select(-contains('cell')), caption = '1 kilometer inland zone - area in km^2^')`
 
 ***
 
@@ -277,74 +324,56 @@ The status is based on a simple arithmetic average of the inland and offshore st
 
 ``` {r combine_inland_and_offshore, eval = TRUE}
 
+prot_3nm <- read_csv(file.path(dir_goal, 'int', 'area_protected_3nm.csv'))
+prot_1km <- read_csv(file.path(dir_goal, 'int', 'area_protected_1km.csv'))
+
 prot_df <- prot_1km %>%
-  dplyr::select(rgn_id, year, rgn_name,
+  dplyr::select(rgn_id, year,
                 lsp_st_1km = lsp_status,
                 a_prot_1km = a_prot_km2,
                 a_tot_1km  = a_tot_km2) %>%
   full_join(prot_3nm %>% 
-              dplyr::select(rgn_id, year, rgn_name,
+              dplyr::select(rgn_id, year,
                             lsp_st_3nm = lsp_status,
                             a_prot_3nm = a_prot_km2,
                             a_tot_3nm  = a_tot_km2),
-            by = c('rgn_id', 'rgn_name', 'year')) %>%
+            by = c('rgn_id', 'year')) %>%
+  fill(lsp_st_1km:a_tot_3nm) %>% 
+    ### this catches any years where NAs exist for one or the other region;
+    ### the complete() and fill() from the dataframes should catch this anyway
   mutate(lsp_st_1km = ifelse(is.na(lsp_st_1km), 0, lsp_st_1km),
          lsp_st_3nm = ifelse(is.na(lsp_st_3nm), 0, lsp_st_3nm),
          lsp_status = (lsp_st_1km + lsp_st_3nm) / 2) %>%
   distinct()
 
-write_csv(prot_df, file.path(dir_goal, 'int', 'area_protected_total.csv'))
-
-a_prot_inland_file   <- file.path(dir_goal, 'output', 'lsp_protected_inland1km.csv')
-a_prot_offshore_file <- file.path(dir_goal, 'output', 'lsp_protected_offshore3nm.csv')
-a_tot_inland_file    <- file.path(dir_goal, 'output', 'lsp_a_total_inland1km.csv')
-a_tot_offshore_file  <- file.path(dir_goal, 'output', 'lsp_a_total_offshore3nm.csv')
-
-prot_df_recent <- prot_df %>%
-  filter(year >= 1980) 
-
-write_csv(prot_df_recent %>% select(rgn_id, year, a_prot_1km), a_prot_inland_file)
-write_csv(prot_df_recent %>% select(rgn_id, year, a_prot_3nm), a_prot_offshore_file)
-write_csv(prot_df_recent %>% select(rgn_id, year, a_tot_1km), a_tot_inland_file)
-write_csv(prot_df_recent %>% select(rgn_id, year, a_tot_3nm), a_tot_offshore_file)
+write_csv(prot_df, file.path(dir_goal, 'output', 'area_protected_total.csv'))
 
 ```
 
-We can save outputs for the following layers:
-
-a_prot_inland_file   <- file.path(dir_goal, 'output', 'lsp_protected_inland1km.csv')
-a_prot_offshore_file <- file.path(dir_goal, 'output', 'lsp_protected_offshore3nm.csv')
-a_tot_inland_file    <- file.path(dir_goal, 'output', 'lsp_a_total_inland1km.csv')
-a_tot_offshore_file  <- file.path(dir_goal, 'output', 'lsp_a_total_offshore3nm.csv')
-
-* ``r a_prot_inland_file``: inland protected area (km^2^) for each region (since 1980)
-* ``r a_prot_offshore_file``: offshore protected area  (km^2^) for each region (since 1980)
-* ``r a_tot_inland_file``: inland 1 km total area (km^2^) for each region
-* ``r a_tot_offshore_file``: offshore 3 nm total area  (km^2^) for each region
-
-From these layers, we can also estimate the status and trend.  "Official" values will be determined in the toolbox?  Trend is based on linear model going back ___ten years___ from each status year to smooth trend values, since addition of new MPAs is rather sporadic.
+`r DT::datatable(prot_df)`
 
 ``` {r estimate status and trend by year, eval = TRUE}
-status_file          <- file.path(dir_goal, 'output', 'lsp_status.csv')
-trend_file           <- file.path(dir_goal, 'output', 'lsp_trend.csv')
+status_file <- file.path(dir_goal, 'output', 'lsp_status.csv')
+trend_file  <- file.path(dir_goal, 'output', 'lsp_trend.csv')
 
-status_df <- prot_df_recent %>% select(rgn_id, year, lsp_status)
+year_span <- 20
+
+status_df <- read_csv(file.path(dir_goal, 'output', 'area_protected_total.csv')) %>% 
+  select(rgn_id, year, lsp_status) %>%
+  filter(year > max(year) - year_span)
 write_csv(status_df, status_file)
 
-trend_df <- data.frame()
-for (i in 1990:2015) { # i <- 2013
-  tmp_status <- status_df %>%
-    filter(year <= i & year > (i - 10))
-  tmp_trend <- tmp_status %>%
-    group_by(rgn_id) %>%
-    do(trend_lm = lm(lsp_status ~ year, data = .)$coefficients[2]) %>%
-    mutate(year     = i,
-           trend_lm = round(trend_lm, 5)/100 * 5,  ### divide by 100 b/c trend should be in fractional amounts
-           trend = ifelse(trend_lm >  1,  1, trend_lm), ### clip to +/- 1
-           trend = ifelse(trend_lm < -1, -1, trend)) 
-  trend_df <- trend_df %>%
-    bind_rows(tmp_trend)
-}
+trend_df <- read_csv(file.path(dir_goal, 'output', 'area_protected_total.csv')) %>% 
+  select(rgn_id, year, lsp_status) %>%
+  filter(year > max(year) - year_span)
+
+trend_df$trend_lm <- lm(lsp_status ~ year, data = trend_df)$coefficients[[2]]
+
+### convert to percent change per annum and mult by 5 for 5-year prediction
+trend_df <- trend_df %>%
+  mutate(lsp_trend = trend_lm/first(lsp_status) * 5) %>%
+  select(-lsp_status, -trend_lm)
+
 write_csv(trend_df, trend_file)
 
 ```
@@ -357,83 +386,16 @@ Year-by-year status and trend estimates will be saved:
 ### Status and trend estimates:
 
 ``` {r calc_lsp_status_trend_summary}
-lsp_status_trend_summary <- rgn_names %>% 
-  left_join(status_df, by = 'rgn_id') %>% 
+lsp_status_trend_summary <- status_df %>% 
   left_join(trend_df,  by = c('rgn_id', 'year')) %>%
   arrange(desc(year), rgn_id)
 ```
 
 `r DT::datatable(lsp_status_trend_summary, caption = 'LSP status and trend estimates')`
 
-***
-
-### Plot map of status by region
-
-Examining OHIBC Lasting Special Places scores for 1995, 2005, and 2015:
-``` {r plot scores as polygons, eval = FALSE, echo = FALSE, message = FALSE, cache = TRUE}
-source(file.path('~/github/ohibc/src/R/map_scores.R'))
-score_df_1995 <- lsp_status_trend_summary %>% 
-  filter(year == 1995) %>% 
-  rename(score = lsp_status)
-print(score_df_1995)
-
-map_scores(score_df_1995, scale_label = 'LSP Status', map_title = 'OHIBC LSP Status 1995')
-
-score_df_2005 <- lsp_status_trend_summary %>% 
-  filter(year == 2005) %>% 
-  rename(score = lsp_status)
-print(score_df_2005)
-
-map_scores(score_df_2005, scale_label = 'LSP Status', map_title = 'OHIBC LSP Status 2005')
-
-score_df_2015 <- lsp_status_trend_summary %>% 
-  filter(year == 2015) %>% 
-  rename(score = lsp_status)
-print(score_df_2015)
-
-map_scores(score_df_2015, scale_label = 'LSP Status', map_title = 'OHIBC LSP Status 2015')
-
-```
-
 -----
 
-## Plot scores time series
-
-To examine results, we plot the estimated status and trend over time.
-
-``` {r spp_plot_scores_over_time, fig.height = 4, fig.width = 6, fig.align = 'center'}
-library(ggplot2)
-library(plotly)
-
-status_ts_plot <- ggplot(lsp_status_trend_summary %>%
-                           filter(!is.na(year)),
-                         aes(x = year, y = lsp_status, color = rgn_name, group = rgn_name)) +
-  ggtheme_plot +
-  geom_line(size = 2, alpha = .6) +
-  scale_colour_brewer(palette = 'PRGn') +
-  labs(x = 'year',
-       y = 'LSP status',
-       title = 'LSP status over time',
-       color = 'Region')
-
-ggplotly(status_ts_plot)
-
-trend_ts_plot <- ggplot(lsp_status_trend_summary %>%
-                           filter(!is.na(year) &!is.na(trend)),
-                         aes(x = year, y = trend, color = rgn_name, group = rgn_name)) +
-  ggtheme_plot +
-  geom_line(size = 2, alpha = .6) +
-  scale_colour_brewer(palette = 'PRGn') +
-  labs(x = 'year',
-       y = 'LSP trend',
-       title = 'LSP trend over time',
-       color = 'Region')
-
-ggplotly(trend_ts_plot)
-```
-
------
-
-``` {r child = 'prov/prov_ftr2.Rmd'}
+``` {r, results = 'asis'}
+prov_wrapup()
 ```
 

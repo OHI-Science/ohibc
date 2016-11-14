@@ -63,7 +63,7 @@ get_scores <- function(layer) { # layer <- hs_layers[1, ]
   
   ### add rgn_id and year if not present
   if(!('rgn_id' %in% names(st_df))) st_df$rgn_id <- 1
-  if(!('year' %in% names(st_df)))   st_df$year   <- NA
+  if(!('year'   %in% names(st_df))) st_df$year   <- NA
   
   ### rename status column to score
   names(st_df)[names(st_df) == layer$status] <- 'score'
@@ -71,7 +71,7 @@ get_scores <- function(layer) { # layer <- hs_layers[1, ]
   ### select and add dimension column
   st_df <- st_df %>%
     select(rgn_id, score, year) %>%
-    mutate(score = score/layer$layer_scale) %>% ### to account for 0-1 vs 0-100
+    mutate(score = ifelse(is.na(score), NA, score/layer$layer_scale)) %>% ### to account for 0-1 vs 0-100
     mutate(dimension = 'status')
   
   ### gather trend info
@@ -79,7 +79,7 @@ get_scores <- function(layer) { # layer <- hs_layers[1, ]
   
   ### add rgn_id and year if not present
   if(!('rgn_id' %in% names(tr_df))) tr_df$rgn_id <- 1
-  if(!('year' %in% names(tr_df)))   tr_df$year   <- NA
+  if(!('year'   %in% names(tr_df))) tr_df$year   <- NA
   
   ### rename status column to score
   names(tr_df)[names(tr_df) == layer$trend] <- 'score'
@@ -106,7 +106,15 @@ scores <- lapply(hs_layers_list, get_scores) %>%
 
 write_csv(scores, file.path(dir_scenario, 'scores.csv'))
 
+scores_print <- scores %>%
+  filter(is.na(year) | year == 2016) %>%
+  filter(dimension == 'status') %>%
+  select(-year, -rgn_id) %>%
+  distinct()
+
 ```
+
+`r knitr::kable(scores_print)`
 
 # Create flower plot
 
@@ -115,10 +123,11 @@ write_csv(scores, file.path(dir_scenario, 'scores.csv'))
 layers <- read_csv(file.path(dir_scenario, 'layers.csv'))
 
 status_df <- read_csv(file.path(dir_scenario, 'scores.csv')) %>%
+  filter(is.na(year) | year == 2016) %>%
   filter(dimension == 'status') %>%
-  left_join(layers %>% select(goal, weight), by = 'goal') %>%
-  bind_rows(.[1, ] %>%
-              mutate(goal = 'foo', score = NA, weight = .3))
+  select(-year, -rgn_id) %>%
+  distinct() %>%
+  left_join(layers %>% select(goal, weight), by = 'goal')
 
 # PlotFlower = function (lengths, widths, labels, disk=0.5, max.length,
 #                   center=NULL, main=NULL, fill.col=NULL, plot.outline=TRUE,
@@ -142,7 +151,7 @@ plot_flower(status_df,
 ```
 
 
-``` {r create_diff_flower_plot}
+``` {r create_diff_flower_plot, eval = FALSE}
 
 layers <- read_csv(file.path(dir_scenario, 'layers.csv'))
 
