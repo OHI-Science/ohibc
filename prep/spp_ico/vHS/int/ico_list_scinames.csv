@@ -1,39 +1,41 @@
-sciname
-Alopias vulpinus
-Ammodytes hexapterus
-Ardea herodias
-Balaenoptera acutorostrata
-Balaenoptera borealis
-Balaenoptera musculus
-Balaenoptera physalus
-Brachyramphus marmoratus
-Branta canadensis
-Carcharodon carcharias
-Cetorhinus maximus
-Cololabis saira
-Delphinus delphis
-Dermochelys coriacea
-Eretmochelys imbricata
-Eschrichtius robustus
-Etrumeus teres
-Galeocerdo cuvier
-Gavia immer
-Grampus griseus
-Haliaeetus leucocephalus
-Isurus paucus
-Lagenorhynchus obliquidens
-Lepidochelys olivacea
-Megaptera novaeangliae
-Oncorhynchus gorbuscha
-Oncorhynchus kisutch
-Oncorhynchus nerka
-Oncorhynchus tshawytscha
-Opisthonema libertate
-Opisthonema medirastre
-Orcinus orca
-Phoca vitulina
-Phocoena phocoena
-Physeter macrocephalus
-Prionace glauca
-Stenella coeruleoalba
-Ziphius cavirostris
+sciname,comname
+Alopias vulpinus,Thresher Shark
+Ardea herodias,Great blue heron
+Balaenoptera acutorostrata,Minke whale
+Balaenoptera borealis,Sei whale
+Balaenoptera musculus,Blue whale
+Balaenoptera physalus,Fin whale
+Brachyramphus marmoratus,Marbled murrelet
+Branta canadensis,Canada goose
+Carcharodon carcharias,Great White Shark
+Cetorhinus maximus,Basking Shark
+Delphinus delphis,Common Dophin
+Dermochelys coriacea,Leatherback Turtle
+Eretmochelys imbricata,Hawksbill Turtle
+Eschrichtius robustus,Gray Whale
+Eschrichtius robustus,Grey whale
+Etrumeus teres,Round herring
+Galeocerdo cuvier,Tiger Shark
+Gavia immer,Common loon
+Grampus griseus,Risso's Dolphin
+Haliaeetus leucocephalus,Bald eagle
+Isurus paucus,Longfin Mako
+Lagenorhynchus obliquidens,White-sided dolphin
+Lepidochelys olivacea,Olive Ridley Turtle
+Megaptera novaeangliae,Humpback Whale
+Megaptera novaeangliae,Humpback whale
+Oncorhynchus gorbuscha,Pink salmon
+Oncorhynchus kisutch,Coho salmon
+Oncorhynchus nerka,Sockeye salmon
+Oncorhynchus tshawytscha,Chinook salmon
+Opisthonema libertate,Thread herring
+Opisthonema medirastre,Thread herring
+Orcinus orca,Killer Whale
+Orcinus orca,Orca whale
+Phoca vitulina,Harbor seal
+Phocoena phocoena,Harbor porpoise
+Physeter macrocephalus,Sperm whale
+Prionace glauca,Blue Shark
+Stenella coeruleoalba,Striped Dolphin
+Thaleichthys pacificus,Eulachon
+Ziphius cavirostris,Cuvier's Beaked Whale
