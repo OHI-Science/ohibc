@@ -56,8 +56,8 @@ library(DT)
 #### Comparing global Natureserve assessment to IUCN assessment:
 
 ``` {r compare Natureserve to IUCN1, echo = FALSE, message = FALSE, warning = FALSE}
-spp_global_file <- file.path(dir_anx_global, 'v2015/intermediate/spp_all.csv')
-spp_all <- read.csv(spp_global_file, stringsAsFactors = FALSE)
+spp_global_file <- file.path(dir_anx_global, 'v2016/intermediate/spp_all.csv')
+spp_all <- read_csv(spp_global_file)
 git_prov(spp_global_file)
 
 spp_all <- spp_append_bcsee(spp_all)

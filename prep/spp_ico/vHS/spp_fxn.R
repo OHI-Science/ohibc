@@ -357,7 +357,7 @@ spp_append_bcsee <- function(spp_all) {
   # nrow(bcsee_clean %>% filter(sciname %in% spp_all$sciname))
   ### 664 species in common; but how many have spatial info?
   spp_all1 <- spp_all %>%
-    left_join(bcsee_clean, by = 'sciname') %>%
+    full_join(bcsee_clean, by = 'sciname') %>%
     filter(!is.na(spatial_source))
   # nrow(spp_all1 %>% filter(!is.na(status_gl) | !is.na(status_pr)))
   ### 664 BCSEE listed species remain... woo!

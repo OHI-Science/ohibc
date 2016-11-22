@@ -1,5 +1,5 @@
 ---
-title: 'OHIBC Howe Sound: Habitat goal scores (CP, CS, HAB)'
+title: 'OHIBC Howe Sound: Habitat goal score'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -49,7 +49,7 @@ p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 
 # Summary
 
-Pull data layers to calculate Howe Sound goals: Coastal Protection, Carbon Storage, and Habitats
+Pull data layers to calculate Howe Sound Habitats goal
 
 # Data Sources
 
@@ -67,233 +67,12 @@ Pull data layers to calculate Howe Sound goals: Coastal Protection, Carbon Stora
     * **Native data resolution**: 30 meters   
     * **Time range**: 1990, 2000, 2010
     * **Format**:  GeoTIFF
-* **Exposure polylines and coastal class polylines**
-    * **Reference**: 
-        * British Columbia Marine Conservation Analysis Project Team. 2011. Shorezone exposure. Marine Atlas of Pacific Canada: A Product of the British Columbia Marine Conservation Analysis. Available from www.bcmca.ca.
-        * British Columbia Marine Conservation Analysis Project Team. 2011. Coastal classes. Marine Atlas of Pacific Canada: A Product of the British Columbia Marine Conservation Analysis. Available from www.bcmca.ca.
-    * **Downloaded**: http://bcmca.ca/datafiles/sets/bcmca_eco_set_physical_atlas.zip (downloaded 11/5/15)
-    * **Description**:  Marxan-prepared polylines representing exposure and coastal class along BC coastline
-    * **Native data resolution**: NA; shorezone reference units are 400 m
-    * **Time range**: NA
-    * **Format**:  Polyline shapefiles
-* **Elevation raster**
-    * **Reference**: National Geophysical Data Center. 2006. 2-minute Gridded Global Relief Data (ETOPO2) v2. National Geophysical Data Center, NOAA. doi:10.7289/V5J1012Q [7/26/16].
-    * **Downloaded**: https://www.ngdc.noaa.gov/mgg/global/etopo2.html (downloaded 7/26/16)
-    * **Description**:  Global elevation and bathymetry
-    * **Native data resolution**: 2 arc-minutes   
-    * **Time range**: NA
-    * **Format**:  NetCDF, GeoTIFF
-* **Population raster**
-    * **Reference**: Center for International Earth Science Information Network - CIESIN - Columbia University. 2016. Documentation for the Gridded Population of the World, Version 4 (GPWv4). Palisades NY: NASA Socioeconomic Data and Applications Center (SEDAC). http://dx.doi.org/10.7927/H4D50JX4 Accessed 25 Oct 2016.
-    * **Downloaded**: http://sedac.ciesin.columbia.edu/data/collection/gpw-v4/sets/browse (downloaded 10/25/16)
-    * **Description**:  Population density raster, adjusted to UN 2015 values; pop density in persons per km^2^
-    * **Native data resolution**: ???? 2.5 arc-minutes   
-    * **Time range**: 2000, 2005, 2010, 2015, 2020 (only 2015 used for this analysis)
-    * **Format**:  GeoTIFF
 
 ***
 
-# Coastal Protection
-
-## Salt marsh
-
-In this model, salt marsh habitat is considered to be more important to coastal protection in areas that are densely populated or highly exposed to wave action.  Loss of habitat in such areas thus is weighed more heavily in the calculations.
-
-$$\frac{P_{sm}}{P_{sm_{ref}}} = \displaystyle\sum_{i=1}^{n_c}(A_i * E_i * \rho_i) \bigg/ \displaystyle\sum_{i=1}^{n_{ref}}(A_i * E_i * \rho_i)$$
-
-where $n_c$ is the set of current presence cells, $n_{ref}$ is the set of reference presence cells, $A$, $E$ and $\rho$ represent cell area, exposure, and population density.
-
-## Seagrass
-
-In this model, seagrass habitat is considered to be more important to coastal protection in areas that are densely populated or highly exposed to wave action.  As a pressure-based model applied to a fixed area, rather than an area-loss-based model, the pressure itself reduces the effective protective value in a given area.
-
-$$\frac{P_{sg}}{P_{sg_{ref}}} = \displaystyle\sum_{j=1}^{n_c}((1 - p_j) * A_j * E_j * \rho_j) / A_{total}$$
-
-where $p$ represents the nutrient pressure (relative to the maximum nutrient pressure found in British Columbia's coastal waters).
-
-## Coastal forests
-
-In this model, coastal forest habitat is considered to be more important to coastal protection in areas that are densely populated or highly exposed to wave action; in addition, coastal forest protective value is diminished as elevation increases.  Coastal forest protection is not considered relevant above a reference elevation of 5 m, beyond which storm surge and inundation is highly unlikely.
-
-$$\frac{P_{cf}}{P_{cf_{ref}}} = \displaystyle\sum_{k=1}^{n_c}(A_k * E_k * \rho_k * h_k) \bigg/ \displaystyle\sum_{k=1}^{n_{ref}}(A_k * E_k * \rho_k * h_k)$$
-
-where $h$ represents a height adjustment factor: $h = \frac{elev_{ref} - elev}{elev_{ref}}$ where $elev_{ref}$ is 5 m. $h = 0$ above 5 m, and $h = 1$ at sea level.
-
-## Goal model
-
-The coastal protection goal model is the weighted mean of the three protective habitats, weighted by reference area (as a proportion of total reference area $A_{ref_T}$ and protection weight factor $w/w_{ref}$.  
-
-$$x_{CP} = \displaystyle\sum_{i=1}^{n}\left(\frac{P_i}{P_{i_{ref}}} * w_i * A_i\right) \bigg/ \displaystyle\sum_{i=1}^{n}\left(w_i * A_i\right)$$
-
-Protection weights are assigned based on vulnerability values from [InVEST Coastal Vulnerability Model](http://data.naturalcapitalproject.org/nightly-build/invest-users-guide/html/coastal_vulnerability.html):  
-
-| Vulnerability     | Very Low   | Low   | Moderate   | High   | Very High   |
-| ----              | :--------: | :---: | :--------: | :----: | :---------: |
-| Score             | 1          | 2     | 3          | 4      | 5           |
-| Natural Habitats  | Coral reef; mangrove; coastal forest | High dune; marsh | Low dune | Seagrass; kelp | No habitat |
-| Protection weight | 4          | 3     | 2          | 1      | 0           |
-
-``` {r load_cp_data}
-
-cp_cf <- read_csv(file.path(dir_goal, 'int/howe_forest_status_trend.csv')) %>%
-  select(status_yr = year, area = area_nonzero_cf_km2, score = cp_score_cf) %>%
-  arrange(status_yr) %>%
-  mutate(hab = 'cf')
-cp_cf$trend <- lm(score ~ status_yr, data = cp_cf %>% 
-                     filter(status_yr > 1990))[['coefficients']]['status_yr']
-
-cp_sm <- read_csv(file.path(dir_goal, 'int/howe_saltmarsh_status_trend.csv')) %>%
-  select(status_yr = year, area = area_sm_km2, score = cp_score_sm) %>%
-  arrange(status_yr) %>%
-  mutate(hab = 'sm')
-cp_sm$trend <- lm(score ~ status_yr, data = cp_sm %>% 
-                     filter(status_yr > 1990))[['coefficients']]['status_yr']
-
-cp_sg <- read_csv(file.path(dir_goal, 'int/howe_seagrass_status_trend.csv')) %>%
-  select(status_yr = year, area = sg_area_km2, score = cp_score_sg) %>%
-  arrange(status_yr) %>%
-  mutate(hab = 'sg')
-cp_sg$trend <- lm(score ~ status_yr, data = cp_sg %>% 
-                    filter(status_yr %in% c(2003:2013)))[['coefficients']]['status_yr']
-
-cp_weights <- c('sg' = 1, 'sm' = 3, 'cf' = 4)
-
-cp_scores <- cp_cf %>%
-  bind_rows(cp_sm) %>%
-  bind_rows(cp_sg) %>%
-  mutate(hab_weight = cp_weights[hab])
-  
-trend_yrs <- data.frame('hab' = c('cf', 'sm', 'sg'),
-                        'trend_yrs' = c('2000-2010', '2000-2010', '2003:2013'))
-
-cp_scores_summary <- cp_scores %>%
-  group_by(hab) %>%
-  mutate(a_ref = first(area)) %>%
-  filter(status_yr == max(status_yr)) %>%
-  ungroup() %>%
-  mutate(cp_st_tot = sum(score * hab_weight * a_ref) / sum(hab_weight * a_ref),
-         cp_tr_tot = sum(trend * hab_weight * a_ref) / sum(hab_weight * a_ref)) %>%
-  left_join(trend_yrs, by = 'hab')
-  
-write_csv(cp_scores_summary, file.path(dir_goal, 'output', 'cp_scores_summary.csv'))
-
-knitr::kable(cp_scores_summary, caption = 'Coastal Protection')
-
-cp_scores_layer <- cp_scores_summary %>%
-  select(cp_status = cp_st_tot,
-         cp_trend  = cp_tr_tot) %>%
-  distinct()
-
-write_csv(cp_scores_layer, file.path(dir_goal, 'output', 'cp_scores.csv'))
 
 
-```               
-                  
-***
-
-# Carbon Storage
-
-Carbon storage potential depends on the extent and health of a habitat, and the amount of carbon effectively sequestered in a given extent of habitat.
-
-## Salt marsh and Coastal Forests
-
-Condition of each of these habitats will be scored based on its current extent relative to the extent in 1990.
-
-$$\frac{C_{sm}}{C_{sm_{ref}}} = \frac{A_c}{A_{ref}}$$
-
-where $A_c$ is the set of current extent of habitat, $A_{ref}$ is the reference extent of habitat.  Using extent rasters at equal area projection, the condition can be calculated simply using the ratio of cell counts for current and reference time periods.
-
-## Seagrass
-
-Since seagrass condition is based on pressure rather than area, the model is different from saltmarsh and forests.
-
-$$\frac{C_{sg}}{C_{sg_{ref}}} = \displaystyle\sum_{j=1}^{n_c}((1 - p_j) * A_j) / A_{total}$$
-
-where $p$ represents the nutrient pressure.  Using an equal area projection raster and a fixed habitat extent, we can calculate this more simply by $$1 - \bar{p}$$.
-
-## Goal model
-
-The carbon storage goal model is the weighted mean of the three carbon-storing habitats, weighted by reference area (as a proportion of total reference area $A_{ref_T}$ and carbon storage factor $w/w_{ref}$.  
-
-$$x_{CS} = \displaystyle\sum_{i=1}^{n}\left(\frac{C_i}{C_{i_{ref}}} * w_i * A_i\right) \bigg/ \displaystyle\sum_{i=1}^{n}\left(w_i * A_i\right)$$
-
-Carbon burial rates (gC m^-2^ yr^-1^)
-
-* Salt marsh: 218 +/- 24 gC m^-2^ yr^-1^ (mean +/- SE)
-* Seagrasses: 138 +/- 38 gC m^-2^ yr^-1^ 
-* Coastal forests
-    * temperate: 5.1 +/- 1.0 gC m^-2^ yr^-1^ 
-    * boreal: 4.6 +/- 2.1 gC m^-2^ yr^-1^ 
-
-Source: Mcleod et al. 2011. A blueprint for blue carbon: toward an improved understanding of the role of vegetated coastal habitats in sequestering C02. Frontiers in Ecology 9(10): 552-560, DOI
-
-``` {r load_cs_data}
-
-cs_cf <- read_csv(file.path(dir_goal, 'int/howe_forest_status_trend.csv')) %>%
-  select(status_yr = year, area = area_nonzero_cf_km2) %>%
-  arrange(status_yr) %>%
-  mutate(hab = 'cf',
-         c_cref = area / first(area))
-cs_cf$trend <- lm(formula = c_cref ~ status_yr, 
-                   data = cs_cf %>% 
-                     filter(status_yr > 1990))[['coefficients']]['status_yr']
-  ### trend is in absolute change per year
-
-cs_sm <- read_csv(file.path(dir_goal, 'int/howe_saltmarsh_status_trend.csv')) %>%
-  select(status_yr = year, area = area_sm_km2) %>%
-  arrange(status_yr) %>%
-  mutate(hab = 'sm',
-         c_cref = area / first(area))
-cs_sm$trend <- lm(formula = c_cref ~ status_yr, 
-                   data = cs_sm %>% 
-                     filter(status_yr > 1990))[['coefficients']]['status_yr']
-  ### trend is in absolute change per year
-
-cs_sg <- read_csv(file.path(dir_goal, 'int/howe_seagrass_status_trend.csv')) %>%
-  select(status_yr = year, area = sg_area_km2, pres_mean_sg) %>%
-  arrange(status_yr) %>%
-  mutate(hab = 'sg',
-         c_cref = 1 - pres_mean_sg) %>%
-  select(-pres_mean_sg)
-cs_sg$trend <- lm(formula = c_cref ~ status_yr, 
-                   data = cs_sg %>% 
-                     filter(status_yr %in% c(2003:2013)))[['coefficients']]['status_yr']
-  ### trend is in absolute change per year
-
-cs_weights <- c('sg' = 138, 'sm' = 218, 'cf' = 4.6)
-
-cs_scores <- cs_cf %>%
-  bind_rows(cs_sm) %>%
-  bind_rows(cs_sg) %>%
-  mutate(hab_weight = cs_weights[hab])
-  
-cs_scores_summary <- cs_scores %>%
-  group_by(hab) %>%
-  mutate(a_ref = first(area)) %>%
-  filter(status_yr == max(status_yr)) %>%
-  ungroup() %>% 
-  mutate(cs_st_tot = sum(c_cref * hab_weight * a_ref) / sum(hab_weight * a_ref),
-         cs_tr_tot = sum(trend * hab_weight * a_ref) / sum(hab_weight * a_ref)) %>%
-  left_join(trend_yrs, by = 'hab')
-  
-write_csv(cs_scores_summary, file.path(dir_goal, 'output', 'cs_scores_summary.csv'))
-
-
-knitr::kable(cs_scores_summary, caption = 'Carbon Storage')
-
-cs_scores_layer <- cs_scores_summary %>%
-  select(cs_status = cs_st_tot,
-         cs_trend  = cs_tr_tot) %>%
-  distinct()
-
-write_csv(cs_scores_layer, file.path(dir_goal, 'output', 'cs_scores.csv'))
-
-
-```               
-
-***
-
-# Habitats
+# Methods
 
 Biodiverse habitats are scored based on the relative extent and health.  They are not weighted when combined - each habitat is assumed to have equal importance to the others.  Habitats not present in a region will not be counted against the score.
 
@@ -316,6 +95,11 @@ As in carbon storage: since seagrass condition is based on pressure rather than 
 $$\frac{C_{sg}}{C_{sg_{ref}}} = \displaystyle\sum_{j=1}^{n_c}((1 - p_j) * A_j) / A_{total}$$
 
 where $p$ represents the nutrient pressure (compared to a reference of zero human-introduced nutrients).  Using an equal area projection raster and a fixed habitat extent, we can calculate this more simply by $$1 - \bar{p}$$.
+
+## Soft-Bottom Sediment
+
+## EBSAs
+
 
 ## Goal model
 
@@ -383,7 +167,6 @@ write_csv(hab_scores_layer, file.path(dir_goal, 'output', 'hab_scores.csv'))
 ```     
 
 ***
-
 
 ``` {r prov_footer, results = 'asis'}
 prov_wrapup()

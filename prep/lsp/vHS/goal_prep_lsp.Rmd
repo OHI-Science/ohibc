@@ -44,19 +44,23 @@ library(provRmd); prov_setup()
 
 ### set up the default BC projection to be BC Albers
 p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
 ext_howe <- extent(c(1170000, 1210000, 470000, 530000))
+  ### reexamine extents once a Squamish watershed is determined
 
 ```
 
 # Summary: OHIBC Lasting Special Places subgoal (Sense of Place)
 
-Currently, the Lasting Special Places goal model is identical to the OHI Global model: a region's status is based upon percent of protected area within 1 km inland buffer and percent of protected area within 3 nautical mile offshore buffer, compared to a reference point of 30% protected area.
+The Lasting Special Places goal model for Howe Sound is similar to the OHI Global model: a region's status is based upon percent of protected area within 1 km inland buffer and percent of protected area within 3 nautical mile offshore buffer, compared to a reference point of 30% protected area.
 
 $$X_{LSP} = \frac{\frac{pA_{CMPA}}{pA_{refCMPA}} + \frac{pA_{CP}}{pA_{refCP}}}{2}$$
 
 *pA* = percent of area within the inland or offshore buffer; *CMPA* = coastal marine protected area (3nm offshore); *CP* = coastline protected (1km inland); and *refCMPA* = *refCP* = 30% reference point for both measures.
 
-Future changes may incorporate other data sets and MaPP planning zones.
+For Howe Sound, based upon conversations with Andrew Day and Karin Bodtker, the weighting between onshore and offshore protected area will be area-weighted rather than a simple 50/50 weighting as in the OHI Global.
+
+An alternative will also examine protected areas within the entire watershed that feeds Howe Sound, rather than simply a 1 km inland buffer.
 
 -----
 
@@ -64,13 +68,15 @@ Future changes may incorporate other data sets and MaPP planning zones.
 
 WDPA database <citation info?>
 
+BC Parks, Ecological Reserves, and Protected Areas data 
+
 -----
 
 # Methods
 
 ## Read in BC WDPA-MPA shapefile
 
-If the WDPA-MPA shapefile has already been rasterized for the global assessment, then we may be able to use that directly.  It is Mollweide projection which is not ideal for BC, as we would prefer to work in BC Albers.  Instead, we will create a BC-specific polygon subset, then rasterize to BC Albers.
+We will create a BC-specific polygon subset of the WDPA global dataset, then rasterize to BC Albers at 500 m resolution.
 
 NOTE: If BC WDPA file does not yet exist, `get_wdpa_poly()` creates it from the original WDPA-MPA file.  This takes a long time, due to reading in the full WDPA-MPA geodatabase into a SpatialPolygonsDataFrame.
 
