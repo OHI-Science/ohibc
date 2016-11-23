@@ -27,8 +27,6 @@ dir_rgn  <- file.path(dir_git, 'prep/spatial')
 dir_anx        <- file.path(dir_M, 'git-annex/bcprep') ### git-annex: goal-specific large files
 dir_anx_global <- file.path(dir_M, 'git-annex/globalprep/spp_ico')
 
-
-
 source(file.path(dir_git, 'src/R/map_scores.R'))
 
 library(provRmd)
@@ -141,13 +139,14 @@ Combining global ICO list with CORI-supplied Howe Sound ICO list, we come up wit
 spp_info_timeseries <- read_csv(file.path(dir_goal, 'int/spp_info_timeseries.csv'))
 
 ico_list_gl <- read_csv(file.path(dir_goal, 'ico_list_howe_sound_from_global.csv')) %>%
-  select(sciname = `Specie Scientific Name`) %>%
+  select(sciname = `Specie Scientific Name`,
+         comname = `Specie Common Name`) %>%
   filter(sciname %in% spp_info_timeseries$sciname) %>%
   distinct()
   
 ico_list_hs <- read_csv(file.path(dir_goal, 'ico_list_howesound.csv')) %>%
   filter(!str_detect(comments, 'elimin')) %>%
-  select(sciname) %>%
+  select(sciname, comname) %>%
   distinct()
 
 ico_list <- ico_list_gl %>%
@@ -179,8 +178,14 @@ Most recent year only:
 ico_list <- read_csv(file.path(dir_goal, 'int', 'ico_list_scinames.csv'))
 
 ico_info_timeseries <- read_csv(file.path(dir_goal, 'int/spp_info_timeseries.csv')) %>%
-  filter(sciname %in% ico_list$sciname) %>%
-  filter(year == max(year))
+  inner_join(ico_list, by = 'sciname') 
+
+### missing iconic spp:
+#                  sciname        comname
+# 1      Branta canadensis   canada goose
+# 2         Etrumeus teres  Round herring
+# 3  Opisthonema libertate thread herring
+# 4 Opisthonema medirastre thread herring ### This one is ranked as LC in IUCN but only as far north as central CA
 
 ico_risk_ts <- ico_info_timeseries %>%
   select(pr_score, cat_ts_score, year) %>%
@@ -196,46 +201,81 @@ ico_status_ts$trend <- ico_status_ts %>%
   do(trend = lm(status ~ year, data = .)$coefficients[2] * 5) %>%
   unlist()
 
-write_csv(ico_status_ts, file.path(dir_goal, 'summary/ico_status_ts.csv'))
+write_csv(ico_status_ts, 
+          file.path(dir_goal, 'summary/ico_status_ts.csv'))
 
-knitr::kable(ico_status_ts, caption = 'Howe Sound iconic species status and trend')
+knitr::kable(ico_status_ts, 
+             caption = 'Howe Sound iconic species status and trend')
 
 ```
 
 ``` {r plot_ico_by_cat}
 
+ico_list <- read_csv(file.path(dir_goal, 'int', 'ico_list_scinames.csv'))
+
+ico_info_timeseries <- read_csv(file.path(dir_goal, 'int/spp_info_timeseries.csv')) %>%
+  inner_join(ico_list, by = 'sciname') %>%
+  filter(year == max(year))
+
+### missing iconic spp:
+#                  sciname        comname
+# 1      Branta canadensis   canada goose
+# 2         Etrumeus teres  Round herring
+# 3  Opisthonema libertate thread herring
+# 4 Opisthonema medirastre thread herring
+
 ico_table_info <- ico_info_timeseries %>%
-  select(am_sid, iucn_sid, sciname, 
-         cat_score, 
-         pr_score) %>%
+  select(am_sid, iucn_sid, 
+         sciname, comname,
+         cat_score, pr_score) %>%
+  group_by(sciname) %>%
+  filter(comname == last(comname)) %>%
+  ungroup() %>%
   distinct() %>%
-  arrange(desc(cat_score), desc(sciname)) %>%
-  mutate(spp_health = 1 - cat_score,
+  arrange(desc(cat_score), desc(comname)) %>%
+  mutate(spp_health = round(1 - cat_score, 1),
          n_ico = 1:n())
-  
-ico_plot <- ggplot(ico_table_info, aes(x = n_ico, y = 0.2, fill = spp_health)) +
+
+### list status cats on the plot itself?
+cat_list <- data.frame(spp_health = c(   0,      .1,    .2,      .3,    .4,      .5,    .6,      .7,    .8,      .9,   1.0),
+                       cat_lab    = c('EX', 'CR/EX',  'CR', 'CR/EN',  'EN', 'EN/VU',  'VU', 'VU/NT',  'NT', 'NT/LC',  'LC'),
+                       stringsAsFactors = FALSE)
+
+ico_table_info <- ico_table_info %>%
+  left_join(cat_list, by = 'spp_health') %>%
+  group_by(spp_health) %>%
+  mutate(cat_lab = ifelse(n_ico == last(n_ico), cat_lab, NA)) %>%
+  mutate(ico_lab = paste0(comname, ' (', sciname, ')'),
+         ico_lab = ifelse(!is.na(pr_score), ico_lab, paste0(ico_lab, '*')))
+
+ico_plot <- ggplot(ico_table_info, aes(x = n_ico, y = 0.3, fill = spp_health)) +
   ggtheme_plot + 
   theme(panel.grid = element_blank(),
         axis.title = element_blank(),
-        axis.text  = element_blank()) +
+        axis.text  = element_blank(),
+        legend.position = 'none') +
   geom_bar(stat = 'identity', width = 1) +
-  geom_text(aes(label = sciname, nudge_y = .02), 
+  geom_text(aes(label = ico_lab, nudge_y = .02), 
             size = 2,
+            # angle = 90, 
+            hjust = 0) +
+  geom_text(aes(label = cat_lab, y = 0, nudge_y = .02), 
+            size = 1.5,
             # angle = 90, 
             hjust = 0) +
   scale_fill_gradient2(low = 'red4', mid = 'orange', high = 'green4', 
                        midpoint = 0.5,
                        breaks = c(0, .2, .4, .6, .8, 1.0),
                        labels = c('EX', 'CR', 'EN', 'VU', 'NT', 'LC'))+
-  scale_y_continuous(limits = c(0, 2)) +
+  scale_y_continuous(limits = c(0, 3)) +
   coord_flip() +
   labs(fill = 'Species health')
 
-print(ico_plot)
-
 ggsave(file.path(dir_goal, 'ico_plot.png'),
-       width = 7, height = 7, units = 'cm')
+       width = 6, height = 8, units = 'cm')
 ```
+
+![](ico_plot.png)
 
 ``` {r save_howe_sound_status_trend}
 

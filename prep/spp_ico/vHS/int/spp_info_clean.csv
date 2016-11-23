@@ -177,95 +177,96 @@ W-Msc-141962,162988,am,Vitreledonella richardi,0.0,NA,NA
 W-Msc-157031,163353,am,Pyroteuthis margaritifera,0.0,NA,NA
 W-Msc-181382,163163,am,Ommastrephes bartramii,0.0,NA,NA
 W-Msc-341818,163218,am,Liocranchia reinhardti,0.0,NA,NA
-NA,8005,iucn,Testudo imbricata,0.8,NA,-0.5
-NA,11145,iucn,Lagenorhynchus ognevi,0.0,NA,NA
-NA,11534,iucn,Chelonia olivacea,0.4,NA,-0.5
-NA,12302,iucn,Lontra canadensis,0.0,0.0,0.0
-NA,17032,iucn,Phocoenoides truei,0.0,NA,NA
-NA,20731,iucn,Stenella euphrosyne,0.0,NA,NA
-NA,153538,iucn,Zostera marina,0.0,0.0,-0.5
-NA,170306,iucn,Pneumatophorus colias,0.0,NA,0.0
-NA,170310,iucn,Euthynnus pelamis,0.0,NA,0.0
-NA,170352,iucn,Pelamys chiliensis,0.0,NA,-0.5
-NA,173320,iucn,Phyllospadix torreyi,0.2,0.2,0.0
-NA,173348,iucn,Zostera japonica,0.0,NA,0.5
-NA,173366,iucn,Phyllospadix serrulatus,0.2,0.2,0.0
-NA,173367,iucn,Phyllospadix scouleri,0.0,0.0,0.0
-NA,173373,iucn,Zostera pacifica,0.0,NA,NA
-NA,180436,iucn,Parastichopus californicus,0.0,NA,0.0
-NA,185000,iucn,Polycheles nanus,0.0,NA,0.0
-NA,19711843,iucn,Apostichopus leukothele,0.0,NA,NA
-NA,22679859,iucn-bli,Cygnus buccinator,0.2,0.2,0.5
-NA,22679881,iucn-bli,Anser albifrons,0.2,0.2,NA
-NA,22679896,iucn-bli,Anser caerulescens,0.06666666666666667,0.2,0.5
-NA,22679946,iucn-bli,Branta bernicla,0.4,0.4,NA
-NA,22680157,iucn-bli,Anas penelope,0.0,NA,-0.5
-NA,22680163,iucn-bli,Anas americana,0.0,0.0,0.0
-NA,22680229,iucn-bli,Anas discors,0.1,0.1,-0.5
-NA,22680247,iucn-bli,Anas clypeata,0.0,0.0,-0.5
-NA,22680301,iucn-bli,Anas acuta,0.2,0.2,-0.5
-NA,22680364,iucn-bli,Aythya valisineria,0.2,0.2,-0.5
-NA,22680367,iucn-bli,Aythya americana,0.2,0.2,0.5
-NA,22680398,iucn-bli,Aythya marila,0.2,0.2,-0.5
-NA,22680402,iucn-bli,Aythya affinis,0.0,0.0,-0.5
-NA,22680472,iucn-bli,Lophodytes cucullatus,0.0,0.0,0.5
-NA,22680492,iucn-bli,Mergus merganser,0.0,0.0,0.5
-NA,22689714,iucn-bli,Chordeiles minor,0.2,0.2,-0.5
-NA,22693178,iucn-bli,Numenius phaeopus,0.0,NA,-0.5
-NA,22693195,iucn-bli,Numenius americanus,0.4,0.4,-0.5
-NA,22693207,iucn-bli,Tringa erythropus,0.0,NA,0.0
-NA,22693231,iucn-bli,Tringa melanoleuca,0.0,0.0,0.0
-NA,22693235,iucn-bli,Tringa flavipes,0.1,0.1,-0.5
-NA,22693277,iucn-bli,Actitis macularia,0.0,0.0,-0.5
-NA,22693305,iucn-bli,Heteroscelus incanus,0.2,0.4,0.0
-NA,22693341,iucn-bli,Arenaria melanocephala,0.2,0.2,0.0
-NA,22693344,iucn-bli,Limnodromus griseus,0.5,0.5,-0.5
-NA,22693348,iucn-bli,Limnodromus scolopaceus,0.2,0.2,NA
-NA,22693356,iucn-bli,Aphriza virgata,0.0,NA,-0.5
-NA,22693363,iucn-bli,Calidris canutus,0.7,0.7,-0.5
-NA,22693369,iucn-bli,Calidris alba,0.1,0.1,NA
-NA,22693373,iucn-bli,Calidris pusilla,0.2,NA,-0.5
-NA,22693376,iucn-bli,Calidris mauri,0.2,0.2,-0.5
-NA,22693396,iucn-bli,Calidris minutilla,0.2,0.2,-0.5
-NA,22693424,iucn-bli,Calidris ptilocnemis,0.2,0.2,-0.5
-NA,22693427,iucn-bli,Calidris alpina,0.2,0.2,-0.5
-NA,22693431,iucn-bli,Calidris ferruginea,0.2,NA,0.5
-NA,22693735,iucn-bli,Pluvialis fulva,0.0,NA,-0.5
-NA,22693740,iucn-bli,Pluvialis dominica,0.3,0.3,-0.5
-NA,22693749,iucn-bli,Pluvialis squatarola,0.0,0.0,-0.5
-NA,22693764,iucn-bli,Charadrius semipalmatus,0.1,0.1,0.0
-NA,22693777,iucn-bli,Charadrius vociferus,0.1,0.1,-0.5
-NA,22694524,iucn-bli,Sterna caspia,0.0,NA,0.5
-NA,22694938,iucn-bli,Pandion haliaetus,0.0,0.0,0.5
-NA,22695144,iucn-bli,Haliaeetus leucocephalus,0.0,0.0,0.5
-NA,22696453,iucn-bli,Falco columbarius,0.0,0.0,0.0
-NA,22696610,iucn-bli,Podiceps nigricollis,0.4,0.4,NA
-NA,22696998,iucn-bli,Ardea herodias,0.4,0.4,0.5
-NA,22697839,iucn-bli,Gavia pacifica,0.2,0.2,0.5
-NA,22697842,iucn-bli,Gavia immer,0.0,0.0,-0.5
-NA,22697847,iucn-bli,Gavia adamsii,0.5,0.5,-0.5
-NA,22698188,iucn-bli,Puffinus carneipes,0.4,0.4,0.0
-NA,22698195,iucn-bli,Puffinus creatopus,0.4,0.4,NA
-NA,22698209,iucn-bli,Puffinus griseus,0.2,NA,-0.5
-NA,22698216,iucn-bli,Puffinus tenuirostris,0.0,NA,-0.5
-NA,22698572,iucn-bli,Oceanodroma furcata,0.2,0.2,0.5
-NA,22705986,iucn-bli,Corvus caurinus,0.0,0.0,0.5
-NA,22710886,iucn-bli,Sturnus vulgaris,0.0,NA,-0.5
-NA,22711374,iucn-bli,Cistothorus palustris,0.0,0.0,0.5
-NA,22712077,iucn-bli,Tachycineta thalassina,0.1,0.1,0.5
-NA,22717434,iucn-bli,Eremophila alpestris,0.0,0.0,-0.5
-NA,22718575,iucn-bli,Anthus rubescens,0.0,0.0,-0.5
-NA,22721033,iucn-bli,Calcarius lapponicus,0.0,NA,0.5
-NA,22721043,iucn-bli,Plectrophenax nivalis,0.2,0.2,-0.5
-NA,22721058,iucn-bli,Melospiza melodia,0.0,0.0,0.0
-NA,22721836,iucn-bli,Geothlypis trichas,0.0,0.0,0.0
-NA,22724332,iucn-bli,Euphagus cyanocephalus,0.0,0.0,-0.5
-NA,22728182,iucn-bli,Butorides striata,0.15,0.3,-0.5
-NA,22728995,iucn-bli,Larus thayeri,0.0,0.0,0.5
-NA,22732425,iucn-bli,Melanitta americana,0.3,0.3,-0.5
-NA,22734194,iucn-bli,Melanitta deglandi,0.0,NA,-0.5
-NA,22735128,iucn-bli,Stelgidopteryx serripennis,0.1,0.1,-0.5
-NA,45354964,iucn-bli,Falco pelegrinoides,0.2,0.4,0.0
-NA,62015238,iucn-bli,Haematopus ater,0.1,0.2,NA
-NA,62030590,iucn-bli,Larus smithsonianus,0.0,NA,-0.5
-NA,62169677,iucn-bli,Fulica americana,0.05,0.1,-0.5
+NA,8005,iucn,NA,0.8,NA,-0.5
+NA,11145,iucn,NA,0.0,NA,NA
+NA,11534,iucn,NA,0.4,NA,-0.5
+NA,12302,iucn,NA,0.0,NA,0.0
+NA,17032,iucn,NA,0.0,NA,NA
+NA,20731,iucn,NA,0.0,NA,NA
+NA,153538,iucn,NA,0.0,NA,-0.5
+NA,170306,iucn,NA,0.0,NA,0.0
+NA,170310,iucn,NA,0.0,NA,0.0
+NA,170352,iucn,NA,0.0,NA,-0.5
+NA,173320,iucn,NA,0.0,NA,0.0
+NA,173348,iucn,NA,0.0,NA,0.5
+NA,173366,iucn,NA,0.0,NA,0.0
+NA,173367,iucn,NA,0.0,NA,0.0
+NA,173373,iucn,NA,0.0,NA,NA
+NA,180436,iucn,NA,0.0,NA,0.0
+NA,185000,iucn,NA,0.0,NA,0.0
+NA,19711843,iucn,NA,0.0,NA,NA
+NA,22679859,iucn-bli,NA,0.0,NA,0.5
+NA,22679881,iucn-bli,NA,0.0,NA,NA
+NA,22679896,iucn-bli,NA,0.0,NA,0.5
+NA,22679935,iucn-bli,Branta canadensis,0.0,0.0,NA
+NA,22679946,iucn-bli,NA,0.0,NA,NA
+NA,22680157,iucn-bli,NA,0.0,NA,-0.5
+NA,22680163,iucn-bli,NA,0.0,NA,0.0
+NA,22680229,iucn-bli,NA,0.0,NA,-0.5
+NA,22680247,iucn-bli,NA,0.0,NA,-0.5
+NA,22680301,iucn-bli,NA,0.0,NA,-0.5
+NA,22680364,iucn-bli,NA,0.0,NA,-0.5
+NA,22680367,iucn-bli,NA,0.0,NA,0.5
+NA,22680398,iucn-bli,NA,0.0,NA,-0.5
+NA,22680402,iucn-bli,NA,0.0,NA,-0.5
+NA,22680472,iucn-bli,NA,0.0,NA,0.5
+NA,22680492,iucn-bli,NA,0.0,NA,0.5
+NA,22689714,iucn-bli,NA,0.0,NA,-0.5
+NA,22693178,iucn-bli,NA,0.0,NA,-0.5
+NA,22693195,iucn-bli,NA,0.0,NA,-0.5
+NA,22693207,iucn-bli,NA,0.0,NA,0.0
+NA,22693231,iucn-bli,NA,0.0,NA,0.0
+NA,22693235,iucn-bli,NA,0.0,NA,-0.5
+NA,22693277,iucn-bli,NA,0.0,NA,-0.5
+NA,22693305,iucn-bli,NA,0.0,NA,0.0
+NA,22693341,iucn-bli,NA,0.0,NA,0.0
+NA,22693344,iucn-bli,NA,0.0,NA,-0.5
+NA,22693348,iucn-bli,NA,0.0,NA,NA
+NA,22693356,iucn-bli,NA,0.0,NA,-0.5
+NA,22693363,iucn-bli,NA,0.2,NA,-0.5
+NA,22693369,iucn-bli,NA,0.0,NA,NA
+NA,22693373,iucn-bli,NA,0.2,NA,-0.5
+NA,22693376,iucn-bli,NA,0.0,NA,-0.5
+NA,22693396,iucn-bli,NA,0.0,NA,-0.5
+NA,22693424,iucn-bli,NA,0.0,NA,-0.5
+NA,22693427,iucn-bli,NA,0.0,NA,-0.5
+NA,22693431,iucn-bli,NA,0.2,NA,0.5
+NA,22693735,iucn-bli,NA,0.0,NA,-0.5
+NA,22693740,iucn-bli,NA,0.0,NA,-0.5
+NA,22693749,iucn-bli,NA,0.0,NA,-0.5
+NA,22693764,iucn-bli,NA,0.0,NA,0.0
+NA,22693777,iucn-bli,NA,0.0,NA,-0.5
+NA,22694524,iucn-bli,NA,0.0,NA,0.5
+NA,22694938,iucn-bli,NA,0.0,NA,0.5
+NA,22695144,iucn-bli,NA,0.0,NA,0.5
+NA,22696453,iucn-bli,NA,0.0,NA,0.0
+NA,22696610,iucn-bli,NA,0.0,NA,NA
+NA,22696998,iucn-bli,NA,0.0,NA,0.5
+NA,22697839,iucn-bli,NA,0.0,NA,0.5
+NA,22697842,iucn-bli,NA,0.0,NA,-0.5
+NA,22697847,iucn-bli,NA,0.2,NA,-0.5
+NA,22698188,iucn-bli,NA,0.0,NA,0.0
+NA,22698195,iucn-bli,NA,0.4,NA,NA
+NA,22698209,iucn-bli,NA,0.2,NA,-0.5
+NA,22698216,iucn-bli,NA,0.0,NA,-0.5
+NA,22698572,iucn-bli,NA,0.0,NA,0.5
+NA,22705986,iucn-bli,NA,0.0,NA,0.5
+NA,22710886,iucn-bli,NA,0.0,NA,-0.5
+NA,22711374,iucn-bli,NA,0.0,NA,0.5
+NA,22712077,iucn-bli,NA,0.0,NA,0.5
+NA,22717434,iucn-bli,NA,0.0,NA,-0.5
+NA,22718575,iucn-bli,NA,0.0,NA,-0.5
+NA,22721033,iucn-bli,NA,0.0,NA,0.5
+NA,22721043,iucn-bli,NA,0.0,NA,-0.5
+NA,22721058,iucn-bli,NA,0.0,NA,0.0
+NA,22721836,iucn-bli,NA,0.0,NA,0.0
+NA,22724332,iucn-bli,NA,0.0,NA,-0.5
+NA,22728182,iucn-bli,NA,0.0,NA,-0.5
+NA,22728995,iucn-bli,NA,0.0,NA,0.5
+NA,22732425,iucn-bli,NA,0.2,NA,-0.5
+NA,22734194,iucn-bli,NA,0.0,NA,-0.5
+NA,22735128,iucn-bli,NA,0.0,NA,-0.5
+NA,45354964,iucn-bli,NA,0.0,NA,0.0
+NA,62015238,iucn-bli,NA,0.0,NA,NA
+NA,62030590,iucn-bli,NA,0.0,NA,-0.5
+NA,62169677,iucn-bli,NA,0.0,NA,-0.5

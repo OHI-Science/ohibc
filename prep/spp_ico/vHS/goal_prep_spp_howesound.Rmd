@@ -182,7 +182,9 @@ See [this table]('iucn_to_ns.html') for info on NatureServe codes.
 ``` {r append_bcsee_scores}
 
 spp_global_file <- file.path(dir_anx_global, 'v2016', 'int/spp_all_cleaned.csv')
-spp_info <- read_csv(spp_global_file)
+spp_info <- read_csv(spp_global_file) %>%
+  mutate(sciname = ifelse(am_sid == 'Fis-153539', 'Clupea pallasii', sciname)) 
+  ### force Pacific herring into a name recognized on the BC Species Explorer list
 
 spp_info <- spp_append_bcsee(spp_info)
 
@@ -195,6 +197,10 @@ spp_info_hs <- spp_info %>%
   filter(!is.na(cat_score)) %>%
   filter((am_sid %in% am_cells_spp$am_sid & str_detect(spatial_source, 'am')) | 
            (iucn_sid %in% iucn_cells_spp$iucn_sid & str_detect(spatial_source, 'iucn')))
+
+### add HS specific species to the list
+spp_info_hs <- spp_info_hs %>%
+  bind_rows(read_csv(file.path(dir_goal, 'int/spp_info_hs_specific.csv')))
   
 write_csv(spp_info_hs, file.path(dir_goal, 'int/spp_info_raw.csv'))
 
@@ -294,8 +300,8 @@ if(!file.exists(spp_cat_ts_file)) {
     arrange(iucn_sid, year)
   
   write_csv(spp_past_df, spp_cat_ts_file)
+  
 }
-
 
 ```
 

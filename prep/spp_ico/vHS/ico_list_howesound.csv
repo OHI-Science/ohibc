@@ -1,26 +1,28 @@
 name from Karin,comname,sciname,comments
-Salmon,salmon - sockeye,Oncorhynchus nerka,all iconic?
-Salmon,salmon - chinook,Oncorhynchus tshawytscha,all iconic?
-Salmon,salmon - coho,Oncorhynchus kisutch,all iconic?
-Salmon,salmon - pink,Oncorhynchus gorbuscha,all iconic?
-Orca,orca,Orcinus orca,none
-Humpback,humpback whale,Megaptera novaeangliae,none
-Grey Whale,grey whale,Eschrichtius robustus,none
-Harbor porpoise,harbor porpoise,Phocoena phocoena,none
-White sided dolphin,white-sided dolphin,Lagenorhynchus obliquidens,none
-Eagle,bald eagle,Haliaeetus leucocephalus,none
-Heron,great blue heron,Ardea herodias,none
-Canadian Geese,canada goose,Branta canadensis,none
-Common Loon,common loon,Gavia immer,none
-Harbour Seal,harbor seal,Phoca vitulina,none
+Salmon,Sockeye salmon,Oncorhynchus nerka,all iconic?
+Salmon,Chinook salmon,Oncorhynchus tshawytscha,all iconic?
+Salmon,Coho salmon,Oncorhynchus kisutch,all iconic?
+Salmon,Pink salmon,Oncorhynchus gorbuscha,all iconic?
+Orca,Orca whale,Orcinus orca,none
+Humpback,Humpback whale,Megaptera novaeangliae,none
+Grey Whale,Grey whale,Eschrichtius robustus,none
+Harbor porpoise,Harbor porpoise,Phocoena phocoena,none
+White sided dolphin,White-sided dolphin,Lagenorhynchus obliquidens,none
+Eagle,Bald eagle,Haliaeetus leucocephalus,none
+Heron,Great blue heron,Ardea herodias,none
+Canadian Geese,Canada goose,Branta canadensis,none
+Common Loon,Common loon,Gavia immer,none
+Harbour Seal,Harbor seal,Phoca vitulina,none
+Forage fish,Pacific herring,Clupea pallasii,none
 Forage fish,Round herring,Etrumeus teres,none
-Forage fish,thread herring,Opisthonema libertate,none
-Forage fish,thread herring,Opisthonema medirastre,none
-Forage fish,Pacific sand lance,Ammodytes hexapterus,none
-Forage fish,Pacific saury,Cololabis saira,none
+Forage fish,Thread herring,Opisthonema libertate,none
+Forage fish,Thread herring,Opisthonema medirastre,none
+Forage fish,Pacific sand lance,Ammodytes hexapterus,eliminated
+Forage fish,Pacific saury,Cololabis saira,eliminated
 Forage fish,Silversides,family Atherinopsidae,eliminated
 Forage fish,Smelts,family Osmeridae,eliminated
-Marbled Murrelet,marbled murrelet,Brachyramphus marmoratus,added by Karin
+Forage fish,Eulachon,Thaleichthys pacificus,none
+Marbled Murrelet,Marbled murrelet,Brachyramphus marmoratus,added by Karin
 marine mammal other,,,(by spatial data presence)
 Sea Otter,Sea Otter,Enhydra lutris,eliminated by Karin for Howe Sound
 Northern Abalone,Northern Abalone,Haliotis kamtschatkana,eliminated by Karin for Howe Sound
