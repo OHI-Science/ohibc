@@ -183,7 +183,7 @@ Based on the DFO sponge closures and DFO shrimp trawl data, all of the identifie
 
 * A pure binary method would result in a score of 0.  
 * A method that counts binary trawl/no trawl by year, essentially probability of an area being trawled in any given year, will result in slightly higher score.  
-* Counting by actual effort will likely return an even higher score.  Here we will use a log-scaled pressure to give higher relative weight to small pressures, as any damage is likely to be long-lasting.
+* Counting by actual effort will likely return an even higher score.  Here we use a simple linear rescale, though we would like to consider methods (e.g. log rescale) to give higher relative weight to small pressures, as any damage is likely to be long-lasting.
 
 ``` {r calc_scores_sponge}
 
@@ -202,9 +202,7 @@ sponge_trawl_bin_sum <- sponge_trawl_df %>%
 sponge_trawl_hrs_sum <- sponge_trawl_df %>%
   filter(!is.na(sponge_trawl_hrs_prs)) %>% ### this eliminates non-sponge cells (NA = non-sponge)
   mutate(trawl_effort  = sponge_trawl_hrs_prs/max(sponge_trawl_hrs_prs),
-         trawl_eff_log = log(1 + trawl_effort),
-         trawl_eff_log = trawl_eff_log/max(trawl_eff_log),
-         effort_hrs_area = trawl_eff_log * a_prs_km2) %>%
+         effort_hrs_area = trawl_effort * a_prs_km2) %>%
   summarize(weighted_hrs_prs = sum(effort_hrs_area)/sum(a_prs_km2),
             hab_status_hrs   = 1 - weighted_hrs_prs)
 
@@ -317,7 +315,6 @@ knitr::kable(sponge_prot_sum)
 
 ```
 
-
 ``` {r plot_sponge_prot_map}
 
 hs_poly <- rgdal::readOGR(dsn = dir_spatial, 
@@ -405,23 +402,24 @@ write_csv(sb_trawl_df, file.path(dir_goal, 'int', 'soft_btm_pressures.csv'))
 
 *** 
 
-With the trawl effort on soft-bottom habitats by region, determine scores based on log of trawl effort:  this amplifies the effects of small trawl effort relative to large trawl effort.  This suggests that damage due to each additional unit of effort does not have the same ecological impact as those first few hours of trawling effort.
+With the trawl effort on soft-bottom habitats by region, determine scores based on trawl effort (simple linear rescale).  We would like to consider a non-linear method (e.g. log rescale) that amplifies the effects of small trawl effort relative to large trawl effort.  This suggests that damage due to each additional unit of effort does not have the same ecological impact as those first few hours of trawling effort.
 
 ``` {r calc_scores_soft_btm_trawl}
 
 ### read dataframe of soft bottom trawl effort by region
 sb_trawl_df <- read_csv(file.path(dir_goal, 'int', 'soft_btm_pressures.csv')) %>%
-  mutate(sb_trawl_rescale = sb_trawl_prs/max(sb_trawl_prs),
-         sb_trawl_log     = log(sb_trawl_rescale + 1),
-         sb_trawl_log     = sb_trawl_log/max(sb_trawl_log))
+  mutate(sb_trawl_rescale = sb_trawl_prs/max(sb_trawl_prs))
 
 ### Calculate area-weighted mean pressure
 sb_trawl_sum <- sb_trawl_df %>%
-  mutate(effort_area = sb_trawl_log * a_prs_km2) %>%
-  summarize(weighted_prs = sum(effort_area)/sum(a_prs_km2),
-            hab_status_hrs   = 1 - weighted_prs)
+  mutate(effort_area = sb_trawl_rescale * a_prs_km2) %>%
+  summarize(area_tot_km2 = first(a_tot_km2),
+            weighted_prs = sum(effort_area)/sum(a_prs_km2),
+            hab_status   = 1 - weighted_prs)
 
 write_csv(sb_trawl_sum, file.path(dir_goal, 'int', 'soft_btm_trawl_summary.csv'))
+
+knitr::kable(sb_trawl_sum)
 
 ```
 
@@ -437,7 +435,7 @@ sb_map <- tm_shape(hs_poly) +
               alpha = .3) +
   tm_shape(sb_trawl_totes) +
     tm_raster(palette = 'Reds',
-              breaks = c(0, 1000, 5000, 10000, Inf),
+              breaks = c(0, 100, 1000, 10000, Inf),
               title  = 'Trawl effort (hrs)') +
   tm_shape(hs_poly) +
   tm_polygons(col = NA,

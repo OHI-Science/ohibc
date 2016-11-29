@@ -59,10 +59,10 @@ Pull data layers to calculate Howe Sound Habitats goal
     - land use change
 - Soft bottom
     - trawl pressure
-- EBSAs incl sponges
-    - trawl pressure
+- EBSAs? none in Howe Sound
 - Howe Sound-specific sponges
-    - trawl pressure
+    - trawl pressure?
+    - protection by closures?
 
 # Data Sources
 
@@ -80,10 +80,13 @@ Pull data layers to calculate Howe Sound Habitats goal
     * **Native data resolution**: 30 meters   
     * **Time range**: 1990, 2000, 2010
     * **Format**:  GeoTIFF
+* Sponge reef closures
+* Sponge reef locations
+* Soft bottom habitat
+* Shrimp trawl pressures
+
 
 ***
-
-
 
 # Methods
 
@@ -95,7 +98,7 @@ Since they do not directly support marine biodiversity, coastal forests are not 
 
 ## Salt marsh
 
-As for carbon storage, condition of salt marsh habitat will be scored based on its current extent relative to the extent in 1990.
+Condition of salt marsh habitat will be scored based on its current extent relative to the extent in 1990.
 
 $$\frac{C_{sm}}{C_{sm_{ref}}} = \frac{A_c}{A_{ref}}$$
 
@@ -103,7 +106,7 @@ where $A_c$ is the set of current extent of habitat, $A_{ref}$ is the reference 
 
 ## Seagrasses
 
-As in carbon storage: since seagrass condition is based on pressure rather than area, the model is different from saltmarsh and forests.
+Since seagrass condition is based on pressure rather than area, the model is different from saltmarsh and forests.
 
 $$\frac{C_{sg}}{C_{sg_{ref}}} = \displaystyle\sum_{j=1}^{n_c}((1 - p_j) * A_j) / A_{total}$$
 
@@ -111,39 +114,50 @@ where $p$ represents the nutrient pressure (compared to a reference of zero huma
 
 ## Soft-Bottom Sediment
 
-## EBSAs
+Soft-bottom sediment condition is based on trawling pressure from the shrimp trawl fishery.
 
+$$\frac{C_{sb}}{C_{sb_{ref}}} = \displaystyle\sum_{j=1}^{n_c}((1 - p_j) * A_j) / A_{total}$$
+
+where $p$ represents the trawling pressure, where trawl effort $E_{trawl}$ is based upon the annual mean of trawl hours from 2005-2015:
+
+$$p_{trawl} = E_{trawl}/E_{trawl_{max}}$$
+
+## Sponge reef
+
+Sponge reef conditions are calculated using a simple ratio of protected area to total area.  Protections are afforded by sponge reef closures but these only cover certain reefs.
+
+$$\frac{C_{sp}}{C_{sp_{ref}}} = A_{closure} / A_{total}$$
 
 ## Goal model
 
-The habitat goal model is the unweighted mean of the two biodiversity-supporting marine habitats.  
+The habitat goal model is the unweighted mean of all biodiversity-supporting marine habitats.  
 
 $$x_{HAB} = \displaystyle\sum_{i=1}^{n}\left(\frac{C_i}{C_{i_{ref}}} * \frac{A_i}{A_T}\right)$$
 
 ``` {r load_hab_data}
 
 hab_cf <- read_csv(file.path(dir_goal, 'int/howe_forest_status_trend.csv')) %>%
-  select(status_yr = year, area = area_nonzero_cf_km2) %>%
+  select(status_yr = year, area_km2 = area_nonzero_cf_km2) %>%
   arrange(status_yr) %>%
   mutate(hab = 'cf',
-         c_cref = area / first(area))
+         c_cref = area_km2 / first(area_km2))
 hab_cf$trend <- lm(formula = c_cref ~ status_yr, 
                    data = hab_cf %>% 
                      filter(status_yr > 1990))[['coefficients']]['status_yr']
   ### trend is in absolute change per year
 
 hab_sm <- read_csv(file.path(dir_goal, 'int/howe_saltmarsh_status_trend.csv')) %>%
-  select(status_yr = year, area = area_sm_km2) %>%
+  select(status_yr = year, area_km2 = area_sm_km2) %>%
   arrange(status_yr) %>%
   mutate(hab = 'sm',
-         c_cref = area / first(area))
+         c_cref = area_km2 / first(area_km2))
 hab_sm$trend <- lm(formula = c_cref ~ status_yr, 
                    data = hab_sm %>% 
                      filter(status_yr > 1990))[['coefficients']]['status_yr']
   ### trend is in absolute change per year
 
 hab_sg <- read_csv(file.path(dir_goal, 'int/howe_seagrass_status_trend.csv')) %>%
-  select(status_yr = year, area = sg_area_km2, pres_mean_sg) %>%
+  select(status_yr = year, area_km2 = sg_area_km2, pres_mean_sg) %>%
   arrange(status_yr) %>%
   mutate(hab = 'sg',
          c_cref = 1 - pres_mean_sg) %>%
@@ -153,9 +167,23 @@ hab_sg$trend <- lm(formula = c_cref ~ status_yr,
                      filter(status_yr %in% c(2003:2013)))[['coefficients']]['status_yr']
   ### trend is in absolute change per year
 
+hab_sp <- read_csv(file.path(dir_goal, 'int/sponge_closure_summary.csv')) %>%
+  mutate(hab = 'sp',
+         c_cref = area_prot_km2 / area_tot_km2,
+         status_yr = 2015) %>%
+  select(hab, area_km2 = area_tot_km2, c_cref, status_yr)
+
+hab_sb <- read_csv(file.path(dir_goal, 'int/soft_btm_trawl_summary.csv')) %>%
+  mutate(hab = 'sb',
+         c_cref = 1 - weighted_prs,
+         status_yr = 2015) %>%
+  select(hab, area_km2 = area_tot_km2, c_cref, status_yr)
+
 hab_scores <- hab_cf %>%
   bind_rows(hab_sm) %>%
-  bind_rows(hab_sg)
+  bind_rows(hab_sg) %>%
+  bind_rows(hab_sb) %>%
+  bind_rows(hab_sp)
   
 hab_scores_summary <- hab_scores %>%
   group_by(hab) %>%
@@ -163,8 +191,7 @@ hab_scores_summary <- hab_scores %>%
   filter(status_yr == max(status_yr)) %>%
   ungroup() %>% 
   mutate(hab_st_tot = sum(c_cref) / n(),
-         hab_tr_tot = sum(trend) / n()) %>%
-  left_join(trend_yrs, by = 'hab')
+         hab_tr_tot = sum(trend, na.rm = TRUE) / sum(!is.na(trend)))
   
 write_csv(hab_scores_summary, file.path(dir_goal, 'output', 'hab_scores_summary.csv'))
 
