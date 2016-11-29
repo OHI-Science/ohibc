@@ -51,6 +51,19 @@ p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 
 Pull data layers to calculate Howe Sound Habitats goal
 
+- Seagrass
+    - nutrient pressure
+- Saltmarsh
+    - land use change
+- Coastal forests(?)
+    - land use change
+- Soft bottom
+    - trawl pressure
+- EBSAs incl sponges
+    - trawl pressure
+- Howe Sound-specific sponges
+    - trawl pressure
+
 # Data Sources
 
 * **Seagrass and salt marsh polygons**
