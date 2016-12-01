@@ -34,8 +34,9 @@ library(provRmd); prov_setup()
 source(file.path(dir_goal, 'spp_fxn.R'))
 
 ### set up proj4string options: BC Albers and WGS84
-p4s_wgs84 <- c('EPSG:4326 WGS 84' = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
-p4s_bcalb <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0')
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+p4s_wgs84 <- c('wgs84' = '+init=epsg:4326')
+
 ```
 
 # Summary: OHIBC Howe Sound Species and Iconic Species
@@ -130,30 +131,33 @@ The goal_prep_spp_howesound.Rmd script creates a time series of species info for
 
 ## Identify Howe Sound iconic species
 
-Combining global ICO list with CORI-supplied Howe Sound ICO list, we come up with a master list of all iconic species within the Howe Sound region.
+Combining global ICO list with CORI-supplied Howe Sound ICO list, we come up with a master list of all iconic species within the Howe Sound region.  The spp_info_timeseries file is generated within the SPP goal prep script.
 
 ``` {r generate_ico_list}
 
-spp_info_timeseries <- read_csv(file.path(dir_goal, '../v2016/int/spp_info_timeseries.csv'))
+spp_info_timeseries <- read_csv(file.path(dir_goal, 'int/spp_info_timeseries.csv'))
 
-ico_list_gl <- read_csv(file.path(dir_goal, 'ico_list_howe_sound_from_global.csv')) %>%
-  select(sciname = `Specie Scientific Name`,
-         comname = `Specie Common Name`) %>%
-  mutate(comname = tools::toTitleCase(comname)) %>%
-  filter(sciname %in% spp_info_timeseries$sciname) %>%
-  distinct()
+# ico_list_gl <- read_csv(file.path(dir_goal, 'ico_list_howe_sound_from_global.csv')) %>%
+#   select(sciname = `Specie Scientific Name`,
+#          comname = `Specie Common Name`) %>%
+#   mutate(comname = tools::toTitleCase(comname)) %>%
+#   filter(sciname %in% spp_info_timeseries$sciname) %>%
+#   distinct()
   
 ico_list_hs <- read_csv(file.path(dir_goal, 'ico_list_howesound.csv')) %>%
   filter(!str_detect(comments, 'elimin')) %>%
   mutate(comname = tools::toTitleCase(comname)) %>%
   select(sciname, comname) %>%
+  filter(!is.na(sciname)) %>%
   distinct()
 
-ico_list <- ico_list_gl %>%
-  bind_rows(ico_list_hs) %>%
-  filter(!is.na(sciname)) %>%
-  distinct() %>%
-  arrange(sciname)
+# ico_list <- ico_list_gl %>%
+#   bind_rows(ico_list_hs) %>%
+#   filter(!is.na(sciname)) %>%
+#   distinct() %>%
+#   arrange(sciname)
+
+ico_list <- ico_list_hs
 
 write_csv(ico_list, file.path(dir_goal, 'int', 'ico_list_scinames.csv'))
 ```
@@ -177,7 +181,8 @@ Most recent year only:
 
 ico_list <- read_csv(file.path(dir_goal, 'int', 'ico_list_scinames.csv'))
 
-ico_info_timeseries <- read_csv(file.path(dir_goal, '../v2016/int/spp_info_timeseries.csv')) %>%
+ico_info_timeseries <- read_csv(file.path(dir_goal, 'int/spp_info_timeseries.csv')) %>%
+  # select(am_sid, iucn_sid, sciname, cat_score, pr_score, trend_score, cat_ts, cat_txt, cat_ts_score, year, comname) %>%
   inner_join(ico_list, by = 'sciname') %>%
   bind_rows(read_csv(file.path(dir_goal, 'raw/ico_info_hs_specific.csv'))) %>%
   filter(!is.na(year))
@@ -185,8 +190,6 @@ ico_info_timeseries <- read_csv(file.path(dir_goal, '../v2016/int/spp_info_times
 ### ico_list %>% filter(!sciname %in% ico_info_timeseries$sciname)
 write_csv(ico_info_timeseries,
           file.path(dir_goal, 'int/ico_info_timeseries.csv'))
-
-
 
 ico_risk_ts <- ico_info_timeseries %>%
   select(pr_score, cat_ts_score, year) %>%
@@ -274,7 +277,7 @@ ico_plot <- ggplot(ico_table_labeled, aes(x = n_ico, y = 0.3, fill = spp_health)
   labs(fill = 'Species health')
 
 ggsave(file.path(dir_goal, 'ico_plot.png'),
-       width = 6, height = 9, units = 'cm')
+       width = 6, height = 6, units = 'cm')
 ```
 
 ![](ico_plot.png)

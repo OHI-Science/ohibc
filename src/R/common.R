@@ -29,3 +29,10 @@ ggtheme_plot <- ggtheme_basic +
         panel.background = element_blank(),
         axis.line = element_line(colour = "grey30"))
 
+show_dupes <- function(x, y, na.rm = FALSE) {
+  if(na.rm)
+    x <- x[!is.na(x[[y]]), ]
+
+  # x is data frame, y is field (as character) within that dataframe
+  z <- x[x[[y]] %in% x[[y]][duplicated(x[[y]])], ]
+}

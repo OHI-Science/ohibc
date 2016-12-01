@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Compiled on Thu Dec 1 11:03:04 2016 by ohara" />
+<meta name="author" content="Compiled on Thu Dec 1 12:44:52 2016 by ohara" />
 
 
 <title>OHIBC Howe Sound goal prep: Species</title>
@@ -30,6 +30,44 @@
 </p>
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #0000ff; } /* Keyword */
+code > span.ch { color: #008080; } /* Char */
+code > span.st { color: #008080; } /* String */
+code > span.co { color: #008000; } /* Comment */
+code > span.ot { color: #ff4000; } /* Other */
+code > span.al { color: #ff0000; } /* Alert */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #008000; font-weight: bold; } /* Warning */
+code > span.cn { } /* Constant */
+code > span.sc { color: #008080; } /* SpecialChar */
+code > span.vs { color: #008080; } /* VerbatimString */
+code > span.ss { color: #008080; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { color: #0000ff; } /* ControlFlow */
+code > span.op { } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #ff4000; } /* Preprocessor */
+code > span.do { color: #008000; } /* Documentation */
+code > span.an { color: #008000; } /* Annotation */
+code > span.cv { color: #008000; } /* CommentVar */
+code > span.at { } /* Attribute */
+code > span.in { color: #008000; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
 
 
 <style type="text/css">
@@ -109,7 +147,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">OHIBC Howe Sound goal prep: Species</h1>
-<h4 class="author"><em><em>Compiled on Thu Dec 1 11:03:04 2016 by ohara</em></em></h4>
+<h4 class="author"><em><em>Compiled on Thu Dec 1 12:44:52 2016 by ohara</em></em></h4>
 
 </div>
 
@@ -120,7 +158,9 @@ $(document).ready(function () {
 <li><a href="#methods"><span class="toc-section-number">3</span> Methods</a><ul>
 <li><a href="#define-assessment-region"><span class="toc-section-number">3.1</span> Define assessment region</a></li>
 <li><a href="#identify-howe-sound-specific-species"><span class="toc-section-number">3.2</span> Identify Howe Sound-specific species</a></li>
-<li><a href="#load-species-information-table-from-ohibc-spp-goal"><span class="toc-section-number">3.3</span> Load Species information table from OHIBC SPP goal</a></li>
+<li><a href="#load-species-lookup-table-from-global-spp-goal"><span class="toc-section-number">3.3</span> Load species lookup table from global SPP goal</a></li>
+<li><a href="#append-bc-specific-species-risk-assessment-codes"><span class="toc-section-number">3.4</span> Append BC-specific species risk assessment codes</a></li>
+<li><a href="#load-species-information-table-from-ohibc-spp-goal"><span class="toc-section-number">3.5</span> Load Species information table from OHIBC SPP goal</a></li>
 </ul></li>
 <li><a href="#calculate-goal-model"><span class="toc-section-number">4</span> Calculate goal model</a><ul>
 <li><a href="#summarize-mean-category-trend-for-all-howe-sound-spp"><span class="toc-section-number">4.1</span> Summarize mean category &amp; trend for all Howe Sound SPP</a><ul>
@@ -197,8 +237,173 @@ $(document).ready(function () {
 </ul>
 <hr />
 </div>
+<div id="load-species-lookup-table-from-global-spp-goal" class="section level2">
+<h2><span class="header-section-number">3.3</span> Load species lookup table from global SPP goal</h2>
+<p>Currently this uses the global species lookup table. How this list is generated (file locations are in <code>~/github/ohiprep/globalprep/SPP_ICO</code>):</p>
+<ul>
+<li>in <code>ingest_iucn.R</code>:
+<ul>
+<li>Pull full IUCN list from <a href="http://api.iucnredlist.org/index/all.csv" class="uri">http://api.iucnredlist.org/index/all.csv</a></li>
+<li>Filter the list to marine species as indicated on each species page</li>
+<li>Standardize old extinction risk categories</li>
+<li>Append population trend and parent/subpop info from species web pages</li>
+<li>Write to <code>spp_iucn_mar.csv</code> in git-annex.</li>
+</ul></li>
+<li>in <code>spp_fxn.R::create_spp_master_lookup()</code>:
+<ul>
+<li>Pull in Aquamaps species information table, create sciname field and standardize categories</li>
+<li>Pull in IUCN marine species info from <code>ingest_iucn.R</code></li>
+<li><code>full_join()</code> the two species lists</li>
+<li>Determine overall category, trend, and spatial info source (preferring IUCN)</li>
+<li>Remove duplicate records and data-deficient records</li>
+<li>Convert text extinction risk category and popn trends to number values</li>
+<li>Identify parent/subpopulations and aliases within <code>spatial_source</code> field.</li>
+</ul></li>
+</ul>
+<p>Variables in <code>spp_info_gl</code>: am_sid | am_cat | sciname | iucn_sid | pop_trend | pop_cat | spp_group | id_no | iucn_subpop | spatial_source | cat_score | trend_score</p>
+<table>
+<caption>Quick glance at global spp_info_gl dataframe:</caption>
+<thead>
+<tr class="header">
+<th align="left">sciname</th>
+<th align="center">am_sid</th>
+<th align="center">iucn_sid</th>
+<th align="center">pop_trend</th>
+<th align="center">pop_cat</th>
+<th align="center">spatial_source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Apolemichthys trimaculatus</td>
+<td align="center">Fis-26169</td>
+<td align="center">165835</td>
+<td align="center">Stable</td>
+<td align="center">LC</td>
+<td align="center">iucn</td>
+</tr>
+<tr class="even">
+<td align="left">Apolemichthys xanthotis</td>
+<td align="center">Fis-28014</td>
+<td align="center">165853</td>
+<td align="center">Stable</td>
+<td align="center">LC</td>
+<td align="center">iucn</td>
+</tr>
+<tr class="odd">
+<td align="left">Apolemichthys xanthurus</td>
+<td align="center">Fis-28015</td>
+<td align="center">165844</td>
+<td align="center">Unknown</td>
+<td align="center">LC</td>
+<td align="center">iucn</td>
+</tr>
+<tr class="even">
+<td align="left">Centropyge acanthops</td>
+<td align="center">Fis-27342</td>
+<td align="center">155083</td>
+<td align="center">Stable</td>
+<td align="center">LC</td>
+<td align="center">iucn</td>
+</tr>
+<tr class="odd">
+<td align="left">Centropyge argi</td>
+<td align="center">Fis-22168</td>
+<td align="center">165837</td>
+<td align="center">Unknown</td>
+<td align="center">LC</td>
+<td align="center">iucn</td>
+</tr>
+<tr class="even">
+<td align="left">Centropyge aurantonotus</td>
+<td align="center">Fis-34233</td>
+<td align="center">165865</td>
+<td align="center">Stable</td>
+<td align="center">LC</td>
+<td align="center">iucn</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+<div id="append-bc-specific-species-risk-assessment-codes" class="section level2">
+<h2><span class="header-section-number">3.4</span> Append BC-specific species risk assessment codes</h2>
+<p>Data downloaded from BC Species and Ecosystems Explorer includes information on global status and provincial status for species, as assessed by NatureServe.</p>
+<p>See <a href="'iucn_to_ns.html'">this table</a> for info on NatureServe codes</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">spp_info &lt;-<span class="st"> </span>spp_info_gl %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sciname =</span> <span class="kw">str_replace</span>(sciname, <span class="st">'Clupea pallasii pallasii'</span>, <span class="st">'Clupea pallasii'</span>)) %&gt;%
+<span class="st">  </span><span class="kw">spp_append_bcsee</span>()
+
+spp_info &lt;-<span class="st"> </span>spp_info %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(iucn_sid) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(sciname) %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(sciname ==<span class="st"> </span><span class="kw">first</span>(sciname) |<span class="st"> </span><span class="kw">is.na</span>(iucn_sid) |<span class="st"> </span>!<span class="kw">is.na</span>(status_pr_score))
+    ### this last bit gets rid of double-listed IUCN SIDs by selecting
+    ### the first instance, while keeping any NAs; also keeps any species with a local status score
+
+<span class="co"># z &lt;- show_dupes(spp_info, 'iucn_sid', na.rm = TRUE)</span>
+
+### some species still duplicated due to subpops and/or synonyms.
+### Mutate an average provincial status score; arrange by status score (to get non-NAs on top);
+### then group by IUCN SID and filter out any duplicated ones (after the first).
+spp_info &lt;-<span class="st"> </span>spp_info %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(sciname) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">mean_pr_score =</span> <span class="kw">mean</span>(status_pr_score, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(status_pr_score) %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(iucn_sid) %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(!<span class="kw">duplicated</span>(iucn_sid) |<span class="st"> </span><span class="kw">is.na</span>(iucn_sid)) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">status_pr_score =</span> mean_pr_score) %&gt;%
+<span class="st">  </span><span class="kw">select</span>(-mean_pr_score)
+  
+<span class="co"># z &lt;- show_dupes(spp_info, 'iucn_sid', na.rm = TRUE)</span>
+
+### These species are problematic in BC Howe Sound ICO:
+<span class="co"># ico_spp_probs &lt;- c('Ammodytes hexapterus', 'Ardea herodias', 'Clupea pallasii', 'Gavia immer', 'Haliaeetus leucocephalus', 'Hypomesus pretiosus')</span>
+<span class="co"># x &lt;- spp_info %&gt;% filter(sciname %in% ico_spp_probs)</span>
+### all there!
+
+spp_info_local &lt;-<span class="st"> </span>spp_info %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">iucn_score =</span> cat_score,
+         <span class="dt">cat_score =</span> <span class="kw">ifelse</span>(!<span class="kw">is.na</span>(status_pr_score), status_pr_score, cat_score)) %&gt;%
+<span class="st">  </span><span class="co"># filter(!is.na(cat_score)) %&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(am_sid %in%<span class="st"> </span>am_cells_spp$am_sid &amp;<span class="st"> </span><span class="kw">str_detect</span>(spatial_source, <span class="st">'am'</span>) |<span class="st"> </span>
+<span class="st">           </span>iucn_sid %in%<span class="st"> </span>iucn_cells_spp$iucn_sid &amp;<span class="st"> </span><span class="kw">str_detect</span>(spatial_source, <span class="st">'iucn'</span>))
+
+<span class="co"># x &lt;- spp_info_local %&gt;% filter(sciname %in% ico_spp_probs)</span>
+
+<span class="kw">write_csv</span>(spp_info_local, <span class="kw">file.path</span>(dir_goal, <span class="st">'int/spp_info_raw.csv'</span>))
+
+### NOTE: if we want to exclude BLI data, this is where we would have to do it
+<span class="co"># spp_info &lt;- spp_info %&gt;%</span>
+<span class="co">#   mutate(spatial_source = ifelse(spatial_source == 'iucn-bli' &amp; !is.na(am_sid), 'am', spatial_source)) %&gt;%</span>
+<span class="co">#   filter(!spatial_source == 'iucn-bli')</span>
+
+### let's clean up this file and ditch the legacy columns.  Lose the reference
+### columns, and to ditch multi-listings, group by am_sid and iucn_sid; then
+### take the mean category and trend across all multi-listed species.
+spp_clean &lt;-<span class="st"> </span>spp_info_local %&gt;%
+<span class="st">  </span><span class="kw">select</span>(am_sid, iucn_sid, sciname, spp_group,
+         <span class="co">#id_no, iucn_subpop, pop_trend, pop_cat, status_pr, </span>
+         <span class="dt">pr_score =</span> status_pr_score,
+         spatial_source, 
+         cat_score, trend_score) %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(am_sid, iucn_sid, spatial_source) %&gt;%
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">sciname     =</span> <span class="kw">first</span>(sciname), ### just to have a handy text handle?
+            <span class="dt">cat_score   =</span> <span class="kw">mean</span>(cat_score,   <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
+            <span class="dt">pr_score    =</span> <span class="kw">mean</span>(pr_score,    <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
+            <span class="dt">trend_score =</span> <span class="kw">mean</span>(trend_score, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
+            <span class="dt">pr_score    =</span> <span class="kw">ifelse</span>(<span class="kw">is.nan</span>(pr_score),    <span class="ot">NA</span>, pr_score),
+            <span class="dt">trend_score =</span> <span class="kw">ifelse</span>(<span class="kw">is.nan</span>(trend_score), <span class="ot">NA</span>, trend_score)) %&gt;%
+<span class="st">  </span><span class="kw">ungroup</span>()
+
+<span class="co"># x &lt;- spp_clean %&gt;% filter(sciname %in% ico_spp_probs)</span>
+
+<span class="kw">write_csv</span>(spp_clean, <span class="kw">file.path</span>(dir_goal, <span class="st">'int/spp_info_clean.csv'</span>))</code></pre></div>
+<hr />
+<hr />
+</div>
 <div id="load-species-information-table-from-ohibc-spp-goal" class="section level2">
-<h2><span class="header-section-number">3.3</span> Load Species information table from OHIBC SPP goal</h2>
+<h2><span class="header-section-number">3.5</span> Load Species information table from OHIBC SPP goal</h2>
 <p>Currently this uses the OHIBC species lookup table, which itself is based on the global species lookup table. Find more info at <code>~/github/ohibc/prep/spp_ico/v2016/goal_prep_spp.Rmd</code></p>
 <hr />
 </div>
@@ -313,8 +518,8 @@ $(document).ready(function () {
 <div id="provenance" class="section level1">
 <h1><span class="header-section-number">5</span> Provenance</h1>
 <ul>
-<li><em>Run ID: 11 (4f99469); run tag: “standard run”</em></li>
-<li><em>Run elapsed time: 38.972 seconds; run memory usage: NA MB</em></li>
+<li><em>Run ID: 12 (4504d19); run tag: “standard run”</em></li>
+<li><em>Run elapsed time: 44.272 seconds; run memory usage: NA MB</em></li>
 <li><em>System info: </em>
 <ul>
 <li><em>System: Linux, Release: 4.4.0-45-generic. Machine: x86_64. User: ohara.</em></li>
@@ -328,195 +533,267 @@ $(document).ready(function () {
 <!-- Generated by graphviz version 2.38.0 (20140413.2041)
  -->
 <!-- Title: %3 Pages: 1 -->
-<svg width="890pt" height="519pt" viewBox="0.00 0.00 890.28 519.20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="1415pt" height="519pt" viewBox="0.00 0.00 1415.10 519.20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 515.2)">
 <title>
 %3
 </title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-515.2 886.276,-515.2 886.276,4 -4,4"></polygon> <!-- ~/github/ohibc/prep/spp_ico/vHS/spp_fxn.R --> <g id="node1" class="node">
+<polygon fill="white" stroke="none" points="-4,4 -4,-515.2 1411.1,-515.2 1411.1,4 -4,4"></polygon> <!-- ~/github/ohibc/prep/spp_ico/vHS/spp_fxn.R --> <g id="node1" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/spp_fxn.R
 </title>
-<g id="a_node1"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/d717cff82668c7a9e6e19db586a883525a24e84d"> <polygon fill="#fffacc" stroke="#b38f59" stroke-width="2" points="365.866,-352.8 311.866,-352.8 311.866,-316.8 365.866,-316.8 365.866,-352.8"></polygon> <text text-anchor="middle" x="338.866" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_fxn.R</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spatial/howe_sound_rgn.shp --> <g id="node2" class="node">
+<g id="a_node1"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/d717cff82668c7a9e6e19db586a883525a24e84d"> <polygon fill="#fffacc" stroke="#b38f59" stroke-width="2" points="502.86,-352.8 448.86,-352.8 448.86,-316.8 502.86,-316.8 502.86,-352.8"></polygon> <text text-anchor="middle" x="475.86" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_fxn.R</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spatial/howe_sound_rgn.shp --> <g id="node2" class="node">
 <title>
 ~/github/ohibc/prep/spatial/howe_sound_rgn.shp
 </title>
-<g id="a_node2"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/3fee1de68979e14bba6fd7a45c19e4859e4ec362"> <ellipse fill="#a1bce6" stroke="#597db3" stroke-width="2" cx="622.866" cy="-493.2" rx="40.4234" ry="18"></ellipse> <text text-anchor="middle" x="622.866" y="-491.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">howe_sound_rgn.shp</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup_region&#45;to&#45;cell_lookup --> <g id="node15" class="node">
+<g id="a_node2"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/3fee1de68979e14bba6fd7a45c19e4859e4ec362"> <ellipse fill="#a1bce6" stroke="#597db3" stroke-width="2" cx="305.86" cy="-493.2" rx="40.4234" ry="18"></ellipse> <text text-anchor="middle" x="305.86" y="-491.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">howe_sound_rgn.shp</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup_region&#45;to&#45;cell_lookup --> <g id="node21" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup_region-to-cell_lookup
 </title>
-<g id="a_node15"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/103095ec9662073d20431d650279b5f3a99af352"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="667.414,-432 486.318,-432 486.318,-396 667.414,-396 667.414,-432"></polygon> <text text-anchor="middle" x="576.866" y="-412.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#setup_region-to-cell_lookup</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spatial/howe_sound_rgn.shp&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup_region&#45;to&#45;cell_lookup --> <g id="edge2" class="edge">
+<g id="a_node21"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/b78c62868981132fe37a380c76c6e4a16d78941d"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="396.408,-432 215.311,-432 215.311,-396 396.408,-396 396.408,-432"></polygon> <text text-anchor="middle" x="305.86" y="-412.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#setup_region-to-cell_lookup</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spatial/howe_sound_rgn.shp&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup_region&#45;to&#45;cell_lookup --> <g id="edge2" class="edge">
 <title>
 <sub>/github/ohibc/prep/spatial/howe_sound_rgn.shp-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup_region-to-cell_lookup
 </title>
-<g id="a_edge2"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M614.751,-475.513C610.78,-467.651 605.801,-458.216 600.866,-450 598.192,-445.547 595.171,-440.892 592.196,-436.485"></path> <polygon fill="#334766" stroke="#334766" points="593.518,-435.317 589.252,-432.176 590.628,-437.291 593.518,-435.317"></polygon> </a> </g> <text text-anchor="middle" x="611.369" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/cell_id_by_rgn_howesound.csv --> <g id="node3" class="node">
+<g id="a_edge2"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M305.86,-475.067C305.86,-463.973 305.86,-449.409 305.86,-437.401"></path> <polygon fill="#334766" stroke="#334766" points="307.61,-437.085 305.86,-432.085 304.11,-437.085 307.61,-437.085"></polygon> </a> </g> <text text-anchor="middle" x="312.363" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/cell_id_by_rgn_howesound.csv --> <g id="node3" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/int/cell_id_by_rgn_howesound.csv
 </title>
-<g id="a_node3"><a xlink:title="Previous commit: https://github.com/OHI-Science/ohibc/commit/1e9eabd3df37587f88c6e2cfd54f0af8eb4235c6"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="540.866" cy="-334.8" rx="54.6065" ry="18"></ellipse> <text text-anchor="middle" x="540.866" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">cell_id_by_rgn_howesound.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/am_cells_spp_prob0.csv --> <g id="node4" class="node">
+<g id="a_node3"><a xlink:title="Previous commit: https://github.com/OHI-Science/ohibc/commit/1e9eabd3df37587f88c6e2cfd54f0af8eb4235c6"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="305.86" cy="-334.8" rx="54.6065" ry="18"></ellipse> <text text-anchor="middle" x="305.86" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">cell_id_by_rgn_howesound.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/am_cells_spp_prob0.csv --> <g id="node4" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/int/am_cells_spp_prob0.csv
 </title>
-<g id="a_node4"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/1fb4ebee5d967c867a90fc294ca12a32a7c455e0"> <ellipse fill="#a1bce6" stroke="#597db3" stroke-width="2" cx="745.866" cy="-493.2" rx="45.4757" ry="18"></ellipse> <text text-anchor="middle" x="745.866" y="-491.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">am_cells_spp_prob0.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species --> <g id="node16" class="node">
+<g id="a_node4"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/1fb4ebee5d967c867a90fc294ca12a32a7c455e0"> <ellipse fill="#a1bce6" stroke="#597db3" stroke-width="2" cx="1361.86" cy="-493.2" rx="45.4757" ry="18"></ellipse> <text text-anchor="middle" x="1361.86" y="-491.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">am_cells_spp_prob0.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species --> <g id="node22" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species
 </title>
-<g id="a_node16"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/103095ec9662073d20431d650279b5f3a99af352"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="846.576,-432 685.157,-432 685.157,-396 846.576,-396 846.576,-432"></polygon> <text text-anchor="middle" x="765.866" y="-412.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#identify_HS_species</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/am_cells_spp_prob0.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species --> <g id="edge4" class="edge">
+<g id="a_node22"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/b78c62868981132fe37a380c76c6e4a16d78941d"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="1363.57,-432 1202.15,-432 1202.15,-396 1363.57,-396 1363.57,-432"></polygon> <text text-anchor="middle" x="1282.86" y="-412.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#identify_HS_species</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/am_cells_spp_prob0.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species --> <g id="edge4" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/int/am_cells_spp_prob0.csv-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species
 </title>
-<g id="a_edge4"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M750.305,-475.067C753.205,-463.873 757.02,-449.147 760.147,-437.077"></path> <polygon fill="#334766" stroke="#334766" points="761.88,-437.364 761.44,-432.085 758.492,-436.487 761.88,-437.364"></polygon> </a> </g> <text text-anchor="middle" x="762.369" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/am_cells_hs_spp.csv --> <g id="node5" class="node">
+<g id="a_edge4"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M1345.49,-476.204C1333.43,-464.416 1316.92,-448.286 1303.88,-435.544"></path> <polygon fill="#334766" stroke="#334766" points="1305.1,-434.289 1300.3,-432.046 1302.66,-436.793 1305.1,-434.289"></polygon> </a> </g> <text text-anchor="middle" x="1330.36" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/am_cells_hs_spp.csv --> <g id="node5" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/int/am_cells_hs_spp.csv
 </title>
-<g id="a_node5"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/c43cf9a16f7013e155440d5cfe9d6e5057c41f42"> <ellipse fill="#a1bce6" stroke="#597db3" stroke-width="2" cx="755.866" cy="-334.8" rx="40.0434" ry="18"></ellipse> <text text-anchor="middle" x="755.866" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">am_cells_hs_spp.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp --> <g id="node17" class="node">
+<g id="a_node5"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/c43cf9a16f7013e155440d5cfe9d6e5057c41f42"> <ellipse fill="#a1bce6" stroke="#597db3" stroke-width="2" cx="1050.86" cy="-334.8" rx="40.0434" ry="18"></ellipse> <text text-anchor="middle" x="1050.86" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">am_cells_hs_spp.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp --> <g id="node26" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp
 </title>
-<g id="a_node17"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/103095ec9662073d20431d650279b5f3a99af352"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="324.567,-273.6 175.166,-273.6 175.166,-237.6 324.567,-237.6 324.567,-273.6"></polygon> <text text-anchor="middle" x="249.866" y="-253.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#summarize_spp</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/am_cells_hs_spp.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp --> <g id="edge8" class="edge">
+<g id="a_node26"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/b78c62868981132fe37a380c76c6e4a16d78941d"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="1029.56,-273.6 880.159,-273.6 880.159,-237.6 1029.56,-237.6 1029.56,-273.6"></polygon> <text text-anchor="middle" x="954.86" y="-253.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#summarize_spp</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/am_cells_hs_spp.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp --> <g id="edge13" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/int/am_cells_hs_spp.csv-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp
 </title>
-<g id="a_edge8"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M726.353,-322.48C719.996,-320.347 713.263,-318.314 706.866,-316.8 576.747,-285.996 421.796,-269.757 329.861,-262.193"></path> <polygon fill="#334766" stroke="#334766" points="329.841,-260.436 324.715,-261.774 329.556,-263.924 329.841,-260.436"></polygon> </a> </g> <text text-anchor="middle" x="615.369" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat --> <g id="node19" class="node">
+<g id="a_edge13"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M1031.89,-318.548C1017.08,-306.638 996.366,-289.978 980.146,-276.935"></path> <polygon fill="#334766" stroke="#334766" points="981.119,-275.471 976.126,-273.702 978.926,-278.199 981.119,-275.471"></polygon> </a> </g> <text text-anchor="middle" x="1012.36" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat --> <g id="node28" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat
 </title>
-<g id="a_node19"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/103095ec9662073d20431d650279b5f3a99af352"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="731.416,-273.6 580.317,-273.6 580.317,-237.6 731.416,-237.6 731.416,-273.6"></polygon> <text text-anchor="middle" x="655.866" y="-253.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#plot_spp_by_cat</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/am_cells_hs_spp.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat --> <g id="edge15" class="edge">
+<g id="a_node28"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/b78c62868981132fe37a380c76c6e4a16d78941d"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="1234.41,-273.6 1083.31,-273.6 1083.31,-237.6 1234.41,-237.6 1234.41,-273.6"></polygon> <text text-anchor="middle" x="1158.86" y="-253.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#plot_spp_by_cat</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/am_cells_hs_spp.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat --> <g id="edge21" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/int/am_cells_hs_spp.csv-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat
 </title>
-<g id="a_edge15"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M736.585,-318.915C721.203,-307.04 699.487,-290.275 682.453,-277.125"></path> <polygon fill="#334766" stroke="#334766" points="683.258,-275.535 678.23,-273.865 681.119,-278.306 683.258,-275.535"></polygon> </a> </g> <text text-anchor="middle" x="714.369" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_spp.csv --> <g id="node6" class="node">
+<g id="a_edge21"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M1046.96,-316.701C1046.06,-308.372 1046.61,-298.658 1051.85,-291.6 1058.73,-282.349 1068.11,-275.503 1078.49,-270.444"></path> <polygon fill="#334766" stroke="#334766" points="1079.49,-271.909 1083.32,-268.244 1078.04,-268.724 1079.49,-271.909"></polygon> </a> </g> <text text-anchor="middle" x="1057.36" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_spp.csv --> <g id="node6" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_spp.csv
 </title>
-<g id="a_node6"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/1fb4ebee5d967c867a90fc294ca12a32a7c455e0"> <ellipse fill="#a1bce6" stroke="#597db3" stroke-width="2" cx="845.866" cy="-493.2" rx="36.3187" ry="18"></ellipse> <text text-anchor="middle" x="845.866" y="-491.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">iucn_cells_spp.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_spp.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species --> <g id="edge6" class="edge">
+<g id="a_node6"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/1fb4ebee5d967c867a90fc294ca12a32a7c455e0"> <ellipse fill="#a1bce6" stroke="#597db3" stroke-width="2" cx="1261.86" cy="-493.2" rx="36.3187" ry="18"></ellipse> <text text-anchor="middle" x="1261.86" y="-491.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">iucn_cells_spp.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_spp.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species --> <g id="edge6" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_spp.csv-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species
 </title>
-<g id="a_edge6"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M830.061,-476.948C817.824,-465.139 800.748,-448.66 787.283,-435.667"></path> <polygon fill="#334766" stroke="#334766" points="788.401,-434.314 783.588,-432.102 785.971,-436.833 788.401,-434.314"></polygon> </a> </g> <text text-anchor="middle" x="814.369" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_hs_spp.csv --> <g id="node7" class="node">
+<g id="a_edge6"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M1266.52,-475.067C1269.57,-463.873 1273.57,-449.147 1276.85,-437.077"></path> <polygon fill="#334766" stroke="#334766" points="1278.59,-437.369 1278.21,-432.085 1275.21,-436.451 1278.59,-437.369"></polygon> </a> </g> <text text-anchor="middle" x="1279.36" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_hs_spp.csv --> <g id="node7" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_hs_spp.csv
 </title>
-<g id="a_node7"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/c43cf9a16f7013e155440d5cfe9d6e5057c41f42"> <ellipse fill="#a1bce6" stroke="#597db3" stroke-width="2" cx="655.866" cy="-334.8" rx="41.9883" ry="18"></ellipse> <text text-anchor="middle" x="655.866" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">iucn_cells_hs_spp.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_hs_spp.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp --> <g id="edge9" class="edge">
+<g id="a_node7"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/c43cf9a16f7013e155440d5cfe9d6e5057c41f42"> <ellipse fill="#a1bce6" stroke="#597db3" stroke-width="2" cx="1150.86" cy="-334.8" rx="41.9883" ry="18"></ellipse> <text text-anchor="middle" x="1150.86" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">iucn_cells_hs_spp.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_hs_spp.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp --> <g id="edge14" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_hs_spp.csv-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp
 </title>
-<g id="a_edge9"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M625.463,-322.257C618.764,-320.112 611.644,-318.13 604.866,-316.8 485.543,-293.382 449.035,-331.302 331.86,-298.8 314.104,-293.875 295.741,-284.849 280.905,-276.404"></path> <polygon fill="#334766" stroke="#334766" points="281.623,-274.798 276.419,-273.807 279.869,-277.827 281.623,-274.798"></polygon> </a> </g> <text text-anchor="middle" x="338.369" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_hs_spp.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat --> <g id="edge16" class="edge">
+<g id="a_edge14"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M1125.72,-320.235C1108.81,-311.417 1085.85,-300.034 1064.86,-291.6 1050.24,-285.725 1034.23,-280.158 1019.05,-275.264"></path> <polygon fill="#334766" stroke="#334766" points="1019.24,-273.486 1013.94,-273.63 1018.17,-276.82 1019.24,-273.486"></polygon> </a> </g> <text text-anchor="middle" x="1087.36" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_hs_spp.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat --> <g id="edge22" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_hs_spp.csv-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat
 </title>
-<g id="a_edge16"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M655.866,-316.667C655.866,-305.573 655.866,-291.009 655.866,-279.001"></path> <polygon fill="#334766" stroke="#334766" points="657.616,-278.685 655.866,-273.685 654.116,-278.685 657.616,-278.685"></polygon> </a> </g> <text text-anchor="middle" x="662.369" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/../v2016/int/spp_info_timeseries.csv --> <g id="node8" class="node">
+<g id="a_edge22"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M1152.63,-316.667C1153.79,-305.473 1155.32,-290.747 1156.57,-278.677"></path> <polygon fill="#334766" stroke="#334766" points="1158.31,-278.839 1157.09,-273.685 1154.83,-278.478 1158.31,-278.839"></polygon> </a> </g> <text text-anchor="middle" x="1161.36" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- /home/shares/ohi/git&#45;annex/globalprep/spp_ico/v2016/int/spp_all_cleaned.csv --> <g id="node8" class="node">
+<title>
+/home/shares/ohi/git-annex/globalprep/spp_ico/v2016/int/spp_all_cleaned.csv
+</title>
+<g id="a_node8"><a xlink:title="no version control info found"> <ellipse fill="#a1bce6" stroke="red" stroke-width="3" cx="1097.86" cy="-493.2" rx="38.7383" ry="18"></ellipse> <text text-anchor="middle" x="1097.86" y="-491.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_all_cleaned.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#read_global_species_list --> <g id="node23" class="node">
+<title>
+~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#read_global_species_list
+</title>
+<g id="a_node23"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/b78c62868981132fe37a380c76c6e4a16d78941d"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="1184.41,-432 1011.31,-432 1011.31,-396 1184.41,-396 1184.41,-432"></polygon> <text text-anchor="middle" x="1097.86" y="-412.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#read_global_species_list</text> </a> </g> </g> <!-- /home/shares/ohi/git&#45;annex/globalprep/spp_ico/v2016/int/spp_all_cleaned.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#read_global_species_list --> <g id="edge8" class="edge">
+<title>
+/home/shares/ohi/git-annex/globalprep/spp_ico/v2016/int/spp_all_cleaned.csv-&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#read_global_species_list
+</title>
+<g id="a_edge8"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M1097.86,-475.067C1097.86,-463.973 1097.86,-449.409 1097.86,-437.401"></path> <polygon fill="#334766" stroke="#334766" points="1099.61,-437.085 1097.86,-432.085 1096.11,-437.085 1099.61,-437.085"></polygon> </a> </g> <text text-anchor="middle" x="1104.36" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/spp_info_raw.csv --> <g id="node9" class="node">
+<title>
+~/github/ohibc/prep/spp_ico/vHS/int/spp_info_raw.csv
+</title>
+<g id="a_node9"><a xlink:title="New commit: https://github.com/OHI-Science/ohibc/commit/71a76be6a5227945ba13ddd026b8122df814e59d"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="824.86" cy="-334.8" rx="34.274" ry="18"></ellipse> <text text-anchor="middle" x="824.86" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_info_raw.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/spp_info_clean.csv --> <g id="node10" class="node">
+<title>
+~/github/ohibc/prep/spp_ico/vHS/int/spp_info_clean.csv
+</title>
+<g id="a_node10"><a xlink:title="New commit: https://github.com/OHI-Science/ohibc/commit/71a76be6a5227945ba13ddd026b8122df814e59d"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="913.86" cy="-334.8" rx="36.9292" ry="18"></ellipse> <text text-anchor="middle" x="913.86" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_info_clean.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/spp_cat_timeseries.csv --> <g id="node11" class="node">
+<title>
+~/github/ohibc/prep/spp_ico/vHS/int/spp_cat_timeseries.csv
+</title>
+<g id="a_node11"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/de8b4edfd00ea668873256db3ca51986acfba233"> <ellipse fill="#a1bce6" stroke="#597db3" stroke-width="2" cx="98.8595" cy="-493.2" rx="43.4254" ry="18"></ellipse> <text text-anchor="middle" x="98.8595" y="-491.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_cat_timeseries.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#join_time_series_data_to_spp_list --> <g id="node25" class="node">
+<title>
+~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#join_time_series_data_to_spp_list
+</title>
+<g id="a_node25"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/b78c62868981132fe37a380c76c6e4a16d78941d"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="197.579,-432 0.140301,-432 0.140301,-396 197.579,-396 197.579,-432"></polygon> <text text-anchor="middle" x="98.8595" y="-412.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#join_time_series_data_to_spp_list</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/spp_cat_timeseries.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#join_time_series_data_to_spp_list --> <g id="edge11" class="edge">
+<title>
+<sub>/github/ohibc/prep/spp_ico/vHS/int/spp_cat_timeseries.csv-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#join_time_series_data_to_spp_list
+</title>
+<g id="a_edge11"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M98.8595,-475.067C98.8595,-463.973 98.8595,-449.409 98.8595,-437.401"></path> <polygon fill="#334766" stroke="#334766" points="100.61,-437.085 98.8595,-432.085 97.1096,-437.085 100.61,-437.085"></polygon> </a> </g> <text text-anchor="middle" x="105.363" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/spp_info_timeseries.csv --> <g id="node12" class="node">
+<title>
+~/github/ohibc/prep/spp_ico/vHS/int/spp_info_timeseries.csv
+</title>
+<g id="a_node12"><a xlink:title="New commit: https://github.com/OHI-Science/ohibc/commit/71a76be6a5227945ba13ddd026b8122df814e59d"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="98.8595" cy="-334.8" rx="44.2635" ry="18"></ellipse> <text text-anchor="middle" x="98.8595" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_info_timeseries.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/../v2016/int/spp_info_timeseries.csv --> <g id="node13" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/../v2016/int/spp_info_timeseries.csv
 </title>
-<g id="a_node8"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/103095ec9662073d20431d650279b5f3a99af352"> <ellipse fill="#a1bce6" stroke="#597db3" stroke-width="2" cx="249.866" cy="-334.8" rx="44.2635" ry="18"></ellipse> <text text-anchor="middle" x="249.866" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_info_timeseries.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/../v2016/int/spp_info_timeseries.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp --> <g id="edge10" class="edge">
+<g id="a_node13"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/103095ec9662073d20431d650279b5f3a99af352"> <ellipse fill="#a1bce6" stroke="yellow" stroke-width="3" cx="1254.86" cy="-334.8" rx="44.2635" ry="18"></ellipse> <text text-anchor="middle" x="1254.86" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_info_timeseries.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/../v2016/int/spp_info_timeseries.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp --> <g id="edge15" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/../v2016/int/spp_info_timeseries.csv-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp
 </title>
-<g id="a_edge10"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M249.866,-316.667C249.866,-305.573 249.866,-291.009 249.866,-279.001"></path> <polygon fill="#334766" stroke="#334766" points="251.616,-278.685 249.866,-273.685 248.116,-278.685 251.616,-278.685"></polygon> </a> </g> <text text-anchor="middle" x="256.369" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/../v2016/int/spp_info_timeseries.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat --> <g id="edge17" class="edge">
+<g id="a_edge15"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M1221.89,-322.824C1215.28,-320.738 1208.37,-318.635 1201.86,-316.8 1146.41,-301.172 1083.3,-285.832 1034.75,-274.548"></path> <polygon fill="#334766" stroke="#334766" points="1035.07,-272.825 1029.8,-273.4 1034.28,-276.234 1035.07,-272.825"></polygon> </a> </g> <text text-anchor="middle" x="1140.36" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/../v2016/int/spp_info_timeseries.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat --> <g id="edge23" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/../v2016/int/spp_info_timeseries.csv-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat
 </title>
-<g id="a_edge17"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M283.486,-322.929C289.914,-320.875 296.594,-318.758 302.866,-316.8 339.664,-305.313 348.173,-299.706 385.86,-291.6 448.758,-278.072 521.099,-269.035 575.061,-263.538"></path> <polygon fill="#334766" stroke="#334766" points="575.426,-265.26 580.225,-263.017 575.075,-261.778 575.426,-265.26"></polygon> </a> </g> <text text-anchor="middle" x="392.369" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/summary/spp_status_ts.csv --> <g id="node9" class="node">
+<g id="a_edge23"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M1235.43,-318.177C1220.68,-306.317 1200.28,-289.907 1184.24,-277.01"></path> <polygon fill="#334766" stroke="#334766" points="1185.26,-275.581 1180.26,-273.811 1183.06,-278.308 1185.26,-275.581"></polygon> </a> </g> <text text-anchor="middle" x="1215.36" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/int/spp_info_timeseries_hs.csv --> <g id="node14" class="node">
+<title>
+~/github/ohibc/prep/spp_ico/vHS/int/spp_info_timeseries_hs.csv
+</title>
+<g id="a_node14"><a xlink:title="New commit: https://github.com/OHI-Science/ohibc/commit/71a76be6a5227945ba13ddd026b8122df814e59d"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="954.86" cy="-176.4" rx="49.4315" ry="18"></ellipse> <text text-anchor="middle" x="954.86" y="-174.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_info_timeseries_hs.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/summary/spp_status_ts.csv --> <g id="node15" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/summary/spp_status_ts.csv
 </title>
-<g id="a_node9"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/dcbe2007685ae86c2db82e7a4cea3299f76f4a9c"> <ellipse fill="#a1bce6" stroke="#597db3" stroke-width="2" cx="158.866" cy="-176.4" rx="35.2515" ry="18"></ellipse> <text text-anchor="middle" x="158.866" y="-174.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_status_ts.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend --> <g id="node18" class="node">
+<g id="a_node15"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/dcbe2007685ae86c2db82e7a4cea3299f76f4a9c"> <ellipse fill="#a1bce6" stroke="#597db3" stroke-width="2" cx="817.86" cy="-176.4" rx="35.2515" ry="18"></ellipse> <text text-anchor="middle" x="817.86" y="-174.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_status_ts.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend --> <g id="node27" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend
 </title>
-<g id="a_node18"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/103095ec9662073d20431d650279b5f3a99af352"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="193.599,-115.2 0.133516,-115.2 0.133516,-79.2 193.599,-79.2 193.599,-115.2"></polygon> <text text-anchor="middle" x="96.8663" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/summary/spp_status_ts.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend --> <g id="edge12" class="edge">
+<g id="a_node27"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/b78c62868981132fe37a380c76c6e4a16d78941d"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="849.592,-115.2 656.127,-115.2 656.127,-79.2 849.592,-79.2 849.592,-115.2"></polygon> <text text-anchor="middle" x="752.86" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/summary/spp_status_ts.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend --> <g id="edge18" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/summary/spp_status_ts.csv-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend
 </title>
-<g id="a_edge12"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M146.02,-159.404C136.715,-147.818 124.04,-132.036 113.893,-119.4"></path> <polygon fill="#334766" stroke="#334766" points="115.052,-118.049 110.556,-115.246 112.323,-120.241 115.052,-118.049"></polygon> </a> </g> <text text-anchor="middle" x="136.369" y="-135" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/output/spp_status.csv --> <g id="node10" class="node">
+<g id="a_edge18"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M804.391,-159.404C794.551,-147.717 781.117,-131.761 770.433,-119.071"></path> <polygon fill="#334766" stroke="#334766" points="771.771,-117.944 767.212,-115.246 769.094,-120.198 771.771,-117.944"></polygon> </a> </g> <text text-anchor="middle" x="794.363" y="-135" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/output/spp_status.csv --> <g id="node16" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/output/spp_status.csv
 </title>
-<g id="a_node10"><a xlink:title="Previous commit: https://github.com/OHI-Science/ohibc/commit/37fe8fd00250ab0fe0bcab2ecff2798f7e38dde8"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="57.8663" cy="-18" rx="30.9242" ry="18"></ellipse> <text text-anchor="middle" x="57.8663" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_status.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/output/spp_trend.csv --> <g id="node11" class="node">
+<g id="a_node16"><a xlink:title="Previous commit: https://github.com/OHI-Science/ohibc/commit/37fe8fd00250ab0fe0bcab2ecff2798f7e38dde8"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="713.86" cy="-18" rx="30.9242" ry="18"></ellipse> <text text-anchor="middle" x="713.86" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_status.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/output/spp_trend.csv --> <g id="node17" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/output/spp_trend.csv
 </title>
-<g id="a_node11"><a xlink:title="Previous commit: https://github.com/OHI-Science/ohibc/commit/dcbe2007685ae86c2db82e7a4cea3299f76f4a9c"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="135.866" cy="-18" rx="29.3475" ry="18"></ellipse> <text text-anchor="middle" x="135.866" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_trend.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/raw/scinames.csv --> <g id="node12" class="node">
+<g id="a_node17"><a xlink:title="Previous commit: https://github.com/OHI-Science/ohibc/commit/dcbe2007685ae86c2db82e7a4cea3299f76f4a9c"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="791.86" cy="-18" rx="29.3475" ry="18"></ellipse> <text text-anchor="middle" x="791.86" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">spp_trend.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/raw/scinames.csv --> <g id="node18" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/raw/scinames.csv
 </title>
-<g id="a_node12"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/103095ec9662073d20431d650279b5f3a99af352"> <ellipse fill="#a1bce6" stroke="yellow" stroke-width="3" cx="842.866" cy="-334.8" rx="28.8678" ry="18"></ellipse> <text text-anchor="middle" x="842.866" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">scinames.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/raw/scinames.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat --> <g id="edge18" class="edge">
+<g id="a_node18"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/b78c62868981132fe37a380c76c6e4a16d78941d"> <ellipse fill="#a1bce6" stroke="#597db3" stroke-width="2" cx="1345.86" cy="-334.8" rx="28.8678" ry="18"></ellipse> <text text-anchor="middle" x="1345.86" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">scinames.csv</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/raw/scinames.csv&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat --> <g id="edge24" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/raw/scinames.csv-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat
 </title>
-<g id="a_edge18"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M820.018,-323.415C815.039,-321.198 809.787,-318.894 804.866,-316.8 771.498,-302.601 733.602,-287.301 704.379,-275.679"></path> <polygon fill="#334766" stroke="#334766" points="704.69,-273.919 699.397,-273.7 703.398,-277.172 704.69,-273.919"></polygon> </a> </g> <text text-anchor="middle" x="766.369" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd --> <g id="node13" class="node">
+<g id="a_edge24"><a xlink:title="prov:used"> <path fill="none" stroke="#334766" d="M1323.01,-323.415C1318.03,-321.198 1312.78,-318.894 1307.86,-316.8 1274.49,-302.601 1236.6,-287.301 1207.37,-275.679"></path> <polygon fill="#334766" stroke="#334766" points="1207.68,-273.919 1202.39,-273.7 1206.39,-277.172 1207.68,-273.919"></polygon> </a> </g> <text text-anchor="middle" x="1269.36" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">used</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd --> <g id="node19" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd
 </title>
-<g id="a_node13"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/103095ec9662073d20431d650279b5f3a99af352"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="412.895,-511.2 308.837,-511.2 308.837,-475.2 412.895,-475.2 412.895,-511.2"></polygon> <text text-anchor="middle" x="360.866" y="-491.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup --> <g id="node14" class="node">
+<g id="a_node19"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/b78c62868981132fe37a380c76c6e4a16d78941d"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="791.889,-511.2 687.83,-511.2 687.83,-475.2 791.889,-475.2 791.889,-511.2"></polygon> <text text-anchor="middle" x="739.86" y="-491.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup --> <g id="node20" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup
 </title>
-<g id="a_node14"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/103095ec9662073d20431d650279b5f3a99af352"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="273.904,-432 151.828,-432 151.828,-396 273.904,-396 273.904,-432"></polygon> <text text-anchor="middle" x="212.866" y="-412.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#setup</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup --> <g id="edge19" class="edge">
+<g id="a_node20"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/b78c62868981132fe37a380c76c6e4a16d78941d"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="536.898,-432 414.821,-432 414.821,-396 536.898,-396 536.898,-432"></polygon> <text text-anchor="middle" x="475.86" y="-412.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#setup</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup --> <g id="edge25" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup
 </title>
-<g id="a_edge19"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M328.02,-475.067C305.027,-463.073 274.261,-447.025 250.315,-434.534"></path> <polygon fill="#665233" stroke="#665233" points="250.863,-432.846 245.62,-432.085 249.244,-435.949 250.863,-432.846"></polygon> </a> </g> <text text-anchor="middle" x="313.206" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup_region&#45;to&#45;cell_lookup --> <g id="edge20" class="edge">
+<g id="a_edge25"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M687.567,-478.768C663.608,-472.467 634.883,-464.705 609.181,-457.2 584.052,-449.862 556.438,-441.218 532.891,-433.671"></path> <polygon fill="#665233" stroke="#665233" points="533.227,-431.941 527.931,-432.078 532.156,-435.273 533.227,-431.941"></polygon> </a> </g> <text text-anchor="middle" x="631.199" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup_region&#45;to&#45;cell_lookup --> <g id="edge26" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup_region-to-cell_lookup
 </title>
-<g id="a_edge20"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M412.989,-475.995C430.79,-470.279 450.768,-463.662 468.866,-457.2 489.14,-449.961 511.321,-441.406 530.279,-433.898"></path> <polygon fill="#665233" stroke="#665233" points="531.025,-435.485 535.026,-432.013 529.733,-432.232 531.025,-435.485"></polygon> </a> </g> <text text-anchor="middle" x="508.206" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species --> <g id="edge21" class="edge">
+<g id="a_edge26"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M687.563,-483.032C647.493,-475.997 590.837,-466.026 541.181,-457.2 495.334,-449.051 444.477,-439.94 401.805,-432.275"></path> <polygon fill="#665233" stroke="#665233" points="401.874,-430.509 396.643,-431.347 401.255,-433.954 401.874,-430.509"></polygon> </a> </g> <text text-anchor="middle" x="563.199" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species --> <g id="edge27" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species
 </title>
-<g id="a_edge21"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M413.174,-483.599C447.728,-477.434 493.85,-468.278 533.866,-457.2 543.101,-454.644 544.888,-452.306 554.188,-450 607.675,-436.735 622.527,-441.172 676.866,-432 677.855,-431.833 678.85,-431.664 679.85,-431.493"></path> <polygon fill="#665233" stroke="#665233" points="680.258,-433.198 684.887,-430.621 679.661,-429.749 680.258,-433.198"></polygon> </a> </g> <text text-anchor="middle" x="576.206" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp --> <g id="edge22" class="edge">
+<g id="a_edge27"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M792.054,-489.855C864.805,-486.013 1000.62,-476.76 1114.86,-457.2 1149.75,-451.226 1188.07,-441.825 1219.29,-433.41"></path> <polygon fill="#665233" stroke="#665233" points="1219.87,-435.066 1224.24,-432.069 1218.96,-431.688 1219.87,-435.066"></polygon> </a> </g> <text text-anchor="middle" x="1168.2" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#read_global_species_list --> <g id="edge28" class="edge">
+<title>
+<sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#read_global_species_list
+</title>
+<g id="a_edge28"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M792.339,-489.065C844.846,-484.998 927.555,-476.05 996.86,-457.2 1017.82,-451.499 1040.2,-442.475 1058.55,-434.232"></path> <polygon fill="#665233" stroke="#665233" points="1059.3,-435.816 1063.13,-432.156 1057.85,-432.628 1059.3,-435.816"></polygon> </a> </g> <text text-anchor="middle" x="1038.2" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#append_bcsee_scores --> <g id="node24" class="node">
+<title>
+~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#append_bcsee_scores
+</title>
+<g id="a_node24"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/b78c62868981132fe37a380c76c6e4a16d78941d"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="954.582,-432 787.137,-432 787.137,-396 954.582,-396 954.582,-432"></polygon> <text text-anchor="middle" x="870.86" y="-412.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#append_bcsee_scores</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#append_bcsee_scores --> <g id="edge29" class="edge">
+<title>
+<sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#append_bcsee_scores
+</title>
+<g id="a_edge29"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M768.933,-475.067C789.2,-463.123 816.29,-447.159 837.447,-434.69"></path> <polygon fill="#665233" stroke="#665233" points="838.448,-436.132 841.868,-432.085 836.671,-433.116 838.448,-436.132"></polygon> </a> </g> <text text-anchor="middle" x="831.199" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#join_time_series_data_to_spp_list --> <g id="edge30" class="edge">
+<title>
+<sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#join_time_series_data_to_spp_list
+</title>
+<g id="a_edge30"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M687.561,-491.545C598.863,-489.732 413.522,-482.905 259.181,-457.2 225.499,-451.59 188.604,-442.117 158.708,-433.566"></path> <polygon fill="#665233" stroke="#665233" points="158.881,-431.794 153.592,-432.092 157.912,-435.158 158.881,-431.794"></polygon> </a> </g> <text text-anchor="middle" x="281.199" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp --> <g id="edge31" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp
 </title>
-<g id="a_edge22"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M308.637,-485.093C250.747,-476.02 162.874,-458.282 142.866,-432 102.678,-379.21 177.373,-310.538 221.226,-276.93"></path> <polygon fill="#665233" stroke="#665233" points="222.442,-278.204 225.369,-273.789 220.328,-275.415 222.442,-278.204"></polygon> </a> </g> <text text-anchor="middle" x="159.206" y="-372.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend --> <g id="edge23" class="edge">
+<g id="a_edge31"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M738.906,-475.047C737.952,-440.547 740.788,-362.192 781.86,-316.8 805.657,-290.499 841.556,-275.689 874.495,-267.349"></path> <polygon fill="#665233" stroke="#665233" points="875.312,-268.951 879.754,-266.066 874.482,-265.551 875.312,-268.951"></polygon> </a> </g> <text text-anchor="middle" x="774.199" y="-372.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend --> <g id="edge32" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend
 </title>
-<g id="a_edge23"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M308.805,-489.236C224.117,-482.974 65.8663,-464.631 65.8663,-415 65.8663,-415 65.8663,-415 65.8663,-175.4 65.8663,-155.505 74.8419,-134.668 83.1339,-119.663"></path> <polygon fill="#665233" stroke="#665233" points="84.7211,-120.412 85.6746,-115.201 81.6797,-118.681 84.7211,-120.412"></polygon> </a> </g> <text text-anchor="middle" x="87.2056" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat --> <g id="edge24" class="edge">
+<g id="a_edge32"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M733.107,-475.021C727.646,-459.569 720.86,-436.118 720.86,-415 720.86,-415 720.86,-415 720.86,-175.4 720.86,-155.546 730.003,-134.859 738.515,-119.902"></path> <polygon fill="#665233" stroke="#665233" points="740.105,-120.65 741.126,-115.451 737.086,-118.879 740.105,-120.65"></polygon> </a> </g> <text text-anchor="middle" x="742.199" y="-293.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat --> <g id="edge33" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#plot_spp_by_cat
 </title>
-<g id="a_edge24"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M391.318,-475.124C407.549,-464.608 426.635,-449.747 438.866,-432 469.461,-387.608 438.854,-355.033 476.866,-316.8 502.975,-290.539 540.888,-275.732 575.108,-267.385"></path> <polygon fill="#665233" stroke="#665233" points="575.664,-269.052 580.128,-266.199 574.86,-265.645 575.664,-269.052"></polygon> </a> </g> <text text-anchor="middle" x="477.206" y="-372.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#provenance --> <g id="node20" class="node">
+<g id="a_edge33"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M791.928,-491.767C842.192,-488.557 917.334,-475.987 963.86,-432 1003.04,-394.961 968.19,-358.908 1001.86,-316.8 1020.73,-293.2 1050.01,-278.842 1078.19,-270.112"></path> <polygon fill="#665233" stroke="#665233" points="1078.78,-271.762 1083.07,-268.652 1077.78,-268.409 1078.78,-271.762"></polygon> </a> </g> <text text-anchor="middle" x="1007.2" y="-372.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#provenance --> <g id="node29" class="node">
 <title>
 ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#provenance
 </title>
-<g id="a_node20"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/103095ec9662073d20431d650279b5f3a99af352"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="430.076,-432 291.656,-432 291.656,-396 430.076,-396 430.076,-432"></polygon> <text text-anchor="middle" x="360.866" y="-412.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#provenance</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#provenance --> <g id="edge25" class="edge">
+<g id="a_node29"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/b78c62868981132fe37a380c76c6e4a16d78941d"> <polygon fill="#e6c18a" stroke="yellow" stroke-width="3" points="693.069,-432 554.65,-432 554.65,-396 693.069,-396 693.069,-432"></polygon> <text text-anchor="middle" x="623.86" y="-412.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">goal_prep_spp_howesound.Rmd#provenance</text> </a> </g> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#provenance --> <g id="edge34" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#provenance
 </title>
-<g id="a_edge25"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M360.866,-475.067C360.866,-463.973 360.866,-449.409 360.866,-437.401"></path> <polygon fill="#665233" stroke="#665233" points="362.616,-437.085 360.866,-432.085 359.116,-437.085 362.616,-437.085"></polygon> </a> </g> <text text-anchor="middle" x="382.206" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/spp_fxn.R --> <g id="edge1" class="edge">
+<g id="a_edge34"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M695.488,-475.054C684.798,-470.027 673.719,-464.019 664.181,-457.2 655.835,-451.233 647.783,-443.385 641.099,-436.077"></path> <polygon fill="#665233" stroke="#665233" points="642.17,-434.649 637.533,-432.088 639.56,-436.982 642.17,-434.649"></polygon> </a> </g> <text text-anchor="middle" x="686.199" y="-451.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/spp_fxn.R --> <g id="edge1" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/spp_fxn.R
 </title>
-<g id="a_edge1"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M240.83,-395.867C260.594,-383.757 287.105,-367.514 307.574,-354.973"></path> <polygon fill="#665233" stroke="#665233" points="308.497,-356.46 311.846,-352.355 306.668,-353.475 308.497,-356.46"></polygon> </a> </g> <text text-anchor="middle" x="301.206" y="-372.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup_region&#45;to&#45;cell_lookup&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/int/cell_id_by_rgn_howesound.csv --> <g id="edge3" class="edge">
+<g id="a_edge1"><a xlink:title="prov:wasExecutedBy"> <path fill="none" stroke="#665233" d="M475.86,-395.867C475.86,-384.773 475.86,-370.209 475.86,-358.201"></path> <polygon fill="#665233" stroke="#665233" points="477.61,-357.885 475.86,-352.885 474.11,-357.885 477.61,-357.885"></polygon> </a> </g> <text text-anchor="middle" x="497.199" y="-372.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasExecutedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup_region&#45;to&#45;cell_lookup&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/int/cell_id_by_rgn_howesound.csv --> <g id="edge3" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#setup_region-to-cell_lookup-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/int/cell_id_by_rgn_howesound.csv
 </title>
-<g id="a_edge3"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M568.877,-395.867C563.573,-384.494 556.57,-369.476 550.893,-357.302"></path> <polygon fill="#3d6633" stroke="#3d6633" points="552.409,-356.412 548.71,-352.62 549.237,-357.891 552.409,-356.412"></polygon> </a> </g> <text text-anchor="middle" x="583.873" y="-372.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/int/am_cells_hs_spp.csv --> <g id="edge5" class="edge">
+<g id="a_edge3"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M305.86,-395.867C305.86,-384.773 305.86,-370.209 305.86,-358.201"></path> <polygon fill="#3d6633" stroke="#3d6633" points="307.61,-357.885 305.86,-352.885 304.11,-357.885 307.61,-357.885"></polygon> </a> </g> <text text-anchor="middle" x="328.866" y="-372.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/int/am_cells_hs_spp.csv --> <g id="edge5" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/int/am_cells_hs_spp.csv
 </title>
-<g id="a_edge5"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M763.647,-395.867C762.197,-384.673 760.289,-369.947 758.726,-357.877"></path> <polygon fill="#3d6633" stroke="#3d6633" points="760.457,-357.619 758.079,-352.885 756.986,-358.069 760.457,-357.619"></polygon> </a> </g> <text text-anchor="middle" x="783.873" y="-372.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_hs_spp.csv --> <g id="edge7" class="edge">
+<g id="a_edge5"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M1220.91,-395.914C1202.16,-390.481 1181.58,-384.252 1162.85,-378 1136.46,-369.196 1107.05,-358.059 1084.99,-349.437"></path> <polygon fill="#3d6633" stroke="#3d6633" points="1085.41,-347.722 1080.11,-347.526 1084.13,-350.981 1085.41,-347.722"></polygon> </a> </g> <text text-anchor="middle" x="1184.87" y="-372.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_hs_spp.csv --> <g id="edge7" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#identify_HS_species-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/int/iucn_cells_hs_spp.csv
 </title>
-<g id="a_edge7"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M737.283,-395.942C728.369,-390.41 718.588,-384.118 709.854,-378 699.281,-370.595 687.973,-361.887 678.451,-354.31"></path> <polygon fill="#3d6633" stroke="#3d6633" points="679.485,-352.896 674.487,-351.139 677.299,-355.629 679.485,-352.896"></polygon> </a> </g> <text text-anchor="middle" x="731.873" y="-372.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/summary/spp_status_ts.csv --> <g id="edge11" class="edge">
+<g id="a_edge7"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M1253.56,-395.867C1231.44,-382.928 1201.25,-365.27 1179.33,-352.45"></path> <polygon fill="#3d6633" stroke="#3d6633" points="1179.98,-350.805 1174.78,-349.792 1178.22,-353.826 1179.98,-350.805"></polygon> </a> </g> <text text-anchor="middle" x="1242.87" y="-372.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#append_bcsee_scores&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/int/spp_info_raw.csv --> <g id="edge9" class="edge">
+<title>
+<sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#append_bcsee_scores-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/int/spp_info_raw.csv
+</title>
+<g id="a_edge9"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M854.971,-395.992C850.356,-390.512 845.564,-384.238 841.847,-378 838.109,-371.729 834.856,-364.484 832.225,-357.787"></path> <polygon fill="#3d6633" stroke="#3d6633" points="833.743,-356.854 830.336,-352.797 830.47,-358.093 833.743,-356.854"></polygon> </a> </g> <text text-anchor="middle" x="864.866" y="-372.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#append_bcsee_scores&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/int/spp_info_clean.csv --> <g id="edge10" class="edge">
+<title>
+<sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#append_bcsee_scores-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/int/spp_info_clean.csv
+</title>
+<g id="a_edge10"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M880.403,-395.867C886.837,-384.314 895.367,-369.001 902.203,-356.727"></path> <polygon fill="#3d6633" stroke="#3d6633" points="903.734,-357.575 904.638,-352.355 900.676,-355.872 903.734,-357.575"></polygon> </a> </g> <text text-anchor="middle" x="916.866" y="-372.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#join_time_series_data_to_spp_list&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/int/spp_info_timeseries.csv --> <g id="edge12" class="edge">
+<title>
+<sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#join_time_series_data_to_spp_list-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/int/spp_info_timeseries.csv
+</title>
+<g id="a_edge12"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M98.8595,-395.867C98.8595,-384.773 98.8595,-370.209 98.8595,-358.201"></path> <polygon fill="#3d6633" stroke="#3d6633" points="100.61,-357.885 98.8595,-352.885 97.1096,-357.885 100.61,-357.885"></polygon> </a> </g> <text text-anchor="middle" x="121.866" y="-372.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/int/spp_info_timeseries_hs.csv --> <g id="edge16" class="edge">
+<title>
+<sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/int/spp_info_timeseries_hs.csv
+</title>
+<g id="a_edge16"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M954.86,-237.467C954.86,-226.373 954.86,-211.809 954.86,-199.801"></path> <polygon fill="#3d6633" stroke="#3d6633" points="956.61,-199.485 954.86,-194.485 953.11,-199.485 956.61,-199.485"></polygon> </a> </g> <text text-anchor="middle" x="977.866" y="-214.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/summary/spp_status_ts.csv --> <g id="edge17" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#summarize_spp-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/summary/spp_status_ts.csv
 </title>
-<g id="a_edge11"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M229.67,-237.467C215.025,-225.042 195.25,-208.266 180.321,-195.601"></path> <polygon fill="#3d6633" stroke="#3d6633" points="181.192,-194.045 176.247,-192.145 178.928,-196.714 181.192,-194.045"></polygon> </a> </g> <text text-anchor="middle" x="230.873" y="-214.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/output/spp_status.csv --> <g id="edge13" class="edge">
+<g id="a_edge17"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M924.455,-237.467C900.658,-224.057 867.867,-205.579 844.96,-192.671"></path> <polygon fill="#3d6633" stroke="#3d6633" points="845.731,-191.097 840.516,-190.167 844.013,-194.146 845.731,-191.097"></polygon> </a> </g> <text text-anchor="middle" x="913.866" y="-214.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/output/spp_status.csv --> <g id="edge19" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/output/spp_status.csv
 </title>
-<g id="a_edge13"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M80.0858,-79.1558C75.5478,-73.7712 71.0214,-67.5578 67.8535,-61.2 64.7498,-54.971 62.5853,-47.7383 61.0865,-41.0389"></path> <polygon fill="#3d6633" stroke="#3d6633" points="62.7817,-40.5933 60.0655,-36.0452 59.3526,-41.2944 62.7817,-40.5933"></polygon> </a> </g> <text text-anchor="middle" x="90.8727" y="-55.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/output/spp_trend.csv --> <g id="edge14" class="edge">
+<g id="a_edge19"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M736.079,-79.1558C731.541,-73.7712 727.015,-67.5578 723.847,-61.2 720.743,-54.971 718.579,-47.7383 717.08,-41.0389"></path> <polygon fill="#3d6633" stroke="#3d6633" points="718.775,-40.5933 716.059,-36.0452 715.346,-41.2944 718.775,-40.5933"></polygon> </a> </g> <text text-anchor="middle" x="746.866" y="-55.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> <!-- ~/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend&#45;&gt;~/github/ohibc/prep/spp_ico/vHS/output/spp_trend.csv --> <g id="edge20" class="edge">
 <title>
 <sub>/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend-&gt;</sub>/github/ohibc/prep/spp_ico/vHS/output/spp_trend.csv
 </title>
-<g id="a_edge14"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M105.522,-79.0668C111.346,-67.5374 119.063,-52.2614 125.257,-40.0002"></path> <polygon fill="#3d6633" stroke="#3d6633" points="126.943,-40.5445 127.636,-35.2925 123.819,-38.9663 126.943,-40.5445"></polygon> </a> </g> <text text-anchor="middle" x="140.873" y="-55.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> </g>
+<g id="a_edge20"><a xlink:title="prov:wasGeneratedBy"> <path fill="none" stroke="#3d6633" d="M761.515,-79.0668C767.339,-67.5374 775.056,-52.2614 781.251,-40.0002"></path> <polygon fill="#3d6633" stroke="#3d6633" points="782.936,-40.5445 783.629,-35.2925 779.812,-38.9663 782.936,-40.5445"></polygon> </a> </g> <text text-anchor="middle" x="796.866" y="-55.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">wasGeneratedBy</text> </g> </g>
 </svg>
-<div id="htmlwidget-f7c2d1b97a548e5cf2a6" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f7c2d1b97a548e5cf2a6">{"x":{"filter":"none","caption":"<caption>Provenance summary for run 11 (4f99469): standard run (Thu Dec  1 11:03:48 2016)\u003c/caption>","data":[[0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],["goal_prep_spp_howesound.Rmd","goal_prep_spp_howesound.Rmd#identify_HS_species","goal_prep_spp_howesound.Rmd#plot_spp_by_cat","goal_prep_spp_howesound.Rmd#provenance","goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend","goal_prep_spp_howesound.Rmd#setup","goal_prep_spp_howesound.Rmd#setup_region-to-cell_lookup","goal_prep_spp_howesound.Rmd#summarize_spp","spp_fxn.R","howe_sound_rgn.shp","cell_id_by_rgn_howesound.csv","am_cells_spp_prob0.csv","am_cells_hs_spp.csv","iucn_cells_spp.csv","iucn_cells_hs_spp.csv","am_cells_hs_spp.csv","iucn_cells_hs_spp.csv","spp_info_timeseries.csv","spp_status_ts.csv","spp_status_ts.csv","spp_status.csv","spp_trend.csv","am_cells_hs_spp.csv","iucn_cells_hs_spp.csv","spp_info_timeseries.csv","scinames.csv"],["provenance","identify_HS_species","plot_spp_by_cat","provenance","save_howe_sound_status_trend","setup","setup_region-to-cell_lookup","summarize_spp","setup","setup_region-to-cell_lookup","setup_region-to-cell_lookup","identify_HS_species","identify_HS_species","identify_HS_species","identify_HS_species","summarize_spp","summarize_spp","summarize_spp","summarize_spp","save_howe_sound_status_trend","save_howe_sound_status_trend","save_howe_sound_status_trend","plot_spp_by_cat","plot_spp_by_cat","plot_spp_by_cat","plot_spp_by_cat"],["~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spatial","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/../v2016/int","~/github/ohibc/prep/spp_ico/vHS/summary","~/github/ohibc/prep/spp_ico/vHS/summary","~/github/ohibc/prep/spp_ico/vHS/output","~/github/ohibc/prep/spp_ico/vHS/output","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/../v2016/int","~/github/ohibc/prep/spp_ico/vHS/raw"],["parent_script","parent_chunk","parent_chunk","parent_chunk","parent_chunk","parent_chunk","parent_chunk","parent_chunk","sourced_script","input","output","input","output","input","output","input","input","input","output","input","output","output","input","input","input","input"],[true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true],["103095e","103095e","103095e","103095e","103095e","103095e","103095e","103095e","d717cff","3fee1de","1e9eabd","1fb4ebe","c43cf9a","1fb4ebe","c43cf9a","c43cf9a","c43cf9a","103095e","dcbe200","dcbe200","37fe8fd","dcbe200","c43cf9a","c43cf9a","103095e","103095e"]],"container":"<table class=\"stripe hover compact\">\n  <thead>\n    <tr>\n      <th>sequence\u003c/th>\n      <th>file_name\u003c/th>\n      <th>parent_chunk\u003c/th>\n      <th>file_dir\u003c/th>\n      <th>filetype\u003c/th>\n      <th>uncomm_chgs\u003c/th>\n      <th>commit_hash_short\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"dom":"tp","columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-407c6425107d2c751531" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-407c6425107d2c751531">{"x":{"filter":"none","caption":"<caption>Provenance summary for run 12 (4504d19): standard run (Thu Dec  1 12:45:41 2016)\u003c/caption>","data":[[0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],["goal_prep_spp_howesound.Rmd","goal_prep_spp_howesound.Rmd#append_bcsee_scores","goal_prep_spp_howesound.Rmd#identify_HS_species","goal_prep_spp_howesound.Rmd#join_time_series_data_to_spp_list","goal_prep_spp_howesound.Rmd#plot_spp_by_cat","goal_prep_spp_howesound.Rmd#provenance","goal_prep_spp_howesound.Rmd#read_global_species_list","goal_prep_spp_howesound.Rmd#save_howe_sound_status_trend","goal_prep_spp_howesound.Rmd#setup","goal_prep_spp_howesound.Rmd#setup_region-to-cell_lookup","goal_prep_spp_howesound.Rmd#summarize_spp","spp_fxn.R","howe_sound_rgn.shp","cell_id_by_rgn_howesound.csv","am_cells_spp_prob0.csv","am_cells_hs_spp.csv","iucn_cells_spp.csv","iucn_cells_hs_spp.csv","spp_all_cleaned.csv","spp_info_raw.csv","spp_info_clean.csv","spp_cat_timeseries.csv","spp_info_timeseries.csv","am_cells_hs_spp.csv","iucn_cells_hs_spp.csv","spp_info_timeseries.csv","spp_info_timeseries_hs.csv","spp_status_ts.csv","spp_status_ts.csv","spp_status.csv","spp_trend.csv","am_cells_hs_spp.csv","iucn_cells_hs_spp.csv","spp_info_timeseries.csv","scinames.csv"],["provenance","append_bcsee_scores","identify_HS_species","join_time_series_data_to_spp_list","plot_spp_by_cat","provenance","read_global_species_list","save_howe_sound_status_trend","setup","setup_region-to-cell_lookup","summarize_spp","setup","setup_region-to-cell_lookup","setup_region-to-cell_lookup","identify_HS_species","identify_HS_species","identify_HS_species","identify_HS_species","read_global_species_list","append_bcsee_scores","append_bcsee_scores","join_time_series_data_to_spp_list","join_time_series_data_to_spp_list","summarize_spp","summarize_spp","summarize_spp","summarize_spp","summarize_spp","save_howe_sound_status_trend","save_howe_sound_status_trend","save_howe_sound_status_trend","plot_spp_by_cat","plot_spp_by_cat","plot_spp_by_cat","plot_spp_by_cat"],["~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spp_ico/vHS","~/github/ohibc/prep/spatial","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","/home/shares/ohi/git-annex/globalprep/spp_ico/v2016/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/../v2016/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/summary","~/github/ohibc/prep/spp_ico/vHS/summary","~/github/ohibc/prep/spp_ico/vHS/output","~/github/ohibc/prep/spp_ico/vHS/output","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/int","~/github/ohibc/prep/spp_ico/vHS/../v2016/int","~/github/ohibc/prep/spp_ico/vHS/raw"],["parent_script","parent_chunk","parent_chunk","parent_chunk","parent_chunk","parent_chunk","parent_chunk","parent_chunk","parent_chunk","parent_chunk","parent_chunk","sourced_script","input","output","input","output","input","output","input","output","output","input","output","input","input","input","output","output","input","output","output","input","input","input","input"],[true,true,true,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,true,false,false,false,false,false,false,true,false,false,false,false,false,false,false,true,false],["b78c628","b78c628","b78c628","b78c628","b78c628","b78c628","b78c628","b78c628","b78c628","b78c628","b78c628","d717cff","3fee1de","1e9eabd","1fb4ebe","c43cf9a","1fb4ebe","c43cf9a",null,"71a76be","71a76be","de8b4ed","71a76be","c43cf9a","c43cf9a","103095e","71a76be","dcbe200","dcbe200","37fe8fd","dcbe200","c43cf9a","c43cf9a","103095e","b78c628"]],"container":"<table class=\"stripe hover compact\">\n  <thead>\n    <tr>\n      <th>sequence\u003c/th>\n      <th>file_name\u003c/th>\n      <th>parent_chunk\u003c/th>\n      <th>file_dir\u003c/th>\n      <th>filetype\u003c/th>\n      <th>uncomm_chgs\u003c/th>\n      <th>commit_hash_short\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"dom":"tp","columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 
 
