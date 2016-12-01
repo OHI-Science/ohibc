@@ -4,8 +4,8 @@ ITS-175145,LC,Bucephala albeola,22680462,Increasing,LC,BOTW,22680462,NA,iucn-bli
 ITS-175141,LC,Bucephala clangula,22680455,Stable,LC,BOTW,22680455,NA,iucn-bli,0.0,0.0,G5,S5,0.0,0.0,0.0
 ITS-175144,LC,Bucephala islandica,22680459,Increasing,LC,BOTW,22680459,NA,iucn-bli,0.1,0.5,G5,S4S5,0.0,0.1,0.0
 ITS-176991,LC,Cepphus columba,22694864,Stable,LC,BOTW,22694864,NA,iucn-bli,0.2,0.0,G5,S4B,0.0,0.2,0.0
-ITS-177023,LC,Cerorhinca monocerata,22694924,Decreasing,LC,BOTW,22694924,NA,iucn-bli,0.2,-0.5,G5,S4B,0.0,0.2,0.0
-ITS-176959,LC,Chlidonias niger,22694787,Decreasing,LC,BOTW,22694787,NA,iucn-bli,0.2,-0.5,G4,S4B,0.2,0.2,0.0
+ITS-177023,LC,Cerorhinca monocerata,22694924,Decreasing,LC,BOTW,22694924,NA,iucn-bli,0.2,-0.5,G5,S4,0.0,0.2,0.0
+ITS-176959,LC,Chlidonias niger,22694787,Decreasing,LC,BOTW,22694787,NA,iucn-bli,0.2,-0.5,G4G5,S4B,0.1,0.2,0.0
 ITS-174536,LC,Fulmarus glacialis,22697866,Increasing,LC,BOTW,22697866,NA,iucn-bli,0.8,0.5,G5,"S1B, S4N",0.0,0.8,0.0
 ITS-175149,LC,Histrionicus histrionicus,22680423,Increasing,LC,BOTW,22680423,NA,iucn-bli,0.2,0.5,G4,"S4B,S3N",0.2,0.2,0.0
 ITS-176935,LC,Hydroprogne caspia,22694524,Increasing,LC,BOTW,22694524,NA,iucn-bli,0.4,0.5,G5,S3B,0.0,0.4,0.0
@@ -210,8 +210,8 @@ Fis-49913,NA,Benthalbella infans,13485675,Unknown,LC,NA,NA,NA,am,0.0,NA,NA,NA,NA
 Fis-26206,NA,Benthosema suborbitale,15598524,Stable,LC,NA,NA,NA,am,0.0,0.0,NA,NA,NA,NA,0.0
 Fis-29731,NA,Beryx decadactylus,198578,Unknown,LC,NA,NA,NA,am,0.0,NA,NA,NA,NA,NA,0.0
 Fis-26997,LC,Callorhinchus callorynchus,63107,Unknown,LC,NA,NA,NA,am,0.0,NA,NA,NA,NA,NA,0.0
-Fis-23071,VU,Carcharodon carcharias,3855,Unknown,VU,NA,NA,NA,am,0.4,NA,GNR,SNR,NA,NA,0.4
-Fis-22747,VU,Cetorhinus maximus,4292,Decreasing,VU,NA,NA,NA,am,0.4,-0.5,GNR,SNR,NA,NA,0.4
+Fis-23071,VU,Carcharodon carcharias,3855,Unknown,VU,NA,NA,NA,am,0.4,NA,G2,SNR,0.6,NA,0.4
+Fis-22747,VU,Cetorhinus maximus,4292,Decreasing,VU,NA,NA,NA,am,0.4,-0.5,G2G3,SNR,NA,NA,0.4
 Fis-29801,NA,Chauliodus sloani,190324,Unknown,LC,NA,NA,NA,am,0.0,NA,NA,NA,NA,NA,0.0
 Fis-24514,LC,Clinocottus globiceps,155094,Unknown,LC,NA,NA,NA,am,0.0,NA,GNR,SNR,NA,NA,0.0
 Fis-29877,NA,Cryptopsaras couesii,190067,Unknown,LC,NA,NA,NA,am,0.0,NA,NA,NA,NA,NA,0.0
@@ -233,6 +233,8 @@ Fis-24555,LC,Eopsetta jordani,154977,Stable,LC,NA,NA,NA,am,0.0,0.0,GNR,SNR,NA,NA
 Fis-30017,NA,Exocoetus obtusirostris,190163,Unknown,LC,NA,NA,NA,am,0.0,NA,NA,NA,NA,NA,0.0
 Fis-30039,LC,Gasterosteus aculeatus,8951,Stable,LC,NA,NA,NA,am,0.0,0.0,G5,S5,0.0,0.0,0.0
 Fis-30039,LC,Gasterosteus aculeatus,8951,Stable,LC,NA,NA,NA,am,0.6,0.0,G5T2,S2,NA,0.6,0.0
+Fis-30039,LC,Gasterosteus aculeatus,8951,Stable,LC,NA,NA,NA,am,0.0,0.0,G5TNR,SNR,NA,NA,0.0
+Fis-30039,LC,Gasterosteus aculeatus,8951,Stable,LC,NA,NA,NA,am,0.0,0.0,G5TNR,SNR,NA,NA,0.0
 Fis-30043,NA,Gibbonsia montereyensis,178902,Unknown,LC,NA,NA,NA,am,0.0,NA,GNR,SNR,NA,NA,0.0
 Fis-13152,NA,Guentherus altivela,13462250,Unknown,LC,NA,NA,NA,am,0.0,NA,NA,NA,NA,NA,0.0
 Fis-23157,NT,Hexanchus griseus,10030,Unknown,NT,NA,NA,NA,am,0.2,NA,GNR,SNR,NA,NA,0.2

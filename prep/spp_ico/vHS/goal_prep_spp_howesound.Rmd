@@ -151,208 +151,9 @@ Number of Howe Sound species according to dataset:
 
 -----
 
-## Load Species information table from global SPP goal
+## Load Species information table from OHIBC SPP goal
 
-Currently this uses the global species lookup table. How this list is generated (file locations are in `~/github/ohiprep/globalprep/spp_ico`):
-
-* in `ingest_iucn.R`:
-    * Pull full IUCN list from http://api.iucnredlist.org/index/all.csv
-    * Filter the list to marine species as indicated on each species page
-    * Standardize old extinction risk categories
-    * Append population trend and parent/subpop info from species web pages
-    * Write to `spp_iucn_mar.csv` in git-annex.
-* in `spp_fxn.R::create_spp_master_lookup()`:
-    * Pull in Aquamaps species information table, create sciname field and standardize categories
-    * Pull in IUCN marine species info from `ingest_iucn.R`
-    * `full_join()` the two species lists
-    * Determine overall category, trend, and spatial info source (preferring IUCN)
-    * Remove duplicate records and data-deficient records
-    * Convert text extinction risk category and popn trends to number values
-    * Identify parent/subpopulations and aliases within `spatial_source` field.
-
-
------
-
-## Append BC-specific species risk assessment codes
-
-Data downloaded from BC Species and Ecosystems Explorer includes information on global status and provincial status for species, as assessed by NatureServe.
-
-See [this table]('iucn_to_ns.html') for info on NatureServe codes.
-
-``` {r append_bcsee_scores}
-
-spp_global_file <- file.path(dir_anx_global, 'v2016', 'int/spp_all_cleaned.csv')
-spp_info <- read_csv(spp_global_file) %>%
-  mutate(sciname = ifelse(am_sid == 'Fis-153539', 'Clupea pallasii', sciname)) 
-  ### force Pacific herring into a name recognized on the BC Species Explorer list
-
-spp_info <- spp_append_bcsee(spp_info)
-
-iucn_cells_spp <- read_csv(file.path(dir_goal, 'int', 'iucn_cells_hs_spp.csv'))
-am_cells_spp   <- read_csv(file.path(dir_goal, 'int', 'am_cells_hs_spp.csv'))
-
-spp_info_hs <- spp_info %>%
-  mutate(iucn_score = cat_score,
-         cat_score = ifelse(!is.na(status_pr_score), status_pr_score, cat_score)) %>%
-  filter(!is.na(cat_score)) %>%
-  filter((am_sid %in% am_cells_spp$am_sid & str_detect(spatial_source, 'am')) | 
-           (iucn_sid %in% iucn_cells_spp$iucn_sid & str_detect(spatial_source, 'iucn')))
-
-### add HS specific species to the list
-spp_info_hs <- spp_info_hs %>%
-  bind_rows(read_csv(file.path(dir_goal, 'int/spp_info_hs_specific.csv')))
-  
-write_csv(spp_info_hs, file.path(dir_goal, 'int/spp_info_raw.csv'))
-
-
-### let's clean up this file and ditch the legacy columns.  Lose the reference
-### columns, and to ditch multi-listings, group by am_sid and iucn_sid; then
-### take the mean category and trend across all multi-listed species.
-spp_clean <- spp_info_hs %>%
-  select(am_sid, iucn_sid, sciname, spp_group,
-         #id_no, iucn_subpop, pop_trend, pop_cat, status_pr, 
-         pr_score = status_pr_score,
-         spatial_source, 
-         cat_score, trend_score) %>%
-  group_by(am_sid, iucn_sid, spatial_source) %>%
-  summarize(sciname     = first(sciname), ### just to have a handy text handle?
-            cat_score   = mean(cat_score,   na.rm = TRUE),
-            pr_score    = mean(pr_score,    na.rm = TRUE),
-            trend_score = mean(trend_score, na.rm = TRUE),
-            pr_score    = ifelse(is.nan(pr_score),    NA, pr_score),
-            trend_score = ifelse(is.nan(trend_score), NA, trend_score)) %>%
-  ungroup()
-
-write_csv(spp_clean, file.path(dir_goal, 'int/spp_info_clean.csv'))
-
-```
-
-Variables in `spp_clean`: `r paste(names(spp_clean), collapse = ' | ')`
-
------
-
-## Build risk category time series from past IUCN assessments
-
-``` {r get_species_past_assessments, eval = TRUE}
-
-spp_clean <- read_csv(file.path(dir_goal, 'int/spp_info_clean.csv'))
-
-spp_cat_ts_file <- file.path(dir_goal, 'int', 'spp_cat_timeseries.csv')
-
-if(!file.exists(spp_cat_ts_file)) {
-  library(jsonlite)
-  api_key <- 'fb71ae836f415f04f41176f6d30c4a9e4cea620d46b9e5021bf2fb142ea51bf5'
-  
-  spp_hist_url <- 'http://apiv3.iucnredlist.org/api/v3/species/history/id/%s?token=%s'
-  
-  sid_list <- spp_clean$iucn_sid[!is.na(spp_clean$iucn_sid)] %>% 
-    unique() %>% 
-    sort()
-  
-  get_past_assess <- function(sid) {
-    spp_url <- sprintf(spp_hist_url, sid, api_key)
-    spp_tmp <- fromJSON(spp_url)
-    spp_df   <- spp_tmp$result %>%
-      mutate(iucn_sid = as.integer(spp_tmp$name)) %>%
-      mutate(code = toupper(code))
-  }
-  
-  spp_past_list <- vector('list', length = length(sid_list))
-  for (i in 1:length(sid_list)) { # i = 1
-    sid <- sid_list[i]
-    spp_past_list[[i]] <- get_past_assess(sid)
-    message(i, '. Found past assessments for ', sid, ': ', paste(spp_past_list[[i]]$year, collapse = ', '))
-  }
-  spp_past_df <- bind_rows(spp_past_list)
-  
-  ### Clean up the time series
-  
-  spp_past_df <- spp_past_df %>%
-    rename(cat_ts = code, cat_txt = category) %>%
-    mutate(cat_ts = str_replace(cat_ts, 'LR/', ''),
-           cat_ts = ifelse(cat_ts %in% c('K', 'I'), 'DD', cat_ts),
-           cat_ts = ifelse(cat_ts == 'NR', 'NE', cat_ts),
-           cat_ts = ifelse(str_detect(toupper(cat_txt), 'VERY RARE'), 'CR', cat_ts),
-           cat_ts = ifelse(str_detect(toupper(cat_txt), 'LESS RARE'), 'T', cat_ts),
-           cat_ts = ifelse(str_detect(toupper(cat_txt), 'STATUS INADEQUATELY KNOWN'), 'DD', cat_ts),
-           cat_ts = ifelse(cat_ts == 'V', 'VU', cat_ts), 
-           cat_ts = ifelse(cat_ts == 'E', 'EN', cat_ts))
-  
-  ### reclassifications:
-  #  LC <- "LOWER RISK/LEAST CONCERN (LR/LC)"                         
-  #  NT <- "LOWER RISK/NEAR THREATENED (LR/NT)"                       
-  #  T  <- "THREATENED (T)" treat as "EN"
-  #  VU <- "VULNERABLE (V)"                                           
-  #  EN <- "ENDANGERED (E)"                                           
-  #  LR/CD <- "LOWER RISK/CONSERVATION DEPENDENT (LR/CD)" treat as between VU and NT
-  #  CR <- "VERY RARE AND BELIEVED TO BE DECREASING IN NUMBERS"       
-  #  T  <- "LESS RARE BUT BELIEVED TO BE THREATENED-REQUIRES WATCHING"
-  #  DD <- "INSUFFICIENTLY KNOWN (K)"                                 
-  #  DD <- "INDETERMINATE (I)"                                        
-  #  DD <- "STATUS INADEQUATELY KNOWN-SURVEY REQUIRED OR DATA SOUGHT" 
-  #  NE <- "NOT RECOGNIZED (NR)"         
-  pop_cat <- data.frame(cat_ts       = c("LC", "NT", "VU", "EN", "CR", "EX", "T", "CD", "NE", "DD"), 
-                        cat_ts_score = c(   0,  0.2,  0.4,  0.6,  0.8,  1.0, 0.6,  0.3,   NA,  NA))
-    
-  spp_past_df <- spp_past_df %>% 
-    left_join(pop_cat, by = 'cat_ts') %>%
-    filter(!is.na(cat_ts_score) & !is.na(year)) %>%
-    arrange(iucn_sid, year)
-  
-  write_csv(spp_past_df, spp_cat_ts_file)
-  
-}
-
-```
-
-``` {r join_time_series_data_to_spp_list}
-### Fill out the missing years, then join to cleaned species list
-spp_past_df_hs <- read_csv(file.path(dir_goal, 'int', 'spp_cat_timeseries.csv')) %>%
-  filter(iucn_sid %in% spp_info_hs$iucn_sid)
-  
-spp_past_df_hs <- spp_past_df_hs %>%
-  complete(year = full_seq(year, 1), nesting(iucn_sid)) %>%
-  arrange(iucn_sid, year) %>%
-  group_by(iucn_sid) %>%
-  fill(cat_ts, cat_txt, cat_ts_score) %>% ### fills all the way to latest year (2016)
-  ungroup()
-
-spp_clean <- read_csv(file.path(dir_goal, 'int/spp_info_clean.csv'))
-
-spp_clean1 <- spp_clean %>% 
-  full_join(spp_past_df_hs, by = 'iucn_sid')
-
-### if no time series available, time series years will be NA.  Assign a list to
-### those NAs, then unnest it to create observations for those years.
-spp_clean1 <- spp_clean1 %>%
-  mutate(year = ifelse(is.na(year), list(c(1995:2016)), year)) %>% 
-  unnest(year) %>%
-  filter(year >= 1995)
-
-### NAs will be filled backward in time by starting from the most recent non-NA.
-### To do this, we'll swap any current-year NAs with the cat_score (meaning no
-### time series fill), and fill upwards instead of downwards.
-spp_clean1 <- spp_clean1 %>%
-  mutate(cat_ts_score = ifelse(year == 2016 & is.na(cat_ts), cat_score, cat_ts_score)) %>%
-  arrange(iucn_sid, year) %>%
-  group_by(iucn_sid) %>%
-  fill(cat_ts, cat_ts_score, cat_txt, .direction = 'up') %>%
-  ungroup()
-  
-### Now for species with a NatureServe provincial score (non-NA value 
-### for pr_score) replace all cat_ts with pr_score; overwrite cat_score with
-### overall values
-spp_clean1 <- spp_clean1 %>%
-  mutate(cat_score = ifelse(!is.na(pr_score), pr_score, cat_ts_score))
-
-write_csv(spp_clean1, file.path(dir_goal, 'int/spp_info_timeseries.csv'))
-
-```
-
-The resulting dataframe, most recent year only: 
-
-`r DT::datatable(spp_clean1 %>% filter(year == 2016) %>% select(-year))`
-
+Currently this uses the OHIBC species lookup table, which itself is based on the global species lookup table.  Find more info at `~/github/ohibc/prep/spp_ico/v2016/goal_prep_spp.Rmd`
 
 -----
 
@@ -367,13 +168,22 @@ In this section we perform the model calculations:
 
 ``` {r summarize_spp}
 
-spp_info_timeseries <- read_csv(file.path(dir_goal, 'int/spp_info_timeseries.csv'))
+am_spp <- read_csv(file.path(dir_goal, 'int', 'am_cells_hs_spp.csv')) %>%
+  .$am_sid %>%
+  unique()
+
+iucn_spp <- read_csv(file.path(dir_goal, 'int', 'iucn_cells_hs_spp.csv')) %>%
+  .$iucn_sid %>%
+  unique()
+
+spp_info_timeseries <- read_csv(file.path(dir_goal, '../v2016/int/spp_info_timeseries.csv')) %>%
+  filter(iucn_sid %in% iucn_spp | am_sid %in% am_spp) %>%
 
 spp_risk_ts <- spp_info_timeseries %>%
   select(pr_score, cat_ts_score, year) %>%
   mutate(cat_ts_score = ifelse(is.na(pr_score), cat_ts_score, pr_score)) %>%
   group_by(year) %>%
-  summarize(mean_cat_ts = mean(cat_ts_score))
+  summarize(mean_cat_ts = mean(cat_ts_score, na.rm = TRUE))
 
 spp_status_ts <- spp_risk_ts %>%
   mutate(rgn_id = 1,
@@ -401,6 +211,89 @@ write_csv(spp_df %>%
 write_csv(spp_df %>%
             select(rgn_id, score = trend),
           file.path(dir_goal, 'output/spp_trend.csv'))
+```
+
+``` {r plot_spp_by_cat}
+
+spp_info_timeseries <- read_csv(file.path(dir_goal, '../v2016/int/spp_info_timeseries.csv')) %>%
+  filter(iucn_sid %in% iucn_spp | am_sid %in% am_spp) %>%
+  filter(!is.na(cat_score))
+
+spp_table_info <- spp_info_timeseries %>%
+  group_by(sciname) %>%
+  arrange(year) %>%
+  filter(year == last(year)) %>%
+  ungroup() %>%
+  select(am_sid, iucn_sid, 
+         year,
+         sciname, 
+         cat_score, pr_score) %>%
+  distinct() %>%
+  mutate(spp_health = round(1 - cat_score, 1)) %>%
+  arrange(desc(cat_score), desc(sciname))
+
+
+### rearrange to get the NAs on top
+spp_table_info <- spp_table_info %>%
+  filter(is.na(spp_health)) %>%
+  bind_rows(spp_table_info %>%
+              filter(!is.na(spp_health))) %>%
+  mutate(n_spp = 1:n())
+
+### list status cats on the plot itself?
+cat_list <- data.frame(spp_health = c(   0,      .1,    .2,      .3,    .4,      .5,    .6,      .7,    .8,      .9,   1.0),
+                       cat_lab    = c('EX', 'CR/EX',  'CR', 'CR/EN',  'EN', 'EN/VU',  'VU', 'VU/NT',  'NT', 'NT/LC',  'LC'),
+                       stringsAsFactors = FALSE)
+
+spp_table_labeled <- spp_table_info %>%
+  left_join(cat_list, by = 'spp_health') %>%
+  mutate(sciname = str_replace(sciname, 'Pneumatophorus colias', 'Scomber japonicus'),
+         sciname = str_replace(sciname, 'Pelamys chiliensis', 'Sarda chiliensis'),
+         sciname = str_replace(sciname, 'Heteroscelus incanus', 'Tringa incana')) %>%
+  mutate(cat_lab = ifelse(is.na(spp_health), 'NE/DD', cat_lab),
+         cat_lab = ifelse(n_spp == last(n_spp), cat_lab, NA))
+
+### get sciname lookup table to get class vs genus... 
+scinames <- read_csv(file.path(dir_goal, 'raw/scinames.csv')) %>%
+  filter(class != 'chondrichthyes') %>%
+  select(-order, -family) %>%
+  filter(!(genus %in% c('eremophila', 'rondeletia', 'arenaria') & class == 'magnoliopsida')) %>%
+  distinct()
+### some dupes still in here: all duplicated in class magnoliopsida
+### Eremophila is a bird
+### Rondeletia is a fish
+### Arenaria is a bird
+
+spp_table_labeled <- spp_table_labeled %>%
+  rowwise() %>%
+  mutate(genus = tolower(str_split(sciname, ' ')[[1]][1])) %>%
+  ungroup() %>%
+  left_join(scinames, by = 'genus') %>%
+  group_by(class) %>%
+  mutate(proportion = 1/n())
+
+spp_plot <- ggplot(spp_table_labeled, aes(x = class, y = proportion, fill = spp_health)) +
+  ggtheme_plot + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y  = element_blank(),
+        axis.text.x = element_text(angle = 75, hjust = 1),
+        legend.position = 'none') +
+  geom_bar(stat = 'identity', width = .9, color = 'grey20', size = .25) +
+  # geom_text(aes(label = cat_lab, y = 0, nudge_y = .02), 
+  #           size = 1.5,
+  #           color = 'black',
+  #           # angle = 90, 
+  #           hjust = 0) +
+  scale_fill_gradient2(low = 'red4', mid = 'orange', high = 'green4', 
+                       midpoint = 0.5,
+                       breaks = c(0, .2, .4, .6, .8, 1.0),
+                       labels = c('EX', 'CR', 'EN', 'VU', 'NT', 'LC'))+
+  # scale_y_continuous(limits = c(0, 3)) +
+  labs(fill = 'Species health')
+
+ggsave(file.path(dir_goal, 'spp_plot.png'),
+       width = 6, height = 9, units = 'cm')
 ```
 
 

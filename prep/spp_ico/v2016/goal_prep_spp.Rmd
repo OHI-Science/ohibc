@@ -28,7 +28,6 @@ dir_anx        <- file.path(dir_M, 'git-annex/bcprep') ### git-annex: goal-speci
 dir_anx_global <- file.path(dir_M, 'git-annex/globalprep/spp_ico')
 
 
-source(file.path(dir_git, 'src/R/prov.R'))    
 source(file.path(dir_git, 'src/R/map_scores.R'))
 source(file.path(dir_goal, 'spp_fxn.R'))
 
@@ -166,17 +165,17 @@ Currently this uses the global species lookup table. How this list is generated 
 
 ``` {r read_global_species_list, eval = TRUE}
 spp_global_file <- file.path(dir_anx_global, scenario, 'int/spp_all_cleaned.csv')
-spp_info <- read_csv(spp_global_file)
+spp_info_gl <- read_csv(spp_global_file)
 
 ```
 
-Variables in `spp_info`: `r paste(names(spp_info), collapse = ' | ')`
+Variables in `spp_info_gl`: `r paste(names(spp_info_gl), collapse = ' | ')`
 
 ``` {r print_global_species_list, eval = TRUE}
-knitr::kable(head(spp_info %>% 
+knitr::kable(head(spp_info_gl %>% 
                 dplyr::select(sciname, am_sid, iucn_sid, pop_trend, pop_cat, spatial_source)),
              align = c('l', 'c', 'c', 'c', 'c', 'c'),
-             caption = 'Quick glance at global spp_info dataframe:')
+             caption = 'Quick glance at global spp_info_gl dataframe:')
 ```
 
 -----
@@ -189,16 +188,30 @@ See [this table]('iucn_to_ns.html') for info on NatureServe codes
 
 ``` {r append_bcsee_scores, echo = TRUE}
 
-spp_info <- spp_append_bcsee(spp_info)
+spp_info <- spp_info_gl %>%
+  group_by(iucn_sid) %>%
+  arrange(sciname) %>%
+  filter(sciname == first(sciname) | is.na(iucn_sid)) %>%
+    ### this last bit gets rid of double-listed IUCN SIDs by selecting
+    ### the first instance, while keeping any NAs
+  mutate(sciname = str_replace(sciname, 'Clupea pallasii pallasii', 'Clupea pallasii')) %>%
+  spp_append_bcsee()
 
-spp_info <- spp_info %>%
+### These species are problematic in BC Howe Sound ICO:
+# ico_spp_probs <- c('Ammodytes hexapterus', 'Ardea herodias', 'Clupea pallasii', 'Gavia immer', 'Haliaeetus leucocephalus', 'Hypomesus pretiosus')
+# x <- spp_info %>% filter(sciname %in% ico_spp_probs)
+### all there!
+
+spp_info_raw <- spp_info %>%
   mutate(iucn_score = cat_score,
          cat_score = ifelse(!is.na(status_pr_score), status_pr_score, cat_score)) %>%
-  filter(!is.na(cat_score)) %>%
+  # filter(!is.na(cat_score)) %>%
   filter(am_sid %in% am_cells_spp$am_sid & str_detect(spatial_source, 'am') | 
            iucn_sid %in% iucn_cells_spp$iucn_sid & str_detect(spatial_source, 'iucn'))
-  
-write_csv(spp_info, file.path(dir_goal, 'int/spp_info_raw.csv'))
+
+# x <- spp_info_raw %>% filter(sciname %in% ico_spp_probs)
+
+write_csv(spp_info_raw, file.path(dir_goal, 'int/spp_info_raw.csv'))
 
 ### NOTE: if we want to exclude BLI data, this is where we would have to do it
 # spp_info <- spp_info %>%
@@ -208,7 +221,7 @@ write_csv(spp_info, file.path(dir_goal, 'int/spp_info_raw.csv'))
 ### let's clean up this file and ditch the legacy columns.  Lose the reference
 ### columns, and to ditch multi-listings, group by am_sid and iucn_sid; then
 ### take the mean category and trend across all multi-listed species.
-spp_clean <- spp_info %>%
+spp_clean <- spp_info_raw %>%
   select(am_sid, iucn_sid, sciname, spp_group,
          #id_no, iucn_subpop, pop_trend, pop_cat, status_pr, 
          pr_score = status_pr_score,
@@ -222,6 +235,8 @@ spp_clean <- spp_info %>%
             pr_score    = ifelse(is.nan(pr_score),    NA, pr_score),
             trend_score = ifelse(is.nan(trend_score), NA, trend_score)) %>%
   ungroup()
+
+# x <- spp_clean %>% filter(sciname %in% ico_spp_probs)
 
 write_csv(spp_clean, file.path(dir_goal, 'int/spp_info_clean.csv'))
 
@@ -258,7 +273,7 @@ if(!file.exists(spp_cat_ts_file)) {
     spp_past_list[[i]] <- get_past_assess(sid)
     message(i, '. Found past assessments for ', sid, ': ', paste(spp_past_list[[i]]$year, collapse = ', '))
   }
-  spp_past_df <- rbind_all(spp_past_list)
+  spp_past_df <- bind_rows(spp_past_list)
   
   ### Clean up the time series
   
@@ -294,9 +309,10 @@ if(!file.exists(spp_cat_ts_file)) {
     filter(!is.na(cat_ts_score) & !is.na(year)) %>%
     arrange(iucn_sid, year)
   
+  # x <- spp_past_df %>% filter(sciname %in% ico_spp_probs)
+
   write_csv(spp_past_df, file.path(dir_goal, 'int', 'spp_cat_timeseries.csv'))
 }
-
 
 ```
 
@@ -313,6 +329,8 @@ spp_past_df <- spp_past_df %>%
 
 spp_clean1 <- spp_clean %>% 
   left_join(spp_past_df, by = 'iucn_sid')
+
+  # x <- spp_clean1 %>% filter(sciname %in% ico_spp_probs)
 
 ### if no time series available, time series years will be NA.  Assign a list to
 ### those NAs, then unnest it to create observations for those years.
@@ -338,34 +356,6 @@ spp_clean1 <- spp_clean1 %>%
 
 write_csv(spp_clean1, file.path(dir_goal, 'int/spp_info_timeseries.csv'))
 
-```
-
-<!--### plot the changing species?
-
-no.-->
-
-``` {r, eval = FALSE}
-library(ggplot2)
-
-spp_sample <- spp_clean1 %>% 
-  group_by(iucn_sid) %>%
-  filter(any(cat_score != mean(cat_score))) %>%
-  .$iucn_sid %>%
-  unique()
-
-spp_clean_ts <- spp_clean1 %>%
-  dplyr::select(iucn_sid, year, cat_ts, cat_score, sciname) %>%
-  group_by(iucn_sid) %>%
-  filter(sciname == first(sciname)) %>%
-  ungroup() %>%
-  distinct() %>%
-  filter(iucn_sid %in% spp_sample)
-ts_plot <- ggplot(spp_clean_ts, aes(x = year, y = cat_score, color = sciname, group = sciname)) +
-#  geom_line(alpha = .5) +
-  geom_smooth(se = FALSE, alpha = .5) +
-  theme(legend.position = 'none')
-
-ts_plot
 ```
 
 -----

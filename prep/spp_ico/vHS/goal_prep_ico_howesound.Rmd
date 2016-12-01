@@ -32,9 +32,6 @@ source(file.path(dir_git, 'src/R/map_scores.R'))
 library(provRmd)
 prov_setup()
 
-source(file.path(dir_goal, 'spp_fxn.R'))
-
-
 ### set up proj4string options: BC Albers and WGS84
 p4s_wgs84 <- c('EPSG:4326 WGS 84' = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
 p4s_bcalb <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0')
@@ -136,16 +133,18 @@ Combining global ICO list with CORI-supplied Howe Sound ICO list, we come up wit
 
 ``` {r generate_ico_list}
 
-spp_info_timeseries <- read_csv(file.path(dir_goal, 'int/spp_info_timeseries.csv'))
+spp_info_timeseries <- read_csv(file.path(dir_goal, '../v2016/int/spp_info_timeseries.csv'))
 
 ico_list_gl <- read_csv(file.path(dir_goal, 'ico_list_howe_sound_from_global.csv')) %>%
   select(sciname = `Specie Scientific Name`,
          comname = `Specie Common Name`) %>%
+  mutate(comname = tools::toTitleCase(comname)) %>%
   filter(sciname %in% spp_info_timeseries$sciname) %>%
   distinct()
   
 ico_list_hs <- read_csv(file.path(dir_goal, 'ico_list_howesound.csv')) %>%
   filter(!str_detect(comments, 'elimin')) %>%
+  mutate(comname = tools::toTitleCase(comname)) %>%
   select(sciname, comname) %>%
   distinct()
 
@@ -172,26 +171,28 @@ Most recent year only:
 
 `r DT::datatable(spp_info_timeseries %>% filter(year == 2016) %>% filter(sciname %in% ico_list$sciname) %>% select(-year))`
 
+Note that some species on the ICO list do not show up in the OHIBC SPP list.  These may be due to lack of assessment or non-marine designation.  
 
 ``` {r summarize_ico}
 
 ico_list <- read_csv(file.path(dir_goal, 'int', 'ico_list_scinames.csv'))
 
-ico_info_timeseries <- read_csv(file.path(dir_goal, 'int/spp_info_timeseries.csv')) %>%
-  inner_join(ico_list, by = 'sciname') 
+ico_info_timeseries <- read_csv(file.path(dir_goal, '../v2016/int/spp_info_timeseries.csv')) %>%
+  inner_join(ico_list, by = 'sciname') %>%
+  bind_rows(read_csv(file.path(dir_goal, 'int/spp_info_hs_specific.csv'))) %>%
+  filter(!is.na(year))
 
-### missing iconic spp:
-#                  sciname        comname
-# 1      Branta canadensis   canada goose
-# 2         Etrumeus teres  Round herring
-# 3  Opisthonema libertate thread herring
-# 4 Opisthonema medirastre thread herring ### This one is ranked as LC in IUCN but only as far north as central CA
+### ico_list %>% filter(!sciname %in% ico_info_timeseries$sciname)
+write_csv(ico_info_timeseries,
+          file.path(dir_goal, 'int/ico_info_timeseries.csv'))
+
+
 
 ico_risk_ts <- ico_info_timeseries %>%
   select(pr_score, cat_ts_score, year) %>%
   mutate(cat_ts_score = ifelse(is.na(pr_score), cat_ts_score, pr_score)) %>%
   group_by(year) %>%
-  summarize(mean_cat_ts = mean(cat_ts_score))
+  summarize(mean_cat_ts = mean(cat_ts_score, na.rm = TRUE))
 
 ico_status_ts <- ico_risk_ts %>%
   mutate(rgn_id = 1,
@@ -211,44 +212,42 @@ knitr::kable(ico_status_ts,
 
 ``` {r plot_ico_by_cat}
 
-ico_list <- read_csv(file.path(dir_goal, 'int', 'ico_list_scinames.csv'))
-
-ico_info_timeseries <- read_csv(file.path(dir_goal, 'int/spp_info_timeseries.csv')) %>%
-  inner_join(ico_list, by = 'sciname') %>%
-  filter(year == max(year))
-
-### missing iconic spp:
-#                  sciname        comname
-# 1      Branta canadensis   canada goose
-# 2         Etrumeus teres  Round herring
-# 3  Opisthonema libertate thread herring
-# 4 Opisthonema medirastre thread herring
+ico_info_timeseries <- read_csv(file.path(dir_goal, 'int/ico_info_timeseries.csv'))
 
 ico_table_info <- ico_info_timeseries %>%
-  select(am_sid, iucn_sid, 
-         sciname, comname,
-         cat_score, pr_score) %>%
   group_by(sciname) %>%
   filter(comname == last(comname)) %>%
+  arrange(year) %>%
+  filter(year == last(year)) %>%
   ungroup() %>%
+  select(am_sid, iucn_sid, year,
+         sciname, comname,
+         cat_score, pr_score) %>%
   distinct() %>%
-  arrange(desc(cat_score), desc(comname)) %>%
-  mutate(spp_health = round(1 - cat_score, 1),
-         n_ico = 1:n())
+  mutate(spp_health = round(1 - cat_score, 1)) %>%
+  arrange(desc(cat_score), desc(comname))
+
+### rearrange to get the NAs on top
+ico_table_info <- ico_table_info %>%
+  filter(is.na(spp_health)) %>%
+  bind_rows(ico_table_info %>%
+              filter(!is.na(spp_health))) %>%
+  mutate(n_ico = 1:n())
 
 ### list status cats on the plot itself?
 cat_list <- data.frame(spp_health = c(   0,      .1,    .2,      .3,    .4,      .5,    .6,      .7,    .8,      .9,   1.0),
                        cat_lab    = c('EX', 'CR/EX',  'CR', 'CR/EN',  'EN', 'EN/VU',  'VU', 'VU/NT',  'NT', 'NT/LC',  'LC'),
                        stringsAsFactors = FALSE)
 
-ico_table_info <- ico_table_info %>%
+ico_table_labeled <- ico_table_info %>%
   left_join(cat_list, by = 'spp_health') %>%
   group_by(spp_health) %>%
-  mutate(cat_lab = ifelse(n_ico == last(n_ico), cat_lab, NA)) %>%
-  mutate(ico_lab = paste0(comname, ' (', sciname, ')'),
+  mutate(cat_lab = ifelse(is.na(spp_health), 'NE/DD', cat_lab),
+         cat_lab = ifelse(n_ico == last(n_ico), cat_lab, NA),
+         ico_lab = paste0(comname, ' (', sciname, ')'),
          ico_lab = ifelse(!is.na(pr_score), ico_lab, paste0(ico_lab, '*')))
 
-ico_plot <- ggplot(ico_table_info, aes(x = n_ico, y = 0.3, fill = spp_health)) +
+ico_plot <- ggplot(ico_table_labeled, aes(x = n_ico, y = 0.3, fill = spp_health)) +
   ggtheme_plot + 
   theme(panel.grid = element_blank(),
         axis.title = element_blank(),
@@ -257,10 +256,12 @@ ico_plot <- ggplot(ico_table_info, aes(x = n_ico, y = 0.3, fill = spp_health)) +
   geom_bar(stat = 'identity', width = 1) +
   geom_text(aes(label = ico_lab, nudge_y = .02), 
             size = 2,
-            # angle = 90, 
+            color = 'grey20',
+           # angle = 90, 
             hjust = 0) +
   geom_text(aes(label = cat_lab, y = 0, nudge_y = .02), 
             size = 1.5,
+            color = 'black',
             # angle = 90, 
             hjust = 0) +
   scale_fill_gradient2(low = 'red4', mid = 'orange', high = 'green4', 
@@ -272,7 +273,7 @@ ico_plot <- ggplot(ico_table_info, aes(x = n_ico, y = 0.3, fill = spp_health)) +
   labs(fill = 'Species health')
 
 ggsave(file.path(dir_goal, 'ico_plot.png'),
-       width = 6, height = 8, units = 'cm')
+       width = 6, height = 9, units = 'cm')
 ```
 
 ![](ico_plot.png)
@@ -291,7 +292,6 @@ write_csv(ico_df %>%
           file.path(dir_goal, 'output/ico_trend.csv'))
 
 ```
-
 
 ***
 
