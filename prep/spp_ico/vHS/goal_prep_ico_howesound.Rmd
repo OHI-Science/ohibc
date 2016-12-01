@@ -29,8 +29,9 @@ dir_anx_global <- file.path(dir_M, 'git-annex/globalprep/spp_ico')
 
 source(file.path(dir_git, 'src/R/map_scores.R'))
 
-library(provRmd)
-prov_setup()
+library(provRmd); prov_setup()
+
+source(file.path(dir_goal, 'spp_fxn.R'))
 
 ### set up proj4string options: BC Albers and WGS84
 p4s_wgs84 <- c('EPSG:4326 WGS 84' = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
@@ -171,7 +172,6 @@ Most recent year only:
 
 `r DT::datatable(spp_info_timeseries %>% filter(year == 2016) %>% filter(sciname %in% ico_list$sciname) %>% select(-year))`
 
-Note that some species on the ICO list do not show up in the OHIBC SPP list.  These may be due to lack of assessment or non-marine designation.  
 
 ``` {r summarize_ico}
 
@@ -179,7 +179,7 @@ ico_list <- read_csv(file.path(dir_goal, 'int', 'ico_list_scinames.csv'))
 
 ico_info_timeseries <- read_csv(file.path(dir_goal, '../v2016/int/spp_info_timeseries.csv')) %>%
   inner_join(ico_list, by = 'sciname') %>%
-  bind_rows(read_csv(file.path(dir_goal, 'int/spp_info_hs_specific.csv'))) %>%
+  bind_rows(read_csv(file.path(dir_goal, 'raw/ico_info_hs_specific.csv'))) %>%
   filter(!is.na(year))
 
 ### ico_list %>% filter(!sciname %in% ico_info_timeseries$sciname)
@@ -196,7 +196,8 @@ ico_risk_ts <- ico_info_timeseries %>%
 
 ico_status_ts <- ico_risk_ts %>%
   mutate(rgn_id = 1,
-         status = 1 - mean_cat_ts)
+         status = 1 - mean_cat_ts) %>%
+  filter(year >= max(year) - 10)
   
 ico_status_ts$trend <- ico_status_ts %>%
   do(trend = lm(status ~ year, data = .)$coefficients[2] * 5) %>%
@@ -205,7 +206,7 @@ ico_status_ts$trend <- ico_status_ts %>%
 write_csv(ico_status_ts, 
           file.path(dir_goal, 'summary/ico_status_ts.csv'))
 
-knitr::kable(ico_status_ts, 
+knitr::kable(ico_status_ts %>% arrange(desc(year)), 
              caption = 'Howe Sound iconic species status and trend')
 
 ```
@@ -255,7 +256,7 @@ ico_plot <- ggplot(ico_table_labeled, aes(x = n_ico, y = 0.3, fill = spp_health)
         legend.position = 'none') +
   geom_bar(stat = 'identity', width = 1) +
   geom_text(aes(label = ico_lab, nudge_y = .02), 
-            size = 2,
+            size = 1.8,
             color = 'grey20',
            # angle = 90, 
             hjust = 0) +
@@ -264,7 +265,7 @@ ico_plot <- ggplot(ico_table_labeled, aes(x = n_ico, y = 0.3, fill = spp_health)
             color = 'black',
             # angle = 90, 
             hjust = 0) +
-  scale_fill_gradient2(low = 'red4', mid = 'orange', high = 'green4', 
+  scale_fill_gradient2(low = '#F27259', mid = '#FFCF5C', high = '#1F9B90', 
                        midpoint = 0.5,
                        breaks = c(0, .2, .4, .6, .8, 1.0),
                        labels = c('EX', 'CR', 'EN', 'VU', 'NT', 'LC'))+

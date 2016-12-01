@@ -1,153 +1,168 @@
-kingdom,phylum,class,genus
-animalia,chordata,cephalaspidomorphi,entosphenus
-animalia,chordata,cephalaspidomorphi,lampetra
-animalia,chordata,actinopterygii,acipenser
-animalia,chordata,actinopterygii,anoplogaster
-animalia,chordata,actinopterygii,diretmoides
-animalia,chordata,actinopterygii,hoplostethus
-animalia,chordata,actinopterygii,gasterosteus
-animalia,chordata,actinopterygii,pungitius
-animalia,chordata,actinopterygii,cymatogaster
-animalia,chordata,actinopterygii,seriola
-animalia,chordata,actinopterygii,nesiarchus
-animalia,chordata,actinopterygii,sarda
-animalia,chordata,actinopterygii,scomber
-animalia,chordata,actinopterygii,euthynnus
-animalia,chordata,actinopterygii,peprilus
-animalia,chordata,actinopterygii,tetragonurus
-animalia,chordata,actinopterygii,hippoglossina
-animalia,chordata,actinopterygii,platichthys
-animalia,chordata,actinopterygii,icelinus
-animalia,chordata,actinopterygii,leptocottus
-animalia,chordata,actinopterygii,ectreposebastes
-animalia,chordata,actinopterygii,sebastes
-animalia,chordata,actinopterygii,sebastolobus
-animalia,chordata,actinopterygii,barbourisia
-animalia,chordata,actinopterygii,rondeletia
-animalia,chordata,actinopterygii,arctozenus
-animalia,chordata,actinopterygii,lestidiops
-animalia,chordata,actinopterygii,magnisudis
-animalia,chordata,actinopterygii,benthalbella
-animalia,chordata,actinopterygii,lampris
-animalia,chordata,actinopterygii,porichthys
-animalia,chordata,actinopterygii,ceratias
-animalia,chordata,actinopterygii,barbantus
-animalia,chordata,actinopterygii,platytroctes
-animalia,chordata,actinopterygii,oncorhynchus
-animalia,chordata,actinopterygii,salvelinus
-animalia,chordata,actinopterygii,benthosema
-animalia,chordata,actinopterygii,electrona
-animalia,chordata,actinopterygii,hygophum
-animalia,chordata,actinopterygii,cyclothone
-animalia,chordata,actinopterygii,melanostomias
-animalia,chordata,aves,haliaeetus
-animalia,chordata,aves,pandion
-animalia,chordata,aves,anas
-animalia,chordata,aves,aythya
-animalia,chordata,aves,bucephala
-animalia,chordata,aves,histrionicus
-animalia,chordata,aves,lophodytes
-animalia,chordata,aves,melanitta
-animalia,chordata,aves,mergus
-animalia,chordata,aves,anser
-animalia,chordata,aves,branta
-animalia,chordata,aves,cygnus
-animalia,chordata,aves,chordeiles
-animalia,chordata,aves,brachyramphus
-animalia,chordata,aves,cepphus
-animalia,chordata,aves,cerorhinca
-animalia,chordata,aves,ptychoramphus
-animalia,chordata,aves,synthliboramphus
-animalia,chordata,aves,uria
-animalia,chordata,aves,charadrius
-animalia,chordata,aves,pluvialis
-animalia,chordata,aves,haematopus
-animalia,chordata,aves,chlidonias
-animalia,chordata,aves,hydroprogne
-animalia,chordata,aves,larus
-animalia,chordata,aves,sterna
-animalia,chordata,aves,actitis
-animalia,chordata,aves,aphriza
-animalia,chordata,aves,arenaria
-animalia,chordata,aves,calidris
-animalia,chordata,aves,limnodromus
-animalia,chordata,aves,numenius
-animalia,chordata,aves,tringa
-animalia,chordata,aves,falco
-animalia,chordata,aves,gavia
-animalia,chordata,aves,fulica
-animalia,chordata,aves,eremophila
-animalia,chordata,aves,calcarius
-animalia,chordata,aves,plectrophenax
-animalia,chordata,aves,corvus
-animalia,chordata,aves,melospiza
-animalia,chordata,aves,stelgidopteryx
-animalia,chordata,aves,tachycineta
-animalia,chordata,aves,euphagus
-animalia,chordata,aves,anthus
-animalia,chordata,aves,geothlypis
-animalia,chordata,aves,sturnus
-animalia,chordata,aves,cistothorus
-animalia,chordata,aves,ardea
-animalia,chordata,aves,butorides
-animalia,chordata,aves,podiceps
-animalia,chordata,aves,oceanodroma
-animalia,chordata,aves,fulmarus
-animalia,chordata,aves,puffinus
-animalia,chordata,aves,phalacrocorax
-animalia,chordata,mammalia,lontra
-animalia,chordata,mammalia,callorhinus
-animalia,chordata,mammalia,eumetopias
-animalia,chordata,mammalia,zalophus
-animalia,chordata,mammalia,mirounga
-animalia,chordata,mammalia,phoca
-animalia,chordata,mammalia,balaenoptera
-animalia,chordata,mammalia,megaptera
-animalia,chordata,mammalia,eschrichtius
-animalia,chordata,mammalia,delphinus
-animalia,chordata,mammalia,globicephala
-animalia,chordata,mammalia,grampus
-animalia,chordata,mammalia,lagenorhynchus
-animalia,chordata,mammalia,pseudorca
-animalia,chordata,mammalia,stenella
-animalia,chordata,mammalia,berardius
-animalia,chordata,mammalia,ziphius
-animalia,chordata,mammalia,kogia
-animalia,chordata,mammalia,phocoena
-animalia,chordata,mammalia,phocoenoides
-animalia,chordata,mammalia,physeter
-animalia,chordata,reptilia,eretmochelys
-animalia,chordata,reptilia,chelonia
-animalia,chordata,reptilia,dermochelys
-animalia,echinodermata,holothuroidea,apostichopus
-animalia,echinodermata,holothuroidea,parastichopus
-animalia,arthropoda,malacostraca,polycheles
-animalia,mollusca,cephalopoda,chiroteuthis
-animalia,mollusca,cephalopoda,grimalditeuthis
-animalia,mollusca,cephalopoda,liocranchia
-animalia,mollusca,cephalopoda,bathothauma
-animalia,mollusca,cephalopoda,egea
-animalia,mollusca,cephalopoda,discoteuthis
-animalia,mollusca,cephalopoda,abraliopsis
-animalia,mollusca,cephalopoda,berryteuthis
-animalia,mollusca,cephalopoda,gonatus
-animalia,mollusca,cephalopoda,pyroteuthis
-animalia,mollusca,cephalopoda,haliphron
-animalia,mollusca,cephalopoda,argonauta
-animalia,mollusca,cephalopoda,vitreledonella
-plantae,NA,magnoliopsida,phyllospadix
-plantae,NA,magnoliopsida,zostera
-animalia,chordata,elasmobranchii,alopias
-animalia,chordata,elasmobranchii,bathyraja
-animalia,chordata,holocephali,callorhinchus
-animalia,chordata,elasmobranchii,carcharodon
-animalia,chordata,elasmobranchii,cetorhinus
-animalia,chordata,elasmobranchii,discopyge
-animalia,chordata,elasmobranchii,hexanchus
-animalia,chordata,elasmobranchii,isurus
-animalia,chordata,elasmobranchii,prionace
-animalia,chordata,elasmobranchii,pteroplatytrygon
-animalia,chordata,elasmobranchii,raja
-animalia,chordata,elasmobranchii,sphyrna
-animalia,chordata,elasmobranchii,squatina
-animalia,chordata,elasmobranchii,galeocerdo
+kingdom,phylum,class,genus,com_class,order,family
+animalia,chordata,actinopterygii,acipenser,Bony Fishes,acipenseriformes,acipenseridae
+animalia,chordata,actinopterygii,arctozenus,Bony Fishes,aulopiformes,paralepididae
+animalia,chordata,actinopterygii,benthalbella,Bony Fishes,aulopiformes,scopelarchidae
+animalia,chordata,actinopterygii,lestidiops,Bony Fishes,aulopiformes,paralepididae
+animalia,chordata,actinopterygii,magnisudis,Bony Fishes,aulopiformes,paralepididae
+animalia,chordata,actinopterygii,porichthys,Bony Fishes,batrachoidiformes,batrachoididae
+animalia,chordata,actinopterygii,anoplogaster,Bony Fishes,beryciformes,anoplogastridae
+animalia,chordata,actinopterygii,diretmoides,Bony Fishes,beryciformes,diretmidae
+animalia,chordata,actinopterygii,hoplostethus,Bony Fishes,beryciformes,trachichthyidae
+animalia,chordata,actinopterygii,barbourisia,Bony Fishes,cetomimiformes,barbourisiidae
+animalia,chordata,actinopterygii,rondeletia,Bony Fishes,cetomimiformes,rondeletiidae
+animalia,chordata,actinopterygii,gasterosteus,Bony Fishes,gasterosteiformes,gasterosteidae
+animalia,chordata,actinopterygii,pungitius,Bony Fishes,gasterosteiformes,gasterosteidae
+animalia,chordata,actinopterygii,lampris,Bony Fishes,lampridiformes,lamprididae
+animalia,chordata,actinopterygii,lampris,Bony Fishes,lampriformes,lampridae
+animalia,chordata,actinopterygii,ceratias,Bony Fishes,lophiiformes,ceratiidae
+animalia,chordata,actinopterygii,benthosema,Bony Fishes,myctophiformes,myctophidae
+animalia,chordata,actinopterygii,electrona,Bony Fishes,myctophiformes,myctophidae
+animalia,chordata,actinopterygii,hygophum,Bony Fishes,myctophiformes,myctophidae
+animalia,chordata,actinopterygii,barbantus,Bony Fishes,osmeriformes,platytroctidae
+animalia,chordata,actinopterygii,platytroctes,Bony Fishes,osmeriformes,platytroctidae
+animalia,chordata,actinopterygii,cymatogaster,Bony Fishes,perciformes,embiotocidae
+animalia,chordata,actinopterygii,euthynnus,Bony Fishes,perciformes,scombridae
+animalia,chordata,actinopterygii,nesiarchus,Bony Fishes,perciformes,gempylidae
+animalia,chordata,actinopterygii,peprilus,Bony Fishes,perciformes,stromateidae
+animalia,chordata,actinopterygii,sarda,Bony Fishes,perciformes,scombridae
+animalia,chordata,actinopterygii,scomber,Bony Fishes,perciformes,scombridae
+animalia,chordata,actinopterygii,seriola,Bony Fishes,perciformes,carangidae
+animalia,chordata,actinopterygii,tetragonurus,Bony Fishes,perciformes,tetragonuridae
+animalia,chordata,actinopterygii,hippoglossina,Bony Fishes,pleuronectiformes,paralichthyidae
+animalia,chordata,actinopterygii,platichthys,Bony Fishes,pleuronectiformes,pleuronectidae
+animalia,chordata,actinopterygii,oncorhynchus,Bony Fishes,salmoniformes,salmonidae
+animalia,chordata,actinopterygii,salvelinus,Bony Fishes,salmoniformes,salmonidae
+animalia,chordata,actinopterygii,ectreposebastes,Bony Fishes,scorpaeniformes,scorpaenidae
+animalia,chordata,actinopterygii,ectreposebastes,Bony Fishes,scorpaeniformes,setarchidae
+animalia,chordata,actinopterygii,icelinus,Bony Fishes,scorpaeniformes,cottidae
+animalia,chordata,actinopterygii,leptocottus,Bony Fishes,scorpaeniformes,cottidae
+animalia,chordata,actinopterygii,sebastes,Bony Fishes,scorpaeniformes,scorpaenidae
+animalia,chordata,actinopterygii,sebastes,Bony Fishes,scorpaeniformes,sebastidae
+animalia,chordata,actinopterygii,sebastolobus,Bony Fishes,scorpaeniformes,scorpaenidae
+animalia,chordata,actinopterygii,sebastolobus,Bony Fishes,scorpaeniformes,sebastidae
+animalia,chordata,actinopterygii,barbourisia,Bony Fishes,stephanoberyciformes,barbourisiidae
+animalia,chordata,actinopterygii,rondeletia,Bony Fishes,stephanoberyciformes,rondeletiidae
+animalia,chordata,actinopterygii,cyclothone,Bony Fishes,stomiiformes,gonostomatidae
+animalia,chordata,actinopterygii,melanostomias,Bony Fishes,stomiiformes,stomiidae
+animalia,chordata,aves,haliaeetus,Birds,accipitriformes,accipitridae
+animalia,chordata,aves,pandion,Birds,accipitriformes,pandionidae
+animalia,chordata,aves,anas,Birds,anseriformes,anatidae
+animalia,chordata,aves,anser,Birds,anseriformes,anatidae
+animalia,chordata,aves,aythya,Birds,anseriformes,anatidae
+animalia,chordata,aves,branta,Birds,anseriformes,anatidae
+animalia,chordata,aves,bucephala,Birds,anseriformes,anatidae
+animalia,chordata,aves,cygnus,Birds,anseriformes,anatidae
+animalia,chordata,aves,histrionicus,Birds,anseriformes,anatidae
+animalia,chordata,aves,lophodytes,Birds,anseriformes,anatidae
+animalia,chordata,aves,melanitta,Birds,anseriformes,anatidae
+animalia,chordata,aves,mergus,Birds,anseriformes,anatidae
+animalia,chordata,aves,chordeiles,Birds,caprimulgiformes,caprimulgidae
+animalia,chordata,aves,actitis,Birds,charadriiformes,scolopacidae
+animalia,chordata,aves,aphriza,Birds,charadriiformes,scolopacidae
+animalia,chordata,aves,arenaria,Birds,charadriiformes,scolopacidae
+animalia,chordata,aves,brachyramphus,Birds,charadriiformes,alcidae
+animalia,chordata,aves,calidris,Birds,charadriiformes,scolopacidae
+animalia,chordata,aves,cepphus,Birds,charadriiformes,alcidae
+animalia,chordata,aves,cerorhinca,Birds,charadriiformes,alcidae
+animalia,chordata,aves,charadrius,Birds,charadriiformes,charadriidae
+animalia,chordata,aves,chlidonias,Birds,charadriiformes,laridae
+animalia,chordata,aves,haematopus,Birds,charadriiformes,haematopodidae
+animalia,chordata,aves,hydroprogne,Birds,charadriiformes,laridae
+animalia,chordata,aves,larus,Birds,charadriiformes,laridae
+animalia,chordata,aves,limnodromus,Birds,charadriiformes,scolopacidae
+animalia,chordata,aves,numenius,Birds,charadriiformes,scolopacidae
+animalia,chordata,aves,pluvialis,Birds,charadriiformes,charadriidae
+animalia,chordata,aves,ptychoramphus,Birds,charadriiformes,alcidae
+animalia,chordata,aves,sterna,Birds,charadriiformes,laridae
+animalia,chordata,aves,synthliboramphus,Birds,charadriiformes,alcidae
+animalia,chordata,aves,tringa,Birds,charadriiformes,scolopacidae
+animalia,chordata,aves,uria,Birds,charadriiformes,alcidae
+animalia,chordata,aves,chlidonias,Birds,ciconiiformes,laridae
+animalia,chordata,aves,fulmarus,Birds,ciconiiformes,procellariidae
+animalia,chordata,aves,hydroprogne,Birds,ciconiiformes,laridae
+animalia,chordata,aves,larus,Birds,ciconiiformes,laridae
+animalia,chordata,aves,phalacrocorax,Birds,ciconiiformes,phalacrocoracidae
+animalia,chordata,aves,puffinus,Birds,ciconiiformes,procellariidae
+animalia,chordata,aves,sterna,Birds,ciconiiformes,laridae
+animalia,chordata,aves,falco,Birds,falconiformes,falconidae
+animalia,chordata,aves,gavia,Birds,gaviiformes,gaviidae
+animalia,chordata,aves,fulica,Birds,gruiformes,rallidae
+animalia,chordata,aves,anthus,Birds,passeriformes,motacillidae
+animalia,chordata,aves,calcarius,Birds,passeriformes,calcariidae
+animalia,chordata,aves,cistothorus,Birds,passeriformes,troglodytidae
+animalia,chordata,aves,corvus,Birds,passeriformes,corvidae
+animalia,chordata,aves,eremophila,Birds,passeriformes,alaudidae
+animalia,chordata,aves,euphagus,Birds,passeriformes,icteridae
+animalia,chordata,aves,geothlypis,Birds,passeriformes,parulidae
+animalia,chordata,aves,melospiza,Birds,passeriformes,emberizidae
+animalia,chordata,aves,plectrophenax,Birds,passeriformes,calcariidae
+animalia,chordata,aves,stelgidopteryx,Birds,passeriformes,hirundinidae
+animalia,chordata,aves,sturnus,Birds,passeriformes,sturnidae
+animalia,chordata,aves,tachycineta,Birds,passeriformes,hirundinidae
+animalia,chordata,aves,ardea,Birds,pelecaniformes,ardeidae
+animalia,chordata,aves,butorides,Birds,pelecaniformes,ardeidae
+animalia,chordata,aves,podiceps,Birds,podicipediformes,podicipedidae
+animalia,chordata,aves,fulmarus,Birds,procellariiformes,procellariidae
+animalia,chordata,aves,oceanodroma,Birds,procellariiformes,hydrobatidae
+animalia,chordata,aves,puffinus,Birds,procellariiformes,procellariidae
+animalia,chordata,aves,phalacrocorax,Birds,suliformes,phalacrocoracidae
+animalia,chordata,cephalaspidomorphi,entosphenus,Jawless Fishes,petromyzontiformes,petromyzontidae
+animalia,chordata,cephalaspidomorphi,lampetra,Jawless Fishes,petromyzontiformes,petromyzontidae
+animalia,mollusca,cephalopoda,argonauta,Cephalopods,octopoda,argonautidae
+animalia,mollusca,cephalopoda,haliphron,Cephalopods,octopoda,alloposidae
+animalia,mollusca,cephalopoda,vitreledonella,Cephalopods,octopoda,vitreledonellidae
+animalia,mollusca,cephalopoda,abraliopsis,Cephalopods,teuthida,enoploteuthidae
+animalia,mollusca,cephalopoda,bathothauma,Cephalopods,teuthida,cranchiidae
+animalia,mollusca,cephalopoda,berryteuthis,Cephalopods,teuthida,gonatidae
+animalia,mollusca,cephalopoda,chiroteuthis,Cephalopods,teuthida,chiroteuthidae
+animalia,mollusca,cephalopoda,discoteuthis,Cephalopods,teuthida,cycloteuthidae
+animalia,mollusca,cephalopoda,egea,Cephalopods,teuthida,cranchiidae
+animalia,mollusca,cephalopoda,gonatus,Cephalopods,teuthida,gonatidae
+animalia,mollusca,cephalopoda,grimalditeuthis,Cephalopods,teuthida,chiroteuthidae
+animalia,mollusca,cephalopoda,liocranchia,Cephalopods,teuthida,cranchiidae
+animalia,mollusca,cephalopoda,pyroteuthis,Cephalopods,teuthida,pyroteuthidae
+animalia,chordata,elasmobranchii,galeocerdo,Sharks and Rays,carcharhiniformes,carcharhinidae
+animalia,chordata,elasmobranchii,prionace,Sharks and Rays,carcharhiniformes,carcharhinidae
+animalia,chordata,elasmobranchii,sphyrna,Sharks and Rays,carcharhiniformes,sphyrnidae
+animalia,chordata,elasmobranchii,hexanchus,Sharks and Rays,hexanchiformes,hexanchidae
+animalia,chordata,elasmobranchii,alopias,Sharks and Rays,lamniformes,alopiidae
+animalia,chordata,elasmobranchii,carcharodon,Sharks and Rays,lamniformes,lamnidae
+animalia,chordata,elasmobranchii,cetorhinus,Sharks and Rays,lamniformes,cetorhinidae
+animalia,chordata,elasmobranchii,isurus,Sharks and Rays,lamniformes,lamnidae
+animalia,chordata,elasmobranchii,pteroplatytrygon,Sharks and Rays,myliobatiformes,dasyatidae
+animalia,chordata,elasmobranchii,bathyraja,Sharks and Rays,rajiformes,arhynchobatidae
+animalia,chordata,elasmobranchii,raja,Sharks and Rays,rajiformes,rajidae
+animalia,chordata,elasmobranchii,squatina,Sharks and Rays,squatiniformes,squatinidae
+animalia,chordata,elasmobranchii,discopyge,Sharks and Rays,torpediniformes,narcinidae
+animalia,chordata,holocephali,callorhinchus,Sharks and Rays,chimaeriformes,callorhinchidae
+animalia,echinodermata,holothuroidea,apostichopus,Sea Cucumbers,aspidochirotida,stichopodidae
+animalia,echinodermata,holothuroidea,parastichopus,Sea Cucumbers,aspidochirotida,stichopodidae
+plantae,NA,magnoliopsida,phyllospadix,Sea Grasses,alismatales,zosteraceae
+plantae,NA,magnoliopsida,zostera,Sea Grasses,alismatales,zosteraceae
+animalia,arthropoda,malacostraca,polycheles,Crustaceans,decapoda,polychelidae
+animalia,chordata,mammalia,callorhinus,Sea Mammals,carnivora,otariidae
+animalia,chordata,mammalia,eumetopias,Sea Mammals,carnivora,otariidae
+animalia,chordata,mammalia,lontra,Sea Mammals,carnivora,mustelidae
+animalia,chordata,mammalia,mirounga,Sea Mammals,carnivora,phocidae
+animalia,chordata,mammalia,phoca,Sea Mammals,carnivora,phocidae
+animalia,chordata,mammalia,zalophus,Sea Mammals,carnivora,otariidae
+animalia,chordata,mammalia,balaenoptera,Sea Mammals,cetacea,balaenopteridae
+animalia,chordata,mammalia,berardius,Sea Mammals,cetacea,hyperoodontidae
+animalia,chordata,mammalia,berardius,Sea Mammals,cetacea,ziphiidae
+animalia,chordata,mammalia,delphinus,Sea Mammals,cetacea,delphinidae
+animalia,chordata,mammalia,eschrichtius,Sea Mammals,cetacea,eschrichtiidae
+animalia,chordata,mammalia,globicephala,Sea Mammals,cetacea,delphinidae
+animalia,chordata,mammalia,grampus,Sea Mammals,cetacea,delphinidae
+animalia,chordata,mammalia,kogia,Sea Mammals,cetacea,kogiidae
+animalia,chordata,mammalia,lagenorhynchus,Sea Mammals,cetacea,delphinidae
+animalia,chordata,mammalia,megaptera,Sea Mammals,cetacea,balaenopteridae
+animalia,chordata,mammalia,phocoena,Sea Mammals,cetacea,phocoenidae
+animalia,chordata,mammalia,phocoenoides,Sea Mammals,cetacea,phocoenidae
+animalia,chordata,mammalia,physeter,Sea Mammals,cetacea,physeteridae
+animalia,chordata,mammalia,pseudorca,Sea Mammals,cetacea,delphinidae
+animalia,chordata,mammalia,stenella,Sea Mammals,cetacea,delphinidae
+animalia,chordata,mammalia,ziphius,Sea Mammals,cetacea,hyperoodontidae
+animalia,chordata,mammalia,ziphius,Sea Mammals,cetacea,ziphiidae
+animalia,chordata,reptilia,chelonia,Sea Turtles,testudines,cheloniidae
+animalia,chordata,reptilia,dermochelys,Sea Turtles,testudines,dermochelyidae
+animalia,chordata,reptilia,eretmochelys,Sea Turtles,testudines,cheloniidae

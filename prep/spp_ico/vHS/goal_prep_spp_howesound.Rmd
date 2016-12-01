@@ -31,8 +31,7 @@ dir_anx_global <- file.path(dir_M, 'git-annex/globalprep/spp_ico')
 
 source(file.path(dir_git, 'src/R/map_scores.R'))
 
-library(provRmd)
-prov_setup()
+library(provRmd); prov_setup()
 
 source(file.path(dir_goal, 'spp_fxn.R'))
 
@@ -177,7 +176,7 @@ iucn_spp <- read_csv(file.path(dir_goal, 'int', 'iucn_cells_hs_spp.csv')) %>%
   unique()
 
 spp_info_timeseries <- read_csv(file.path(dir_goal, '../v2016/int/spp_info_timeseries.csv')) %>%
-  filter(iucn_sid %in% iucn_spp | am_sid %in% am_spp) %>%
+  filter(iucn_sid %in% iucn_spp | am_sid %in% am_spp)
 
 spp_risk_ts <- spp_info_timeseries %>%
   select(pr_score, cat_ts_score, year) %>%
@@ -187,7 +186,8 @@ spp_risk_ts <- spp_info_timeseries %>%
 
 spp_status_ts <- spp_risk_ts %>%
   mutate(rgn_id = 1,
-         status = (.75 - mean_cat_ts)/.75)
+         status = (.75 - mean_cat_ts)/.75) %>%
+  filter(year >= max(year) - 10)
   
 spp_status_ts$trend <- spp_status_ts %>%
   do(trend = lm(status ~ year, data = .)$coefficients[2] * 5) %>%
@@ -195,7 +195,7 @@ spp_status_ts$trend <- spp_status_ts %>%
 
 write_csv(spp_status_ts, file.path(dir_goal, 'summary/spp_status_ts.csv'))
 
-DT::datatable(spp_status_ts %>% arrange(desc(year)), caption = 'Howe Sound species status and trend')
+knitr::kable(spp_status_ts %>% arrange(desc(year)), caption = 'Howe Sound species status and trend')
 
 ```
 
@@ -211,9 +211,20 @@ write_csv(spp_df %>%
 write_csv(spp_df %>%
             select(rgn_id, score = trend),
           file.path(dir_goal, 'output/spp_trend.csv'))
+
 ```
 
+### Category by taxonomic groups
+
 ``` {r plot_spp_by_cat}
+
+am_spp <- read_csv(file.path(dir_goal, 'int', 'am_cells_hs_spp.csv')) %>%
+  .$am_sid %>%
+  unique()
+
+iucn_spp <- read_csv(file.path(dir_goal, 'int', 'iucn_cells_hs_spp.csv')) %>%
+  .$iucn_sid %>%
+  unique()
 
 spp_info_timeseries <- read_csv(file.path(dir_goal, '../v2016/int/spp_info_timeseries.csv')) %>%
   filter(iucn_sid %in% iucn_spp | am_sid %in% am_spp) %>%
@@ -254,43 +265,38 @@ spp_table_labeled <- spp_table_info %>%
          cat_lab = ifelse(n_spp == last(n_spp), cat_lab, NA))
 
 ### get sciname lookup table to get class vs genus... 
-scinames <- read_csv(file.path(dir_goal, 'raw/scinames.csv')) %>%
-  filter(class != 'chondrichthyes') %>%
-  select(-order, -family) %>%
-  filter(!(genus %in% c('eremophila', 'rondeletia', 'arenaria') & class == 'magnoliopsida')) %>%
-  distinct()
-### some dupes still in here: all duplicated in class magnoliopsida
-### Eremophila is a bird
-### Rondeletia is a fish
-### Arenaria is a bird
+scinames <- read_csv(file.path(dir_goal, 'raw/scinames.csv'))
 
 spp_table_labeled <- spp_table_labeled %>%
   rowwise() %>%
   mutate(genus = tolower(str_split(sciname, ' ')[[1]][1])) %>%
   ungroup() %>%
   left_join(scinames, by = 'genus') %>%
-  group_by(class) %>%
-  mutate(proportion = 1/n())
+  # group_by(com_class) %>%
+  # mutate(proportion = 1/n()) %>%
+  ungroup()
 
-spp_plot <- ggplot(spp_table_labeled, aes(x = class, y = proportion, fill = spp_health)) +
+spp_plot <- ggplot(spp_table_labeled, aes(x = com_class, y = .1, fill = spp_health)) +
   ggtheme_plot + 
   theme(panel.grid = element_blank(),
         axis.title = element_blank(),
         axis.text.y  = element_blank(),
         axis.text.x = element_text(angle = 75, hjust = 1),
         legend.position = 'none') +
-  geom_bar(stat = 'identity', width = .9, color = 'grey20', size = .25) +
+  geom_bar(stat = 'identity', width = .9, color = 'grey80', size = .1) +
   # geom_text(aes(label = cat_lab, y = 0, nudge_y = .02), 
   #           size = 1.5,
   #           color = 'black',
   #           # angle = 90, 
   #           hjust = 0) +
-  scale_fill_gradient2(low = 'red4', mid = 'orange', high = 'green4', 
+  scale_fill_gradient2(low = '#F27259', mid = '#FFCF5C', high = '#1F9B90', 
                        midpoint = 0.5,
                        breaks = c(0, .2, .4, .6, .8, 1.0),
                        labels = c('EX', 'CR', 'EN', 'VU', 'NT', 'LC'))+
   # scale_y_continuous(limits = c(0, 3)) +
   labs(fill = 'Species health')
+
+print(spp_plot)
 
 ggsave(file.path(dir_goal, 'spp_plot.png'),
        width = 6, height = 9, units = 'cm')
