@@ -258,7 +258,7 @@ By this method, and per discussion with Andrew Day and Karin Bodtker, the refere
 
 # Note: Strait of Georgia sponge reefs not in main EBSA polygons; use
 # sponge reef closures layer to capture these.  
-poly_closure_file <- file.path(dir_anx, '_raw_data/dfo_khunter',
+poly_closure_file <- file.path(dir_anx, '_raw_data/dfo_khunter/d2016',
                               'management_boundaries/mgmt_related_boundaries',
                               'Strait_of_Georgia_Sponge_Reef_Fishing_Closures.shp')
 rast_closure_file <- file.path(dir_goal, 'raster/howe_sponge_closures_30m.tif')
@@ -344,32 +344,60 @@ print(sponge_prot_map)
 
 Soft bottom habitat will be treated differently from sponges, as soft-bottom sediment is able to recover more quickly from trawling than sponges and other structure-forming habitats.  
 
-``` {r get_softbottom_raster}
+``` {r create_soft_bottom_raster, echo = FALSE}
+rast_soft_btm_file <- file.path(dir_goal_anx, 'raster/hs_soft_btm_30m.tif')
 
-soft_btm_rast_file <- file.path(dir_goal, 'raster', 'chi_soft_bottom.tif')
+if(!file.exists(rast_soft_btm_file)) {
 
-if(!file.exists(soft_btm_rast_file)) {
+  message('Loading benthic type layer')
+  poly_benthic_bcmca_file <- file.path(file.path(dir_anx, '_raw_data', 'bcmca/d2015',
+                                  'bcmca_eco_set_physical_complete/FeatureData_Physical'),
+                                'BCMCA_ECO_Physical_BenthicClasses_DATA.shp')
+  
   rast_base <- file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif') %>%
     raster() %>%
     crop(ext_howe)
   res(rast_base) <- 30
+
+  # rast_benthic_raw <- gdal_rast2(src = poly_benthic_bcmca_file, 
+  #                             rast_base = rast_base,
+  #                             dst = file.path(dir_goal_anx, 'raster/hs_benthic_raw_30m.tif'),
+  #                             override_p4s = TRUE)
   
-  soft_btm_rast <- raster(file.path(dir_M, 'model/GL-NCEAS-Habitats_v2013a/data/soft_bottom_mol.tif'))
-  soft_btm_rast_bcalb <- projectRaster(soft_btm_rast, 
-                                       rast_base)
+          
+  ### process raw benthic Marxan_ID values based on:
+  #     * 1000's = depth              * 10's = substrate          * 1's = BPI
+  #         * 1000 <- 0 - 20 m            * 10 <- mud  (HARD?)        * 1 <- ridge
+  #         * 2000 <- 20 - 50 m           * 20 <- sand                * 2 <- depression
+  #         * 3000 <- 50 - 200 m          * 30 <- hard (MUD?)         * 3 <- flat
+  #         * 4000 <- 200 m +             * 90 <- unknown             * 4 <- slope
+  # NOTE THAT THE SUBSTRATE VALUES MISMATCH IN THE BCMCA METADATA... VALUES IN PARENS SEEM MORE LIKELY
   
-  soft_btm_rast_bcalb <- soft_btm_rast_bcalb/soft_btm_rast_bcalb ### all values = 1
+  rast_benthic_raw <- raster(file.path(dir_goal_anx, 'raster/hs_benthic_raw_30m.tif'))
+  rast_soft_btm <- rast_benthic_raw - round(rast_benthic_raw, -3)
+  rast_soft_btm <- round(rast_soft_btm/10) 
+        
+  ### Filter the benthic type layer to appropriate soft bottom cells
+  # values(rast_soft_btm)[!values(rast_soft_btm) %in% c(1, 2)] <- NA ### benthic type 1 and 2 are mud and sand substrate; 3 is hard, 9 is unknown WRONG!!!?
+  values(rast_soft_btm)[!values(rast_soft_btm) %in% c(2, 3)] <- NA ### benthic type 2 and 3 are sand and mud substrate; 1 is hard, 9 is unknown
   
-  writeRaster(soft_btm_rast_bcalb, soft_btm_rast_file, overwrite = TRUE)
+  ### Intersect with 3 nm offshore raster (entire Howe Sound zone)
+  rast_3nm <- raster(file.path(dir_goal_anx, 'raster/howe_rgn_30m.tif')) %>%
+    projectRaster(rast_soft_btm, method = 'ngb') ### not the same origin, so shift it
   
+  rast_soft_btm <- (rast_soft_btm/rast_soft_btm) * rast_3nm ### convert all soft-btm values to 1, then mask by multiplying by rast_3nm
+
+  writeRaster(rast_soft_btm, rast_soft_btm_file, overwrite = TRUE)
+    
+} else {
+  message('Soft bottom raster already exists at: \n  ', rast_soft_btm_file)
 }
 
 ```
 
 ``` {r crosstab_soft_bottom_habs_to_trawl_pressure}
 
-sb_rast <- raster(file.path(dir_goal, 'raster', 'chi_soft_bottom.tif'))
-sb_rast <- sb_rast * hs_rast ### crop to Howe Sound 3nm offshore boundary
+sb_rast <- raster(file.path(dir_goal_anx, 'raster/hs_soft_btm_30m.tif'))
 
 trawl_rast_files <- list.files(file.path(dir_goal_anx, '../v2016/tif'),
                              pattern = 'shrimp_trawl', full.names = TRUE)

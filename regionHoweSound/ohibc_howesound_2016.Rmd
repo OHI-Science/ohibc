@@ -1,5 +1,5 @@
 ---
-title: 'OHIBC: data_prep_spp.Rmd'
+title: 'OHIBC: Howe Sound summary'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -42,8 +42,6 @@ source(file.path(dir_git, 'src/R/rast_tools.R'))
 p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 
 ```
-
-[REFERENCE RMD FILE: https://cdn.rawgit.com/OHI-Science/ohiprep/master/globalprep/prs_oa/v2016/oa_dataprep.html]
 
 # Summary
 
@@ -120,14 +118,15 @@ scores_print <- scores %>%
 
 ``` {r create_flower_plot}
 
-layers <- read_csv(file.path(dir_scenario, 'layers.csv'))
+layers <- read_csv(file.path(dir_scenario, 'layers.csv')) %>%
+  filter(layer_include)
 
 status_df <- read_csv(file.path(dir_scenario, 'scores.csv')) %>%
   filter(is.na(year) | year == 2016) %>%
   filter(dimension == 'status') %>%
   select(-year, -rgn_id) %>%
   distinct() %>%
-  left_join(layers %>% select(goal, weight), by = 'goal')
+  inner_join(layers %>% select(goal, weight), by = 'goal')
 
 # PlotFlower = function (lengths, widths, labels, disk=0.5, max.length,
 #                   center=NULL, main=NULL, fill.col=NULL, plot.outline=TRUE,
@@ -143,7 +142,7 @@ plot_flower(status_df,
             filename    = file.path(dir_scenario, 'howe_sound_flower.png'),
             center_text = NULL, ### pass it a number or label; default is blank
             incl_center_score = TRUE, ### overridden if center_text != NULL
-            incl_goal_labels  = TRUE, ### show goal labels? FALSE hides the goal labels
+            incl_goal_labels  = FALSE, ### show goal labels? FALSE hides the goal labels
             incl_legend = TRUE, ### show the legend? FALSE hides the legend
             show_plot   = TRUE)
 
@@ -175,6 +174,41 @@ plot_flower_diff(diff_df,
                  incl_goal_labels = TRUE, ### show goal labels? FALSE hides the goal labels
                  incl_legend = TRUE, ### show the legend? FALSE hides the legend
                  show_plot   = TRUE)
+
+```
+
+``` {r create_flower_plot_canada}
+
+layers <- data.frame(goal   = c( 'AO',  'BD', 'HAB', 'SPP',  'CP',  'CS',  'CW',  'FP', 'FIS',  'MAR',  'LE', 'LIV', 'ECO',  'NP',  'SP', 'ICO',  'LSP',  'TR'),
+                     weight = c(   1,     0,   0.5,   0.5,     1,     1,     1,     0,   0.5,    0.5,     0,   0.5,   0.5,     1,     0,   0.5,    0.5,     1))
+
+status_df <- read_csv('~/github/ohi-global/eez2016/scores.csv') %>%
+  filter(region_id == 218) %>%
+  filter(dimension == 'status') %>%
+  select(-region_id) %>%
+  distinct() %>%
+  left_join(layers %>% select(goal, weight), by = 'goal') %>%
+  mutate(goal = factor(goal, levels = layers$goal)) %>%
+  arrange(goal)
+
+# PlotFlower = function (lengths, widths, labels, disk=0.5, max.length,
+#                   center=NULL, main=NULL, fill.col=NULL, plot.outline=TRUE,
+#                   label.offset=0.15, xlim=c(-1.2, 1.2), ylim=c(-1.2, 1.2), uin=NULL,
+#                   tol=0.04, cex=1, bty="n", lty=1, 
+#                   label.col='black', label.font=3, label.cex=NULL, ...)
+# ohicore::PlotFlower(lengths = status_df$score, widths = status_df$weight, labels = status_df$goal, max.length = 1, plot.outline=TRUE)
+
+source(file.path(dir_scenario, 'plot_flower.R'))
+plot_flower(status_df,
+            score_ref   = 100,    ### scale from 0-1 or 0-100? default is 0-100
+            outline     = TRUE,   ### show the outer borders; default is yes indeedy
+            filename    = file.path(dir_scenario, 'canada_flower.png'),
+            center_text = NULL, ### pass it a number or label; default is blank
+            incl_center_score = TRUE, ### overridden if center_text != NULL
+            incl_goal_labels  = TRUE, ### show goal labels? FALSE hides the goal labels
+            incl_legend = TRUE, ### show the legend? FALSE hides the legend
+            show_plot   = TRUE)
+
 
 ```
 

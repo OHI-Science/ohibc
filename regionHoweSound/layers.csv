@@ -7,5 +7,5 @@ lsp,~/github/ohibc/prep,lsp,vHS,lsp_status.csv,lsp_status,lsp_trend.csv,lsp_tren
 ico,~/github/ohibc/prep,spp_ico,vHS,ico_status.csv,score,ico_trend.csv,score,0.5,TRUE,1
 fis,~/github/ohibc/prep,fis,vHS,fis_scores.csv,status,fis_scores.csv,trend,1,TRUE,1
 mar,~/github/ohibc/prep,mar,vHS,mar_scores.csv,status,mar_scores.csv,trend,0,FALSE,1
-liv,~/github/ohibc/prep,liv,vHS,liv_status.csv,score,liv_trend.csv,score,.5,TRUE,1
-eco,~/github/ohibc/prep,eco,vHS,eco_status.csv,score,eco_trend.csv,score,.5,TRUE,1
+liv,~/github/ohibc/prep,liv,vHS,liv_status.csv,score,liv_trend.csv,score,.5,FALSE,1
+eco,~/github/ohibc/prep,eco,vHS,eco_status.csv,score,eco_trend.csv,score,.5,FALSE,1

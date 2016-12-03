@@ -8,12 +8,19 @@ plot_flower <- function(score_df,
                         incl_legend = TRUE, ### show the legend? FALSE hides the legend
                         show_plot   = TRUE) {
 
+
+  goal_names <- read_csv('regionHoweSound/goal_names.csv')
   ### set up positions for the bar centers:
   ### cumulative sum of weights (incl current) minus half the current weight
   score_df <- score_df %>%
     mutate(score   = score * 100/score_ref,   ### if 0-1, turn into 0-100; otherwise leave as is
            pos     = cumsum(weight) - 0.5 * weight,
-           pos_end = last(pos) + 0.5 * last(weight))
+           pos_end = last(pos) + 0.5 * last(weight),
+           goal    = toupper(goal)) %>%
+    filter(weight != 0) %>%
+    left_join(goal_names, by = 'goal') %>%
+    mutate(goal_names = ifelse(is.na(goal_name), goal, goal_name),
+           goal_label = paste(goal_name, round(score), sep = '\n'))
 
   score_df_na <- score_df %>%
     mutate(score = ifelse(is.na(score), 100, NA))
@@ -43,10 +50,12 @@ plot_flower <- function(score_df,
       geom_bar(aes(y = 100),
                stat = 'identity', color = light_line, fill = white_fill, size = .2) +
       geom_errorbar(aes(x = pos, ymin = 100, ymax = 100, width = weight),
-                    size = 0.5, color = light_line, show.legend = NA) +
+                    size = 0.5, color = light_line, show.legend = NA)
       ### lays any NA bars on top of background, with darker grey:
-      geom_bar(data = score_df_na, aes(x = pos, y = score),
-               stat = 'identity', color = light_line, fill = light_fill, size = .2)
+    if(any(!is.na(score_df_na$score)))
+      plot_obj <- plot_obj +
+        geom_bar(data = score_df_na, aes(x = pos, y = score),
+                 stat = 'identity', color = light_line, fill = light_fill, size = .2)
   }
 
   ### establish the basics of the flower plot...
@@ -61,8 +70,14 @@ plot_flower <- function(score_df,
     ### turns linear bar chart into polar coordinates:
       coord_polar(start = - score_df$pos[1]/score_df$pos_end[1] * 2 * pi) +
     ### sets petal colors to the red-yellow-blue color scale:
-      scale_fill_gradientn(colors = brewer.pal(n = 11, name = 'RdYlBu'), limits = c(0, 100),
-                           breaks = seq(0, 100, 20), labels = seq(0, 100, 20)) +
+      scale_fill_gradientn(colors = brewer.pal(n = 11, name = 'RdYlBu'),
+                           limits = c(0, 100),
+                           breaks = seq(0, 100, 20),
+                           labels = seq(0, 100, 20)) +
+      # scale_fill_gradientn(colours = c('#F27259', '#FFCF5C', '#686FB2'), # med blue: #70B8E2, Dark Blue: #455A66 or #686FB2
+      #                      limits = c(0, 100),
+      #                      breaks = seq(0, 100, 20),
+      #                      labels = seq(0, 100, 20)) +
     ### uses weights to assign widths to petals:
       scale_x_continuous(labels = p_labels, breaks = p_breaks, limits = p_limits) +
     ### setting the limits to a negative leaves an open hole in the middle (bars go from zero outward)

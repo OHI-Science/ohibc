@@ -52,17 +52,18 @@ p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 Pull data layers to calculate Howe Sound Habitats goal
 
 - Seagrass
-    - nutrient pressure
+    - excluded from analysis: nutrient pressure insignificant; no model yet for log booms/development/sedimentation pressure
 - Saltmarsh
     - land use change
-- Coastal forests(?)
-    - land use change
+- Coastal forests
+    - excluded from analysis: does not directly support marine biodiversity
 - Soft bottom
     - trawl pressure
-- EBSAs? none in Howe Sound
+- EBSAs? 
+    - excluded from analysis: none present in Howe Sound
 - Howe Sound-specific sponges
-    - trawl pressure?
-    - protection by closures?
+    - protection by closures, reference point 100% protected
+    - alternative model based on trawl pressure
 
 # Data Sources
 
@@ -110,7 +111,7 @@ Since seagrass condition is based on pressure rather than area, the model is dif
 
 $$\frac{C_{sg}}{C_{sg_{ref}}} = \displaystyle\sum_{j=1}^{n_c}((1 - p_j) * A_j) / A_{total}$$
 
-where $p$ represents the nutrient pressure (compared to a reference of zero human-introduced nutrients).  Using an equal area projection raster and a fixed habitat extent, we can calculate this more simply by $$1 - \bar{p}$$.
+where $p$ represents the nutrient pressure (compared to a reference of zero human-introduced nutrients).  Using an equal area projection raster and a fixed habitat extent, we can calculate this more simply by $1 - \bar{p}$.  Seagrasses are currently excluded from analysis as model does not currently account for large concerns including log booms.
 
 ## Soft-Bottom Sediment
 
@@ -156,15 +157,15 @@ hab_sm$trend <- lm(formula = c_cref ~ status_yr,
                      filter(status_yr > 1990))[['coefficients']]['status_yr']
   ### trend is in absolute change per year
 
-hab_sg <- read_csv(file.path(dir_goal, 'int/howe_seagrass_status_trend.csv')) %>%
-  select(status_yr = year, area_km2 = sg_area_km2, pres_mean_sg) %>%
-  arrange(status_yr) %>%
-  mutate(hab = 'sg',
-         c_cref = 1 - pres_mean_sg) %>%
-  select(-pres_mean_sg)
-hab_sg$trend <- lm(formula = c_cref ~ status_yr, 
-                   data = hab_sg %>% 
-                     filter(status_yr %in% c(2003:2013)))[['coefficients']]['status_yr']
+# hab_sg <- read_csv(file.path(dir_goal, 'int/howe_seagrass_status_trend.csv')) %>%
+#   select(status_yr = year, area_km2 = sg_area_km2, pres_mean_sg) %>%
+#   arrange(status_yr) %>%
+#   mutate(hab = 'sg',
+#          c_cref = 1 - pres_mean_sg) %>%
+#   select(-pres_mean_sg)
+# hab_sg$trend <- lm(formula = c_cref ~ status_yr, 
+#                    data = hab_sg %>% 
+#                      filter(status_yr %in% c(2003:2013)))[['coefficients']]['status_yr']
   ### trend is in absolute change per year
 
 hab_sp <- read_csv(file.path(dir_goal, 'int/sponge_closure_summary.csv')) %>%
@@ -181,7 +182,7 @@ hab_sb <- read_csv(file.path(dir_goal, 'int/soft_btm_trawl_summary.csv')) %>%
 
 hab_scores <- hab_cf %>%
   bind_rows(hab_sm) %>%
-  bind_rows(hab_sg) %>%
+  # bind_rows(hab_sg) %>%
   bind_rows(hab_sb) %>%
   bind_rows(hab_sp)
   
