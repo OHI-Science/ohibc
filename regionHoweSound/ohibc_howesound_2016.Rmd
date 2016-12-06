@@ -122,11 +122,20 @@ layers <- read_csv(file.path(dir_scenario, 'layers.csv')) %>%
   filter(layer_include)
 
 status_df <- read_csv(file.path(dir_scenario, 'scores.csv')) %>%
+  mutate(score = score * 100) %>%
   filter(is.na(year) | year == 2016) %>%
   filter(dimension == 'status') %>%
   select(-year, -rgn_id) %>%
   distinct() %>%
   inner_join(layers %>% select(goal, weight), by = 'goal')
+
+
+goal_labels <- status_df %>%
+  left_join(read_csv(file.path(dir_scenario, 'goal_names.csv')),
+            by = 'goal') %>%
+  mutate(goal_label = str_replace(goal_label, ' ', '\n'),
+         goal_label = paste(goal_label, round(score), sep = '\n')) %>%
+  select(goal, goal_label)
 
 # PlotFlower = function (lengths, widths, labels, disk=0.5, max.length,
 #                   center=NULL, main=NULL, fill.col=NULL, plot.outline=TRUE,
@@ -137,12 +146,12 @@ status_df <- read_csv(file.path(dir_scenario, 'scores.csv')) %>%
 
 source(file.path(dir_scenario, 'plot_flower.R'))
 plot_flower(status_df,
-            score_ref   = 1,    ### scale from 0-1 or 0-100? default is 0-100
+            # score_ref   = 1,    ### scale from 0-1 or 0-100? default is 0-100
             outline     = TRUE,   ### show the outer borders; default is yes indeedy
             filename    = file.path(dir_scenario, 'howe_sound_flower.png'),
             center_text = NULL, ### pass it a number or label; default is blank
-            incl_center_score = TRUE, ### overridden if center_text != NULL
-            incl_goal_labels  = FALSE, ### show goal labels? FALSE hides the goal labels
+            center_score = TRUE, ### overridden if center_text != NULL
+            goal_labels = goal_labels, ### show goal labels? a df swaps in new labels
             incl_legend = TRUE, ### show the legend? FALSE hides the legend
             show_plot   = TRUE)
 

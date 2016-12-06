@@ -2,25 +2,28 @@ plot_flower <- function(score_df,
                         score_ref   = 100,    ### scale from 0-1 or 0-100? default is 0-100
                         outline     = TRUE,   ### show the outer borders; default is yes indeedy
                         filename    = NULL,   ### give it a file name to save the plot; default is no save
-                        center_text = NULL, ### pass it a number or label; default is blank
-                        incl_center_score = TRUE, ### overridden if center_text != NULL
-                        incl_goal_labels = TRUE, ### show goal labels? FALSE hides the goal labels
-                        incl_legend = TRUE, ### show the legend? FALSE hides the legend
+                        center_text = NULL,   ### pass it a number or label; default is blank
+                        center_score = TRUE,  ### overridden if center_text != NULL
+                        goal_labels = TRUE,   ### show goal labels? TRUE goes with generics; FALSE hides the goal labels;
+                          ### a data frame with cols 'goal' and 'goal_label' will replace generic goal labels
+                        incl_legend = TRUE,   ### show the legend? FALSE hides the legend
                         show_plot   = TRUE) {
 
-
-  goal_names <- read_csv('regionHoweSound/goal_names.csv')
   ### set up positions for the bar centers:
   ### cumulative sum of weights (incl current) minus half the current weight
   score_df <- score_df %>%
     mutate(score   = score * 100/score_ref,   ### if 0-1, turn into 0-100; otherwise leave as is
            pos     = cumsum(weight) - 0.5 * weight,
-           pos_end = last(pos) + 0.5 * last(weight),
-           goal    = toupper(goal)) %>%
-    filter(weight != 0) %>%
-    left_join(goal_names, by = 'goal') %>%
-    mutate(goal_names = ifelse(is.na(goal_name), goal, goal_name),
-           goal_label = paste(goal_name, round(score), sep = '\n'))
+           pos_end = last(pos) + 0.5 * last(weight)) %>%
+    filter(weight != 0)
+
+  if(is.data.frame(goal_labels)) {
+    message('appending goal labels')
+    score_df <- left_join(score_df, goal_labels, by = 'goal')
+  } else {
+    score_df <- score_df %>%
+      mutate(goal_labels = goal)
+  }
 
   score_df_na <- score_df %>%
     mutate(score = ifelse(is.na(score), 100, NA))
@@ -80,22 +83,26 @@ plot_flower <- function(score_df,
       #                      labels = seq(0, 100, 20)) +
     ### uses weights to assign widths to petals:
       scale_x_continuous(labels = p_labels, breaks = p_breaks, limits = p_limits) +
-    ### setting the limits to a negative leaves an open hole in the middle (bars go from zero outward)
-    ### if including goal labels, extend outer limits to make room for them.
-      scale_y_continuous(limits = c(-blank_circle_dia, ifelse(incl_goal_labels, 150, 100)))
-
+      scale_y_continuous(limits = c(-blank_circle_dia,
+                                    ifelse(first(goal_labels == TRUE) | is.data.frame(goal_labels), 150, 100)))
 
   ### fill the center?
   ###   if center text is available use it; if not, see if center_score is desired
   if(!is.null(center_text)) {
     plot_obj <- plot_obj +
-      geom_text(aes(label = center_text), x = 0, y = -blank_circle_dia,
+      geom_text(aes(label = center_text),
+                x = 0, y = -blank_circle_dia,
                 hjust = .5, vjust = .5,
+                size = 8,
+                fontface = 'bold.italic',
                 color = dark_line)
-  } else if(incl_center_score) {
+  } else if(center_score) {
     plot_obj <- plot_obj +
-      geom_text(aes(label = p_score), x = 0, y = -blank_circle_dia,
+      geom_text(aes(label = p_score),
+                x = 0, y = -blank_circle_dia,
                 hjust = .5, vjust = .5,
+                size = 15,
+                fontface = 'italic',
                 color = dark_line)
   }
 
@@ -109,14 +116,12 @@ plot_flower <- function(score_df,
 
 
   ### include or exclude goal labels; dynamic if no border
-  if(incl_goal_labels) {
+  if(first(goal_labels == TRUE) | is.data.frame(goal_labels)) {
     ### if no outline, labels go near bars; otherwise place near outer edge
-    goal_labels <- score_df %>%
-      mutate(goal_label_y = ifelse(outline, 150, max_score + 50))
     plot_obj <- plot_obj +
-      geom_text(data = goal_labels,
-                aes(label = goal, x = pos, y = goal_label_y),
+      geom_text(aes(label = goal_label, x = pos, y = 140),
                 hjust = .5, vjust = .5,
+                fontface = 'italic',
                 color = dark_line)
   }
 
@@ -134,7 +139,7 @@ plot_flower <- function(score_df,
 
   if(!is.null(filename)) {
     ggsave(filename = filename,
-           height = 6, width = 8, units = 'cm',
+           height = 6, width = 8, units = 'in', dpi = 100,
            plot = plot_obj)
   }
 
