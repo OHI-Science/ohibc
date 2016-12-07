@@ -183,8 +183,24 @@ ico_list <- read_csv(file.path(dir_goal, 'int', 'ico_list_scinames.csv'))
 
 ico_info_timeseries <- read_csv(file.path(dir_goal, 'int/spp_info_timeseries.csv')) %>%
   # select(am_sid, iucn_sid, sciname, cat_score, pr_score, trend_score, cat_ts, cat_txt, cat_ts_score, year, comname) %>%
-  inner_join(ico_list, by = 'sciname') %>%
-  bind_rows(read_csv(file.path(dir_goal, 'raw/ico_info_hs_specific.csv'))) %>%
+  inner_join(ico_list, by = 'sciname') 
+
+### I think there's an easier way to do this using fill() and complete()...
+### but it's not coming to me right now.
+### 1. set up a list of years to add
+assess_years <- ico_info_timeseries$year %>% unique() %>% sort()
+ico_info_local <- read_csv(file.path(dir_goal, 'raw/ico_info_hs_specific.csv'))
+n_spp <- nrow(ico_info_local)
+
+### repeat each line of the dataframe for the total number of years
+ico_info_local <- ico_info_local[rep(seq_len(nrow(ico_info_local)), each = length(assess_years)), ]
+ico_info_local$year <- rep(assess_years, times = n_spp)
+
+### now stick it onto the bottom of ico_info_timeseries
+
+ico_info_timeseries <- ico_info_timeseries %>%
+  filter(!str_detect(sciname, 'Orcinus orca')) %>% ### ditch the old Orca lines
+  bind_rows(ico_info_local) %>%
   filter(!is.na(year))
 
 ### ico_list %>% filter(!sciname %in% ico_info_timeseries$sciname)
@@ -219,7 +235,7 @@ knitr::kable(ico_status_ts %>% arrange(desc(year)),
 ico_info_timeseries <- read_csv(file.path(dir_goal, 'int/ico_info_timeseries.csv'))
 
 ico_table_info <- ico_info_timeseries %>%
-  group_by(sciname) %>%
+  group_by(iucn_sid) %>%
   filter(comname == last(comname)) %>%
   arrange(year) %>%
   filter(year == last(year)) %>%

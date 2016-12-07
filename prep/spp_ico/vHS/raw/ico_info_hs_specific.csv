@@ -1,2 +1,4 @@
 am_sid,sciname,comname,iucn_sid,cat_score,pr_score,year
 NA,Branta canadensis,Canada goose,22679935,0,0,2016
+ITS-Mam-180469t,Orcinus orca,"Killer Whale, transient",10015421,0.6,0.6,2016
+ITS-Mam-180469r,Orcinus orca,"Killer Whale, southern resident",20015421,0.8,0.8,2016
