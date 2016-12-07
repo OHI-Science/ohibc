@@ -6,7 +6,7 @@ plot_flower <- function(score_df,
                         center_score = TRUE,  ### overridden if center_text != NULL
                         goal_labels = TRUE,   ### show goal labels? TRUE goes with generics; FALSE hides the goal labels;
                           ### a data frame with cols 'goal' and 'goal_label' will replace generic goal labels
-                        incl_legend = TRUE,   ### show the legend? FALSE hides the legend
+                        incl_legend = FALSE,   ### show the legend? FALSE hides the legend
                         show_plot   = TRUE) {
 
   ### set up positions for the bar centers:
@@ -34,7 +34,7 @@ plot_flower <- function(score_df,
   p_score  <- round(weighted.mean(score_df$score, score_df$weight, na.rm = TRUE), 0)
 
   ### some parameters for the plot:
-  blank_circle_dia <- 100
+  blank_circle_rad <- 42
   light_line <- 'grey90'
   white_fill <- 'white'
   light_fill <- 'grey80'
@@ -83,7 +83,7 @@ plot_flower <- function(score_df,
       #                      labels = seq(0, 100, 20)) +
     ### uses weights to assign widths to petals:
       scale_x_continuous(labels = p_labels, breaks = p_breaks, limits = p_limits) +
-      scale_y_continuous(limits = c(-blank_circle_dia,
+      scale_y_continuous(limits = c(-blank_circle_rad,
                                     ifelse(first(goal_labels == TRUE) | is.data.frame(goal_labels), 150, 100)))
 
   ### fill the center?
@@ -91,7 +91,7 @@ plot_flower <- function(score_df,
   if(!is.null(center_text)) {
     plot_obj <- plot_obj +
       geom_text(aes(label = center_text),
-                x = 0, y = -blank_circle_dia,
+                x = 0, y = -blank_circle_rad,
                 hjust = .5, vjust = .5,
                 size = 8,
                 fontface = 'bold.italic',
@@ -99,10 +99,10 @@ plot_flower <- function(score_df,
   } else if(center_score) {
     plot_obj <- plot_obj +
       geom_text(aes(label = p_score),
-                x = 0, y = -blank_circle_dia,
+                x = 0, y = -blank_circle_rad,
                 hjust = .5, vjust = .5,
-                size = 15,
-                fontface = 'italic',
+                size = 12,
+                # fontface = 'italic',
                 color = dark_line)
   }
 
@@ -119,7 +119,7 @@ plot_flower <- function(score_df,
   if(first(goal_labels == TRUE) | is.data.frame(goal_labels)) {
     ### if no outline, labels go near bars; otherwise place near outer edge
     plot_obj <- plot_obj +
-      geom_text(aes(label = goal_label, x = pos, y = 140),
+      geom_text(aes(label = goal_label, x = pos, y = 130),
                 hjust = .5, vjust = .5,
                 fontface = 'italic',
                 color = dark_line)

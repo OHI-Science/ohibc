@@ -145,15 +145,27 @@ goal_labels <- status_df %>%
 # ohicore::PlotFlower(lengths = status_df$score, widths = status_df$weight, labels = status_df$goal, max.length = 1, plot.outline=TRUE)
 
 source(file.path(dir_scenario, 'plot_flower.R'))
-plot_flower(status_df,
-            # score_ref   = 1,    ### scale from 0-1 or 0-100? default is 0-100
-            outline     = TRUE,   ### show the outer borders; default is yes indeedy
-            filename    = file.path(dir_scenario, 'howe_sound_flower.png'),
-            center_text = NULL, ### pass it a number or label; default is blank
-            center_score = TRUE, ### overridden if center_text != NULL
-            goal_labels = goal_labels, ### show goal labels? a df swaps in new labels
-            incl_legend = TRUE, ### show the legend? FALSE hides the legend
-            show_plot   = TRUE)
+plot_obj <- plot_flower(status_df,
+              filename    = file.path(dir_scenario, 'howe_sound_flower_legend.png'),
+              goal_labels = goal_labels, ### show goal labels? a df swaps in new labels
+              incl_legend = TRUE) ### show the legend? FALSE hides the legend
+
+# plot_obj <- plot_obj +
+#   labs(title = 'Flower plot title',
+#        fill  = 'Score values') +
+#   theme(title = element_text(size = 15, 
+#                              color = 'darkred', 
+#                              family = 'Garamond', 
+#                              hjust = 0.5),
+#         legend.title = element_text(size = 12,
+#                                     color = 'darkblue',
+#                                     face = 'bold.italic'),
+#         legend.text = element_text(size = 12,
+#                                    color = 'grey40',
+#                                    family = 'Helvetica'))
+# ggsave(filename = file.path(dir_scenario, 'howe_sound_flower_mod.png'),
+#        height = 6, width = 8, units = 'in', dpi = 100,
+#        plot = plot_obj)
 
 
 ```
