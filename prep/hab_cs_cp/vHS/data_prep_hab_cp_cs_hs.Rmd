@@ -141,11 +141,11 @@ Crop region rasters (at 500 m resolution) to Howe Sound extents, then use these 
 
 Create rasters at 500 m resolution for inland (2 km buffer) and offshore (3 nm buffer, which effectively captures all of Howe Sound).  These rasters will be used to mask analysis areas.
 
-``` {r prep region rasters}
+``` {r prep_region_rasters}
 
 ### Use one of the land-use rasters as the base, crop it down to the Howe Sound extents.
 
-rast_base <- raster(file.path(dir_v2016_anx, 'raster/land_cover_1990_30m_crop.tif')) %>%
+rast_base <- raster(file.path(dir_v2016_anx, 'raster/land_cover_1990_30m.tif')) %>%
   crop(ext_howe)
 res(rast_base) <- 30
 
@@ -164,7 +164,6 @@ rast_watershed <- gdal_rast2(src = file.path(dir_spatial, 'watershed/howe_sound_
                                  dst = file.path(dir_goal_anx, 'raster/howe_sound_watershed_30m.tif'),
                                  # value = 'WATERSHED_',
                                  override_p4s = TRUE)
-
 rast_offshore <- gdal_rast2(src = file.path(dir_spatial, layer = 'howe_sound_offshore_3nm'),
                                  rast_base = rast_base,
                                  dst = file.path(dir_goal_anx, 'raster/howe_offshore_3nm_30m.tif'),
@@ -281,6 +280,50 @@ if(!file.exists(expos_rast_file)) {
 }
 ```
 
+## Prep Howe Sound land use rasters
+
+Because the land use rasters are not capturing the saltmarsh/wetland area of the Squamish estuary (instead, misclassifying these areas as forest or tree coverage), we will repair those for this analysis.  
+
+* We will capture Howe Sound-specific rasters from the larger BC-wide rasters generated for OHIBC; the extents will capture Howe Sound and the Squamish watershed.
+* Using a Google Earth image from 7/8/2010, I manually identified all areas that are wetland as opposed to forest, and created a shapefile of this region.
+* Using this shapefile, we will reclassify any "forest" cells (values 41, 42, 45, 46) as undifferentiated wetland (71).
+* The raster also misclassifies some of these areas as "settlement" (value 21); these areas will be reclassified as undifferentiated wetland (71).  This is especially a problem in the area north of the log sort.
+* For the 2010 raster, the dredge spoils is shown as "other land", though the restoration efforts and the aerial photo seem to indicate that it is now grassland.  This will be fixed here as well.
+
+``` {r fix_landuse_rasts}
+
+howesound_landuse_files <- c('1990' = file.path(dir_goal_anx, 'raster/land_cover_1990_30m.tif'),
+                   '2000' = file.path(dir_goal_anx, 'raster/land_cover_2000_30m.tif'),
+                   '2010' = file.path(dir_goal_anx, 'raster/land_cover_2010_30m.tif'))
+
+if(any(!file.exists(howesound_landuse_files))) {
+  rast_rgn_30m <- raster(file.path(dir_goal_anx, 'raster/howe_rgn_30m.tif'))
+  
+  ohibc_landuse_files <- c('1990' = file.path(dir_v2016_anx, 'raster/land_cover_1990_30m.tif'),
+                     '2000' = file.path(dir_v2016_anx, 'raster/land_cover_2000_30m.tif'),
+                     '2010' = file.path(dir_v2016_anx, 'raster/land_cover_2010_30m.tif'))
+  
+  stack_landuse <- stack(ohibc_landuse_files) %>%
+    crop(rast_rgn_30m)
+  
+  rast_estuary <- gdal_rast2(src = file.path(dir_goal, 'spatial', 'squamish_estuary.shp'),
+                             rast_base = rast_rgn_30m,
+                             dst = file.path(dir_goal, 'raster', 'squamish_estuary.tif'),
+                             override_p4s = TRUE)
+  
+  values(stack_landuse)[values(stack_landuse) %in% c(21, 41, 42, 45, 46) & !is.na(values(rast_estuary))] <- 71
+  
+  values(stack_landuse[[3]])[values(stack_landuse[[3]]) == 91 & !is.na(values(rast_estuary))] <- 71
+  
+  writeRaster(stack_landuse, filename = howesound_landuse_files, bylayer = TRUE, overwrite = TRUE)
+} else {
+  message('Howe Sound landuse rasters already exist: \n  ', paste(howesound_landuse_files, collapse = '\n  '))
+  git_prov(howesound_landuse_files)
+}
+
+
+```
+
 ## Analysis of coastal protection
 
 Coastal protection for seagrass and salt marsh will be mitigated by exposure; habitat in areas with higher exposure will be valued as providing more protection.
@@ -303,13 +346,16 @@ Salt marsh trend will be based on percentage of change from 2000 to 2010 divided
 
 Simple area of salt marsh extent will be included as well, for calculation of Carbon Storage and Habitat goals.
 
+
+
+
 ``` {r process_saltmarsh_rast}
 
 rast_rgn_30m <- raster(file.path(dir_goal_anx, 'raster/howe_rgn_30m.tif'))
   
-landuse_files <- c('1990' = file.path(dir_v2016_anx, 'raster/land_cover_1990_30m_crop.tif'),
-                   '2000' = file.path(dir_v2016_anx, 'raster/land_cover_2000_30m_crop.tif'),
-                   '2010' = file.path(dir_v2016_anx, 'raster/land_cover_2010_30m_crop.tif'))
+landuse_files <- c('1990' = file.path(dir_goal_anx, 'raster/land_cover_1990_30m.tif'),
+                   '2000' = file.path(dir_goal_anx, 'raster/land_cover_2000_30m.tif'),
+                   '2010' = file.path(dir_goal_anx, 'raster/land_cover_2010_30m.tif'))
 
 stack_landuse <- stack(landuse_files) %>%
   crop(rast_rgn_30m)
@@ -376,9 +422,9 @@ Simple area of extent for coastal forests will be included as well, for use in c
 
 rast_ws_30m <- raster(file.path(dir_goal_anx, 'raster/howe_sound_watershed_30m.tif'))
   
-landuse_files <- c('1990' = file.path(dir_v2016_anx, 'raster/land_cover_1990_30m_crop.tif'),
-                   '2000' = file.path(dir_v2016_anx, 'raster/land_cover_2000_30m_crop.tif'),
-                   '2010' = file.path(dir_v2016_anx, 'raster/land_cover_2010_30m_crop.tif'))
+landuse_files <- c('1990' = file.path(dir_goal_anx, 'raster/land_cover_1990_30m.tif'),
+                   '2000' = file.path(dir_goal_anx, 'raster/land_cover_2000_30m.tif'),
+                   '2010' = file.path(dir_goal_anx, 'raster/land_cover_2010_30m.tif'))
 
 stack_landuse <- stack(landuse_files) %>%
   crop(rast_ws_30m)

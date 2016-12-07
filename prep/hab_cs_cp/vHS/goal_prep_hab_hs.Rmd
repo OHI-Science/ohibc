@@ -141,21 +141,18 @@ hab_cf <- read_csv(file.path(dir_goal, 'int/howe_forest_status_trend.csv')) %>%
   select(status_yr = year, area_km2 = area_nonzero_cf_km2) %>%
   arrange(status_yr) %>%
   mutate(hab = 'cf',
-         c_cref = area_km2 / first(area_km2))
-hab_cf$trend <- lm(formula = c_cref ~ status_yr, 
-                   data = hab_cf %>% 
-                     filter(status_yr > 1990))[['coefficients']]['status_yr']
+         c_cref = area_km2 / first(area_km2),
+         trend = (c_cref - lag(c_cref))/((status_yr - lag(status_yr)) * lag(c_cref)))
+
   ### trend is in absolute change per year
 
 hab_sm <- read_csv(file.path(dir_goal, 'int/howe_saltmarsh_status_trend.csv')) %>%
   select(status_yr = year, area_km2 = area_sm_km2) %>%
   arrange(status_yr) %>%
   mutate(hab = 'sm',
-         c_cref = area_km2 / first(area_km2))
-hab_sm$trend <- lm(formula = c_cref ~ status_yr, 
-                   data = hab_sm %>% 
-                     filter(status_yr > 1990))[['coefficients']]['status_yr']
-  ### trend is in absolute change per year
+         c_cref = area_km2 / first(area_km2),
+         trend = (c_cref - lag(c_cref))/((status_yr - lag(status_yr)) * lag(c_cref)))
+  ### trend is in proportional change per year
 
 # hab_sg <- read_csv(file.path(dir_goal, 'int/howe_seagrass_status_trend.csv')) %>%
 #   select(status_yr = year, area_km2 = sg_area_km2, pres_mean_sg) %>%
