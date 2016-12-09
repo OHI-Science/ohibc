@@ -1,4 +1,4 @@
-rgn_id,year,lsp_st_1km,a_prot_1km,a_tot_1km,lsp_st_3nm,a_prot_3nm,a_tot_3nm,lsp_st_ws,a_prot_ws,a_tot_ws,lsp_status,lsp_status_3nm_1km,lsp_status_3nm_ws
+rgn_id,year,lsp_st_1km,a_prot_1km,a_tot_1km,lsp_st_3nm,a_prot_3nm,a_tot_3nm,lsp_st_ws,a_prot_ws,a_tot_ws,lsp_status_areawt,lsp_status_3nm_1km,lsp_status
 1,1.0,0.0,0.0,208.5,1.27,1.75,457.25,0.03,0.25,4705.25,0.13982857142857144,0.635,0.65
 1,1960.0,0.4,0.25,208.5,1.47,2.0,457.25,36.9,520.75,4705.25,33.76191428571429,0.935,19.185
 1,1961.0,0.4,0.25,208.5,1.47,2.0,457.25,36.9,520.75,4705.25,33.76191428571429,0.935,19.185
