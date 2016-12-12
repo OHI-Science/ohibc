@@ -121,6 +121,7 @@ plot_flower <- function(score_df,
     plot_obj <- plot_obj +
       geom_text(aes(label = goal_label, x = pos, y = 130),
                 hjust = .5, vjust = .5,
+                size = 3,
                 fontface = 'italic',
                 color = dark_line)
   }
@@ -139,7 +140,7 @@ plot_flower <- function(score_df,
 
   if(!is.null(filename)) {
     ggsave(filename = filename,
-           height = 6, width = 8, units = 'in', dpi = 100,
+           height = 6, width = 8, units = 'in', dpi = 300,
            plot = plot_obj)
   }
 

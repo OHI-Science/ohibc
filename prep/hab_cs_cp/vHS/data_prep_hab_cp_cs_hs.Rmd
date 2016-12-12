@@ -405,7 +405,7 @@ saltmarsh_df <- bind_rows(saltmarsh_hist, saltmarsh_df)
 saltmarsh_df <- saltmarsh_df %>%
   mutate(cp_score_sm = sum_sm / first(sum_sm),
          cp_loss_sm  = (cp_score_sm - lag(cp_score_sm, 1)) / lag(cp_score_sm, 1),
-         cp_trend_sm = cp_loss_sm / 10)
+         cp_trend_sm = cp_loss_sm / (year - lag(year)))
 
 write_csv(saltmarsh_df, file.path(dir_goal, 'int/howe_saltmarsh_status_trend.csv'))
 
@@ -476,10 +476,10 @@ for (i in 1:3) {
 coastalforest_df <- coastalforest_df %>%
   mutate(cp_score_cf = sum_cf / first(sum_cf),
          cp_loss_cf  = (cp_score_cf - lag(cp_score_cf, 1)) / lag(cp_score_cf, 1),
-         cp_trend_cf = cp_loss_cf / 10,
+         cp_trend_cf = cp_loss_cf / (year - lag(year)),
          cs_score_cf_ws = area_watershed_km2 / first(area_watershed_km2),
          cs_loss_cf_ws  = (cs_score_cf_ws - lag(cs_score_cf_ws, 1)) / lag(cs_score_cf_ws, 1),
-         cs_trend_cf_ws = cs_loss_cf_ws / 10)
+         cs_trend_cf_ws = cs_loss_cf_ws / (year - lag(year)))
 
 write_csv(coastalforest_df, file.path(dir_goal, 'int/howe_forest_status_trend.csv'))
 

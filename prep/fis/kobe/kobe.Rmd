@@ -130,7 +130,15 @@ kobe_fis_score_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = x)
   labs(title = 'FIS = f(B/Bmsy, F/Fmsy)',
        fill = 'FIS score',
        x = 'B/Bmsy',
-       y = 'F/Fmsy')
+       y = 'F/Fmsy') +
+  annotate(geom = 'text', label = 'critical', x = .15, y = -.1, 
+           size = 8, color = 'grey20') + 
+  annotate(geom = 'text', label = 'cautious', x =  .5, y = -.1, 
+           color = 'grey20') + 
+  annotate(geom = 'text', label = 'healthy',  x = 1.2, y = -.1, 
+           color = 'grey20') +
+  annotate(geom = 'text', label = 'underexploited',  x = 2.5, y = -.1, 
+           color = 'grey20')
 
 print(kobe_fis_score_plot)
 ggsave(filename = file.path(dir_goal, 'kobe_fis_score_crit.png'), width = 8, height = 6, units = 'cm')

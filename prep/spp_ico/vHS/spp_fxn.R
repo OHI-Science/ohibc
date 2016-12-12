@@ -318,7 +318,7 @@ spp_calc_rgn_means <- function(summary_by_loiczid, rgn_cell_lookup, rgn_tag = ''
 
 ##############################################################################=
 spp_append_bcsee <- function(spp_all) {
-  bcsee_file <- file.path(dir_anx, '_raw_data/bc_species_and_ecosystems_explorer/bcsee_export.tsv')
+  bcsee_file <- file.path(dir_anx, '_raw_data/bc_species_and_ecosystems_explorer/d2016/bcsee_export.tsv')
   bcsee_all  <- read.delim(bcsee_file, sep = '\t', stringsAsFactors = FALSE) %>%
     dplyr::select(sciname = Scientific.Name, scisyn = Scientific.Name.Synonyms,
            com_name = English.Name,

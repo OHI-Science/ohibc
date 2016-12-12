@@ -235,8 +235,8 @@ knitr::kable(ico_status_ts %>% arrange(desc(year)),
 ico_info_timeseries <- read_csv(file.path(dir_goal, 'int/ico_info_timeseries.csv'))
 
 ico_table_info <- ico_info_timeseries %>%
-  group_by(iucn_sid) %>%
-  filter(comname == last(comname)) %>%
+  group_by(sciname) %>%
+  # filter(sciname == last(sciname)) %>%
   arrange(year) %>%
   filter(year == last(year)) %>%
   ungroup() %>%
@@ -274,13 +274,13 @@ ico_plot <- ggplot(ico_table_labeled, aes(x = n_ico, y = 0.3, fill = spp_health)
         axis.text  = element_blank(),
         legend.position = 'none') +
   geom_bar(stat = 'identity', width = 1) +
-  geom_text(aes(label = ico_lab, nudge_y = .02), 
-            size = 1.8,
+  geom_text(aes(label = ico_lab, y = .35), 
+            size = 2.5 * 1.8,
             color = 'grey20',
            # angle = 90, 
             hjust = 0) +
   geom_text(aes(label = cat_lab, y = 0, nudge_y = .02), 
-            size = 1.5,
+            size = 2.5 * 1.5,
             color = 'black',
             # angle = 90, 
             hjust = 0) +
@@ -293,10 +293,47 @@ ico_plot <- ggplot(ico_table_labeled, aes(x = n_ico, y = 0.3, fill = spp_health)
   labs(fill = 'Species health')
 
 ggsave(file.path(dir_goal, 'ico_plot.png'),
-       width = 6, height = 6, units = 'cm')
+       width = 6, height = 6, units = 'in', dpi = 300)
+```
+
+``` {r plot_ico_cat_legend}
+
+cat_list <- data.frame(spp_health = seq(0, 1, 0.1),
+                       label      = c('Extinct', '', 
+                                      'Critically Endangered', '',
+                                      'Endangered', '',
+                                      'Vulnerable', '',
+                                      'Near Threatened', '',
+                                      'Least Concern'),
+                       stringsAsFactors = FALSE)
+
+
+ico_legend <- ggplot(cat_list, aes(x = 0, y = spp_health, fill = spp_health)) +
+  ggtheme_plot + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text  = element_blank(),
+        legend.position = 'none',
+        title = element_text(size = 10)) +
+  geom_point(size = 5, shape = 22, color = 'grey80') +
+  geom_text(aes(label = label, x = .02), 
+            size = 3.2,
+            color = 'grey20',
+            # angle = 90, 
+            hjust = 0) +
+  scale_fill_gradient2(low = '#F27259', mid = '#FFCF5C', high = '#1F9B90', 
+                       midpoint = 0.5,
+                       breaks = seq(0, 1, 0.1)) +
+  scale_y_continuous(limits = c(0, 1)) +
+  scale_x_continuous(limits = c(0, .5)) +
+  labs(title = 'Species health')
+
+ggsave(file.path(dir_goal, 'spp_ico_legend.png'),
+       height = 2, units = 'in', dpi = 300)
 ```
 
 ![](ico_plot.png)
+![](spp_ico_legend.png)
 
 ``` {r save_howe_sound_status_trend}
 

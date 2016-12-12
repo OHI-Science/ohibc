@@ -146,9 +146,9 @@ goal_labels <- status_df %>%
 
 source(file.path(dir_scenario, 'plot_flower.R'))
 plot_obj <- plot_flower(status_df,
-              filename    = file.path(dir_scenario, 'howe_sound_flower_legend.png'),
+              filename    = file.path(dir_scenario, 'howe_sound_flower.png'),
               goal_labels = goal_labels, ### show goal labels? a df swaps in new labels
-              incl_legend = TRUE) ### show the legend? FALSE hides the legend
+              incl_legend = FALSE) ### show the legend? FALSE hides the legend
 
 # plot_obj <- plot_obj +
 #   labs(title = 'Flower plot title',
@@ -212,6 +212,14 @@ status_df <- read_csv('~/github/ohi-global/eez2016/scores.csv') %>%
   mutate(goal = factor(goal, levels = layers$goal)) %>%
   arrange(goal)
 
+goal_labels <- status_df %>%
+  left_join(read_csv(file.path(dir_scenario, 'goal_names.csv')),
+            by = 'goal') %>%
+  mutate(goal_label = str_replace(goal_label, ' ', '\n'),
+         goal_label = paste(goal_label, round(score), sep = '\n')) %>%
+  select(goal, goal_label)
+
+
 # PlotFlower = function (lengths, widths, labels, disk=0.5, max.length,
 #                   center=NULL, main=NULL, fill.col=NULL, plot.outline=TRUE,
 #                   label.offset=0.15, xlim=c(-1.2, 1.2), ylim=c(-1.2, 1.2), uin=NULL,
@@ -220,15 +228,13 @@ status_df <- read_csv('~/github/ohi-global/eez2016/scores.csv') %>%
 # ohicore::PlotFlower(lengths = status_df$score, widths = status_df$weight, labels = status_df$goal, max.length = 1, plot.outline=TRUE)
 
 source(file.path(dir_scenario, 'plot_flower.R'))
-plot_flower(status_df,
+canada_plot <- plot_flower(status_df,
             score_ref   = 100,    ### scale from 0-1 or 0-100? default is 0-100
-            outline     = TRUE,   ### show the outer borders; default is yes indeedy
             filename    = file.path(dir_scenario, 'canada_flower.png'),
-            center_text = NULL, ### pass it a number or label; default is blank
-            incl_center_score = TRUE, ### overridden if center_text != NULL
-            incl_goal_labels  = TRUE, ### show goal labels? FALSE hides the goal labels
-            incl_legend = TRUE, ### show the legend? FALSE hides the legend
+            goal_labels  = goal_labels, ### show goal labels? FALSE hides the goal labels
+            incl_legend = FALSE, ### show the legend? FALSE hides the legend
             show_plot   = TRUE)
+
 
 
 ```

@@ -423,9 +423,9 @@ prot_df <- prot_1km %>%
   mutate(lsp_st_1km = ifelse(is.na(lsp_st_1km), 0, lsp_st_1km),
          lsp_st_3nm = ifelse(is.na(lsp_st_3nm), 0, lsp_st_3nm),
          lsp_st_ws  = ifelse(is.na(lsp_st_ws),  0, lsp_st_ws),
-         lsp_status = (lsp_st_ws * a_tot_ws + lsp_st_3nm * a_tot_3nm) / (a_tot_ws + a_tot_3nm),
+         lsp_status_areawt  = (lsp_st_ws * a_tot_ws + lsp_st_3nm * a_tot_3nm) / (a_tot_ws + a_tot_3nm),
          lsp_status_3nm_1km = (lsp_st_3nm + lsp_st_1km) / 2,
-         lsp_status_3nm_ws  = (lsp_st_ws  + lsp_st_3nm) / 2) %>%
+         lsp_status         = (lsp_st_ws  + lsp_st_3nm) / 2) %>%
   distinct()
 
 write_csv(prot_df, file.path(dir_goal, 'output', 'area_protected_total.csv'))

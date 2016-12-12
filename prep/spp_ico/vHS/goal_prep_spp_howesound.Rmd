@@ -519,7 +519,9 @@ spp_plot <- ggplot(spp_table_labeled, aes(x = com_class, y = .1, fill = spp_heal
   theme(panel.grid = element_blank(),
         axis.title = element_blank(),
         axis.text.y  = element_blank(),
-        axis.text.x = element_text(angle = 75, hjust = 1),
+        axis.text.x = element_text(angle = 75, hjust = 1, 
+                                   size = 10,
+                                   margin = margin(-20)),
         legend.position = 'none') +
   geom_bar(stat = 'identity', width = .9, color = 'grey80', size = .1) +
   # geom_text(aes(label = cat_lab, y = 0, nudge_y = .02), 
@@ -537,7 +539,7 @@ spp_plot <- ggplot(spp_table_labeled, aes(x = com_class, y = .1, fill = spp_heal
 print(spp_plot)
 
 ggsave(file.path(dir_goal, 'spp_plot.png'),
-       width = 6, height = 9, units = 'cm')
+       width = 6, height = 9, units = 'in', dpi = 300)
 ```
 
 ***
