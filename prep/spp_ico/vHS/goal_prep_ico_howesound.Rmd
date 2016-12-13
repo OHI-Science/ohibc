@@ -27,8 +27,6 @@ dir_rgn  <- file.path(dir_git, 'prep/spatial')
 dir_anx        <- file.path(dir_M, 'git-annex/bcprep') ### git-annex: goal-specific large files
 dir_anx_global <- file.path(dir_M, 'git-annex/globalprep/spp_ico')
 
-source(file.path(dir_git, 'src/R/map_scores.R'))
-
 library(provRmd); prov_setup()
 
 source(file.path(dir_goal, 'spp_fxn.R'))
@@ -268,8 +266,13 @@ ico_table_labeled <- ico_table_info %>%
          ico_lab = ifelse(!is.na(pr_score), ico_lab, paste0(ico_lab, '*')))
 
 ico_plot <- ggplot(ico_table_labeled, aes(x = n_ico, y = 0.3, fill = spp_health)) +
-  ggtheme_plot + 
-  theme(panel.grid = element_blank(),
+  theme(axis.ticks = element_blank(),
+        text = element_text(family = 'Helvetica', color = 'gray30', size = 8),
+        plot.title = element_text(size = rel(1.25), hjust = 0, face = 'bold'),
+        legend.key = element_rect(colour = NA, fill = NA),
+        panel.border     = element_blank(),
+        panel.background = element_blank(),
+        panel.grid = element_blank(),
         axis.title = element_blank(),
         axis.text  = element_blank(),
         legend.position = 'none') +
@@ -279,7 +282,8 @@ ico_plot <- ggplot(ico_table_labeled, aes(x = n_ico, y = 0.3, fill = spp_health)
             color = 'grey20',
            # angle = 90, 
             hjust = 0) +
-  geom_text(aes(label = cat_lab, y = 0, nudge_y = .02), 
+  geom_text(aes(label = cat_lab, y = 0),
+            nudge_y = .02, 
             size = 2.5 * 1.5,
             color = 'black',
             # angle = 90, 
@@ -298,8 +302,10 @@ ggsave(file.path(dir_goal, 'ico_plot.png'),
 
 ``` {r plot_ico_cat_legend}
 
-cat_list <- data.frame(spp_health = seq(0, 1, 0.1),
-                       label      = c('Extinct', '', 
+cat_list <- data.frame(label_y    = c(-.2, seq(0, 1, 0.1)),
+                       spp_health = c(NA,  seq(0, 1, 0.1)),
+                       label      = c('Data Deficient/Not Evaluated',
+                                      'Extinct', '', 
                                       'Critically Endangered', '',
                                       'Endangered', '',
                                       'Vulnerable', '',
@@ -308,9 +314,14 @@ cat_list <- data.frame(spp_health = seq(0, 1, 0.1),
                        stringsAsFactors = FALSE)
 
 
-ico_legend <- ggplot(cat_list, aes(x = 0, y = spp_health, fill = spp_health)) +
-  ggtheme_plot + 
-  theme(panel.grid = element_blank(),
+ico_legend <- ggplot(cat_list, aes(x = 0, y = label_y, fill = spp_health)) +
+  theme(axis.ticks = element_blank(),
+        text = element_text(family = 'Helvetica', color = 'gray30', size = 8),
+        plot.title = element_text(size = rel(1.25), hjust = 0, face = 'bold'),
+        legend.key = element_rect(colour = NA, fill = NA),
+        panel.border     = element_blank(),
+        panel.background = element_blank(),
+        panel.grid = element_blank(),
         axis.title = element_blank(),
         axis.text  = element_blank(),
         legend.position = 'none',
@@ -324,12 +335,12 @@ ico_legend <- ggplot(cat_list, aes(x = 0, y = spp_health, fill = spp_health)) +
   scale_fill_gradient2(low = '#F27259', mid = '#FFCF5C', high = '#1F9B90', 
                        midpoint = 0.5,
                        breaks = seq(0, 1, 0.1)) +
-  scale_y_continuous(limits = c(0, 1)) +
+  scale_y_continuous(limits = c(-.2, 1)) +
   scale_x_continuous(limits = c(0, .5)) +
   labs(title = 'Species health')
 
 ggsave(file.path(dir_goal, 'spp_ico_legend.png'),
-       height = 2, units = 'in', dpi = 300)
+       height = 2.3, units = 'in', dpi = 300)
 ```
 
 ![](ico_plot.png)

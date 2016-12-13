@@ -150,23 +150,6 @@ plot_obj <- plot_flower(status_df,
               goal_labels = goal_labels, ### show goal labels? a df swaps in new labels
               incl_legend = FALSE) ### show the legend? FALSE hides the legend
 
-# plot_obj <- plot_obj +
-#   labs(title = 'Flower plot title',
-#        fill  = 'Score values') +
-#   theme(title = element_text(size = 15, 
-#                              color = 'darkred', 
-#                              family = 'Garamond', 
-#                              hjust = 0.5),
-#         legend.title = element_text(size = 12,
-#                                     color = 'darkblue',
-#                                     face = 'bold.italic'),
-#         legend.text = element_text(size = 12,
-#                                    color = 'grey40',
-#                                    family = 'Helvetica'))
-# ggsave(filename = file.path(dir_scenario, 'howe_sound_flower_mod.png'),
-#        height = 6, width = 8, units = 'in', dpi = 100,
-#        plot = plot_obj)
-
 
 ```
 
