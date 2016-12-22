@@ -123,6 +123,18 @@ kobe_fPrime_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = fPrim
 print(kobe_fPrime_plot)
 ggsave(filename = file.path(dir_goal, 'kobe_fPrime_crit.png'), width = 8, height = 6, units = 'cm')
 
+kobe_bPrime_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = bPrime)) +
+  ggtheme_plot + 
+  geom_raster(alpha = .8) +
+  scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
+  labs(title = 'B\' = f(B/Bmsy)',
+       fill = 'B\' value',
+       x = 'B/Bmsy',
+       y = 'F/Fmsy')
+
+print(kobe_bPrime_plot)
+ggsave(filename = file.path(dir_goal, 'kobe_bPrime_crit.png'), width = 8, height = 6, units = 'cm')
+
 kobe_fis_score_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = x)) +
   ggtheme_plot + 
   geom_raster(alpha = .8) +
@@ -132,12 +144,16 @@ kobe_fis_score_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = x)
        x = 'B/Bmsy',
        y = 'F/Fmsy') +
   annotate(geom = 'text', label = 'critical', x = .15, y = -.1, 
-           size = 8, color = 'grey20') + 
+           size = 2, 
+           color = 'grey20') + 
   annotate(geom = 'text', label = 'cautious', x =  .5, y = -.1, 
+           size = 2, 
            color = 'grey20') + 
   annotate(geom = 'text', label = 'healthy',  x = 1.2, y = -.1, 
-           color = 'grey20') +
+           size = 2, 
+           color = 'grey20') + 
   annotate(geom = 'text', label = 'underexploited',  x = 2.5, y = -.1, 
+           size = 2, 
            color = 'grey20')
 
 print(kobe_fis_score_plot)
