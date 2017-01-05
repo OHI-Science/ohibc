@@ -147,3 +147,19 @@ generate_kobe_df <- function(f_fmsy_max = 2.5,
 
   return(kobe)
 }
+
+generate_kobe_geom_df <- function(f_fmsy_max = 2.5,
+                             b_bmsy_max = 3.5,
+                             reso       = 0.01) {
+
+  kobe <- data.frame(stock  = 1,
+                     f_fmsy = rep(seq(0, f_fmsy_max, reso), each  = b_bmsy_max/reso + 1),
+                     b_bmsy = rep(seq(0, b_bmsy_max, reso), times = f_fmsy_max/reso + 1))
+
+  kobe <- kobe %>%
+    rescale_bprime_crit(overfished_th = 0.8) %>%
+    rescale_fprime_crit(overfished_th = 0.8) %>%
+    mutate(x = (fPrime * bPrime))
+
+  return(kobe)
+}

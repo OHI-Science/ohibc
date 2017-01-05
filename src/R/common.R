@@ -12,6 +12,7 @@ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
 }
 
 library(tidyverse)
+library(RColorBrewer)
 library(stringr)
 rm(packages)
 

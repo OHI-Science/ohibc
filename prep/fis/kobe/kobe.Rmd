@@ -159,5 +159,32 @@ kobe_fis_score_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = x)
 print(kobe_fis_score_plot)
 ggsave(filename = file.path(dir_goal, 'kobe_fis_score_crit.png'), width = 8, height = 6, units = 'cm')
 
+
+kobe_geom <- generate_kobe_geom_df(b_bmsy_max = 5.5)
+
+kobe_fis_score_geom_plot <- ggplot(data = kobe_geom, aes(x = b_bmsy, y = f_fmsy, fill = x)) +
+  ggtheme_plot + 
+  geom_raster(alpha = .8) +
+  scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
+  scale_x_continuous(limits = c(0, 3.5)) + 
+  labs(title = 'FIS = f(B/Bmsy, F/Fmsy) geometric mean',
+       fill = 'FIS score',
+       x = 'B/Bmsy',
+       y = 'F/Fmsy') +
+  annotate(geom = 'text', label = 'crit', x = .15, y = -.1, 
+           size = 1.5, 
+           color = 'grey20') + 
+  annotate(geom = 'text', label = 'cautious', x =  .5, y = -.1, 
+           size = 1.5, 
+           color = 'grey20') + 
+  annotate(geom = 'text', label = 'healthy',  x = 1.2, y = -.1, 
+           size = 1.5, 
+           color = 'grey20') + 
+  annotate(geom = 'text', label = 'underexploited',  x = 2.5, y = -.1, 
+           size = 1.5, 
+           color = 'grey20')
+
+print(kobe_fis_score_geom_plot)
+ggsave(filename = file.path(dir_goal, 'kobe_fis_score_geom_crit.png'), width = 8, height = 6, units = 'cm')
 ```
 

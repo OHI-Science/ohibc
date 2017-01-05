@@ -125,7 +125,7 @@ spp_am_cell_summary <- function(am_cells_spp,
 
 
 ##############################################################################=
-spp_get_am_cells <- function(rgn2cell_df, n_max = -1, prob_filter = 0, reload = TRUE) {
+spp_get_am_cells <- function(rgn2cell_df, n_max = Inf, prob_filter = 0, reload = TRUE) {
 ### Loads the AquaMaps species to cell file; then left-joins it
 ### to region-to-cell lookup table.  Filters by probability level.
 

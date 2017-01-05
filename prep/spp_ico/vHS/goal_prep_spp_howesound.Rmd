@@ -27,10 +27,6 @@ dir_rgn  <- file.path(dir_git, 'prep/spatial')
 dir_anx        <- file.path(dir_M, 'git-annex/bcprep') ### git-annex: goal-specific large files
 dir_anx_global <- file.path(dir_M, 'git-annex/globalprep/spp_ico')
 
-
-
-source(file.path(dir_git, 'src/R/map_scores.R'))
-
 library(provRmd); prov_setup()
 
 source(file.path(dir_goal, 'spp_fxn.R'))
@@ -83,19 +79,18 @@ AquaMaps
 IUCN Red List spatial data: species range map shapefiles
 
 * Species range map shapefiles downloaded from: http://www.iucnredlist.org/technical-documents/spatial-data
-* Citation: IUCN 2014. The IUCN Red List of Threatened Species. Version 2014.1. <http://www.iucnredlist.org>. Downloaded on 21 September 2015.
+* Citation: IUCN 2015. The IUCN Red List of Threatened Species. Version 2015.3. <http://www.iucnredlist.org>. Downloaded on 21 December 2015.
 
 IUCN Red List species index: list of all IUCN red list species, incl IUCN species ID and extinction risk category
 
-* Extinction risk categories downloaded from: http://api.iucnredlist.org/index/all.csv
-* Habitat and subpopulation information, by species, scraped from: http://www.iucnredlist.org/details/<species ID>/0
-* Citation: IUCN 2015. The IUCN Red List of Threatened Species. Version 2015-3. <http://www.iucnredlist.org>. Downloaded on 9 September 2015.
+* Extinction risk categories, past assessments, and habitat information, by species, downloaded from: http://apiv3.iucnredlist.org/
+* Citation: IUCN 2015. The IUCN Red List of Threatened Species. Version 2015-3. <http://www.iucnredlist.org>. Downloaded <date of last script process>.
 
 NatureServe/BC CDC conservation rank info from BC Species and Ecosystems Explorer: 
 
 * BC Conservation Data Centre: http://www.env.gov.bc.ca/atrisk/toolintro.html
 * NatureServe conservation status: http://explorer.natureserve.org/ranking.htm#global
-* Citation: B.C. Conservation Data Centre. 2013. BC Species and Ecosystems Explorer. B.C. Ministry of Environment, Victoria B.C. Available: <http://a100.gov.bc.ca/pub/eswp/>.  Downloaded on 3 August 2015.
+* Citation: B.C. Conservation Data Centre. 2016. BC Species and Ecosystems Explorer. B.C. Ministry of Environment, Victoria B.C. Available: <http://a100.gov.bc.ca/pub/eswp/>.  Downloaded on 30 November 2016.
 
 -----
 
@@ -515,15 +510,20 @@ spp_table_labeled <- spp_table_labeled %>%
   ungroup()
 
 spp_plot <- ggplot(spp_table_labeled, aes(x = com_class, y = .1, fill = spp_health)) +
-  ggtheme_plot + 
-  theme(panel.grid = element_blank(),
+  theme(axis.ticks = element_blank(),
+        text = element_text(family = 'Helvetica', color = 'gray30', size = 8),
+        plot.title = element_text(size = rel(1.25), hjust = 0, face = 'bold'),
+        legend.key = element_rect(colour = NA, fill = NA),
+        panel.border     = element_blank(),
+        panel.background = element_blank(),
+        panel.grid = element_blank(),
         axis.title = element_blank(),
         axis.text.y  = element_blank(),
         axis.text.x = element_text(angle = 75, hjust = 1, 
                                    size = 10,
                                    margin = margin(-20)),
         legend.position = 'none') +
-  geom_bar(stat = 'identity', width = .9, color = 'grey80', size = .1) +
+  geom_bar(stat = 'identity', width = .9, color = 'grey80', size = .2) +
   # geom_text(aes(label = cat_lab, y = 0, nudge_y = .02), 
   #           size = 1.5,
   #           color = 'black',
@@ -538,7 +538,7 @@ spp_plot <- ggplot(spp_table_labeled, aes(x = com_class, y = .1, fill = spp_heal
 
 print(spp_plot)
 
-ggsave(file.path(dir_goal, 'spp_plot.png'),
+ggsave(file.path(dir_goal, 'spp_plot_lines2.png'),
        width = 6, height = 9, units = 'in', dpi = 300)
 ```
 

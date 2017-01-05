@@ -17,24 +17,26 @@ output:
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
                       echo = FALSE, message = FALSE, warning = FALSE)
 
+library(rgdal)
+library(raster)
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
 scenario <- 'v2016'
 goal     <- 'spp_ico'
 dir_git <- '~/github/ohibc'
 dir_goal <- file.path(dir_git, 'prep', goal, scenario)
 dir_rgn  <- file.path(dir_git, 'prep/spatial')
 
-source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
 dir_anx        <- file.path(dir_M, 'git-annex/bcprep') ### git-annex: goal-specific large files
 dir_anx_global <- file.path(dir_M, 'git-annex/globalprep/spp_ico')
 
+library(provRmd); prov_setup()
 
-source(file.path(dir_git, 'src/R/map_scores.R'))
 source(file.path(dir_goal, 'spp_fxn.R'))
 
 ### set up proj4string options: BC Albers and WGS84
-p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
-              'EPSG:4326 WGS 84'          = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
-p4s_bcalb <- p4s_opts[1]
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+p4s_wgs84 <- c('wgs84' = '+init=epsg:4326')
 ```
 
 # Summary: OHIBC Species Subgoal (Biodiversity)
@@ -94,15 +96,13 @@ IUCN Red List species index: list of all IUCN red list species, incl IUCN specie
 
 * Extinction risk categories downloaded from: http://api.iucnredlist.org/index/all.csv
 * Habitat and subpopulation information, by species, scraped from: http://www.iucnredlist.org/details/<species ID>/0
-* Citation: IUCN 2015. The IUCN Red List of Threatened Species. Version 2015-3. <http://www.iucnredlist.org>. Downloaded on 9 September 2015.
+* Citation: IUCN 2016. The IUCN Red List of Threatened Species. Version 2016-3. <http://www.iucnredlist.org>. Downloaded on 13 December 2016
 
 NatureServe/BC CDC conservation rank info from BC Species and Ecosystems Explorer: 
 
 * BC Conservation Data Centre: http://www.env.gov.bc.ca/atrisk/toolintro.html
 * NatureServe conservation status: http://explorer.natureserve.org/ranking.htm#global
 * Citation: B.C. Conservation Data Centre. 2013. BC Species and Ecosystems Explorer. B.C. Ministry of Environment, Victoria B.C. Available: <http://a100.gov.bc.ca/pub/eswp/>.  Downloaded on 3 August 2015.
-
-NOTE: Davies and Baum (2012) could potentially provide a small number of additional species, as in the California Current OHI, but for now we are not considering this in our assessment.
 
 -----
 
@@ -114,21 +114,31 @@ Using OHIBC region polygons, determine 0.5° raster cells corresponding to each 
 
 ``` {r setup_region-to-cell_lookup}
 
-### Read in OHIBC polygons, in WGS84 CRS
-rgn_lyr <- 'ohibc_rgn_wgs84'
+rgn2cell_file <- file.path(dir_goal, 'spatial/rgn2cell.csv')
+loiczid_rast_file <- file.path(dir_goal, 'spatial/loiczid.tif')
 
-cat(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
-poly_bc_rgn <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
-                       verbose = FALSE, stringsAsFactors = FALSE)
+if(!file.exists(rgn2cell_file) | !file.exists(loiczid_rast_file)) {
+  ### Read in OHIBC polygons, in WGS84 CRS
+  rgn_lyr <- 'ohibc_rgn_wgs84'
+  
+  message(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
+  poly_bc_rgn <- readOGR(dsn     = path.expand(dir_rgn), 
+                         layer   = rgn_lyr,
+                         verbose = FALSE, 
+                         stringsAsFactors = FALSE)
+  
+  poly_bc_rgn@data <- poly_bc_rgn@data %>%
+    mutate(rgn_id = as.integer(rgn_id))
+  
+  rgn_p4s <- proj4string(poly_bc_rgn)
+  message('Region loaded: CRS = \n  ', rgn_p4s)
+  
+  rgn2cell_list <- spp_rgn2cell(poly_bc_rgn, reload = TRUE)
+  
+  write_csv(rgn2cell_list[[1]], rgn2cell_file)
+  writeRaster(rgn2cell_list[[2]], loiczid_rast_file, overwrite = TRUE)
+}
 
-rgn_p4s <- proj4string(poly_bc_rgn)
-names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
-message(sprintf('Region loaded: CRS = %s \n  (%s)\n', names(rgn_p4s), rgn_p4s))
-
-rgn2cell_list <- spp_rgn2cell(poly_bc_rgn, reload = TRUE)
-
-rgn2cell_df      <- rgn2cell_list[[1]]
-loiczid_rast     <- rgn2cell_list[[2]]
 ```
 
 
@@ -136,15 +146,17 @@ loiczid_rast     <- rgn2cell_list[[2]]
 
 ``` {r identify_BC_species}
 
-am_cells_spp <- spp_get_am_cells(rgn2cell_df, n_max = -1, prob_filter = 0, reload = FALSE)
+rgn2cell_df <- read_csv(file.path(dir_goal, 'spatial/rgn2cell.csv'))
 
-iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df, reload = FALSE)
+### note: if reload = TRUE, generates new files and saves 'em to dir_goal/int/
+am_cells_spp <- spp_get_am_cells(rgn2cell_df, n_max = Inf, prob_filter = 0, reload = TRUE)
+iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df, reload = TRUE)
 
 ```
 
 -----
 
-## Load species lookup table from global SPP goal
+## Generate species lookup table from IUCN API
 
 Currently this uses the global species lookup table. How this list is generated (file locations are in `~/github/ohiprep/globalprep/SPP_ICO`):
 

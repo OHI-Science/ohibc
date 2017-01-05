@@ -3,7 +3,10 @@ title: 'OHIBC: Howe Sound summary'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
+    code_folding: hide
     toc: true
+    toc_depth: 3
+    toc_float: yes
     number_sections: true
     theme: cerulean
     highlight: haddock
@@ -13,9 +16,10 @@ output:
     toc: true
 ---
 
-``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
-                      echo = FALSE, message = FALSE, warning = FALSE)
+                      echo = TRUE, message = FALSE, warning = FALSE)
 
 source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R;
   ### includes library(tidyverse); library(stringr)
@@ -33,9 +37,9 @@ dir_scenario_anx <- file.path(dir_anx, scenario_rgn)
 library(provRmd); prov_setup()
 
 ### support scripts
-source(file.path('~/github/ohibc/src/R/map_scores.R'))
+# source(file.path('~/github/ohibc/src/R/map_scores.R'))
   ### score plotting scripts
-source(file.path(dir_git, 'src/R/rast_tools.R')) 
+# source(file.path(dir_git, 'src/R/rast_tools.R')) 
   ### raster plotting and analyzing scripts
 
 ### set up the default BC projection to be BC Albers
@@ -146,7 +150,7 @@ goal_labels <- status_df %>%
 
 source(file.path(dir_scenario, 'plot_flower.R'))
 plot_obj <- plot_flower(status_df,
-              filename    = file.path(dir_scenario, 'howe_sound_flower.png'),
+              filename    = file.path(dir_scenario, 'howe_sound_flower_no_fis.png'),
               goal_labels = goal_labels, ### show goal labels? a df swaps in new labels
               incl_legend = FALSE) ### show the legend? FALSE hides the legend
 
