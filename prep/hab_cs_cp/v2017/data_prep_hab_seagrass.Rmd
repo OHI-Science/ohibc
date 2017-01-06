@@ -1,0 +1,405 @@
+---
+title: 'OHIBC: data_prep_hab_seagrass.Rmd'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(raster)
+library(rgdal)
+library(rgeos)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+dir_git     <- '~/github/ohibc'
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal      <- 'hab'
+scenario  <- 'v2016'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### support scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### gdal_rast2, plotting
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+### set up base raster file
+rast_base_file <- file.path(dir_goal_anx, 'raster/ohibc_eez_inland_2km_100m.tif')
+
+```
+
+# Summary
+
+Create seagrass layers for HAB, CP, CS goals.  The areas calculated in this script will be used in the goal_prep script to compare area to pressure, and calculate a score.
+
+# Updates from previous assessment
+
+***
+
+# Data Source [NOTE: can be copied from README.md in rawdata file]
+**Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+
+**Downloaded**: [date downloaded or received]
+
+**Description**:  [e.g., surface aragonite state]
+
+**Native data resolution**: [e.g., 1 degree, 30 m, etc.]   
+
+**Time range**: [e.g., 1880-1899, monthly data provided for each year] 
+
+**Format**:  [e.g. NetCDF]
+
+***
+  
+# Methods
+
+Sea Grass health base on pressures-based model: nutrient inputs
+
+- Pull nutrient rasters from global fertilizer plume model
+- Reproject to extents and resolution of OHIBC region 100 m raster
+    - fine resolution to match seagrass raster
+- Data includes years 2002 - 2013
+- these files will be saved on git-annex
+
+``` {r setup_base_rast}
+
+if(!file.exists(rast_base_file)) {
+  rgn_rast <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif')) %>%
+    setNames('rgn_id')
+  buffer_rast <- raster(file.path(dir_spatial, 'raster/ohibc_inland_2km_raster_500m.tif'))
+  values(rgn_rast)[!is.na(values(buffer_rast))] <- values(buffer_rast)[!is.na(values(buffer_rast))]
+  
+  ### set up blank 100 m raster
+  rast_100 <- rgn_rast
+  res(rast_100) <- 100
+  
+  ### now project regions to 100 m resolution
+  rgn_rast_100 <- rgn_rast %>% projectRaster(rast_100, method = 'ngb',
+                                             progress = 'text',
+                                             filename = rast_base_file)
+}  
+  
+```
+
+``` {r read_and_clip_pressure_raster}
+
+### Nutrient pressures layers are on Mazu here:
+### Mazu:marine_threats/impact_layers_2013_redo/impact_layers/work/land_based/before_2007/raw_global_results
+### Still need to get the updated versions.
+
+dir_nutr <- file.path(dir_M, 'marine_threats/impact_layers_2013_redo/impact_layers',
+                      'work/land_based/before_2007',
+                      'raw_global_results')
+nutr_files <- list.files(dir_nutr, pattern = '*fert*', full.names = TRUE)
+new_rast_files <- file.path(dir_goal_anx, 'raster', basename(nutr_files)) %>%
+    str_replace('global', 'bc')
+
+### cropping sped up this loop slightly, but also added time for the crop
+### operation.  Leaving it out for simplicity.
+
+if(any(!file.exists(new_rast_files))) {
+  library(parallel)
+  
+  rast_base_100 <- raster(rast_base_file)
+
+  tmp <- mclapply(nutr_files, mc.cores = 12, FUN = function(x) {
+    new_rast_file <- file.path(dir_goal_anx, 'raster', basename(x)) %>%
+      str_replace('global', 'bc')
+    old_rast <- raster(x)
+    raster::projectRaster(old_rast, rast_base_100, 
+                          filename = new_rast_file,
+                          overwrite = TRUE)
+  })
+  
+  git_prov(new_rast_files, filetype = 'output')
+  
+} else {
+  ### force git provenance registration
+  git_prov(nutr_files, filetype = 'input')
+  git_prov(new_rast_files, filetype = 'output')
+}
+
+```
+
+Sea grass extent for mapping and weighting
+
+``` {r create_bluecarbon_seagrass_raster, eval = TRUE}
+
+seagrass_rast_file <- file.path(dir_goal_anx, 'raster/bluecarbon_seagrass.tif') %>%
+  path.expand()
+
+seagrass_poly_file <- file.path(dir_anx, '_raw_data/cec/BlueCarbon_SHP',
+                                'NA_BlueCarbon/data',
+                                'Seagrass/na_seagrass_areas_Feb2015.shp') %>%
+  path.expand()
+
+if(!file.exists(seagrass_rast_file)) {
+  
+  seagrass_poly_bcalb_file <- path.expand(file.path(dir_goal_anx, 'shp', 'bluecarbon_seagrass.shp'))
+  
+  rast_base_100 <- raster(rast_base_file)
+
+  if(!file.exists(seagrass_poly_bcalb_file)) {
+    ### contains polys for all of North America.  Read it in; filter to just Canada BC; reproject
+    seagrass_poly <- readOGR(dsn = path.expand(dirname(seagrass_poly_file)),
+                             layer = basename(seagrass_poly_file) %>% str_replace('.shp$', ''))
+    
+    seagrass_poly_bc <- seagrass_poly[seagrass_poly@data$STATE_ABB == 'CA-BC', ]
+    
+    seagrass_poly_bcalb <- spTransform(seagrass_poly_bc, rast_base_100@crs)
+    
+    writeOGR(seagrass_poly_bcalb, 
+             dsn    = dirname(seagrass_poly_bcalb_file),
+             layer  = basename(seagrass_poly_bcalb_file) %>%
+               str_replace('.shp', ''),
+             driver = 'ESRI Shapefile')
+  }
+  
+
+  gdal_rast2(src = file.path(dir_goal_anx, 'shp/bluecarbon_seagrass.shp'), 
+             rast_base_100, seagrass_rast_file, value = 'OBJECTID', override_p4s = TRUE)
+  
+} else {
+  
+  git_prov(seagrass_poly_file, filetype = 'input')
+  git_prov(rast_base_file,     filetype = 'input') ### base raster
+  git_prov(seagrass_rast_file, filetype = 'output')
+ 
+}
+
+```
+
+After creating blue carbon seagrass raster, tabulate seagrass area per OHIBC region.  Note that some seagrass areas (e.g. Howe Sound) are in rivers, and don't get captured in the offshore regions; for this reason, add in a 2 km buffer inland to account for these cells. This CSV stored in github.
+
+``` {r crosstab_seagrass_vs_rgns}
+
+seagrass_rgns_file <- file.path(dir_goal, 'int', 'bluecarbon_seagrass_area.csv')
+
+if(!file.exists(seagrass_rgns_file)) {
+  seagrass_rast <- raster(file.path(dir_goal_anx, 'raster', 'bluecarbon_seagrass.tif')) %>%
+    setNames('seagrass')
+  
+  ### set up rgn raster by merging offshore regions and 2 km inland
+  rgn_rast_100 <- raster(rast_base_file) %>%
+    setNames('rgn_id')
+
+  seagrass_df <- raster::crosstab(seagrass_rast, rgn_rast_100, 
+                                   long = TRUE, useNA = TRUE,
+                                   progress = 'text') %>%
+    group_by(rgn_id) %>%
+    mutate(area_tot = sum(Freq) * .01) %>%   ### get total area in region; each cell is 1 ha
+    filter(!is.na(seagrass) & !is.na(rgn_id)) %>%
+    group_by(rgn_id, area_tot) %>%
+    summarize(area_seagrass = sum(Freq) * .01) ### get just seagrass area in region
+  
+  
+  write_csv(seagrass_df, seagrass_rgns_file)
+
+} else {
+  
+  git_prov(file.path(dir_goal_anx, 'raster', 'bluecarbon_seagrass.tif'), filetype = 'input')
+  git_prov(rast_base_file, filetype = 'input')
+  git_prov(seagrass_rgns_file, filetype = 'output')
+}
+
+```
+
+# Calculate sea grass pressures and status
+
+Sea Grass health pressures-based model: nutrient inputs
+
+- create raster stack of all years of nutrients
+- determine max nutrient load across all years and cells
+- calculate pressure raster based on 0-110% of max nutrient load
+    - 0.0 is zero nutrient load
+    - 1.0 is 110% of max nutrient load
+- mask pressure raster to seagrass presence
+    
+``` {r create_seagrass_nutrient_rasters}
+
+### first, calculate the nutrient pressures
+nutr_layers <- list.files(file.path(dir_goal_anx, 'raster'), 
+                          pattern = '*_fert_*', 
+                          full.names = TRUE)
+
+outfile_names <- file.path(dir_goal_anx, 'raster', 
+                           basename(nutr_layers) %>%
+                             str_replace('bc_plumes_fert_', 'seagrass_nutr_') %>%
+                             str_replace('_raw', ''))
+
+if(any(!file.exists(outfile_names))) {
+  
+  library(parallel)
+  
+  ### mask nutrient input stack to just OHIBC regions (some Puget Sound cells in there...)
+  ### set up rgn raster by merging offshore regions and 2 km inland in case of cell mismatches around edges
+  rgn_rast <- raster(rast_base_file) %>%
+    setNames('rgn_id')
+  buffer_rast <- raster(file.path(dir_spatial, 'raster/ohibc_inland_2km_raster_500m.tif'))
+  values(rgn_rast)[!is.na(values(buffer_rast))] <- values(buffer_rast)[!is.na(values(buffer_rast))]
+  
+  message('masking nutrient layers to BC EEZ')
+  nutr_stack_list <- mclapply(nutr_layers, mc.cores = 12,
+    FUN = function(rast_file) { ### rast_file <- nutr_layers[1]
+      nutr_layer <- raster(rast_file)
+      mask(nutr_layer, rgn_rast)
+    })
+  
+  nutr_stack <- stack(nutr_stack_list)
+  
+  ### find max value in whole EEZ and normalize to 110%
+  nutr_ref <- maxValue(nutr_stack) %>% ### gets max for each layer
+    max() * 1.10                       ### finds max across all layers
+  
+  message('rescaling nutrient layers to reference point: ', nutr_ref)
+  nutr_prs_list <- mclapply(nutr_stack_list, mc.cores = 12,
+    FUN = function(nutr_layer) {
+      nutr_layer / nutr_ref
+    })
+
+  ### now mask the pressures by seagrass presence
+  seagrass_rast <- raster(file.path(dir_goal_anx, 'raster', 'bluecarbon_seagrass.tif'))
+
+  message('masking nutrient layers by seagrass presence layer')
+  seagrass_nutr_stack_list <- mclapply(nutr_prs_list, mc.cores = 12,
+    FUN = function(nutr_prs_layer) { ### nutr_prs_layer <- nutr_prs_list[[1]]
+      mask(nutr_prs_layer, seagrass_rast)
+    })
+  
+  seagrass_nutr_stack <- stack(seagrass_nutr_stack_list)
+  
+  writeRaster(seagrass_nutr_stack, 
+              filename = outfile_names,
+              bylayer = TRUE,
+              overwrite = TRUE,
+              progress = 'text')
+} else {
+  
+  git_prov(nutr_layers,    filetype = 'input')
+  git_prov(rast_base_file, filetype = 'input')
+  git_prov(outfile_names,  filetype = 'output')
+  
+}
+
+```
+
+From seagrass pressure rasters, tabulate pressures vs seagrass cells
+
+- number of cells at each pressure for each year
+
+``` {r crosstab_sg_pressures}
+
+seagrass_nutr_df_file <- file.path(dir_goal, 'int', 'seagrass_nutr_df.csv')
+
+nutr_layer_files <- list.files(file.path(dir_goal_anx, 'raster'), 
+                               pattern = 'seagrass_nutr',
+                               full.names = TRUE)
+
+if(!file.exists(seagrass_nutr_df_file)) {
+  ### now crosstab seagrass nutrient pressures by regions
+  
+  if(!dir.exists(file.path(dir_goal, 'tmp'))) dir.create(file.path(dir_goal, 'tmp'))
+  seagrass_nutr_list <- lapply(nutr_layer_files, raster) %>%
+    setNames(basename(nutr_layer_files) %>% str_replace('.tif$', ''))
+    ### need a list or vector for mclapply; stack is treated as one obj?
+  
+  rgn_rast <- raster(rast_base_file) %>%
+    setNames('rgn_id')
+  
+  sg_nutr_df_list <- vector('list', length = length(seagrass_nutr_list))
+  for (i in 1:length(seagrass_nutr_list)) { # i <- 1
+    
+    ptm <- proc.time()
+    
+    nutr_year <- names(seagrass_nutr_list[[i]]) %>%
+      str_replace('seagrass_nutr_', '')
+    
+    nutr_rast <- seagrass_nutr_list[[i]] %>%
+      setNames('nutr_pressure')
+    message('Crosstabulating ', names(nutr_rast), ' for ', nutr_year)
+    nutr_df <- raster::crosstab(nutr_rast, rgn_rast,
+                                digits = 4,
+                                long = TRUE,
+                                useNA = TRUE,
+                                progress = 'text')
+    nutr_df <- nutr_df %>%
+      mutate(nutr_pressure = as.numeric(as.character(nutr_pressure)), ### dammit factors!
+             year = as.integer(nutr_year))
+  
+    write_csv(nutr_df, file.path(dir_goal, 'tmp', paste0('nutr_df_tmp_', nutr_year, '.csv')))
+    sg_nutr_df_list[[i]] <- nutr_df
+    
+    message('  - elapsed time: ', (proc.time() - ptm)[3], ' sec')
+  }
+  
+  message('binding cross-tabbed dataframes from each year of nutrient input')
+  seagrass_nutr_df <- bind_rows(sg_nutr_df_list)
+  
+  write_csv(seagrass_nutr_df, seagrass_nutr_df_file)
+
+} else {
+  message('Seagrass nutrient dataframe exists: ', seagrass_nutr_df_file)
+  git_prov(nutr_layer_files,      filetype = 'input')
+  git_prov(rast_base_file,        filetype = 'input')
+  git_prov(seagrass_nutr_df_file, filetype = 'output')
+}
+```
+
+Summarize area-weighted mean pressure values by region and year
+
+- sum(pressure * number of cells) / sum(number of cells)
+- calculate status as (1 - mean pressure)
+    
+``` {r determine_seagrass_status}
+
+seagrass_nutr_df <- read_csv(file.path(dir_goal, 'int', 'seagrass_nutr_df.csv'))
+
+### summarize to regional means
+seagrass_status_df <- seagrass_nutr_df %>%
+  filter(!is.na(nutr_pressure)) %>% 
+  group_by(rgn_id, year) %>%
+  summarize(mean_pressure = sum(nutr_pressure * Freq) / sum(Freq),
+            area_seagrass = sum(Freq) * .01) %>%
+  mutate(status = 1 - mean_pressure)
+
+write_csv(seagrass_status_df, file.path(dir_goal, 'int', 'seagrass_rgn_summary.csv'))
+
+DT::datatable(seagrass_status_df)
+
+```
+
+***
+
+# Citation information  
+[citation information: include if these data will have their own specific citation.]
+
+***
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup()
+```
+

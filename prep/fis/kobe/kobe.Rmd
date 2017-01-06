@@ -1,21 +1,25 @@
 ---
 title: 'OHIBC: Fisheries modified Kobe plots'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
-output:
+output: 
   html_document:
+    code_folding: hide
     toc: true
+    toc_depth: 3
+    toc_float: yes
     number_sections: true
     theme: cerulean
     highlight: haddock
-    includes:
+    includes: 
       in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
   pdf_document:
     toc: true
 ---
 
-``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
-                      echo = FALSE, message = FALSE, warning = FALSE)
+                      echo = TRUE, message = FALSE, warning = FALSE)
 
 source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R;
 ### includes library(tidyverse); library(stringr)

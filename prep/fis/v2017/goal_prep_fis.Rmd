@@ -1,0 +1,82 @@
+---
+title: 'OHIBC: Goal prep for wild-capture fisheries'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(sp)
+library(rgdal)
+library(raster)
+library(DT)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+
+
+### goal specific folders and info
+goal      <- 'fis'
+scenario  <- 'v2016'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+source(file.path(dir_git, 'src/R/prov.R'))   
+  ### Provenance tracking functions: must source at start to initialize prov_track
+prov_run_tag <- 'standard run'
+
+### support scripts
+source(file.path(dir_git, 'src/R/poly_plot_scores.R')) 
+  ### score plotting scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### raster plotting and analyzing scripts
+#source(file.path(dir_spp, 'R/SCRIPT_FXN.R'))
+  ### goal- or script-specific support functions
+
+### set up proj4string options: BC Albers and WGS84
+p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+
+```
+
+1. Prep management areas
+    * Pacific fishery management areas
+    * Pac fishery management subareas
+    * groundfish management areas
+2. Divide region-reported catch by management areas, into OHIBC regions, in kg
+3. Distribute spatially-reported catch (shapefiles/rasters) into OHIBC regions, in kg
+    * dungeness crab
+    * geoduck
+    * prawns
+    * groundfish longline - halibut, hake, sable, Pac ocean perch, other
+    * groundfish trawl - halibut, hake, sable, Pac ocean perch, other
+    * sardines
+4. For (stock in stock list) bind all stocks together:
+    * rgn_id | stock | year | catch in kg | B/Bmsy | F/Fmsy | B' | F'
+    * save this as a layer
+5. Aggregate stock status layer to region level, weighting by catch:
+    * rgn_id | year | B/Bmsy weighted mean | F/Fmsy weighted mean | B' weighted mean | F' weighted mean | status
+    * save this as a layer
+    * use this to determine status and trend
+
+``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
+```
+

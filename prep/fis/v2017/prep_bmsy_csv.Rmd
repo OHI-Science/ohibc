@@ -1,0 +1,152 @@
+---
+title: 'OHIBC: data prep for wild-capture fisheries'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(sp)
+library(rgdal)
+library(raster)
+library(DT)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+
+
+### goal specific folders and info
+goal      <- 'fis'
+scenario  <- 'v2016'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+source(file.path(dir_git, 'src/R/prov.R'))   
+  ### Provenance tracking functions: must source at start to initialize prov_track
+prov_run_tag <- 'standard run'
+
+### support scripts
+source(file.path(dir_git, 'src/R/poly_plot_scores.R')) 
+  ### score plotting scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### raster plotting and analyzing scripts
+source(file.path(dir_goal, 'fis_fxns.R'))
+  ### goal- or script-specific support functions
+
+### set up proj4string options: BC Albers and WGS84
+p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+
+```
+
+``` {r read and process the bbmsy file}
+
+fish_stat_df <- read_csv(file.path(dir_goal, 'fake_bmsy_data.csv'))
+
+names(fish_stat_df) <- tolower(names(fish_stat_df))
+
+names(fish_stat_df)[4:6] <- c('b_bmsy', 'f', 'f_fmsy')
+
+### need match up from stock name to file name
+
+### need to convert b/bmsy and f/fmsy to score
+
+```
+
+``` {r rescale_Bprime}
+
+rescale_bprime <- function(fish_stat_df) {
+  overfished_th    <- .8   ### overfished threshold for bPrime = 1
+  underfished_th   <- 1.5  ### underfished threshold for bPrime = 1
+  
+  fish_stat_df <- fish_stat_df %>%
+    # group_by(stock) %>% ### grouping by stock will set b_max by max per stock, instead of max overall
+    mutate(b_max     = max(b_bmsy, na.rm = TRUE),
+           b_max_mod = b_max - underfished_th) %>%
+    ungroup() %>%
+    mutate(bPrime = NA,
+           bPrime = ifelse(b_bmsy < overfished_th, 
+                           b_bmsy / overfished_th,       ### overfished stock     
+                           bPrime),
+           bPrime = ifelse(b_bmsy >= overfished_th & b_bmsy < underfished_th, 
+                           1,                          ### appropriately fished stock
+                           bPrime),
+           bPrime = ifelse(b_bmsy >= underfished_th, 
+                           (b_max - b_bmsy) / b_max_mod, ### underfished stock
+                           bPrime))
+  
+  return(fish_stat_df)
+}
+
+
+```
+
+``` {r rescale_Fprime}
+
+rescale_fprime <- function(fish_stat_df) {
+  ### check thresholds for
+  ### * IF OVERFISHED:
+  ###   * f_fmsy >= b_bmsy + 1.5: gross overfishing?
+  ###   * f_fmsy >= b_bmsy + 0.2: moderate overfishing?
+  ###   * f_fmsy >= b_bmsy - 0.2: OK fishing?
+  ###   * f_fmsy below that:      underfishing?
+  ### * IF NOT OVERFISHED:
+  ###   * f_fmsy >= 1.2: overfishing?
+  ###   * f_fmsy >= 0.8: OK fishing?
+  ###   * f_fmsy below that: underfishing?
+  
+  underfishing_th  <- .8   
+  overfishing_th   <- 1.2  
+  
+  fish_stat_df <- fish_stat_df %>%
+    # group_by(stock) %>% ### grouping by stock will set f_max by max per stock, instead of max overall
+    mutate(f_max     = max(f_bmsy, na.rm = TRUE),
+           f_max_mod = f_max - overfishing_th) %>%
+    ungroup() %>%
+    mutate(fPrime = NA,
+           fPrime = ifelse(b_bmsy < overfished_th & f_fmsy >= (b_bmsy + 1.5),
+                           0,                     ### overfished, gross overfishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy < overfished_th & (f_fmsy >= (b_bmsy + 0.2) & f_fmsy < (b_bmsy + 1.5)),
+                           (b_bmsy + 1.5 - f_fmsy)/1.5, ### overfished, overfishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy < overfished_th & (f_fmsy >= (b_bmsy - 0.2) & f_fmsy < (b_bmsy + 0.2)),
+                           1,                     ### overfished, moderate fishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy < overfished_th & f_fmsy < (b_bmsy - 0.2),
+                           f_fmsy/(b_bmsy - 0.2), ### overfished, low fishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy >= overfished_th & f_fmsy < underfishing_th,
+                           f_fmsy/underfishing_th, ### NOT overfished, low fishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy >= overfished_th & (f_fmsy >= underfishing_th & f_fmsy < overfishing_th),
+                           1,                     ### NOT overfished, OK fishing
+                           fPrime),
+           fPrime = ifelse(b_bmsy >= overfished_th & f_fmsy >= overfishing_th,
+                           (f_max - f_fmsy) / f_max_mod,  ### NOT overfished, overfishing
+                           fPrime))
+  
+  return(fish_stat_df)
+}
+
+         
+```
+

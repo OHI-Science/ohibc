@@ -3,19 +3,23 @@ title: 'OHIBC Howe Sound goal prep: Species'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
+    code_folding: hide
     toc: true
+    toc_depth: 3
+    toc_float: yes
     number_sections: true
     theme: cerulean
     highlight: haddock
     includes: 
-      in_header: '~/github/ohibc/src/templates/ohibc_hdr2.html'
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
   pdf_document:
     toc: true
 ---
 
-``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
-                      echo = FALSE, message = FALSE, warning = FALSE)
+                      echo = TRUE, message = FALSE, warning = FALSE)
 
 source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
 

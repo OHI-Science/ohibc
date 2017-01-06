@@ -1,0 +1,174 @@
+---
+title: 'OHIBC: CW nutrient/fertilizer layers prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(rgdal)
+library(raster)
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+dir_git     <- '~/github/ohibc'
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal     <- 'cw'
+scenario <- 'v2016'
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### support scripts
+source(file.path('~/github/ohibc/src/R/map_scores.R'))
+  ### score plotting scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### raster plotting and analyzing scripts
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+```
+
+#Summary
+
+This data was used in the Clean Waters goal in OHI 2015
+
+***
+
+#Data Source
+
+**Reference**: [Eriksen et al. 2014](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0111913)
+
+**Downloaded**: December 10, 2014 directly from authors
+
+**Native Data Resolution**:   
+
+**Values**: Count (number/km2) and weight (g/km2) across 4 size classes  
+
+**Time Range**: N/A
+
+**Format**: GeoTIFF
+
+***
+
+# Methods
+
+## Read in data
+
+``` {r read_and_clip_pressure_raster}
+
+poly_eez_base <- readOGR(path.expand(dir_spatial), 'ohibc_rgn')
+rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif')) %>%
+  crop(poly_eez_base)
+
+### Nutrient pressures layers are on Mazu here:
+### Mazu:marine_threats/impact_layers_2013_redo/impact_layers/work/land_based/before_2007/raw_global_results
+
+dir_nutr <- file.path(dir_M, 'marine_threats/impact_layers_2013_redo/impact_layers',
+                      'work/land_based/before_2007',
+                      'raw_global_results')
+
+nutr_files <- list.files(dir_nutr, pattern = '*fert*', full.names = TRUE)
+### basename: raw_global_results/global_plumes_fert_2002_raw.tif
+
+new_rast_files <- file.path(dir_goal_anx, 'tmp', basename(nutr_files)) %>%
+    str_replace('global_plumes', 'cw')
+
+### cropping sped up this loop slightly, but also added time for the crop
+### operation.  Leaving it out for simplicity.
+reload <- FALSE
+
+if(any(!file.exists(new_rast_files)) | reload) {
+  for (i in 1:length(nutr_files)) {
+    message('Processing ', basename(nutr_files[i]))
+    raw_rast <- raster(nutr_files[i])
+    new_rast_file <- new_rast_files[i]
+    new_rast <- raster::projectRaster(raw_rast, rast_base,
+                          overwrite = TRUE)
+    values(new_rast)[is.na(values(rast_base))] <- NA
+    writeRaster(new_rast, new_rast_file, overwrite = TRUE)
+  }
+  
+} else {
+  ### force git provenance registration
+  git_prov(nutr_files, filetype = 'input')
+  git_prov(new_rast_files, filetype = 'output')
+}
+
+```
+
+## Log Transform
+```{r log}
+
+fert_layers_files <- list.files(file.path(dir_goal_anx, 'tmp'), pattern = '*fert*', full.names = TRUE)
+fert_log_files <- file.path(dir_goal_anx, 'int', str_replace(basename(fert_layers_files), '.tif', '_log.tif'))
+
+fert_stack <- stack(as.list(fert_layers_files))
+
+fert_log <- calc(fert_stack, fun = function(x) {log(x + 1)}) %>%
+  setNames(basename(fert_log_files) %>% str_replace('.tif', ''))
+
+writeRaster(fert_log, filename = fert_log_files, bylayer = TRUE, overwrite = TRUE)
+
+plot(fert_log)
+
+```
+
+## Rescale to 99.99th quantile
+```{r quantile}
+
+fert_log_files <- list.files(file.path(dir_goal_anx, 'int'), 
+                             pattern = '*fert*',
+                             full.names = TRUE)
+fert_log_files <- fert_log_files[str_detect(fert_log_files, 'log')]
+
+fert_rescale_files <- file.path(dir_goal_anx, 'rescaled_layers',
+                                basename(fert_log_files) %>%
+                                  str_replace('raw_log', 'rescaled'))
+
+fert_log <- stack(as.list(fert_log_files))
+
+fert_ref <- quantile(fert_log, prob = c(0.001, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 0.99, 0.999, 0.9999))
+  ### returns a quantile set for each layer
+fert_99 <- fert_ref[ , 10] %>% max()
+  ### column 10 is 99.99%; find max over all layers
+
+fert_rescale <- calc(fert_log, fun = function(x) {
+    ifelse(x > fert_99, 1, x / fert_99)
+  }) %>%
+  setNames(basename(fert_rescale_files) %>% str_replace('.tif', ''))
+
+writeRaster(fert_rescale, filename = fert_rescale_files, 
+            bylayer = TRUE,
+            overwrite = TRUE)
+
+plot(fert_rescale)
+
+```
+
+***
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup()
+```
+

@@ -1,0 +1,369 @@
+---
+title: 'OHIBC: CW trash layers prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(rgdal)
+library(raster)
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+dir_git     <- '~/github/ohibc'
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal     <- 'cw'
+scenario <- 'v2016'
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### support scripts
+source(file.path('~/github/ohibc/src/R/map_scores.R'))
+  ### score plotting scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### raster plotting and analyzing scripts
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+```
+
+#Summary
+
+This data was used in the Clean Waters goal in OHI 2015
+
+***
+
+#Data Source
+
+**Reference**: [Eriksen et al. 2014](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0111913)
+
+**Downloaded**: December 10, 2014 directly from authors
+
+**Native Data Resolution**:   
+
+**Values**: Count (number/km2) and weight (g/km2) across 4 size classes  
+
+**Time Range**: N/A
+
+**Format**: GeoTIFF
+
+***
+
+# Methods
+
+## Read in data
+
+### Eriksen 2014 data
+```{r read_plastics_data}
+
+dir_data <- file.path(dir_M, 'git-annex/globalprep/CW_pressure_trash')
+
+# plastics data
+count_rasts_raw  <- list.files(path = file.path(dir_data, 'v2015/globalplastic_wd_cd_rasters_180'), 
+                               pattern = 'count_*',  full.names = TRUE)
+weight_rasts_raw <- list.files(path = file.path(dir_data, 'v2015/globalplastic_wd_cd_rasters_180'), 
+                               pattern = 'weight_*', full.names = TRUE)
+
+### LEGACY INFO?
+###  There are 3 extra weight files from the data source. For sizes 2-4, there is
+###  a file with a '2' at the end of it. These are the rasters
+###  that work, while the other three do not. As an example:
+# raster(file.path(dir_data,'v2015/globalplastic_wd_cd_rasters_180/weight_density_size2_180.tif')) 
+### gives an error but
+# raster(file.path(dir_data,'v2015/globalplastic_wd_cd_rasters_180/weight_density_size2_180_2.tif')) 
+### works! These are the ones we will use, along with weight size 1 which appears to work
+```
+
+## Unlog data and crop to BC regions
+
+Data came to us logged (using base 10 log) so need to 'unlog' the data first.  While this is probably already done for global, we will re-extract here just to make sure we are accessing the raw data correctly.
+
+```{r unlog}
+
+### pull in a base raster in the proper projection for this data, but with
+### extents of BC regions for projecting/cropping/etc
+rast_base_wgs84 <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_wgs84_30min.tif')) %>%
+  extend(extent(-145, -115, 40, 60))
+
+unlog <- function(rast_raw) { # rast_raw <- count_rasts_raw[1]
+
+  if(!file.exists(file.path(dir_goal_anx, 'tmp/unlog'))) 
+    dir.create(file.path(dir_goal_anx, 'tmp/unlog'), recursive = TRUE)
+  
+  name <- basename(rast_raw)
+  rast_in <- raster(rast_raw) %>%
+    crop(rast_base_wgs84)
+  values(rast_in)[values(rast_in) == min(values(rast_in))] <- NA
+    ### min values (i.e. land values) are not zero; find min and set 'em to NA
+  
+  rast_out <- 10^rast_in
+  
+  writeRaster(rast_out, 
+              filename = paste0(dir_goal_anx, '/tmp/unlog/unlog_', name, sep = ''), 
+              overwrite = TRUE, format = 'GTiff')
+  
+  return(invisible(rast_out))
+}
+
+sapply(count_rasts_raw,  unlog)
+sapply(weight_rasts_raw, unlog)
+
+```
+
+## Stack all rasters of mass density
+
+From here out, calculations will be based on mass density of particles, not count
+```{r stack}
+
+weight_rasts <- list.files(file.path(dir_goal_anx, 'tmp/unlog'), pattern = 'unlog_weight_*', full.names = TRUE)
+
+weight_stack <- stack(weight_rasts)
+
+### check to make sure NAs are consistent; cells should be 0 (all data) or 4 (all NAs)
+wt_nacount <- calc(weight_stack, fun = function(x) {sum(is.na(x))})
+### they are not consistent.
+
+wt_sum <- calc(weight_stack, fun = sum, na.rm = FALSE)
+
+writeRaster(wt_sum, file.path(dir_goal_anx, 'int/cw_trash_weight_sum.tif'), overwrite = TRUE)
+
+```
+
+## Interpolate to gapfill using nearest neighbor
+
+Perform gapfill at original data resolution (coarser resolution)
+
+``` {r interpolate to gapfill}
+### interpolate using nearest neighbor
+wt_sum <- raster(file.path(dir_goal_anx, 'int/cw_trash_weight_sum.tif'))
+
+fill.na <- function(x, i=5) {
+  if( is.na(x)[i] ) {
+    return( round(mean(x, na.rm=TRUE),0) )
+  } else {
+    return( round(x[i],0) )
+  }
+}  
+
+### nearest neighbor, requires 
+# Pass the fill.na function to raster::focal and check results. The pad 
+# argument creates virtual rows/columns of NA values to keep the vector 
+# length constant along the edges of the raster. This is why we can always 
+# expect the fifth value of the vector to be the focal value in a 3x3 window 
+# thus, the index i=5 in the fill.na function.
+
+r <- wt_sum
+n_passes <- 10 ### each pass builds a new "layer" of gapfilled cells
+for(i in 1:n_passes) {
+  message('Interpolation pass ', i, ' of ', n_passes)
+  ptm <- proc.time()
+  r <- focal(r, w = matrix(1,3,3), fun = fill.na, 
+             pad = TRUE, na.rm = FALSE )
+  plot(r, main = i)
+  message('... elapsed: ', (proc.time() - ptm)[3], ' sec')
+}
+
+plot(wt_sum)
+plot(r)
+
+writeRaster(r, file.path(dir_goal_anx, 'int/cw_trash_weight_sum_interp.tif'), overwrite = TRUE)
+```
+
+``` {r trying and failing at ipdw, eval = FALSE}
+
+wt_sum <- raster(file.path(dir_goal_anx, 'int/cw_trash_weight_sum.tif'))
+
+### ipdw
+bc_land_poly <- readOGR(dsn = file.path(path.expand(dir_spatial)),
+                       layer = 'ohibc_land_wgs84')
+bc_rgn_poly <- readOGR(dsn = file.path(path.expand(dir_spatial)),
+                       layer = 'ohibc_rgn_wgs84')
+
+### create cost raster manually
+bc_land_rast_raw <- gdal_rast2(src = file.path(dir_spatial, 'ohibc_land_wgs84'),
+                           rast_base = wt_sum,
+                           dst = file.path(dir_goal, 'ohibc_land_rast.tif'),
+                           value = 'rgn_id',
+                           override_p4s = TRUE)
+
+values(bc_land_rast_raw)[values(bc_land_rast_raw) == 1] <- 10000
+values(bc_land_rast_raw)[is.na(values(bc_land_rast_raw))] <- 0
+bc_land_rast <- crop(bc_land_rast_raw, bc_rgn_poly)
+
+plastic_rast <- crop(wt_sum, bc_land_rast)
+
+values(bc_land_rast)[!is.na(values(plastic_rast))] <- 0
+  ### remove land cost where there are plastic data
+
+plastic_matrix <- rasterToPoints(plastic_rast)
+
+plastic_spdf <- SpatialPointsDataFrame(plastic_matrix[, 1:2], data.frame('plastics' = plastic_matrix[, 3]), 
+                                   proj4string = CRS(proj4string(bc_land_poly)))
+
+# costras <- costrasterGen(plastic_spdf, bc_land_poly, extent = "points", projstr = proj4string(bc_land_poly))
+
+# costras_pts <- rasterToPoints(costras)
+# plot(costras, alpha = .5)
+# plot(plastic_spdf, alpha = .7, add = TRUE)
+
+
+library(ipdw)
+
+final.ipdw <- ipdw(plastic_spdf, bc_land_rast, range = 10, paramlist = 'plastics', overlapped = TRUE)
+
+plot(final.ipdw)
+x <- bc_land_rast; values(x)[values(x) == 0]<- NA
+plot(x, add = TRUE)
+# ipdw(spdf, costras, range, paramlist, overlapped = FALSE,
+#   yearmon = "default", removefile = TRUE, step = 16)
+# Arguments
+# spdf         SpatialPointsDataFrame object. --> raster to points of non-NA trash values
+# costras      RasterLayer. Cost raster
+# range        numeric. Range of interpolation neighborhood
+# paramlist    character. String representing parameter names
+# overlapped   logical. Default is FALSE, specify TRUE if some points lie on top of barriers
+# yearmon      character. String specifying the name of the spdf
+# removefile   logical. Remove files after processing?
+# step         numeric. Number of sub loops to manage memory during raster processing.
+
+
+Sr1 <- Polygon(cbind(c(0, 0, 1, 1, 0), c(0, 12, 12, 0, 0)))
+Sr4 <- Polygon(cbind(c(9, 9, 10, 10, 9), c(0, 12, 12, 0, 0)))
+Sr2 <- Polygon(cbind(c(1, 1, 9, 9, 1), c(11, 12, 12, 11, 11)))
+Sr3 <- Polygon(cbind(c(1, 1, 9, 9, 1),c(0, 1, 1, 0, 0)))
+Sr5 <- Polygon(cbind(c(4, 4, 5, 5, 4), c(4, 8, 8, 4, 4)))
+Srs1 <- Polygons(list(Sr1), "s1")
+Srs2 <- Polygons(list(Sr2), "s2")
+Srs3 <- Polygons(list(Sr3), "s3")
+Srs4 <- Polygons(list(Sr4), "s4")
+Srs5 <- Polygons(list(Sr5), "s5")
+
+pols <- SpatialPolygons(list(Srs1, Srs2, Srs3, Srs4, Srs5), 1:5)
+
+#using a matrix object
+xymat <- matrix(3, 3, nrow = 1, ncol = 2)
+costras <- costrasterGen(xymat, pols, projstr = NULL)
+
+#plotting
+plot(costras)
+costras_pts2 <- rasterToPoints(costras)
+points(xymat)
+
+### vignette('ipdw')
+
+```
+
+try interpolating using Thin Plate Spline instead
+``` {r interpolate_using_tps}
+
+wt_sum <- raster(file.path(dir_goal_anx, 'int/cw_trash_weight_sum.tif'))
+
+wt_sum_int_file <- file.path(dir_goal_anx, 'int/cw_trash_weight_sum_int.tif')
+
+if(!file.exists(wt_sum_int_file)) {
+  message('Interpolating BC trash weight data')
+
+  xy <- data.frame(xyFromCell(wt_sum, 1:ncell(wt_sum)))
+
+  v  <- getValues(wt_sum)
+  tmpdf <- cbind(xy, v) %>%
+    filter(!is.na(v)) %>%
+    sample_frac(.25) ### sample 25% of non-NA cells? aim for about 2000 cells?
+  xy1 <- tmpdf[ , 1:2]
+  v1  <- tmpdf[ , 3]
+  tps_model <- fields::Tps(xy1, v1)
+
+  wt_sum_int <- interpolate(wt_sum, tps_model)
+
+  wt_sum_gapfilled <- wt_sum
+  values(wt_sum_gapfilled)[is.na(values(wt_sum))] <- values(wt_sum_int)[is.na(values(wt_sum))] 
+
+  message('Writing gapfilled BC trash weight to: ', wt_sum_int_file)
+  writeRaster(wt_sum_gapfilled, wt_sum_int_file, overwrite = TRUE)
+  
+} else {
+  message('Reading gapfilled BC trash weight from: ', wt_sum_int_file)
+
+  wt_sum_int <- raster(wt_sum_int_file)
+}
+
+plot(wt_sum_int)
+
+```
+
+``` {r reproject to BC Albers}
+
+### reproject to BC Albers
+rast_base_bcalb   <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif'))
+
+wt_bcalb <- projectRaster(from = wt_sum, to = rast_base_bcalb, method = 'ngb')
+  ### nearest neighbor (ngb) changes the original data less than bilinear; but
+  ### this leaves it chunky
+# values(wt_bcalb)[is.na(values(rast_base_bcalb))] <- NA
+
+
+``` 
+
+``` {r plot plastic pollution rasters}
+
+plot(wt_bcalb, col = cols, main = 'Weight density (g/km2)')
+```
+
+
+## Log Transform
+```{r log}
+
+wt_bcalb <- raster(file.path(dir_goal_anx, 'int/cw_trash_weight_sum.tif'))
+
+wt_log <- calc(wt_bcalb, fun = function(x) {log(x + 1)})
+
+writeRaster(wt_log, file.path(dir_goal_anx, 'int/cw_trash_weight_log.tif'), overwrite = TRUE)
+
+plot(wt_log, col = cols, main = 'Weight density\nlog(g/km2)')
+
+```
+
+## Rescale to 99.99th quantile
+```{r quantile}
+
+wt_log <- raster(file.path(dir_goal_anx, 'int/cw_trash_weight_log.tif'))
+
+wt_ref <- quantile(wt_log, prob = c(0.001, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 0.99, 0.999, 0.9999))
+
+wt_99 <- wt_ref[10]
+
+histogram(wt_log, main = 'Weight density (log(g/km2))')
+
+wt_rescale <- calc(wt_log, fun = function(x) {ifelse(x > wt_99, 1, x / wt_99)}) %>%
+  setNames('log_weight')
+
+writeRaster(wt_rescale, file.path(dir_goal_anx, 'rescaled_layers/cw_trash_wt_rescale.tif'), overwrite = TRUE)
+
+plot(wt_rescale, main = 'CW trash pressure layer: weight density (g/km2)',     col = cols)
+
+```
+
+
+

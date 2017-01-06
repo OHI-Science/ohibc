@@ -1,0 +1,500 @@
+---
+title: 'OHIBC: data prep for wild-capture fisheries'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(sp)
+library(rgdal)
+library(raster)
+library(DT)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+
+
+### goal specific folders and info
+goal      <- 'fis'
+scenario  <- 'v2016'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+source(file.path(dir_git, 'src/R/prov.R'))   
+  ### Provenance tracking functions: must source at start to initialize prov_track
+prov_run_tag <- 'standard run'
+
+### support scripts
+source(file.path(dir_git, 'src/R/poly_plot_scores.R')) 
+  ### score plotting scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### raster plotting and analyzing scripts
+#source(file.path(dir_spp, 'R/SCRIPT_FXN.R'))
+  ### goal- or script-specific support functions
+
+### set up proj4string options: BC Albers and WGS84
+p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+
+```
+
+fisheries reporting:
+* fisheries reporting is in zones (denoted by polygons)
+* some fisheries are reported by cells (4 km cells?)
+  * dungeness crabs
+  
+  
+We will work at 1 km resolution (?)
+* create a raster of rgn_id at 1 km resolution
+  * does this already exist?
+    * yes: prep/spatial/ohibc_rgn_raster_1000m.tif
+      * NOTE: the raster has some problems; e.g. Haida Gwaii is filled in
+    * also 500 m raster if desired
+* create a raster of fishery zones (for csv reporting)
+  * at 1 km resolution
+* rasterize layers for each year:
+  * use nearest neighbor if reclassifying
+  * use cell center (default) otherwise; this allows for gdal_rasterize
+  * stack together all years of a single fishery for processing
+
+Explore layers:
+``` {r, eval = FALSE}
+dir_dfo <- file.path(dir_anx, '_raw_data/dfo_khunter')
+dir_list <- list.files(dir_dfo)
+dir_list <- dir_list[file.info(file.path(dir_dfo, dir_list))$isdir] %>%
+  file.path(dir_dfo, .)
+#  [1] "aquaculture"               "dungeness_crab"            "ferry_terminals"          
+#  [4] "geoduck"                   "groundfish_longline"       "groundfish_mgmt_areas"    
+#  [7] "groundfish_trawl"          "marina_pnt"                "pac_fishery_mgmt_areas"   
+# [10] "pac_fishery_mgmt_subareas" "pacific_sardine"           "salmon_enhancement"       
+# [13] "spot_prawn"  
+
+basename(dir_list[i])
+shp_list <- list.files(dir_list[i], full.names = TRUE)
+# shp_list <- list.files(file.path(dir_list[i], 'TENURES_PNT'), full.names = TRUE)
+
+shp_list <- shp_list[str_detect(shp_list, '.shp$')] %>%
+  str_replace('.shp', '')
+shp <- list()
+for (j in 1:length(shp_list)) { ### j <- 1
+  shp[j] <- rgdal::readOGR(dsn   = dirname(shp_list[j]), 
+                           layer = basename(shp_list[j]), 
+                           stringsAsFactors = FALSE)
+  print(names(shp[[j]]@data))
+}
+
+names(shp) <- shp_list
+
+plot(shp[[1]])
+
+d <- shp[[1]]@data
+
+d[1, ]
+shp_list
+### dungeness_crab: 2001 through 2011 (2001 duplicated?)
+#   ID ET_ID GRIDCELL PNT_COUNT Catch_kg Effort_hr SEASON Shape_Leng Shape_Area
+# 0  0 21178  60--298         1        0         0   2001      16000    1.6e+07
+  
+### geoduck: 2003 through 2011
+#   ID ET_ID GRIDCELL PNT_COUNT Catch_kg Effort_hr SEASON Shape_Leng Shape_Area
+# 0  0 26405  75--305         3      776        12   2003      16000    1.6e+07
+
+### pacific_sardine: 2002, 2003, 2004 (?)
+#   OBJECTID OID_1 Count_ Sum_EstTon Shape_Leng Shape_Area
+# 0     2893  2893      3         50      16000    1.6e+07
+
+### spot_prawn: 2001, 2002
+#   ID ET_ID GRIDCELL PNT_COUNT Catch_kg Effort_trp SEASON Shape_Leng Shape_Area
+# 0  0 23574  67--258         1        0          0   2001      16000    1.6e+07
+
+
+
+
+### ferry_terminals: CHRFRRTRMN_point
+#                  ROUTE TELE_NUM TRMNL_LOC OPERATOR TRCKTTLFRR FERRY_ID   DATA_SRC COMMENTS VCLOHTTYR VCLTTYR
+# 1 Victoria To Port Ang     <NA>      <NA>     <NA>          0        1 CHS CHARTS     <NA>         0       0
+#   VCLUHTTYR VSSLSZLMT BERTHS PSNGRTTAUG PSNGRTTDEC PSNGRTTFEB OBJECTID PSNGRTTAPR PSNGRTTJAN       FYTRMTYP
+# 1         0         0     NA          0          0          0        1          0          0 Ferry Terminal
+#   AGENT PSNGRTTYR RI PSNGRTTJUL BUSTTLYR SRC_PROJ PSNGRTTJUN PSNGRTTMAR PSNGRTTMAY PSNGRTTNOV PSNGRTTOCT
+# 1  <NA>         0  0          0        0     SSOG          0          0          0          0          0
+#   PSNGRTTSEP
+# 1          0
+
+### marina_pnt: MARINA_PNT_point
+#   FAX_NUMBER TREAT_AVL UNIT_TOTAL WSHRM_AVL EMAIL_ADDR WATER_AVL RV_SITE_TO MARINA_ID PEAK_PERID LOCATION CAMPSITE_T
+# 1       <NA>      <NA>          0         U       <NA>         U          0       265       <NA>     <NA>          0
+#   OBJECTID NAME MOORAGE_AV MAX_BOATS MARINA_SUP LUB_AVL LIVE_ABOAR LNDRY_AVL HOLD_TANKS GAS_AVL FUEL_AVL     F_CODE
+# 1      265 <NA>          U         0          U       U          0         U          0       U        U BL17000000
+#   PRI_PHNE_N DISPSL_AVL DIESEL_AV                  DESCRIPT DATA_SRC CONTACT COMMENTS CITY AVG_OCCUP AVG_DEPTH
+# 1       <NA>          U         U Information Not Available     <NA>    <NA>     <NA> <NA>         0         0
+#   ACCOM_TYPE SHOW_AVL SEC_PHNE_N SEASON RSTRT_AVL REL_IMPORT PROVINCE PWR_AVL POSTAL_COD SOURCE_PRJ STR_ADDRES TRSVLBL
+# 1       <NA>        U       <NA>   <NA>         U          3     <NA>    <NA>       <NA>       NSOG       <NA>       U
+
+### salmon_enhancement_facilities: Accommodation
+# [1] "Echo Bay Guardian Trailer"
+
+
+### Aquaculture:
+### NOTE: not all shapefiles have the same attributes... shellfish vs finfish
+### NOTE: readOGR returns warning 'Z-dimension discarded'
+# Aquaculture layers:
+# [1] "Finfish_Tenure_AtlanticSalmon"  31 columns
+# [2] "Finfish_Tenure_ChinookSalmon"   31 columns   
+# [3] "Finfish_Tenure_CohoSalmon"      31 columns   
+# [4] "Finfish_Tenure_Sablefish"       31 columns    
+# [5] "Finfish_Tenure_SockeyeSalmon"   31 columns
+# [6] "Shellfish_Tenure_Clams"         28 columns  
+# [7] "Shellfish_Tenure_Mussels"       28 columns 
+# [8] "Shellfish_Tenure_Oyster"        28 columns     
+# [9] "Shellfish_Tenure_Scallops"      28 columns 
+
+### cols for finfish (atl salmon):
+#   OBJECTID_1 CMPY_NUM CUL_TYPE F_CODE LAND_FILE                     LEGAL_DESC
+# 0          1     1618       NC   <NA>   1409321 UF, part bed of Chancellor Cha
+#            LEGAL_DE_1 LEGAL_DE_2 LEGAL_DE_3                                 LOCATION MAP_LONG
+# 0 R 1, Coast District       <NA>       <NA> Hardwicke Is. Site B, Chancellor Channel  1254502
+#                         NAME OBJECTID REF_NUM FINFISH_ID MAP_LAT STAT_AREA SITE_AREA TENURE_DOC
+# 0 Marine Harvest Canada Inc.    23128    1581         88  502528      1340        48     112026
+#   TENURE_ISS TENURE_STA        COMMONAME                               LOCATION_1 LAND_FILE_ STAT
+# 0   20051231         LI Hardwicke Site B Hardwicke Is. Site B, Chancellor Channel    1409321   13
+#   STAT_SUB LONGITUDE LATITUDE                        SP_LIC Shape_Leng Shape_Area
+# 0       40 -125.7665  50.4147 Atlantic Salmon (Salmo salar)   1936.549   174593.6
+
+```
+
+``` {r setup_pfma_rasters, eval = FALSE}
+
+rast_rgn <- raster(file.path(dir_git, 'prep/spatial/ohibc_rgn_raster_1000m.tif'))
+
+good_rasterize <- function(in_shp, out_tif, field) {
+  if(!exists('rast_rgn'))
+    rast_rgn <- raster('~/github/ohibc/prep/spatial/ohibc_rgn_raster_1000m.tif')
+  te <- rast_rgn@extent
+  base_te <- c(te@xmin, te@ymin, te@xmax, te@ymax)
+  base_tr <- raster::res(rast_rgn)
+  
+  if(!str_detect(in_shp, '.shp')) 
+    in_shp <- paste0(in_shp, '.shp')
+  
+  out_tif_tmp <- out_tif %>%
+    str_replace('.tif', '_tmp.tif')
+  if(!file.exists(out_tif_tmp))
+    raster::writeRaster(rast_rgn, out_tif_tmp)
+  ### need a file there for gdalUtils::gdal_rasterize to do its work
+  
+  message('Rasterizing:\n  ', in_shp, '\nto temp tif: \n  ', out_tif_tmp)
+  rast_tmp <- gdalUtils::gdal_rasterize(
+    src_datasource = path.expand(in_shp),
+    dst_filename   = path.expand(out_tif_tmp),
+    a = field, # attribute to burn
+    a_nodata = NA,
+    # at = TRUE,
+    te = base_te,
+    tr = base_tr,
+    output_Raster = TRUE)
+  
+  ### rewrite for compression and unlink the temp raster
+  message('Compressing: \n  ', out_tif_tmp, '\nto: \n  ', out_tif)
+  raster::writeRaster(rast_tmp, out_tif, overwrite = TRUE)
+  unlink(out_tif_tmp)
+  return(invisible(raster::raster(out_tif)))
+}
+
+### Rasterize Pacific Fishery Management Areas
+###   STATAREA HECTARES    SQ_KM SHAPE_Leng SHAPE_Area
+###          1 109760.7 1097.607   891758.4 1097606860
+
+pfma_shp <- file.path(dir_anx, '_raw_data/dfo_khunter',
+                      'PacificFisheryMgmtAreas',
+                      'DFO_BC_PFMA_AREAS_50K_V3_1')
+
+pfma_tif <- file.path(dir_anx, 'fis', scenario, 'spatial', 
+                      'DFO_BC_PFMA_AREAS_50K_V3_1.tif')
+
+rast_pfma <- good_rasterize(pfma_shp, pfma_tif, 'STATAREA')
+
+### Rasterize Pacific Fishery Management Sub-Areas
+### NOTE: DFO_BC_PFMA_SUBAREAS_CHS_V3.shp is corrupted or invalid
+### DFO_BC_PFMA_SUBAREAS_50K_V3_1:
+###   MGNT_AREA SUBAREA_         NAME LABEL HECTARES    SQ_KM SHAPE_Leng SHAPE_Area
+###           7       22 Subarea 7-22  7-22 227.6391 2.276391   16178.94    2276387
+
+pfmasub_shp <- file.path(dir_anx, '_raw_data/dfo_khunter',
+                      'PacificFisheryMgmtArea_SUBAREAS',
+                      'DFO_BC_PFMA_SUBAREAS_50K_V3_1')
+
+pfmasub_tif <- file.path(dir_anx, 'fis', scenario, 'spatial', 
+                         'DFO_BC_PFMA_SUBAREAS_50K_V3_1.tif')
+
+rast_pfmasub <- good_rasterize(pfmasub_shp, pfmasub_tif, 'SUBAREA_')
+
+### Rasterize Groundfish Management Areas
+###   MINOR_CODE         MINOR_NAME MAJOR_CODE MAJOR_NAME GFB_MIN_CD GFB_MAJ_CD DESCR Shape_Leng Shape_Area
+###            1 2A-EAST- SKIDEGATE          8         5D         01         08 5D-01   433586.1 4000732438
+gfma_shp <- file.path(dir_anx, '_raw_data/dfo_khunter',
+                      'GroundfishMgmtAreas',
+                      'MajorMinor_GroundfishManagementAreas')
+
+gfma_tif <- file.path(dir_anx, 'fis', scenario, 'spatial', 
+                      'MajorMinor_GroundfishManagementAreas.tif')
+
+rast_gfma <- good_rasterize(gfma_shp, gfma_tif, 'MINOR_CODE')
+
+plot(rast_pfma)
+plot(rast_pfmasub)
+plot(rast_gfma)
+```
+
+``` {r setup_harvest_rasters, eval = FALSE}
+
+### UPDATE WITH BETTER RASTER FUNCTION (using gdal_rasterize)
+
+### two automation functions:
+### * create_poly_list takes a directory name, identifies the shapefiles,
+###   trims the filename ends if needed, and returns a named list of the SPDFs.
+### * rasterize_list() takes the named SPDFs list, and a field name argument,
+###   and rasterizes each SPDF to the fisheries spatial folder.
+create_poly_list <- function(dir_shp, trim_end = -17) {
+  shp_list <- list.files(dir_shp, full.names = TRUE)
+
+  shp_list <- shp_list[str_detect(shp_list, '.shp$')] %>%
+    str_replace('.shp', '')
+  shp <- list()
+  for (j in 1:length(shp_list)) { ### j <- 1
+    shp[[j]] <- rgdal::readOGR(dsn   = dirname(shp_list[j]), 
+                             layer = basename(shp_list[j]), 
+                             stringsAsFactors = FALSE)
+    names(shp[[j]]@data) <- tolower(names(shp[[j]]@data))
+  }
+  
+  names(shp) <- basename(shp_list) %>%
+    tolower() %>%
+    str_sub(1, trim_end)
+  
+  return(shp)
+}
+
+rasterize_list <- function(poly_list, fld_name) {
+  for (j in 1:length(poly_list)) { # j = 2
+    lyr_name <- names(poly_list[j]) 
+      ### single bracket returns name of the list item; double returns the names of the columns in the object
+    poly <- poly_list[[j]]
+      ### double bracket returns the single object held in that list slot
+    names(poly@data)[names(poly@data) == fld_name] <- 'fld'
+    poly@data <- poly@data %>%
+      mutate(fld_per_km2 = fld/(shape_area/1e6))
+    rast_item <- rasterize(poly, rast_rgn, 
+                         field = 'fld_per_km2', 
+                         fun   = 'last',
+                         filename = file.path(dir_anx, 'fis', scenario, 'spatial', 
+                                              sprintf('%s_%s.tif', lyr_name, fld_name)),
+                         overwrite = TRUE)
+  }
+  return(invisible(rast_item))
+}
+
+if(!exists('rast_rgn')) 
+  rast_rgn <- raster(file.path(dir_git, 'prep/spatial/ohibc_rgn_raster_1000m.tif'))
+
+### dungeness_crab: 2001 through 2011 (2001 duplicated?)
+###   ID ET_ID GRIDCELL PNT_COUNT Catch_kg Effort_hr SEASON Shape_Leng Shape_Area
+###    0 21178  60--298         1        0         0   2001      16000    1.6e+07
+  
+dir_shp <- file.path(dir_anx, '_raw_data/dfo_khunter',
+                      'dungeness_crab')
+crab_polys <- create_poly_list(dir_shp)
+x <- rasterize_list(crab_polys, fld_name = 'catch_kg')
+y <- rasterize_list(crab_polys, fld_name = 'effort_hr')
+
+
+### geoduck: 2003 through 2011
+#   ID ET_ID GRIDCELL PNT_COUNT Catch_kg Effort_hr SEASON Shape_Leng Shape_Area
+# 0  0 26405  75--305         3      776        12   2003      16000    1.6e+07
+
+dir_shp <- file.path(dir_anx, '_raw_data/dfo_khunter',
+                      'geoduck')
+geoduck_polys <- create_poly_list(dir_shp)
+rasterize_list(geoduck_polys, fld_name = 'catch_kg')
+rasterize_list(geoduck_polys, fld_name = 'effort_hr')
+
+
+### spot_prawn: 2001, 2002
+#   ID ET_ID GRIDCELL PNT_COUNT Catch_kg Effort_trp SEASON Shape_Leng Shape_Area
+# 0  0 23574  67--258         1        0          0   2001      16000    1.6e+07
+
+dir_shp <- file.path(dir_anx, '_raw_data/dfo_khunter',
+                      'spot_prawn')
+prawn_polys <- create_poly_list(dir_shp)
+rasterize_list(prawn_polys, fld_name = 'catch_kg')
+rasterize_list(prawn_polys, fld_name = 'effort_trp')
+
+### pacific_sardine: 2002, 2003, 2004 (?)
+#   OBJECTID OID_1 Count_ Sum_EstTon Shape_Leng Shape_Area
+# 0     2893  2893      3         50      16000    1.6e+07
+
+dir_shp <- file.path(dir_anx, '_raw_data/dfo_khunter',
+                      'pacific_sardine')
+sardine_polys <- create_poly_list(dir_shp, trim_end = -1)
+names(sardine_polys) <- paste0('sardines', c(2002:2004))
+rasterize_list(sardine_polys, fld_name = 'sum_estton')
+
+```
+
+``` {r aggregate_to_rgn, eval = FALSE}
+if(!exists('rast_rgn'))
+  rast_rgn <- raster(file.path(dir_git, 'prep/spatial/ohibc_rgn_raster_1000m.tif'))
+
+dir_rast <- file.path(dir_anx, goal, scenario, 'spatial')
+
+zonestats <- function(stock, value, yrs, fun = 'sum') {
+  fis_df <- data.frame()
+  for (yr in yrs) { # yr <- 2001
+    tmp_rast <- raster(file.path(dir_rast, sprintf('%s%s_%s.tif', stock, yr, value)))
+    tmp_zonal <- zonal(tmp_rast, rast_rgn, fun = fun, digits=0, na.rm=TRUE) %>%
+      as.data.frame()
+    fis_df <- bind_rows(tmp_zonal, fis_df)
+  }
+names(fis_df) <- c('rgn_id', value, 'year')
+return(fis_df)
+}
+
+### dungeness crabs!
+fis_stock <- 'crabtrap_dungeness'
+fis_value <- 'catch_kg'
+fis_fun   <- 'sum'
+yrs <- c(2001:2011)
+
+catch_df  <- zonestats(fis_stock, 'catch_kg',  yrs, fis_fun)
+effort_df <- zonestats(fis_stock, 'effort_hr', yrs, fis_fun)
+write_csv(catch_df, file.path(dir_goal, sprintf('int/%s_catch_kg.csv', fis_stock)))
+write_csv(effort_df, file.path(dir_goal, sprintf('int/%s_effort_hr.csv', fis_stock)))
+
+### Geoduck!
+fis_stock <- 'dive_geoduck'
+fis_fun   <- 'sum'
+yrs <- c(2003:2011)
+
+catch_df  <- zonestats(fis_stock, 'catch_kg',  yrs, fis_fun)
+effort_df <- zonestats(fis_stock, 'effort_hr', yrs, fis_fun)
+write_csv(catch_df, file.path(dir_goal, sprintf('int/%s_catch_kg.csv', fis_stock)))
+write_csv(effort_df, file.path(dir_goal, sprintf('int/%s_effort_hr.csv', fis_stock)))
+
+### Spot prawns!
+fis_stock <- 'prawntrap_prawns'
+fis_fun   <- 'sum'
+yrs <- c(2001:2002)
+
+catch_df  <- zonestats(fis_stock, 'catch_kg',  yrs, fis_fun)
+effort_df <- zonestats(fis_stock, 'effort_trp', yrs, fis_fun)
+write_csv(catch_df, file.path(dir_goal, sprintf('int/%s_catch_kg.csv', fis_stock)))
+write_csv(effort_df, file.path(dir_goal, sprintf('int/%s_effort_trp.csv', fis_stock)))
+
+### Sardines!
+fis_stock <- 'sardines'
+fis_fun   <- 'sum'
+yrs <- c(2002:2004)
+  
+catch_df  <- zonestats(fis_stock, 'sum_estton',  yrs, fis_fun)
+write_csv(catch_df, file.path(dir_goal, sprintf('int/%s_catch_estton.csv', fis_stock)))
+
+```
+
+``` {r fish_mgmt_zones_by_rgn}
+if(!exists('rast_rgn'))
+  rast_rgn <- raster(file.path(dir_git, 'prep/spatial/ohibc_rgn_raster_1000m.tif'))
+
+### count cells of each fishery management zone that fall within each OHIBC region.
+### e.g. zone 100 (300 cells) falls between region 1 (100 cells) and region 2 (200 cells)
+### set up df with columns: rgn_id, pfma_id, pfmsa_id, gfma_id using getValues.
+### If all rasters are same extents, then the return from getValues() should be a vector
+### of cell values that correspond to the same order of cells for each vector.
+
+rast_pfma  <- raster(file.path(dir_anx, 'fis', scenario, 'spatial', 
+                              'DFO_BC_PFMA_AREAS_50K_V3_1.tif'))
+rast_pfmsa <- raster(file.path(dir_anx, 'fis', scenario, 'spatial', 
+                              'DFO_BC_PFMA_SUBAREAS_50K_V3_1.tif'))
+rast_gfma  <- raster(file.path(dir_anx, 'fis', scenario, 'spatial', 
+                              'MajorMinor_GroundfishManagementAreas.tif'))
+
+if(!(extent(rast_pfma)  == extent(rast_rgn))) {
+  message('rgn and pfma extents not equal... fix them!')
+} else {
+  rgn_pfma_df <- data.frame(
+      rgn_id   = round(getValues(rast_rgn)),
+      pfma_id  = round(getValues(rast_pfma))) %>%
+    group_by(rgn_id) %>%
+    mutate(n_cells_rgn = n()) %>%
+    group_by(pfma_id) %>%
+    mutate(n_pfma_tot = n()) %>%
+    group_by(rgn_id, pfma_id) %>%
+    mutate(n_pfma_rgn = n()) %>%
+    filter(!is.na(rgn_id)) %>%
+    distinct()
+}
+
+if(!(extent(rast_pfmsa)  == extent(rast_rgn))) {
+  message('rgn and pfmsa extents not equal... fix them!')
+} else {
+  rgn_pfmsa_df <- data.frame(
+      rgn_id   = round(getValues(rast_rgn)),
+      pfma_id  = round(getValues(rast_pfma)),
+      pfmsa_id = round(getValues(rast_pfmsa))) %>%
+    group_by(rgn_id) %>%
+    mutate(n_cells_rgn = n(),
+           pfmsa_label = paste0(pfma_id, '-', pfmsa_id)) %>%
+    group_by(pfmsa_label) %>%
+    mutate(n_pfmsa_tot = n()) %>%
+    group_by(rgn_id, pfmsa_label) %>%
+    mutate(n_pfmsa_rgn = n()) %>%
+    filter(!is.na(rgn_id)) %>%
+    distinct()
+}
+
+if(!(extent(rast_gfma)  == extent(rast_rgn))) {
+  message('rgn and gfma extents not equal... fix them!')
+} else {
+  rgn_gfma_df <- data.frame(
+      rgn_id   = round(getValues(rast_rgn)),
+      gfma_id  = round(getValues(rast_gfma))) %>%
+    group_by(rgn_id) %>%
+    mutate(n_cells_rgn = n()) %>%
+    group_by(gfma_id) %>%
+    mutate(n_gfma_tot = n()) %>%
+    group_by(rgn_id, gfma_id) %>%
+    mutate(n_gfma_rgn = n()) %>%
+    filter(!is.na(rgn_id)) %>%
+    distinct()
+}
+
+x <- xx <- rast_pfma
+y <- yy <- rast_pfmsa
+values(xx)[is.na(values(x)) & !is.na(values(y))] <- 10000
+values(xx)[is.na(values(y)) & !is.na(values(x))]  <- 3000
+plot(xx)
+
+### WHY ARE THERE MISSING ZONES?
+
+```
+
+``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
+```
+

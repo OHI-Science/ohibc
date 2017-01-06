@@ -1,0 +1,14 @@
+base
+sp
+maptools
+rgeos
+rgdal
+raster
+dplyr
+tidyr
+stringr
+readr
+ggplot2
+provRmd
+knitr
+tmap
