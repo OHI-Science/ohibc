@@ -25,14 +25,15 @@ library(rgdal)
 library(raster)
 source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
 
-scenario <- 'v2016'
+scenario <- 'v2017'
 goal     <- 'spp_ico'
-dir_git <- '~/github/ohibc'
+dir_git  <- '~/github/ohibc'
 dir_goal <- file.path(dir_git, 'prep', goal, scenario)
 dir_rgn  <- file.path(dir_git, 'prep/spatial')
 
-dir_anx        <- file.path(dir_M, 'git-annex/bcprep') ### git-annex: goal-specific large files
-dir_anx_global <- file.path(dir_M, 'git-annex/globalprep/spp_ico')
+dir_goal_anx        <- file.path(dir_M, 'git-annex/bcprep/spp_ico', scenario) 
+dir_goal_global     <- file.path('~/github/ohiprep/globalprep/spp_ico', scenario)
+dir_goal_anx_global <- file.path(dir_M, 'git-annex/globalprep/spp_ico', scenario)
 
 library(provRmd); prov_setup()
 
@@ -89,24 +90,23 @@ where:
 AquaMaps
 
 * From http://www.aquamaps.org/main/home.php: "AquaMaps are computer-generated predictions of natural occurrence of marine species, based on the environmental tolerance of a given species with respect to depth, salinity, temperature, primary productivity, and its association with sea ice or coastal areas."
-* Citation: Kaschner, K., J. Rius-Barile, K. Kesner-Reyes, C.Garilao, S.O. Kullander, T. Rees and R. Froese (2013). AquaMaps: Predicted range maps for aquatic species. World wide web electronic publication, www.aquamaps.org, Version 08/2013.
+* Citation: Kaschner, K., J. Rius-Barile, K. Kesner-Reyes, C.Garilao, S.O. Kullander, T. Rees and R. Froese (2015). AquaMaps: Predicted range maps for aquatic species. World wide web electronic publication, www.aquamaps.org, Version 08/2015.
 
 IUCN Red List spatial data: species range map shapefiles
 
 * Species range map shapefiles downloaded from: http://www.iucnredlist.org/technical-documents/spatial-data
-* Citation: IUCN 2014. The IUCN Red List of Threatened Species. Version 2014.1. <http://www.iucnredlist.org>. Downloaded on 21 September 2015.
+* Citation: IUCN 2016. The IUCN Red List of Threatened Species. Version 2015.3. <http://www.iucnredlist.org>. Downloaded on 9 December 2016.
 
 IUCN Red List species index: list of all IUCN red list species, incl IUCN species ID and extinction risk category
 
-* Extinction risk categories downloaded from: http://api.iucnredlist.org/index/all.csv
-* Habitat and subpopulation information, by species, scraped from: http://www.iucnredlist.org/details/<species ID>/0
-* Citation: IUCN 2016. The IUCN Red List of Threatened Species. Version 2016-3. <http://www.iucnredlist.org>. Downloaded on 13 December 2016
+* Extinction risk categories, past assessments, and habitat information, by species, downloaded from: http://apiv3.iucnredlist.org/
+* Citation: IUCN 2016. The IUCN Red List of Threatened Species. Version 2016-3. <http://www.iucnredlist.org>. Downloaded <date of last script process>.
 
 NatureServe/BC CDC conservation rank info from BC Species and Ecosystems Explorer: 
 
 * BC Conservation Data Centre: http://www.env.gov.bc.ca/atrisk/toolintro.html
 * NatureServe conservation status: http://explorer.natureserve.org/ranking.htm#global
-* Citation: B.C. Conservation Data Centre. 2013. BC Species and Ecosystems Explorer. B.C. Ministry of Environment, Victoria B.C. Available: <http://a100.gov.bc.ca/pub/eswp/>.  Downloaded on 3 August 2015.
+* Citation: B.C. Conservation Data Centre. 2016. BC Species and Ecosystems Explorer. B.C. Ministry of Environment, Victoria B.C. Available: <http://a100.gov.bc.ca/pub/eswp/>.  Downloaded on 30 November 2016.
 
 -----
 
@@ -141,6 +141,8 @@ if(!file.exists(rgn2cell_file) | !file.exists(loiczid_rast_file)) {
   
   write_csv(rgn2cell_list[[1]], rgn2cell_file)
   writeRaster(rgn2cell_list[[2]], loiczid_rast_file, overwrite = TRUE)
+} else {
+  git_prov(c(rgn2cell_file, loiczid_rast_file), filetype = 'output')
 }
 
 ```
@@ -150,11 +152,59 @@ if(!file.exists(rgn2cell_file) | !file.exists(loiczid_rast_file)) {
 
 ``` {r identify_BC_species}
 
+reload <- FALSE
+
 rgn2cell_df <- read_csv(file.path(dir_goal, 'spatial/rgn2cell.csv'))
 
-### note: if reload = TRUE, generates new files and saves 'em to dir_goal/int/
-am_cells_spp <- spp_get_am_cells(rgn2cell_df, n_max = Inf, prob_filter = 0, reload = TRUE)
-iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df, reload = TRUE)
+### collect AquaMaps species local to BC
+
+am_spp_cells_file <- file.path(dir_goal, 'int/am_spp_cells.csv')
+
+if(!file.exists(am_spp_cells_file) | reload) {
+  ### Load Aquamaps species per cell table
+  dir_data_am <- file.path(dir_M, 'git-annex/globalprep/_raw_data', 'aquamaps/d2015')
+  spp_cell_file <- file.path(dir_data_am, 'csv/hcaf_sp_native_trunc.csv')
+
+  am_spp_cells <- read_csv(spp_cell_file) %>%
+    select(am_sid = speciesid, loiczid) ### drop probability column - use all cells!
+
+  ### filter out to just cells in BC regions
+  am_spp_cells_bc <- rgn2cell_df %>%
+    left_join(am_spp_cells, by = 'loiczid')
+
+  message(sprintf('Writing Aquamaps species per cell file to: \n  %s', am_spp_cells_file))
+  write_csv(am_spp_cells_bc, am_spp_cells_file)
+  
+} else {
+  
+  git_prov(am_spp_cells_file, filetype = 'output')
+  
+}
+
+### collect IUCN species local to BC
+
+iucn_spp_cells_local_file <- file.path(dir_goal, 'int/iucn_spp_cells.csv')
+
+if(!file.exists(iucn_spp_cells_local_file) | reload) {
+  
+  iucn_spp_cells_global_file <- file.path(dir_goal_anx_global, 'int/iucn_spp_cells_d2016.csv')
+  iucn_spp_cells <- read_csv(iucn_spp_cells_global_file)
+
+  message('Trimming global IUCN cells list to local cells only...')
+  iucn_spp_cells_bc <- rgn2cell_df %>%
+    rename(prop_area_rgn = prop_area) %>%
+    left_join(iucn_spp_cells %>%
+                rename(prop_area_spp = prop_area),
+              by = 'loiczid')
+
+  message('Writing local IUCN cell list to ', iucn_spp_cells_local_file)
+  write_csv(iucn_spp_cells_bc, iucn_spp_cells_local_file)
+  
+} else {
+  
+  git_prov(iucn_spp_cells_local_file, filetype = 'output')
+  
+}
 
 ```
 
@@ -162,36 +212,56 @@ iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df, reload = TRUE)
 
 ## Generate species lookup table from IUCN API
 
-Currently this uses the global species lookup table. How this list is generated (file locations are in `~/github/ohiprep/globalprep/SPP_ICO`):
+Currently this uses the global species lookup table. To see how this list is generated, check out [`~/ohiprep/globalprep/spp_ico/v2017/spp_data_prep.Rmd`](https://rawgit.com/OHI-Science/ohiprep/master/globalprep/spp_ico/v2017/spp_data_prep.html).
 
-* in `ingest_iucn.R`:
-    * Pull full IUCN list from http://api.iucnredlist.org/index/all.csv
-    * Filter the list to marine species as indicated on each species page
-    * Standardize old extinction risk categories
-    * Append population trend and parent/subpop info from species web pages
-    * Write to `spp_iucn_mar.csv` in git-annex.
-* in `spp_fxn.R::create_spp_master_lookup()`:
-    * Pull in Aquamaps species information table, create sciname field and standardize categories
-    * Pull in IUCN marine species info from `ingest_iucn.R`
-    * `full_join()` the two species lists
-    * Determine overall category, trend, and spatial info source (preferring IUCN)
-    * Remove duplicate records and data-deficient records
-    * Convert text extinction risk category and popn trends to number values
-    * Identify parent/subpopulations and aliases within `spatial_source` field.
+The global species list includes the following columns: 
+am_sid, iucn_sid, map_iucn_sid, map_subpop, sciname, category, spp_group
 
-``` {r read_global_species_list, eval = TRUE}
-spp_global_file <- file.path(dir_anx_global, scenario, 'int/spp_all_cleaned.csv')
-spp_info_gl <- read_csv(spp_global_file)
+Because we are working on a smaller region, some species with both AM and IUCN maps may not actually be present in both regional datasets.  So we must set the `spatial_source` according to:
 
-```
+* if the `map_iucn_sid` is in the `iucn_spp_cells` dataframe, use iucn.
+* otherwise, it must be aquamaps.
 
-Variables in `spp_info_gl`: `r paste(names(spp_info_gl), collapse = ' | ')`
+``` {r create_ohibc_spp_list}
 
-``` {r print_global_species_list, eval = TRUE}
-knitr::kable(head(spp_info_gl %>% 
-                dplyr::select(sciname, am_sid, iucn_sid, pop_trend, pop_cat, spatial_source)),
-             align = c('l', 'c', 'c', 'c', 'c', 'c'),
-             caption = 'Quick glance at global spp_info_gl dataframe:')
+spp_bc_file <- file.path(dir_goal, 'int/spp_list_ohibc.csv')
+iucn_spp_cells_file <- file.path(dir_goal, 'int/iucn_spp_cells.csv')
+am_spp_cells_file   <- file.path(dir_goal, 'int/am_spp_cells.csv')
+
+if(!file.exists(spp_bc_file)) {
+  
+  iucn_spp <- read_csv(iucn_spp_cells_file) %>%
+    select(iucn_sid, subpop) %>%
+    distinct()
+  am_spp <- read_csv(am_spp_cells_file) %>%
+    select(am_sid) %>%
+    filter(!is.na(am_sid)) %>%
+    distinct()
+  
+  spp_global_file <- file.path(dir_goal_global, 'int/spp_list.csv')
+  spp_info_global <- read_csv(spp_global_file)
+  
+  spp_info_iucn <- spp_info_global %>%
+    inner_join(iucn_spp, by = c('map_iucn_sid' = 'iucn_sid', 'map_subpop' = 'subpop'))
+  
+  spp_info_am <- spp_info_global %>%
+    inner_join(am_spp, by = 'am_sid')
+  
+  spp_info_ohibc <- bind_rows(spp_info_iucn, spp_info_am) %>%
+    distinct() %>%
+    mutate(spatial_source = ifelse(map_iucn_sid %in% spp_info_iucn$map_iucn_sid, 'iucn', 'am'))
+  
+  write_csv(spp_info_ohibc, spp_bc_file)
+  
+} else {
+  
+  git_prov(c(iucn_spp_cells_file, am_spp_cells_file), filetype = 'input')
+  git_prov(spp_bc_file, filetype = 'output')
+  
+}
+
+DT::datatable(read_csv(spp_bc_file, nogit = TRUE))
+
 ```
 
 -----
@@ -204,245 +274,218 @@ See [this table]('iucn_to_ns.html') for info on NatureServe codes
 
 ``` {r append_bcsee_scores, echo = TRUE}
 
-spp_info <- spp_info_gl %>%
-  group_by(iucn_sid) %>%
-  arrange(sciname) %>%
-  filter(sciname == first(sciname) | is.na(iucn_sid)) %>%
-    ### this last bit gets rid of double-listed IUCN SIDs by selecting
-    ### the first instance, while keeping any NAs
+spp_bc_file <- file.path(dir_goal, 'int/spp_list_ohibc.csv')
+
+spp_info <- read_csv(spp_bc_file) %>%
   mutate(sciname = str_replace(sciname, 'Clupea pallasii pallasii', 'Clupea pallasii')) %>%
-  spp_append_bcsee()
+  ### while this is N.E. it shows up in the ICO list.
+  spp_append_bcsee() %>%
+  distinct()
 
 ### These species are problematic in BC Howe Sound ICO:
 # ico_spp_probs <- c('Ammodytes hexapterus', 'Ardea herodias', 'Clupea pallasii', 'Gavia immer', 'Haliaeetus leucocephalus', 'Hypomesus pretiosus')
 # x <- spp_info %>% filter(sciname %in% ico_spp_probs)
 ### all there!
 
-spp_info_raw <- spp_info %>%
-  mutate(iucn_score = cat_score,
-         cat_score = ifelse(!is.na(status_pr_score), status_pr_score, cat_score)) %>%
-  # filter(!is.na(cat_score)) %>%
-  filter(am_sid %in% am_cells_spp$am_sid & str_detect(spatial_source, 'am') | 
-           iucn_sid %in% iucn_cells_spp$iucn_sid & str_detect(spatial_source, 'iucn'))
-
-# x <- spp_info_raw %>% filter(sciname %in% ico_spp_probs)
-
-write_csv(spp_info_raw, file.path(dir_goal, 'int/spp_info_raw.csv'))
-
-### NOTE: if we want to exclude BLI data, this is where we would have to do it
-# spp_info <- spp_info %>%
-#   mutate(spatial_source = ifelse(spatial_source == 'iucn-bli' & !is.na(am_sid), 'am', spatial_source)) %>%
-#   filter(!spatial_source == 'iucn-bli')
-
 ### let's clean up this file and ditch the legacy columns.  Lose the reference
 ### columns, and to ditch multi-listings, group by am_sid and iucn_sid; then
 ### take the mean category and trend across all multi-listed species.
-spp_clean <- spp_info_raw %>%
-  select(am_sid, iucn_sid, sciname, spp_group,
-         #id_no, iucn_subpop, pop_trend, pop_cat, status_pr, 
+### Multi-listings are due to multiple province-level scores for certain
+### species
+spp_clean <- spp_info %>%
+  select(am_sid, iucn_sid, 
+         sciname, spp_group, 
+         map_iucn_sid, map_subpop,
          pr_score = status_pr_score,
-         spatial_source, 
-         cat_score, trend_score) %>%
-  group_by(am_sid, iucn_sid, spatial_source) %>%
-  summarize(sciname     = first(sciname), ### just to have a handy text handle?
-            cat_score   = mean(cat_score,   na.rm = TRUE),
-            pr_score    = mean(pr_score,    na.rm = TRUE),
-            trend_score = mean(trend_score, na.rm = TRUE),
-            pr_score    = ifelse(is.nan(pr_score),    NA, pr_score),
-            trend_score = ifelse(is.nan(trend_score), NA, trend_score)) %>%
-  ungroup()
+         category,
+         spatial_source) %>%
+  distinct() %>%
+  group_by(sciname) %>%
+  mutate(pr_score = mean(pr_score, na.rm = TRUE),
+         pr_score = ifelse(is.nan(pr_score), NA, pr_score)) %>%
+  ungroup() %>%
+  distinct()
 
+### still a pesky doubled up species: Leatherback turtle!
+spp_clean <- spp_clean %>%
+  mutate(am_sid = ifelse(sciname == 'Dermochelys coriacea', 'Rep-4381', am_sid)) %>%
+  filter(!(sciname == 'Dermochelys coriacea' & is.na(map_iucn_sid)))
+
+# y <- spp_info %>%
+#   filter(sciname %in% spp_info$sciname[duplicated(spp_info$sciname)])
+# z <- unique(y$sciname)
+# zz <- spp_clean %>% filter(sciname %in% z)
 # x <- spp_clean %>% filter(sciname %in% ico_spp_probs)
 
-write_csv(spp_clean, file.path(dir_goal, 'int/spp_info_clean.csv'))
+write_csv(spp_clean, file.path(dir_goal, 'int/spp_list_clean.csv'))
 
 ```
 
 -----
 
+## Append time-series species risk assessment codes
 
-``` {r get_species_past_assessments, eval = TRUE}
+Time series risk assessments are determined in the global SPP analysis.  In this analysis, we will prefer province-level risk assessments over IUCN time-series assessments.  We will keep all instances, including N.E. and DD species instances, because some of these may show up in the ICO analysis (e.g. _Clupea pallasii_)
 
-spp_cat_ts_file <- file.path(dir_goal, 'int', 'spp_cat_timeseries.csv')
+``` {r process_time_series}
 
-if(!file.exists(spp_cat_ts_file)) {
-  library(jsonlite)
-  api_key <- 'fb71ae836f415f04f41176f6d30c4a9e4cea620d46b9e5021bf2fb142ea51bf5'
-  
-  spp_hist_url <- 'http://apiv3.iucnredlist.org/api/v3/species/history/id/%s?token=%s'
-  
-  sid_list <- spp_clean$iucn_sid[!is.na(spp_clean$iucn_sid)] %>% 
-    unique() %>% 
-    sort()
-  
-  get_past_assess <- function(sid) {
-    spp_url <- sprintf(spp_hist_url, sid, api_key)
-    spp_tmp <- fromJSON(spp_url)
-    spp_df   <- spp_tmp$result %>%
-      mutate(iucn_sid = as.integer(spp_tmp$name)) %>%
-      mutate(code = toupper(code))
-  }
-  
-  spp_past_list <- vector('list', length = length(sid_list))
-  for (i in 1:length(sid_list)) { # i = 1
-    sid <- sid_list[i]
-    spp_past_list[[i]] <- get_past_assess(sid)
-    message(i, '. Found past assessments for ', sid, ': ', paste(spp_past_list[[i]]$year, collapse = ', '))
-  }
-  spp_past_df <- bind_rows(spp_past_list)
-  
-  ### Clean up the time series
-  
-  spp_past_df <- spp_past_df %>%
-    rename(cat_ts = code, cat_txt = category) %>%
-    mutate(cat_ts = str_replace(cat_ts, 'LR/', ''),
-           cat_ts = ifelse(cat_ts %in% c('K', 'I'), 'DD', cat_ts),
-           cat_ts = ifelse(cat_ts == 'NR', 'NE', cat_ts),
-           cat_ts = ifelse(str_detect(toupper(cat_txt), 'VERY RARE'), 'CR', cat_ts),
-           cat_ts = ifelse(str_detect(toupper(cat_txt), 'LESS RARE'), 'T', cat_ts),
-           cat_ts = ifelse(str_detect(toupper(cat_txt), 'STATUS INADEQUATELY KNOWN'), 'DD', cat_ts),
-           cat_ts = ifelse(cat_ts == 'V', 'VU', cat_ts), 
-           cat_ts = ifelse(cat_ts == 'E', 'EN', cat_ts))
-  
-  ### reclassifications:
-  #  LC <- "LOWER RISK/LEAST CONCERN (LR/LC)"                         
-  #  NT <- "LOWER RISK/NEAR THREATENED (LR/NT)"                       
-  #  T  <- "THREATENED (T)" treat as "EN"
-  #  VU <- "VULNERABLE (V)"                                           
-  #  EN <- "ENDANGERED (E)"                                           
-  #  LR/CD <- "LOWER RISK/CONSERVATION DEPENDENT (LR/CD)" treat as between VU and NT
-  #  CR <- "VERY RARE AND BELIEVED TO BE DECREASING IN NUMBERS"       
-  #  T  <- "LESS RARE BUT BELIEVED TO BE THREATENED-REQUIRES WATCHING"
-  #  DD <- "INSUFFICIENTLY KNOWN (K)"                                 
-  #  DD <- "INDETERMINATE (I)"                                        
-  #  DD <- "STATUS INADEQUATELY KNOWN-SURVEY REQUIRED OR DATA SOUGHT" 
-  #  NE <- "NOT RECOGNIZED (NR)"         
-  pop_cat <- data.frame(cat_ts       = c("LC", "NT", "VU", "EN", "CR", "EX", "T", "CD", "NE", "DD"), 
-                        cat_ts_score = c(   0,  0.2,  0.4,  0.6,  0.8,  1.0, 0.6,  0.3,   NA,  NA))
-    
-  spp_past_df <- spp_past_df %>% 
-    left_join(pop_cat, by = 'cat_ts') %>%
-    filter(!is.na(cat_ts_score) & !is.na(year)) %>%
-    arrange(iucn_sid, year)
-  
-  # x <- spp_past_df %>% filter(sciname %in% ico_spp_probs)
+spp_clean <- read_csv(file.path(dir_goal, 'int/spp_list_clean.csv'))
 
-  write_csv(spp_past_df, file.path(dir_goal, 'int', 'spp_cat_timeseries.csv'))
-}
-
-```
-
-``` {r join_time_series_data_to_spp_list}
-### Fill out the missing years, then join to cleaned species list
-spp_past_df <- read_csv(file.path(dir_goal, 'int', 'spp_cat_timeseries.csv'))
-
-spp_past_df <- spp_past_df %>%
+spp_cat_ts <- read_csv(file.path(dir_goal_global, 'int', 'spp_cat_timeseries_raw.csv')) %>%
+  select(iucn_sid, year, cat_ts, cat_ts_score) %>%
+  filter(iucn_sid %in% spp_clean$iucn_sid) %>%
   complete(year = full_seq(year, 1), nesting(iucn_sid)) %>%
   arrange(iucn_sid, year) %>%
   group_by(iucn_sid) %>%
-  fill(cat_ts, cat_txt, cat_ts_score) %>% ### fills all the way to latest year (2015)
+  fill(cat_ts, cat_ts_score) %>%
+    ### fills forward to most recent assessment year; older category valid til new assessment
+  fill(cat_ts, cat_ts_score, .direction = 'up') %>% 
+    ### fills back from first non-NE or DD assessment; assume early status is same as first assessment
   ungroup()
 
-spp_clean1 <- spp_clean %>% 
-  left_join(spp_past_df, by = 'iucn_sid')
+assess_years <- c(2000:2017)
+trend_span   <- 10
 
-  # x <- spp_clean1 %>% filter(sciname %in% ico_spp_probs)
+spp_cat_trend_list <- vector('list', length = length(assess_years))
 
-### if no time series available, time series years will be NA.  Assign a list to
-### those NAs, then unnest it to create observations for those years.
-spp_clean1 <- spp_clean1 %>%
-  mutate(year = ifelse(is.na(year), list(c(1965:2015)), year)) %>% 
-  unnest(year)
-
-### NAs will be filled backward in time by starting from the most recent non-NA.
-### To do this, we'll swap any current-year NAs with the cat_score (meaning no
-### time series fill), and fill upwards instead of downwards.
-spp_clean1 <- spp_clean1 %>%
-  mutate(cat_ts_score = ifelse(year == 2015 & is.na(cat_ts), cat_score, cat_ts_score)) %>%
-  arrange(iucn_sid, year) %>%
-  group_by(iucn_sid) %>%
-  fill(cat_ts, cat_ts_score, cat_txt, .direction = 'up') %>%
-  ungroup()
+for(i in 1:length(assess_years)) { # i <- 1
   
-### Now for species with a NatureServe provincial score (non-NA value 
-### for pr_score) replace all cat_ts with pr_score; overwrite cat_score with
-### overall values
-spp_clean1 <- spp_clean1 %>%
-  mutate(cat_score = ifelse(!is.na(pr_score), pr_score, cat_ts_score))
+  yr <- assess_years[i]
+  spp_cat_current <- spp_cat_ts %>%
+    filter(year < yr & year >= yr - trend_span)
 
-write_csv(spp_clean1, file.path(dir_goal, 'int/spp_info_timeseries.csv'))
+  spp_cat_trend_list[[i]] <- spp_cat_current %>%
+    group_by(iucn_sid) %>%
+    do(risk_trend = lm(cat_ts_score ~ year, data = .)$coefficients['year']) %>%
+    left_join(spp_cat_current %>% 
+                filter(year == yr - 1), ### e.g. 2017 assessment looks at 2016 category
+              by = 'iucn_sid') %>%
+    mutate(risk_trend = round(risk_trend, 4),
+           assess_year = yr)
+}
+
+spp_cat_trend_df <- bind_rows(spp_cat_trend_list)
+
+write_csv(spp_cat_trend_df, file.path(dir_goal, 'int/spp_cat_trend_timeseries.csv'))
+
+```
+
+``` {r score_spp_list, echo = TRUE}
+
+### get time series of categories and trends.
+### NOTE: risk_trend is positive for increasing risk, not increasing health.
+###   It is the *annual* change in category score, not five-year-adjusted.
+spp_cat_ts <- read_csv(file.path(dir_goal, 'int', 'spp_cat_trend_timeseries.csv'))
+
+### set up a quick lookup to score the unmatched species
+cat_scores <- spp_cat_ts %>%
+  select(cat = cat_ts, score = cat_ts_score) %>%
+  distinct() %>%
+  arrange(score)
+cat_scores <- cat_scores$score %>%
+  setNames(cat_scores$cat)
+
+spp_scored <- read_csv(file.path(dir_goal, 'int/spp_list_clean.csv')) %>%
+  filter(!(is.na(map_iucn_sid) & is.na(am_sid))) %>%
+  left_join(spp_cat_ts, by = 'iucn_sid') 
+### Note: still some N.E. and DD species here... keep 'em in b/c some
+### of these show up in ICO (e.g. Clupea pallasii)
+
+### need to tidy up species from AM with no IUCN match.
+### NOTE: For OHIBC, none... but leave in for reference
+### * set up the years
+spp_scored <- spp_scored %>%
+  mutate(year = ifelse(is.na(year), list(unique(year)), year)) %>% 
+  unnest(year) %>%
+  filter(!is.na(year)) %>%
+  mutate(assess_year  = year + 1,
+         cat_ts       = ifelse(is.na(cat_ts), category, cat_ts),
+         cat_ts_score = ifelse(is.na(cat_ts_score), cat_scores[cat_ts], cat_ts_score)) %>% 
+    ### using the lookup from above, set up the category scores
+  filter(!(is.na(cat_ts_score) & year != max(year)))
+    ### ditch any DD and NE species, except one record (most recent year)
+
+spp_scored <- spp_scored %>% 
+  mutate(cat_ts_score = ifelse(!is.na(pr_score), pr_score, cat_ts_score),
+         cat_ts = ifelse(is.na(cat_ts), category, cat_ts)) %>%
+  select(-category)
+
+write_csv(spp_scored, file.path(dir_goal, 'int', 'spp_list_scored.csv'))
 
 ```
 
 -----
 
-## Generate species per cell tables for Aquamaps and IUCN
+### Generate cell-by-cell summary of species
 
-Using the modified spp_clean dataframe, and the species-to-cell tables identified for the BC region, we  summarize mean category and trend per cell for both AquaMaps and IUCN.  Tracking the number of species used from each dataset allows us to combine these two summaries in a weighted mean.
+For each half-degree cell, tally up the number of species present and determine a mean species risk value for the cell, for each year of interest.
 
-``` {r AM_species_summary}
+* Since this averaging is done for each data set separately, we also track the species count per cell used to determine both the risk and the trend (separately, since many species with a risk value have no trend information, i.e. NA).  These counts are used to weight the values when the two are combined.
+* Data-set specific idiosyncracies:
+    * For AquaMaps, we select a threshold (currently 0%) to set the minimum probability of occurrence that determines species "presence."
+    * For IUCN, no threshold is needed; but the shapefiles include a "presence" attribute in which a value of 5 indicates a region in which a subpopulation has become extinct.  We use this to manually reset local extinction risk to EX.
+    * Note that for IUCN, we determine the proportional area when extracting polygons; currently we just consider any presence to fill the cell (similar to assuming even a low AquaMaps probability to indicate presence within the entire cell) - so proportional area is ignored in the calculations.
+    
+The following code chunk executes the functions that perform these tasks.  Note the optional arguments `fn_tag` and `prob_filter` that can be changed to facilitate custom runs (including different `spp_all` species info lists, different AquaMaps thresholds, and different filename tags to uniquely identify the custom run)
 
-spp_clean1 <- read_csv(file.path(dir_goal, 'int/spp_info_timeseries.csv'))
+``` {r generate_cell_summaries_am_and_iucn}
 
-ts_years <- unique(spp_clean1$year)
-ts_years <- ts_years[ts_years >= 1980]
-names(ts_years) <- paste0('yr', ts_years)
+spp_scored <- read_csv(file.path(dir_goal, 'int', 'spp_list_scored.csv')) %>%
+  rename(cat_score   = cat_ts_score,
+         trend_score = risk_trend) %>%
+  filter(!is.na(cat_score))
 
-am_cells_sum <- vector('list', length = length(ts_years))
-names(am_cells_sum) <- names(ts_years)
+### read in AquaMaps species-cell file
+am_spp_cells <- read_csv(file.path(dir_goal, 'int', 'am_spp_cells.csv'))
 
-for(ts_year in names(ts_years)) {
-  spp_by_year <- spp_clean1 %>%
-    filter(year == ts_years[ts_year])
-  am_cells_sum[[ts_year]] <- spp_am_cell_summary(am_cells_spp, 
-                                                 spp_by_year) %>%
-    mutate(year = ts_years[[ts_year]])
-}
+### read in IUCN species-cell file
+iucn_spp_cells <- read_csv(file.path(dir_goal, 'int', 'iucn_spp_cells.csv')) %>%
+    distinct()
 
-am_cells_sum <- am_cells_sum %>%
-  bind_rows()
+years <- spp_scored$year %>%
+  unique() %>%
+  sort()
 
-write_csv(am_cells_sum, file.path(dir_goal, 'summary/spp_sum_am_cells.csv'))
+library(parallel)
 
-DT::datatable(am_cells_sum,
-              rownames = FALSE,
-              caption  = 'Aquamaps cell summary:',
-              class    = 'stripe hover compact',
-              options  = list(dom = 'tp'))
+am_cells_sum_list <- mclapply(years, mc.cores = 12, FUN = function(yr) {
+  # yr <- min(years)
+  spp_scored_year <- spp_scored %>%
+    filter(year == yr)
+  
+  am_cells_sum_yr <- spp_am_cell_summary(spp_scored_year, am_spp_cells) %>%
+    mutate(year = yr)
+  # ### NOTE: keyed data.table works way faster than the old inner_join or merge.
+  # ### loiczid | mean_cat_score | mean_trend_score | n_cat_species | n_trend_species | year
+  # ### AM does not include subspecies or subpops: every am_sid corresponds to exactly one sciname.
+})
 
-```
+am_cells_sum <- bind_rows(am_cells_sum_list)
 
-``` {r IUCN_species_summary}
+write_csv(am_cells_sum, file.path(dir_goal, 'summary/am_cells_summary.csv'))
 
-iucn_cells_sum <- vector('list', length = length(ts_years))
-names(iucn_cells_sum) <- names(ts_years)
+iucn_cells_sum_list <- mclapply(years, mc.cores = 12, FUN = function(yr) {
+  
+  spp_scored_year <- spp_scored %>%
+    filter(year == yr)  
+  
+  iucn_cells_sum_yr <- spp_iucn_cell_summary(spp_scored_year, iucn_spp_cells) %>%
+    mutate(year = yr)
+  ### loiczid | mean_cat_score | mean_trend_score | n_cat_species | n_trend_species | year
+  ### IUCN includes subpops - one sciname corresponds to multiple iucn_sid values.
+  
+})
 
-for(ts_year in names(ts_years)) {
-  spp_by_year <- spp_clean1 %>%
-    filter(year == ts_years[ts_year])
-  iucn_cells_sum[[ts_year]] <- spp_iucn_cell_summary(iucn_cells_spp, 
-                                                     spp_by_year) %>%
-    mutate(year = ts_years[[ts_year]])
-}
-
-iucn_cells_sum <- iucn_cells_sum %>%
-  bind_rows()
-
-write_csv(iucn_cells_sum, file.path(dir_goal, 'summary/spp_sum_iucn_cells.csv'))
-
-DT::datatable(iucn_cells_sum,
-              rownames = FALSE,
-              caption  = 'IUCN cell summary: ',
-              class    = 'stripe hover compact',
-              options  = list(dom = 'tp'))
+iucn_cells_sum <- bind_rows(iucn_cells_sum_list)
+write_csv(iucn_cells_sum, file.path(dir_goal, 'summary/iucn_cells_summary.csv'))
 
 ```
 
 ### Map of species count by cell
 
-``` {r spp_plot_species_count_raster, fig.height = 4, fig.width = 6, fig.align = 'center', eval = FALSE}
+``` {r spp_plot_species_count_raster, fig.height = 4, fig.width = 6, fig.align = 'center'}
 ### species presence doesn't change year to year; only the risk category
-cells_sum <- iucn_cells_sum %>%
+cells_spp_count <- iucn_cells_sum %>%
   filter(year == 2015) %>%
   dplyr::select(loiczid, n_cat_iucn = n_cat_species) %>%
   full_join(am_cells_sum %>%
@@ -454,14 +497,18 @@ cells_sum <- iucn_cells_sum %>%
          n_cat      = n_cat_am + n_cat_iucn) %>%
   as.data.frame()
 
-spp_plot_raster(cells_sum, loiczid_rast, which_id = 'n_cat', 
-                poly_rgn = poly_bc_rgn,
-                title = 'Species count', scale_label = 'spp count', 
-                scale_limits = c(0, max(cells_sum$n_cat)))
+loiczid_rast <- raster(file.path(dir_goal, 'spatial/loiczid.tif'))
+
+### use tmap mapping function
+# spp_plot_raster(cells_spp_count, loiczid_rast, which_id = 'n_cat', 
+#                 poly_rgn = poly_bc_rgn,
+#                 title = 'Species count', scale_label = 'spp count', 
+#                 scale_limits = c(0, max(cells_spp_count$n_cat)))
 
 ```
 
 -----
+
 
 # Calculate goal model
 
@@ -477,68 +524,48 @@ In this section we perform the model calculations:
 
 ``` {r sum_by_cells_and_rgn}
 
-sum_by_cell <- spp_calc_cell_means(am_cells_sum, 
-                                   iucn_cells_sum, 
-                                   fn_tag = '')
-sum_by_rgn  <- spp_calc_rgn_means(sum_by_cell, 
-                                  rgn2cell_df, 
-                                  rgn_tag = '')
 
-trend_start_yr <- 1995
-trend_df <- data.frame()
-for(yr in trend_start_yr:max(sum_by_rgn$year)) { # yr <- 2015
-  tmp_df <- sum_by_rgn %>%
-    filter(year <= yr & year > yr - 5) %>%
-    group_by(rgn_id) %>%
-    do(trend_lm05 = lm(status ~ year, data = .)$coefficients[2]) %>%
-    mutate(year     = yr,
-           trend_lm05 = as.numeric(trend_lm05) * 5) ### comes out as character for some reason
-  trend_df <- trend_df %>%
-    bind_rows(tmp_df)
-}
-
-trend_start_yr2 <- 2000
-trend_df2 <- data.frame()
-for(yr in trend_start_yr2:max(sum_by_rgn$year)) { # yr <- 2015
-  tmp_df <- sum_by_rgn %>%
-    filter(year <= yr & year > yr - 10) %>%
-    group_by(rgn_id) %>%
-    do(trend_lm10 = lm(status ~ year, data = .)$coefficients[2]) %>%
-    mutate(year       = yr,
-           trend_lm10 = as.numeric(trend_lm10) * 5) ### comes out as character for some reason
-  trend_df2 <- trend_df2 %>%
-    bind_rows(tmp_df)
-}
-
-sum_by_rgn <- sum_by_rgn %>%
-  left_join(trend_df,  by = c('year', 'rgn_id')) %>%
-  left_join(trend_df2, by = c('year', 'rgn_id'))
-
-DT::datatable(sum_by_cell,
-              rownames = FALSE,
-              caption  = 'summary by raster cell',
-              class    = 'stripe hover compact',
-              options  = list(dom = 'tp'))
-
-DT::datatable(sum_by_rgn,
-              rownames = FALSE,
-              caption  = 'summary by region',
-              class    = 'stripe hover compact',
-              options  = list(dom = 'tp'))
 
 ```
 
+``` {r generate_means_per_cell}
+
+iucn_cells_sum <- read_csv(file.path(dir_goal, 'summary/iucn_cells_summary.csv'))
+am_cells_sum   <- read_csv(file.path(dir_goal, 'summary/am_cells_summary.csv'))
+rgn2cell_df    <- read_csv(file.path(dir_goal, 'spatial/rgn2cell.csv'))
+
+sum_by_loiczid <- spp_calc_cell_means(am_cells_sum, iucn_cells_sum)
+### This returns location of dataframe with variables:
+### loiczid | weighted_mean_cat | weighted_mean_trend | n_cat_spp | n_tr_spp
+### and saves it to the summary folder.
+
+sum_by_rgn     <- spp_calc_rgn_means(sum_by_loiczid, 
+                                     rgn2cell_df, 
+                                     rgn_tag = '')
+
+
+
+```
+
+Cell summary saved to: `r file.path(dir_goal, 'summary/cell_spp_summary_by_loiczid.csv')`
+
+`r DT::datatable(sum_by_loiczid %>% filter(year == max(year)), caption = 'Overall cell summary (latest year)')`
+
+Region summary saved to: `r file.path(dir_goal, 'summary/rgn_summary.csv')`
+
+`r DT::datatable(sum_by_rgn, caption = 'Region summary (all years)')`
 
 ### Map of mean extinction risk category value by cell
 
 *Category value range: least concern = 0, extinct = 1*
-``` {r spp_plot_cell_score_raster, fig.height = 4, fig.width = 6, fig.align = 'center'}
 
-scale_limits = c(min(sum_by_cell$weighted_mean_cat,  na.rm = TRUE), 
-                 max(sum_by_cell$weighted_mean_cat,  na.rm = TRUE))
+``` {r spp_plot_cell_score_raster, fig.height = 4, fig.width = 6, fig.align = 'center', eval = FALSE}
+
+scale_limits = c(min(sum_by_loiczid$weighted_mean_cat,  na.rm = TRUE), 
+                 max(sum_by_loiczid$weighted_mean_cat,  na.rm = TRUE))
 
 
-spp_plot_raster(as.data.frame(sum_by_cell %>% filter(year == 2015)), 
+spp_plot_raster(as.data.frame(sum_by_loiczid %>% filter(year == 2015)), 
                 loiczid_rast, 
                 which_id = 'weighted_mean_cat', 
                 poly_rgn = poly_bc_rgn,
@@ -556,26 +583,23 @@ Status and trend layers saved to `output` folder.
 
 ``` {r save_status_and_trend, eval = FALSE}
 
+sum_by_rgn <- read_csv(file.path(dir_goal, 'summary/rgn_summary.csv'))
+
 spp_status <- sum_by_rgn %>%
   dplyr::select(rgn_id, score = status, year)
 spp_trend  <- sum_by_rgn %>%
-  dplyr::select(rgn_id, score = rgn_mean_trend, year)
-spp_trend_lm  <- sum_by_rgn %>%
-  dplyr::select(rgn_id, score = trend_lm, year)
+  dplyr::select(rgn_id, score = trend,  year)
 
 
 spp_status_file <- file.path(dir_goal, 'output/spp_status.csv')
-spp_trend_file <- file.path(dir_goal, 'output/spp_trend.csv')
-spp_trend_lm_file <- file.path(dir_goal, 'output/spp_trend_lm.csv')
+spp_trend_file  <- file.path(dir_goal, 'output/spp_trend.csv')
 
 cat(sprintf('Writing SPP status and trend (both popn trend and linear model trend) to:\n  %s\n  %s\n  %s', 
             spp_status_file,
-            spp_trend_file,
-            spp_trend_lm_file))
+            spp_trend_file))
 
-write_csv(spp_status,    spp_status_file)
-write_csv(spp_trend,     spp_trend_file)
-write_csv(spp_trend_lm,  spp_trend_lm_file)
+write_csv(spp_status, spp_status_file)
+write_csv(spp_trend, spp_trend_file)
 
 ```
 
@@ -592,76 +616,6 @@ map_scores(sum_by_rgn %>%
            scale_labels = c('SPP status', 'SPP trend'),
            map_titles   = 'OHIBC Species subgoal')
 
-DT::datatable(spp_status %>%
-                full_join(poly_bc_rgn@data, by = 'rgn_id'),
-              rownames = FALSE,
-              caption = 'SPP Status by region:',
-              class = 'stripe hover compact',
-              options  = list(dom = 'tp'))
-
-DT::datatable(spp_trend %>% rename(trend_pop = score) %>%
-                full_join(spp_trend_lm %>% rename(trend_lm = score), 
-                          by = c('rgn_id', 'year')) %>%
-                full_join(poly_bc_rgn@data, 
-                          by = 'rgn_id'),
-              rownames = FALSE,
-              caption = 'SPP Trend by region:',
-              class = 'stripe hover compact',
-              options  = list(dom = 'tp'))
-
-```
-
-### Plot scores time series
-
-``` {r spp_plot_scores_over_time, fig.height = 4, fig.width = 6, fig.align = 'center'}
-status_ts_plot <- ggplot(spp_status %>%
-                           full_join(poly_bc_rgn@data, by = 'rgn_id'), 
-                         aes(x = year, y = score, color = rgn_code, group = rgn_code)) +
-  ggtheme_plot +
-  geom_line(size = 2) +
-  scale_colour_brewer(palette = 'PRGn') +
-  labs(x = 'year',
-       y = 'SPP status',
-       title = 'SPP status over time',
-       color = 'Region')
-
-print(status_ts_plot)
-
-spp_trend_all <- sum_by_rgn %>%
-  dplyr::select(rgn_id, rgn_mean_trend, trend_lm05, trend_lm10, year) %>%
-  gather(trend, score, rgn_mean_trend:trend_lm10)
-
-trend_ts_plot <- ggplot(spp_trend_all %>%
-                           full_join(poly_bc_rgn@data, by = 'rgn_id'), 
-                         aes(x = year, y = score, color = rgn_code, group = rgn_code)) +
-  ggtheme_plot +
-  geom_line(size = 2, alpha = .6) +
-  scale_colour_brewer(palette = 'PRGn') +
-  facet_wrap(~ trend, dir = 'v', scales = 'fixed') +
-  labs(x = 'year',
-       y = 'SPP trend',
-       title = 'SPP trend static, 5-yr, 10-yr',
-       color = 'Region')
-
-print(trend_ts_plot)
-
-spp_st_trend_all <- sum_by_rgn %>%
-  dplyr::select(rgn_id, status, trend_lm05, trend_lm10, year) %>%
-  gather(st_trend, score, status:trend_lm10)
-
-st_trend_ts_plot <- ggplot(spp_st_trend_all %>%
-                             full_join(poly_bc_rgn@data, by = 'rgn_id'), 
-                           aes(x = year, y = score, color = rgn_code, group = rgn_code)) +
-  ggtheme_plot +
-  geom_line(size = 2, alpha = .6) +
-  scale_colour_brewer(palette = 'PRGn') +
-  facet_wrap(~ st_trend, dir = 'v', scales = 'free_y') +
-  labs(x = 'year',
-       y = 'SPP trend',
-       title = 'SPP status and trend',
-       color = 'Region')
-
-print(st_trend_ts_plot)
 ```
 
 -----
@@ -670,39 +624,38 @@ print(st_trend_ts_plot)
 
 Create final outputs for 3nm zone for resilience calculations.  In this step, rather than using full assessment regions, only the three-nautical-mile offshore zone is examined.
 
-``` {r read_3nm_shapefile, eval = TRUE}
+``` {r calc_3nm_SPP_status_and_trend}
+
 ### Read in OHIBC 3nm offshore polygons, in WGS84 CRS
 rgn_lyr <- 'ohibc_offshore_3nm_wgs84'
-cat(sprintf('Reading OHIBC 3nm offshore regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
 poly_bc_3nm <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
                        verbose = FALSE, stringsAsFactors = FALSE)
-```
-
-
-``` {r calc_3nm_SPP_status_and_trend, eval = TRUE}
-
-rgn_p4s <- proj4string(poly_bc_3nm)
-names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
-message(sprintf('Region loaded: CRS = %s \n  (%s)\n', names(rgn_p4s), rgn_p4s))
 
 rgn2cell_3nm_df <- spp_rgn2cell(poly_bc_3nm, rgn_tag = '_3nm', reload = FALSE)[[1]]
 
-sum_by_rgn_3nm <- spp_calc_rgn_means(sum_by_cell, rgn2cell_3nm_df, rgn_tag = '_3nm')
+sum_by_loiczid <- read_csv(file.path(dir_goal, 'summary/cell_spp_summary_by_loiczid.csv'))
+
+sum_by_rgn_3nm  <- spp_calc_rgn_means(sum_by_loiczid, rgn2cell_3nm_df, rgn_tag = '_3nm')
 
 spp_status_3nm <- sum_by_rgn_3nm %>%
   dplyr::select(rgn_id, score = status, year)
 spp_trend_3nm  <- sum_by_rgn_3nm %>%
-  dplyr::select(rgn_id, score = rgn_mean_trend, year)
+  dplyr::select(rgn_id, score = trend,  year)
 
-cat(sprintf('Writing SPP status and trend for 3nm regions to:\n  %s\n  %s\n', 
-            file.path(dir_goal, 'output/spp_status_3nm.csv'),
-            file.path(dir_goal, 'output/spp_trend_3nm.csv')))
 write_csv(spp_status_3nm, file.path(dir_goal, 'output/spp_status_3nm.csv'))
 write_csv(spp_trend_3nm,  file.path(dir_goal, 'output/spp_trend_3nm.csv'))
 
 ```
 
+3 Nautical Mile region summary saved to: `r file.path(dir_goal, 'summary/rgn_summary_3nm.csv')`
 
+`r DT::datatable(sum_by_rgn_3nm, caption = 'Region summary (all years)')`
 
-``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
+-----
+
+``` {r, results = 'asis'}
+
+prov_wrapup(commit_outputs = FALSE)
+
 ```
+

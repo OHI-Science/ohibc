@@ -24,23 +24,23 @@ knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
 source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R;
   ### includes library(tidyverse); library(stringr)
 
-dir_git     <- '~/github/ohibc'
-dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_git     <- here()
+dir_spatial <- here('prep/spatial')  ### github: general buffer region shapefiles
 dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
 
 ### goal specific folders and info
 goal      <- 'GOALNAME'
 scenario  <- 'v2016'
-dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal  <- here('prep', goal, scenario)
 dir_goal_anx <- file.path(dir_anx, goal, scenario)
 
 ### provenance tracking
 library(provRmd); prov_setup()
 
 ### support scripts
-source(file.path('~/github/ohibc/src/R/map_scores.R'))
+source(here('src/R/map_scores.R'))
   ### score plotting scripts
-source(file.path(dir_git, 'src/R/rast_tools.R')) 
+source(here('src/R/rast_tools.R')) 
   ### raster plotting and analyzing scripts
 
 ### set up the default BC projection to be BC Albers
@@ -84,6 +84,6 @@ p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 ***
 
 ``` {r prov_footer, results = 'asis'}
-prov_wrapup()
+prov_wrapup(commit_outputs = FALSE)
 ```
 

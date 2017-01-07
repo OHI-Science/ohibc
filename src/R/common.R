@@ -11,6 +11,7 @@ if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
   install.packages(setdiff(packages, rownames(installed.packages())))
 }
 
+library(here)
 library(tidyverse)
 library(RColorBrewer)
 library(stringr)

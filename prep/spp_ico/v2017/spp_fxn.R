@@ -1,10 +1,9 @@
 # spp_fxn.R for OHIBC
-# created Jun2015 by Casey O'Hara
 # functions to support calculations of the species diversity subgoal
 
 message('NOTE: spp_fxn.R requires that the following variables be set in the global environment (main script):')
-message(sprintf('dir_anx:  currently set to \'%s\'', dir_anx))
-message(sprintf('dir_anx_global: currently set to \'%s\'', dir_anx_global))
+message(sprintf('dir_goal_anx:  currently set to \'%s\'', dir_goal_anx))
+message(sprintf('dir_goal_anx_global: currently set to \'%s\'', dir_goal_anx_global))
 message(sprintf('scenario:       currently set to \'%s\'', scenario))
 
 ##############################################################################=
@@ -19,7 +18,7 @@ spp_rgn2cell <- function(poly_rgn,
   ##############################################################################=
 
   ### load Aquamaps LOICZID raster, and determine CRS
-  loiczid_raster_file  <- file.path(dir_anx_global, 'rgns/loiczid_raster.grd')
+  loiczid_raster_file  <- file.path(dir_goal, 'spatial/loiczid.tif')
   loiczid_raster <- raster::raster(loiczid_raster_file)
   rst_p4s <- proj4string(loiczid_raster)
   message(sprintf('LOICZID raster loaded: CRS = %s ', rst_p4s))
@@ -81,8 +80,7 @@ spp_rgn2cell <- function(poly_rgn,
 
 
 ##############################################################################=
-spp_am_cell_summary <- function(am_cells_spp,
-                                spp_info) {
+spp_am_cell_summary <- function(spp_info, am_spp_cells) {
   # Calculate category and trend scores per cell for Aquamaps species.
   # * load AM species <-> cell lookup
   # * filter to appropriate cells (in regions, meets probability threshold)
@@ -94,24 +92,25 @@ spp_am_cell_summary <- function(am_cells_spp,
   message('Generating cell-by-cell summary for Aquamaps species.')
 
   ### filter species info to just Aquamaps species with category info, and bind to
-  ### am_cells_spp to attach cat_score and trend_score.
+  ### am_spp_cells to attach cat_score and trend_score.
   spp_am_info <- spp_info %>%
     filter(str_detect(spatial_source, 'am')) %>%
+    filter(!is.na(cat_score)) %>%
     dplyr::select(am_sid, cat_score, trend_score) %>%
     distinct()
 
   message(sprintf('Number of Aquamaps species: %d', nrow(spp_am_info)))
 
   ### filter out NAs and DDs
-  am_cells_spp1 <- am_cells_spp %>%
+  am_spp_cells1 <- am_spp_cells %>%
     select(am_sid, loiczid) %>%
-    full_join(spp_am_info, by = 'am_sid') %>%
+    left_join(spp_am_info, by = 'am_sid') %>%
     filter(!is.na(cat_score)) %>%
     filter(!is.na(loiczid)) %>%
     distinct()
 
   message('Grouping by cell and summarizing by mean category, mean trend, and n_spp for each, for AM spatial info.')
-  am_cells_spp_sum <- am_cells_spp1 %>%
+  am_cells_sum <- am_spp_cells1 %>%
     group_by(loiczid) %>%
     summarize(mean_cat_score        = mean(cat_score),     # no na.rm needed; already filtered
               mean_pop_trend_score  = mean(trend_score, na.rm = TRUE),
@@ -120,102 +119,12 @@ spp_am_cell_summary <- function(am_cells_spp,
     mutate(source = 'aquamaps') %>%
     ungroup()
 
-  return(invisible(am_cells_spp_sum))
+  return(invisible(am_cells_sum))
 }
 
 
 ##############################################################################=
-spp_get_am_cells <- function(rgn2cell_df, n_max = Inf, prob_filter = 0, reload = TRUE) {
-### Loads the AquaMaps species to cell file; then left-joins it
-### to region-to-cell lookup table.  Filters by probability level.
-
-  am_cells_spp_file <- file.path(dir_goal,
-                                 sprintf('int/am_cells_spp_prob%s.csv', prob_filter))
-
-  if(!file.exists(am_cells_spp_file) | reload) {
-    ### Load Aquamaps species per cell table
-    message('Creating Aquamaps species per cell file')
-    dir_data_am <- file.path(dir_M, 'git-annex/globalprep/_raw_data', 'aquamaps/d2015')
-    spp_cell_file <- file.path(dir_data_am, 'csv/hcaf_sp_native_trunc.csv')
-
-    message(sprintf('Loading AquaMaps cell-species data.  Large file! \n  %s ', spp_cell_file))
-    am_cells_spp <- read_csv(spp_cell_file, n_max = n_max) %>%
-      rename(am_sid = speciesid, prob = probability)
-
-    ### filter out to just cells in BC regions
-    am_cells_spp1 <- rgn2cell_df %>%
-      left_join(am_cells_spp, by = 'loiczid')
-
-    ### filter out below probability threshold
-    am_cells_spp1 <- am_cells_spp1 %>%
-      filter(prob >= prob_filter) %>%
-      dplyr::select(-prob)
-
-    message(sprintf('Writing Aquamaps species per cell file to: \n  %s', am_cells_spp_file))
-    write_csv(am_cells_spp1, am_cells_spp_file)
-  } else {
-    message(sprintf('Reading Aquamaps species per cell file from: \n  %s', am_cells_spp_file))
-    am_cells_spp1 <- read_csv(am_cells_spp_file)
-  }
-
-  return(am_cells_spp1)
-}
-
-
-##############################################################################=
-spp_get_iucn_cells <- function(rgn2cell_df, reload = FALSE, verbose = FALSE) {
-  iucn_cells_local_file <- file.path(dir_goal, 'int/iucn_cells_spp.csv')
-
-  if(file.exists(iucn_cells_local_file) & !reload) {
-    message('Reading local IUCN cells file: \n  ', iucn_cells_local_file)
-    iucn_cells_spp1 <- read_csv(iucn_cells_local_file)
-  } else {
-    iucn_cells_global_file <- file.path(dir_anx_global, scenario, 'int/iucn_cells_spp.csv')
-    if(file.exists(iucn_cells_global_file)) {
-
-      message('Reading IUCN cells file from global assessment: \n  ', iucn_cells_global_file)
-      iucn_cells_spp <- read_csv(iucn_cells_global_file, col_types = 'ciiddc')
-
-    } else {
-
-      message('Building IUCN species to cell table.  This might take a few minutes.')
-      iucn_intsx_dir <- file.path(dir_anx_global, scenario, 'iucn_intersections')
-      iucn_map_files <- file.path(iucn_intsx_dir,
-                                  list.files(iucn_intsx_dir))
-
-      ### read each into dataframe, within a list
-      read_intersections <- function(spp_group) {
-        if(verbose) message(sprintf('Reading intersections for %s...',
-                                    str_replace(tolower(basename(spp_group)), '.csv', '')))
-        spp_group_cells <- read_csv(spp_group)
-        return(spp_group_cells)
-      }
-      iucn_cells_spp_list <- lapply(iucn_map_files, read_intersections)
-
-      ### combine list of dataframes to single dataframe
-      iucn_cells_spp      <- bind_rows(iucn_cells_spp_list)
-      # This creates a full data frame of all IUCN species, across all species groups, for all cells.
-
-      names(iucn_cells_spp) <- tolower(names(iucn_cells_spp))
-
-    }
-    message('Trimming global IUCN cells list to local cells only...')
-    iucn_cells_spp1 <- rgn2cell_df %>%
-      rename(prop_area_rgn = prop_area) %>%
-      left_join(iucn_cells_spp %>%
-                  rename(prop_area_spp = prop_area),
-                by = 'loiczid')
-
-    message('Writing local IUCN cell list to ', iucn_cells_local_file)
-    write_csv(iucn_cells_spp1, iucn_cells_local_file)
-  }
-  return(iucn_cells_spp1)
-}
-
-
-##############################################################################=
-spp_iucn_cell_summary <- function(iucn_cells_spp,
-                                  spp_info) {
+spp_iucn_cell_summary <- function(spp_info, iucn_spp_cells) {
   # Calculate category and trend scores per cell for IUCN species.
   # * For each IUCN species group:
   #   * load IUCN species <-> cell lookup
@@ -230,20 +139,21 @@ spp_iucn_cell_summary <- function(iucn_cells_spp,
 
   spp_iucn_info <- spp_info %>%
     filter(str_detect(spatial_source, 'iucn')) %>%
-    dplyr::select(iucn_sid, cat_score, trend_score) %>%
+    # filter(!is.na(cat_score)) %>%
+    dplyr::select(map_iucn_sid, map_subpop, cat_score, trend_score) %>%
     distinct()
 
-  message(sprintf('Number of IUCN species: %d', nrow(spp_iucn_info)))
+  message(sprintf('Number of IUCN species: %d', length(unique(spp_iucn_info$map_iucn_sid))))
 
   ### Join species/cell lookup to species information
-  iucn_cells_spp1 <- iucn_cells_spp %>%
-    select(iucn_sid, loiczid) %>%
+  iucn_spp_cells1 <- iucn_spp_cells %>%
+    select(iucn_sid, loiczid, subpop) %>%
     distinct() %>%
-    full_join(spp_iucn_info,
-              by = 'iucn_sid')
+    left_join(spp_iucn_info,
+              by = c('iucn_sid' = 'map_iucn_sid', 'subpop' = 'map_subpop'))
 
   ### this next part ditches NA species (no cells or no category)
-  iucn_cells_spp1 <- iucn_cells_spp1 %>%
+  iucn_spp_cells2 <- iucn_spp_cells1 %>%
     filter(!is.na(cat_score) & !is.na(loiczid)) %>%
     distinct()
 
@@ -251,7 +161,7 @@ spp_iucn_cell_summary <- function(iucn_cells_spp,
   ### NOTE: Currently, ignores the proportional area of each species within
   ### a cell.  If there is *any* presence of the species within a cell, it
   ### is counted as being present everywhere within the cell.
-  iucn_cells_spp_sum <- iucn_cells_spp1 %>%
+  iucn_cells_sum <- iucn_spp_cells2 %>%
     group_by(loiczid) %>%
     summarize(mean_cat_score = mean(cat_score),      # no na.rm needed; already filtered.
               mean_pop_trend_score = mean(trend_score, na.rm = TRUE),
@@ -259,7 +169,7 @@ spp_iucn_cell_summary <- function(iucn_cells_spp,
               n_trend_species = sum(!is.na(trend_score))) %>% # no na.rm needed; count all with cat_score
     mutate(source = 'iucn')
 
-    return(invisible(iucn_cells_spp_sum))
+  return(invisible(iucn_cells_sum))
 }
 
 
@@ -304,7 +214,11 @@ spp_calc_rgn_means <- function(summary_by_loiczid, rgn_cell_lookup, rgn_tag = ''
               rgn_mean_trend = sum(area_weighted_mean_trend)/sum(rgn_area))
 
   region_sums <- region_sums %>%
-    mutate(status = 100 * ((1 - rgn_mean_cat) - 0.25) / 0.75)
+    mutate(status = 100 * ((1 - rgn_mean_cat) - 0.25) / 0.75,
+           trend  = 5 * (-rgn_mean_trend/.75) / (status / 100), ### to get % change over five years
+           trend  = max(min(trend, 1), -1))
+    ### remember that to this point, trend is annual change in *risk* -
+    ### positive means increasing risk.
 
   region_summary_file <- file.path(dir_goal,
                                    sprintf('summary/rgn_summary%s.csv', rgn_tag))
@@ -318,7 +232,8 @@ spp_calc_rgn_means <- function(summary_by_loiczid, rgn_cell_lookup, rgn_tag = ''
 
 ##############################################################################=
 spp_append_bcsee <- function(spp_all) {
-  bcsee_file <- file.path(dir_anx, '_raw_data/bc_species_and_ecosystems_explorer/bcsee_export.tsv')
+  bcsee_file <- file.path(dir_M, 'git-annex/bcprep/_raw_data',
+                          'bc_species_and_ecosystems_explorer/d2016/bcsee_export.tsv')
   bcsee_all  <- read.delim(bcsee_file, sep = '\t', stringsAsFactors = FALSE) %>%
     dplyr::select(sciname = Scientific.Name, scisyn = Scientific.Name.Synonyms,
            com_name = English.Name,
@@ -355,18 +270,18 @@ spp_append_bcsee <- function(spp_all) {
 
   ### Now the cleaned BCSEE data can be compared, via sciname, to spp_all.
   # nrow(bcsee_clean %>% filter(sciname %in% spp_all$sciname))
-  ### 664 species in common; but how many have spatial info?
+  ### 644 species in common; but how many have spatial info?
   spp_all1 <- spp_all %>%
     full_join(bcsee_clean, by = 'sciname') %>%
-    filter(!is.na(spatial_source))
+    filter(!(is.na(am_sid) & is.na(map_iucn_sid)))
   # nrow(spp_all1 %>% filter(!is.na(status_gl) | !is.na(status_pr)))
-  ### 664 BCSEE listed species remain... woo!
+  ### 612 BCSEE listed species remain... woo!
 
   ### For species BCSEE species, compare IUCN ranking to Natureserve ranking (for global) and .
   status_gl_cat <- data.frame(status_gl       = c('G5', 'G4', 'G3', 'G2', 'G1', 'GX', 'GH', 'G3G4', 'G4G5', 'GNR'),
                               status_gl_score = c( 0.0,  0.2,  0.4,  0.6,  0.8,  1.0,  1.0,  0.3,    0.1,    NA))
   spp_all1 <- spp_all1 %>%
-    left_join(status_gl_cat,   by = 'status_gl')
+    left_join(status_gl_cat, by = 'status_gl')
 
   ### How to deal with Breeding, Nonbreeding, Migrant codes?
   ### For now, quick fix: separate, drop the second, ignore the codes.
@@ -383,60 +298,3 @@ spp_append_bcsee <- function(spp_all) {
 
   return(spp_all1)
 }
-
-
-##############################################################################=
-spp_plot_raster <- function(rast_data, rast_cells,
-                            which_id,
-                            poly_rgn,
-                            title = '', scale_label = '',
-                            scale_limits = c(0, 100),
-                            by_id = 'loiczid',
-                            rev_scale = FALSE) {
-  require(ggplot2)
-  require(RColorBrewer)
-  require(maptools)
-
-  rast <- raster::subs(rast_cells, rast_data, by = by_id, which = which_id)
-  rast_pts <- raster::rasterToPoints(rast) %>%
-    as.data.frame()
-  names(rast_pts) <- c('long', 'lat', 'layer')
-  rast_pts <- rast_pts %>%
-    mutate(group = 1) ### need 'group' variable to plot below...
-
-  if(rev_scale == TRUE) {
-    cols <- rev(colorRampPalette(brewer.pal(11, 'Spectral'))(255)) # rainbow color scheme, low = blue
-  } else {
-    cols <- colorRampPalette(brewer.pal(11, 'Spectral'))(255) # rainbow color scheme, low = red
-  }
-
-  poly_rgn_df <- fortify(poly_rgn, region = 'rgn_id') %>%
-    rename(rgn_id = id) %>%
-    mutate(rgn_id = as.integer(rgn_id))
-
-  poly_land    <- readShapePoly(fn = file.path(dir_rgn, 'ohibc_land_wgs84'), proj4string = CRS(p4s_opts[2]))
-  poly_land_df <- fortify(poly_land)
-
-  rast_plot <- ggplot(data = rast_pts, aes(x = long, y = lat, group = group, fill = layer)) +
-    ### omit ticks, axis text:
-    theme(axis.ticks = element_blank(), axis.text = element_blank()) +
-    ### set text style, title size and position, and legend position:
-    theme(text = element_text(family = 'Helvetica', color = 'gray30', size = 12),
-          plot.title = element_text(size = rel(1.5), hjust = 0, face = 'bold'),
-          legend.position = 'right') +
-    ### Blank background and grid:
-    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-          panel.background = element_blank()) +
-    scale_fill_gradientn(colours = cols, na.value = 'gray80',
-                        limits = scale_limits) +
-    geom_polygon(data = poly_land_df, color = 'gray70', fill = 'gray75', size = 0.1) +
-    geom_raster(alpha = .8) +
-    geom_polygon(data = poly_rgn_df,  color = 'gray20', fill = NA,       size = 0.1) +
-    ### df_plot order: land polygons, then raster cells, then region borders
-    labs(title = title,
-         fill  = scale_label,
-         x = NULL, y = NULL)
-
-  print(rast_plot)
-}
-
