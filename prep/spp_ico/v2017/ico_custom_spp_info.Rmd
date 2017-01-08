@@ -1,0 +1,388 @@
+---
+title: 'OHIBC: data_prep_spp.Rmd'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(rgdal)
+library(raster)
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+scenario <- 'v2017'
+goal     <- 'spp_ico'
+dir_git  <- '~/github/ohibc'
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_rgn  <- file.path(dir_git, 'prep/spatial')
+
+dir_goal_anx        <- file.path(dir_M, 'git-annex/bcprep', goal, scenario) 
+dir_goal_anx_global <- file.path(dir_M, 'git-annex/globalprep', goal, scenario)
+
+library(provRmd); prov_setup()
+
+source(file.path(dir_goal, 'spp_fxn.R'))
+
+### set up proj4string options: BC Albers and WGS84
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+p4s_wgs84 <- c('wgs84' = '+init=epsg:4326')
+
+```
+
+# Summary:
+
+Get species info, time series assessment, and spatial distribution for custom species for OHIBC ICO.
+
+These custom species are considered iconic, yet are not considered marine, so their info is not readily available from the global SPP analysis.
+
+``` {r get_custom_spp_info}
+
+custom_spp_id <- 22679935
+
+custom_info <- read_csv(file.path(dir_goal_anx_global, 'int', 'spp_info_from_api.csv')) %>%
+  filter(iucn_sid %in% custom_spp_id)
+
+```
+
+
+``` {r setup_API_functions}
+
+library(parallel)
+library(jsonlite)
+
+### api_key stored on git-annex so outside users can use their own key
+api_key <- scan(file.path(dir_goal_anx_global, '../api_key.csv'), what = 'character')
+
+get_from_api <- function(url, param, api_key, delay) {
+  
+  i <- 1; tries <- 5; success <- FALSE
+  
+  while(i <= tries & success == FALSE) {
+    message('try #', i)
+       Sys.sleep(delay * i) ### be nice to the API server? later attempts wait longer
+       api_info <- fromJSON(sprintf(url, param, api_key)) 
+       if (class(api_info) != 'try-error') {
+         success <- TRUE
+       } else {
+         warning(sprintf('try #%s: class(api_info) = %s\n', i, class(api_info)))
+       }
+    message('... successful? ', success)
+    i <- i + 1
+  }
+    
+  if (class(api_info) == 'try-error') { ### multi tries and still try-error
+    api_return <- data.frame(param_id  = param,
+                             api_error = 'try-error after multiple attempts')
+  } else if (class(api_info$result) != 'data.frame') { ### result isn't data frame for some reason
+    api_return <- data.frame(param_id  = param,
+                             api_error = paste('non data.frame output: ', class(api_info$result), ' length = ', length(api_info$result)))
+  } else if (length(api_info$result) == 0) { ### result is empty
+    api_return <- data.frame(param_id  = param,
+                             api_error = 'zero length data.frame')
+  } else {
+    api_return <- api_info %>%
+      data.frame(stringsAsFactors = FALSE)
+  }
+  
+  return(api_return)
+}
+
+mc_get_from_api <- function(url, param_vec, api_key, cores = NULL, delay = 0.5) {
+  
+  if(is.null(cores)) 
+    numcores <- ifelse(Sys.info()[['nodename']] == 'mazu', 12, 1)
+  else 
+    numcores <- cores
+  
+  out_list <- parallel::mclapply(param_vec, 
+                          function(x) get_from_api(url, x, api_key, delay),
+                          mc.cores   = numcores,
+                          mc.cleanup = TRUE) 
+  
+  if(any(sapply(out_list, class) != 'data.frame')) {
+    error_list <- out_list[sapply(out_list, class) != 'data.frame']
+    message('List items are not data frame: ', paste(sapply(error_list, class), collapse = '; '))
+    message('might be causing the bind_rows() error; returning the raw list instead')
+    return(out_list)
+  }
+  
+  out_df <- out_list %>%
+    bind_rows()
+  out_df <- out_df %>%
+    setNames(names(.) %>%
+               str_replace('result.', ''))
+  return(out_df)
+}
+
+```
+
+## Get past assessments for all IUCN marine species
+
+For each unique IUCN species ID, collect the past assessment information for the species.  Old codes are updated to current IUCN codes, and codes are translated to values between 0 and 1.
+
+``` {r get_species_past_assessments}
+
+spp_hist_url <- 'http://apiv3.iucnredlist.org/api/v3/species/history/id/%s?token=%s'
+  
+spp_past_df <- mc_get_from_api(spp_hist_url, custom_spp_id, api_key, delay = 1, cores = 12) %>%
+  rename(iucn_sid = name,
+         cat_txt  = category,
+         cat_ts   = code) %>%
+  mutate(iucn_sid = as.integer(iucn_sid),
+         year     = as.integer(year))
+
+### Clean up the time series: reclassify old codes to current
+# cat_lookup <- read_csv(file.path(dir_goal, 'raw', 'risk_code_lookup.csv'))
+# 
+# spp_past_df1 <- spp_past_df %>%
+#   left_join(cat_lookup, by = c('code', 'category')) %>%
+#   rename(iucn_sid = name,
+#          old_cat  = code,
+#          cat_txt  = category,
+#          cat_ts   = code_current)
+
+pop_cat <- data.frame(cat_ts       = c("LC", "NT", "VU", "EN", "CR", "EX", "NE", "DD"), 
+                      cat_ts_score = c(   0,  0.2,  0.4,  0.6,  0.8,  1.0,  NA,   NA))
+  
+spp_past_df <- spp_past_df %>% 
+  left_join(pop_cat, by = 'cat_ts') %>%
+  filter(!is.na(cat_ts_score) & !is.na(year)) %>%
+  arrange(iucn_sid, year)
+
+### expand the time series and calculate trend
+cat_years    <- c(1980:2016)
+assess_years <- c(2000:2017)
+trend_span   <- 10
+
+spp_cat_ts <- spp_past_df %>%
+  select(iucn_sid, year, cat_ts, cat_ts_score) %>%
+  complete(year = cat_years, nesting(iucn_sid)) %>%
+  arrange(iucn_sid, year) %>%
+  group_by(iucn_sid) %>%
+  fill(cat_ts, cat_ts_score) %>%                    
+    ### fills forward to most recent assessment year; older category valid til new assessment
+  fill(cat_ts, cat_ts_score, .direction = 'up') %>% 
+    ### fills back from first non-NE or DD assessment; assume early status is same as first assessment
+  ungroup()
+
+
+spp_cat_trend_list <- vector('list', length = length(assess_years))
+
+for(i in 1:length(assess_years)) { # i <- 1
+  
+  yr <- assess_years[i]
+  spp_cat_current <- spp_cat_ts %>%
+    filter(year < yr & year >= yr - trend_span)
+
+  spp_cat_trend_list[[i]] <- spp_cat_current %>%
+    group_by(iucn_sid) %>%
+    do(risk_trend = lm(cat_ts_score ~ year, data = .)$coefficients['year']) %>%
+    left_join(spp_cat_current %>% 
+                filter(year == yr - 1), ### e.g. 2017 assessment looks at 2016 category
+              by = 'iucn_sid') %>%
+    mutate(risk_trend = round(risk_trend, 4),
+           assess_year = yr)
+}
+
+spp_cat_trend_df <- bind_rows(spp_cat_trend_list) %>%
+  left_join(custom_info, by = 'iucn_sid') 
+
+iucn_sid, 
+sciname
+risk_trend
+year
+cat_ts
+cat_ts_score
+assess_year
+population
+category
+
+am_sid,iucn_sid,sciname,spp_group,map_iucn_sid,map_subpop,pr_score,spatial_source,risk_trend,cat_ts,cat_ts_score,assess_year,year
+
+spp_cat_trend_df <- spp_cat_trend_df %>%
+  mutate(am_sid = NA,
+         map_iucn_sid = iucn_sid,
+         map_subpop = NA,
+         spp_group = 'BOTW',
+         spatial_source = 'iucn') %>%
+  spp_append_bcsee() %>% ### from spp_fxn.R
+  select(-(kingdom:genus), -population, -category, -(status_gl:status_gl_score), pr_score = status_pr_score) %>%
+  distinct()
+
+write_csv(spp_cat_trend_df, file.path(dir_goal, 'int/spp_custom_scored.csv'))
+
+```
+
+***
+
+## Get spatial info for custom species
+
+The only custom species in OHIBC is Canada Goose.  Presumably, spatial info will be available in the BOTW shapefile.  Get the BOTW shapefile, filter to Canada Goose, and save it locally.
+
+``` {r BOTW_get_custom}
+
+if(!file.exists(file.path(dir_goal, 'spatial', 'BOTW_custom.shp'))) {
+  
+  botw_shp_dir <- file.path(dir_M, 'git-annex/globalprep', '_raw_data/birdlife_intl', 'd2016')
+
+  ### rename the do-not-extract file temporarily
+  file.rename(file.path(botw_shp_dir, 'BOTW.shp.do_not_extract'), file.path(botw_shp_dir, 'BOTW.shp'))
+  
+  botw_poly <- readOGR(botw_shp_dir, 'BOTW')
+                             
+  file.rename(file.path(botw_shp_dir, 'BOTW.shp'), file.path(botw_shp_dir, 'BOTW.shp.do_not_extract'))
+  
+  ### filter to custom species
+  spp_shp_filter <- botw_poly@data$SISID %in% custom_spp_id
+  botw_shp_custom <- botw_poly[spp_shp_filter, ]
+  
+  ### write the filtered file to ohibc/prep/spp_ico/v2017/spatial
+  maptools::writePolyShape(botw_shp_custom,
+                           file.path(dir_goal, 'spatial', 'BOTW_custom'))
+  file.copy(file.path(botw_shp_dir, 'BOTW.prj'), file.path(dir_goal, 'spatial', 'BOTW_custom.prj'))
+}
+
+
+```
+### Define extract function (stolen from global SPP)
+
+Use the basic code from global SPP to extract the polygons.
+
+``` {r define_functions}
+
+extract_from_shp <- function(shp, cache_dir, rast, 
+                             fn_tag   = NULL,
+                             reload   = FALSE) {
+  ### will extract a shapefile to a raster, and save the .csv as a
+  ### file in cache_dir with a matching name (e.g. BOTW.shp -> BOTW.csv).
+  ### NOTE: any filtering of shapefiles should be done before passing them
+  ### to this function; e.g. filter TERRESTRIAL_MAMMALS.shp to just those
+  ### that occur in marine habitats.
+  ### * shp must include .shp extension and must include full path name.
+  
+  if(!file.exists(shp)) {
+    message('Shapefile ', shp, ' does not exist.  shp argument must contain ',
+            'the full path name, including .shp extension.')
+    
+    return(data.frame(msg = 'pathname error'))
+  }
+
+  ### determine species group (the shapefile base name without extension)
+  spp_gp <- basename(shp) %>% str_replace('.shp', '')
+  
+  cache_file <- file.path(cache_dir, 
+                          paste0(spp_gp, 
+                                 ifelse(is.null(fn_tag), '', fn_tag),
+                                 '.csv'))
+  
+  ### if reload == FALSE, and the file exists, don't waste your friggin' time here, move on to next group.
+  if(file.exists(cache_file) & reload == FALSE) {
+    message(sprintf('IUCN <-< LOICZID lookup file already exists for species group %s;',
+                    ' file location:\n  %s', spp_gp, cache_file))
+    return(data.frame(msg = paste(cache_file, ' already exists, not reprocessed')))
+  } else {
+    ptm <- proc.time()
+    fsize <- round(file.size(shp)/1e6, 2)
+    message(sprintf('Reading species group shapefile %s, %.2f MB\n  %s', spp_gp, fsize, shp))
+
+    ### Because the IUCN metadata states that shapefiles are unprojected lat-long with WGS84,
+    ### use readShapePoly (rather than readOGR) and manually tell it the projection...
+    spp_shp <- maptools::readShapePoly(fn = shp,
+                                       proj4string = CRS('+init=epsg:4326'),
+                                       delete_null_obj = TRUE)
+    # spp_shp <- rgdal::readOGR(dsn = dirname(shp),
+    #                           layer = basename(shp) %>% str_replace('.shp', ''),
+    #                           stringsAsFactors = FALSE)
+    message(sprintf('Elapsed read time: %.2f seconds', (proc.time() - ptm)[3]))
+
+    ### standardize some variable names; this is mostly for BOTW
+    names(spp_shp@data) <- tolower(names(spp_shp@data))
+    names(spp_shp@data)[names(spp_shp@data) %in% c('id_no', 'sisid')] <- 'iucn_sid'
+    names(spp_shp@data)[names(spp_shp@data) %in% c('binomial')]       <- 'sciname'
+    names(spp_shp@data)[names(spp_shp@data) %in% c('presenc')]        <- 'presence'
+    ### corals 1 (and others?) doesn't have subpop variable; add NAs
+    if(!'subpop' %in% names(spp_shp@data))
+      spp_shp@data$subpop <- NA
+
+
+    message(sprintf('... processing %s species',
+                    length(unique(spp_shp@data$iucn_sid))))
+
+    message('Extracting polygons to LOICZID cells...')
+    ptm <- proc.time()
+    spp_shp_prop <- raster::extract(rast, spp_shp, 
+                                    weights = TRUE, normalizeWeights = FALSE, 
+                                    progress = 'text')
+    message(sprintf('Elapsed process time: %.2f minutes', (proc.time() - ptm)[3]/60))
+
+    
+    ### combine sciname, iucn_sid, presence, and subpop code for a single unique identifier
+    shp_id <- data.frame('sciname'  = spp_shp@data$sciname,
+                         'iucn_sid' = spp_shp@data$iucn_sid,
+                         'presence' = spp_shp@data$presence,
+                         'subpop'   = spp_shp@data$subpop) %>%
+      unite(name_id, sciname, iucn_sid, presence, subpop, sep = '_')
+
+    names(spp_shp_prop) <- shp_id$name_id
+
+    ### convert list to data frame.
+    spp_shp_prop_df <- plyr::ldply(spp_shp_prop, rbind)
+    spp_shp_prop_df <- spp_shp_prop_df %>%
+      rename(name_id   = .id,
+             LOICZID   = value,
+             prop_area = weight) %>%
+      separate(name_id, c('sciname', 'iucn_sid', 'presence', 'subpop'), sep = '_') %>%
+      distinct()
+
+    ### save .csv for this species group
+    message(sprintf('%s: %s species maps, %s total cells in output file',
+                    spp_gp, length(unique(spp_shp_prop_df$iucn_sid)),
+                    nrow(spp_shp_prop_df)))
+    message(sprintf('Writing IUCN<->LOICZID intersection file for %s to:\n  %s', spp_gp, cache_file))
+    write_csv(spp_shp_prop_df, cache_file)
+  }
+  
+  return(invisible(spp_shp_prop_df))
+}
+
+```
+
+``` {r extract_shps}
+
+shp_files <- c(list.files(file.path(dir_goal, 'spatial'),
+                        pattern = '.shp$',
+                        full.names = TRUE))
+
+rast <- raster(file.path(dir_goal, 'spatial/loiczid.tif'))
+
+for (shp in shp_files) {
+  shp_csv <- extract_from_shp (shp,
+                               cache_dir = file.path(dir_goal, 'spatial'),
+                               rast = rast,
+                               reload = FALSE)
+}
+
+```
+
+
+***
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup(commit_outputs = FALSE)
+```
+

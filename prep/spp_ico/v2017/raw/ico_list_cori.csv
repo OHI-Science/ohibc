@@ -1,0 +1,30 @@
+name from Karin,comname,sciname,comments
+Salmon,Sockeye salmon,Oncorhynchus nerka,all iconic?
+Salmon,Chinook salmon,Oncorhynchus tshawytscha,all iconic?
+Salmon,Coho salmon,Oncorhynchus kisutch,all iconic?
+Salmon,Pink salmon,Oncorhynchus gorbuscha,all iconic?
+Orca,Killer whale,Orcinus orca,none
+Humpback,Humpback whale,Megaptera novaeangliae,none
+Grey Whale,Gray whale,Eschrichtius robustus,none
+Harbor porpoise,Harbor porpoise,Phocoena phocoena,none
+White sided dolphin,White-sided dolphin,Lagenorhynchus obliquidens,none
+Eagle,Bald eagle,Haliaeetus leucocephalus,none
+Heron,Great blue heron,Ardea herodias,none
+Canadian Geese,Canada goose,Branta canadensis,none
+Common Loon,Common loon,Gavia immer,none
+Harbour Seal,Harbor seal,Phoca vitulina,none
+Forage fish,Pacific herring,Clupea pallasii,none
+Forage fish,Round herring,Etrumeus teres,eliminated Atlantic species
+Forage fish,Thread herring,Opisthonema libertate,eliminated doesnt go that far north
+Forage fish,Thread herring,Opisthonema medirastre,eliminated doesnt go that far north
+Forage fish,Pacific sand lance,Ammodytes hexapterus,none
+Forage fish,Surf smelt,Hypomesus pretiosus,none
+Forage fish,Eulachon,Thaleichthys pacificus,none
+Forage fish,Pacific saury,Cololabis saira,eliminated
+Forage fish,Silversides,family Atherinopsidae,eliminated
+Marbled Murrelet,Marbled murrelet,Brachyramphus marmoratus,added by Karin
+marine mammal other,,,(by spatial data presence)
+Sea Otter,Sea Otter,Enhydra lutris,eliminated by Karin for Howe Sound
+Northern Abalone,Northern Abalone,Haliotis kamtschatkana,eliminated by Karin for Howe Sound
+Cassin?s auklet,Cassin?s auklet,Ptychoramphus aleuticus,eliminated by Karin for Howe Sound
+Halibut,Halibut,Hippoglossus stenolepis,eliminated by Karin for Howe Sound

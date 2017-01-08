@@ -181,13 +181,12 @@ if(!file.exists(am_spp_cells_file) | reload) {
   
 }
 
-### collect IUCN species local to BC
-
 iucn_spp_cells_local_file <- file.path(dir_goal, 'int/iucn_spp_cells.csv')
 
 if(!file.exists(iucn_spp_cells_local_file) | reload) {
   
   iucn_spp_cells_global_file <- file.path(dir_goal_anx_global, 'int/iucn_spp_cells_d2016.csv')
+
   iucn_spp_cells <- read_csv(iucn_spp_cells_global_file)
 
   message('Trimming global IUCN cells list to local cells only...')
@@ -224,7 +223,7 @@ Because we are working on a smaller region, some species with both AM and IUCN m
 
 ``` {r create_ohibc_spp_list}
 
-spp_bc_file <- file.path(dir_goal, 'int/spp_list_ohibc.csv')
+spp_bc_file <- file.path(dir_goal, 'int/spp_list_base.csv')
 iucn_spp_cells_file <- file.path(dir_goal, 'int/iucn_spp_cells.csv')
 am_spp_cells_file   <- file.path(dir_goal, 'int/am_spp_cells.csv')
 
@@ -274,7 +273,7 @@ See [this table]('iucn_to_ns.html') for info on NatureServe codes
 
 ``` {r append_bcsee_scores, echo = TRUE}
 
-spp_bc_file <- file.path(dir_goal, 'int/spp_list_ohibc.csv')
+spp_bc_file <- file.path(dir_goal, 'int/spp_list_base.csv')
 
 spp_info <- read_csv(spp_bc_file) %>%
   mutate(sciname = str_replace(sciname, 'Clupea pallasii pallasii', 'Clupea pallasii')) %>%
@@ -370,7 +369,7 @@ write_csv(spp_cat_trend_df, file.path(dir_goal, 'int/spp_cat_trend_timeseries.cs
 
 ```
 
-``` {r score_spp_list, echo = TRUE}
+``` {r score_spp_list}
 
 ### get time series of categories and trends.
 ### NOTE: risk_trend is positive for increasing risk, not increasing health.
@@ -400,9 +399,9 @@ spp_scored <- spp_scored %>%
   filter(!is.na(year)) %>%
   mutate(assess_year  = year + 1,
          cat_ts       = ifelse(is.na(cat_ts), category, cat_ts),
-         cat_ts_score = ifelse(is.na(cat_ts_score), cat_scores[cat_ts], cat_ts_score)) %>% 
+         cat_ts_score = ifelse(is.na(cat_ts_score), cat_scores[cat_ts], cat_ts_score)) %>%
     ### using the lookup from above, set up the category scores
-  filter(!(is.na(cat_ts_score) & year != max(year)))
+  filter(!(is.na(cat_ts_score) & is.na(pr_score) & year != max(year)))
     ### ditch any DD and NE species, except one record (most recent year)
 
 spp_scored <- spp_scored %>% 
@@ -462,7 +461,7 @@ am_cells_sum_list <- mclapply(years, mc.cores = 12, FUN = function(yr) {
 
 am_cells_sum <- bind_rows(am_cells_sum_list)
 
-write_csv(am_cells_sum, file.path(dir_goal, 'summary/am_cells_summary.csv'))
+write_csv(am_cells_sum, file.path(dir_goal, 'summary/spp_am_cells_summary.csv'))
 
 iucn_cells_sum_list <- mclapply(years, mc.cores = 12, FUN = function(yr) {
   
@@ -477,7 +476,7 @@ iucn_cells_sum_list <- mclapply(years, mc.cores = 12, FUN = function(yr) {
 })
 
 iucn_cells_sum <- bind_rows(iucn_cells_sum_list)
-write_csv(iucn_cells_sum, file.path(dir_goal, 'summary/iucn_cells_summary.csv'))
+write_csv(iucn_cells_sum, file.path(dir_goal, 'summary/spp_iucn_cells_summary.csv'))
 
 ```
 
@@ -522,16 +521,10 @@ In this section we perform the model calculations:
 * From raster-level summaries, we generate a region-level summary based on area-weighted average extinction risk and population trend.
 * From the region-level summary of risk, we determine the SPP goal status based on the goal model equation.  SPP trend is identical to the regional average population trend score.
 
-``` {r sum_by_cells_and_rgn}
-
-
-
-```
-
 ``` {r generate_means_per_cell}
 
-iucn_cells_sum <- read_csv(file.path(dir_goal, 'summary/iucn_cells_summary.csv'))
-am_cells_sum   <- read_csv(file.path(dir_goal, 'summary/am_cells_summary.csv'))
+iucn_cells_sum <- read_csv(file.path(dir_goal, 'summary/spp_iucn_cells_summary.csv'))
+am_cells_sum   <- read_csv(file.path(dir_goal, 'summary/spp_am_cells_summary.csv'))
 rgn2cell_df    <- read_csv(file.path(dir_goal, 'spatial/rgn2cell.csv'))
 
 sum_by_loiczid <- spp_calc_cell_means(am_cells_sum, iucn_cells_sum)
@@ -551,7 +544,7 @@ Cell summary saved to: `r file.path(dir_goal, 'summary/cell_spp_summary_by_loicz
 
 `r DT::datatable(sum_by_loiczid %>% filter(year == max(year)), caption = 'Overall cell summary (latest year)')`
 
-Region summary saved to: `r file.path(dir_goal, 'summary/rgn_summary.csv')`
+Region summary saved to: `r file.path(dir_goal, 'summary/spp_rgn_summary.csv')`
 
 `r DT::datatable(sum_by_rgn, caption = 'Region summary (all years)')`
 
@@ -583,7 +576,7 @@ Status and trend layers saved to `output` folder.
 
 ``` {r save_status_and_trend, eval = FALSE}
 
-sum_by_rgn <- read_csv(file.path(dir_goal, 'summary/rgn_summary.csv'))
+sum_by_rgn <- read_csv(file.path(dir_goal, 'summary/spp_rgn_summary.csv'))
 
 spp_status <- sum_by_rgn %>%
   dplyr::select(rgn_id, score = status, year)
@@ -633,7 +626,7 @@ poly_bc_3nm <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
 
 rgn2cell_3nm_df <- spp_rgn2cell(poly_bc_3nm, rgn_tag = '_3nm', reload = FALSE)[[1]]
 
-sum_by_loiczid <- read_csv(file.path(dir_goal, 'summary/cell_spp_summary_by_loiczid.csv'))
+sum_by_loiczid <- read_csv(file.path(dir_goal, 'summary/spp_cell_summary_by_loiczid.csv'))
 
 sum_by_rgn_3nm  <- spp_calc_rgn_means(sum_by_loiczid, rgn2cell_3nm_df, rgn_tag = '_3nm')
 
@@ -647,7 +640,7 @@ write_csv(spp_trend_3nm,  file.path(dir_goal, 'output/spp_trend_3nm.csv'))
 
 ```
 
-3 Nautical Mile region summary saved to: `r file.path(dir_goal, 'summary/rgn_summary_3nm.csv')`
+3 Nautical Mile region summary saved to: `r file.path(dir_goal, 'summary/spp_rgn_summary_3nm.csv')`
 
 `r DT::datatable(sum_by_rgn_3nm, caption = 'Region summary (all years)')`
 

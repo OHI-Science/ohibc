@@ -1,0 +1,386 @@
+"rgn_id","loiczid","prop_area","rgn_name","cell_area"
+5,56984,0.01,"West Vancouver Island",1976.54
+5,56985,0.23,"West Vancouver Island",1976.54
+5,56986,0.09,"West Vancouver Island",1976.54
+5,57704,0.25,"West Vancouver Island",1997.21
+5,57705,0.99,"West Vancouver Island",1997.21
+5,57706,0.88,"West Vancouver Island",1997.21
+5,57707,0.34,"West Vancouver Island",1997.21
+5,57708,0.04,"West Vancouver Island",1997.21
+5,58425,0.46,"West Vancouver Island",2017.72
+5,58426,1,"West Vancouver Island",2017.72
+5,58427,0.98,"West Vancouver Island",2017.72
+5,58428,0.72,"West Vancouver Island",2017.72
+5,58429,0.24,"West Vancouver Island",2017.72
+5,58430,0.03,"West Vancouver Island",2017.72
+5,58431,0.02,"West Vancouver Island",2017.72
+5,59145,0.11,"West Vancouver Island",2038.08
+5,59146,0.7,"West Vancouver Island",2038.08
+5,59147,1,"West Vancouver Island",2038.08
+5,59148,1,"West Vancouver Island",2038.08
+5,59149,0.99,"West Vancouver Island",2038.08
+5,59150,0.81,"West Vancouver Island",2038.08
+5,59151,0.27,"West Vancouver Island",2038.08
+5,59152,0.01,"West Vancouver Island",2038.08
+5,59154,0.05,"West Vancouver Island",2038.08
+5,59867,0.28,"West Vancouver Island",2058.28
+5,59868,0.9,"West Vancouver Island",2058.28
+5,59869,0.55,"West Vancouver Island",2058.28
+5,59870,0.21,"West Vancouver Island",2058.28
+5,59871,0.03,"West Vancouver Island",2058.28
+5,59872,0.21,"West Vancouver Island",2058.28
+5,59873,0.21,"West Vancouver Island",2058.28
+5,59874,0.25,"West Vancouver Island",2058.28
+5,60588,0.01,"West Vancouver Island",2078.33
+6,56990,0.06,"Strait of Georgia",1976.54
+6,56991,0.24,"Strait of Georgia",1976.54
+6,56992,0.01,"Strait of Georgia",1976.54
+6,56993,0.07,"Strait of Georgia",1976.54
+6,57710,0.11,"Strait of Georgia",1997.21
+6,57711,0.71,"Strait of Georgia",1997.21
+6,57712,0.39,"Strait of Georgia",1997.21
+6,57713,0.1,"Strait of Georgia",1997.21
+6,57714,0.07,"Strait of Georgia",1997.21
+6,58431,0.1,"Strait of Georgia",2017.72
+6,58432,0.34,"Strait of Georgia",2017.72
+6,58433,0.72,"Strait of Georgia",2017.72
+6,58434,0.56,"Strait of Georgia",2017.72
+6,58435,0.08,"Strait of Georgia",2017.72
+6,59153,0.14,"Strait of Georgia",2038.08
+6,59154,0.36,"Strait of Georgia",2038.08
+1,49060,0.03,"North Coast",1739.66
+1,49061,0.01,"North Coast",1739.66
+1,49780,0.05,"North Coast",1761.89
+1,49781,0.13,"North Coast",1761.89
+1,49782,0.01,"North Coast",1761.89
+1,50498,0.26,"North Coast",1783.99
+1,50499,0.33,"North Coast",1783.99
+1,50500,0.27,"North Coast",1783.99
+1,51218,0.53,"North Coast",1805.95
+1,51219,0.88,"North Coast",1805.95
+1,51220,0.31,"North Coast",1805.95
+1,51223,0.01,"North Coast",1805.95
+1,51938,0.37,"North Coast",1827.77
+1,51939,0.9,"North Coast",1827.77
+1,51940,0.33,"North Coast",1827.77
+1,51941,0.08,"North Coast",1827.77
+1,51942,0.08,"North Coast",1827.77
+1,51943,0.2,"North Coast",1827.77
+1,52658,0.02,"North Coast",1849.46
+1,52659,0.81,"North Coast",1849.46
+1,52660,0.77,"North Coast",1849.46
+1,52661,0.45,"North Coast",1849.46
+1,52662,0.4,"North Coast",1849.46
+1,52663,0.1,"North Coast",1849.46
+1,52664,0.01,"North Coast",1849.46
+1,53379,0.14,"North Coast",1871
+1,53380,0.85,"North Coast",1871
+1,53381,0.86,"North Coast",1871
+1,53382,0.32,"North Coast",1871
+1,53383,0.01,"North Coast",1871
+1,54100,0.04,"North Coast",1892.4
+2,50494,0.04,"Haida Gwaii",1783.99
+2,50495,0.27,"Haida Gwaii",1783.99
+2,50496,0.33,"Haida Gwaii",1783.99
+2,50497,0.4,"Haida Gwaii",1783.99
+2,50498,0.14,"Haida Gwaii",1783.99
+2,51212,0.28,"Haida Gwaii",1805.95
+2,51213,0.73,"Haida Gwaii",1805.95
+2,51214,0.89,"Haida Gwaii",1805.95
+2,51215,0.74,"Haida Gwaii",1805.95
+2,51216,0.88,"Haida Gwaii",1805.95
+2,51217,0.91,"Haida Gwaii",1805.95
+2,51218,0.47,"Haida Gwaii",1805.95
+2,51932,0.06,"Haida Gwaii",1827.77
+2,51933,0.79,"Haida Gwaii",1827.77
+2,51934,0.87,"Haida Gwaii",1827.77
+2,51935,0.04,"Haida Gwaii",1827.77
+2,51936,0.17,"Haida Gwaii",1827.77
+2,51937,0.73,"Haida Gwaii",1827.77
+2,51938,0.63,"Haida Gwaii",1827.77
+2,52653,0.2,"Haida Gwaii",1849.46
+2,52654,0.81,"Haida Gwaii",1849.46
+2,52655,0.83,"Haida Gwaii",1849.46
+2,52656,0.13,"Haida Gwaii",1849.46
+2,52657,0.71,"Haida Gwaii",1849.46
+2,52658,0.98,"Haida Gwaii",1849.46
+2,52659,0.19,"Haida Gwaii",1849.46
+2,53374,0.04,"Haida Gwaii",1871
+2,53375,0.63,"Haida Gwaii",1871
+2,53376,0.73,"Haida Gwaii",1871
+2,53377,0.39,"Haida Gwaii",1871
+2,53378,0.96,"Haida Gwaii",1871
+2,53379,0.86,"Haida Gwaii",1871
+2,53380,0.15,"Haida Gwaii",1871
+2,54096,0.24,"Haida Gwaii",1892.4
+2,54097,0.84,"Haida Gwaii",1892.4
+2,54098,0.66,"Haida Gwaii",1892.4
+2,54099,0.99,"Haida Gwaii",1892.4
+2,54100,0.9,"Haida Gwaii",1892.4
+2,54101,0.21,"Haida Gwaii",1892.4
+2,54817,0.02,"Haida Gwaii",1913.66
+2,54818,0.25,"Haida Gwaii",1913.66
+2,54819,0.87,"Haida Gwaii",1913.66
+2,54820,1,"Haida Gwaii",1913.66
+2,54821,0.6,"Haida Gwaii",1913.66
+2,55539,0.09,"Haida Gwaii",1934.77
+2,55540,0.76,"Haida Gwaii",1934.77
+2,55541,0.31,"Haida Gwaii",1934.77
+3,52663,0.03,"Central Coast",1849.46
+3,53383,0.17,"Central Coast",1871
+3,53384,0.14,"Central Coast",1871
+3,53386,0.03,"Central Coast",1871
+3,53387,0.03,"Central Coast",1871
+3,54101,0.13,"Central Coast",1892.4
+3,54102,0.56,"Central Coast",1892.4
+3,54103,0.81,"Central Coast",1892.4
+3,54104,0.48,"Central Coast",1892.4
+3,54105,0.2,"Central Coast",1892.4
+3,54106,0.16,"Central Coast",1892.4
+3,54107,0.07,"Central Coast",1892.4
+3,54821,0.4,"Central Coast",1913.66
+3,54822,1,"Central Coast",1913.66
+3,54823,1,"Central Coast",1913.66
+3,54824,0.71,"Central Coast",1913.66
+3,54825,0.28,"Central Coast",1913.66
+3,54826,0.05,"Central Coast",1913.66
+3,54827,0.01,"Central Coast",1913.66
+3,55540,0.03,"Central Coast",1934.77
+3,55541,0.69,"Central Coast",1934.77
+3,55542,1,"Central Coast",1934.77
+3,55543,0.82,"Central Coast",1934.77
+3,55544,0.55,"Central Coast",1934.77
+3,55545,0.2,"Central Coast",1934.77
+3,56261,0.27,"Central Coast",1955.73
+3,56262,0.73,"Central Coast",1955.73
+3,56263,0.02,"Central Coast",1955.73
+4,55543,0.18,"North Vancouver Island",1934.77
+4,55544,0.44,"North Vancouver Island",1934.77
+4,55545,0.44,"North Vancouver Island",1934.77
+4,55546,0.05,"North Vancouver Island",1934.77
+4,55547,0.07,"North Vancouver Island",1934.77
+4,55549,0.03,"North Vancouver Island",1934.77
+4,56262,0.01,"North Vancouver Island",1955.73
+4,56263,0.95,"North Vancouver Island",1955.73
+4,56264,0.57,"North Vancouver Island",1955.73
+4,56265,0.31,"North Vancouver Island",1955.73
+4,56266,0.5,"North Vancouver Island",1955.73
+4,56267,0.44,"North Vancouver Island",1955.73
+4,56268,0.21,"North Vancouver Island",1955.73
+4,56269,0.16,"North Vancouver Island",1955.73
+4,56270,0.02,"North Vancouver Island",1955.73
+4,56271,0.14,"North Vancouver Island",1955.73
+4,56983,0.67,"North Vancouver Island",1976.54
+4,56984,0.98,"North Vancouver Island",1976.54
+4,56985,0.22,"North Vancouver Island",1976.54
+4,56988,0.06,"North Vancouver Island",1976.54
+4,56989,0.11,"North Vancouver Island",1976.54
+4,56990,0.3,"North Vancouver Island",1976.54
+4,57703,0.02,"North Vancouver Island",1997.21
+4,57704,0.1,"North Vancouver Island",1997.21
+8,52663,0.01,"Aristazabal Island",1849.46
+8,53381,0.12,"Aristazabal Island",1871
+8,53382,0.32,"Aristazabal Island",1871
+8,53383,0.03,"Aristazabal Island",1871
+8,54100,0.06,"Aristazabal Island",1892.4
+8,54101,0.66,"Aristazabal Island",1892.4
+8,54102,0.44,"Aristazabal Island",1892.4
+8,54103,0.05,"Aristazabal Island",1892.4
+7,51209,0.02,"Pacific Offshore",1805.95
+7,51210,0.16,"Pacific Offshore",1805.95
+7,51211,0.32,"Pacific Offshore",1805.95
+7,51212,0.21,"Pacific Offshore",1805.95
+7,51924,0.15,"Pacific Offshore",1827.77
+7,51925,0.33,"Pacific Offshore",1827.77
+7,51926,0.51,"Pacific Offshore",1827.77
+7,51927,0.68,"Pacific Offshore",1827.77
+7,51928,0.85,"Pacific Offshore",1827.77
+7,51929,0.99,"Pacific Offshore",1827.77
+7,51930,1,"Pacific Offshore",1827.77
+7,51931,1,"Pacific Offshore",1827.77
+7,51932,0.94,"Pacific Offshore",1827.77
+7,51933,0.21,"Pacific Offshore",1827.77
+7,52643,0.34,"Pacific Offshore",1849.46
+7,52644,1,"Pacific Offshore",1849.46
+7,52645,1,"Pacific Offshore",1849.46
+7,52646,1,"Pacific Offshore",1849.46
+7,52647,1,"Pacific Offshore",1849.46
+7,52648,1,"Pacific Offshore",1849.46
+7,52649,1,"Pacific Offshore",1849.46
+7,52650,1,"Pacific Offshore",1849.46
+7,52651,1,"Pacific Offshore",1849.46
+7,52652,1,"Pacific Offshore",1849.46
+7,52653,0.8,"Pacific Offshore",1849.46
+7,52654,0.19,"Pacific Offshore",1849.46
+7,53363,0.01,"Pacific Offshore",1871
+7,53364,0.83,"Pacific Offshore",1871
+7,53365,1,"Pacific Offshore",1871
+7,53366,1,"Pacific Offshore",1871
+7,53367,1,"Pacific Offshore",1871
+7,53368,1,"Pacific Offshore",1871
+7,53369,1,"Pacific Offshore",1871
+7,53370,1,"Pacific Offshore",1871
+7,53371,1,"Pacific Offshore",1871
+7,53372,1,"Pacific Offshore",1871
+7,53373,1,"Pacific Offshore",1871
+7,53374,0.96,"Pacific Offshore",1871
+7,53375,0.37,"Pacific Offshore",1871
+7,54084,0.21,"Pacific Offshore",1892.4
+7,54085,0.97,"Pacific Offshore",1892.4
+7,54086,1,"Pacific Offshore",1892.4
+7,54087,1,"Pacific Offshore",1892.4
+7,54088,1,"Pacific Offshore",1892.4
+7,54089,1,"Pacific Offshore",1892.4
+7,54090,1,"Pacific Offshore",1892.4
+7,54091,1,"Pacific Offshore",1892.4
+7,54092,1,"Pacific Offshore",1892.4
+7,54093,1,"Pacific Offshore",1892.4
+7,54094,1,"Pacific Offshore",1892.4
+7,54095,1,"Pacific Offshore",1892.4
+7,54096,0.76,"Pacific Offshore",1892.4
+7,54097,0.09,"Pacific Offshore",1892.4
+7,54805,0.28,"Pacific Offshore",1913.66
+7,54806,0.97,"Pacific Offshore",1913.66
+7,54807,1,"Pacific Offshore",1913.66
+7,54808,1,"Pacific Offshore",1913.66
+7,54809,1,"Pacific Offshore",1913.66
+7,54810,1,"Pacific Offshore",1913.66
+7,54811,1,"Pacific Offshore",1913.66
+7,54812,1,"Pacific Offshore",1913.66
+7,54813,1,"Pacific Offshore",1913.66
+7,54814,1,"Pacific Offshore",1913.66
+7,54815,1,"Pacific Offshore",1913.66
+7,54816,1,"Pacific Offshore",1913.66
+7,54817,0.98,"Pacific Offshore",1913.66
+7,54818,0.73,"Pacific Offshore",1913.66
+7,54819,0.13,"Pacific Offshore",1913.66
+7,55526,0.26,"Pacific Offshore",1934.77
+7,55527,0.94,"Pacific Offshore",1934.77
+7,55528,1,"Pacific Offshore",1934.77
+7,55529,1,"Pacific Offshore",1934.77
+7,55530,1,"Pacific Offshore",1934.77
+7,55531,1,"Pacific Offshore",1934.77
+7,55532,1,"Pacific Offshore",1934.77
+7,55533,1,"Pacific Offshore",1934.77
+7,55534,1,"Pacific Offshore",1934.77
+7,55535,1,"Pacific Offshore",1934.77
+7,55536,1,"Pacific Offshore",1934.77
+7,55537,1,"Pacific Offshore",1934.77
+7,55538,1,"Pacific Offshore",1934.77
+7,55539,0.91,"Pacific Offshore",1934.77
+7,55540,0.21,"Pacific Offshore",1934.77
+7,56247,0.12,"Pacific Offshore",1955.73
+7,56248,0.79,"Pacific Offshore",1955.73
+7,56249,1,"Pacific Offshore",1955.73
+7,56250,1,"Pacific Offshore",1955.73
+7,56251,1,"Pacific Offshore",1955.73
+7,56252,1,"Pacific Offshore",1955.73
+7,56253,1,"Pacific Offshore",1955.73
+7,56254,1,"Pacific Offshore",1955.73
+7,56255,1,"Pacific Offshore",1955.73
+7,56256,1,"Pacific Offshore",1955.73
+7,56257,1,"Pacific Offshore",1955.73
+7,56258,1,"Pacific Offshore",1955.73
+7,56259,1,"Pacific Offshore",1955.73
+7,56260,1,"Pacific Offshore",1955.73
+7,56261,0.73,"Pacific Offshore",1955.73
+7,56262,0.26,"Pacific Offshore",1955.73
+7,56263,0.02,"Pacific Offshore",1955.73
+7,56968,0.01,"Pacific Offshore",1976.54
+7,56969,0.46,"Pacific Offshore",1976.54
+7,56970,0.98,"Pacific Offshore",1976.54
+7,56971,1,"Pacific Offshore",1976.54
+7,56972,1,"Pacific Offshore",1976.54
+7,56973,1,"Pacific Offshore",1976.54
+7,56974,1,"Pacific Offshore",1976.54
+7,56975,1,"Pacific Offshore",1976.54
+7,56976,1,"Pacific Offshore",1976.54
+7,56977,1,"Pacific Offshore",1976.54
+7,56978,1,"Pacific Offshore",1976.54
+7,56979,1,"Pacific Offshore",1976.54
+7,56980,1,"Pacific Offshore",1976.54
+7,56981,1,"Pacific Offshore",1976.54
+7,56982,1,"Pacific Offshore",1976.54
+7,56983,0.33,"Pacific Offshore",1976.54
+7,57690,0.19,"Pacific Offshore",1997.21
+7,57691,0.81,"Pacific Offshore",1997.21
+7,57692,1,"Pacific Offshore",1997.21
+7,57693,1,"Pacific Offshore",1997.21
+7,57694,1,"Pacific Offshore",1997.21
+7,57695,1,"Pacific Offshore",1997.21
+7,57696,1,"Pacific Offshore",1997.21
+7,57697,1,"Pacific Offshore",1997.21
+7,57698,1,"Pacific Offshore",1997.21
+7,57699,1,"Pacific Offshore",1997.21
+7,57700,1,"Pacific Offshore",1997.21
+7,57701,1,"Pacific Offshore",1997.21
+7,57702,1,"Pacific Offshore",1997.21
+7,57703,0.98,"Pacific Offshore",1997.21
+7,57704,0.65,"Pacific Offshore",1997.21
+7,57705,0.01,"Pacific Offshore",1997.21
+7,58411,0.01,"Pacific Offshore",2017.72
+7,58412,0.39,"Pacific Offshore",2017.72
+7,58413,0.82,"Pacific Offshore",2017.72
+7,58414,1,"Pacific Offshore",2017.72
+7,58415,1,"Pacific Offshore",2017.72
+7,58416,1,"Pacific Offshore",2017.72
+7,58417,1,"Pacific Offshore",2017.72
+7,58418,1,"Pacific Offshore",2017.72
+7,58419,1,"Pacific Offshore",2017.72
+7,58420,1,"Pacific Offshore",2017.72
+7,58421,1,"Pacific Offshore",2017.72
+7,58422,1,"Pacific Offshore",2017.72
+7,58423,1,"Pacific Offshore",2017.72
+7,58424,1,"Pacific Offshore",2017.72
+7,58425,0.54,"Pacific Offshore",2017.72
+7,59134,0.27,"Pacific Offshore",2038.08
+7,59135,0.9,"Pacific Offshore",2038.08
+7,59136,1,"Pacific Offshore",2038.08
+7,59137,1,"Pacific Offshore",2038.08
+7,59138,1,"Pacific Offshore",2038.08
+7,59139,1,"Pacific Offshore",2038.08
+7,59140,1,"Pacific Offshore",2038.08
+7,59141,1,"Pacific Offshore",2038.08
+7,59142,1,"Pacific Offshore",2038.08
+7,59143,1,"Pacific Offshore",2038.08
+7,59144,1,"Pacific Offshore",2038.08
+7,59145,0.89,"Pacific Offshore",2038.08
+7,59146,0.3,"Pacific Offshore",2038.08
+7,59855,0.06,"Pacific Offshore",2058.28
+7,59856,0.55,"Pacific Offshore",2058.28
+7,59857,0.97,"Pacific Offshore",2058.28
+7,59858,1,"Pacific Offshore",2058.28
+7,59859,1,"Pacific Offshore",2058.28
+7,59860,1,"Pacific Offshore",2058.28
+7,59861,1,"Pacific Offshore",2058.28
+7,59862,1,"Pacific Offshore",2058.28
+7,59863,1,"Pacific Offshore",2058.28
+7,59864,1,"Pacific Offshore",2058.28
+7,59865,1,"Pacific Offshore",2058.28
+7,59866,1,"Pacific Offshore",2058.28
+7,59867,0.72,"Pacific Offshore",2058.28
+7,59868,0.02,"Pacific Offshore",2058.28
+7,60577,0.19,"Pacific Offshore",2078.33
+7,60578,0.79,"Pacific Offshore",2078.33
+7,60579,1,"Pacific Offshore",2078.33
+7,60580,1,"Pacific Offshore",2078.33
+7,60581,1,"Pacific Offshore",2078.33
+7,60582,1,"Pacific Offshore",2078.33
+7,60583,1,"Pacific Offshore",2078.33
+7,60584,1,"Pacific Offshore",2078.33
+7,60585,1,"Pacific Offshore",2078.33
+7,60586,0.81,"Pacific Offshore",2078.33
+7,60587,0.39,"Pacific Offshore",2078.33
+7,60588,0.03,"Pacific Offshore",2078.33
+7,61298,0.01,"Pacific Offshore",2098.21
+7,61299,0.31,"Pacific Offshore",2098.21
+7,61300,0.75,"Pacific Offshore",2098.21
+7,61301,1,"Pacific Offshore",2098.21
+7,61302,1,"Pacific Offshore",2098.21
+7,61303,1,"Pacific Offshore",2098.21
+7,61304,0.86,"Pacific Offshore",2098.21
+7,61305,0.34,"Pacific Offshore",2098.21
+7,62021,0.34,"Pacific Offshore",2117.94
+7,62022,0.8,"Pacific Offshore",2117.94
+7,62023,0.48,"Pacific Offshore",2117.94
+7,62024,0.02,"Pacific Offshore",2117.94

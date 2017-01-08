@@ -1,7 +1,6 @@
 ---
-title: 'OHIBC goal prep: Iconic Species (Sense of Place subgoal)'
+title: 'OHIBC goal prep: Iconic Species'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
-output: 
 output: 
   html_document:
     code_folding: hide
@@ -22,367 +21,383 @@ output:
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
                       echo = TRUE, message = FALSE, warning = FALSE)
 
-library(sp)        # the classes and methods that make up spatial ops in R
 library(rgdal)
 library(raster)
-library(data.table)
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
 
-dir_git <- '~/github/ohibc'
+scenario <- 'v2017'
+goal     <- 'spp_ico'
+dir_git  <- '~/github/ohibc'
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_rgn  <- file.path(dir_git, 'prep/spatial')
 
-source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_goal_anx        <- file.path(dir_M, 'git-annex/bcprep', goal, scenario) 
+dir_goal_anx_global <- file.path(dir_M, 'git-annex/globalprep', goal, scenario)
 
-dir_anx <- file.path(dir_neptune_data, 'git-annex/bcprep') ### git-annex: goal-specific large files
-dir_anx_global <- file.path(dir_neptune_data, 'git-annex/globalprep/SPP_ICO')
-dir_spp <- file.path(dir_git, 'prep/spp_ico')
-dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+library(provRmd); prov_setup()
 
-dir_data_am    <- file.path(dir_neptune_data, 'git-annex/globalprep/_raw_data', 'aquamaps/v2014') 
-dir_data_iucn  <- file.path(dir_neptune_data, 'git-annex/globalprep/_raw_data', 'iucn_spp') 
-
-scenario <- 'v2016'
-
-source(file.path(dir_git, 'src/R/prov.R'))   
-  ### Provenance tracking functions: must source at start to initialize prov_track
-dir_prov <- file.path(dir_spp, 'prov') 
-  ### set a provenance folder for this script
-this_script_file <- file.path(dir_spp, 'data_prep_ico.Rmd')
-  ### can't recognize the current script name on its own :(
-prov_run_tag <- 'standard run'
-
-source(file.path(dir_git, 'src/R/poly_plot_scores.R'))
-### for plotting final scores
-
-source(file.path(dir_spp, 'R/spp_fxn.R'))
-git_prov(file.path(dir_spp, 'R/spp_fxn.R'), type = 'sourced script')
-### SPP-specific and ICO-specific functions
+source(file.path(dir_goal, 'spp_fxn.R'))
 
 ### set up proj4string options: BC Albers and WGS84
-p4s_opts <- c('EPSG:3005 NAD83/BC Albers' = '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0',
-              'EPSG:4326 WGS 84'          = '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0')
-p4s_bcalb <- p4s_opts[1]
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+p4s_wgs84 <- c('wgs84' = '+init=epsg:4326')
+
 ```
 
+# Summary: OHIBC Species and Iconic Species
 
-# Summary: OHIBC Iconic Species Subgoal (Sense of Place)
-
-This script prepares scores (status and trend) for Iconic Species in 
+This script prepares scores (status and trend) for species richness in 
 British Columbia's coastal regions.  Spatial data from IUCN and Aquamaps is
 combined with extinction risk information from IUCN and conservation rank
-info based on NatureServe categories.
+info based on province-level NatureServe categories.
 
-Currently, the Iconic Species sub-goal model is identical to the OHI Global 
-model: a region's status is based upon an unweighted average of species
-health for all 'iconic' species found within each BC reporting region.
+Iconic Species status is based upon a simple average of species
+health for species found within each OHIBC region.
 
 From Halpern et al (2012):
 
-> Iconic species are those that are relevant to local cultural identity through a species’ relationship to one or more of the following: 1) traditional activities such as fishing, hunting or commerce; 2) local ethnic or religious practices; 3) existence value; and 4) locally-recognized aesthetic value (e.g., touristic attractions/common subjects for art such as whales). Habitat-forming species are not included in this definition of iconic species, nor are species that are harvested solely for economic or utilitarian purposes (even though they may be iconic to a sector or individual). ...
+> The target for the Species sub-goal is to have all species at a risk status of Least Concern. We scaled the lower end of the biodiversity goal to be 0 when 75% species are extinct, a level comparable to the five documented mass extinctions and would constitute a catastrophic loss of biodiversity. The Status of assessed species was calculated as the area- and threat status-weighted average of the number of threatened species within each 0.5 degree grid cell.
 
-> Ultimately, almost any species can be iconic to someone, and so the intent with this goal was to focus on those species widely seen as iconic within a country, and iconic from a cultural or existence value (rather than for a livelihoods or extractive reason). ...
+**Mean risk status for OHIBC:**
 
-> The reference point is to have the risk status of all assessed species as Least Concern (i.e., a goal score = 1.0)
+$$\bar{R} = \frac{\displaystyle\sum_{species}(Risk)}{n_{spp}}$$
 
-The Status of this sub-goal (X~ICO~) is then the % of iconic species in each threat category (as defined by the IUCN Red List, and for OHIBC, NatureServe), such that:
+**Iconic Species goal model**
 
-$$X_{ICO} = \frac{\displaystyle\sum_{category}S_{cat}*w_{cat}}{\displaystyle\sum_{category}S_{cat}}$$
+$$X_{SPP} = 1 - \bar{R}_{ICO} * 100%$$
 
-where for each IUCN threat category (or analogous NatureServe conservation rank):
+where:
 
-* *S~cat~* is the number of assessed species in the category
-* *w~cat~* is the status weight assigned for that category (note, these are the inverse of the risk value used in the SPP calculations):
-    * 'LC' = 1.0, 'NT' = 0.8, 'VU' = 0.6, 'EN' = 0.4, 'CR' = 0.2, 'EX' = 0.0
-    * NatureServe ranks are assigned analogous scores
-    * Where available, NatureServe province-scale ranks take precedence over IUCN ranks as they are a better representation of the risk at the scale of British Columbia.
-
-ICO trend is calculated in a similar manner, but weightings are assigned according to IUCN population trend: 'Decreasing' = -0.5, 'Stable' = 0.0, 'Increasing' = +0.5.  NatureServe information on population trend was not readily available.
-
-# Data Sources
-
-For information on IUCN data (range maps, extinction risk categories, population trends), NatureServe (conservation rankings), and AquaMaps (range maps), please see the OHIBC SPP data prep document, since this ICO goal is calculated from the intermediate outputs of that workflow.
-
-Iconic Species List:
-
-* The OHI global iconic species list was created by combining three species lists from WWF Global: global priorities, regional and local priorities, and flagship species
-* <citation>
+* $X_{ICO}$ is Species goal status
+* $\bar{R}$ is mean extinction risk for identified species within OHIBC (different subsets for ICO and SPP)
+* *Risk* is scaled value for species extinction risk category, based on: 
+    * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
+* ICO trend is calculated as the linear trend of the average extinction risk categories over time.
 
 -----
+
+# Data sources
+
+See goal_prep_spp.Rmd for data sources
+
+-----
+
 # Methods
 
-## Prepare master list of Iconic Species
+## Define assessment region
 
-Get list of all species listed as "iconic" for BC.  For now, the analysis is based on the global list of Iconic Species, filtered to just the species that occur in BC.
+Using OHIBC region polygon, determine 0.5° raster cells corresponding to the region.
 
-To this global ICO species list, we attach `spp_all_bcsee` df to acquire IUCN category & trend, and NatureServe global and provincial conservation rank information.
+``` {r setup_region-to-cell_lookup}
 
-``` {r read iconic species list, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-ico_list_file <- file.path(dir_spp, scenario, 'ico_list_ohibc.csv')
+rgn2cell_file <- file.path(dir_goal, 'spatial/rgn2cell.csv')
+loiczid_rast_file <- file.path(dir_goal, 'spatial/loiczid.tif')
 
-message(sprintf('Reading OHIBC iconic species list from: \n  %s\n', ico_list_file))
-ico_list_raw <- read.csv(ico_list_file, stringsAsFactors = FALSE) %>%
-  select(rgn_name   = Country, 
-         comname    = Specie.Common.Name,  
-         sciname    = Specie.Scientific.Name, 
-         ico_flag   = Flagship.Species,
-         ico_local  = Priority.Species_Regional.and.Local,
-         ico_global = Priority.Species_Global,
-         ico_rgn    = Nation.Specific.List
-  )
-git_prov(ico_list_file)
-
-### clean up names
-ico_list_raw <- ico_list_raw %>%
-  mutate(rgn_name = str_trim(rgn_name),
-         sciname  = str_trim(sciname),
-         comname  = str_trim(comname)) %>%
-  filter(sciname != '')  
-
-### ditch local species except where rgn_name == 'Canada', then ditch global and regional flags.
-ico_list <- ico_list_raw %>%
-  filter(is.na(ico_local) | rgn_name == 'Canada') %>%
-  select(comname, sciname) %>%
-  unique()
-
-### SPP data_prep reads global spp_all, appends BC NatureServe ranks, and
-### saves to OHIBC goal directory.  This function uses that updated file.
-### NOTE: Category score already accounts for status_pr_score by now.
-spp_all <- read.csv(file.path(dir_spp, scenario, 'int/spp_all_bcsee.csv'), 
-                    stringsAsFactors = FALSE)
-git_prov(file.path(dir_spp, scenario, 'int/spp_all_bcsee.csv'))
-
-# join ico_list to spp_all to incorporate category info and parent/subpop info.
-ico_list <- ico_list %>%
-  left_join(spp_all %>%
-              select(sciname, am_sid, iucn_sid, 
-                     popn_trend, popn_category, category_score, trend_score, 
-                     status_gl, status_pr, status_gl_score, status_pr_score),
-            by = 'sciname')
-ico_list <- ico_list %>%
-  filter(!is.na(popn_category) | !(is.na(status_pr)))
-```
-
------
-
-## Find BC-specific cell locations for all species on ICO list
-
-Using same raster method as for SPP, identify .5 deg cells within BC regions.
-Then filter IUCN and AM lists to just species on ico_list, and just cells within BC regions.
-
-``` {r set up BC rasters, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-
-### Read in OHIBC polygons, in WGS84 CRS
-rgn_lyr <- 'ohibc_rgn_wgs84'
-
-message(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
-poly_bc_rgn <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
-                       verbose = FALSE, stringsAsFactors = FALSE)
-git_prov(file.path(dir_rgn, sprintf('%s.shp', rgn_lyr)))
-
-### From OHIBC polygons, extract against AquaMaps LOICZID raster
-### to get BC-specific cells (using spp_rgn2cell() function)
-rgn_p4s <- proj4string(poly_bc_rgn)
-names(rgn_p4s) <- names(p4s_opts[p4s_opts == rgn_p4s])
-message(sprintf('Region loaded: CRS = %s \n  (%s)\n', names(rgn_p4s), rgn_p4s))
-
-rgn2cell_list <- spp_rgn2cell(poly_bc_rgn, reload  = FALSE)
-
-rgn2cell_df      <- rgn2cell_list[[1]]
-loiczid_rast     <- rgn2cell_list[[2]]
-
-```
-
-``` {r Get spatial distributions, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-
-### Get spatial distributions of species from both Aquamaps and IUCN shps
-
-am_cells_spp   <- spp_get_am_cells(rgn2cell_df, n_max = -1, prob_filter = 0, reload = FALSE)
-iucn_cells_spp <- spp_get_iucn_cells(rgn2cell_df)
-
-iucn_ico_bc <- iucn_cells_spp %>%
-  filter(sciname %in% ico_list$sciname) %>%
-  select(rgn_id, loiczid, rgn_name, sciname) %>%
-  mutate(sp_source = 'iucn') %>%
-  unique()
-### 3413 species/cell combinations
-
-am_ico_bc <- am_cells_spp %>%  
-  left_join(spp_all %>% 
-              select(am_sid, sciname), 
-            by = 'am_sid') %>%
-  filter(sciname %in% ico_list$sciname) %>%
-  select(rgn_id, loiczid, rgn_name, sciname) %>%
-  mutate(sp_source = 'am') %>%
-  unique()
-```
-
-At this point we have `r nrow(iucn_ico_bc)` species/cell instances based on IUCN spatial data, and `r nrow(am_ico_bc)` species/cell instances based on AM spatial data.
-
-**NOTE:** Unlike the SPP goal, in which IUCN data was preferentially used to identify cell locations for a species, for ICO I am allowing both IUCN and Aquamaps datasets to indicate presence of an iconic species in a given cell.  
-
-For example, if in cell #65000, for Tursiops truncatus, IUCN indicates presence and Aquamaps does not, it will be registered as present.  But if in cell #65001, Aquamaps indicates presence and IUCN does not, it will also by registered as present (whereas in SPP it would register as NOT present).
-
-Because the spatially explicit range is not critical, but rather just whether the species is present or absent within a give assessment region, it seems reasonable to consider both spatial sources.
-
-``` {r find ico by cell, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-
-ico_bc_cell_rgn <- rbind(iucn_ico_bc, am_ico_bc) %>%
-  left_join(spp_all %>%
-              filter(!str_detect(spatial_source, 'subpop') &
-                     !str_detect(spatial_source, 'alias')) %>%
-              select(sciname, category_score, trend_score),
-            by = 'sciname')
-
-```
-
-Iconic Species currently identified within British Columbia waters: 
-*`r paste(ico_bc_cell_rgn$sciname %>% unique(), collapse = ', ')`*.
-
-### Map of species count by cell
-
-``` {r ico plot species count raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, fig.height = 4, fig.width = 6, fig.align = 'center'}
-ico_bc_cells <- ico_bc_cell_rgn %>%
-  select(-rgn_id, -rgn_name, -sp_source) %>%
-  unique()
-
-ico_summary_cells <- ico_bc_cells %>%
-  group_by(loiczid) %>%
-  summarize(n_ico = n(), 
-            mean_cat = mean(category_score, na.rm = TRUE), 
-            mean_trend = mean(trend_score, na.rm = TRUE)) %>%
-  as.data.frame()
-
-spp_plot_raster(ico_summary_cells, loiczid_rast, which_id = 'n_ico', 
-                poly_rgn = poly_bc_rgn,
-                title = 'Iconic Species count', scale_label = 'ico count', 
-                scale_limits = c(0, max(ico_summary_cells$n_ico)))
-
-
-```
-
------
-
-# Calculate Goal Model
-
-## Summarize mean category/trend per cell/region, IUCN
-
-For each raster cell, we generate a summary of number of species included, average extinction risk score of all species in cell, and average trend score of all species in cell with population trend information.  This section calculates extinction risk score based solely on IUCN category ranks, which excludes subpopulation scores due to lack of spatially explicit distribution info for subpopulations.
-
-From raster-level summaries, we generate a region-level summary based on area-weighted average extinction risk and population trend.
-
-``` {r iconic species by rgn, echo = FALSE, message = FALSE, warning = FALSE}
-ico_bc_rgn <- ico_bc_cell_rgn %>%
-  select(-loiczid, -sp_source) %>%
-  unique()
-
-ico_summary_rgn <- ico_bc_rgn %>%
-  group_by(rgn_id, rgn_name) %>%
-  summarize(n_ico = n(), 
-            mean_cat = mean(category_score, na.rm = TRUE), 
-            mean_trend = mean(trend_score, na.rm = TRUE)) %>%
-  as.data.frame()
-
-DT::datatable(ico_bc_rgn %>% arrange(rgn_id),
-              caption = 'Iconic Species by region',
-              rownames = FALSE,
-              class = 'stripe hover compact',
-              options  = list(dom = 'tp'))
-
-```
-
-``` {r summing by cells and rgn, echo = FALSE, message = FALSE, warning = FALSE}
-
-DT::datatable(ico_summary_rgn,
-              caption = 'summary by region',
-              rownames = FALSE,
-              class = 'stripe hover compact',
-              options  = list(dom = 'tp'))
-
-# DT::datatable(ico_summary_cells,
-#               caption = 'summary by cell (LOICZID)',
-#               rownames = FALSE,
-#               class = 'stripe hover compact',
-#               options  = list(dom = 'tp'))
-```
-
-
-### Map of mean extinction risk category and population trend by cell
-
-*Category value range: least concern = 0, extinct = 1*
-
-*Trend value range: population increasing = +0.5, stable = 0, decreasing = -0.5*
-
-``` {r ico plot cell score raster, echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE,  fig.height = 4, fig.width = 6, fig.align = 'center'}
-
-spp_plot_raster(ico_summary_cells, loiczid_rast, which_id = 'mean_cat', 
-                poly_rgn = poly_bc_rgn,
-                title = 'Iconic Species mean rank', scale_label = 'ico rank', 
-                scale_limits = c(min(ico_summary_cells$mean_cat), 
-                                 max(ico_summary_cells$mean_cat)),
-                rev_scale = TRUE)
-
-spp_plot_raster(ico_summary_cells, loiczid_rast, which_id = 'mean_trend', 
-                poly_rgn = poly_bc_rgn,
-                title = 'Iconic Species mean trend', scale_label = 'ico trend', 
-                scale_limits = c(min(ico_summary_cells$mean_trend), 
-                                 max(ico_summary_cells$mean_trend)))
-
-```
-
------
+if(!file.exists(rgn2cell_file) | !file.exists(loiczid_rast_file)) {
+  ### Read in OHIBC polygons, in WGS84 CRS
+  rgn_lyr <- 'ohibc_rgn_wgs84'
   
-## Create final output files
-
-From the region-level summaries of extinction risk and population trend, we calculate regional status and trend scores, and save as .csv.
-
-`r sprintf('Writing ICO status and trend to:\n  %s\n  %s\n', 
-            file.path(dir_spp, scenario, 'data/ico_status.csv'),
-            file.path(dir_spp, scenario, 'data/ico_trend.csv'))`
-
-``` {r save status and trend, echo = FALSE, message = FALSE, warning = FALSE}
-
-ico_status <- ico_summary_rgn %>%
-  mutate(score = 1 - mean_cat) %>%
-  select(rgn_id, score)
-ico_trend <- ico_summary_rgn %>%
-  select(rgn_id, score = mean_trend)
-
-write_csv(ico_status, file.path(dir_spp, scenario, 'data/ico_status.csv'))
-git_prov(file.path(dir_spp, scenario, 'data/ico_status.csv'), type = 'output')
-write_csv(ico_trend,  file.path(dir_spp, scenario, 'data/ico_trend.csv'))
-git_prov(file.path(dir_spp, scenario, 'data/ico_trend.csv'), type = 'output')
-
-```
-
-## Compare status and trend by region
-
-``` {r Compare status and trend, echo = FALSE, message = FALSE, fig.height = 4, fig.width = 6, fig.align = 'center'}
-
-ico_status_100 <- ico_status %>% 
-  mutate(score = round(score*100, 2))
-
-poly_plot_scores(ico_status_100, 
-                 scale_label = 'ICO Status', 
-                 title = 'OHIBC ICO Status')
-
-poly_plot_scores(ico_trend, 
-                 scale_label = 'ICO Trend', 
-                 title = 'OHIBC ICO Trend', 
-                 scale_limits = c(min(ico_trend$score, 0), 
-                                  max(ico_trend$score, 0)))
-
-DT::datatable(ico_status_100 %>% 
-                mutate(status = score) %>%
-                left_join(ico_trend %>%
-                            mutate(trend = round(score, 3)), 
-                          by = 'rgn_id') %>%
-                left_join(poly_bc_rgn@data, by = 'rgn_id') %>%
-                dplyr::select(rgn_id, rgn_name, status, trend),
-              caption = 'ICO Status and Trend by region',
-              rownames = FALSE,
-              class = 'stripe hover compact',
-              options  = list(dom = 't'))
+  message(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
+  poly_bc_rgn <- readOGR(dsn     = path.expand(dir_rgn), 
+                         layer   = rgn_lyr,
+                         verbose = FALSE, 
+                         stringsAsFactors = FALSE)
+  
+  poly_bc_rgn@data <- poly_bc_rgn@data %>%
+    mutate(rgn_id = as.integer(rgn_id))
+  
+  rgn_p4s <- proj4string(poly_bc_rgn)
+  message('Region loaded: CRS = \n  ', rgn_p4s)
+  
+  rgn2cell_list <- spp_rgn2cell(poly_bc_rgn, reload = TRUE)
+  
+  write_csv(rgn2cell_list[[1]], rgn2cell_file)
+  writeRaster(rgn2cell_list[[2]], loiczid_rast_file, overwrite = TRUE)
+} else {
+  git_prov(c(rgn2cell_file, loiczid_rast_file), filetype = 'output')
+}
 
 ```
 
 
-``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
+## Identify OHIBC-specific species and info
+
+The goal_prep_spp.Rmd script creates a time series of species info for all species present within OHIBC regions, as determined by AquaMaps and IUCN (incl. BirdLife International).
+
+-----
+
+## Identify OHIBC iconic species
+
+Combining global ICO list with CORI-supplied ICO list, we come up with a master list of all iconic species within the OHIBC region.
+
+``` {r generate_ico_list}
+
+spp_ohibc <- read_csv(file.path(dir_goal, 'int/spp_list_clean.csv')) %>%
+  select(sciname, am_sid, iucn_sid, map_iucn_sid) %>%
+  distinct()
+  
+### This includes all species, including DD and N.E. species, found within
+### OHIBC regions according to AM, IUCN, BLI.
+
+ico_list_gl <- read_csv(file.path(dir_goal, 'raw/ico_list_global.csv')) %>%
+  select(sciname = `Specie Scientific Name`,
+         comname = `Specie Common Name`) %>%
+  mutate(comname = tools::toTitleCase(comname)) %>%
+  inner_join(spp_ohibc, by = 'sciname') %>%
+  distinct()
+### from this list, we include: 
+  # ico_list_gl %>% group_by(spp_group) %>% summarize(n = n())
+  #         spp_group     n
+  # 1  CHONDRICHTHYES     8
+  # 2  MARINE_MAMMALS    19
+  # 3 REPTILES_marine     4
+### may want to exclude some.  Particularly reptiles; these are
+### probably from AquaMaps and don't include any subpop info from IUCN.
+
+ico_list_cori <- read_csv(file.path(dir_goal, 'raw/ico_list_cori.csv')) %>%
+  filter(!str_detect(comments, 'elimin')) %>% ### some spp tagged to not include
+  mutate(comname = tools::toTitleCase(comname)) %>%
+  select(sciname, comname) %>%
+  filter(!is.na(sciname)) %>%
+  left_join(spp_ohibc, by = 'sciname') %>%
+  distinct()
+
+### NOTE: Canada goose is on this list, but species info is not included.
+### Will need to extract spatial info from IUCN separately... see ico_custom_spp_info.Rmd
+
+ico_spp_custom <- read_csv(file.path(dir_goal, 'int/spp_custom_scored.csv')) %>%
+  select(sciname, iucn_sid) %>%
+  distinct()
+ico_spp_custom_vec <- ico_spp_custom$iucn_sid %>%
+  setNames(ico_spp_custom$sciname)
+
+ico_list_cori <- ico_list_cori %>%
+  mutate(iucn_sid = ifelse(is.na(iucn_sid), ico_spp_custom_vec[sciname], iucn_sid),
+         map_iucn_sid = ifelse(is.na(map_iucn_sid), ico_spp_custom_vec[sciname], map_iucn_sid))
+
+ico_list <- ico_list_gl %>%
+  bind_rows(ico_list_cori) %>%
+  filter(!is.na(sciname)) %>%
+  distinct() %>%
+  arrange(sciname)
+
+write_csv(ico_list, file.path(dir_goal, 'int', 'ico_list_ohibc.csv'))
+
+```
+
+
+-----
+
+## Gather assessment info for iconic species
+
+For the identified species, we attach the assessment info generated in the SPP goal.  Some species have not been assessed or are data deficient.  Some species (i.e., Canada goose) are not included in SPP and so these data are created in a separate custom script.
+
+``` {r summarize_ico}
+
+ico_list <- read_csv(file.path(dir_goal, 'int', 'ico_list_ohibc.csv')) %>%
+  select(sciname, comname, iucn_sid)
+spp_scored <- read_csv(file.path(dir_goal, 'int', 'spp_list_scored.csv')) %>%
+  # filter(!is.na(iucn_sid)) %>%
+  bind_rows(read_csv(file.path(dir_goal, 'int', 'spp_custom_scored.csv')))
+
+ico_info_ts <- ico_list %>%
+  left_join(spp_scored, by = c('sciname', 'iucn_sid'))
+
+### ico_list %>% filter(!sciname %in% ico_info_timeseries$sciname)
+write_csv(ico_info_ts, file.path(dir_goal, 'int/ico_info_timeseries.csv'))
+
+```
+
+### OHIBC Iconic Species
+
+The most recent assessment info for OHIBC Iconic Species:
+
+`r DT::datatable(ico_info_ts %>% filter(is.na(year) | year == max(year, na.rm = TRUE)))`
+
+***
+
+In spatializing and summarizing, data-deficient and not-evaluated species will be dropped.  Status is based on mean risk category: 1 = LC, 0 = EX.  Trend is based on average risk trend of all species, normalized to the status, to get a rough estimate of percent change in status over five years.
+
+``` {r spatialize_and_summarize}
+
+ico_info_ts1 <- read_csv(file.path(dir_goal, 'int/ico_info_timeseries.csv')) %>%
+  mutate(cat_ts_score = ifelse(is.na(pr_score), cat_ts_score, pr_score)) %>%
+  select(sciname, comname, iucn_sid, am_sid, 
+         map_iucn_sid, map_subpop, spatial_source, 
+         risk_trend, cat_ts_score, year) %>%
+  distinct()
+
+am_ico_rgn <- read_csv(file.path(dir_goal, 'int/am_spp_cells.csv')) %>%
+  select(am_sid, rgn_id) %>%
+  distinct()
+iucn_ico_rgn <- read_csv(file.path(dir_goal, 'int/iucn_spp_cells.csv')) %>%
+  select(iucn_sid, subpop, rgn_id) %>%
+  distinct()
+iucn_ico_rgn_custom <- read_csv(file.path(dir_goal, 'spatial/BOTW_custom.csv')) %>%
+  inner_join(read_csv(file.path(dir_goal, 'spatial/rgn2cell.csv')), by = 'loiczid') %>%
+  select(iucn_sid, subpop, rgn_id) %>%
+  distinct()
+iucn_ico_rgn <- iucn_ico_rgn %>%
+  bind_rows(iucn_ico_rgn_custom)
+
+ico_info_rgn_ts <- ico_info_ts1 %>%
+  filter(spatial_source == 'iucn') %>%
+  left_join(iucn_ico_rgn, by = c('map_iucn_sid' = 'iucn_sid', 'map_subpop' = 'subpop')) %>%
+  bind_rows(ico_info_ts %>%
+    filter(spatial_source == 'am') %>%
+    left_join(am_ico_rgn, by = c('am_sid')))
+
+# x <- ico_info_rgn_ts %>% select(sciname, rgn_id) %>% distinct() %>% group_by(sciname) %>% summarize(n_rgn = n())
+# y <- ico_list %>% filter(!sciname %in% x$sciname)
+
+ico_rgn_sum_ts <- ico_info_rgn_ts %>%
+  select(rgn_id, sciname, cat_ts_score, risk_trend, year) %>%
+  group_by(rgn_id, year) %>%
+  summarize(mean_cat   = mean(cat_ts_score, na.rm = TRUE),
+            mean_trend = mean(risk_trend, na.rm = TRUE),
+            n_total    = n(),
+            n_cat      = sum(!is.na(cat_ts_score)),
+            n_trend    = sum(!is.na(risk_trend)),
+            status     = 1 - mean_cat,
+            trend      = -(mean_trend * 5) / status)
+
+write_csv(ico_rgn_sum_ts %>%
+            select(rgn_id, score = status, year), 
+          file.path(dir_goal, 'output/ico_status.csv'))
+write_csv(ico_rgn_sum_ts %>%
+            select(rgn_id, score = trend, year), 
+          file.path(dir_goal, 'output/ico_trend.csv'))
+write_csv(ico_rgn_sum_ts, 
+          file.path(dir_goal, 'summary/ico_rgn_summary.csv'))
+
+DT::datatable(ico_rgn_sum_ts %>% arrange(desc(year)), 
+             caption = 'OHIBC iconic species status and trend')
+
+```
+
+***
+
+Plotting functions disabled...
+
+``` {r plot_ico_by_cat, eval = FALSE}
+
+ico_info_timeseries <- read_csv(file.path(dir_goal, 'int/ico_info_timeseries.csv'))
+
+ico_table_info <- ico_info_timeseries %>%
+  group_by(sciname) %>%
+  # filter(sciname == last(sciname)) %>%
+  arrange(year) %>%
+  filter(year == last(year)) %>%
+  ungroup() %>%
+  select(am_sid, iucn_sid, year,
+         sciname, comname,
+         cat_score, pr_score) %>%
+  distinct() %>%
+  mutate(ico_health = round(1 - cat_score, 1)) %>%
+  arrange(desc(cat_score), desc(comname))
+
+### rearrange to get the NAs on top
+ico_table_info <- ico_table_info %>%
+  filter(is.na(ico_health)) %>%
+  bind_rows(ico_table_info %>%
+              filter(!is.na(ico_health))) %>%
+  mutate(n_ico = 1:n())
+
+### list status cats on the plot itself?
+cat_list <- data.frame(ico_health = c(   0,      .1,    .2,      .3,    .4,      .5,    .6,      .7,    .8,      .9,   1.0),
+                       cat_lab    = c('EX', 'CR/EX',  'CR', 'CR/EN',  'EN', 'EN/VU',  'VU', 'VU/NT',  'NT', 'NT/LC',  'LC'),
+                       stringsAsFactors = FALSE)
+
+ico_table_labeled <- ico_table_info %>%
+  left_join(cat_list, by = 'ico_health') %>%
+  group_by(ico_health) %>%
+  mutate(cat_lab = ifelse(is.na(ico_health), 'NE/DD', cat_lab),
+         cat_lab = ifelse(n_ico == last(n_ico), cat_lab, NA),
+         ico_lab = paste0(comname, ' (', sciname, ')'),
+         ico_lab = ifelse(!is.na(pr_score), ico_lab, paste0(ico_lab, '*')))
+
+ico_plot <- ggplot(ico_table_labeled, aes(x = n_ico, y = 0.3, fill = ico_health)) +
+  theme(axis.ticks = element_blank(),
+        text = element_text(family = 'Helvetica', color = 'gray30', size = 8),
+        plot.title = element_text(size = rel(1.25), hjust = 0, face = 'bold'),
+        legend.key = element_rect(colour = NA, fill = NA),
+        panel.border     = element_blank(),
+        panel.background = element_blank(),
+        panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text  = element_blank(),
+        legend.position = 'none') +
+  geom_bar(stat = 'identity', width = 1, color = 'grey80', size = .25) +
+  geom_text(aes(label = ico_lab, y = .35), 
+            size = 2.5 * 1.8,
+            color = 'grey20',
+           # angle = 90, 
+            hjust = 0) +
+  geom_text(aes(label = cat_lab, y = 0),
+            nudge_y = .02, 
+            size = 2.5 * 1.5,
+            color = 'black',
+            # angle = 90, 
+            hjust = 0) +
+  scale_fill_gradient2(low = '#F27259', mid = '#FFCF5C', high = '#1F9B90', 
+                       midpoint = 0.5,
+                       breaks = c(0, .2, .4, .6, .8, 1.0),
+                       labels = c('EX', 'CR', 'EN', 'VU', 'NT', 'LC'))+
+  scale_y_continuous(limits = c(0, 3)) +
+  coord_flip() +
+  labs(fill = 'Species health')
+
+ggsave(file.path(dir_goal, 'ico_plot_w_lines.png'),
+       width = 6, height = 6, units = 'in', dpi = 300)
+```
+
+``` {r plot_ico_cat_legend, eval = FALSE}
+
+cat_list <- data.frame(label_y    = c(-.2, seq(0, 1, 0.1)),
+                       ico_health = c(NA,  seq(0, 1, 0.1)),
+                       label      = c('Data Deficient/Not Evaluated',
+                                      'Extinct', '', 
+                                      'Critically Endangered', '',
+                                      'Endangered', '',
+                                      'Vulnerable', '',
+                                      'Near Threatened', '',
+                                      'Least Concern'),
+                       stringsAsFactors = FALSE)
+
+
+ico_legend <- ggplot(cat_list, aes(x = 0, y = label_y, fill = ico_health)) +
+  theme(axis.ticks = element_blank(),
+        text = element_text(family = 'Helvetica', color = 'gray30', size = 8),
+        plot.title = element_text(size = rel(1.25), hjust = 0, face = 'bold'),
+        legend.key = element_rect(colour = NA, fill = NA),
+        panel.border     = element_blank(),
+        panel.background = element_blank(),
+        panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text  = element_blank(),
+        legend.position = 'none',
+        title = element_text(size = 10)) +
+  geom_point(size = 5, shape = 22, color = 'grey80') +
+  geom_text(aes(label = label, x = .04), 
+            size = 3.2,
+            color = 'grey30',
+            # angle = 90, 
+            hjust = 0) +
+  scale_fill_gradient2(low = '#F27259', mid = '#FFCF5C', high = '#1F9B90', 
+                       midpoint = 0.5,
+                       breaks = seq(0, 1, 0.1)) +
+  scale_y_continuous(limits = c(-.2, 1)) +
+  scale_x_continuous(limits = c(0, .5)) +
+  labs(title = 'Species health')
+
+ggsave(file.path(dir_goal, 'spp_ico_legend.png'),
+       height = 2.3, width = 2.2, units = 'in', dpi = 300)
+```
+
+***
+
+``` {r provenance, results = 'asis'}
+
+prov_wrapup()
+
 ```

@@ -188,7 +188,7 @@ spp_calc_cell_means <- function(am_cell_summary, iucn_cell_summary, fn_tag = '')
               n_trend_species     = sum(n_trend_species)) %>%
     arrange(loiczid)
 
-  write_csv(summary_by_loiczid, file.path(dir_goal, sprintf('summary/cell_spp_summary_by_loiczid%s.csv', fn_tag)))
+  write_csv(summary_by_loiczid, file.path(dir_goal, sprintf('summary/spp_cell_summary_by_loiczid%s.csv', fn_tag)))
   return(summary_by_loiczid)
 }
 
@@ -221,7 +221,7 @@ spp_calc_rgn_means <- function(summary_by_loiczid, rgn_cell_lookup, rgn_tag = ''
     ### positive means increasing risk.
 
   region_summary_file <- file.path(dir_goal,
-                                   sprintf('summary/rgn_summary%s.csv', rgn_tag))
+                                   sprintf('summary/spp_rgn_summary%s.csv', rgn_tag))
 
   message(sprintf('Writing summary file of area-weighted mean category & trend per region:\n  %s', region_summary_file))
   write_csv(region_sums, region_summary_file)
