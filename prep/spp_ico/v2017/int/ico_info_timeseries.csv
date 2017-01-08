@@ -1,0 +1,762 @@
+sciname,comname,iucn_sid,am_sid,spp_group,map_iucn_sid,map_subpop,pr_score,spatial_source,risk_trend,cat_ts,cat_ts_score,assess_year,year
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2e3,1999.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2001.0,2e3
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2002.0,2001.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2003.0,2002.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2004.0,2003.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2005.0,2004.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2006.0,2005.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2007.0,2006.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2008.0,2007.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2009.0,2008.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2010.0,2009.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2011.0,2010.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2012.0,2011.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2013.0,2012.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2014.0,2013.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2015.0,2014.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2016.0,2015.0
+Alopias vulpinus,Thresher Shark,39339.0,Fis-23899,CHONDRICHTHYES,39339.0,NA,NA,iucn,0.0,VU,0.4,2017.0,2016.0
+Ammodytes hexapterus,Pacific Sand Lance,NA,Fis-29620,NA,NA,NA,NA,am,NA,N.E.,NA,2017.0,2016.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2e3,1999.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2001.0,2e3
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2002.0,2001.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2003.0,2002.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2004.0,2003.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2005.0,2004.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2006.0,2005.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2007.0,2006.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2008.0,2007.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2009.0,2008.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2010.0,2009.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2011.0,2010.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2012.0,2011.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2013.0,2012.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2014.0,2013.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2015.0,2014.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2016.0,2015.0
+Ardea herodias,Great Blue Heron,22696998.0,NA,BOTW_marine,22696998.0,NA,0.4,iucn,0.0,LC,0.4,2017.0,2016.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,0.0,NT,0.2,2e3,1999.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,0.0,NT,0.2,2001.0,2e3
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,0.0,NT,0.2,2002.0,2001.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,0.0,NT,0.2,2003.0,2002.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,0.0,NT,0.2,2004.0,2003.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,0.0,NT,0.2,2005.0,2004.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,0.0,NT,0.2,2006.0,2005.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,0.0,NT,0.2,2007.0,2006.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,0.0,NT,0.2,2008.0,2007.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,-0.0109,LC,0.2,2009.0,2008.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,-0.0194,LC,0.2,2010.0,2009.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,-0.0255,LC,0.2,2011.0,2010.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,-0.0291,LC,0.2,2012.0,2011.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,-0.0303,LC,0.2,2013.0,2012.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,-0.0291,LC,0.2,2014.0,2013.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,-0.0255,LC,0.2,2015.0,2014.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,-0.0194,LC,0.2,2016.0,2015.0
+Balaenoptera acutorostrata,Minke Whale,2474.0,ITS-Mam-180524,MARINE_MAMMALS,2474.0,NA,0.2,iucn,-0.0109,LC,0.2,2017.0,2016.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0291,EN,1.0,2e3,1999.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0303,EN,1.0,2001.0,2e3
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0291,EN,1.0,2002.0,2001.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0255,EN,1.0,2003.0,2002.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0194,EN,1.0,2004.0,2003.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0109,EN,1.0,2005.0,2004.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0,EN,1.0,2006.0,2005.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0,EN,1.0,2007.0,2006.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0,EN,1.0,2008.0,2007.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0,EN,1.0,2009.0,2008.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0,EN,1.0,2010.0,2009.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0,EN,1.0,2011.0,2010.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0,EN,1.0,2012.0,2011.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0,EN,1.0,2013.0,2012.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0,EN,1.0,2014.0,2013.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0,EN,1.0,2015.0,2014.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0,EN,1.0,2016.0,2015.0
+Balaenoptera borealis,Sei Whale,2475.0,ITS-Mam-180526,MARINE_MAMMALS,2475.0,NA,1.0,iucn,0.0,EN,1.0,2017.0,2016.0
+Balaenoptera edeni,Bryde's Whale,2476.0,ITS-Mam-180525,MARINE_MAMMALS,2476.0,NA,NA,am,NA,DD,NA,2017.0,2016.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2e3,1999.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2001.0,2e3
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2002.0,2001.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2003.0,2002.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2004.0,2003.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2005.0,2004.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2006.0,2005.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2007.0,2006.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2008.0,2007.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2009.0,2008.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2010.0,2009.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2011.0,2010.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2012.0,2011.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2013.0,2012.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2014.0,2013.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2015.0,2014.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2016.0,2015.0
+Balaenoptera musculus,Blue Whale,2477.0,ITS-Mam-180528,MARINE_MAMMALS,2477.0,NA,0.8,iucn,0.0,EN,0.8,2017.0,2016.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0291,EN,0.6,2e3,1999.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0303,EN,0.6,2001.0,2e3
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0291,EN,0.6,2002.0,2001.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0255,EN,0.6,2003.0,2002.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0194,EN,0.6,2004.0,2003.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0109,EN,0.6,2005.0,2004.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0,EN,0.6,2006.0,2005.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0,EN,0.6,2007.0,2006.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0,EN,0.6,2008.0,2007.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0,EN,0.6,2009.0,2008.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0,EN,0.6,2010.0,2009.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0,EN,0.6,2011.0,2010.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0,EN,0.6,2012.0,2011.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0,EN,0.6,2013.0,2012.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0,EN,0.6,2014.0,2013.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0,EN,0.6,2015.0,2014.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0,EN,0.6,2016.0,2015.0
+Balaenoptera physalus,Fin Whale,2478.0,ITS-Mam-180527,MARINE_MAMMALS,2478.0,NA,0.6,iucn,0.0,EN,0.6,2017.0,2016.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0,VU,0.4,2e3,1999.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0,VU,0.4,2001.0,2e3
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0,VU,0.4,2002.0,2001.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0,VU,0.4,2003.0,2002.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0,VU,0.4,2004.0,2003.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0109,EN,0.4,2005.0,2004.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0194,EN,0.4,2006.0,2005.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0255,EN,0.4,2007.0,2006.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0291,EN,0.4,2008.0,2007.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0303,EN,0.4,2009.0,2008.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0291,EN,0.4,2010.0,2009.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0255,EN,0.4,2011.0,2010.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0194,EN,0.4,2012.0,2011.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0109,EN,0.4,2013.0,2012.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0,EN,0.4,2014.0,2013.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0,EN,0.4,2015.0,2014.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0,EN,0.4,2016.0,2015.0
+Brachyramphus marmoratus,Marbled Murrelet,22694870.0,ITS-176996,BOTW_marine,22694870.0,NA,0.4,iucn,0.0,EN,0.4,2017.0,2016.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2e3,1999.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2001.0,2e3
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2002.0,2001.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2003.0,2002.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2004.0,2003.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2005.0,2004.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2006.0,2005.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2007.0,2006.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2008.0,2007.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2009.0,2008.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2010.0,2009.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2011.0,2010.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2012.0,2011.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2013.0,2012.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2014.0,2013.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2015.0,2014.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2016.0,2015.0
+Branta canadensis,Canada Goose,22679935.0,NA,BOTW,22679935.0,NA,0.0,iucn,0.0,LC,0.0,2017.0,2016.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2e3,1999.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2001.0,2e3
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2002.0,2001.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2003.0,2002.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2004.0,2003.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2005.0,2004.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2006.0,2005.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2007.0,2006.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2008.0,2007.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2009.0,2008.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2010.0,2009.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2011.0,2010.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2012.0,2011.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2013.0,2012.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2014.0,2013.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2015.0,2014.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2016.0,2015.0
+Carcharodon carcharias,Great White Shark,3855.0,Fis-23071,CHONDRICHTHYES,3855.0,NA,NA,iucn,0.0,VU,0.4,2017.0,2016.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0291,EN,0.6,2e3,1999.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0303,EN,0.6,2001.0,2e3
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0291,EN,0.6,2002.0,2001.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0255,EN,0.6,2003.0,2002.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0194,EN,0.6,2004.0,2003.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0109,EN,0.6,2005.0,2004.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0,EN,0.6,2006.0,2005.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0,EN,0.6,2007.0,2006.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0,EN,0.6,2008.0,2007.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0,EN,0.6,2009.0,2008.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0,EN,0.6,2010.0,2009.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0,EN,0.6,2011.0,2010.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0,EN,0.6,2012.0,2011.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0,EN,0.6,2013.0,2012.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0,EN,0.6,2014.0,2013.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,0.0,EN,0.6,2015.0,2014.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,-0.0109,VU,0.4,2016.0,2015.0
+Caretta caretta,Loggerhead Turtle,3897.0,Rep-2666,REPTILES_marine,3897.0,NA,NA,iucn,-0.0194,VU,0.4,2017.0,2016.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2e3,1999.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2001.0,2e3
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2002.0,2001.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2003.0,2002.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2004.0,2003.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2005.0,2004.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2006.0,2005.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2007.0,2006.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2008.0,2007.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2009.0,2008.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2010.0,2009.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2011.0,2010.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2012.0,2011.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2013.0,2012.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2014.0,2013.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2015.0,2014.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2016.0,2015.0
+Cetorhinus maximus,Basking Shark,4292.0,Fis-22747,CHONDRICHTHYES,4292.0,NA,NA,iucn,0.0,VU,0.4,2017.0,2016.0
+Clupea pallasii,Pacific Herring,NA,Fis-153539,NA,NA,NA,NA,am,NA,N.E.,NA,2017.0,2016.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2e3,1999.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2001.0,2e3
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2002.0,2001.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2003.0,2002.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2004.0,2003.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2005.0,2004.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2006.0,2005.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2007.0,2006.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2008.0,2007.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2009.0,2008.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2010.0,2009.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2011.0,2010.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2012.0,2011.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2013.0,2012.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2014.0,2013.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2015.0,2014.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2016.0,2015.0
+Delphinus delphis,Common Dophin,6336.0,ITS-Mam-180438,MARINE_MAMMALS,6336.0,NA,NA,iucn,0.0,LC,0.0,2017.0,2016.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2e3,1999.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2001.0,2e3
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2002.0,2001.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2003.0,2002.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2004.0,2003.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2005.0,2004.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2006.0,2005.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2007.0,2006.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2008.0,2007.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2009.0,2008.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2010.0,2009.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2011.0,2010.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2012.0,2011.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2013.0,2012.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2014.0,2013.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2015.0,2014.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2016.0,2015.0
+Dermochelys coriacea,Leatherback Turtle,46967817.0,Rep-4381,REPTILES_marine,6494.0,West Pacific,0.7,iucn,0.0,CR,0.7,2017.0,2016.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0291,CR,0.8,2e3,1999.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0303,CR,0.8,2001.0,2e3
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0291,CR,0.8,2002.0,2001.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0255,CR,0.8,2003.0,2002.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0194,CR,0.8,2004.0,2003.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0109,CR,0.8,2005.0,2004.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0,CR,0.8,2006.0,2005.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0,CR,0.8,2007.0,2006.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0,CR,0.8,2008.0,2007.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0,CR,0.8,2009.0,2008.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0,CR,0.8,2010.0,2009.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0,CR,0.8,2011.0,2010.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0,CR,0.8,2012.0,2011.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0,CR,0.8,2013.0,2012.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0,CR,0.8,2014.0,2013.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0,CR,0.8,2015.0,2014.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0,CR,0.8,2016.0,2015.0
+Eretmochelys imbricata,Hawksbill Turtle,8005.0,Rep-5181,REPTILES_marine,8005.0,NA,NA,iucn,0.0,CR,0.8,2017.0,2016.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,0.0,VU,0.4,2e3,1999.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,0.0,VU,0.4,2001.0,2e3
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,0.0,VU,0.4,2002.0,2001.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,0.0,VU,0.4,2003.0,2002.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,0.0,VU,0.4,2004.0,2003.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,0.0,VU,0.4,2005.0,2004.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,0.0,VU,0.4,2006.0,2005.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,0.0,VU,0.4,2007.0,2006.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,0.0,VU,0.4,2008.0,2007.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,-0.0218,LC,0.4,2009.0,2008.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,-0.0388,LC,0.4,2010.0,2009.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,-0.0509,LC,0.4,2011.0,2010.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,-0.0582,LC,0.4,2012.0,2011.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,-0.0606,LC,0.4,2013.0,2012.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,-0.0582,LC,0.4,2014.0,2013.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,-0.0509,LC,0.4,2015.0,2014.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,-0.0388,LC,0.4,2016.0,2015.0
+Eschrichtius robustus,Gray Whale,8097.0,ITS-Mam-180521,MARINE_MAMMALS,8097.0,NA,0.4,iucn,-0.0218,LC,0.4,2017.0,2016.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2e3,1999.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2001.0,2e3
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2002.0,2001.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2003.0,2002.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2004.0,2003.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2005.0,2004.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2006.0,2005.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2007.0,2006.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2008.0,2007.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2009.0,2008.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2010.0,2009.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2011.0,2010.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2012.0,2011.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2013.0,2012.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2014.0,2013.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2015.0,2014.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2016.0,2015.0
+Eubalaena japonica,North Pacific Right Whale,41711.0,ITS-Mam-612591,MARINE_MAMMALS,41711.0,NA,1.0,am,0.0,EN,1.0,2017.0,2016.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2e3,1999.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2001.0,2e3
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2002.0,2001.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2003.0,2002.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2004.0,2003.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2005.0,2004.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2006.0,2005.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2007.0,2006.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2008.0,2007.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2009.0,2008.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2010.0,2009.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2011.0,2010.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2012.0,2011.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2013.0,2012.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2014.0,2013.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2015.0,2014.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2016.0,2015.0
+Galeocerdo cuvier,Tiger Shark,39378.0,Fis-23129,CHONDRICHTHYES,39378.0,NA,NA,am,0.0,NT,0.2,2017.0,2016.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2e3,1999.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2001.0,2e3
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2002.0,2001.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2003.0,2002.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2004.0,2003.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2005.0,2004.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2006.0,2005.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2007.0,2006.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2008.0,2007.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2009.0,2008.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2010.0,2009.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2011.0,2010.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2012.0,2011.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2013.0,2012.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2014.0,2013.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2015.0,2014.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2016.0,2015.0
+Gavia immer,Common Loon,22697842.0,NA,BOTW_marine,22697842.0,NA,0.0,iucn,0.0,LC,0.0,2017.0,2016.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2e3,1999.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2001.0,2e3
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2002.0,2001.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2003.0,2002.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2004.0,2003.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2005.0,2004.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2006.0,2005.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2007.0,2006.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2008.0,2007.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2009.0,2008.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2010.0,2009.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2011.0,2010.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2012.0,2011.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2013.0,2012.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2014.0,2013.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2015.0,2014.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2016.0,2015.0
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249.0,ITS-Mam-180466,MARINE_MAMMALS,9249.0,NA,NA,iucn,0.0,VU,0.4,2017.0,2016.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2e3,1999.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2001.0,2e3
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2002.0,2001.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2003.0,2002.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2004.0,2003.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2005.0,2004.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2006.0,2005.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2007.0,2006.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2008.0,2007.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2009.0,2008.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2010.0,2009.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2011.0,2010.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2012.0,2011.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2013.0,2012.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2014.0,2013.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2015.0,2014.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2016.0,2015.0
+Grampus griseus,Risso's Dolphin,9461.0,ITS-Mam-180457,MARINE_MAMMALS,9461.0,NA,0.2,iucn,0.0,LC,0.2,2017.0,2016.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2e3,1999.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2001.0,2e3
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2002.0,2001.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2003.0,2002.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2004.0,2003.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2005.0,2004.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2006.0,2005.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2007.0,2006.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2008.0,2007.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2009.0,2008.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2010.0,2009.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2011.0,2010.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2012.0,2011.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2013.0,2012.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2014.0,2013.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2015.0,2014.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2016.0,2015.0
+Haliaeetus leucocephalus,Bald Eagle,22695144.0,NA,BOTW_marine,22695144.0,NA,0.0,iucn,0.0,LC,0.0,2017.0,2016.0
+Hypomesus pretiosus,Surf Smelt,NA,Fis-22880,NA,NA,NA,NA,am,NA,N.E.,NA,2017.0,2016.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0,NT,0.2,2e3,1999.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0,NT,0.2,2001.0,2e3
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0,NT,0.2,2002.0,2001.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0,NT,0.2,2003.0,2002.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0,NT,0.2,2004.0,2003.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0,NT,0.2,2005.0,2004.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0,NT,0.2,2006.0,2005.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0,NT,0.2,2007.0,2006.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0,NT,0.2,2008.0,2007.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0,NT,0.2,2009.0,2008.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0109,VU,0.4,2010.0,2009.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0194,VU,0.4,2011.0,2010.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0255,VU,0.4,2012.0,2011.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0291,VU,0.4,2013.0,2012.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0303,VU,0.4,2014.0,2013.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0291,VU,0.4,2015.0,2014.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0255,VU,0.4,2016.0,2015.0
+Isurus oxyrinchus,Shortfin Mako,39341.0,Fis-58485,CHONDRICHTHYES,39341.0,NA,NA,iucn,0.0194,VU,0.4,2017.0,2016.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2e3,1999.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2001.0,2e3
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2002.0,2001.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2003.0,2002.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2004.0,2003.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2005.0,2004.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2006.0,2005.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2007.0,2006.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2008.0,2007.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2009.0,2008.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2010.0,2009.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2011.0,2010.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2012.0,2011.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2013.0,2012.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2014.0,2013.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2015.0,2014.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2016.0,2015.0
+Isurus paucus,Longfin Mako,60225.0,Fis-29423,CHONDRICHTHYES,60225.0,NA,NA,am,0.0,VU,0.4,2017.0,2016.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2e3,1999.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2001.0,2e3
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2002.0,2001.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2003.0,2002.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2004.0,2003.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2005.0,2004.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2006.0,2005.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2007.0,2006.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2008.0,2007.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2009.0,2008.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2010.0,2009.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2011.0,2010.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2012.0,2011.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2013.0,2012.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2014.0,2013.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2015.0,2014.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2016.0,2015.0
+Kogia breviceps,Pygmy Sperm Whale,11047.0,ITS-Mam-180491,MARINE_MAMMALS,11047.0,NA,NA,iucn,0.0,LC,0.0,2017.0,2016.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2e3,1999.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2001.0,2e3
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2002.0,2001.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2003.0,2002.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2004.0,2003.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2005.0,2004.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2006.0,2005.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2007.0,2006.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2008.0,2007.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2009.0,2008.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2010.0,2009.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2011.0,2010.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2012.0,2011.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2013.0,2012.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2014.0,2013.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2015.0,2014.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2016.0,2015.0
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145.0,ITS-Mam-180444,MARINE_MAMMALS,11145.0,NA,0.1,iucn,0.0,LC,0.1,2017.0,2016.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,0.0,EN,0.6,2e3,1999.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,0.0,EN,0.6,2001.0,2e3
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,0.0,EN,0.6,2002.0,2001.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,0.0,EN,0.6,2003.0,2002.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,0.0,EN,0.6,2004.0,2003.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,0.0,EN,0.6,2005.0,2004.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,0.0,EN,0.6,2006.0,2005.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,0.0,EN,0.6,2007.0,2006.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,0.0,EN,0.6,2008.0,2007.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,-0.0109,VU,0.4,2009.0,2008.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,-0.0194,VU,0.4,2010.0,2009.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,-0.0255,VU,0.4,2011.0,2010.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,-0.0291,VU,0.4,2012.0,2011.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,-0.0303,VU,0.4,2013.0,2012.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,-0.0291,VU,0.4,2014.0,2013.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,-0.0255,VU,0.4,2015.0,2014.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,-0.0194,VU,0.4,2016.0,2015.0
+Lepidochelys olivacea,Olive Ridley Turtle,11534.0,Rep-6936,REPTILES_marine,11534.0,NA,NA,iucn,-0.0109,VU,0.4,2017.0,2016.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,0.0,VU,0.4,2e3,1999.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,0.0,VU,0.4,2001.0,2e3
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,0.0,VU,0.4,2002.0,2001.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,0.0,VU,0.4,2003.0,2002.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,0.0,VU,0.4,2004.0,2003.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,0.0,VU,0.4,2005.0,2004.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,0.0,VU,0.4,2006.0,2005.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,0.0,VU,0.4,2007.0,2006.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,0.0,VU,0.4,2008.0,2007.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,-0.0218,LC,0.4,2009.0,2008.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,-0.0388,LC,0.4,2010.0,2009.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,-0.0509,LC,0.4,2011.0,2010.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,-0.0582,LC,0.4,2012.0,2011.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,-0.0606,LC,0.4,2013.0,2012.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,-0.0582,LC,0.4,2014.0,2013.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,-0.0509,LC,0.4,2015.0,2014.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,-0.0388,LC,0.4,2016.0,2015.0
+Megaptera novaeangliae,Humpback Whale,13006.0,ITS-Mam-180530,MARINE_MAMMALS,13006.0,NA,0.4,iucn,-0.0218,LC,0.4,2017.0,2016.0
+Mesoplodon densirostris,Blainville's Beaked Whale,13244.0,ITS-Mam-180517,MARINE_MAMMALS,13244.0,NA,NA,am,NA,DD,NA,2017.0,2016.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2e3,1999.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2001.0,2e3
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2002.0,2001.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2003.0,2002.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2004.0,2003.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2005.0,2004.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2006.0,2005.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2007.0,2006.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2008.0,2007.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2009.0,2008.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2010.0,2009.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2011.0,2010.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2012.0,2011.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2013.0,2012.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2014.0,2013.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2015.0,2014.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2016.0,2015.0
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0.0,am,NA,N.E.,0.0,2017.0,2016.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2e3,1999.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2001.0,2e3
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2002.0,2001.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2003.0,2002.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2004.0,2003.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2005.0,2004.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2006.0,2005.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2007.0,2006.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2008.0,2007.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2009.0,2008.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2010.0,2009.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2011.0,2010.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2012.0,2011.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2013.0,2012.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2014.0,2013.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2015.0,2014.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2016.0,2015.0
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,am,NA,N.E.,0.2,2017.0,2016.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2e3,1999.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2001.0,2e3
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2002.0,2001.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2003.0,2002.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2004.0,2003.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2005.0,2004.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2006.0,2005.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2007.0,2006.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2008.0,2007.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2009.0,2008.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2010.0,2009.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2011.0,2010.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2012.0,2011.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2013.0,2012.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2014.0,2013.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2015.0,2014.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2016.0,2015.0
+Oncorhynchus nerka,Sockeye Salmon,135301.0,Fis-22920,NA,NA,NA,0.2,am,0.0,LC,0.2,2017.0,2016.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2e3,1999.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2001.0,2e3
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2002.0,2001.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2003.0,2002.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2004.0,2003.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2005.0,2004.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2006.0,2005.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2007.0,2006.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2008.0,2007.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2009.0,2008.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2010.0,2009.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2011.0,2010.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2012.0,2011.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2013.0,2012.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2014.0,2013.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2015.0,2014.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2016.0,2015.0
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,am,NA,N.E.,0.2,2017.0,2016.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2e3,1999.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2001.0,2e3
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2002.0,2001.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2003.0,2002.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2004.0,2003.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2005.0,2004.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2006.0,2005.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2007.0,2006.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2008.0,2007.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2009.0,2008.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2010.0,2009.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2011.0,2010.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2012.0,2011.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2013.0,2012.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2014.0,2013.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2015.0,2014.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2016.0,2015.0
+Orcinus orca,Killer Whale,15421.0,ITS-Mam-180469,MARINE_MAMMALS,15421.0,NA,0.6,iucn,0.0,VU,0.6,2017.0,2016.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2e3,1999.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2001.0,2e3
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2002.0,2001.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2003.0,2002.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2004.0,2003.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2005.0,2004.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2006.0,2005.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2007.0,2006.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2008.0,2007.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2009.0,2008.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2010.0,2009.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2011.0,2010.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2012.0,2011.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2013.0,2012.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2014.0,2013.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2015.0,2014.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2016.0,2015.0
+Phoca vitulina,Harbor Seal,17013.0,ITS-Mam-180649,MARINE_MAMMALS,17013.0,NA,0.0,iucn,0.0,LC,0.0,2017.0,2016.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,0.0,VU,0.4,2e3,1999.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,0.0,VU,0.4,2001.0,2e3
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,0.0,VU,0.4,2002.0,2001.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,0.0,VU,0.4,2003.0,2002.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,0.0,VU,0.4,2004.0,2003.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,0.0,VU,0.4,2005.0,2004.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,0.0,VU,0.4,2006.0,2005.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,0.0,VU,0.4,2007.0,2006.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,0.0,VU,0.4,2008.0,2007.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,-0.0218,LC,0.4,2009.0,2008.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,-0.0388,LC,0.4,2010.0,2009.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,-0.0509,LC,0.4,2011.0,2010.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,-0.0582,LC,0.4,2012.0,2011.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,-0.0606,LC,0.4,2013.0,2012.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,-0.0582,LC,0.4,2014.0,2013.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,-0.0509,LC,0.4,2015.0,2014.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,-0.0388,LC,0.4,2016.0,2015.0
+Phocoena phocoena,Harbor Porpoise,17027.0,ITS-Mam-180473,MARINE_MAMMALS,17027.0,NA,0.4,iucn,-0.0218,LC,0.4,2017.0,2016.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2e3,1999.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2001.0,2e3
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2002.0,2001.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2003.0,2002.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2004.0,2003.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2005.0,2004.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2006.0,2005.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2007.0,2006.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2008.0,2007.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2009.0,2008.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2010.0,2009.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2011.0,2010.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2012.0,2011.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2013.0,2012.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2014.0,2013.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2015.0,2014.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2016.0,2015.0
+Physeter macrocephalus,Sperm Whale,41755.0,ITS-Mam-180488,MARINE_MAMMALS,41755.0,NA,0.3,iucn,0.0,VU,0.3,2017.0,2016.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2e3,1999.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2001.0,2e3
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2002.0,2001.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2003.0,2002.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2004.0,2003.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2005.0,2004.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2006.0,2005.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2007.0,2006.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2008.0,2007.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2009.0,2008.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2010.0,2009.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2011.0,2010.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2012.0,2011.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2013.0,2012.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2014.0,2013.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2015.0,2014.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2016.0,2015.0
+Prionace glauca,Blue Shark,39381.0,Fis-23222,CHONDRICHTHYES,39381.0,NA,NA,iucn,0.0,NT,0.2,2017.0,2016.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2e3,1999.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2001.0,2e3
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2002.0,2001.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2003.0,2002.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2004.0,2003.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2005.0,2004.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2006.0,2005.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2007.0,2006.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2008.0,2007.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2009.0,2008.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2010.0,2009.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2011.0,2010.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2012.0,2011.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2013.0,2012.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2014.0,2013.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2015.0,2014.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2016.0,2015.0
+Pseudorca crassidens,False Killer Whale,18596.0,ITS-Mam-180463,MARINE_MAMMALS,18596.0,NA,NA,iucn,0.0,LC,0.0,2017.0,2016.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2e3,1999.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2001.0,2e3
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2002.0,2001.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2003.0,2002.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2004.0,2003.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2005.0,2004.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2006.0,2005.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2007.0,2006.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2008.0,2007.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2009.0,2008.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2010.0,2009.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2011.0,2010.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2012.0,2011.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2013.0,2012.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2014.0,2013.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2015.0,2014.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0,VU,0.4,2016.0,2015.0
+Rhincodon typus,Whale Shark,19488.0,Fis-30583,CHONDRICHTHYES,19488.0,NA,NA,am,0.0109,EN,0.6,2017.0,2016.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,0.0,VU,0.4,2e3,1999.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,0.0,VU,0.4,2001.0,2e3
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,0.0,VU,0.4,2002.0,2001.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,0.0,VU,0.4,2003.0,2002.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,0.0,VU,0.4,2004.0,2003.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,0.0,VU,0.4,2005.0,2004.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,0.0,VU,0.4,2006.0,2005.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,0.0,VU,0.4,2007.0,2006.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,0.0,VU,0.4,2008.0,2007.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,-0.0218,LC,0.0,2009.0,2008.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,-0.0388,LC,0.0,2010.0,2009.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,-0.0509,LC,0.0,2011.0,2010.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,-0.0582,LC,0.0,2012.0,2011.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,-0.0606,LC,0.0,2013.0,2012.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,-0.0582,LC,0.0,2014.0,2013.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,-0.0509,LC,0.0,2015.0,2014.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,-0.0388,LC,0.0,2016.0,2015.0
+Stenella coeruleoalba,Striped Dolphin,20731.0,ITS-Mam-180434,MARINE_MAMMALS,20731.0,NA,NA,iucn,-0.0218,LC,0.0,2017.0,2016.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2e3,1999.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2001.0,2e3
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2002.0,2001.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2003.0,2002.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2004.0,2003.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2005.0,2004.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2006.0,2005.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2007.0,2006.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2008.0,2007.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2009.0,2008.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2010.0,2009.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2011.0,2010.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2012.0,2011.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2013.0,2012.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2014.0,2013.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2015.0,2014.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2016.0,2015.0
+Thaleichthys pacificus,Eulachon,202415.0,Fis-22963,NA,NA,NA,0.5,am,0.0,LC,0.5,2017.0,2016.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2e3,1999.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2001.0,2e3
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2002.0,2001.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2003.0,2002.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2004.0,2003.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2005.0,2004.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2006.0,2005.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2007.0,2006.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2008.0,2007.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2009.0,2008.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2010.0,2009.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2011.0,2010.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2012.0,2011.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2013.0,2012.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2014.0,2013.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2015.0,2014.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2016.0,2015.0
+Tursiops truncatus,Bottlenose Dolphin,22563.0,ITS-Mam-180426,MARINE_MAMMALS,22563.0,NA,NA,am,0.0,LC,0.0,2017.0,2016.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2e3,1999.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2001.0,2e3
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2002.0,2001.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2003.0,2002.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2004.0,2003.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2005.0,2004.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2006.0,2005.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2007.0,2006.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2008.0,2007.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2009.0,2008.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2010.0,2009.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2011.0,2010.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2012.0,2011.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2013.0,2012.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2014.0,2013.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2015.0,2014.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2016.0,2015.0
+Ziphius cavirostris,Cuvier's Beaked Whale,23211.0,ITS-Mam-180498,MARINE_MAMMALS,23211.0,NA,NA,iucn,0.0,LC,0.0,2017.0,2016.0
