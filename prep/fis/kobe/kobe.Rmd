@@ -33,7 +33,7 @@ goal      <- 'fis'
 scenario  <- 'kobe'
 dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
 
-source(file.path(dir_goal, '../v2016/kobe_fxns.R'))
+source(file.path(dir_goal, 'kobe_fxns.R'))
 ### where the functions are defined
 
 ```
@@ -110,15 +110,21 @@ The following plots incorporate a "critical" zone for $B/B_{MSY}$ below which fi
 
 The following plots assume a local maximum (across all fisheries within region of study) $B/B_{MSY}$ of 3.5, and a local maximum $F/F_{MSY}$ of 2.5.
 
-``` {r generate_kobe_plot_crit, eval = TRUE}
+``` {r generate_kobe_plot_crit}
 
 
-kobe <- generate_kobe_df()
-  
-kobe_fPrime_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = fPrime)) +
+kobe <- generate_kobe_df(f_fmsy_max = 2.5,
+                         b_bmsy_max = 3.0,
+                         bmax_val = 1/3)
+
+hcr_df <- data.frame(b_bmsy = c(0, .4, .8, 3),
+                     f_fmsy = c(0,  0,  1, 1))
+
+kobe_fPrime_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy)) +
   ggtheme_plot + 
-  geom_raster(alpha = .8) +
+  geom_raster(alpha = .8, aes(fill = fPrime)) +
   scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
+  geom_line(data = hcr_df, aes(x = b_bmsy, y = f_fmsy), color = 'black', size = 1.5, alpha = .6) +
   labs(title = 'F\' = f(B/Bmsy, F/Fmsy)',
        fill = 'F\' value',
        x = 'B/Bmsy',
@@ -127,10 +133,11 @@ kobe_fPrime_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = fPrim
 print(kobe_fPrime_plot)
 ggsave(filename = file.path(dir_goal, 'kobe_fPrime_crit.png'), width = 8, height = 6, units = 'cm')
 
-kobe_bPrime_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = bPrime)) +
+kobe_bPrime_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy)) +
   ggtheme_plot + 
-  geom_raster(alpha = .8) +
+  geom_raster(alpha = .8, aes(fill = bPrime)) +
   scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
+  geom_line(data = hcr_df, aes(x = b_bmsy, y = f_fmsy), color = 'black', size = 1.5, alpha = .6) +
   labs(title = 'B\' = f(B/Bmsy)',
        fill = 'B\' value',
        x = 'B/Bmsy',
@@ -139,10 +146,11 @@ kobe_bPrime_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = bPrim
 print(kobe_bPrime_plot)
 ggsave(filename = file.path(dir_goal, 'kobe_bPrime_crit.png'), width = 8, height = 6, units = 'cm')
 
-kobe_fis_score_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = x)) +
+kobe_fis_score_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy)) +
   ggtheme_plot + 
-  geom_raster(alpha = .8) +
+  geom_raster(alpha = .8, aes(fill = x_geom)) +
   scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
+  geom_line(data = hcr_df, aes(x = b_bmsy, y = f_fmsy), color = 'black', size = 1.5, alpha = .6) +
   labs(title = 'FIS = f(B/Bmsy, F/Fmsy)',
        fill = 'FIS score',
        x = 'B/Bmsy',
@@ -163,32 +171,32 @@ kobe_fis_score_plot <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy, fill = x)
 print(kobe_fis_score_plot)
 ggsave(filename = file.path(dir_goal, 'kobe_fis_score_crit.png'), width = 8, height = 6, units = 'cm')
 
-
-kobe_geom <- generate_kobe_geom_df(b_bmsy_max = 5.5)
-
-kobe_fis_score_geom_plot <- ggplot(data = kobe_geom, aes(x = b_bmsy, y = f_fmsy, fill = x)) +
+kobe_fis_score_plot2 <- ggplot(data = kobe, aes(x = b_bmsy, y = f_fmsy)) +
   ggtheme_plot + 
-  geom_raster(alpha = .8) +
+  geom_raster(alpha = .8, aes(fill = x_arith)) +
   scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
-  scale_x_continuous(limits = c(0, 3.5)) + 
-  labs(title = 'FIS = f(B/Bmsy, F/Fmsy) geometric mean',
+  geom_line(data = hcr_df, aes(x = b_bmsy, y = f_fmsy), color = 'black', size = 1.5, alpha = .6) +
+  labs(title = 'FIS = f(B/Bmsy, F/Fmsy)',
        fill = 'FIS score',
        x = 'B/Bmsy',
        y = 'F/Fmsy') +
-  annotate(geom = 'text', label = 'crit', x = .15, y = -.1, 
-           size = 1.5, 
+  annotate(geom = 'text', label = 'critical', x = .15, y = -.1, 
+           size = 2, 
            color = 'grey20') + 
   annotate(geom = 'text', label = 'cautious', x =  .5, y = -.1, 
-           size = 1.5, 
+           size = 2, 
            color = 'grey20') + 
   annotate(geom = 'text', label = 'healthy',  x = 1.2, y = -.1, 
-           size = 1.5, 
+           size = 2, 
            color = 'grey20') + 
   annotate(geom = 'text', label = 'underexploited',  x = 2.5, y = -.1, 
-           size = 1.5, 
+           size = 2, 
            color = 'grey20')
 
-print(kobe_fis_score_geom_plot)
-ggsave(filename = file.path(dir_goal, 'kobe_fis_score_geom_crit.png'), width = 8, height = 6, units = 'cm')
+print(kobe_fis_score_plot2)
+ggsave(filename = file.path(dir_goal, 'kobe_fis_score_crit_arith.png'), width = 8, height = 6, units = 'cm')
+
 ```
+
+*** 
 
