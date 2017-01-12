@@ -60,9 +60,14 @@ shinyServer(function(input, output) {
                           overfished_th   = 0.8,
                           fmax            = input$f_fmsy_max,
                           fmin_val        = input$fmin_val)
-    df <- df %>%
-      mutate(x_mean = fPrime^(1 - f_b_weighting) * bPrime^(f_b_weighting),
-             x_mean = x_mean^(1/(max(f_b_weighting, 1 - f_b_weighting))))
+    if(input$f_b_mean == 'geom') {
+      df <- df %>%
+        mutate(x_mean = fPrime^(1 - f_b_weighting) * bPrime^(f_b_weighting),
+               x_mean = x_mean^(1/(max(f_b_weighting, 1 - f_b_weighting))))
+    } else {
+      df <- df %>%
+        mutate(x_mean = fPrime*(1 - f_b_weighting) + bPrime*(f_b_weighting))
+    }
   })
 
   output$kobe_plot <- renderPlot({
