@@ -2,7 +2,7 @@
 ###
 ### Support functions for the OHI BC data_prep_lsp.R
 
-get_wdpa_poly <- function(p4s, reload = FALSE) {
+trim_wdpa_poly <- function(p4s, reload = FALSE) {
   ### p4s is a named proj4string; the name becomes a filename tag.
 
   ### Time consuming due to OGR load times of original WDPA database...
@@ -11,14 +11,15 @@ get_wdpa_poly <- function(p4s, reload = FALSE) {
   ### save in the Git-Annex OHIBC directory.
   ### If the BC-specific file already exists, read into memory and return it.
 
-  layer_bc <- sprintf('wdpa_bc_%s', names(p4s))
+  layer_bc <- 'wdpa_bc_bcalb'
   wdpa_bc_shp_file <- file.path(dir_goal_anx, 'int', paste0(layer_bc, '.shp'))
+
+  dsn_dir    <- file.path(dir_M, 'git-annex/globalprep/_raw_data',
+                          'wdpa_mpa/d2016/WDPA_May2016-shapefile')
+  layer_file <- 'WDPA_May2016-shapefile-polygons'
 
   if(!file.exists(wdpa_bc_shp_file) | reload == TRUE) {
     ### Read most recent WDPA_MPA database from git-annex/globalprep
-    dsn_dir    <- file.path(dir_M, 'git-annex/globalprep/_raw_data',
-                            'wdpa_mpa/d2016/WDPA_May2016-shapefile')
-    layer_file <- 'WDPA_May2016-shapefile-polygons'
 
     message(sprintf('Creating new OHIBC WDPA file.  Reading full WDPA shapefile from:\n  %s, ', dsn_dir))
     poly_wdpa <- readOGR(dsn = dsn_dir, layer = layer_file,
@@ -57,12 +58,16 @@ get_wdpa_poly <- function(p4s, reload = FALSE) {
 
   } else {
 
-    message('Reading OHIBC WDPA shapefile from: \n  ', wdpa_bc_shp_file)
-    poly_wdpa_bc <- readOGR(dsn = dirname(wdpa_bc_shp_file),
-                            layer = str_replace(basename(wdpa_bc_shp_file), '.shp', ''),
-                            stringsAsFactors = FALSE, verbose = FALSE)
+    message('OHIBC WDPA shapefile already exists: \n  ', wdpa_bc_shp_file)
+    git_prov(dsn_dir,
+             filetype = 'input')
+    git_prov(wdpa_bc_shp_file,
+             filetype = 'output')
+
   }
-  return(poly_wdpa_bc)
+
+  return(wdpa_bc_shp_file)
+
 }
 
 

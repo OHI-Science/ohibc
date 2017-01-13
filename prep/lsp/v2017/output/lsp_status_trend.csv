@@ -1,0 +1,190 @@
+rgn_id,rgn_name,year,lsp_status,lsp_trend
+1,North Coast,2016.0,0.425,0.13635
+2,Haida Gwaii,2016.0,1.0,0.4253
+3,Central Coast,2016.0,0.755,0.3211
+4,North Vancouver Island,2016.0,0.265,0.01245
+5,West Vancouver Island,2016.0,0.49,0.0075
+6,Strait of Georgia,2016.0,0.2,0.05895
+8,Aristazabal Island,2016.0,0.585,0.0
+1,North Coast,2015.0,0.425,1.0
+2,Haida Gwaii,2015.0,1.0,0.6771
+3,Central Coast,2015.0,0.755,1.0
+4,North Vancouver Island,2015.0,0.265,0.1549
+5,West Vancouver Island,2015.0,0.49,0.0078
+6,Strait of Georgia,2015.0,0.2,0.061450000000000005
+8,Aristazabal Island,2015.0,0.585,0.0
+1,North Coast,2014.0,0.425,1.0
+2,Haida Gwaii,2014.0,1.0,0.8502500000000001
+3,Central Coast,2014.0,0.755,1.0
+4,North Vancouver Island,2014.0,0.265,0.3816
+5,West Vancouver Island,2014.0,0.49,0.0075
+6,Strait of Georgia,2014.0,0.2,0.05895
+8,Aristazabal Island,2014.0,0.585,0.525
+1,North Coast,2013.0,0.425,1.0
+2,Haida Gwaii,2013.0,1.0,0.9446
+3,Central Coast,2013.0,0.755,1.0
+4,North Vancouver Island,2013.0,0.265,0.54995
+5,West Vancouver Island,2013.0,0.49,0.00655
+6,Strait of Georgia,2013.0,0.2,0.05159999999999999
+8,Aristazabal Island,2013.0,0.585,0.93335
+1,North Coast,2012.0,0.425,1.0
+2,Haida Gwaii,2012.0,1.0,0.9603
+3,Central Coast,2012.0,0.755,1.0
+4,North Vancouver Island,2012.0,0.265,0.65995
+5,West Vancouver Island,2012.0,0.49,0.005
+6,Strait of Georgia,2012.0,0.2,0.0428
+8,Aristazabal Island,2012.0,0.585,1.0
+1,North Coast,2011.0,0.425,1.0
+2,Haida Gwaii,2011.0,1.0,0.89725
+3,Central Coast,2011.0,0.755,1.0
+4,North Vancouver Island,2011.0,0.265,0.7115499999999999
+5,West Vancouver Island,2011.0,0.49,0.0027999999999999995
+6,Strait of Georgia,2011.0,0.2,0.04815
+8,Aristazabal Island,2011.0,0.585,1.0
+1,North Coast,2010.0,0.425,1.0
+2,Haida Gwaii,2010.0,1.0,0.7555000000000001
+3,Central Coast,2010.0,0.755,1.0
+4,North Vancouver Island,2010.0,0.265,0.7048500000000001
+5,West Vancouver Island,2010.0,0.485,0.0
+6,Strait of Georgia,2010.0,0.185,0.045450000000000004
+8,Aristazabal Island,2010.0,0.585,1.0
+1,North Coast,2009.0,0.425,1.0
+2,Haida Gwaii,2009.0,0.915,0.535
+3,Central Coast,2009.0,0.755,1.0
+4,North Vancouver Island,2009.0,0.265,0.63975
+5,West Vancouver Island,2009.0,0.485,0.1052
+6,Strait of Georgia,2009.0,0.185,0.07669999999999999
+8,Aristazabal Island,2009.0,0.585,1.0
+1,North Coast,2008.0,0.425,1.0
+2,Haida Gwaii,2008.0,0.915,0.30095
+3,Central Coast,2008.0,0.755,1.0
+4,North Vancouver Island,2008.0,0.26,0.51625
+5,West Vancouver Island,2008.0,0.485,0.187
+6,Strait of Georgia,2008.0,0.185,0.10165
+8,Aristazabal Island,2008.0,0.585,1.0
+1,North Coast,2007.0,0.29,1.0
+2,Haida Gwaii,2007.0,0.435,-0.0
+3,Central Coast,2007.0,0.38999999999999996,1.0
+4,North Vancouver Island,2007.0,0.26,0.3468
+5,West Vancouver Island,2007.0,0.485,0.24545
+6,Strait of Georgia,2007.0,0.185,0.12315
+8,Aristazabal Island,2007.0,0.585,0.93335
+1,North Coast,2006.0,0.27,1.0
+2,Haida Gwaii,2006.0,0.435,-0.0
+3,Central Coast,2006.0,0.31000000000000005,0.49584999999999996
+4,North Vancouver Island,2006.0,0.195,0.1212
+5,West Vancouver Island,2006.0,0.485,0.28049999999999997
+6,Strait of Georgia,2006.0,0.185,0.13735
+8,Aristazabal Island,2006.0,0.585,0.525
+1,North Coast,2005.0,0.060000000000000005,0.48485
+2,Haida Gwaii,2005.0,0.435,-0.0
+3,Central Coast,2005.0,0.11,-0.0
+4,North Vancouver Island,2005.0,0.135,0.0
+5,West Vancouver Island,2005.0,0.485,0.3099
+6,Strait of Georgia,2005.0,0.185,0.14445
+8,Aristazabal Island,2005.0,0.2,0.0
+1,North Coast,2004.0,0.060000000000000005,0.27275
+2,Haida Gwaii,2004.0,0.435,0.67635
+3,Central Coast,2004.0,0.11,-0.0
+4,North Vancouver Island,2004.0,0.135,0.04305
+5,West Vancouver Island,2004.0,0.485,0.441
+6,Strait of Georgia,2004.0,0.185,0.17170000000000002
+8,Aristazabal Island,2004.0,0.2,0.0
+1,North Coast,2003.0,0.030000000000000002,0.0
+2,Haida Gwaii,2003.0,0.435,1.0
+3,Central Coast,2003.0,0.11,-0.0
+4,North Vancouver Island,2003.0,0.135,0.14834999999999998
+5,West Vancouver Island,2003.0,0.485,0.5171
+6,Strait of Georgia,2003.0,0.185,0.2134
+8,Aristazabal Island,2003.0,0.2,0.0
+1,North Coast,2002.0,0.030000000000000002,0.8182
+2,Haida Gwaii,2002.0,0.435,1.0
+3,Central Coast,2002.0,0.11,-0.0
+4,North Vancouver Island,2002.0,0.135,0.22804999999999997
+5,West Vancouver Island,2002.0,0.485,0.5287
+6,Strait of Georgia,2002.0,0.16999999999999998,0.2222
+8,Aristazabal Island,2002.0,0.2,0.0
+1,North Coast,2001.0,0.030000000000000002,1.0
+2,Haida Gwaii,2001.0,0.435,1.0
+3,Central Coast,2001.0,0.11,-0.0
+4,North Vancouver Island,2001.0,0.135,0.3831
+5,West Vancouver Island,2001.0,0.485,0.4758
+6,Strait of Georgia,2001.0,0.16999999999999998,0.2399
+8,Aristazabal Island,2001.0,0.2,0.0
+1,North Coast,2e3,0.030000000000000002,1.0
+2,Haida Gwaii,2e3,0.435,1.0
+3,Central Coast,2e3,0.11,0.013
+4,North Vancouver Island,2e3,0.135,0.5195000000000001
+5,West Vancouver Island,2e3,0.35,0.40115
+6,Strait of Georgia,2e3,0.16,0.2323
+8,Aristazabal Island,2e3,0.2,0.0
+1,North Coast,1999.0,0.030000000000000002,1.0
+2,Haida Gwaii,1999.0,0.435,1.0
+3,Central Coast,1999.0,0.11,0.0231
+4,North Vancouver Island,1999.0,0.135,0.59955
+5,West Vancouver Island,1999.0,0.35,0.44445
+6,Strait of Georgia,1999.0,0.16,0.22724999999999998
+8,Aristazabal Island,1999.0,0.2,0.0
+1,North Coast,1998.0,0.030000000000000002,1.0
+2,Haida Gwaii,1998.0,0.435,1.0
+3,Central Coast,1998.0,0.11,0.0303
+4,North Vancouver Island,1998.0,0.135,0.67135
+5,West Vancouver Island,1998.0,0.35,0.44734999999999997
+6,Strait of Georgia,1998.0,0.155,0.21080000000000002
+8,Aristazabal Island,1998.0,0.2,0.0
+1,North Coast,1997.0,0.030000000000000002,1.0
+2,Haida Gwaii,1997.0,0.435,1.0
+3,Central Coast,1997.0,0.11,0.03465
+4,North Vancouver Island,1997.0,0.135,0.7121
+5,West Vancouver Island,1997.0,0.35,0.40980000000000005
+6,Strait of Georgia,1997.0,0.155,0.1897
+8,Aristazabal Island,1997.0,0.2,0.0
+1,North Coast,1996.0,0.030000000000000002,1.0
+2,Haida Gwaii,1996.0,0.435,0.67635
+3,Central Coast,1996.0,0.11,0.7575999999999999
+4,North Vancouver Island,1996.0,0.135,0.649
+5,West Vancouver Island,1996.0,0.35,0.3319
+6,Strait of Georgia,1996.0,0.15,0.14755000000000001
+8,Aristazabal Island,1996.0,0.2,0.0
+1,North Coast,1995.0,0.030000000000000002,1.0
+2,Haida Gwaii,1995.0,0.125,0.0
+3,Central Coast,1995.0,0.11,1.0
+4,North Vancouver Island,1995.0,0.12000000000000001,0.6121
+5,West Vancouver Island,1995.0,0.33,0.3093
+6,Strait of Georgia,1995.0,0.15,0.0988
+8,Aristazabal Island,1995.0,0.2,0.0
+1,North Coast,1994.0,0.030000000000000002,1.0
+2,Haida Gwaii,1994.0,0.125,0.0
+3,Central Coast,1994.0,0.11,1.0
+4,North Vancouver Island,1994.0,0.095,0.5091
+5,West Vancouver Island,1994.0,0.235,0.24764999999999998
+6,Strait of Georgia,1994.0,0.12000000000000001,0.0316
+8,Aristazabal Island,1994.0,0.2,0.0
+1,North Coast,1993.0,0.015,0.54545
+2,Haida Gwaii,1993.0,0.125,0.0
+3,Central Coast,1993.0,0.11,1.0
+4,North Vancouver Island,1993.0,0.095,0.4879
+5,West Vancouver Island,1993.0,0.235,0.32704999999999995
+6,Strait of Georgia,1993.0,0.12000000000000001,0.03295
+8,Aristazabal Island,1993.0,0.2,0.0
+1,North Coast,1992.0,0.005,0.0
+2,Haida Gwaii,1992.0,0.125,0.0
+3,Central Coast,1992.0,0.11,1.0
+4,North Vancouver Island,1992.0,0.095,0.41209999999999997
+5,West Vancouver Island,1992.0,0.235,0.36885
+6,Strait of Georgia,1992.0,0.12000000000000001,0.0316
+8,Aristazabal Island,1992.0,0.2,0.0
+1,North Coast,1991.0,0.005,0.0
+2,Haida Gwaii,1991.0,0.125,0.0
+3,Central Coast,1991.0,0.10500000000000001,1.0
+4,North Vancouver Island,1991.0,0.07,0.31315000000000004
+5,West Vancouver Island,1991.0,0.235,0.37305
+6,Strait of Georgia,1991.0,0.12000000000000001,0.05305
+8,Aristazabal Island,1991.0,0.2,0.0
+1,North Coast,1990.0,0.005,0.0
+2,Haida Gwaii,1990.0,0.125,0.0
+3,Central Coast,1990.0,0.10500000000000001,1.0
+4,North Vancouver Island,1990.0,0.07,0.32325
+5,West Vancouver Island,1990.0,0.21,0.8207
+6,Strait of Georgia,1990.0,0.12000000000000001,0.2904
+8,Aristazabal Island,1990.0,0.2,1.0
