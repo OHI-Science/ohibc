@@ -81,22 +81,22 @@ spp_rgn2cell <- function(poly_rgn,
 
 ##############################################################################=
 spp_am_cell_summary <- function(spp_info, am_spp_cells) {
-  # Calculate category and trend scores per cell for Aquamaps species.
+  # Calculate category scores per cell for Aquamaps species.
   # * load AM species <-> cell lookup
   # * filter to appropriate cells (in regions, meets probability threshold)
   # * join spatial info: loiczid, region ID, cell area
-  # * join species info: category score and trend score
+  # * join species info: category score
   # * filter by cat score != NA
-  # * summarize by loiczid - mean cat_score, mean trend_score, count
+  # * summarize by loiczid - mean cat_score, count
 
   message('Generating cell-by-cell summary for Aquamaps species.')
 
   ### filter species info to just Aquamaps species with category info, and bind to
-  ### am_spp_cells to attach cat_score and trend_score.
+  ### am_spp_cells to attach cat_score
   spp_am_info <- spp_info %>%
     filter(str_detect(spatial_source, 'am')) %>%
     filter(!is.na(cat_score)) %>%
-    dplyr::select(am_sid, cat_score, trend_score) %>%
+    dplyr::select(am_sid, cat_score, pr_score) %>%
     distinct()
 
   message(sprintf('Number of Aquamaps species: %d', nrow(spp_am_info)))
@@ -109,14 +109,13 @@ spp_am_cell_summary <- function(spp_info, am_spp_cells) {
     filter(!is.na(loiczid)) %>%
     distinct()
 
-  message('Grouping by cell and summarizing by mean category, mean trend, and n_spp for each, for AM spatial info.')
+  message('Grouping by cell and summarizing by mean category and n_spp for each, for AM spatial info.')
   am_cells_sum <- am_spp_cells1 %>%
     group_by(loiczid) %>%
-    summarize(mean_cat_score        = mean(cat_score),     # no na.rm needed; already filtered
-              mean_pop_trend_score  = mean(trend_score, na.rm = TRUE),
+    summarize(mean_cat_score        = mean(cat_score),
               n_cat_species         = n(),
-              n_trend_species       = sum(!is.na(trend_score))) %>% # no na.rm needed; count all with cat_score
-    mutate(source = 'aquamaps') %>%
+              n_trend_species = sum(is.na(pr_score))) %>% ### those using provincial scores will be excluded from trend calcs
+  mutate(source = 'aquamaps') %>%
     ungroup()
 
   return(invisible(am_cells_sum))
@@ -125,14 +124,14 @@ spp_am_cell_summary <- function(spp_info, am_spp_cells) {
 
 ##############################################################################=
 spp_iucn_cell_summary <- function(spp_info, iucn_spp_cells) {
-  # Calculate category and trend scores per cell for IUCN species.
+  # Calculate category scores per cell for IUCN species.
   # * For each IUCN species group:
   #   * load IUCN species <-> cell lookup
   #   * filter to appropriate cells (in regions, meets probability threshold)
   #   * join spatial info: loiczid, region ID, cell area
-  #   * join species info: category score and trend score
+  #   * join species info: category score
   #   * filter by cat score != NA
-  #   * summarize by loiczid - mean cat_score, mean trend_score, count
+  #   * summarize by loiczid - mean cat_score, count
   # * Each summary data frame should be saved to a list, to be eventually rbind_all'ed
 
   message('Generating cell-by-cell summary for IUCN range-map species.')
@@ -140,7 +139,7 @@ spp_iucn_cell_summary <- function(spp_info, iucn_spp_cells) {
   spp_iucn_info <- spp_info %>%
     filter(str_detect(spatial_source, 'iucn')) %>%
     # filter(!is.na(cat_score)) %>%
-    dplyr::select(map_iucn_sid, map_subpop, cat_score, trend_score) %>%
+    dplyr::select(map_iucn_sid, map_subpop, cat_score, pr_score) %>%
     distinct()
 
   message(sprintf('Number of IUCN species: %d', length(unique(spp_iucn_info$map_iucn_sid))))
@@ -157,16 +156,15 @@ spp_iucn_cell_summary <- function(spp_info, iucn_spp_cells) {
     filter(!is.na(cat_score) & !is.na(loiczid)) %>%
     distinct()
 
-  message('Grouping by cell and summarizing mean category/trend and n_spp for each, for IUCN spatial info.')
+  message('Grouping by cell and summarizing mean category and n_spp for each, for IUCN spatial info.')
   ### NOTE: Currently, ignores the proportional area of each species within
   ### a cell.  If there is *any* presence of the species within a cell, it
   ### is counted as being present everywhere within the cell.
   iucn_cells_sum <- iucn_spp_cells2 %>%
     group_by(loiczid) %>%
-    summarize(mean_cat_score = mean(cat_score),      # no na.rm needed; already filtered.
-              mean_pop_trend_score = mean(trend_score, na.rm = TRUE),
+    summarize(mean_cat_score = mean(cat_score),
               n_cat_species = n(),
-              n_trend_species = sum(!is.na(trend_score))) %>% # no na.rm needed; count all with cat_score
+              n_trend_species = sum(is.na(pr_score))) %>% ### those using provincial scores will be excluded from trend calcs
     mutate(source = 'iucn')
 
   return(invisible(iucn_cells_sum))
@@ -174,29 +172,26 @@ spp_iucn_cell_summary <- function(spp_info, iucn_spp_cells) {
 
 
 ##############################################################################=
-spp_calc_cell_means <- function(am_cell_summary, iucn_cell_summary, fn_tag = '') {
+spp_calc_cell_means <- function(am_cell_summary, iucn_cell_summary) {
   ### 2 input data frames:
-  ### loiczid | mean_cat_score | mean_pop_trend_score | n_cat_species | n_trend_species | source
+  ### loiczid | mean_cat_score | n_cat_species | source
   ### calcs weighted score for each cell (by loiczid) from:
   ###   (mean IUCN category value * # of species) for both IUCN and AM data, divided by total species.
-  ###   (same for trend)
   summary_by_loiczid <- bind_rows(am_cell_summary, iucn_cell_summary) %>%
     group_by(loiczid, year) %>%
-    summarize(weighted_mean_cat   = sum(n_cat_species   * mean_cat_score)/sum(n_cat_species),
-              weighted_mean_trend = sum(n_trend_species * mean_pop_trend_score, na.rm = TRUE)/sum(n_trend_species),
-              n_cat_species       = sum(n_cat_species),
-              n_trend_species     = sum(n_trend_species)) %>%
+    summarize(weighted_mean_cat = sum(n_cat_species * mean_cat_score)/sum(n_cat_species),
+              n_cat_species     = sum(n_cat_species),
+              n_trend_species   = sum(n_trend_species)) %>%
     arrange(loiczid)
 
-  write_csv(summary_by_loiczid, file.path(dir_goal, sprintf('summary/spp_cell_summary_by_loiczid%s.csv', fn_tag)))
   return(summary_by_loiczid)
 }
 
 
 ##############################################################################=
-spp_calc_rgn_means <- function(summary_by_loiczid, rgn_cell_lookup, rgn_tag = '') {
-  ### Joins region-cell info to mean cat & trend per cell.
-  ### Groups by region IDs, and calcs area-weighted mean category and trend values
+spp_calc_rgn_means <- function(summary_by_loiczid, rgn_cell_lookup) {
+  ### Joins region-cell info to mean cat per cell.
+  ### Groups by region IDs, and calcs area-weighted mean category values
   ### for all cells across entire region.  Cells only partly within a region are
   ### accounted for by multiplying cell area * proportionArea from rgn_cell_lookup.
 
@@ -204,27 +199,17 @@ spp_calc_rgn_means <- function(summary_by_loiczid, rgn_cell_lookup, rgn_tag = ''
     inner_join(rgn_cell_lookup,
                by = 'loiczid') %>%
     mutate(rgn_area = cell_area * prop_area,
-           area_weighted_mean_cat   = weighted_mean_cat   * rgn_area,
-           area_weighted_mean_trend = weighted_mean_trend * rgn_area) %>%
+           area_weighted_mean_cat   = weighted_mean_cat * rgn_area) %>%
     arrange(loiczid)
 
   region_sums <- rgn_weighted_sums %>%
     group_by(rgn_id, year) %>%
-    summarize(rgn_mean_cat   = sum(area_weighted_mean_cat)/sum(rgn_area),
-              rgn_mean_trend = sum(area_weighted_mean_trend)/sum(rgn_area))
+    summarize(rgn_mean_cat   = sum(area_weighted_mean_cat) / sum(rgn_area),
+              mean_n_cat_spp = mean(n_cat_species * rgn_area) / mean(rgn_area),
+              mean_n_trend_spp = mean(n_trend_species * rgn_area) / mean(rgn_area)) ### these will capture
 
   region_sums <- region_sums %>%
-    mutate(status = 100 * ((1 - rgn_mean_cat) - 0.25) / 0.75,
-           trend  = 5 * (-rgn_mean_trend/.75) / (status / 100), ### to get % change over five years
-           trend  = max(min(trend, 1), -1))
-    ### remember that to this point, trend is annual change in *risk* -
-    ### positive means increasing risk.
-
-  region_summary_file <- file.path(dir_goal,
-                                   sprintf('summary/spp_rgn_summary%s.csv', rgn_tag))
-
-  message(sprintf('Writing summary file of area-weighted mean category & trend per region:\n  %s', region_summary_file))
-  write_csv(region_sums, region_summary_file)
+    mutate(status = ((1 - rgn_mean_cat) - 0.25) / 0.75)
 
   return(region_sums)
 }
@@ -298,3 +283,36 @@ spp_append_bcsee <- function(spp_all) {
 
   return(spp_all1)
 }
+
+##############################################################################=
+calc_trends_per_rgn <- function(sum_by_rgn, include_years, span) {
+
+  spp_trend_list <- vector('list', length = length(include_years))
+
+  for(i in 1:length(include_years)) { # i <- 1
+    yr <- include_years[i] ### OHI year lags IUCN year by 1 year, so include 2011 for OHI2012 etc
+    spp_rgn_status_current <- sum_by_rgn %>%
+      filter(year <= yr & year > yr - span)
+    spp_trend_list[[i]] <- spp_rgn_status_current %>%
+      group_by(rgn_id) %>%
+      do(trend_raw = lm(status ~ year, data = .)$coefficients['year']) %>%
+      mutate(trend_raw = as.numeric(trend_raw),
+             year  = yr) %>%
+      ungroup()
+  }
+
+  spp_trend_df <- bind_rows(spp_trend_list)
+
+  spp_status_trend_df <- sum_by_rgn %>%
+    left_join(spp_trend_df, by = c('rgn_id', 'year')) %>%
+    mutate(trend = trend_raw / lag(status, span) * 5) %>%
+    filter(year %in% include_years)
+  ### this divides by the status 10 years ago to get a % change,
+  ### then multiplies by 5 to predict likely increase five years from now.
+  ### Rounds to 5 decimals because annoying.
+
+
+  return(spp_status_trend_df)
+
+}
+

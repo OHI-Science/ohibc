@@ -21,8 +21,6 @@ output:
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
                       echo = TRUE, message = FALSE, warning = FALSE)
 
-library(rgdal)
-library(raster)
 source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
 
 scenario <- 'v2017'
@@ -166,8 +164,6 @@ spp_past_df <- spp_past_df %>%
 
 ### expand the time series and calculate trend
 cat_years    <- c(1980:2016)
-assess_years <- c(2000:2017)
-trend_span   <- 10
 
 spp_cat_ts <- spp_past_df %>%
   select(iucn_sid, year, cat_ts, cat_ts_score) %>%
@@ -180,41 +176,8 @@ spp_cat_ts <- spp_past_df %>%
     ### fills back from first non-NE or DD assessment; assume early status is same as first assessment
   ungroup()
 
-
-spp_cat_trend_list <- vector('list', length = length(assess_years))
-
-for(i in 1:length(assess_years)) { # i <- 1
-  
-  yr <- assess_years[i]
-  spp_cat_current <- spp_cat_ts %>%
-    filter(year < yr & year >= yr - trend_span)
-
-  spp_cat_trend_list[[i]] <- spp_cat_current %>%
-    group_by(iucn_sid) %>%
-    do(risk_trend = lm(cat_ts_score ~ year, data = .)$coefficients['year']) %>%
-    left_join(spp_cat_current %>% 
-                filter(year == yr - 1), ### e.g. 2017 assessment looks at 2016 category
-              by = 'iucn_sid') %>%
-    mutate(risk_trend = round(risk_trend, 4),
-           assess_year = yr)
-}
-
-spp_cat_trend_df <- bind_rows(spp_cat_trend_list) %>%
-  left_join(custom_info, by = 'iucn_sid') 
-
-iucn_sid, 
-sciname
-risk_trend
-year
-cat_ts
-cat_ts_score
-assess_year
-population
-category
-
-am_sid,iucn_sid,sciname,spp_group,map_iucn_sid,map_subpop,pr_score,spatial_source,risk_trend,cat_ts,cat_ts_score,assess_year,year
-
-spp_cat_trend_df <- spp_cat_trend_df %>%
+spp_cat_ts <- spp_cat_ts %>%
+  left_join(custom_info, by = 'iucn_sid') %>%
   mutate(am_sid = NA,
          map_iucn_sid = iucn_sid,
          map_subpop = NA,
@@ -224,7 +187,7 @@ spp_cat_trend_df <- spp_cat_trend_df %>%
   select(-(kingdom:genus), -population, -category, -(status_gl:status_gl_score), pr_score = status_pr_score) %>%
   distinct()
 
-write_csv(spp_cat_trend_df, file.path(dir_goal, 'int/spp_custom_scored.csv'))
+write_csv(spp_cat_ts, file.path(dir_goal, 'int/spp_custom_scored.csv'))
 
 ```
 

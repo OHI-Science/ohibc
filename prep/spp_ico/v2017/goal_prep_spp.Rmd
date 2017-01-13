@@ -326,7 +326,7 @@ write_csv(spp_clean, file.path(dir_goal, 'int/spp_list_clean.csv'))
 
 Time series risk assessments are determined in the global SPP analysis.  In this analysis, we will prefer province-level risk assessments over IUCN time-series assessments.  We will keep all instances, including N.E. and DD species instances, because some of these may show up in the ICO analysis (e.g. _Clupea pallasii_)
 
-``` {r process_time_series}
+``` {r complete_time_series}
 
 spp_clean <- read_csv(file.path(dir_goal, 'int/spp_list_clean.csv'))
 
@@ -341,40 +341,6 @@ spp_cat_ts <- read_csv(file.path(dir_goal_global, 'int', 'spp_cat_timeseries_raw
   fill(cat_ts, cat_ts_score, .direction = 'up') %>% 
     ### fills back from first non-NE or DD assessment; assume early status is same as first assessment
   ungroup()
-
-assess_years <- c(2000:2017)
-trend_span   <- 10
-
-spp_cat_trend_list <- vector('list', length = length(assess_years))
-
-for(i in 1:length(assess_years)) { # i <- 1
-  
-  yr <- assess_years[i]
-  spp_cat_current <- spp_cat_ts %>%
-    filter(year < yr & year >= yr - trend_span)
-
-  spp_cat_trend_list[[i]] <- spp_cat_current %>%
-    group_by(iucn_sid) %>%
-    do(risk_trend = lm(cat_ts_score ~ year, data = .)$coefficients['year']) %>%
-    left_join(spp_cat_current %>% 
-                filter(year == yr - 1), ### e.g. 2017 assessment looks at 2016 category
-              by = 'iucn_sid') %>%
-    mutate(risk_trend = round(risk_trend, 4),
-           assess_year = yr)
-}
-
-spp_cat_trend_df <- bind_rows(spp_cat_trend_list)
-
-write_csv(spp_cat_trend_df, file.path(dir_goal, 'int/spp_cat_trend_timeseries.csv'))
-
-```
-
-``` {r score_spp_list}
-
-### get time series of categories and trends.
-### NOTE: risk_trend is positive for increasing risk, not increasing health.
-###   It is the *annual* change in category score, not five-year-adjusted.
-spp_cat_ts <- read_csv(file.path(dir_goal, 'int', 'spp_cat_trend_timeseries.csv'))
 
 ### set up a quick lookup to score the unmatched species
 cat_scores <- spp_cat_ts %>%
@@ -430,8 +396,7 @@ The following code chunk executes the functions that perform these tasks.  Note 
 ``` {r generate_cell_summaries_am_and_iucn}
 
 spp_scored <- read_csv(file.path(dir_goal, 'int', 'spp_list_scored.csv')) %>%
-  rename(cat_score   = cat_ts_score,
-         trend_score = risk_trend) %>%
+  rename(cat_score   = cat_ts_score) %>%
   filter(!is.na(cat_score))
 
 ### read in AquaMaps species-cell file
@@ -482,7 +447,7 @@ write_csv(iucn_cells_sum, file.path(dir_goal, 'summary/spp_iucn_cells_summary.cs
 
 ### Map of species count by cell
 
-``` {r spp_plot_species_count_raster, fig.height = 4, fig.width = 6, fig.align = 'center'}
+``` {r spp_plot_species_count_raster, fig.height = 4, fig.width = 6, fig.align = 'center', eval = FALSE}
 ### species presence doesn't change year to year; only the risk category
 cells_spp_count <- iucn_cells_sum %>%
   filter(year == 2015) %>%
@@ -529,14 +494,31 @@ rgn2cell_df    <- read_csv(file.path(dir_goal, 'spatial/rgn2cell.csv'))
 
 sum_by_loiczid <- spp_calc_cell_means(am_cells_sum, iucn_cells_sum)
 ### This returns location of dataframe with variables:
-### loiczid | weighted_mean_cat | weighted_mean_trend | n_cat_spp | n_tr_spp
+### loiczid | weighted_mean_cat | weighted_mean_trend | n_cat_species | n_trend_species
 ### and saves it to the summary folder.
-
-sum_by_rgn     <- spp_calc_rgn_means(sum_by_loiczid, 
-                                     rgn2cell_df, 
-                                     rgn_tag = '')
+write_csv(sum_by_loiczid, file.path(dir_goal, 'summary/spp_cell_summary_by_loiczid.csv'))
 
 
+sum_by_rgn     <- spp_calc_rgn_means(sum_by_loiczid, rgn2cell_df)
+### This returns a summary by region, including:
+### rgn_id | year | rgn_mean_cat | mean_n_cat_spp | mean_n_trend_spp | status
+### where the mean_n_cat_spp and trend_spp are area-weighted means of species
+### counts for each region, where trend only counts species using time-series
+### category data (trend excludes static, i.e. provincial, scores)
+
+spp_st_tr_rgn <- calc_trends_per_rgn(sum_by_rgn,
+                                     include_years = c(2000:2016),
+                                     span = 10) %>%
+    mutate(trend = round(trend/(mean_n_trend_spp/mean_n_cat_spp), 5),
+           mean_n_cat_spp   = round(mean_n_cat_spp, 2),
+           mean_n_trend_spp = round(mean_n_trend_spp, 2))
+
+### This calculates trend based on a time-series span, normalizes by status
+### in first year of trend; then manually normalizes by proportion of time-series
+### species (only these count for trend calcs; provincial scores have no
+### time series so the trend is weighted to account for this)
+
+write_csv(spp_st_tr_rgn, file.path(dir_goal, 'summary/spp_rgn_summary.csv'))
 
 ```
 
@@ -546,11 +528,11 @@ Cell summary saved to: `r file.path(dir_goal, 'summary/cell_spp_summary_by_loicz
 
 Region summary saved to: `r file.path(dir_goal, 'summary/spp_rgn_summary.csv')`
 
-`r DT::datatable(sum_by_rgn, caption = 'Region summary (all years)')`
+`r DT::datatable(spp_st_tr_rgn %>% select(rgn_id, year, status, trend, mean_n_cat_spp, mean_n_trend_spp), caption = 'Region summary (all assessment years)')`
 
 ### Map of mean extinction risk category value by cell
 
-*Category value range: least concern = 0, extinct = 1*
+*** not evaluated ***
 
 ``` {r spp_plot_cell_score_raster, fig.height = 4, fig.width = 6, fig.align = 'center', eval = FALSE}
 
@@ -574,7 +556,7 @@ spp_plot_raster(as.data.frame(sum_by_loiczid %>% filter(year == 2015)),
 
 Status and trend layers saved to `output` folder.  
 
-``` {r save_status_and_trend, eval = FALSE}
+``` {r save_status_and_trend}
 
 sum_by_rgn <- read_csv(file.path(dir_goal, 'summary/spp_rgn_summary.csv'))
 
@@ -587,9 +569,9 @@ spp_trend  <- sum_by_rgn %>%
 spp_status_file <- file.path(dir_goal, 'output/spp_status.csv')
 spp_trend_file  <- file.path(dir_goal, 'output/spp_trend.csv')
 
-cat(sprintf('Writing SPP status and trend (both popn trend and linear model trend) to:\n  %s\n  %s\n  %s', 
-            spp_status_file,
-            spp_trend_file))
+message('Writing SPP status and trend to:\n  ', 
+        spp_status_file, '\n  ', 
+        spp_trend_file)
 
 write_csv(spp_status, spp_status_file)
 write_csv(spp_trend, spp_trend_file)
@@ -617,7 +599,7 @@ map_scores(sum_by_rgn %>%
 
 Create final outputs for 3nm zone for resilience calculations.  In this step, rather than using full assessment regions, only the three-nautical-mile offshore zone is examined.
 
-``` {r calc_3nm_SPP_status_and_trend}
+``` {r calc_3nm_SPP_status}
 
 ### Read in OHIBC 3nm offshore polygons, in WGS84 CRS
 rgn_lyr <- 'ohibc_offshore_3nm_wgs84'
@@ -628,15 +610,12 @@ rgn2cell_3nm_df <- spp_rgn2cell(poly_bc_3nm, rgn_tag = '_3nm', reload = FALSE)[[
 
 sum_by_loiczid <- read_csv(file.path(dir_goal, 'summary/spp_cell_summary_by_loiczid.csv'))
 
-sum_by_rgn_3nm  <- spp_calc_rgn_means(sum_by_loiczid, rgn2cell_3nm_df, rgn_tag = '_3nm')
+sum_by_rgn_3nm  <- spp_calc_rgn_means(sum_by_loiczid, rgn2cell_3nm_df)
 
 spp_status_3nm <- sum_by_rgn_3nm %>%
   dplyr::select(rgn_id, score = status, year)
-spp_trend_3nm  <- sum_by_rgn_3nm %>%
-  dplyr::select(rgn_id, score = trend,  year)
 
 write_csv(spp_status_3nm, file.path(dir_goal, 'output/spp_status_3nm.csv'))
-write_csv(spp_trend_3nm,  file.path(dir_goal, 'output/spp_trend_3nm.csv'))
 
 ```
 

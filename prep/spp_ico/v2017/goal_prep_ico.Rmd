@@ -139,12 +139,17 @@ spp_ohibc <- read_csv(file.path(dir_goal, 'int/spp_list_clean.csv')) %>%
 ### This includes all species, including DD and N.E. species, found within
 ### OHIBC regions according to AM, IUCN, BLI.
 
-ico_list_gl <- read_csv(file.path(dir_goal, 'raw/ico_list_global.csv')) %>%
-  select(sciname = `Specie Scientific Name`,
-         comname = `Specie Common Name`) %>%
-  mutate(comname = tools::toTitleCase(comname)) %>%
-  inner_join(spp_ohibc, by = 'sciname') %>%
-  distinct()
+# ico_list_gl <- read_csv(file.path(dir_goal, 'raw/ico_list_global.csv')) %>%
+#   select(sciname = `Specie Scientific Name`,
+#          comname = `Specie Common Name`) %>%
+#   mutate(comname = tools::toTitleCase(comname)) %>%
+#   inner_join(spp_ohibc, by = 'sciname') %>%
+#   mutate(include = TRUE) %>%
+#   distinct() %>%
+#   write_csv(file.path(dir_goal, 'raw/ico_list_gl_incl.csv'))
+ico_list_gl <- read_csv(file.path(dir_goal, 'raw/ico_list_gl_incl.csv')) %>%
+  filter(include == TRUE) %>%
+  select(-include)
 ### from this list, we include: 
   # ico_list_gl %>% group_by(spp_group) %>% summarize(n = n())
   #         spp_group     n
@@ -208,6 +213,43 @@ write_csv(ico_info_ts, file.path(dir_goal, 'int/ico_info_timeseries.csv'))
 
 ```
 
+``` {r fix_the_custom_orcas}
+
+ico_info_ts <- read_csv(file.path(dir_goal, 'int/ico_info_timeseries.csv')) 
+
+orca_ts_raw <- ico_info_ts %>%
+  filter(str_detect(sciname, 'Orcinus orca'))
+
+orca_ts_full <- bind_rows(
+  orca_ts_raw %>%
+    mutate(sciname = 'Orcinus orca pop. 2',
+           comname = 'Killer Whale (Northeast Pacific Offshore Population)',
+           pr_score = .6,
+           cat_ts_score = .6),
+  orca_ts_raw %>%
+    mutate(sciname = 'Orcinus orca pop. 3',
+           comname = 'Killer Whale (West Coast Transient Population)',
+           pr_score = .6,
+           cat_ts_score = .6),
+  orca_ts_raw %>%
+    mutate(sciname = 'Orcinus orca pop. 5',
+           comname = 'Killer Whale (Northeast Pacific Southern Resident Population)',
+           pr_score = .8,
+           cat_ts_score = .8),
+  orca_ts_raw %>%
+    mutate(sciname = 'Orcinus orca pop. 6',
+           comname = 'Killer Whale (Northeast Pacific Northern Resident Population)',
+           pr_score = .6,
+           cat_ts_score = .6))
+
+ico_info_ts_fixed <- ico_info_ts %>%
+  filter(!str_detect(sciname, 'Orcinus orca')) %>%
+  bind_rows(orca_ts_full)
+
+write_csv(ico_info_ts_fixed, file.path(dir_goal, 'int/ico_info_ts_incl_orcas.csv'))
+
+```
+
 ### OHIBC Iconic Species
 
 The most recent assessment info for OHIBC Iconic Species:
@@ -220,11 +262,11 @@ In spatializing and summarizing, data-deficient and not-evaluated species will b
 
 ``` {r spatialize_and_summarize}
 
-ico_info_ts1 <- read_csv(file.path(dir_goal, 'int/ico_info_timeseries.csv')) %>%
+ico_ts <- read_csv(file.path(dir_goal, 'int/ico_info_ts_incl_orcas.csv')) %>%
   mutate(cat_ts_score = ifelse(is.na(pr_score), cat_ts_score, pr_score)) %>%
   select(sciname, comname, iucn_sid, am_sid, 
          map_iucn_sid, map_subpop, spatial_source, 
-         risk_trend, cat_ts_score, year) %>%
+         pr_score, cat_ts_score, year) %>%
   distinct()
 
 am_ico_rgn <- read_csv(file.path(dir_goal, 'int/am_spp_cells.csv')) %>%
@@ -240,40 +282,45 @@ iucn_ico_rgn_custom <- read_csv(file.path(dir_goal, 'spatial/BOTW_custom.csv')) 
 iucn_ico_rgn <- iucn_ico_rgn %>%
   bind_rows(iucn_ico_rgn_custom)
 
-ico_info_rgn_ts <- ico_info_ts1 %>%
+ico_rgn_ts <- ico_ts %>%
   filter(spatial_source == 'iucn') %>%
   left_join(iucn_ico_rgn, by = c('map_iucn_sid' = 'iucn_sid', 'map_subpop' = 'subpop')) %>%
   bind_rows(ico_info_ts %>%
     filter(spatial_source == 'am') %>%
-    left_join(am_ico_rgn, by = c('am_sid')))
+    left_join(am_ico_rgn, by = c('am_sid'))) %>%
+  select(rgn_id, year, sciname, comname, iucn_sid, am_sid, pr_score, cat_ts_score)
 
 # x <- ico_info_rgn_ts %>% select(sciname, rgn_id) %>% distinct() %>% group_by(sciname) %>% summarize(n_rgn = n())
 # y <- ico_list %>% filter(!sciname %in% x$sciname)
 
-ico_rgn_sum_ts <- ico_info_rgn_ts %>%
-  select(rgn_id, sciname, cat_ts_score, risk_trend, year) %>%
+ico_rgn_sum_ts <- ico_rgn_ts %>%
+  select(rgn_id, sciname, cat_ts_score, year, pr_score) %>%
   group_by(rgn_id, year) %>%
   summarize(mean_cat   = mean(cat_ts_score, na.rm = TRUE),
-            mean_trend = mean(risk_trend, na.rm = TRUE),
             n_total    = n(),
             n_cat      = sum(!is.na(cat_ts_score)),
-            n_trend    = sum(!is.na(risk_trend)),
-            status     = 1 - mean_cat,
-            trend      = -(mean_trend * 5) / status)
+            n_trend    = sum(!is.na(cat_ts_score) & is.na(pr_score)),
+            status     = round(1 - mean_cat, 5))
 
-write_csv(ico_rgn_sum_ts %>%
+ico_rgn_st_tr_ts <- calc_trends_per_rgn(ico_rgn_sum_ts, include_years = c(2000:2016), span = 10)  %>%
+    mutate(trend = round(trend/(n_trend/n_cat), 5))
+  
+write_csv(ico_rgn_st_tr_ts %>%
             select(rgn_id, score = status, year), 
           file.path(dir_goal, 'output/ico_status.csv'))
-write_csv(ico_rgn_sum_ts %>%
+write_csv(ico_rgn_st_tr_ts %>%
             select(rgn_id, score = trend, year), 
           file.path(dir_goal, 'output/ico_trend.csv'))
-write_csv(ico_rgn_sum_ts, 
+write_csv(ico_rgn_st_tr_ts, 
           file.path(dir_goal, 'summary/ico_rgn_summary.csv'))
 
-DT::datatable(ico_rgn_sum_ts %>% arrange(desc(year)), 
-             caption = 'OHIBC iconic species status and trend')
-
 ```
+
+### OHIBC Iconic Species status and trends
+
+Status and trends by region:
+
+`r DT::datatable(ico_rgn_st_tr_ts %>% select(rgn_id, year, status, trend, n_cat, n_trend))`
 
 ***
 
