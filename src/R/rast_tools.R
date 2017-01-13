@@ -111,9 +111,9 @@ gdal_rast2 <- function(src, rast_base, dst = NULL, value = NULL, override_p4s = 
   rst_prj <- rast_base@crs@projargs
 
   if(str_trim(shp_prj) != str_trim(rst_prj) & override_p4s == FALSE) {
-    message('Shapefile and raster file do not seem to have same proj4string:')
-    message('  shapefile: ', shp_prj)
-    message('  raster:    ', rst_prj)
+    cat('Shapefile and raster file do not seem to have same proj4string:\n')
+    cat('  shapefile: ', shp_prj, '\n')
+    cat('  raster:    ', rst_prj, '\n')
     stop('Exiting process; please resolve projections or set override_p4s = TRUE')
   } else {
     message('Shapefile and raster file seem to have same proj4string, or override_p4s == TRUE:\n  shapefile: ',

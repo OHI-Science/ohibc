@@ -122,14 +122,15 @@ rgn2cell_file <- file.path(dir_goal, 'spatial/rgn2cell.csv')
 loiczid_rast_file <- file.path(dir_goal, 'spatial/loiczid.tif')
 
 if(!file.exists(rgn2cell_file) | !file.exists(loiczid_rast_file)) {
-  ### Read in OHIBC polygons, in WGS84 CRS
-  rgn_lyr <- 'ohibc_rgn_wgs84'
+  ### Read in OHIBC polygons, transform to WGS84 CRS
+  rgn_lyr <- 'ohibc_rgn'
   
   message(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
   poly_bc_rgn <- readOGR(dsn     = path.expand(dir_rgn), 
                          layer   = rgn_lyr,
                          verbose = FALSE, 
-                         stringsAsFactors = FALSE)
+                         stringsAsFactors = FALSE) %>%
+    spTransform(p4s_wgs84)
   
   poly_bc_rgn@data <- poly_bc_rgn@data %>%
     mutate(rgn_id = as.integer(rgn_id))
@@ -602,9 +603,10 @@ Create final outputs for 3nm zone for resilience calculations.  In this step, ra
 ``` {r calc_3nm_SPP_status}
 
 ### Read in OHIBC 3nm offshore polygons, in WGS84 CRS
-rgn_lyr <- 'ohibc_offshore_3nm_wgs84'
+rgn_lyr <- 'ohibc_offshore_3nm'
 poly_bc_3nm <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
-                       verbose = FALSE, stringsAsFactors = FALSE)
+                       verbose = FALSE, stringsAsFactors = FALSE) %>%
+    spTransform(p4s_wgs84)
 
 rgn2cell_3nm_df <- spp_rgn2cell(poly_bc_3nm, rgn_tag = '_3nm', reload = FALSE)[[1]]
 
