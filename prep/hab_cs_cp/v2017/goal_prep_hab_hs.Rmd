@@ -1,0 +1,215 @@
+---
+title: 'OHIBC Howe Sound: Habitat goal score'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(raster)
+library(rgdal)
+library(rgeos)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+dir_git     <- path.expand('~/github/ohibc')
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal      <- 'hab_cs_cp'
+scenario  <- 'vHS'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_v2016_anx <- file.path(dir_anx, goal, 'v2016')
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### support scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### gdal_rast2, plotting
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+```
+
+# Summary
+
+Pull data layers to calculate Howe Sound Habitats goal
+
+- Seagrass
+    - excluded from analysis: nutrient pressure insignificant; no model yet for log booms/development/sedimentation pressure
+- Saltmarsh
+    - land use change
+- Coastal forests
+    - excluded from analysis: does not directly support marine biodiversity
+- Soft bottom
+    - trawl pressure
+- EBSAs? 
+    - excluded from analysis: none present in Howe Sound
+- Howe Sound-specific sponges
+    - protection by closures, reference point 100% protected
+    - alternative model based on trawl pressure
+
+# Data Sources
+
+* **Seagrass and salt marsh polygons**
+    * **Reference**: CEC. 2016. North America’s Blue Carbon: Assessing Seagrass, Salt Marsh and Mangrove Distribution and Carbon Sinks. Montreal, Canada: Commission for Environmental Cooperation. 54 pp.
+    * **Downloaded**: http://www.cec.org/sites/default/files/Atlas/Files/blue_carbon/BlueCarbon_Shapefile.zip (downloaded 8/25/16)
+    * **Description**:  shapefiles of marine seagrass, mangrove, and salt marsh habitat in North America
+    * **Native data resolution**: NA   
+    * **Time range**: NA (data were collected over many years but no time series available)
+    * **Format**:  vector shapefiles
+* **Land cover raster 1990-2000-2010**
+    * **Reference**: Land Use 1990, 2000 and 2010. 2015. Agriculture and Agri-Foods Canada.
+    * **Downloaded**: http://open.canada.ca/data/en/dataset/18e3ef1a-497c-40c6-8326-aac1a34a0dec (downloaded 10/7/16)
+    * **Description**:  Land cover raster covering all of Canada south of 60° N
+    * **Native data resolution**: 30 meters   
+    * **Time range**: 1990, 2000, 2010
+    * **Format**:  GeoTIFF
+* Sponge reef closures
+* Sponge reef locations
+* Soft bottom habitat
+* Shrimp trawl pressures
+
+
+***
+
+# Methods
+
+Biodiverse habitats are scored based on the relative extent and health.  They are not weighted when combined - each habitat is assumed to have equal importance to the others.  Habitats not present in a region will not be counted against the score.
+
+## Coastal Forests
+
+Since they do not directly support marine biodiversity, coastal forests are not included in this goal.
+
+## Salt marsh
+
+Condition of salt marsh habitat will be scored based on its current extent relative to the extent in 1990.
+
+$$\frac{C_{sm}}{C_{sm_{ref}}} = \frac{A_c}{A_{ref}}$$
+
+where $A_c$ is the set of current extent of habitat, $A_{ref}$ is the reference extent of habitat.  Using extent rasters at equal area projection, the condition can be calculated simply using the ratio of cell counts for current and reference time periods.
+
+## Seagrasses
+
+Since seagrass condition is based on pressure rather than area, the model is different from saltmarsh and forests.
+
+$$\frac{C_{sg}}{C_{sg_{ref}}} = \displaystyle\sum_{j=1}^{n_c}((1 - p_j) * A_j) / A_{total}$$
+
+where $p$ represents the nutrient pressure (compared to a reference of zero human-introduced nutrients).  Using an equal area projection raster and a fixed habitat extent, we can calculate this more simply by $1 - \bar{p}$.  Seagrasses are currently excluded from analysis as model does not currently account for large concerns including log booms.
+
+## Soft-Bottom Sediment
+
+Soft-bottom sediment condition is based on trawling pressure from the shrimp trawl fishery.
+
+$$\frac{C_{sb}}{C_{sb_{ref}}} = \displaystyle\sum_{j=1}^{n_c}((1 - p_j) * A_j) / A_{total}$$
+
+where $p$ represents the trawling pressure, where trawl effort $E_{trawl}$ is based upon the annual mean of trawl hours from 2005-2015:
+
+$$p_{trawl} = E_{trawl}/E_{trawl_{max}}$$
+
+## Sponge reef
+
+Sponge reef conditions are calculated using a simple ratio of protected area to total area.  Protections are afforded by sponge reef closures but these only cover certain reefs.
+
+$$\frac{C_{sp}}{C_{sp_{ref}}} = A_{closure} / A_{total}$$
+
+## Goal model
+
+The habitat goal model is the unweighted mean of all biodiversity-supporting marine habitats.  
+
+$$x_{HAB} = \displaystyle\sum_{i=1}^{n}\left(\frac{C_i}{C_{i_{ref}}} * \frac{A_i}{A_T}\right)$$
+
+``` {r load_hab_data}
+
+hab_cf <- read_csv(file.path(dir_goal, 'int/howe_forest_status_trend.csv')) %>%
+  select(status_yr = year, area_km2 = area_nonzero_cf_km2) %>%
+  arrange(status_yr) %>%
+  mutate(hab = 'cf',
+         c_cref = area_km2 / first(area_km2),
+         trend = (c_cref - lag(c_cref))/((status_yr - lag(status_yr)) * lag(c_cref)))
+
+  ### trend is in absolute change per year
+
+hab_sm <- read_csv(file.path(dir_goal, 'int/howe_saltmarsh_status_trend.csv')) %>%
+  select(status_yr = year, area_km2 = area_sm_km2) %>%
+  arrange(status_yr) %>%
+  mutate(hab = 'sm',
+         c_cref = area_km2 / first(area_km2),
+         trend = (c_cref - lag(c_cref))/((status_yr - lag(status_yr)) * lag(c_cref)))
+  ### trend is in proportional change per year
+
+# hab_sg <- read_csv(file.path(dir_goal, 'int/howe_seagrass_status_trend.csv')) %>%
+#   select(status_yr = year, area_km2 = sg_area_km2, pres_mean_sg) %>%
+#   arrange(status_yr) %>%
+#   mutate(hab = 'sg',
+#          c_cref = 1 - pres_mean_sg) %>%
+#   select(-pres_mean_sg)
+# hab_sg$trend <- lm(formula = c_cref ~ status_yr, 
+#                    data = hab_sg %>% 
+#                      filter(status_yr %in% c(2003:2013)))[['coefficients']]['status_yr']
+  ### trend is in absolute change per year
+
+hab_sp <- read_csv(file.path(dir_goal, 'int/sponge_closure_summary.csv')) %>%
+  mutate(hab = 'sp',
+         c_cref = area_prot_km2 / area_tot_km2,
+         status_yr = 2015) %>%
+  select(hab, area_km2 = area_tot_km2, c_cref, status_yr)
+
+hab_sb <- read_csv(file.path(dir_goal, 'int/soft_btm_trawl_summary.csv')) %>%
+  mutate(hab = 'sb',
+         c_cref = 1 - weighted_prs,
+         status_yr = 2015) %>%
+  select(hab, area_km2 = area_tot_km2, c_cref, status_yr)
+
+hab_scores <- hab_cf %>%
+  bind_rows(hab_sm) %>%
+  # bind_rows(hab_sg) %>%
+  bind_rows(hab_sb) %>%
+  bind_rows(hab_sp)
+  
+hab_scores_summary <- hab_scores %>%
+  group_by(hab) %>%
+  filter(hab != 'cf') %>%
+  filter(status_yr == max(status_yr)) %>%
+  ungroup() %>% 
+  mutate(hab_st_tot = sum(c_cref) / n(),
+         hab_tr_tot = sum(trend, na.rm = TRUE) / sum(!is.na(trend)))
+  
+write_csv(hab_scores_summary, file.path(dir_goal, 'output', 'hab_scores_summary.csv'))
+
+knitr::kable(hab_scores_summary, caption = 'Habitats')
+
+hab_scores_layer <- hab_scores_summary %>%
+  select(hab_status = hab_st_tot,
+         hab_trend  = hab_tr_tot) %>%
+  distinct()
+
+write_csv(hab_scores_layer, file.path(dir_goal, 'output', 'hab_scores.csv'))
+
+```     
+
+***
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup()
+```
+

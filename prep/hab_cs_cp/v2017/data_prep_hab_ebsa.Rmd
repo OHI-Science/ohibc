@@ -32,7 +32,7 @@ dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
 
 ### goal specific folders and info
 goal      <- 'hab'
-scenario  <- 'v2016'
+scenario  <- 'v2017'
 dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
 dir_goal_anx <- file.path(dir_anx, goal, scenario)
 
@@ -78,8 +78,8 @@ create layers for HAB, CP, CS goals; calculate HAB goal
   
 # Methods
 
-- EBSA layers as spatial extent of pressure-based models
-- EBSA rasters will be created at 500 m resolution; should be fine since features are large
+- EBSA layers as static spatial extent to inform pressure-based models
+- EBSA rasters will be created at 500 m resolution; should be adequate since features are large
     - stored on git-annex
     
 ``` {r create_OHI_EBSA_shp}
@@ -491,6 +491,7 @@ ebsa_trawl_rgn_sum <- ebsa_trawl_rgn_df %>%
 write_csv(ebsa_trawl_rgn_sum, file.path(dir_goal, 'int', 'ebsa_trawl_rgn_summary.csv'))
 
 ```
+
 ***
 
 pull in soft bottom habitat and run again against trawl data.  Reference point will be based on highest trawl effort on soft bottom habitat, scaled to 110% of that max value.

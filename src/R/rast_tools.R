@@ -17,7 +17,6 @@ filter_rast <- function(rast, vals, cut = TRUE, revalue = NA) {
     }
   }
 
-
   return(rast_filtered)
 }
 

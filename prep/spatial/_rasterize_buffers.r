@@ -14,7 +14,7 @@ source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of c
 dir_spatial <- file.path(dir_git, 'prep/spatial') ### github: general buffer region shapefiles
 
 dir_anx <- file.path(dir_M, 'git-annex/bcprep')
-
+dir_spatial_anx <- file.path(dir_anx, 'spatial/v2017')
 ### provenance tracking
 library(provRmd); prov_setup()
 
@@ -35,10 +35,11 @@ p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 # * create a raster of these features, with a rgn_id value to reflect the region ID with the greatest amount of overlap.
 
 
-coast_ws_tif_file <- file.path(dir_spatial, 'watershed/ohibc_coastal_watersheds_500m.tif')
+coast_ws_tif_file <- file.path(dir_spatial_anx, 'raster/ohibc_coastal_watersheds_30m.tif')
 all_ws_gdb_file   <- file.path(dir_anx, '_raw_data/databc/FWA_BC.gdb')
 
-rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif'))
+# rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif'))
+rast_base <- raster(file.path(dir_spatial_anx, 'raster/ohibc_offshore_3nm_30m.tif'))
 
 if(!file.exists(coast_ws_tif_file)) {
   ### is there a watershed polygon?
@@ -61,7 +62,7 @@ if(!file.exists(coast_ws_tif_file)) {
   } else git_prov(all_ws_gdb_file, filetype = 'input')
 
   ### is there a full watershed raster?
-  all_ws_tif <- file.path(dir_anx, '_raw_data/databc', 'FWA_BC_assessment_watersheds.tif')
+  all_ws_tif <- file.path(dir_anx, '_raw_data/databc', 'FWA_BC_assessment_watersheds_30m.tif')
   if(!file.exists(all_ws_tif)) {
     all_ws_rast <- gdal_rast2(src = all_ws_shp,
                               rast_base = rast_base,
@@ -71,43 +72,25 @@ if(!file.exists(coast_ws_tif_file)) {
   }
 
   ### determine which cells overlap 1 km inland buffer, and map rgn_ids to ws_ids
-  coastal_rast <- raster(file.path(dir_spatial, 'raster', 'ohibc_inland_1km_raster_500m.tif'))
+  coastal_rast <- raster(file.path(dir_spatial_anx, 'raster', 'ohibc_inland_1km_30m.tif'))
   all_ws_rast  <- raster(all_ws_tif)
-  coastal_ws_ids <- crosstab(coastal_rast, all_ws_rast) %>%
-    mutate(rgn_id = as.integer(as.character(Var1)),
-           ws_id  = as.integer(as.character(Var2)),
-           freq   = as.integer(Freq)) %>%
+  coastal_ws_ids <- crosstab(coastal_rast, all_ws_rast)
+
+  coastal_ws_df <- coastal_ws_ids %>%
+    as.data.frame() %>%
+    setNames(c('rgn_id', 'ws_id', 'freq')) %>%
+    mutate(rgn_id = as.integer(as.character(rgn_id)),
+           ws_id  = as.integer(as.character(ws_id)),
+           freq   = as.integer(freq)) %>%
     filter(!is.na(rgn_id) & freq != 0 & !is.na(ws_id)) %>%
     group_by(ws_id) %>%
     arrange(desc(freq)) %>% ### the instance with highest frequency is on top
     summarize(rgn_id = first(rgn_id)) ### select the rgn_id with highest frequency for that watershed
 
   ### from the all watershed raster, select only those whose ids match the coastal IDs
-  coastal_ws_rast <- subs(all_ws_rast, coastal_ws_ids, by = 'ws_id', which = 'rgn_id')
+  coastal_ws_rast <- subs(all_ws_rast, coastal_ws_df, by = 'ws_id', which = 'rgn_id')
   writeRaster(coastal_ws_rast, coast_ws_tif_file, overwrite = TRUE)
 
 }
 
-
-# Analysis will be done using raster::crosstab() comparing the protected area raster to various region rasters.  Using a 500 m raster is the coarsest that should be used on a 1 km feature; a base raster is available at `~/github/ohibc/prep/spatial/ohibc_rgn_raster_500m.tif`.
-#
-# * If rasters are not already available for 1 km inland, 3 nm offshore, and EEZ:
-#     * Read in buffer shapefiles to SpatialPolygonsDataFrames
-#     * rasterize to same extents/resolution as 500m base raster.
-
-
-### check for presence of buffer rasters
-rast_3nm_file <- file.path(dir_spatial, 'raster/ohibc_offshore_3nm_raster_500m.tif')
-reload <- FALSE
-
-if(!file.exists(rast_3nm_file) | reload == TRUE) {
-  message('Creating region buffer rasters from region buffer shapefiles')
-  ### Unfortunately: raster::rasterize() fills in large chunks where there
-  ### should be islands.  Need to use gdal_rasterize().
-
-  poly_3nm_file <- file.path(dir_spatial, 'ohibc_offshore_3nm.shp')
-  # poly_3nm <- readShapePoly(str_replace(poly_3nm_file, '.shp', ''), proj4string = CRS(p4s_bcalb))
-
-  lsp_rasterize(poly_3nm_file, rast_3nm_file, rast_eez, 'rgn_id')
-}
 

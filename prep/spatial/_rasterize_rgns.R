@@ -12,7 +12,7 @@ dir_spatial <- '~/github/ohibc/prep/spatial'
 
 ### set up region to be rasterized
 # rgn_shp_file  <- '~/github/ohibc/prep/spatial/ohibc_rgn.shp'
-rgn_shp_file  <- '~/github/ohibc/prep/spatial/ohibc_inland_2km.shp'
+rgn_shp_file  <- '~/github/ohibc/prep/spatial/ohibc_inland_1km.shp'
 # rgn_shp_file  <- '~/github/ohibc/prep/spatial/ohibc_offshore_3nm.shp'
 
 ### set up base raster

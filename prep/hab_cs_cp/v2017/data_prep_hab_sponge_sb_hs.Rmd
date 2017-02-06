@@ -1,0 +1,485 @@
+---
+title: 'OHIBC Howe Sound: sponge and soft-bottom data prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(raster)
+library(rgdal)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+dir_git     <- '~/github/ohibc'
+dir_spatial <- file.path(dir_git, 'prep/spatial') %>% ### github: general buffer region shapefiles
+  path.expand()
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal      <- 'hab_cs_cp'
+scenario  <- 'vHS'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### support scripts
+# source(file.path('~/github/ohibc/src/R/map_scores.R'))
+  ### score plotting scripts
+source(file.path(dir_git, 'src/R/rast_tools.R'))
+  ### raster plotting and analyzing scripts
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+
+```
+
+# Summary
+
+create sponge and soft-bottom layers for HAB goals for Howe Sound specifically.  Sponge layers will be at a finer resolution than the overall BC layer, in order to better capture fine-scale sponge reef habitats. From these layers, calculate trawl pressures for each habitat type. We also calculate the area of sponge reefs protected by fishing exclusion areas as an alternate method.
+
+***
+
+# Data Source [NOTE: can be copied from README.md in rawdata file]
+**Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+
+**Downloaded**: [date downloaded or received]
+
+**Description**:  [e.g., surface aragonite state]
+
+**Native data resolution**: [e.g., 1 degree, 30 m, etc.]   
+
+**Time range**: [e.g., 1880-1899, monthly data provided for each year] 
+
+**Format**:  [e.g. NetCDF]
+
+***
+  
+# Methods
+
+``` {r create_HS_sponge_shp}
+
+
+### set up the extents for Howe Sound
+ext_howe <- extent(c(1170000, 1210000, 470000, 530000))
+
+### No EBSAs are present in Howe Sound.  Sponge locations from CORI
+
+poly_sponge_file <- file.path(dir_goal, 'sponges/hs_sponges.shp')
+rast_sponge_file <- file.path(dir_goal, 'raster/howe_sponge_30m.tif')
+
+### set up base raster/region raster file; set to fine scale to capture features.
+### For sponge reefs, smaller features ~75-90 m; use 30 m (sim to saltmarsh/forests)
+rast_base <- file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif') %>%
+  raster() %>%
+  crop(ext_howe)
+res(rast_base) <- 30
+
+gdal_rast2(src = poly_sponge_file,
+           rast_base,
+           dst = rast_sponge_file,
+           value = 'id',
+           override_p4s = TRUE)
+
+### set up OHIBC Howe Sound 30-m offshore raster, for easy clipping
+poly_hs_file <- file.path(dir_spatial, 'howe_sound_offshore_3nm.shp')
+rast_hs_file <- file.path(dir_goal, 'raster/howe_offshore_3nm_30m.tif')
+
+hs_rast <- gdal_rast2(src = poly_hs_file,
+               rast_base,
+               dst = rast_hs_file,
+               value = 'rgn_id',
+               override_p4s = TRUE)
+
+hs_rast <- hs_rast/hs_rast ### set all values to 1 or NA
+
+writeRaster(hs_rast, rast_hs_file, overwrite = TRUE)
+
+```
+
+***
+
+Sponge reef and soft-bottom habitat will be based on trawl pressures.  DFO data shows significant shrimp trawl effort within Howe Sound, and while some groundfish trawl occurs immediately outside, none appears to occur within the sound.  Shrimp trawl seems to indicate `sum_tow_ti` as tow time, which provides an estimate of trawling effort.
+
+NOTE: scripts to create shrimp trawl effort layers are in `ohibc/prep/hab_cs_cp/v2016`.  These raster layers will be used in this analysis.  
+
+***
+
+## Sponge reef by trawl pressure
+
+For sponge reefs, we can calculate trawl pressure as any trawl activity in a cell - binary method - or by average trawl effort - effort method.  
+
+* The binary approach emphasizes the long-term damage caused by trawling on these fragile and slow-growing ecosystems (for full BC, this method includes corals, seamounts, sponge reefs, hydrothermal vents).  Any trawling damage is essentially total; further effort does not harm it any more.
+* the effort approach allows for decreased damage from decreased effort.
+
+This script returns a dataframe with:
+
+* proportion of years trawled (0 - 1)
+* mean trawl effort over the time series (in hours)
+* the number of sponge cells (and area in km^2^) so affected.
+
+``` {r crosstab_sponge_hab_to_trawl_pressure}
+
+### get sponge raster and set all presence to 1 (non-presence is NA) (this allows for easy masking later)
+### NOTE: the polygons have some sponge regions listed as id == 0; these are dead bioherms
+###   so it's OK to exclude them (they get converted to NAs)
+sponge_rast <- raster(file.path(dir_goal, 'raster', 'howe_sponge_30m.tif'))
+values(sponge_rast)[!is.na(values(sponge_rast))] <- 1
+
+hs_rast <- raster(rast_hs_file)
+
+### get shrimp trawl rasters from OHIBC v2016; reproject to finer scale of sponge raster
+trawl_rast_files <- list.files(file.path(dir_goal_anx, '../v2016/tif'),
+                             pattern = 'shrimp_trawl', full.names = TRUE)
+trawl_rasts <- stack(trawl_rast_files) %>%
+  projectRaster(sponge_rast, method = 'ngb')
+trawl_rasts <- trawl_rasts * hs_rast ### crop to 3nm Howe Sound boundaries
+
+# set all NAs to 0; later step will count these as sponge with no pressures
+values(trawl_rasts)[is.na(values(trawl_rasts))] <- 0
+
+### for slow-growing sponges, any trawl is bad; set all trawl values to 0/1
+trawl_rasts_bin <- trawl_rasts
+values(trawl_rasts_bin)[values(trawl_rasts_bin) > 0] <- 1
+  
+### mask by the sponge areas; multiply by NA/1 sponge presence raster
+sponge_trawl_rasts_bin <- trawl_rasts_bin * sponge_rast
+sponge_trawl_rasts_hrs <- trawl_rasts * sponge_rast
+  
+### Most years, all sponges fall within trawl reporting regions.  Add stack
+### and divide by number of years to get average trawl pressure per year
+sponge_trawl_bin_totes <- calc(sponge_trawl_rasts_bin, sum)/nlayers(sponge_trawl_rasts_bin)
+sponge_trawl_hrs_totes <- calc(sponge_trawl_rasts_hrs, sum)/nlayers(sponge_trawl_rasts_hrs)
+
+sponge_trawl_df <- data.frame(sponge_trawl_bin_prs = values(sponge_trawl_bin_totes),
+                              sponge_trawl_hrs_prs = values(sponge_trawl_hrs_totes)) %>%
+  filter(!is.na(sponge_trawl_bin_prs) | !is.na(sponge_trawl_hrs_prs)) %>%
+  group_by(sponge_trawl_bin_prs, sponge_trawl_hrs_prs) %>%
+  summarize(n_cells_prs = n(),
+            a_prs_km2   = n_cells_prs *0.03^2) %>%
+  ungroup() %>%
+  mutate(a_tot_km2 = sum(a_prs_km2))
+
+write_csv(sponge_trawl_df, file.path(dir_goal, 'int', 'sponge_pressures.csv'))
+
+```
+
+
+Based on the DFO sponge closures and DFO shrimp trawl data, all of the identified sponge reefs are at risk of trawling pressure.  Several options for scores:
+
+* A pure binary method would result in a score of 0.  
+* A method that counts binary trawl/no trawl by year, essentially probability of an area being trawled in any given year, will result in slightly higher score.  
+* Counting by actual effort will likely return an even higher score.  Here we use a simple linear rescale, though we would like to consider methods (e.g. log rescale) to give higher relative weight to small pressures, as any damage is likely to be long-lasting.
+
+``` {r calc_scores_sponge}
+
+### read dataframe of sponge trawl effort by region
+sponge_trawl_df <- read_csv(file.path(dir_goal, 'int', 'sponge_pressures.csv'))
+
+### sponge cells with any trawl pressure are scored 1; sponge cells with no
+### pressure are scored 0; non-sponge cells are NA.  sponge hab pressure
+### is mean value across sponges only.
+sponge_trawl_bin_sum <- sponge_trawl_df %>%
+  filter(!is.na(sponge_trawl_bin_prs)) %>% ### this eliminates non-sponge cells (NA = non-sponge)
+  mutate(effort_bin_area = sponge_trawl_bin_prs * a_prs_km2) %>%
+  summarize(weighted_bin_prs = sum(effort_bin_area)/sum(a_prs_km2),
+            hab_status_bin   = 1 - weighted_bin_prs)
+
+sponge_trawl_hrs_sum <- sponge_trawl_df %>%
+  filter(!is.na(sponge_trawl_hrs_prs)) %>% ### this eliminates non-sponge cells (NA = non-sponge)
+  mutate(trawl_effort  = sponge_trawl_hrs_prs/max(sponge_trawl_hrs_prs),
+         effort_hrs_area = trawl_effort * a_prs_km2) %>%
+  summarize(weighted_hrs_prs = sum(effort_hrs_area)/sum(a_prs_km2),
+            hab_status_hrs   = 1 - weighted_hrs_prs)
+
+sponge_trawl_sum <- sponge_trawl_bin_sum %>%
+  bind_cols(sponge_trawl_hrs_sum)
+
+write_csv(sponge_trawl_sum, file.path(dir_goal, 'int', 'sponge_trawl_summary.csv'))
+
+```
+
+This table outlines the pressures (`prs`) and status for the binary method (`bin`) and the rescaled log(hours) method (`hrs`).
+
+`r knitr::kable(sponge_trawl_sum)`
+
+``` {r plot_sponge_trawl_map}
+library(tmap)
+
+hs_poly <- rgdal::readOGR(dsn = dir_spatial, 
+                   layer = 'howe_sound_offshore_3nm')
+
+trawl_hrs_all <- calc(trawl_rasts, sum)/nlayers(trawl_rasts)
+
+sponge_rast1 <- raster(file.path(dir_goal, 'raster', 'howe_sponge_30m.tif'))
+sponge_rast1 <- sponge_rast1/sponge_rast1
+
+sponge_map <- tm_shape(trawl_hrs_all) +
+    tm_raster(palette = 'Reds',
+              breaks = c(0, 1, 10, 100, 1000, 10000, Inf),
+              title  = 'Trawl effort (hrs)',
+              alpha = .6) +
+  tm_shape(sponge_rast1) +
+    tm_raster(palette = 'darkgreen',
+              style = 'cat',
+              labels = 'present',
+              title = 'Sponge reef') +
+  tm_shape(hs_poly) +
+    tm_polygons(col = NA,
+                border.col  = 'darkblue',
+                alpha = 0)
+  
+print(sponge_map)
+```
+
+***
+
+## Sponge reef by protection status
+
+This method of sponge reef habitat scoring will calculate the amount of sponge reef (based upon the georeferenced/polygonized raster provided by Karin Bodtker of CORI) is protected by sponge reef fishing closures (based upon the data from DFO).
+
+By this method, and per discussion with Andrew Day and Karin Bodtker, the reference point should be 100% of sponge reef area protected by sponge reef closures.
+
+``` {r prepare_sponge_prot_status}
+
+# Note: Strait of Georgia sponge reefs not in main EBSA polygons; use
+# sponge reef closures layer to capture these.  
+poly_closure_file <- file.path(dir_anx, '_raw_data/dfo_khunter/d2016',
+                              'management_boundaries/mgmt_related_boundaries',
+                              'Strait_of_Georgia_Sponge_Reef_Fishing_Closures.shp')
+rast_closure_file <- file.path(dir_goal, 'raster/howe_sponge_closures_30m.tif')
+
+### set up base raster/region raster file; set to fine scale to capture features.
+### For sponge reefs, smaller features ~75-90 m; use 30 m (sim to saltmarsh/forests)
+rast_base <- file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif') %>%
+  raster() %>%
+  crop(ext_howe)
+res(rast_base) <- 30
+
+closure_rast <- gdal_rast2(src = poly_closure_file,
+           rast_base,
+           dst = rast_closure_file,
+           value = 'OBJECTID',
+           override_p4s = TRUE)
+
+### get sponge raster and set all presence to 1 (non-presence is NA) (this allows for easy masking later)
+### NOTE: the polygons have some sponge regions listed as id == 0; these are dead bioherms
+###   so it's OK to exclude them (they get converted to NAs).  Keep other IDs for later comparison
+sponge_reef_rast <- raster(file.path(dir_goal, 'raster', 'howe_sponge_30m.tif'))
+
+closure_rast <- closure_rast/closure_rast ### ditch any ID numbers, convert all to 1
+
+closure_df <- data.frame(reef_id = values(sponge_reef_rast),
+                         closure = values(closure_rast)) %>%
+  group_by(reef_id, closure) %>%
+  summarize(n_cells = n(),
+            a_km2   = n_cells * 0.03^2)
+
+write_csv(closure_df, file.path(dir_goal, 'int', 'sponge_reef_closure.csv'))
+
+```
+
+``` {r calc_scores_sponge_closures}
+
+### read dataframe of sponge reefs by protection status (1 = protected by closure)
+sponge_prot_df <- read_csv(file.path(dir_goal, 'int', 'sponge_reef_closure.csv')) %>%
+  filter(!is.na(reef_id)) %>%
+  mutate(protected = ifelse(is.na(closure), 'unprotected', 'protected')) %>%
+  mutate(area_tot_km2 = sum(a_km2)) %>%
+  group_by(protected) %>%
+  summarize(area_km2 = sum(a_km2),
+            area_tot_km2 = first(area_tot_km2))
+
+sponge_prot_sum <- sponge_prot_df %>%
+  filter(protected == 'protected') %>%
+  rename(area_prot_km2 = area_km2) %>%
+  mutate(status = area_prot_km2 / area_tot_km2)
+         
+write_csv(sponge_prot_sum, file.path(dir_goal, 'int', 'sponge_closure_summary.csv'))
+
+knitr::kable(sponge_prot_sum)
+
+```
+
+``` {r plot_sponge_prot_map}
+
+hs_poly <- rgdal::readOGR(dsn = dir_spatial, 
+                   layer = 'howe_sound_offshore_3nm')
+
+reef_rast <- sponge_reef_rast/sponge_reef_rast * 2
+values(reef_rast)[is.na(values(reef_rast))] <- 0
+values(reef_rast)[!is.na(values(closure_rast))] <- values(reef_rast)[!is.na(values(closure_rast))] + 1
+values(reef_rast)[values(reef_rast) < 1] <- NA
+
+sponge_prot_map <- tm_shape(hs_poly) +
+  tm_polygons(col = 'lightblue',
+              border.col  = 'darkblue',
+              alpha = .3) +
+  tm_shape(reef_rast) +
+    tm_raster(style = 'cat',
+              title = 'sponge reef',
+              palette = c('green4', 'red', 'green2'),
+              labels = c('closure (no reef)', 'open reef', 'closed reef'))
+  
+print(sponge_prot_map)
+```
+
+***
+
+## Soft-bottom habitat trawl pressures
+
+Soft bottom habitat will be treated differently from sponges, as soft-bottom sediment is able to recover more quickly from trawling than sponges and other structure-forming habitats.  
+
+``` {r create_soft_bottom_raster, echo = FALSE}
+rast_soft_btm_file <- file.path(dir_goal_anx, 'raster/hs_soft_btm_30m.tif')
+
+if(!file.exists(rast_soft_btm_file)) {
+
+  message('Loading benthic type layer')
+  poly_benthic_bcmca_file <- file.path(file.path(dir_anx, '_raw_data', 'bcmca/d2015',
+                                  'bcmca_eco_set_physical_complete/FeatureData_Physical'),
+                                'BCMCA_ECO_Physical_BenthicClasses_DATA.shp')
+  
+  rast_base <- file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif') %>%
+    raster() %>%
+    crop(ext_howe)
+  res(rast_base) <- 30
+
+  # rast_benthic_raw <- gdal_rast2(src = poly_benthic_bcmca_file, 
+  #                             rast_base = rast_base,
+  #                             dst = file.path(dir_goal_anx, 'raster/hs_benthic_raw_30m.tif'),
+  #                             override_p4s = TRUE)
+  
+          
+  ### process raw benthic Marxan_ID values based on:
+  #     * 1000's = depth              * 10's = substrate          * 1's = BPI
+  #         * 1000 <- 0 - 20 m            * 10 <- mud  (HARD?)        * 1 <- ridge
+  #         * 2000 <- 20 - 50 m           * 20 <- sand                * 2 <- depression
+  #         * 3000 <- 50 - 200 m          * 30 <- hard (MUD?)         * 3 <- flat
+  #         * 4000 <- 200 m +             * 90 <- unknown             * 4 <- slope
+  # NOTE THAT THE SUBSTRATE VALUES MISMATCH IN THE BCMCA METADATA... VALUES IN PARENS SEEM MORE LIKELY
+  
+  rast_benthic_raw <- raster(file.path(dir_goal_anx, 'raster/hs_benthic_raw_30m.tif'))
+  rast_soft_btm <- rast_benthic_raw - round(rast_benthic_raw, -3)
+  rast_soft_btm <- round(rast_soft_btm/10) 
+        
+  ### Filter the benthic type layer to appropriate soft bottom cells
+  # values(rast_soft_btm)[!values(rast_soft_btm) %in% c(1, 2)] <- NA ### benthic type 1 and 2 are mud and sand substrate; 3 is hard, 9 is unknown WRONG!!!?
+  values(rast_soft_btm)[!values(rast_soft_btm) %in% c(2, 3)] <- NA ### benthic type 2 and 3 are sand and mud substrate; 1 is hard, 9 is unknown
+  
+  ### Intersect with 3 nm offshore raster (entire Howe Sound zone)
+  rast_3nm <- raster(file.path(dir_goal_anx, 'raster/howe_rgn_30m.tif')) %>%
+    projectRaster(rast_soft_btm, method = 'ngb') ### not the same origin, so shift it
+  
+  rast_soft_btm <- (rast_soft_btm/rast_soft_btm) * rast_3nm ### convert all soft-btm values to 1, then mask by multiplying by rast_3nm
+
+  writeRaster(rast_soft_btm, rast_soft_btm_file, overwrite = TRUE)
+    
+} else {
+  message('Soft bottom raster already exists at: \n  ', rast_soft_btm_file)
+}
+
+```
+
+``` {r crosstab_soft_bottom_habs_to_trawl_pressure}
+
+sb_rast <- raster(file.path(dir_goal_anx, 'raster/hs_soft_btm_30m.tif'))
+
+trawl_rast_files <- list.files(file.path(dir_goal_anx, '../v2016/tif'),
+                             pattern = 'shrimp_trawl', full.names = TRUE)
+if(!exists('trawl_rasts')) {
+  trawl_rasts <- stack(trawl_rast_files) %>%
+    projectRaster(sb_rast, method = 'ngb')
+} else 
+  git_prov(trawl_rast_files, filetype = 'input')
+
+# set all NAs to 0; later step will count these as sb with no pressures
+values(trawl_rasts)[is.na(values(trawl_rasts))] <- 0
+
+### mask by the sb areas; multiply by NA/1 sb presence raster
+sb_trawl_rasts <- trawl_rasts * sb_rast
+  
+### Add stack and divide by number of years to get average trawl pressure per year
+sb_trawl_totes <- calc(sb_trawl_rasts, sum)/nlayers(sb_trawl_rasts)
+
+sb_trawl_df <- data.frame(sb_trawl_prs = values(sb_trawl_totes)) %>%
+  filter(!is.na(sb_trawl_prs)) %>%
+  group_by(sb_trawl_prs) %>%
+  summarize(n_cells_prs = n(),
+            a_prs_km2   = n_cells_prs *0.03^2) %>%
+  ungroup() %>%
+  mutate(a_tot_km2 = sum(a_prs_km2))
+
+write_csv(sb_trawl_df, file.path(dir_goal, 'int', 'soft_btm_pressures.csv'))
+
+```
+
+*** 
+
+With the trawl effort on soft-bottom habitats by region, determine scores based on trawl effort (simple linear rescale).  We would like to consider a non-linear method (e.g. log rescale) that amplifies the effects of small trawl effort relative to large trawl effort.  This suggests that damage due to each additional unit of effort does not have the same ecological impact as those first few hours of trawling effort.
+
+``` {r calc_scores_soft_btm_trawl}
+
+### read dataframe of soft bottom trawl effort by region
+sb_trawl_df <- read_csv(file.path(dir_goal, 'int', 'soft_btm_pressures.csv')) %>%
+  mutate(sb_trawl_rescale = sb_trawl_prs/max(sb_trawl_prs))
+
+### Calculate area-weighted mean pressure
+sb_trawl_sum <- sb_trawl_df %>%
+  mutate(effort_area = sb_trawl_rescale * a_prs_km2) %>%
+  summarize(area_tot_km2 = first(a_tot_km2),
+            weighted_prs = sum(effort_area)/sum(a_prs_km2),
+            hab_status   = 1 - weighted_prs)
+
+write_csv(sb_trawl_sum, file.path(dir_goal, 'int', 'soft_btm_trawl_summary.csv'))
+
+knitr::kable(sb_trawl_sum)
+
+```
+
+``` {r plot_sb_map}
+
+# hs_poly <- readOGR(dsn = dir_spatial, 
+#                    layer = 'howe_sound_offshore_3nm',
+#                    git_prov = FALSE)
+
+sb_map <- tm_shape(hs_poly) +
+  tm_polygons(col = 'lightblue',
+              border.col  = 'darkblue',
+              alpha = .3) +
+  tm_shape(sb_trawl_totes) +
+    tm_raster(palette = 'Reds',
+              breaks = c(0, 100, 1000, 10000, Inf),
+              title  = 'Trawl effort (hrs)') +
+  tm_shape(hs_poly) +
+  tm_polygons(col = NA,
+              border.col  = 'darkblue',
+              alpha = 0)
+  
+print(sb_map)
+```
+
+***
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup()
+```
+

@@ -350,8 +350,6 @@ Salt marsh trend will be based on percentage of change from 2000 to 2010 divided
 Simple area of salt marsh extent will be included as well, for calculation of Carbon Storage and Habitat goals.
 
 
-
-
 ``` {r process_saltmarsh_rast}
 
 rast_rgn_30m <- raster(file.path(dir_goal_anx, 'raster/howe_rgn_30m.tif'))
