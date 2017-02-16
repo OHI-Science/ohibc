@@ -82,7 +82,8 @@ rescale_bprime_crit <- function(fish_stat_df,
                            bPrime),
            bPrime = ifelse(b_bmsy >= underfished_th,
                            (bmax_adj - b_bmsy) / (bmax_adj - underfished_th), ### underfished stock
-                           bPrime))
+                           bPrime),
+           bPrime = ifelse(bPrime < 0, 0, bPrime))
 
   return(fish_stat_df)
 }
@@ -93,7 +94,7 @@ f_gradient <- function(f, over_f, under_f, fmax, fmin_val) {
   x <- ifelse(f < over_f & f > under_f,                1, NA)
   x <- ifelse(f <= under_f, (f * (1 - fmin_val) / under_f + fmin_val), x)
   x <- ifelse(f >= over_f,  (fmax - f) / (fmax - over_f), x)
-  x <- ifelse(f > Fmax, NA, x)
+  x <- ifelse(f > fmax, NA, x)
   return(x)
 }
 
@@ -116,7 +117,7 @@ rescale_fprime_crit <- function(df,
                                       fmax = fmax,
                                       fmin_val = .3),
                            NA),
-           fPrime = ifelse(b_bmsy >= overfished_th & f_fmsy < Fmax,
+           fPrime = ifelse(b_bmsy >= overfished_th & f_fmsy < fmax,
                            f_gradient(f_fmsy,
                                       over_f = overfishing_th,
                                       under_f = underfishing_th,
@@ -137,8 +138,8 @@ generate_kobe_df <- function(f_fmsy_max = 2.5,
                              weighting_b = 1) {
 
   kobe_raw <- data.frame(stock  = 1,
-                     f_fmsy = rep(seq(0, f_fmsy_max, reso), each  = b_bmsy_max/reso + 1),
-                     b_bmsy = rep(seq(0, b_bmsy_max, reso), times = f_fmsy_max/reso + 1))
+                     f_fmsy = rep(seq(0, f_fmsy_max, reso), each  = round(b_bmsy_max/reso) + 1),
+                     b_bmsy = rep(seq(0, b_bmsy_max, reso), times = round(f_fmsy_max/reso) + 1))
 
   kobe <- kobe_raw %>%
     rescale_bprime_crit(overfished_th = 0.8,
