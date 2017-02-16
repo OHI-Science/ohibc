@@ -89,58 +89,68 @@ Apparently SAUP uses LOICZID cell IDs so cell borders should be on the .00 and .
 
 ``` {r identify_bc_cells}
 
-### Find cells for BC EEZ
-# bc_rgn <- readOGR(dir_spatial, 'ohibc_rgn') %>%
-#   spTransform(CRS('+init=epsg:4326'))
-# bbox(bc_rgn)
-# # min        max
-# # x -138.75908 -122.75493
-# # y   46.52686   55.93538
-xmin <- -138.75908; xmax <- -122.75493
-ymin <-   46.52686; ymax <-   55.93538
+rgn_to_saup_file <- file.path(dir_goal, 'saup/rgn_to_saup.csv')
 
-bc_cells <- getcells(sprintf('POLYGON ((%s %s, %s %s, %s %s, %s %s, %s %s))', 
-                             xmin, ymin, xmin, ymax, xmax, ymax, xmax, ymin, xmin, ymin))
+if(!file.exists(rgn_to_saup_file)) {
+  
+  ### Find cells for BC EEZ
+  # bc_rgn <- readOGR(dir_spatial, 'ohibc_rgn') %>%
+  #   spTransform(CRS('+init=epsg:4326'))
+  # bbox(bc_rgn)
+  # # min        max
+  # # x -138.75908 -122.75493
+  # # y   46.52686   55.93538
+  xmin <- -138.75908; xmax <- -122.75493
+  ymin <-   46.52686; ymax <-   55.93538
+  
+  bc_cells <- getcells(sprintf('POLYGON ((%s %s, %s %s, %s %s, %s %s, %s %s))', 
+                               xmin, ymin, xmin, ymax, xmax, ymax, xmax, ymin, xmin, ymin))
+  
+  
+  ### Create raster of cell IDs
+  saup_bc_rast   <- raster::raster(xmn = -139.0, xmx = -122.5, 
+                                   ymn =   46.5, ymx =   56.0,
+                                   resolution = .5)
+  saup_bc_rast[] <- bc_cells
+  
+  ### Find area of each cell by cell ID
+  area_df <- area(saup_bc_rast) %>%
+    crosstab(saup_bc_rast, digits = 2) %>%
+    filter(Freq == 1) %>%
+    dplyr::select(cell_id  = Var2,
+                  area_km2 = Var1) %>%
+    mutate(cell_id  = as.integer(as.character(cell_id)),
+           area_km2 = as.numeric(as.character(area_km2)))
+  
+  ### Identify cells that fall within BC regions (BC EEZ only);
+  ### extract to a list then bind to data frame.
+  bc_rgn <- readOGR(dir_spatial, 'ohibc_rgn') %>%
+    spTransform(crs(saup_bc_rast))
+  
+  rgn_to_saup_list <- raster::extract(saup_bc_rast, bc_rgn, 
+                                       weights = TRUE,
+                                       normalizeWeights = FALSE) %>%
+    lapply(FUN = function(x) as.data.frame(x, stringsAsFactors = FALSE)) %>%
+    setNames(bc_rgn@data$rgn_id)
+  
+  ### weight is how much of cell is in EEZ; but this also includes area
+  ### lost to land, not just to other regions.  Normalize cell weights
+  ### to total *ocean* area; then attach area dataframe.
+  rgn_to_saup <- rgn_to_saup_list %>%
+    bind_rows(.id = 'rgn_id') %>%
+    rename(cell_id = value) %>%
+    group_by(cell_id) %>%
+    mutate(weight = weight / sum(weight)) %>%
+    ungroup() %>%
+    left_join(area_df, by = 'cell_id')
+  
+  write_csv(rgn_to_saup, rgn_to_saup_file)
 
-
-### Create raster of cell IDs
-saup_bc_rast   <- raster::raster(xmn = -139.0, xmx = -122.5, 
-                                 ymn =   46.5, ymx =   56.0,
-                                 resolution = .5)
-saup_bc_rast[] <- bc_cells
-
-### Find area of each cell by cell ID
-area_df <- area(saup_bc_rast) %>%
-  crosstab(saup_bc_rast, digits = 2) %>%
-  filter(Freq == 1) %>%
-  dplyr::select(cell_id  = Var2,
-                area_km2 = Var1) %>%
-  mutate(cell_id  = as.integer(as.character(cell_id)),
-         area_km2 = as.numeric(as.character(area_km2)))
-
-### Identify cells that fall within BC regions (BC EEZ only);
-### extract to a list then bind to data frame.
-bc_rgn <- readOGR(dir_spatial, 'ohibc_rgn') %>%
-  spTransform(crs(saup_bc_rast))
-
-rgn_to_saup_list <- raster::extract(saup_bc_rast, bc_rgn, 
-                                     weights = TRUE,
-                                     normalizeWeights = FALSE) %>%
-  lapply(FUN = function(x) as.data.frame(x, stringsAsFactors = FALSE)) %>%
-  setNames(bc_rgn@data$rgn_id)
-
-### weight is how much of cell is in EEZ; but this also includes area
-### lost to land, not just to other regions.  Normalize cell weights
-### to total *ocean* area; then attach area dataframe.
-rgn_to_saup <- rgn_to_saup_list %>%
-  bind_rows(.id = 'rgn_id') %>%
-  rename(cell_id = value) %>%
-  group_by(cell_id) %>%
-  mutate(weight = weight / sum(weight)) %>%
-  ungroup() %>%
-  left_join(area_df, by = 'cell_id')
-
-write_csv(rgn_to_saup, file.path(dir_goal, 'saup/rgn_to_saup.csv'))
+} else {
+  message('Region-to-SAUP-cell lookup already exists; ', rgn_to_saup_file)
+  
+  git_prov(rgn_to_saup_file, filetype = 'output')
+}
 
 ```
 
@@ -214,13 +224,6 @@ if(!file.exists(saup_raw_file) | reload) {
 
 From the overall BC SAUP data by species, year, and cell, combine this with the lookup of SAUP cells to BC regions and summarize catch for each species to each region.
 
-Some analyses:
-
-Landings only, for Canada: 
-year | taxon | allocation | sector type | reported/unreported/total
-
-Landings only, for non-Canada: 
-year | taxon | allocation | sector type | reported/unreported/total
 
 ``` {r summarize_to_rgn}
 
@@ -231,7 +234,7 @@ rgn_to_saup <- read_csv(file.path(dir_goal, 'saup/rgn_to_saup.csv'))
 saup_bc_sum <- saup_bc_raw %>%
   setNames(tolower(names(.))) %>%
   filter(entityname == 'Canada') %>%
-  select(year,
+  dplyr::select(year,
          cell_id = cellid,
          allocatedcatch,
          taxonkey,
@@ -250,7 +253,7 @@ saup_bc_sum <- saup_bc_raw %>%
            sector_type_name,
            catch_type_name,
            reporting_status_name) %>%
-  summarize(rgn_catch = sum(allocatedcatch * weight)) %>%
+  summarize(rgn_catch = round(sum(allocatedcatch * weight), 2)) %>%
   group_by(year, taxonkey, rgn_id) %>%
   mutate(rgn_taxon_total = sum(rgn_catch)) %>%
   group_by(year, rgn_id) %>%
@@ -258,7 +261,7 @@ saup_bc_sum <- saup_bc_raw %>%
   ungroup()
 
 saup_bc_totcatch <- saup_bc_sum %>%
-  select(year, rgn_id, 
+  dplyr::select(year, rgn_id, 
          taxonkey, taxonsciname, taxoncomname,
          rgn_taxon_total, rgn_total) %>%
   distinct()
@@ -267,6 +270,14 @@ write_csv(saup_bc_sum, file.path(dir_goal, 'saup/saup_bc_summary.csv'))
 write_csv(saup_bc_totcatch, file.path(dir_goal, 'saup/saup_bc_totcatch.csv'))
 
 ```
+
+### Summary datatable (for most recent year only)
+
+`r DT::datatable(saup_bc_sum %>% filter(year == max(year)))`
+
+### Total catch datatable (for most recent year only)
+
+`r DT::datatable(saup_bc_totcatch %>% filter(year == max(year)))`
 
 -----
 
