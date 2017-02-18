@@ -1,0 +1,111 @@
+---
+title: 'RAM database B/Bmsy exploration'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+
+### goal specific folders and info
+goal      <- 'fis'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### Kobe plot functions
+source(file.path(dir_goal, 'kobe_fxns.R'))
+
+### set up proj4string options: BC Albers and WGS84
+p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+
+```
+
+# Summary
+
+Explore RAM to identify options for a possible global maximum B/Bmsy to use in the modified Kobe plot calculations.
+
+``` {r load_ram}
+
+# load(file.path(dir_anx, '_raw_data/ram_fisheries/d2017/RAM_v3.80/DB_Files_With_Assessment_Data/DBdata.RData'))
+load(file.path(dir_anx, '_raw_data/ram_fisheries/d2017/RAM_v3.80/DB_Files_With_Model_Fit_Data/DBdata.RData'))
+
+ts <- as.data.frame(timeseries, stringsAsFactors = FALSE)
+md <- as.data.frame(meta.data, stringsAsFactors = FALSE)
+
+b_ts <- ts %>%
+  full_join(md) %>%
+  filter(str_detect(tsid, 'BdivBmsy')) %>%
+  select(-assessid)
+
+bmax_by_stock <- b_ts %>%
+  group_by(stockid, stocklong, FisheryType, region) %>%
+  mutate(tsyear = as.integer(tsyear),
+         tsvalue = as.numeric(tsvalue)) %>%
+  arrange(desc(tsvalue)) %>%
+  summarize(max_b_bmsy = first(tsvalue),
+            max_year = first(tsyear)) %>%
+  group_by(FisheryType) %>%
+  mutate(fishery_type_max = max(max_b_bmsy)) %>%
+  group_by(region) %>%
+  mutate(region_max = max(max_b_bmsy)) %>%
+  ungroup()
+
+highest_b <- bmax_by_stock %>%
+  arrange(desc(max_b_bmsy)) %>%
+  .[1:5, 1:6]
+
+all_but_highest <- bmax_by_stock %>%
+  filter(max_b_bmsy != max(max_b_bmsy))
+
+```
+
+`r DT::datatable(bmax_by_stock)`
+
+### Top five values:
+
+`r knitr::kable(highest_b)`
+
+### Histogram with single top value removed:
+
+``` {r}
+
+hist(all_but_highest$max_b_bmsy,
+     main = 'Frequency of max B/Bmsy for RAM stocks',
+     xlab = 'Max B/Bmsy for stock',
+     ylab = '# of stocks')
+
+```
+
+### Some quantiles:
+
+``` {r}
+
+knitr::kable(quantile(bmax_by_stock$max_b_bmsy, probs = c(.1, .25, .5, .75, .9, .95, .99)) %>%
+  as.data.frame() %>%
+    setNames('stock max B/Bmsy'))
+
+```
+
+-----
