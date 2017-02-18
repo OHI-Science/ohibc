@@ -22,6 +22,7 @@ rescale_bprime_crit <- function(fish_stat_df,
            bPrime = ifelse(b_bmsy >= underfished_th,
                            (bmax_adj - b_bmsy) / (bmax_adj - underfished_th), ### underfished stock
                            bPrime),
+           bPrime = ifelse(b_bmsy >= bmax, bmax_val, bPrime),
            bPrime = ifelse(bPrime < 0, 0, bPrime))
 
   return(fish_stat_df)
@@ -81,10 +82,8 @@ generate_kobe_df <- function(f_fmsy_max = 2.5,
                      b_bmsy = rep(seq(0, b_bmsy_max, reso), times = round(f_fmsy_max/reso) + 1))
 
   kobe <- kobe_raw %>%
-    rescale_bprime_crit(overfished_th = 0.8,
-                        bmax_val = bmax_val) %>%
-    rescale_fprime_crit(overfished_th = 0.8,
-                        fmin_val = fmin_val) %>%
+    rescale_bprime_crit(bmax_val = bmax_val) %>%
+    rescale_fprime_crit(fmin_val = fmin_val) %>%
     mutate(x_geom  = (fPrime * bPrime),
            x_arith = (fPrime + bPrime) / 2)
 
