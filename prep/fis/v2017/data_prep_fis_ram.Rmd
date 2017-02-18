@@ -385,19 +385,21 @@ bstocks_ts <- bc_fish_ts %>%
 stocks_ts <- fstocks_ts %>%
   full_join(bstocks_ts, by = c('stockid', 'tsyear'))
 
-### apply 3-year rolling mean to f/fmsy; add in some vars for plotting:
+### apply 4-year rolling mean to f/fmsy; add in some vars for plotting:
 stocks_ts <- stocks_ts %>%
   arrange(stockid, tsyear) %>%
   group_by(stockid) %>%
   filter(!is.na(ts_ffmsy)) %>%
-  mutate(mean_ffmsy = zoo::rollmean(ts_ffmsy, k = 3, align = 'right', fill = NA)) %>%
-  mutate(last_bbmsy = last(ts_bbmsy),
-         last_ffmsy = last(ts_ffmsy),
-         last_mfmsy = last(mean_ffmsy),
-         last_datayear = last(tsyear)) %>%
+  mutate(mean_ffmsy = zoo::rollmean(ts_ffmsy, k = 4, align = 'right', fill = NA)) %>%
   ungroup()
 
 write_csv(stocks_ts, file.path(dir_goal, 'ram/stocks_ram_timeseries.csv'))
+
+stock_ids <- stocks_ts %>%
+  select(stockid, stocklong, areaid) %>%
+  distinct()
+
+write_csv(stock_ids, file.path(dir_goal, 'ram/ram_stock_ids.csv'))
 
 ```
 
@@ -407,7 +409,13 @@ write_csv(stocks_ts, file.path(dir_goal, 'ram/stocks_ram_timeseries.csv'))
 
 ``` {r examine_each_stock}
 
-stocks_ts <- read_csv(file.path(dir_goal, 'ram/stocks_ram_timeseries.csv'))
+stocks_ts <- read_csv(file.path(dir_goal, 'ram/stocks_ram_timeseries.csv')) %>%
+  group_by(stockid) %>%
+  mutate(last_bbmsy = last(ts_bbmsy),
+       last_ffmsy = last(ts_ffmsy),
+       last_mfmsy = last(mean_ffmsy),
+       last_datayear = last(tsyear)) %>%
+  ungroup()
 
 spp_ids <- stocks_ts %>%
   .$stockid %>%

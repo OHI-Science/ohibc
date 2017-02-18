@@ -21,35 +21,23 @@ output:
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
                       echo = TRUE, message = FALSE, warning = FALSE)
 
-library(sp)
-library(rgdal)
-library(raster)
-library(DT)
-
 dir_git <- '~/github/ohibc'
 source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
-dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
-dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
 
 
 ### goal specific folders and info
 goal      <- 'fis'
-scenario  <- 'v2016'
-dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario) 
 dir_goal_anx <- file.path(dir_anx, goal, scenario)
 
 ### provenance tracking
-source(file.path(dir_git, 'src/R/prov.R'))   
-  ### Provenance tracking functions: must source at start to initialize prov_track
-prov_run_tag <- 'standard run'
+library(provRmd); prov_setup()
 
-### support scripts
-source(file.path(dir_git, 'src/R/poly_plot_scores.R')) 
-  ### score plotting scripts
-source(file.path(dir_git, 'src/R/rast_tools.R')) 
-  ### raster plotting and analyzing scripts
-#source(file.path(dir_spp, 'R/SCRIPT_FXN.R'))
-  ### goal- or script-specific support functions
+### Kobe plot functions
+source(file.path(dir_goal, 'kobe_fxns.R'))
 
 ### set up proj4string options: BC Albers and WGS84
 p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
@@ -57,26 +45,168 @@ p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000
 
 ```
 
-1. Prep management areas
-    * Pacific fishery management areas
-    * Pac fishery management subareas
-    * groundfish management areas
-2. Divide region-reported catch by management areas, into OHIBC regions, in kg
-3. Distribute spatially-reported catch (shapefiles/rasters) into OHIBC regions, in kg
-    * dungeness crab
-    * geoduck
-    * prawns
-    * groundfish longline - halibut, hake, sable, Pac ocean perch, other
-    * groundfish trawl - halibut, hake, sable, Pac ocean perch, other
-    * sardines
-4. For (stock in stock list) bind all stocks together:
-    * rgn_id | stock | year | catch in kg | B/Bmsy | F/Fmsy | B' | F'
-    * save this as a layer
-5. Aggregate stock status layer to region level, weighting by catch:
-    * rgn_id | year | B/Bmsy weighted mean | F/Fmsy weighted mean | B' weighted mean | F' weighted mean | status
-    * save this as a layer
-    * use this to determine status and trend
+# Summary
 
-``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
+Calculate annual status for wild-capture fisheries (food provision) goal for OHIBC.  
+
+* Each fishery will be scored based upon B/Bmsy and F/Fmsy similar to the modified Kobe plot from OHI California Current.  
+    * B/Bmsy and F/Fmsy values will be taken from the updated RAM database with modeled scores through 2013.
+    * F/Fmsy values are smoothed using a four-year rolling average: status year and prior three years.
+    * For stocks without B/Bmsy and/or F/Fmsy values in RAM, e.g. salmon, other methods of determining stock status?
+* For each region, fishery scores will be combined based upon proportion of the contribution of each fishery's catch to the overall catch for the region.  
+    * In OHICC, weighting was based on average catch over all data years.  For OHIBC, weighting will be based on smoothed catch from SAUP reconstructions, smoothed using a four-year rolling average.
+
+***
+
+# Data Source [NOTE: can be copied from README.md in rawdata file]
+**Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+
+**Downloaded**: [date downloaded or received]
+
+**Description**:  [e.g., surface aragonite state]
+
+**Native data resolution**: [e.g., 1 degree, 30 m, etc.]   
+
+**Time range**: [e.g., 1880-1899, monthly data provided for each year] 
+
+**Format**:  [e.g. NetCDF]
+
+***
+  
+# Methods
+
+## Create time series of stock status scores
+
+Apply modified Kobe plot calculations to RAM time series. Parameters used to calculate scores (B' and F') based on B/Bmsy and F/Fmsy:
+
+* `b_bmsy_max` is the B/Bmsy for a generalized unfished stock.
+* `bmax_val` is the rescaled B' score at a B/Bmsy value of `b_bmsy_max`.  This allows for softening the penalty to underfished stocks by assigning a non-zero value (between 0-1) to an unfished stock.
+* `f_fmsy_max` is the highest allowable fishing pressure, beyond which a stock's F' score is zero.
+* `fmin_val` is rescaled F' score at an F/Fmsy of zero (no fishing pressure).  This allows for softening the penalty to underfishing by assigning a non-zero value (between 0-1).
+* underfished/overfished and underfishing/overfishing thresholds provide acceptable windows around F/Fmsy = 1 and B/Bmsy = 1.  
+* `Bcrit` provides a fisheries management threshold between "cautious" and "critical" stocks, while `Bcautious` provides threshold between "cautious" and "healthy" stocks.
+
+In this formulation, the stock score is the product of F' and B' for that stock in that year.
+
+$$x_{fis} = \displaystyle\sum_{i=1}^{n}w_i*(F' * B')$$
+
+* To calculate $B'$, we use DFO-defined categories in which a given stock is considered underfished, overfished, or healthy.  These are based on $B/B_{MSY}$ thresholds of $B_{overfished}$ = 0.8 and $B_{underfished}$ = 1.5.  For these calculations, we have assumed a $(B/B_{MSY})_{max}$ for an unfished stock to be 3.0 (i.e. $B/B_{MSY}$ is 33% of unfished biomass).
+
+| $B'$ calculation        | Stock condition                                         |
+| :---------------------: | :------------------------------------------------------ |
+| $B' = \frac{B/B_{MSY}}{0.8}$ | Overfished ($B/B_{MSY} < B_{overfished}$)          |
+| $B' = 1$                | Healthy ($B_{cautious} <= B/B_{MSY} < B_{underfished}$) |
+| $B' = \frac{(B/B_{MSY})_{max} - (B/B_{MSY})}{(B/B_{MSY})_{max} - 1.5}$ | Underfished ($B/B_{MSY} >= B_{underfished}$) |
+
+* To calculate F', we examine fishing pressure within three regimes defined by DFO fisheries management: critical stock ($B/B_{MSY} < B_{critical}$), cautious stock ($B_{cautious} <= B/B_{MSY} < B_{cautious}$) and healthy stock ($B/B_{MSY} >= B_{cautious}$).  Within each regime we divide fishing pressure into overfishing, underfishing, and appropriate fishing pressures based on $F/F_{MSY}$, including under- and overfishing $F/F_{MSY}$ thresholds of $F_{underfishing}$ = 0.8 and $F_{overfishing}$ = 1.2, respectively.  
+
+| $F'$ calculation        | Stock condition    | Fishing pressure                       |
+| :---------------------: | :----------------- | :---------------------------           |
+| $F' = 0$                | critical           | any                                    |
+| $F' = \frac{(B/B_{MSY} + 1.5) - F/F_{MSY}}{1.5}$ | Cautious | overfishing ($B/B_{MSY} + 0.2 < F/F_{MSY} <= B/B_{MSY} + 1.5$) |
+| $F' = 1$                | cautious         | Appropriate fishing ($B/B_{MSY} - 0.2 <= F/F_{MSY} < B/B_{MSY} + 0.2$) |
+| $F' = \frac{F/F_{MSY}}{B/B_{MSY} - 0.2}$  | Overfished | Underfishing ($F/F_{MSY} < B/B_{MSY} - 0.2$) |
+| $F' = \frac{F/F_{MSY}}{\psi_{UF}}$ | healthy | Underfishing ($F/F_{MSY} < \psi_{UF}$)
+| $F' = 1$                | healthy   | Appropriate fishing ($\psi_{UF} <= F/F_{MSY} < \psi_{OF}$) |
+| $F' = \frac{(F/F_{MSY})_{max} - F/F_{MSY}}{(F/F_{MSY})_{max} - \psi_{OF}}$  | healthy | Overfishing ($F/F_{MSY} >= \psi_{OF}$) |
+
+``` {r rescore_stock_status}
+
+stocks_ts <- read_csv(file.path(dir_goal, 'ram/stocks_ram_timeseries.csv'))
+
+stocks_ts <- stocks_ts %>%
+  rename(b_bmsy = ts_bbmsy,
+         f_fmsy = mean_ffmsy,
+         year   = tsyear) %>%
+  rescale_bprime_crit(overfished_th = 0.8,
+                      underfished_th = 1.5,
+                      bmax = 3.0,
+                      bmax_val = .25) %>%
+  rescale_fprime_crit(Bcrit = 0.4,
+                      Bcautious = 0.8,
+                      underfishing_th = 0.8,
+                      overfishing_th = 1.2,
+                      fmax  = 2.0,
+                      fmin_val = .25) %>%
+  mutate(x_prod = (fPrime * bPrime)) %>%
+  dplyr::select(year, stockid, stocklong, areaid,
+         score = x_prod,
+         b_bmsy, f_fmsy)
+
+write_csv(stocks_ts, file.path(dir_goal, 'int/stock_scores_ts.csv'))
+
+```
+
+## Determine spatial allocation of RAM stocks to SAUP cells
+
+Stock assessments from RAM database are spatially differentiated by either the entire BC coast or subregions within the BC EEZ: Hecate Strait, Strait of Georgia, Queen Charlotte Islands, West Coast Vancouver Island, etc.  These RAM DFO regions are outlined in a shapefile (ram/ram_dfo_areaid.shp) which is crosstabulated to SAUP cell IDs.
+
+``` {r ram_rgns_to_saup_cells}
+
+saup_bc_rast <- raster::raster(file.path(dir_goal, 'saup/saup_bc_rast.tif'))
+ram_dfo_rgn <- readOGR(dsn   = path.expand(file.path(dir_goal, 'ram')),
+                       layer = 'ram_dfo_areaid') %>%
+  spTransform(crs(saup_bc_rast))
+
+ram_rgn_to_saup_list <- raster::extract(saup_bc_rast, ram_dfo_rgn, 
+                                     weights = TRUE,
+                                     normalizeWeights = FALSE) %>%
+  lapply(FUN = function(x) as.data.frame(x, stringsAsFactors = FALSE)) %>%
+  setNames(tolower(ram_dfo_rgn@data$areaid))
+
+### ram_dfo_weight is how much of cell is in RAM DFO region; but this also includes area
+### lost to land, not just to other regions.  Normalize cell weights
+### to total *ocean* area; then attach area dataframe.
+ram_rgn_to_saup <- ram_rgn_to_saup_list %>%
+  bind_rows(.id = 'areaid') %>%
+  rename(cell_id = value) %>%
+  filter(!is.na(cell_id)) %>%
+  group_by(cell_id) %>%
+  mutate(weight = weight / sum(weight)) %>%
+  rename(ram_dfo_weight = weight) %>%
+  ungroup()
+
+write_csv(ram_rgn_to_saup, file.path(dir_goal, 'ram/ram_rgn_to_saup.csv'))
+
+```
+
+Using a manually-matched lookup table of Sea Around Us taxa to RAM Database stocks, match RAM stock assessments to SAUP catch values.
+
+``` {r connect_ram_to_saup}
+
+saup_to_ram_ids <- read_csv(file.path(dir_goal, 'raw/saup_to_ram_ids.csv')) %>%
+  filter(!is.na(saup_taxonkey) & !is.na(ram_stockid))
+
+ram_stock_scores <- read_csv(file.path(dir_goal, 'int/stock_scores_ts.csv')) %>%
+  filter(!is.na(f_fmsy))
+
+saup_catch_ts <- read_csv(file.path(dir_anx, 'fis/v2017/saup/saup_bc_clean.csv')) %>%
+  group_by(year, cell_id, taxonkey, taxonsciname, taxoncomname, rgn_id, weight) %>%
+  summarize(cellcatch = sum(allocatedcatch))
+
+ram_rgn_to_saup <- read_csv(file.path(dir_goal, 'ram/ram_rgn_to_saup.csv'))
+
+x <- saup_catch_ts %>%
+  inner_join(saup_to_ram_ids %>% 
+              dplyr::select(taxonkey = saup_taxonkey, stockid = ram_stockid, areacode = ram_areacode),
+            by = 'taxonkey') %>%
+  inner_join(ram_stock_scores, by = c('year', 'stockid')) %>%
+  inner_join(ram_rgn_to_saup, by = c('cell_id', 'areacode' = 'areaid'))
+
+y <- x %>% 
+  mutate(catch = cellcatch * weight * ram_dfo_weight) %>%
+  dplyr::select(year, cell_id, rgn_id, 
+           stockid, taxonkey, stocklong, 
+           score, catch) %>%
+  group_by(year, rgn_id, stockid, taxonkey, score) %>%
+  summarize(rgn_catch = sum(catch))
+  
+
+```
+
+***
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup(commit_outputs = FALSE)
 ```
 

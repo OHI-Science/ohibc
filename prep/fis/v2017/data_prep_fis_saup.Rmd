@@ -144,6 +144,10 @@ if(!file.exists(rgn_to_saup_file)) {
     ungroup() %>%
     left_join(area_df, by = 'cell_id')
   
+  values(saup_bc_rast)[!values(saup_bc_rast) %in% rgn_to_saup$cell_id] <- NA
+  writeRaster(saup_bc_rast, 
+              file.path(dir_goal, 'saup/saup_bc_rast.tif'), 
+              overwrite = TRUE)
   write_csv(rgn_to_saup, rgn_to_saup_file)
 
 } else {
@@ -162,7 +166,7 @@ Pare results down to just observations that fall within BC cells; then pare the 
 
 ``` {r load_saup_from_file}
 
-saup_raw_file <- file.path(dir_anx, 'fis/v2017/saup/saup_bc_raw.csv')
+saup_raw_file <- file.path(dir_goal_anx, 'saup/saup_bc_raw.csv')
 
 reload <- FALSE
 
@@ -231,7 +235,7 @@ saup_bc_raw <- read_csv(saup_raw_file)
 
 rgn_to_saup <- read_csv(file.path(dir_goal, 'saup/rgn_to_saup.csv'))
 
-saup_bc_sum <- saup_bc_raw %>%
+saup_bc_clean <- saup_bc_raw %>%
   setNames(tolower(names(.))) %>%
   filter(entityname == 'Canada') %>%
   dplyr::select(year,
@@ -244,7 +248,11 @@ saup_bc_sum <- saup_bc_raw %>%
          sector_type_name,  ### "Industrial" "Subsistence" "Artisanal" "Recreational"
          catch_type_name,   ### "Landings" "Discards"
          reporting_status_name) %>% ### "Reported" "Unreported"
-  inner_join(rgn_to_saup, by = 'cell_id') %>%
+  inner_join(rgn_to_saup, by = 'cell_id') 
+
+write_csv(saup_bc_clean, file.path(dir_goal_anx, 'saup/saup_bc_clean.csv'))
+
+saup_bc_sum <- saup_bc_clean %>%
   group_by(year,
            rgn_id,
            taxonkey,
@@ -266,8 +274,15 @@ saup_bc_totcatch <- saup_bc_sum %>%
          rgn_taxon_total, rgn_total) %>%
   distinct()
 
+saup_ids <- saup_bc_raw %>%
+  setNames(tolower(names(.))) %>%
+  filter(entityname == 'Canada') %>%
+  dplyr::select(taxonkey, taxonsciname, taxoncomname, taxongroup) %>%
+  distinct()
+
 write_csv(saup_bc_sum, file.path(dir_goal, 'saup/saup_bc_summary.csv'))
 write_csv(saup_bc_totcatch, file.path(dir_goal, 'saup/saup_bc_totcatch.csv'))
+write_csv(saup_ids, file.path(dir_goal, 'saup/saup_species_ids.csv'))
 
 ```
 
