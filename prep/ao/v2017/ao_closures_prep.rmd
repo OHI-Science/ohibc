@@ -1,0 +1,603 @@
+---
+title: 'OHIBC: Shellfish contamination closures prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+library(lubridate)
+
+dir_git     <- '~/github/ohibc'
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal     <- 'ao'
+scenario <- 'v2017'
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+```
+
+#Summary
+
+This data is incorporated into the OHI British Columbia Clean Waters (CW) goal and the Artisanal Opportunities (AO) goal.
+
+***
+
+#Data Source
+
+**Reference**: 
+
+**Downloaded**: 
+
+**Native Data Resolution**:   
+
+**Values**: 
+
+**Time Range**: N/A
+
+**Format**: CSV
+
+***
+
+# Methods
+
+## Read in data
+
+Read in DFO contamination closures from .xlsx files.
+
+``` {r read_xlsx}
+
+dir_data <- file.path(dir_anx, '_raw_data/dfo_khunter/d2016/shellfish_closure_data')
+
+xlsx_files <- list.files(dir_data, pattern = 'contaminated order log', full.names = TRUE)
+
+closures_raw <- lapply(xlsx_files, FUN = function(x) {
+    capture.output( ### the read_excel function annoyingly prints crap to screen
+      {
+        y <- readxl::read_excel(x, sheet = 1, skip = 3)
+      },
+      file = file.path(dir_goal, 'delete_this.txt')
+    )
+    unlink(file.path(dir_goal, 'delete_this.txt'))
+    return(y)
+  }) %>%
+  bind_rows() %>%
+  setNames(tolower(names(.)) %>%
+             str_replace_all('[^a-z]', '')) %>%
+  filter(!is.na(orderno))
+
+### fix dates.  From ?as.Date:
+## Excel is said to use 1900-01-01 as day 1 (Windows default) or
+## 1904-01-01 as day 0 (Mac default), but this is complicated by Excel
+## incorrectly treating 1900 as a leap year.
+## So for dates (post-1901) from Windows Excel
+##    as.Date(35981, origin = "1899-12-30") # 1998-07-05
+## and Mac Excel
+##    as.Date(34519, origin = "1904-01-01") # 1998-07-05
+## (these values come from http://support.microsoft.com/kb/214330)
+### Knowing that 39731 refers to 10/10/2008, assume it's a Windows machine
+
+typos <- c('sept' = 'sep', 'aprl' = 'apr', 'novmeber' = 'nov', 'janaury' = 'jan', 'dece' = 'dec',
+           '201/10' = '20, 2010', 
+           '22/174' = '22/14',
+           'é' = ', ', 
+           '200$' = '2009',
+           '`'  = '')
+format_probs <- c('(?<=[a-z]{1})\\.' = ' ', ### find a period with a character ahead of it, and replace just the period with a space
+                  '[/-]+' = ', ',           ### slashes and double-slashes before year
+                  ', 1' = ', 201', ', 0' = ', 200') ### add century before year
+
+closures_intermediate <- closures_raw %>%
+  mutate(revokedby = ifelse(revokedby == orderno, NA, revokedby)) %>% ### several orders seem to be revoked by themselves - that can't be right
+  mutate(issued = str_replace_all(tolower(issued), typos),
+         issued = str_replace_all(issued, format_probs),
+         issued_date = ifelse(!is.na(as.integer(issued)),
+                              as.character(as.Date(as.integer(issued), origin = '1899-12-30')),
+                              as.character(as.Date(issued, format = '%b %d, %Y')))) %>%
+  mutate(revoked = ifelse(str_detect(tolower(revokeddate), 'ptn'), revokedby, revokeddate),
+         revoked = str_replace_all(tolower(revoked), typos),
+         revoked = str_replace_all(revoked, format_probs),
+         revoked = ifelse(is.na(as.integer(revoked)), str_replace(revoked, '\\.', ', 20'), revoked), ### to fix a couple of Oct. 19.12 type of format
+         revoked_date = ifelse(!is.na(as.integer(revoked)),
+                              as.character(as.Date(as.integer(revoked), origin = '1899-12-30')),
+                              as.character(as.Date(revoked, format = '%b %d, %Y')))) %>%
+  select(order_no = orderno, issued_date, revoked_date, 
+         closes_area = closesarea, species,
+         revokes, revoked_by = revokedby)
+
+### manual fixes to mistakes
+closures_intermediate <- closures_intermediate %>%
+  mutate(revoked_date = str_replace(revoked_date, '^2019', '2014'),
+         order_no     = ifelse(order_no == 'PTN-2012-389' & issued_date == '2013-12-20', 'PTN-2013-389', order_no),
+         order_no     = ifelse(order_no == 'PTN-2012-487' & issued_date == '2014-11-28', 'PTN-2014-487', order_no))
+
+### In many cases, the original order does not include a specific revoking date.  But can be
+### gleaned from the issue dates of other orders who revoke or are revoked by an order.
+
+### orders that revoke a previous order - find the revoking date based on this order's issue date
+revokes <- closures_intermediate %>%
+  filter(order_no %in% closures_intermediate$revokes) %>%
+  select(order_revoking = order_no, revokes, revoking_date = issued_date)
+
+### orders that are revoked by a previous order - find the revoking date based on the other order's issue date
+revoked_by <- closures_intermediate %>%
+  filter(revoked_by %in% closures_intermediate$order_no) %>%
+  select(order_revoked = order_no, revoking_date1 = issued_date)
+  
+### bind the alternate dates to the main dataframe
+closure_dates_clean <- closures_intermediate %>%
+  left_join(revokes, by = c('order_no' = 'revokes')) %>%
+  left_join(revoked_by, by = c('revoked_by' = 'order_revoked')) %>%
+  filter(!is.na(issued_date)) %>%
+  rowwise() %>%
+  mutate(revoked_datex = ifelse(is.na(revoked_date) & (!is.na(revoking_date) | !is.na(revoking_date1)), 
+                                as.character(max(as.Date(revoking_date), as.Date(revoking_date1), na.rm = TRUE)), 
+                                revoked_date)) %>%
+  ungroup()
+
+closure_dates_clean <- closure_dates_clean %>%
+  select(order_no, issued_date, revoked_date = revoked_datex, closes_area, species) %>%
+  distinct()
+
+write_csv(closures_intermediate, file.path(dir_goal, 'int/closures_intermediate.csv'))
+write_csv(closure_dates_clean, file.path(dir_goal, 'int/closure_dates_cleaned.csv'))
+
+```
+
+### Raw data
+
+Excel spreadsheet info, deleting the invalid order numbers (NA).
+
+`r DT::datatable(closures_raw)`
+
+### Cleaned data
+
+From the raw data, clean and convert date fields to appropriate date object.  Fill in some missing revoke dates using the `revoked_by` and `revokes` columns.  For orders whose revoke dates are explicitly stated in the data, these are not overwritten; but for orders with no explicit revoke date, we join revoking orders from `revoked_by` and `revokes`, and use the issued date from the revoking order as the revoking date.
+
+`r DT::datatable(closure_dates_clean)`
+
+## Clean areas and subareas
+
+Clean up area and subarea calls from the cleaned data.  No need to keep the dates and species at this point; can rejoin later.  Many of the closesarea observations are complex text such as "Area 12, Area 13, except SA 13-1 to 13-12, 13-15 to 13-17, Area 14 (except SA 14-5, 14-8, 14-15, Area 15 (except SA 15-5), Areas 16 to 29 (except SA 17-20, 23-6 and 29-5)" which must be parsed for areas, subareas, etc.
+
+* First step: correct numerous typos.  
+    * ditch numerics for dates (mostly in 'seasonal closures') - these are numbers such as May 30 that could be confused with area or subarea numbers.  The dates are presumably already accounted for in the order information.
+    * ditch 'except useless inlet' from text - this is part of Area 23-6 that creates later problems with parsing 'except' clauses
+    * convert area-subarea separators to tilde (unambiguous separator)
+    * ditch multi-spaces
+* Second step: expand 'to' clauses.
+    * In many cases, areas and subareas are listed as, e.g., Areas 3 to 10.  
+    * Expand these at both the area and subarea levels, to e.g. Areas 3 4 5 6 7 8 9 10.
+    * These individual area or subarea numbers will later be extracted as individual observations.
+
+``` {r}
+
+### step 1: corrections.
+### * ditch numerics for dates (mostly in 'seasonal closures')
+### * ditch 'except useless inlet' from text
+### * convert area-subarea separators to tilde (unambiguous separator)
+### * ditch multi-spaces
+season_months_replace <- c('may [0-9]+' = '', 
+                     'june [0-9]+' = '', 
+                     'july [0-9]+' = '', 
+                     'sep[a-z\\.]* [0-9]+' = '',
+                     'oct[a-z\\.]* [0-9]+' = '',
+                     '20[0-9]{2}' = '') ### this last bit cuts a four-digit number (i.e. year)
+
+closure_areas <- read_csv(file.path(dir_goal, 'int/closure_dates_cleaned.csv')) %>%
+  select(order_no, issued_date, closes_area) %>%
+  mutate(closes_edit = tolower(closes_area),
+         closes_edit = str_replace_all(closes_edit, 'except use?less inlet', ''), ### annoying and unhelpful
+         closes_edit = str_replace_all(closes_edit, 'Expand the 25 m closure', ''),
+         closes_edit = str_replace_all(closes_edit, '(?<=[0-9])[-—.](?=[0-9])', '~'), ### this line separates subareas with ~
+         closes_edit = str_replace_all(closes_edit, '[0-9]+[-—.][a-z]+', 'xx'), ### delete alpha subareas
+         closes_edit = str_replace_all(closes_edit, season_months_replace),
+         closes_edit = str_replace_all(closes_edit, '\\s+', ' '))
+
+### step 2: expand 'to' for areas (e.g. areas 3 to 10).  
+### * Identify clauses, split into 'from'/'to'
+### * create a vector of from:to and convert to string.
+### * str_replace the clause with the expanded vector.
+### * reassemble the entire closure list string
+closure_areas_to <- closure_areas %>%
+  filter(str_detect(closes_edit, '[0-9] to [0-9]')) %>%
+  mutate(area_split = str_split(tolower(closes_edit), ',|;')) %>% ### divide at comma or semicolon
+  unnest(area_split) %>%
+  mutate(to_clause = str_extract(area_split, '[0-9]*~?[0-9]+ to [0-9]+~?[0-9]*')) %>%
+  separate(to_clause, into = c('from_num', 'to_num'), sep = ' to ', remove = FALSE) %>%
+  rowwise() %>%
+  ### build vector of Area numerals, skipping sub-areas
+  mutate(to_vec = ifelse(!is.na(from_num) & !str_detect(from_num, '~') & !str_detect(to_num, '~'),
+                         paste(as.integer(from_num):as.integer(to_num), collapse = ', '),
+                         '')) %>%
+  ### build vector of Sub-Area numerals, skipping areas
+  mutate(tmp_area = ifelse(!is.na(from_num) & str_detect(from_num, '~') & str_detect(to_num, '~'),
+                           str_extract(from_num, '[0-9]+(?=~)'), NA),
+         to_vec = ifelse(!is.na(from_num) & str_detect(from_num, '~') & str_detect(to_num, '~'),
+                         paste(tmp_area, as.integer(str_extract(from_num, '(?<=~)[0-9]+')):as.integer(str_extract(to_num, '(?<=~)[0-9]+')), sep = '~', collapse = ', '),
+                         '')) %>%
+  ungroup() %>%
+  mutate(area_split2 = ifelse(!is.na(to_clause),
+                              str_replace(area_split, to_clause, to_vec),
+                              area_split)) %>%
+  select(-area_split, -to_clause, -from_num, -to_num, -to_vec, -tmp_area) %>%
+  group_by(order_no, issued_date, closes_area) %>%
+  summarize(closes_edit = paste(area_split2, collapse = ' ')) %>%
+  ungroup()
+  
+closure_areas_all <- closure_areas %>%
+  filter(!order_no %in% closure_areas_to$order_no) %>%
+  bind_rows(closure_areas_to)
+
+write_csv(closure_areas_all, file.path(dir_goal, 'int/closure_areas_all.csv'))
+
+```
+
+### Closure areas cleaned and expanded
+
+`r DT::datatable(closure_areas_all)`
+
+## Expand areas and subareas
+
+From the closure text, separate out the areas and subareas into individual observations, each attached to an `order_no` and `issued_date`.
+
+``` {r get_all_area_subareas}
+
+area_subarea_list <- foreign::read.dbf(file.path(dir_anx, '_raw_data/dfo_khunter', 
+                                                 'd2016/management_boundaries',
+                                                 'pac_fishery_mgmt_subareas',
+                                                 'DFO_BC_PFMA_SUBAREAS_50K_V3_1.dbf')) %>%
+  select(area = MGNT_AREA, subarea = SUBAREA_, label = LABEL) %>%
+  mutate(area = as.integer(area),
+         subarea = as.integer(subarea),
+         label = str_replace(label, '-', '~')) %>%
+  arrange(area, subarea)
+
+write_csv(area_subarea_list, file.path(dir_goal, 'int/area_subarea_list.csv'))
+
+```
+
+Several special cases in the text: 
+
+* "except": e.g. Area 13, *except* SA 13-1 to 13-12
+    * split order text at instances of "area" - multiple "except" clauses always follow an "area" statement.
+    * expand area (e.g. Area 13 includes subareas 1-43)
+    * then remove instances of Area 13 after the "except" clause.
+* "revokes": e.g. Area 18, *revokes* closure 18.6 and implements *new* closure 18.32
+    * for orders that simply revoke, remove from the list; this will be accounted for in `revoked_date`
+    * for orders that revoke one part and implement a new closure, ignore the revoke but capture the new closure.
+
+``` {r closures_include_exclude}
+
+closure_areas_all <- read_csv(file.path(dir_goal, 'int/closure_areas_all.csv'))
+
+area_subarea_list <- read_csv(file.path(dir_goal, 'int/area_subarea_list.csv')) %>%
+  select(-label)
+
+closure_areas_easy <- closure_areas_all %>% 
+  filter(!str_detect(tolower(closes_edit), 'except|revoke|remove')) %>%
+  mutate(area_closed = str_split(closes_edit, '[^0-9~]')) %>% ### 
+  unnest(area_closed) %>%
+  filter(area_closed != '') %>%
+  separate(area_closed, c('area', 'subarea'), sep = '~', remove = FALSE) %>%
+  mutate(area = as.integer(area),
+         subarea = as.integer(subarea)) %>%
+  ### some orders announce the Area then sub-areas; ditch the full Area mention. E.g. Area 25 - sa 25-6, 25-7...
+  group_by(order_no, issued_date, area) %>%
+  filter(!(is.na(subarea) & n() != 1)) %>% ### if subarea is NA, but the order/area group is longer than 1 instance, then there are subareas included - ditch the NA which indicates the full area
+  ungroup() %>%
+  distinct()
+
+### now expand the full areas still listed (e.g. area but NA subarea), then join to
+### valid area/subarea list (the inner join drops any invalid area/subarea combos)
+closure_areas_easy <- closure_areas_easy %>%
+  filter(is.na(subarea)) %>%
+  select(-subarea) %>%
+  left_join(area_subarea_list, 
+            by = 'area') %>%
+  bind_rows(closure_areas_easy %>%
+              inner_join(area_subarea_list, 
+                         by = c('area', 'subarea')))
+
+### 'except' instances: 
+### * identify the parent area and excluded subareas (subarea_excl)
+### * expand areas to include all possible subareas
+### * group by order/date/area, and filter out any subareas in the group that 
+###   appear in the subarea_excl list for that group.
+closure_areas_except <- closure_areas_all %>% 
+  filter(str_detect(closes_edit, 'except')) %>%
+  mutate(area_split = str_split(closes_edit, 'area')) %>%    
+    ### at this point, 'except' modifies a selection of areas; e.g. area 23, except 23~1, area 24 except 24~5.
+  unnest(area_split) %>%
+  mutate(area_split_include = str_extract(area_split, '.+(?=except)'),
+         area_split_except  = str_extract(area_split, '(?<=except).+')) %>%  ### for each area_split, two pieces: pre-'except' and post.
+  mutate(area_included = str_extract(area_split_include, '[0-9~]+'),
+         area_excluded = str_split(area_split_except, '[^0-9~]')) %>%
+  unnest(area_excluded) %>%
+  filter(area_excluded != '') %>%
+  separate(area_excluded, c('area', 'subarea_excl'), sep = '~', remove = FALSE) %>%
+  mutate(area = as.integer(area),
+         subarea_excl = as.integer(subarea_excl)) %>%
+  left_join(area_subarea_list, by = c('area')) %>%
+  group_by(order_no, issued_date, area) %>%
+  filter(!subarea %in% subarea_excl) %>%
+  ungroup() %>%
+  select(-area_split_include, -area_split_except, -area_included, -area_excluded, -subarea_excl) %>%
+  distinct()
+
+### 'revoke' instances: keep only those with "new"; split at new, ditch revoke side
+### (though these seem to act only on one given area at a time)
+closure_areas_revoke <- closure_areas_all %>% 
+  filter(str_detect(closes_edit, 'revoke|remove') & str_detect(closes_edit, 'new')) %>%
+  mutate(new_areas = str_split(tolower(closes_edit), 'new')) %>%
+  unnest(new_areas) %>%
+  # mutate(new_areas = str_replace_all(new_areas, '-[0-9]+|\\.[0-9a-z]+', '')) %>%
+  filter(!str_detect(new_areas, 'revoke|remove')) %>%
+  mutate(area_closed = str_split(new_areas, '[^0-9~]')) %>%
+  unnest(area_closed) %>%
+  filter(area_closed != '') %>%
+  separate(area_closed, c('area', 'subarea'), sep = '~', remove = FALSE) %>%
+  mutate(area = as.integer(area),
+         subarea = as.integer(subarea)) %>%
+  filter(!is.na(subarea)) %>% ### none of these close a whole area, omit non-subarea designations
+  select(-new_areas) %>%
+  distinct()
+
+closure_areas_clean <- closure_areas_easy %>%
+  select(order_no, issued_date, closes_area, area, subarea) %>%
+  bind_rows(closure_areas_except %>%
+              select(order_no, issued_date, closes_area, area, subarea)) %>%
+  bind_rows(closure_areas_revoke %>%
+              select(order_no, issued_date, closes_area, area, subarea)) %>%
+  inner_join(area_subarea_list, by = c('area', 'subarea'))
+
+write_csv(closure_areas_clean, file.path(dir_goal, 'int/closure_areas_cleaned.csv'))
+  
+```
+
+This dataframe is too large to display; here is a truncated version for only since July 2015, focusing only on areas 1-3
+
+`r DT::datatable(x <- closure_areas_clean %>% filter(issued_date >= '2015-07-01' & area < 3))`
+
+## Process closure days per year/area/subarea
+
+Need to fill in `revoked_date` for those observations where no revoked date could be found.  A quick peek looks like the median closure is around 2 weeks, so let's add this where the revoked date is missing.
+
+Note that many orders span calendar years; these orders must be split up so only the days within a given calendar year are counted for that year.
+
+Then, closure days are summed for each year/area/subarea, ignoring overlaps.  For example, if order A closes area 15-6 from 1/1/15 to 3/1/15, and order B closes the same area for 2/1/15 to 4/1/15, it will be counted as a closure from 1/1/15 and 4/1/15, ignoring the overlapping month.
+
+This process is done for the entire order list, and again for the order list after removing seasonal closures.  The logic here is that seasonal closures may represent simple prophylactic closures rather than closures reacting to contamination events.
+
+``` {r define functions}
+
+expand_closures <- function(closures_df) {
+  
+  expanded_df <- closures_df %>%
+    bind_rows(closures_df %>% 
+                filter(year_issued != year_revoked) %>%
+                mutate(year = year_revoked)) %>%
+    group_by(order_no, issued_date) %>%
+    complete(year = full_seq(year, 1)) %>%
+    fill(revoked_date) %>%
+    ungroup() %>%
+    mutate(date_start = if_else(year != year(issued_date),  ymd(paste(year, '0101')), issued_date),
+           date_end   = if_else(year != year(revoked_date), ymd(paste(year, '1231')), revoked_date),
+           days = date_end - date_start) %>%
+    filter(!is.na(area))
+  
+  return(expanded_df)
+  
+}
+
+date_clip <- function(closures_df) {
+  tmp <- closures_df %>%
+    select(order_no, year, area, subarea, date_start, date_end, days) %>%
+    distinct() %>%
+    arrange(year, area, subarea)
+  
+  area_year_df <- data.frame()
+  for(yr in unique(tmp$year)) { 
+    ### Loop over each year
+    # yr <- 2009
+  
+    z <- tmp %>% filter(year == yr)
+    message('processing year ', yr)
+  
+    area_df <- data.frame()
+    for(a in unique(z$area)) { 
+      ### Loop over each area within each year
+      # a <- 14   a <- 17
+      y <- z %>% filter(area == a)
+
+      subarea_df <- data.frame()
+      for(sa in unique(y$subarea)) {
+        ### Loop over each subarea within each area
+        x <- y %>%
+          filter(subarea == sa) %>%
+          arrange(date_start, days) %>%
+          mutate(index = 1:n())
+  
+        if(nrow(x) > 1) {
+          for(i in 2:nrow(x)) {
+            ### Within the subarea dates, which are in order of date_start/days,
+            ### push start date forward to match prev end date if necessary;
+            ### then push end date to match start date if necessary.
+            ds1 <- x$date_start[i]; de1 <- x$date_end[i]; de0 <- x$date_end[i - 1]
+            ds2 <- if_else(ds1 < de0, de0, ds1)
+            x$date_start[i] <- ds2
+            de2 <- if_else(de1 < ds2, ds2, de1)
+            x$date_end[i] <- de2
+          }
+        }
+        x <- x %>%
+          mutate(days = date_end - date_start)
+        subarea_df <- bind_rows(subarea_df, x)
+      }
+      area_df <- bind_rows(area_df, subarea_df)
+    }
+    area_year_df <- bind_rows(area_year_df, area_df)
+  }
+  return(area_year_df)
+}
+
+
+```
+
+
+``` {r} 
+
+closure_areas <- read_csv(file.path(dir_goal, 'int/closure_areas_cleaned.csv'))
+
+closure_dates <- read_csv(file.path(dir_goal, 'int/closure_dates_cleaned.csv'))
+# closure_dates %>%
+#   mutate(days = revoked_date - issued_date) %>%
+#   filter(days > 0) %>%
+#   .$days %>% as.integer() %>%
+#   summary()
+#    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#    1.00    7.00   15.00   53.06   43.25 1227.00 
+
+closure_dates <- closure_dates %>%
+  mutate(revoked_date = if_else(is.na(revoked_date), issued_date + 14, revoked_date)) %>%
+  filter(revoked_date >= issued_date)
+
+### if_else instead of ifelse: this preserves the date fields as dates, rather than integers
+
+closures <- closure_dates %>%
+  inner_join(closure_areas, by = c('order_no', 'issued_date', 'closes_area')) %>%
+  select(-species) %>%
+  mutate(year_issued = lubridate::year(issued_date),
+         year_revoked = lubridate::year(revoked_date),
+         year = year_issued)
+
+closures_expanded <- closures %>%
+  expand_closures()
+
+area_year_df <- date_clip(closures_expanded)
+
+closures_by_year <- area_year_df %>%
+  group_by(year, area, subarea) %>%
+  summarize(total_days_closed = sum(days)) %>%
+  ungroup()
+
+closures_expanded_no_seasonal <- closures %>%
+  filter(!str_detect(tolower(closes_area), 'season')) %>%
+  expand_closures()
+
+area_year_no_seasonal <- date_clip(closures_expanded_no_seasonal)
+
+closures_by_year_no_seasonal <- area_year_no_seasonal %>%
+  group_by(year, area, subarea) %>%
+  summarize(total_days_closed = sum(days)) %>%
+  ungroup()
+
+write_csv(closures_by_year, file.path('int/closures_by_year.csv'))
+write_csv(closures_by_year_no_seasonal, file.path('int/closures_by_year_excl_seasonal.csv'))
+
+### x <- closures_by_year %>% full_join(closures_by_year_no_seasonal %>% rename(days_ns = total_days_closed))
+### y <- x %>% filter(total_days_closed != days_ns | is.na(days_ns))
+
+```
+
+### Closures by year, all orders
+
+`r DT::datatable(closures_by_year)`
+
+### Closures by year, excluding seasonal closures
+
+`r DT::datatable(closures_by_year_no_seasonal)`
+
+### Maps of closures
+
+``` {r plot_closures}
+
+library(tmap)
+library(rgdal)
+
+closures_yr <- read_csv(file.path('int/closures_by_year.csv')) %>%
+  filter(year == 2015) %>%
+  rename(days_closed_all = total_days_closed) %>%
+  select(-year)
+closures_yr_noseasonal <- read_csv(file.path('int/closures_by_year_excl_seasonal.csv')) %>%
+  filter(year == 2015) %>%
+  rename(days_closed_no_seasonal = total_days_closed) %>%
+  select(-year)
+                                   
+area_map <- readOGR(dsn = file.path(dir_anx, '_raw_data/dfo_khunter', 
+                              'd2016/management_boundaries',
+                              'pac_fishery_mgmt_subareas'),
+                    layer = 'DFO_BC_PFMA_SUBAREAS_50K_V3_1')
+
+area_map@data <- area_map@data %>%
+  setNames(tolower(names(area_map@data))) %>%
+  left_join(closures_yr, by = c('mgnt_area' = 'area', 'subarea_' = 'subarea')) %>%
+  left_join(closures_yr_noseasonal, by = c('mgnt_area' = 'area', 'subarea_' = 'subarea'))
+    
+area_map_plot <- tm_shape(area_map) +
+  tm_polygons(col = 'days_closed_all',
+              palette = 'Reds',
+              border.alpha = 0,
+              breaks = c(0, 10, 50, 100, 200, 350, 365),
+              showNA = FALSE,
+              title = 'Days closed (including seasonal closures)')
+            legend.text.size = .25)
+
+area_map_plot2 <- tm_shape(area_map) +
+  tm_polygons(col = 'days_closed_no_seasonal',
+              palette = 'Reds',
+              border.alpha = 0,
+              breaks = c(0, 10, 50, 100, 200, 350, 365),
+              showNA = FALSE,
+              title = 'Days closed (excluding seasonal closures)')
+
+print(area_map_plot)
+
+print(area_map_plot2)
+
+save_tmap(area_map_plot +
+  tm_layout(legend.title.size = .3,
+            legend.text.size = .25), 
+  file.path(dir_goal, 'int/map_closures_all.png'),
+  width = 500)
+
+save_tmap(area_map_plot2 +
+  tm_layout(legend.title.size = .3,
+            legend.text.size = .25), 
+  file.path(dir_goal, 'int/map_closures_no_seasonal.png'),
+  width = 500)
+
+```
+
+***
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup()
+```
+

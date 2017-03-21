@@ -21,6 +21,9 @@ output:
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
                       echo = TRUE, message = FALSE, warning = FALSE)
 
+library(raster)
+library(rgdal)
+
 dir_git <- '~/github/ohibc'
 source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
 dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
@@ -139,14 +142,34 @@ write_csv(stocks_ts, file.path(dir_goal, 'int/stock_scores_ts.csv'))
 
 ## Determine spatial allocation of RAM stocks to SAUP cells
 
-Stock assessments from RAM database are spatially differentiated by either the entire BC coast or subregions within the BC EEZ: Hecate Strait, Strait of Georgia, Queen Charlotte Islands, West Coast Vancouver Island, etc.  These RAM DFO regions are outlined in a shapefile (ram/ram_dfo_areaid.shp) which is crosstabulated to SAUP cell IDs.
+Stock assessments from RAM database are spatially differentiated by either the entire BC coast or subregions within the BC EEZ: Hecate Strait, Strait of Georgia, Queen Charlotte Islands, West Coast Vancouver Island, etc.  These RAM DFO regions are outlined in a shapefile (ram/ram_dfo_areaid.shp) which is used to extract SAUP cell IDs.  The `dfo_rgn_weight` value is the proportion of DFO region area to ocean area for the cell.
 
 ``` {r ram_rgns_to_saup_cells}
 
 saup_bc_rast <- raster::raster(file.path(dir_goal, 'saup/saup_bc_rast.tif'))
+
+eez_poly <- readOGR(dsn = dir_spatial %>% path.expand,
+                    layer = 'ohibc_eez') %>%
+  spTransform(crs(saup_bc_rast))
+  
+cell_area_df <- raster::extract(saup_bc_rast, eez_poly,
+                                  weights = TRUE,
+                                  normalizeWeights = FALSE) %>%
+  lapply(FUN = function(x) as.data.frame(x, stringsAsFactors = FALSE)) %>%
+  bind_rows() %>%
+  rename(cell_id = value, ocean_pct = weight)
+
 ram_dfo_rgn <- readOGR(dsn   = path.expand(file.path(dir_goal, 'ram')),
                        layer = 'ram_dfo_areaid') %>%
   spTransform(crs(saup_bc_rast))
+
+### the dfo area ID polygons need to be clipped to just ocean area.
+# x <- raster::intersect(ram_dfo_rgn, eez_poly)
+# writeOGR(x, 
+#          dsn   = path.expand(file.path(dir_goal, 'ram')),
+#          layer = 'ram_dfo_areaid',
+#          driver = 'ESRI Shapefile',
+#          overwrite_layer = TRUE) 
 
 ram_rgn_to_saup_list <- raster::extract(saup_bc_rast, ram_dfo_rgn, 
                                      weights = TRUE,
@@ -154,23 +177,32 @@ ram_rgn_to_saup_list <- raster::extract(saup_bc_rast, ram_dfo_rgn,
   lapply(FUN = function(x) as.data.frame(x, stringsAsFactors = FALSE)) %>%
   setNames(tolower(ram_dfo_rgn@data$areaid))
 
-### ram_dfo_weight is how much of cell is in RAM DFO region; but this also includes area
+### weight is how much of cell is in RAM DFO region; but this also includes area
 ### lost to land, not just to other regions.  Normalize cell weights
-### to total *ocean* area; then attach area dataframe.
+### to total *ocean* area
 ram_rgn_to_saup <- ram_rgn_to_saup_list %>%
   bind_rows(.id = 'areaid') %>%
   rename(cell_id = value) %>%
-  filter(!is.na(cell_id)) %>%
-  group_by(cell_id) %>%
-  mutate(weight = weight / sum(weight)) %>%
-  rename(ram_dfo_weight = weight) %>%
-  ungroup()
+  left_join(cell_area_df, by = 'cell_id') %>%
+  mutate(dfo_rgn_weight = weight / ocean_pct) %>%
+  select(-weight)
 
 write_csv(ram_rgn_to_saup, file.path(dir_goal, 'ram/ram_rgn_to_saup.csv'))
 
 ```
 
 Using a manually-matched lookup table of Sea Around Us taxa to RAM Database stocks, match RAM stock assessments to SAUP catch values.
+
+The method of dividing catch across OHIBC regions and DFO regions at the same time: 
+
+* multiply the catch in a given cell by the proportion of the cell falling within a DFO region.  This assumes equal distribution of catch within a cell. 
+    * For catch divided across multiple spatial stocks, e.g. Hecate Strait and Queen Charlotte Islands, this assumes that the stock boundaries do not overlap.  If the stock boundaries overlap, there could be double-counting.
+* Multiple the DFO-region-weighted catch by the proportion of cell falling within an OHIBC region.
+    * This results in the `stock_scores_by_cell` dataframe
+    * This is saved in `int/stock_scores_by_cell.csv`
+* For each fishery and year, sum the DFO rgn and OHIBC rgn weighted catch across all cells within the OHIBC region.
+    * This results in the `stock_scores_by_rgn` dataframe
+    * This is saved in `int/stock_scores_by_rgn.csv`
 
 ``` {r connect_ram_to_saup}
 
@@ -182,28 +214,77 @@ ram_stock_scores <- read_csv(file.path(dir_goal, 'int/stock_scores_ts.csv')) %>%
 
 saup_catch_ts <- read_csv(file.path(dir_anx, 'fis/v2017/saup/saup_bc_clean.csv')) %>%
   group_by(year, cell_id, taxonkey, taxonsciname, taxoncomname, rgn_id, weight) %>%
-  summarize(cellcatch = sum(allocatedcatch))
+  summarize(cellcatch = sum(allocatedcatch)) %>%
+  ungroup()
 
 ram_rgn_to_saup <- read_csv(file.path(dir_goal, 'ram/ram_rgn_to_saup.csv'))
 
-x <- saup_catch_ts %>%
+stock_scores_by_cell <- saup_catch_ts %>%
   inner_join(saup_to_ram_ids %>% 
               dplyr::select(taxonkey = saup_taxonkey, stockid = ram_stockid, areacode = ram_areacode),
             by = 'taxonkey') %>%
   inner_join(ram_stock_scores, by = c('year', 'stockid')) %>%
   inner_join(ram_rgn_to_saup, by = c('cell_id', 'areacode' = 'areaid'))
 
-y <- x %>% 
-  mutate(catch = cellcatch * weight * ram_dfo_weight) %>%
+stock_scores_by_rgn <- stock_scores_by_cell %>% 
+  mutate(catch = cellcatch * weight * dfo_rgn_weight) %>%
+    ### this is not strictly spatially accurate.  
   dplyr::select(year, cell_id, rgn_id, 
            stockid, taxonkey, stocklong, 
            score, catch) %>%
   group_by(year, rgn_id, stockid, taxonkey, score) %>%
   summarize(rgn_catch = sum(catch))
-  
+
+write_csv(stock_scores_by_cell, file.path(dir_goal, 'int/stock_scores_by_cell.csv'))
+write_csv(stock_scores_by_rgn,  file.path(dir_goal, 'int/stock_scores_by_rgn.csv'))
 
 ```
 
+From `stock_scores_by_rgn`, find the catch-weighted mean across all stocks by year.  This will result in the mean FIS status per region.
+
+``` {r calculate_FIS}
+
+rgn_names <- read_csv(file.path(dir_spatial, 'rgn_names.csv'))
+
+stock_scores_by_rgn <- read_csv(file.path(dir_goal, 'int/stock_scores_by_rgn.csv')) %>%
+  filter(year >= 1990) %>%
+  group_by(year, rgn_id) %>%
+  mutate(rgn_weight = rgn_catch/sum(rgn_catch)) %>%
+  ungroup()
+
+scores_by_rgn <- stock_scores_by_rgn %>%
+  group_by(year, rgn_id) %>%
+  summarize(status = sum(score * rgn_catch) / sum(rgn_catch)) %>%
+  left_join(rgn_names, by = 'rgn_id') %>%
+  ungroup()
+
+status_plot <- ggplot(scores_by_rgn, aes(x = year, y = status)) + 
+  geom_line(data = stock_scores_by_rgn, aes(x = year, y = score, 
+                                     group = stockid, color = stockid,
+                                     size = rgn_weight),
+            lineend = 'round', alpha = .5) +
+  scale_size_continuous(guide = FALSE) +
+  geom_line(size = 1.5)  + 
+  trelliscope::facet_wrap(~ rgn_name)
+
+stock_scores <- stock_scores_by_rgn %>%
+  filter(rgn_id == 1)
+
+scores <- scores_by_rgn %>%
+  filter(rgn_id == 1)
+
+status_plot <- ggplot(scores, aes(x = year, y = status)) + 
+  geom_line(data = stock_scores, aes(x = year, y = score, 
+                                     group = stockid, color = stockid,
+                                     size = rgn_weight),
+            lineend = 'round', alpha = .5) +
+  scale_size_continuous(guide = FALSE) +
+  geom_line(size = 1.5)  +
+  labs(title = scores$rgn_name[1])
+
+print(status_plot)
+
+```
 ***
 
 ``` {r prov_footer, results = 'asis'}

@@ -17,19 +17,25 @@ library(RColorBrewer)
 library(stringr)
 rm(packages)
 
-### generic theme for all plots
-ggtheme_basic <- theme(axis.ticks = element_blank(),
-                       text = element_text(family = 'Helvetica', color = 'gray30', size = 8),
-                       plot.title = element_text(size = rel(1.25), hjust = 0, face = 'bold'),
-                       legend.position = 'right',
-                       legend.key = element_rect(colour = NA, fill = NA))
+### Set up some options
+options(scipen = "999")           ### Turn off scientific notation
+options(stringsAsFactors = FALSE) ### Ensure strings come in as character types
 
-ggtheme_plot <- ggtheme_basic +
-  theme(panel.border     = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.grid.major = element_line(colour = 'grey90'),
-        panel.background = element_blank(),
-        axis.line = element_line(colour = "grey30"))
+
+### generic theme for all plots
+ggtheme_plot <- function(base_size = 9) {
+  theme(axis.ticks = element_blank(),
+               text             = element_text(family = 'Helvetica', color = 'gray30', size = base_size),
+               plot.title       = element_text(size = rel(1.25), hjust = 0, face = 'bold'),
+               panel.background = element_blank(),
+               legend.position  = 'right',
+               panel.border     = element_blank(),
+               panel.grid.minor = element_blank(),
+               panel.grid.major = element_line(colour = 'grey90', size = .25),
+               # panel.grid.major = element_blank(),
+               legend.key       = element_rect(colour = NA, fill = NA),
+               axis.line        = element_blank()) # element_line(colour = "grey30", size = .5))
+}
 
 show_dupes <- function(x, y, na.rm = FALSE) {
   if(na.rm)
@@ -37,4 +43,9 @@ show_dupes <- function(x, y, na.rm = FALSE) {
 
   # x is data frame, y is field (as character) within that dataframe
   z <- x[x[[y]] %in% x[[y]][duplicated(x[[y]])], ]
+}
+
+get_rgn_names <- function() {
+  x <- foreign::read.dbf('~/github/ohibc/prep/spatial/ohibc_rgn.dbf') %>%
+    select(rgn_id, rgn_name, rgn_code)
 }
