@@ -92,53 +92,54 @@ ICO <- function(layers, status_years){
 
 }
 
-LSP <- function(layers, ref_pct_cmpa=30, ref_pct_cp=30, status_year){
+LSP <- function(layers, ref_pct_cmpa=30, ref_pct_cp=30, status_years){
 
-  trend_years = (status_year-4):status_year
+  trend_years <- (status_years-4):status_year
 
   # select data ----
-  r = SelectLayersData(layers, layers=c('rgn_area_inland1km', 'rgn_area_offshore3nm'))  #total offshore/inland areas
-  ry = SelectLayersData(layers, layers=c('lsp_prot_area_offshore3nm', 'lsp_prot_area_inland1km')) #total protected areas
+  tot_area_rgn  <- SelectLayersData(layers, layers=c('rgn_area_inland1km', 'rgn_area_offshore3nm'))
+  prot_area_rgn <- SelectLayersData(layers, layers=c('lsp_prot_area_offshore3nm', 'lsp_prot_area_inland1km'))
 
-  r <- r %>%
+  tot_area_rgn <- tot_area_rgn %>%
     select(region_id = id_num, val_num, layer) %>%
     spread(layer, val_num) %>%
     select(region_id, area_inland1km = rgn_area_inland1km,
            area_offshore3nm = rgn_area_offshore3nm)
 
-  ry <- ry %>%
+  prot_area_rgn <- prot_area_rgn %>%
     select(region_id = id_num, year, val_num, layer) %>%
     spread(layer, val_num) %>%
-    select(region_id, year, cmpa = lsp_prot_area_offshore3nm,
+    select(region_id, year,
+           cmpa = lsp_prot_area_offshore3nm,
            cp = lsp_prot_area_inland1km)
 
   # fill in time series for all regions
 
-rgn_yrs <- expand.grid(region_id = unique(ry$region_id),
-                         year = unique(ry$year)) %>%
-  left_join(ry, by=c('region_id', 'year')) %>%
+rgn_yrs <- expand.grid(region_id = unique(prot_area_rgn$region_id),
+                       year      = unique(prot_area_rgn$year)) %>%
+  left_join(prot_area_rgn, by=c('region_id', 'year')) %>%
   arrange(region_id, year) %>%
-  mutate(cp= ifelse(is.na(cp), 0, cp),
-         cmpa = ifelse(is.na(cmpa), 0, cmpa)) %>%
- mutate(pa     = cp + cmpa)
+  mutate(cp   = ifelse(is.na(cp),   0, cp),
+         cmpa = ifelse(is.na(cmpa), 0, cmpa)) #  %>%
+  # mutate(pa   = cp + cmpa)
 
   # get percent of total area that is protected for inland1km (cp) and offshore3nm (cmpa) per year
   # and calculate status score
-rgn_yrs = rgn_yrs %>%
-  full_join(r, by="region_id") %>%
+rgn_yrs <- rgn_yrs %>%
+  full_join(tot_area_rgn, by="region_id") %>%
   mutate(pct_cp    = pmin(cp   / area_inland1km   * 100, 100),
          pct_cmpa  = pmin(cmpa / area_offshore3nm * 100, 100),
-         prop_protected    = ( pmin(pct_cp / ref_pct_cp, 1) + pmin(pct_cmpa / ref_pct_cmpa, 1) ) / 2) %>%
+         prop_protected = ( pmin(pct_cp / ref_pct_cp, 1) + pmin(pct_cmpa / ref_pct_cmpa, 1) ) / 2) %>%
   filter(!is.na(prop_protected))
 
 # extract status based on specified year
-  rgn_status = rgn_yrs %>%
-    filter(year==status_year) %>%
-    select(region_id, status=prop_protected) %>%
-    mutate(status=status*100)
+  rgn_status <- rgn_yrs %>%
+    filter(year %in% status_years) %>%
+    select(year, region_id, status = prop_protected) %>%
+    mutate(status = status * 100)
 
   # calculate trend
-  rgn_trend =   rgn_yrs %>%
+  rgn_trend <-   rgn_yrs %>%
     filter(year %in% trend_years) %>%
     group_by(region_id) %>%
     do(mdl = lm(prop_protected ~ year, data=.)) %>%
@@ -156,7 +157,7 @@ rgn_yrs = rgn_yrs %>%
 
 
   # return scores
-  scores = bind_rows(
+  scores <- bind_rows(
     within(rgn_status, {
       goal      = 'LSP'
       dimension = 'status'

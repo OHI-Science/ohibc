@@ -13,7 +13,8 @@ CalculateAllBC <- function (conf, layers) {
     dplyr::filter(!is.na(preindex_function)) %>%
     dplyr::arrange(order_calculate)
 
-  scores <- data.frame(goal      = character(0),
+  scores <- data.frame(year      = integer(0),
+                       goal      = character(0),
                        dimension = character(0),
                        region_id = integer(0),
                        score     = numeric())
@@ -47,15 +48,15 @@ CalculateAllBC <- function (conf, layers) {
 
     if (nrow(scores_g) > 0) {
       scores <- scores %>%
-        rbind(scores_g %>%
+        bind_rows(scores_g %>%
                 select(year, goal, dimension, region_id, score))
     }
   }
 
   scores_P <- CalculatePressuresAll(layers, conf)
-  scores   <- rbind(scores, scores_P)
+  scores   <- bind_rows(scores, scores_P)
   scores_R <- CalculateResilienceAll(layers, conf)
-  scores   <- rbind(scores, scores_R)
+  scores   <- bind_rows(scores, scores_R)
   # scores   <- data.frame(scores)
   goals_G  <- as.character(scores %>%
                              filter(dimension == 'status') %>%
@@ -96,7 +97,7 @@ CalculateAllBC <- function (conf, layers) {
       dplyr::mutate(goal = goal_i) %>%
       dplyr::select(goal, dimension, region_id, score)
 
-    scores <- rbind(scores, scores_G)
+    scores <- bind_rows(scores, scores_G)
   }
 
   goals_Y    <- conf$goals %>%
@@ -115,7 +116,7 @@ CalculateAllBC <- function (conf, layers) {
 
   message('Calculating Index Score for each region using goal weights to combine goal scores...')
 
-  scores <- rbind(scores,
+  scores <- bind_rows(scores,
                   scores %>%
                     dplyr::filter(dimension == 'score', goal %in% supragoals) %>%
                     merge(conf$goals %>%
@@ -129,7 +130,7 @@ CalculateAllBC <- function (conf, layers) {
 
   message('Calculating Index Likely Future State for each region...')
 
-  scores <- rbind(scores,
+  scores <- bind_rows(scores,
                   scores %>%
                     dplyr::filter(dimension == 'future', goal %in% supragoals) %>%
                     merge(conf$goals %>%
@@ -146,7 +147,7 @@ CalculateAllBC <- function (conf, layers) {
   }
 
   message('Calculating scores for ASSESSMENT AREA (region_id=0) by area weighting...')
-  scores <- rbind(scores,
+  scores <- bind_rows(scores,
                   scores %>%
                     dplyr::filter(dimension %in% c('score', 'status', 'future')) %>%
                     merge(SelectLayersData(layers, layers = conf$config$layer_region_areas, narrow = TRUE) %>%
