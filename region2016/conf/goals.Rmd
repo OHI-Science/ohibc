@@ -26,7 +26,7 @@ x_{MAR} =  \frac{Y_{c}}{Y_{r}}
 $$
 
 $$
-Y_{c} = \frac{\sum{1}^{k} Y_{k} * S_{M,k}}{P_{c}}
+Y_{c} = \frac{\displaystyle\sum Y_{k} * S_{M,k}}{P_{c}}
 $$
 
 - $Y$ = current sustainably harvested total yield, current [$c$] or reference [$r$] 
@@ -62,7 +62,7 @@ $$
 Level of protection of the coast from inundation and erosion compared to the local natural potential
 
 $$
-x_{NP} = \frac{\sum_{p=1}^{N} w_p * x_p}{N}  
+x_{NP} = \frac{\displaystyle\sum w_p * x_p}{N}  
 $$
 
 $$
@@ -92,7 +92,7 @@ $$
 Extent and condition of coastal habitats that store and sequester atmospheric carbon 
 
 $$
-x_{CS} =  \sum_{1}^{k} \frac{C_{s}}{C_{r}} * \frac{A_{k}}{A_{T}}
+x_{CS} =  \displaystyle\sum \frac{C_{s}}{C_{r}} * \frac{A_{k}}{A_{T}}
 $$
 
 - $C$ = condition of habitat $k$, current [$c$] or reference[$r$]
@@ -106,15 +106,15 @@ habitats: seagrass beds, salt marshes, mangroves
 Protection from inundation or erosion compared to the local natural potential
 
 $$
-x_{CP} =  \sum_{k}^{n} \alpha_{k} * \frac{C_{c,k}}{C_{r,k}}
+x_{CP} =  \displaystyle\sum \alpha_{k} * \frac{C_{c,k}}{C_{r,k}}
 $$
 
 $$
-\alpha_{k} = \frac{w_{k}*A_{k}}{\sum{w_{k}*A_{k}}}
+\alpha_{k} = \frac{w_{k}*A_{k}}{\displaystyle\sum{w_{k}*A_{k}}}
 $$
 
 $$
-w_{k} = \frac{r_{k}}{\sum{r_{k}}}
+w_{k} = \frac{r_{k}}{\displaystyle\sum{r_{k}}}
 $$
 
 - $C$ = condition of habitat $k$, current [$c$] and reference [$r$]
@@ -156,7 +156,7 @@ $$
 Number of jobs and job quality from marine-associated sectors
 
 $$
-x_{LIV} = \frac{\frac{\sum_{i=1}^{k} j_{c,k}}{\sum_{i=1}^{k} j_{r,k}} + \frac{\sum_{i=1}^{k} g_{m,k}}{\sum_{i=1}^{k} g_{r,k}}}{2}
+x_{LIV} = \frac{\frac{\displaystyle\sum j_{c,k}}{\displaystyle\sum j_{r,k}} + \frac{\displaystyle\sum g_{m,k}}{\displaystyle\sum g_{r,k}}}{2}
 $$
 
 - $j$ = number of jobs within sector $k$ at current [$c$] or reference [$r$] time
@@ -170,7 +170,7 @@ $$
 Revenue from marine associated sectors
 
 $$
-x_{ECO} = \sum_{i=1}^{k} \frac{e_{c,k}}{e_{r,k}} 
+x_{ECO} = \displaystyle\sum_{i=1}^{k} \frac{e_{c,k}}{e_{r,k}} 
 $$
 
 - $e$ = total adjusted revenue generated from each sector $k$ at current [$c$] or reference [$r$] time
@@ -182,7 +182,7 @@ $$
 Aesthetic connections to and cultural identity with a given region measured through the status of iconic species
 
 $$
-x_{ICO} = \frac{\sum_{i=1}^{N} S_{i} * w_{i}}{\sum_{i=1}^{N} S_{i}} 
+x_{ICO} = \frac{\displaystyle\sum S_{i} * w_{i}}{\displaystyle\sum S_{i}} 
 $$
 
 - $S$ = number of assessed species in each threat category $i$ 
@@ -230,7 +230,7 @@ $$
 Existence values people hold for biodiversity measured through the status of key habitats
 
 $$
-x_{HAB} =  \sum_{i=1}^{k} \frac{C_{c,k}}{C_{r,k}} * \frac{A_{c,k}}{A_{T}}
+x_{HAB} =  \displaystyle\sum_{i=1}^{k} \frac{C_{c,k}}{C_{r,k}} * \frac{A_{c,k}}{A_{T}}
 $$
 
 - $C$ = condition of habitat k, current [$c$] or reference[$r$]
@@ -244,7 +244,7 @@ habitats: seagrass beds, salt marshes, subtidal soft-bottom habitats, mangroves,
 Existence values people hold for biodiversity measured through the status of native species
 
 $$
-x_{SPP} = \frac{\sum_{k=1}^{M} (\frac{\sum_{i=1}^{N} w_{i}}{N}) * A_{C}}{A_{T}} 
+x_{SPP} = \frac{\displaystyle\sum_{k=1}^{M} \left(\displaystyle\sum_{i=1}^{N} w_{i} / N\right) * A_{C}}{A_{T}} 
 $$
 
 - $M$ = number of grid cells in the assessment region
