@@ -1,0 +1,414 @@
+---
+title: 'OHIBC: herring spawn index prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+dir_git     <- '~/github/ohibc'
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal     <- 'ao'
+scenario <- 'v2017'
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+```
+
+#Summary
+
+This data is incorporated into the OHI British Columbia First Nations Resource Access and Opportunities (AO) goal.
+
+***
+
+#Data Source
+
+**Reference**: 
+
+**Downloaded**: 
+
+**Native Data Resolution**:   
+
+**Values**: 
+
+**Time Range**: N/A
+
+**Format**: CSV
+
+***
+
+# Methods
+
+## Read in Herring Spawn data
+
+### Herring Spawn Index
+
+Herring spawn data is available as Spawn Habitat Index values calculated for sub-regions across BC from 1920s, 30s, and 40s to 2016.
+
+* Data in text tables [here](http://www.pac.dfo-mpo.gc.ca/science/species-especes/pelagic-pelagique/herring-hareng/herspawn/tabsbkm2-eng.html)
+* Documentation and background [here](http://www.pac.dfo-mpo.gc.ca/science/species-especes/pelagic-pelagique/herring-hareng/hertags/pdf/project-eng.pdf)
+
+The documentation provides great detail, and some important notes are excerpted below.
+
+> Based on detailed examination of the original records, it is clear that the overwhelming majority
+of the fishery officers and divers who report on herring spawns, have done it in a dedicated,
+professional and competent manner, often with detailed comments and charts accompanying the
+records. There are undoubtedly some errors in individual records, but usually the impact of such
+errors is diminished because of the relatively large number of records available for most
+locations. Furthermore, these records were gathered by hundreds of different individuals over a
+75 year period. Within any single location, there were at least several different data recorders,
+and often many more over the years. So it is unlikely to expect a continuous run of poor data
+records.
+
+> There are, nevertheless, two kinds of systematic errors in these records which should be
+mentioned. The first appears to be a time-dependent trend for fishery officers to under-estimate
+the width of egg depositions. This occurred mainly in the earlier years, when it was generally
+believed that most of the spawn was confined to the intertidal zone. It has not been until
+relatively recent times that the significance of the subtidal fraction has been fully appreciated
+(Haegele et al. 1983). Also, there has been systematic changes (see Hay and Kronlund 1987) in
+the measurement of spawn density over the years, starting with a 1 to 5 "intensity" or categorical
+scale from 1928 to 1950, to a 1 to 9 "intensity" scale from 1951 to 1982 and then eventually to
+an egg layer measurement from 1977 to the present date. Each of these intensity measurements
+have been converted to average egg layers in the database. Previously, a spawn coefficient (Hay 
+and Kronlund 1987) was applied to correct for these time-dependent errors. An area-specific
+coefficient was calculated by the mean of the product of spawn width and intensity, pooled at the
+herring section geographic scale. Today, a similar correction is applied whereby the median of
+the product of spawn width and egg layer measurements are pooled by a range of discrete
+kilometre segments along the coastline. This coefficient is incorporated into a cumulative spawn
+index described below.
+
+> **Spawn Habitat Index:** We have computed a cumulative spawn habitat index (SHI) to represent the combined, long-term
+frequency and magnitude of spawns along each kilometre of coastline over time. The index is
+simply a measure of shoreline utilization by spawning herring. This index should not be
+confused with the "spawn index" as applied to escapement, age-structure or more recently, catchage
+assessment models (Cleary et al. 2010-2012, Schweigert et al. 1993-2009 or Haist et al.
+1984-1992). The cumulative Spawn Habitat Index is calculated by the sum of the product of each
+measured spawn length (m) and the median of the product of spawn width (m) and egg layers
+adjusted by percent cover and pooled geographically. Spawn width and egg layer measurements
+were pooled by a range of discrete, coastal shoreline kilometre segments, over all years (1928 to
+the current year) and reflect the bathymetric (depth and slope) and vegetative features (seaweed
+species compositions) of the spawning sites (area-specific spawn coefficient). The measured
+length (m) of shoreline that is utilized by spawners is considered the most reliable of the three,
+primary spawn measurements in terms of database completeness and consistency and has the
+most influence on the Spawn Habitat Index (SHI = Length x Spawn Coefficient) at a spawning
+area.
+
+> ... The only other kind of error in the records which can severely affect conclusions presented in
+these analyses, is that of incompleteness. It is clear that for some locations, records were not
+collected systematically each year. Sometimes, problems with field communications, equipment
+and weather resulted in data deficiencies. It is also known that many small, but observable
+spawns, do not reach the doorstep of the database while others do. These spawns may be
+important from a habitat perspective but are not high on the list from a stock assessment
+viewpoint, where survey priorities are set.
+
+#### extracting data from web
+
+This link is the gateway to the various spawn habitat index pages: 
+* http://www.pac.dfo-mpo.gc.ca/science/species-especes/pelagic-pelagique/herring-hareng/herspawn/tabsbkm2-eng.html
+* [source for this page](view-source:http://www.pac.dfo-mpo.gc.ca/science/species-especes/pelagic-pelagique/herring-hareng/herspawn/tabsbkm2-eng.html) shows that the links are within [this page in the bottom frame](http://www.pac.dfo-mpo.gc.ca/science/species-especes/pelagic-pelagique/herring-hareng/herspawn/tabindex-eng.html#2).
+* scan the link page via XML to extract links for the various sub-area pages.
+    * update - not XML, just HTML... extract from the anchor tags
+
+``` {r parse_links_from_web}
+library(xml2); library(XML)
+
+links_url <- 'http://www.pac.dfo-mpo.gc.ca/science/species-especes/pelagic-pelagique/herring-hareng/herspawn/tabindex-eng.html#2'
+shi_dir <- dirname(links_url)
+
+links_html <- read_html(links_url) %>%
+  htmlParse()
+
+links_df_raw <- capture.output(links_html, file=NULL) %>%
+  as.data.frame() %>%
+  setNames('html_raw') 
+
+links_df <- links_df_raw %>%
+  filter(str_detect(tolower(html_raw), 'reg[0-9]roll-eng|statist|section')) %>%
+  mutate(html = str_replace_all(html_raw, '<[/]*li>|\\\r', ''),   ### get rid of list tags and \r tags
+         html = str_replace_all(html, ' *---+.+', ''),
+         link = str_extract(html, '(?<=href\\=\\").+(?=\\")'),
+         link = ifelse(is.na(link), NA, file.path(shi_dir, link)),
+         link_info = str_extract(html, '(?<=\\">).+')) %>%
+  separate(link_info, c('link_area', 'area_name'), '</a>[-, ]*') %>%
+  mutate(link_area = ifelse(is.na(link_area), html, link_area)) %>%
+  select(-html_raw)
+
+write_csv(links_df, file.path(dir_goal, 'int/shi_links.csv'))
+
+```
+
+``` {r read_linked_pages_from_web}
+
+shi_data_file <- file.path(dir_goal, 'int/shi_data.csv')
+
+if(!file.exists(shi_data_file)) {
+  
+  links_active <- read_csv(file.path(dir_goal, 'int/shi_links.csv')) %>%
+    filter(!is.na(link) & str_detect(tolower(link_area), 'region|statist|section'))
+  
+  links_vec <- links_active$link %>%
+    setNames(paste(links_active$link_area, links_active$area_name, sep = '~'))
+  
+  table_cols <- c('year', 'tot_records', 'spawn_hab_index', 
+                  'l_tot', 'w_mean', 'layers_mean', 'sst_wgt', 
+                  'date_mean', 'd_wgt', 'd_min', 'd_max', 
+                  'diver_survey_pct')
+  
+  shi_df <- lapply(links_vec, FUN = function(x) {
+    ### x <- links_vec[1]
+    y <- read.table(x, skip = 14, fill = TRUE, na.strings = '*') %>%
+      setNames(table_cols) %>%
+      mutate(year = as.integer(year),
+             tot_records = as.integer(tot_records)) %>%
+      filter(!is.na(year))
+  }) %>%
+    setNames(names(links_vec)) %>%
+    bind_rows(.id = 'id') %>%
+    separate(id, c('area', 'area_name'), '~')
+  
+  write_csv(shi_df, shi_data_file)
+  
+} else {
+  
+  git_prov(shi_data_file, 'output')
+  
+}
+
+```
+
+#### Herring spawn index by rgn by year
+
+Possible reference point: mean herring spawn index from 1940-1960?  For each DFO larger region, let's plot this.  These are not OHIBC analysis regions.
+
+``` {r plot_herring_spawn_by_dfo_rgn}
+
+shi_df <- read_csv(file.path(dir_goal, 'int/shi_data.csv'))
+
+shi_rgn <- shi_df %>%
+  filter(str_detect(area, 'Region')) %>%
+  group_by(area) %>%
+  mutate(area_name = str_replace_all(area_name, '((?<=\\))).+', ''),
+         tmp = ifelse(year <= 1960, 1, NA),
+         ref_shi = mean(spawn_hab_index * tmp, na.rm = TRUE)) %>%
+  ungroup() %>%
+  select(-tmp)
+
+ggplot(shi_rgn, aes(x = year, y = spawn_hab_index, group = area)) +
+  ggtheme_plot() +
+  geom_line() +
+  geom_hline(aes(yintercept = ref_shi), color = 'grey50') +
+  facet_wrap( ~ area_name)
+
+ggplot(shi_rgn, aes(x = year, y = date_mean, group = area)) +
+  ggtheme_plot() +
+  geom_ribbon(aes(ymin = d_min, ymax = d_max), fill = 'red3', color = NA, alpha = .4) +
+  geom_line(color = 'black', alpha = .6) +
+  geom_line(aes(y = d_wgt), color = 'red4', alpha = .8) +
+  facet_wrap( ~ area_name)
+
+```
+
+### Spatialize Spawn Habitat Index data
+
+Spawn sections do not correspond with PFMAs or PFMSAs.  Instead, we will classify sections into OHIBC regions by inspecting the maps e.g. http://www.pac.dfo-mpo.gc.ca/science/species-especes/pelagic-pelagique/herring-hareng/herspawn/ccst_map-eng.html.  For sections that appear to intersect multiple OHIBC regions, closer inspection (i.e. clicking on the section number on the map) reveals the distribution and sites of spawn within the region; using these, we can roughly estimate the proportion of spawn that falls into each intersecting OHIBC region.
+
+``` {r determine_spatial_divs, eval = FALSE, include = FALSE}
+
+shi_df <- read_csv(file.path(dir_goal, 'int/shi_data.csv'))
+
+### associate sections with OHIBC regions manually from maps
+# shi_df$area %>% unique()
+# 
+# shi_sec <- shi_df %>%
+#   filter(str_detect(tolower(area), 'section')) %>%
+#   select(area, area_name) %>%
+#   distinct()
+# write_csv(shi_sec, file.path(dir_goal, 'raw/shi_sections_raw.csv'))
+### ADD rgn_id AND rgn_wgt FIELDS MANUALLY and rename without _raw
+
+shi_fix <- read_csv(file.path(dir_goal, 'raw/shi_secs_67_135_136.csv'),
+                              col_types = 'iicnnnnccc') %>%
+  group_by(section, pool, location) %>%
+  mutate(layers = ifelse(is.na(layers), median(layers, na.rm = TRUE), layers),
+         length = ifelse(is.na(length), median(length, na.rm = TRUE), length),
+         width  = ifelse(is.na(width),  median(width,  na.rm = TRUE), width),
+         shi    = length * width * layers) %>%
+  filter(!is.na(shi)) %>%
+  group_by(section, pool) %>%
+  summarize(shi_sum = sum(shi), n_obs = n()) %>%
+  group_by(section) %>%
+  mutate(shi_pct = shi_sum / sum(shi_sum))
+### from this, divisions:
+###  67 pool 1-4 = CC = .946; 5-6 = AZ = .054
+### 135 pool 1 = SG = .321, 2 = NVI = .679
+### 136 pool 2 = NVI = .105; pools 0 (?) and 1 = .895
+### USE THESE TO INFORM WEIGHTING OF SHI VALUES
+  
+
+```
+
+``` {r calc_spawn_hab_index_by_rgn}
+
+shi_df <- read_csv(file.path(dir_goal, 'int/shi_data.csv'))
+
+shi_sec <- read_csv(file.path(dir_goal, 'raw/shi_sections.csv')) %>%
+  select(-area_name) %>%
+  distinct()
+
+shi_ohibc <- shi_df %>%
+  filter(str_detect(tolower(area), 'section')) %>%
+  select(area, area_name, year, tot_records, spawn_hab_index) %>%
+  distinct() %>%
+  left_join(shi_sec, by = c('area')) %>%
+  group_by(rgn_id, year) %>%
+  summarize(shi_tot = sum(spawn_hab_index * rgn_wgt, na.rm = TRUE)) %>%
+  ungroup() %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
+
+write_csv(shi_ohibc, file.path(dir_goal, 'int/shi_by_rgn.csv'))
+
+```
+
+``` {r plot_shi_vs_ref}
+
+shi_by_rgn <- read_csv(file.path(dir_goal, 'int/shi_by_rgn.csv'))
+
+ref_yrs <- c(1900:1960)
+
+shi_ohibc <- shi_by_rgn %>%
+  group_by(rgn_id) %>%
+  mutate(tmp = ifelse(year %in% ref_yrs, 1, NA),
+         ref_shi = mean(shi_tot * tmp, na.rm = TRUE)) %>%
+  ungroup() %>%
+  select(-tmp)
+  
+ggplot(shi_ohibc, aes(x = year, y = shi_tot, group = rgn_id)) +
+  ggtheme_plot() +
+  theme(axis.title.x = element_blank()) +
+  annotate('rect', xmin=max(min(ref_yrs), min(shi_ohibc$year)), xmax=max(ref_yrs), ymin=0, ymax=Inf, fill = 'red', alpha = .1) +
+  geom_line() +
+  geom_hline(aes(yintercept = ref_shi), color = 'darkgreen', alpha = .5) +
+  labs(y = 'Spawn Habitat Index Total') +
+  facet_wrap( ~ rgn_name, scales = 'free')
+
+
+```
+
+
+### Herring spawn SSB by year
+
+Additionally, Karen Hunter of the DFO provided spawn data from 2005-2015 divided into PFMA subareas that may be useful to compare to the Spawn Habitat Index, though on its own, its utility is limited by the relatively short time series.
+
+``` {r read_xlsx_from_dfo}
+
+data_file <- file.path(dir_anx, '_raw_data/dfo_khunter/d2016/fisheries', 
+                         'Herring Spawn Index_SSBbysection_coastwide_2005to2015.xlsx')
+
+sheets <- readxl::excel_sheets(data_file)
+
+hspawn_dfo_raw <- lapply(sheets, FUN = function(x) {
+  # x <- sheets[1]
+    capture.output( ### the read_excel function annoyingly prints crap to screen
+      {
+        y <- readxl::read_excel(data_file, sheet = x)
+      },
+      file = file.path(dir_goal, 'delete_this.txt')
+    )
+    unlink(file.path(dir_goal, 'delete_this.txt'))
+    
+    z <- y %>%
+      setNames(tolower(names(.))) %>%
+      rename(total_ssb = `total ssb (tonnes)`) %>%
+      mutate(year = as.integer(year),
+             total_ssb = as.integer(total_ssb)) %>%
+      filter(!is.na(year)) %>%
+      gather(area, ssb, everything(), -year, -contains('total')) %>%
+      mutate(dfo_rgn = x)
+    return(z)
+  }) %>%
+  bind_rows() %>%
+  mutate(area = str_replace(area, '-', '') %>% as.integer())
+
+shi_sec <- read_csv(file.path(dir_goal, 'raw/shi_sections.csv')) %>%
+  select(-area_name) %>%
+  mutate(area = str_replace(area, 'Section ', '') %>% as.integer())
+
+hspawn_dfo_clean <- hspawn_dfo_raw %>%
+  left_join(shi_sec, by = 'area')
+
+write_csv(hspawn_dfo_clean, file.path(dir_goal_anx, 'int/hspawn_dfo_clean.csv'))
+
+hspawn_dfo_summary <- hspawn_dfo_clean %>%
+  group_by(rgn_id, year) %>%
+  summarize(ssb_tot = sum(ssb * rgn_wgt, na.rm = TRUE)) %>%
+  ungroup()
+
+  
+shi_ohibc_05_15 <- read_csv(file.path(dir_goal, 'int/shi_by_rgn.csv')) %>%
+  filter(year >= 2005 & year <= 2015) %>%
+  full_join(hspawn_dfo_summary, by = c('year', 'rgn_id')) %>%
+  group_by(rgn_id) %>%
+  mutate(shi_rel = shi_tot / max(shi_tot),
+         ssb_rel = ssb_tot / max(ssb_tot)) %>%
+  ungroup()
+
+ggplot(shi_ohibc_05_15, aes(x = year, y = shi_rel, group = rgn_id)) +
+  ggtheme_plot() +
+  theme(axis.title.x = element_blank()) +
+  geom_line() +
+  geom_line(aes(x = year, y = ssb_rel, group = rgn_id), color = 'red3') +
+  scale_x_continuous(breaks = seq(2005, 2015, 2)) +
+  labs(y = 'Relative spawn metric (SSB = black, SHI = red)') +
+  facet_wrap( ~ rgn_name, scales = 'free')
+
+ssb_shi_lm <- lm(shi_rel ~ ssb_rel, shi_ohibc_05_15)  
+
+ggplot(shi_ohibc_05_15, aes(x = ssb_rel, y = shi_rel)) +
+  ggtheme_plot() +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, color = 'red3', alpha = .5) +
+  geom_abline(slope = ssb_shi_lm$coefficients[2], intercept = ssb_shi_lm$coefficients[1], 
+              color = 'grey30', size = 1.5, alpha = .5) +
+  scale_x_continuous(limits = c(0, 1)) +
+  scale_y_continuous(limits = c(0, 1)) +
+  labs(x = 'SSB/SSB max',
+       y = 'SHI/SHI max') +
+  facet_wrap( ~ rgn_name)
+
+```
+
+
+
+
+***
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup()
+```
+

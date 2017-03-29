@@ -21,9 +21,11 @@ output:
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
                       echo = TRUE, message = FALSE, warning = FALSE)
 
-source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+library(ggmap)
+library(rgdal)
+library(broom)
 
-library(lubridate)
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
 
 dir_git     <- '~/github/ohibc'
 dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
@@ -106,7 +108,8 @@ if(!file.exists(lic_clean_file)) {
                                paste(vessel_owner_first_name, vessel_owner_midddle_name, vessel_owner_last_name),
                                NA)) %>%
     mutate(year = licence_suffix,
-           fn = str_detect(tolower(prefix_description), 'aborig|northern native|northernnative')) %>%
+           fn = str_detect(tolower(prefix_description), 'aborig|northern native|northernnative'),
+           fn = ifelse(is.na(fn), str_detect(tolower(licence_holder_type), 'aborig'), fn)) %>%
     select(year, 
            lic_prefix = licence_prefix, 
            prefix_desc = prefix_description,
@@ -116,7 +119,8 @@ if(!file.exists(lic_clean_file)) {
            lic_hold_type = licence_holder_type,
            lic_hold_vessel = licence_holder_vessel,
            lic_oper_vessel = licence_operator_vessel,
-           lic_holder, lic_oper, vessel_own)
+           lic_holder, lic_oper, vessel_own,
+           vessel_length_m = vessel_length_mr_)
   
   write_csv(licenses_clean, lic_clean_file)
 } else {
@@ -148,8 +152,8 @@ license_fn_yr <- lic_clean %>%
   select(year,
          prefix_desc, 
          fn,
-          lic_prefix, 
-          fishery_group) %>%
+         lic_prefix, 
+         fishery_group) %>%
   mutate(fishery_group = tolower(fishery_group)) %>%
   group_by(year, fishery_group) %>%
   summarize(n_total = n(),
@@ -392,90 +396,103 @@ print(plot_fn_by_rgn)
 
 ```
 
+``` {r use_ggmap, eval = FALSE}
+
+
+bc_poly_84 <- readOGR(dsn = dir_spatial %>% path.expand(),
+                          layer = 'ohibc_rgn') %>%
+  spTransform(CRS('+init=epsg:4326'))
+
+bbox <- bc_poly_84@bbox
+
+bc_bbox <- c(left  = bbox[1, 1]  - .2, bottom = bbox[2, 1] - .2, 
+             right = bbox[1, 2] + 1.7, top    = bbox[2, 2] + .2)
+
+bc_rgns <- bc_poly_84@data %>%
+  mutate(id = rownames(.),
+         rgn_id = as.integer(rgn_id))
+
+sum_fn_by_rgn <- read_csv(file.path(dir_goal, 'int/fn_licenses_by_rgn.csv')) %>%
+  mutate(pct_fn = pct_fn * 100)
+
+bc_poly_tidy <- broom::tidy(bc_poly_84) %>%
+  full_join(bc_rgns, by = 'id') %>%
+  full_join(sum_fn_by_rgn, by = 'rgn_id')
+
+basemap <- get_stamenmap(
+  bbox = bc_bbox,
+  zoom = 6,
+  maptype = "toner-lite")
+
+ao_max_pct <- bc_poly_tidy$pct_fn %>% max()
+
+bpMap <- ggmap(basemap) +
+  ggtheme_plot() +
+  theme(axis.text = element_blank(),
+        axis.title = element_blank()) +
+  geom_polygon(data = bc_poly_tidy %>% filter(year %in% seq(1995, 2015, 5)),
+               aes(x = long, y = lat, group = group, fill = pct_fn),
+               color = 'slateblue', size = .25, alpha = .4) +
+  scale_fill_gradientn(colours = brewer.pal(7, 'RdYlBu'), limits = c(0, ao_max_pct)) +
+  labs(title="OHIBC AO") +
+  facet_wrap( ~ year)
+  
+ggsave(filename = file.path(dir_goal, 'int/ao_licenses_mapped.png'),
+       plot = bpMap)
+
+```
+
+![](`r path.expand(file.path(dir_goal, 'int/ao_licenses_mapped.png'))`)
+
 -----
 
-<!--
-## Fishery groups with FN licenses
+## Other questions
 
-``` {r inspect_fn_by_year}
+### licenses by length?
 
-license_fn_yr <- lic_clean %>%
-  select(year,
-         prefix_desc, 
-         fn,
-          lic_prefix, 
-          fishery_group) %>%
-  mutate(fishery_group = tolower(fishery_group)) %>%
-  group_by(year, fishery_group) %>%
-  summarize(n_total = n(),
-         n_fn = sum(fn),
-         pct_fn = n_fn / n_total) %>%
-  ungroup()
+Do licensed vessels differ greatly between the First Nations fleet and the non-First Nations fleet?  A significant difference in boat size could indicate a significant difference in the access to catch for one license type vs. another.
 
-license_fn_yr <- license_fn_yr %>%
-  group_by(fishery_group) %>%
-  mutate(max_pct_fn = max(pct_fn, na.rm = TRUE)) %>%
-  ungroup()
+``` {r examine_length_as_variable, eval = FALSE}
 
-lic_fn_yr_zero <- license_fn_yr %>%
-  filter(max_pct_fn == 0) %>%
-  distinct()
+boats <- read_csv(lic_clean_file, nogit = TRUE) %>%
+  select(year, fishery_group, fn, length = vessel_length_m, lic_holder, lic_oper) %>%
+  mutate(length = ifelse(length == 0, NA, length))
 
-lic_fn_yr_gp <- license_fn_yr %>%
-  filter(year < 2017) %>%
-  filter(max_pct_fn > 0)
+bigboats <- boats %>% 
+  filter(length > 50)
 
-```
+medboats <- boats %>%
+  group_by(year, fn) %>%
+  mutate(mean_l = mean(length, na.rm = TRUE)) %>%
+  ungroup() %>%
+  filter(length <= 40) %>%
+  filter(year %in% c(1995, 2000, 2005, 2010, 2015))
 
+length_hist <- ggplot(medboats, aes(x = length, fill = fn)) +
+  geom_histogram(aes(frame = year), alpha = .6) +
+  geom_vline(aes(xintercept = mean_l, color = fn)) +
+  geom_text(data = medboats %>% 
+              select(year, mean_l, fn) %>% 
+              distinct(),
+            aes(x = mean_l, y = 1, label = paste0('mean = ', round(mean_l, 1), ' m')),
+            hjust = 0, vjust = 0, angle = 90, size = 3) +
+  labs(x = 'vessel length, meters',
+       y = 'license count',
+       fill = 'First Nations?',
+       color = 'First Nations?') +
+  facet_wrap( ~ year)
 
-`r DT::datatable(lic_fn_yr_gp)`
+# print(length_hist)
 
-
-## Fishery groups with no FN licenses indicated:
-
-`r lic_fn_yr_zero$fishery_group %>% unique() %>% sort()`
-
-`r DT::datatable(lic_fn_yr_zero)`
--->
-
-<!--
-## First Nations license consolidation
-
-``` {r look into license ownership consolidation}
-
-x <- lic_clean %>%
-  filter(str_detect(tolower(fishery_group), 'atlantic salmon'))
-
-lic_consol <- lic_clean %>%
-  select(year,
-          prefix_desc,
-         fn,
-          lic_prefix,
-          fishery_group,
-          lic_hold_type,
-          foreign_vessel,
-          lic_holder,
-          lic_oper,
-          vessel_own)
-
-lic_consol_yr <- lic_consol %>%
-  filter(!is.na(lic_holder)) %>%
-  group_by(year, fn, lic_holder) %>%
-  summarize(n_lic = n())
-
-lic_consol1 <- lic_consol_yr %>%
-  filter(n_lic > 1) %>%
-  group_by(lic_holder, fn) %>%
-  summarize(n_lic = sum(n_lic))
+ggsave(file.path(dir_goal, 'int/ao_licenses_vessel_lengths.png'))
 
 ```
--->
 
-
+![](`r path.expand(file.path(dir_goal, 'int/ao_licenses_vessel_lengths.png'))`)
 
 ***
 
-``` {r prov_footer, results = 'asis'}
+``` {r prov_footer, results = 'asis', eval = FALSE}
 prov_wrapup()
 ```
 

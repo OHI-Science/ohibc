@@ -428,7 +428,7 @@ date_clip <- function(closures_df) {
     # yr <- 2009
   
     z <- tmp %>% filter(year == yr)
-    message('processing year ', yr)
+    message('date clip: processing year ', yr)
   
     area_df <- data.frame()
     for(a in unique(z$area)) { 
@@ -567,7 +567,6 @@ area_map_plot <- tm_shape(area_map) +
               breaks = c(0, 10, 50, 100, 200, 350, 365),
               showNA = FALSE,
               title = 'Days closed (including seasonal closures)')
-            legend.text.size = .25)
 
 area_map_plot2 <- tm_shape(area_map) +
   tm_polygons(col = 'days_closed_no_seasonal',
@@ -594,6 +593,88 @@ save_tmap(area_map_plot2 +
   width = 500)
 
 ```
+
+## Assign area-weighted closures to OHIBC regions
+
+To area-weight the closures, we will determine the area of each closure zone (Pac Fishery Management Sub-Area) within 3 nautical miles of shore.  This prevents large areas that extend far offshore from over-counting in the calculations, since offshore areas will not be valid for shellfish collecting.
+
+Using the PFMSA polygons, we extract region IDs from the 3nm 500-meter OHIBC region raster and tally the area of each PFMSA within each OHIBC region.  This is then joined to the closure days dataframe.
+
+Note that 2008 and 2016 data are incomplete (first closure in the data is Aug 2008; last is July 2016) so these years are deleted and ignored.
+
+``` {r pfmsa_area_within_3nm}
+
+dir_pfmsa <- file.path(dir_anx, '_raw_data/dfo_khunter/d2016/management_boundaries/pac_fishery_mgmt_subareas') %>%
+  path.expand()
+poly_pfmsa <- readOGR(dsn = dir_pfmsa,
+                      layer = 'DFO_BC_PFMA_SUBAREAS_50K_V3_1')
+
+rast_3nm <- raster(file.path(dir_spatial, 'raster/ohibc_offshore_3nm_raster_500m.tif'))
+
+
+pfmsa_3nm <- raster::extract(rast_3nm, poly_pfmsa, 
+                             # weights = TRUE, normalize_weights = FALSE, 
+                             progress = 'text')
+
+pfmsa_3nm_df <- lapply(seq_along(pfmsa_3nm), FUN = function(x) {
+  y <- pfmsa_3nm[[x]]
+  z <- data.frame(pfmsa_id = rep(poly_pfmsa@data$LABEL[x], length(y)),
+                  rgn_id   = y)
+}) %>%
+  bind_rows() %>%
+  group_by(rgn_id, pfmsa_id) %>%
+  summarize(area_km2 = n() * 0.25) %>%
+  group_by(rgn_id) %>%
+  mutate(a_tot_km2 = sum(area_km2)) %>%
+  ungroup() %>%
+  filter(!is.na(rgn_id))
+
+write_csv(pfmsa_3nm_df, file.path(dir_goal, 'int/closure_pfmsa_to_rgn.csv'))
+
+```
+
+``` {r spatialize_closure_days}
+
+pfmsa_3nm_df <- read_csv(file.path(dir_goal, 'int/closure_pfmsa_to_rgn.csv')) %>%
+  separate(pfmsa_id, c('area', 'subarea'), sep = '-', convert = TRUE)
+
+closures_yr <- read_csv(file.path('int/closures_by_year_excl_seasonal.csv')) %>%
+  rename(days = total_days_closed) %>%
+  left_join(pfmsa_3nm_df, by = c('area', 'subarea')) 
+### check closures not associated with any OHIBC region:
+# x <- closures_yr %>%
+#   filter(is.na(rgn_id)) %>%
+#   select(area, subarea) %>%
+#   distinct()
+### Some closures affect offshore areas, or else inlets that do not register
+### in the OHIBC 3nm raster due to size or far inland.
+
+closures_rgn_yr <- closures_yr %>%
+  group_by(rgn_id, year) %>%
+  summarize(days_avg = sum(days * area_km2 / a_tot_km2)) %>%
+  ungroup() %>%
+  filter(year %in% c(2009:2015))
+
+write_csv(closures_rgn_yr, file.path(dir_goal, 'int/closures_rgn_yr.csv'))
+
+```
+
+``` {r plot_closures_vs_time}
+
+closures_rgn_yr <- read_csv(file.path(dir_goal, 'int/closures_rgn_yr.csv')) %>%
+  left_join(get_rgn_names(), by = 'rgn_id') %>%
+  filter(!is.na(rgn_id))
+
+ggplot(closures_rgn_yr, aes(x = year, y = days_avg, group = rgn_id)) +
+  theme(axis.title.x = element_blank()) +
+  geom_line() +
+  scale_y_continuous(limits = c(0, 365)) +
+  scale_x_continuous(breaks = seq(2009, 2015, 2), labels = c("'09", "'11", "'13", "'15")) +
+  labs(y = 'Closure days, area-weighted avg') +
+  facet_wrap( ~ rgn_name)
+
+```
+
 
 ***
 
