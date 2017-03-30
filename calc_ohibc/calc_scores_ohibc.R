@@ -1,224 +1,126 @@
 
 library(ohicore) ### devtools::install_github('ohi-science/ohicore')
-library(zoo)
+# library(zoo)
 
 source('~/github/ohibc/src/R/common.R')
 
-# # new paths based on host machine
-### !!! ALL TOOLBOX DATA IN OHIBC REPO - NONE ON MAZU
-# dirs = list(
-#   neptune_data  = dir_M,
-#   neptune_local = dir_M,
-#   ohiprep       = '../ohiprep',
-#   ohicore       = '../ohicore')
+dir_ohibc  <- '~/github/ohibc'
+dir_calc   <- file.path(dir_ohibc, 'calc_ohibc')
+dir_master <- file.path(dir_calc, 'master')
 
-### !!!CHANGE THESE TO do_BLAH
-# do_layercopy  <- TRUE
-# do_layercheck <- TRUE
-# do_calculate  <- TRUE
-# do_other      <- FALSE
+source(file.path(dir_calc, 'calc_scores_fxns.R'))
 
-# scenario list (need to add new scenarios here)
-### !!!does this duplicate (and risk conflicting with) layers_eez.csv?
-scenarios <- list(
-  eez2016     = list(
-    layer   = 'layers_eez',
-    fld_dir      = 'dir_2016a',
-    fld_fn       = 'fn_2016a',
-    f_spatial    = c('../ohiprep/Global/NCEAS-Regions_v2014/data/regions_gcs.js'),
-    do           = TRUE),
-  eez2015     = list(
-    layer   = 'layers_eez',
-    fld_dir      = 'dir_2015a',
-    fld_fn       = 'fn_2015a',
-    f_spatial    = c('../ohiprep/Global/NCEAS-Regions_v2014/data/regions_gcs.js'),
-    do           = TRUE) ,
-
-  eez2014     = list(
-    layer   = 'layers_eez',
-    fld_dir      = 'dir_2014a',
-    fld_fn       = 'fn_2014a',
-    f_spatial    = c('../ohiprep/Global/NCEAS-Regions_v2014/data/regions_gcs.js'),
-    do           = TRUE),
-
-  eez2013     = list(
-    layer   = 'layers_eez',
-    fld_dir      = 'dir_2013a',
-    fld_fn       = 'fn_2013a',
-    f_spatial    = c('../ohiprep/Global/NCEAS-Regions_v2014/data/regions_gcs.js'),
-    do           = TRUE),
-
-  eez2012     = list(
-    layer   = 'layers_eez',
-    fld_dir      = 'dir_2012a',
-    fld_fn       = 'fn_2012a',
-    f_spatial    = c('../ohiprep/Global/NCEAS-Regions_v2014/data/regions_gcs.js'),
-    do           = TRUE)
-)
-
-### sync functions.R:
-# overwrite eez2012, eez2013, eez2014, eez2015 with eez2016
-### !!!SET UP TO DO THIS BASED ON scenarios LIST OR CSV
-for (dir in c('eez2012','eez2013', 'eez2014', 'eez2015')){
-  stopifnot(file.copy('eez2016/conf/functions.R', file.path(dir, 'conf/functions.R'), overwrite = TRUE))
-}
-
+##### Set up scenarios #####
+### Set up scenarios by assigning years.  Each scenario (eg. 'region2015')
+### will be tied to a specific data year, not floating as in global OHI.
 scenario_years <- c(2005:2015) %>%
   setNames(paste0('region', .))
 
-for (i in seq_along(scenario_years)){
-  # i <- 2
+### Flags to do all the things (or not)
+do_layercopy  <- TRUE
+do_layercheck <- TRUE
+do_calculate  <- TRUE
 
-  scenario   <- names(scenarios)[i]
-  fld_dir    <- scenarios[[i]][['fld_dir']]
-  fld_fn     <- scenarios[[i]][['fld_fn']]
-  layer <- scenarios[[i]][['layer']]
-  # do         <- scenarios[[i]][['do']]
+##### Prepare scenario folders #####
 
-    print(scenario)
-    print(fld_dir)
-    print(fld_fn)
-    # print(do)
+for (scenario in names(scenario_years)) {   # scenario <- names(scenario_years)[1]
 
+  unlink(file.path(dir_calc, scenario), recursive = TRUE) ### clear out old files
+  # prep_scen_dirs(dir_calc, scenario)
 
-  # if (!do) next()
-
-  message('Scenario: ', scenario)
-
-  ### create dirs for each scenario
-  dirs_scenario <- c(scenario, sprintf('%s/%s', scenario, c('layers', 'conf', 'spatial')))
-  for (dir in dirs_scenario) {
-    if (!file.exists(dir)) dir.create(dir, showWarnings = FALSE)
-  }
-
-  if (do.layercopy){
+}
 
 
-## Read in the layers.csv file with paths to the data files
-### !!!FIRST: READ THE LAYERS_EEZ
- g <- read_csv(sprintf('~/github/ohibc/calc_ohibc/%s.csv', layer))
+for (yr_i in seq_along(scenario_years)) {
+  # yr_i <- 2
 
-### !!!CAN THIS BE DONE WITH FILL (forward and backward)?
- # carry forward file paths and names when no data for 2014 and/or 2015
-    if (as.numeric(gsub('[a-z]', '', scenario)) > 2013){
-      g <- g %>%
-        dplyr::mutate(
-          dir_2014a = ifelse(is.na(dir_2014a), dir_2013a, dir_2014a),
-          fn_2014a = ifelse(is.na(fn_2014a), fn_2013a, fn_2014a)) %>%
-        dplyr::mutate(
-          dir_2015a = ifelse(is.na(dir_2015a), dir_2014a, dir_2015a),
-          fn_2015a = ifelse(is.na(fn_2015a), fn_2014a, fn_2015a))%>%
-        dplyr::mutate(
-          dir_2016a = ifelse(is.na(dir_2016a), dir_2015a, dir_2016a),
-          fn_2016a = ifelse(is.na(fn_2016a), fn_2015a, fn_2016a))
-      }
+  scenario <- names(scenario_years)[yr_i]
+  status_year <- scenario_years[yr_i]
+  dir_scen <- file.path(dir_calc, scenario)
 
-    # replaces 'ohiprep' and 'neptune_data' parts of the filepath with the full file paths
-    # 'ohiprep' files are located here: https://github.com/OHI-Science/ohiprep
-    # 'neptune_data' files are located on the NCEAS Neptune server
-### !!!USES dirs FROM ABOVE; WHICH LINKS TO MAZU OR OHIPREP.
-### !!!KEEP ALL DATA FOR TOOLBOX IN OHIBC REPO - NOT NEEDED HERE
-    g$dir_in <- sapply(
-      str_split(g[[fld_dir]], ':'),
-      function(x){ sprintf('%s/%s', '~/github/ohibc', x[2])})
+  message('Scenario ', scenario, ': ', dir_scen)
 
-### !!!FIND FILE NAME BASED ON COLUMN FROM THIS SCENARIO
-    g$fn_in <- g[[fld_fn]]
+  ##### Copy layers from prep to layers folder #####
+  if (do_layercopy) {
+    message('Copying all layers to ', file.path(dir_scen, 'layers'))
 
-    # filters the data and determines whether the file is available, saves a copy to tmp folder
-    lyrs <- g %>%
-      filter(ingest == TRUE) %>%
-      mutate(
-        path_in        = file.path(dir_in, fn_in),
-        path_in_exists = file.exists(path_in),
-        filename = sprintf('%s.csv', layer),
-        path_out = sprintf('%s/layers/%s', scenario, filename)) %>%
-      select(
-        targets, layer, name, description,
-        fld_value=name_data_fld, units,
-        path_in, path_in_exists, filename, path_out) %>%
-      # select(
-      #   targets, layer,
-      #   fld_value=name_data_fld,
-      #   path_in, path_in_exists, filename, path_out) %>%
-      arrange(targets, layer)
-    # write_csv(lyrs, sprintf('%s/temp/layers_1-ingest.csv', scenario))
+    ### Read in the layers.csv file with paths to the data files
+    layers_log <- read_csv(file.path(dir_master, 'layers_ohibc.csv')) %>%
+      mutate(dir_prep = file.path(dir_ohibc, str_replace(dir_prep, 'ohibc:', '')))
 
-    ### USE FILE.EXISTS INSTEAD OF A COLUMN PATH_IN_EXISTS?
-    # checks that all data layers are available based on file paths
-    if (nrow(filter(lyrs, !path_in_exists)) != 0){
-      message('The following layers paths do not exist:\n')
+    lyrs <- register_layers(layers_log, dir_scen)
+
+    ### checks that all data layers are available based on file paths
+    if (nrow(filter(lyrs, !path_in_exists)) != 0) {
+      message('The following layers paths do not exist: \n  ')
       print(filter(lyrs, !path_in_exists) %>% select(layer, path_in), row.names = FALSE)
       stop('Data cannot be found - check file paths/names in layers.csv')
     }
 
-    # copy layers into specific scenario / layers file
-    for (j in 1:nrow(lyrs)){ # j=4
-      stopifnot(file.copy(lyrs$path_in[j], lyrs$path_out[j], overwrite = TRUE))
+    ### copy layers into current scenario/layers folder
+    for (j in 1:nrow(lyrs)) { # j = 4
+      layer_data <- lyrs$path_in[j]
+      layer_copy <- lyrs$path_out[j]
+      message('... copying ', layer_data, '\n         to ', layer_copy)
+      stopifnot(file.copy(layer_data, layer_copy, overwrite = TRUE))
     }
 
-    # delete extraneous files
-    files_extra <- setdiff(list.files(sprintf('%s/layers',scenario)), as.character(lyrs$filename))
-    unlink(sprintf('%s/layers/%s', scenario, files_extra))
+    ### delete extraneous files
+    files_extra <- setdiff(list.files(file.path(dir_scen, 'layers')),
+                           as.character(lyrs$filename))
+    unlink(file.path(dir_scen, 'layers', files_extra))
 
-    # layers registry
-    write_csv(dplyr::select(lyrs, -path_in, -path_in_exists, -path_out), sprintf('%s/layers.csv', scenario))
+    ### layers registry in scenario folder
+    write_csv(lyrs %>% dplyr::select(-path_in, -path_in_exists, -path_out),
+              file.path(dir_scen, 'layers.csv'))
   }
 
-  if (do.layercheck){
-    # load conf
-    conf   <- Conf(sprintf('%s/conf', scenario))
+  ##### Check that all layers match up to config #####
+  if (do_layercheck){
+    conf   <- Conf(file.path(dir_scen, 'conf'))
 
-    # run checks on layers
-    CheckLayers(layers.csv = sprintf('%s/layers.csv', scenario),
-                layers.dir = sprintf('%s/layers', scenario),
+    CheckLayers(layers.csv = file.path(dir_scen, 'layers.csv'),
+                layers.dir = file.path(dir_scen, 'layers'),
                 flds_id    = conf$config$layers_id_fields)
-    # system(sprintf('open %s/layers.csv', scenario))
   }
 
-  ### !!! HERE IS THE CALCULATE PART OF THE LOOP
-  if (do.calculate){
-    # calculate scores from directory of scenario
-    setwd(sprintf('%s', scenario)) # load_all(dirs$ohicore)
+  ##### Calculate scores for this scenario #####
+  if (do_calculate){
 
-    # load configuration and layers
-    conf   <- Conf('conf')
-    layers <- Layers(layers.csv = 'layers.csv', layers.dir = 'layers')
+    ### load configuration and layers;
+    ### For each run through loop, assign status_year and dir_scen inside
+    ###   the layers object/env't so they are accessible to functions.R
+    conf   <- Conf(file.path(dir_scen, 'conf'))
+    layers <- Layers(layers.csv = file.path(dir_scen, 'layers.csv'),
+                     layers.dir = file.path(dir_scen, 'layers'))
+    layers$data$status_year <- status_year
+    layers$data$dir_scen    <- dir_scen
 
-
-    # calculate scores
-    #try({    })
+    ### calculate scores
     scores <- CalculateAll(conf, layers)
-    write_csv(scores, 'scores.csv')
+    write_csv(scores, file.path(dir_scen, 'scores.csv'))
 
-    # restore working directory
-    setwd('..')
-
-    # archive scores on disk (out of github, for easy retrieval later)
-    csv <- sprintf('%s/git-annex/Global/NCEAS-OHI-Scores-Archive/scores/scores_%s_%s.csv',
-                  dirs$neptune_data, scenario, format(Sys.Date(), '%Y-%m-%d'))
-    write_csv(scores, csv)
   }
 
-  if (do.other){
-    # spatial
-    for (f in scenarios[[scenario]][['f_spatial']]){ # f <- f_spatial[1]
-      stopifnot(file.exists(f))
-      file.copy(f, sprintf('%s/spatial/%s', scenario, basename(f)))
-    }
-
-    # delete old shortcut files
-    for (f in c('launchApp.bat','launchApp.command','launchApp_code.R','scenario.R')){
-      path <- sprintf('%s/%s',scenario,f)
-      if (file.exists(path)) unlink(path)
-    }
-
-    # save shortcut files not specific to operating system
-    write_shortcuts(scenario, os_files=0)
-
-    # launch on Mac # setwd('~/github/ohi-global/eez2013'); launch_app()
-    #system(sprintf('open %s/launch_app.command', scenario))
-  }
+  # if (do.other){
+  #   # spatial
+  #   for (f in scenarios[[scenario]][['f_spatial']]){ # f <- f_spatial[1]
+  #     stopifnot(file.exists(f))
+  #     file.copy(f, sprintf('%s/spatial/%s', scenario, basename(f)))
+  #   }
+  #
+  #   # delete old shortcut files
+  #   for (f in c('launchApp.bat','launchApp.command','launchApp_code.R','scenario.R')){
+  #     path <- sprintf('%s/%s',scenario,f)
+  #     if (file.exists(path)) unlink(path)
+  #   }
+  #
+  #   # save shortcut files not specific to operating system
+  #   write_shortcuts(scenario, os_files=0)
+  #
+  #   # launch on Mac # setwd('~/github/ohi-global/eez2013'); launch_app()
+  #   #system(sprintf('open %s/launch_app.command', scenario))
+  # }
 }
 
 

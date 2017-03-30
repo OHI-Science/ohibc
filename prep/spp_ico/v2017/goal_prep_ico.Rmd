@@ -285,11 +285,20 @@ iucn_ico_rgn <- iucn_ico_rgn %>%
 ico_rgn_ts <- ico_ts %>%
   filter(spatial_source == 'iucn') %>%
   left_join(iucn_ico_rgn, by = c('map_iucn_sid' = 'iucn_sid', 'map_subpop' = 'subpop')) %>%
-  bind_rows(ico_info_ts %>%
+  bind_rows(ico_ts %>%
     filter(spatial_source == 'am') %>%
     left_join(am_ico_rgn, by = c('am_sid'))) %>%
   select(rgn_id, year, sciname, comname, iucn_sid, am_sid, pr_score, cat_ts_score)
 
+cat_list <- data.frame(cat_ts_score = c(   0,      .1,    .2,      .3,    .4,      .5,    .6,      .7,    .8,      .9,   1.0),
+                       cat_label    = c( 'EX', 'CR/EX',  'CR', 'CR/EN',  'EN', 'EN/VU',  'VU', 'VU/NT',  'NT', 'NT/LC',  'LC'),
+                       stringsAsFactors = FALSE)
+
+ico_rgn_ts <- ico_rgn_ts %>%
+  left_join(cat_list, by = 'cat_ts_score') %>%
+  select(rgn_id,year,cat_ts_score,cat_label,sciname,comname,iucn_sid,am_sid,pr_score)
+
+write_csv(ico_rgn_ts, file.path(dir_goal, 'output/ico_rgn_cat_ts.csv'))
 # x <- ico_info_rgn_ts %>% select(sciname, rgn_id) %>% distinct() %>% group_by(sciname) %>% summarize(n_rgn = n())
 # y <- ico_list %>% filter(!sciname %in% x$sciname)
 
@@ -305,14 +314,7 @@ ico_rgn_sum_ts <- ico_rgn_ts %>%
 ico_rgn_st_tr_ts <- calc_trends_per_rgn(ico_rgn_sum_ts, include_years = c(2000:2016), span = 10)  %>%
     mutate(trend = round(trend/(n_trend/n_cat), 5))
   
-write_csv(ico_rgn_st_tr_ts %>%
-            select(rgn_id, score = status, year), 
-          file.path(dir_goal, 'output/ico_status.csv'))
-write_csv(ico_rgn_st_tr_ts %>%
-            select(rgn_id, score = trend, year), 
-          file.path(dir_goal, 'output/ico_trend.csv'))
-write_csv(ico_rgn_st_tr_ts, 
-          file.path(dir_goal, 'summary/ico_rgn_summary.csv'))
+write_csv(ico_rgn_st_tr_ts, file.path(dir_goal, 'summary/ico_rgn_summary.csv'))
 
 ```
 
