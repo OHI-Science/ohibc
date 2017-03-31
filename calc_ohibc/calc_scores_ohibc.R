@@ -22,14 +22,19 @@ do_layercheck <- TRUE
 do_calculate  <- TRUE
 
 ##### Prepare scenario folders #####
-
+### * create scenario dirs and subdirs
+### * copy config files from master to scenarios
 for (scenario in names(scenario_years)) {   # scenario <- names(scenario_years)[1]
 
-  unlink(file.path(dir_calc, scenario), recursive = TRUE) ### clear out old files
-  # prep_scen_dirs(dir_calc, scenario)
+  # unlink(file.path(dir_calc, scenario), recursive = TRUE) ### clear out old files
+  prep_scen_dirs(dir_calc, scenario)
 
 }
 
+##### Iterate across scenario years #####
+### * Register and copy layers from data locations to scenario layers folder
+### * Verify all registered layers for the scenario are in the right places
+### * Calculate scores for the scenario
 
 for (yr_i in seq_along(scenario_years)) {
   # yr_i <- 2
@@ -48,27 +53,14 @@ for (yr_i in seq_along(scenario_years)) {
     layers_log <- read_csv(file.path(dir_master, 'layers_ohibc.csv')) %>%
       mutate(dir_prep = file.path(dir_ohibc, str_replace(dir_prep, 'ohibc:', '')))
 
+    ### Register layers based on include == TRUE and identify file locations
     lyrs <- register_layers(layers_log, dir_scen)
 
-    ### checks that all data layers are available based on file paths
-    if (nrow(filter(lyrs, !path_in_exists)) != 0) {
-      message('The following layers paths do not exist: \n  ')
-      print(filter(lyrs, !path_in_exists) %>% select(layer, path_in), row.names = FALSE)
-      stop('Data cannot be found - check file paths/names in layers.csv')
-    }
+    ### check that all data layers are available based on file paths
+    verify_layers(lyrs)
 
     ### copy layers into current scenario/layers folder
-    for (j in 1:nrow(lyrs)) { # j = 4
-      layer_data <- lyrs$path_in[j]
-      layer_copy <- lyrs$path_out[j]
-      message('... copying ', layer_data, '\n         to ', layer_copy)
-      stopifnot(file.copy(layer_data, layer_copy, overwrite = TRUE))
-    }
-
-    ### delete extraneous files
-    files_extra <- setdiff(list.files(file.path(dir_scen, 'layers')),
-                           as.character(lyrs$filename))
-    unlink(file.path(dir_scen, 'layers', files_extra))
+    copy_layers_to_scenario(lyrs)
 
     ### layers registry in scenario folder
     write_csv(lyrs %>% dplyr::select(-path_in, -path_in_exists, -path_out),

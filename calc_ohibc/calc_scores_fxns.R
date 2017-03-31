@@ -1,4 +1,4 @@
-prep_scen_dirs <- function(dir_calc, scenario) {
+prep_scen_dirs <- function(dir_calc, scenario, purge = TRUE) {
   ### * unlink scenario folder
   ### * create scenario folder and scenario subfolders
   ### * sync the following from master file folder:
@@ -6,6 +6,8 @@ prep_scen_dirs <- function(dir_calc, scenario) {
   ###   * goals.csv, pressures_matrix.csv, resilience_matrix.csv, resilience_weights.csv, pressure_categories.csv
 
   dir_scen   <- file.path(dir_calc, scenario)
+
+  if(purge) unlink(dir_scen, recursive = TRUE)
 
   ### set up scenario and subdirs
   message('Creating scenario directory: ', dir_scen)
@@ -46,4 +48,33 @@ register_layers <- function(layers_log, dir_scenario) {
   write_csv(lyrs, file.path(dir_scenario, 'layers_ingest.csv'))
 
   return(lyrs)
+}
+
+
+verify_layers <- function(lyrs) {
+  if (nrow(filter(lyrs, !path_in_exists)) != 0) {
+    message('The following layers paths do not exist: \n  ')
+    print(filter(lyrs, !path_in_exists) %>% select(layer, path_in), row.names = FALSE)
+    stop('Data cannot be found - check file paths/names in layers.csv')
+  } else {
+    message('All registered layers exist')
+  }
+}
+
+copy_layers_to_scenario <- function(lyrs) {
+  for (j in 1:nrow(lyrs)) { # j = 4
+    layer_data <- lyrs$path_in[j]
+    layer_copy <- lyrs$path_out[j]
+    message('... copying ', layer_data, '\n         to ', layer_copy)
+    stopifnot(file.copy(layer_data, layer_copy, overwrite = TRUE))
+  }
+
+  ### delete extraneous files
+  files_extra <- setdiff(list.files(file.path(dir_scen, 'layers')),
+                         as.character(lyrs$filename))
+  if(length(files_extra) > 0) {
+    message('Deleting extraneous files: \n  ', paste(files_extra, collapse = '\n  '))
+    unlink(file.path(dir_scen, 'layers', files_extra))
+  }
+
 }
