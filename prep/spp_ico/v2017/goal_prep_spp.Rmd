@@ -59,29 +59,28 @@ From Halpern et al (2012):
 
 > The target for the Species sub-goal is to have all species at a risk status of Least Concern. We scaled the lower end of the biodiversity goal to be 0 when 75% species are extinct, a level comparable to the five documented mass extinctions and would constitute a catastrophic loss of biodiversity. The Status of assessed species was calculated as the area- and threat status-weighted average of the number of threatened species within each 0.5 degree grid cell.
 
-**Mean risk status per cell:**
+For BC, our calculation will be slightly different, though the end result will be identical.
 
-$$\bar{R}_{cell} = \frac{\displaystyle\sum_{species}(Risk)}{n_{spp}}$$
+**Species area-weighted risk:**  For each species within a region, the risk score is weighted by the proportion of the species' range within the given region.  To determine the mean area-weighted risk, the area-weighted risks are summed and divided by the total number of species within the region.
 
-**Mean risk status per region:**
+$$R_{spp/rgn} = (Risk)*\frac{\displaystyle\sum_{rgn}(A_{cell} * pA_{cell/rgn})}{A_{rgn}}$$
 
-$$\bar{R}_{SPP} = \frac{\displaystyle\sum_{cells}(\bar{R}_{cell} * A_{cell} * pA_{cell-rgn})}{A_{rgn}}$$
+$$\bar{R}_{spp} = \frac{\displaystyle\sum_{species}(R_{spp/rgn})}{n_{spp}}$$
 
 **Species goal model**
 
-$$X_{SPP} = \frac{((1 - \bar{R}_{SPP}) - 0.25)}{(1 - 0.25)} * 100%$$
+$$X_{SPP} = \frac{((1 - \bar{R}_{spp}) - 0.25)}{(1 - 0.25)} * 100%$$
 
 where:
 
 * $X_{SPP}$ is Species goal status
-* $\bar{R}_{cell}$ is mean extinction risk for one cell
-* $\bar{R}_{SPP}$ is area-weighted mean extinction risk for a region
+* $R_{spp/rgn}$ is area-weighted extinction risk for one species within a region
+* $\bar{R}_{spp}$ is area-weighted mean extinction risk for a region
 * $A_{cell}$ is cell area
 * $pA_{cell-rgn}$ is percent of cell area included in region
 * *Risk* is scaled value for species extinction risk category, based on: 
     * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
-* SPP trend is calculated in a similar area-weighted mean, but population trend values are assigned according to:
-    * 'Decreasing' = -0.5, 'Stable' = 0.0, 'Increasing' = +0.5
+* SPP trend is calculated by examining the linear trend of mean extinction risk category, based upon the time series of risk categories from the IUCN Red List.  This calculation is performed in functions.R.
 
 -----
 
@@ -142,8 +141,11 @@ if(!file.exists(rgn2cell_file) | !file.exists(loiczid_rast_file)) {
   
   write_csv(rgn2cell_list[[1]], rgn2cell_file)
   writeRaster(rgn2cell_list[[2]], loiczid_rast_file, overwrite = TRUE)
+  
 } else {
+  
   git_prov(c(rgn2cell_file, loiczid_rast_file), filetype = 'output')
+  
 }
 
 ```
@@ -151,17 +153,26 @@ if(!file.exists(rgn2cell_file) | !file.exists(loiczid_rast_file)) {
 
 ## Identify BC-specific species
 
+* Data-set specific idiosyncracies:
+    * For AquaMaps, we select a threshold (currently 0%) to set the minimum probability of occurrence that determines species "presence."
+    * For IUCN, no threshold is needed; but the shapefiles include a "presence" attribute in which a value of 5 indicates a region in which a subpopulation has become extinct.  We use this to manually reset local extinction risk to EX.
+    * Note that for IUCN, we determine the proportional area when extracting polygons; currently we just consider any presence to fill the cell (similar to assuming even a low AquaMaps probability to indicate presence within the entire cell) - so proportional area is ignored in the calculations.
+
 ``` {r identify_BC_species}
 
 reload <- FALSE
 
-rgn2cell_df <- read_csv(file.path(dir_goal, 'spatial/rgn2cell.csv'))
+rgn2cell_df <- read_csv(file.path(dir_goal, 'spatial/rgn2cell.csv')) %>%
+  group_by(rgn_id) %>%
+  mutate(area_tot = sum(cell_area * prop_area)) %>%
+  ungroup()
 
 ### collect AquaMaps species local to BC
 
-am_spp_cells_file <- file.path(dir_goal, 'int/am_spp_cells.csv')
+am_spp_cells_file <- file.path(dir_goal, 'int/am_spp_cells_bc.csv')
+am_spp_rgn_file   <- file.path(dir_goal, 'int/am_spp_area_by_rgn.csv')
 
-if(!file.exists(am_spp_cells_file) | reload) {
+if(!file.exists(am_spp_rgn_file) | reload) {
   ### Load Aquamaps species per cell table
   dir_data_am <- file.path(dir_M, 'git-annex/globalprep/_raw_data', 'aquamaps/d2015')
   spp_cell_file <- file.path(dir_data_am, 'csv/hcaf_sp_native_trunc.csv')
@@ -169,40 +180,59 @@ if(!file.exists(am_spp_cells_file) | reload) {
   am_spp_cells <- read_csv(spp_cell_file) %>%
     select(am_sid = speciesid, loiczid) ### drop probability column - use all cells!
 
-  ### filter out to just cells in BC regions
+  ### filter out to just cells in BC regions, then summarize area by species ID and region
+  message('Trimming AquaMaps global species list to local species only, then determining area per region...')
   am_spp_cells_bc <- rgn2cell_df %>%
     left_join(am_spp_cells, by = 'loiczid')
+  
+  am_spp_rgn_area <- am_spp_cells_bc %>%
+    group_by(am_sid, rgn_id) %>%
+    summarize(spp_area     = sum(cell_area * prop_area),
+              spp_pct_area = sum(cell_area * prop_area / area_tot))
 
-  message(sprintf('Writing Aquamaps species per cell file to: \n  %s', am_spp_cells_file))
-  write_csv(am_spp_cells_bc, am_spp_cells_file)
+  message(sprintf('Writing Aquamaps species area per region file to: \n  %s', am_spp_rgn_file))
+  write_csv(am_spp_cells_bc %>% select(-area_tot, -rgn_name), am_spp_cells_file)
+  write_csv(am_spp_rgn_area, am_spp_rgn_file)
   
 } else {
   
-  git_prov(am_spp_cells_file, filetype = 'output')
+  git_prov(am_spp_rgn_file, filetype = 'output')
   
 }
 
-iucn_spp_cells_local_file <- file.path(dir_goal, 'int/iucn_spp_cells.csv')
+### collect IUCN species local to BC
 
-if(!file.exists(iucn_spp_cells_local_file) | reload) {
+iucn_spp_cells_file <- file.path(dir_goal, 'int/iucn_spp_cells_bc.csv')
+iucn_spp_rgn_file <- file.path(dir_goal, 'int/iucn_spp_area_by_rgn.csv')
+
+if(!file.exists(iucn_spp_rgn_file) | reload) {
   
   iucn_spp_cells_global_file <- file.path(dir_goal_anx_global, 'int/iucn_spp_cells_d2016.csv')
 
   iucn_spp_cells <- read_csv(iucn_spp_cells_global_file)
 
-  message('Trimming global IUCN cells list to local cells only...')
   iucn_spp_cells_bc <- rgn2cell_df %>%
     rename(prop_area_rgn = prop_area) %>%
     left_join(iucn_spp_cells %>%
-                rename(prop_area_spp = prop_area),
-              by = 'loiczid')
+                select(-prop_area),
+              by = 'loiczid') %>%
+    filter(presence != 5) %>%
+    select(-presence) %>%
+    distinct()
+  
+  iucn_spp_rgn_area <- iucn_spp_cells_bc %>%
+    group_by(iucn_sid, rgn_id) %>%
+    summarize(spp_area     = sum(cell_area * prop_area_rgn),
+              spp_pct_area = sum(cell_area * prop_area_rgn / area_tot))
+    
 
-  message('Writing local IUCN cell list to ', iucn_spp_cells_local_file)
-  write_csv(iucn_spp_cells_bc, iucn_spp_cells_local_file)
+  message('Writing IUCN species area per region file to ', iucn_spp_rgn_file)
+  write_csv(iucn_spp_cells_bc %>% select(-area_tot, -rgn_name), iucn_spp_cells_file)
+  write_csv(iucn_spp_rgn_area, iucn_spp_rgn_file)
   
 } else {
   
-  git_prov(iucn_spp_cells_local_file, filetype = 'output')
+  git_prov(iucn_spp_rgn_file, filetype = 'output')
   
 }
 
@@ -225,8 +255,8 @@ Because we are working on a smaller region, some species with both AM and IUCN m
 ``` {r create_ohibc_spp_list}
 
 spp_bc_file <- file.path(dir_goal, 'int/spp_list_base.csv')
-iucn_spp_cells_file <- file.path(dir_goal, 'int/iucn_spp_cells.csv')
-am_spp_cells_file   <- file.path(dir_goal, 'int/am_spp_cells.csv')
+iucn_spp_cells_file <- file.path(dir_goal, 'int/iucn_spp_cells_bc.csv')
+am_spp_cells_file   <- file.path(dir_goal, 'int/am_spp_cells_bc.csv')
 
 if(!file.exists(spp_bc_file)) {
   
@@ -255,9 +285,9 @@ if(!file.exists(spp_bc_file)) {
   
 } else {
   
-  git_prov(c(iucn_spp_cells_file, am_spp_cells_file), filetype = 'input')
+  # git_prov(c(iucn_spp_cells_file, am_spp_cells_file), filetype = 'input')
   git_prov(spp_bc_file, filetype = 'output')
-  
+
 }
 
 DT::datatable(read_csv(spp_bc_file, nogit = TRUE))
@@ -293,7 +323,7 @@ spp_info <- read_csv(spp_bc_file) %>%
 ### Multi-listings are due to multiple province-level scores for certain
 ### species
 spp_clean <- spp_info %>%
-  select(am_sid, iucn_sid, 
+  dplyr::select(am_sid, iucn_sid, 
          sciname, spp_group, 
          map_iucn_sid, map_subpop,
          pr_score = status_pr_score,
@@ -364,8 +394,7 @@ spp_scored <- spp_scored %>%
   mutate(year = ifelse(is.na(year), list(unique(year)), year)) %>% 
   unnest(year) %>%
   filter(!is.na(year)) %>%
-  mutate(assess_year  = year + 1,
-         cat_ts       = ifelse(is.na(cat_ts), category, cat_ts),
+  mutate(cat_ts       = ifelse(is.na(cat_ts), category, cat_ts),
          cat_ts_score = ifelse(is.na(cat_ts_score), cat_scores[cat_ts], cat_ts_score)) %>%
     ### using the lookup from above, set up the category scores
   filter(!(is.na(cat_ts_score) & is.na(pr_score) & year != max(year)))
@@ -378,221 +407,69 @@ spp_scored <- spp_scored %>%
 
 write_csv(spp_scored, file.path(dir_goal, 'int', 'spp_list_scored.csv'))
 
-```
-
------
-
-### Generate cell-by-cell summary of species
-
-For each half-degree cell, tally up the number of species present and determine a mean species risk value for the cell, for each year of interest.
-
-* Since this averaging is done for each data set separately, we also track the species count per cell used to determine both the risk and the trend (separately, since many species with a risk value have no trend information, i.e. NA).  These counts are used to weight the values when the two are combined.
-* Data-set specific idiosyncracies:
-    * For AquaMaps, we select a threshold (currently 0%) to set the minimum probability of occurrence that determines species "presence."
-    * For IUCN, no threshold is needed; but the shapefiles include a "presence" attribute in which a value of 5 indicates a region in which a subpopulation has become extinct.  We use this to manually reset local extinction risk to EX.
-    * Note that for IUCN, we determine the proportional area when extracting polygons; currently we just consider any presence to fill the cell (similar to assuming even a low AquaMaps probability to indicate presence within the entire cell) - so proportional area is ignored in the calculations.
-    
-The following code chunk executes the functions that perform these tasks.  Note the optional arguments `fn_tag` and `prob_filter` that can be changed to facilitate custom runs (including different `spp_all` species info lists, different AquaMaps thresholds, and different filename tags to uniquely identify the custom run)
-
-``` {r generate_cell_summaries_am_and_iucn}
-
-spp_scored <- read_csv(file.path(dir_goal, 'int', 'spp_list_scored.csv')) %>%
-  rename(cat_score   = cat_ts_score) %>%
-  filter(!is.na(cat_score))
-
-### read in AquaMaps species-cell file
-am_spp_cells <- read_csv(file.path(dir_goal, 'int', 'am_spp_cells.csv'))
-
-### read in IUCN species-cell file
-iucn_spp_cells <- read_csv(file.path(dir_goal, 'int', 'iucn_spp_cells.csv')) %>%
-    distinct()
-
-years <- spp_scored$year %>%
-  unique() %>%
-  sort()
-
-library(parallel)
-
-am_cells_sum_list <- mclapply(years, mc.cores = 12, FUN = function(yr) {
-  # yr <- min(years)
-  spp_scored_year <- spp_scored %>%
-    filter(year == yr)
-  
-  am_cells_sum_yr <- spp_am_cell_summary(spp_scored_year, am_spp_cells) %>%
-    mutate(year = yr)
-  # ### NOTE: keyed data.table works way faster than the old inner_join or merge.
-  # ### loiczid | mean_cat_score | mean_trend_score | n_cat_species | n_trend_species | year
-  # ### AM does not include subspecies or subpops: every am_sid corresponds to exactly one sciname.
-})
-
-am_cells_sum <- bind_rows(am_cells_sum_list)
-
-write_csv(am_cells_sum, file.path(dir_goal, 'summary/spp_am_cells_summary.csv'))
-
-iucn_cells_sum_list <- mclapply(years, mc.cores = 12, FUN = function(yr) {
-  
-  spp_scored_year <- spp_scored %>%
-    filter(year == yr)  
-  
-  iucn_cells_sum_yr <- spp_iucn_cell_summary(spp_scored_year, iucn_spp_cells) %>%
-    mutate(year = yr)
-  ### loiczid | mean_cat_score | mean_trend_score | n_cat_species | n_trend_species | year
-  ### IUCN includes subpops - one sciname corresponds to multiple iucn_sid values.
-  
-})
-
-iucn_cells_sum <- bind_rows(iucn_cells_sum_list)
-write_csv(iucn_cells_sum, file.path(dir_goal, 'summary/spp_iucn_cells_summary.csv'))
-
-```
-
-### Map of species count by cell
-
-``` {r spp_plot_species_count_raster, fig.height = 4, fig.width = 6, fig.align = 'center', eval = FALSE}
-### species presence doesn't change year to year; only the risk category
-cells_spp_count <- iucn_cells_sum %>%
-  filter(year == 2015) %>%
-  dplyr::select(loiczid, n_cat_iucn = n_cat_species) %>%
-  full_join(am_cells_sum %>%
-              filter(year == 2015) %>%
-              dplyr::select(loiczid, n_cat_am = n_cat_species),
-            by = 'loiczid') %>%
-  mutate(n_cat_am   = ifelse(is.na(n_cat_am), 0, n_cat_am),
-         n_cat_iucn = ifelse(is.na(n_cat_iucn), 0, n_cat_iucn),
-         n_cat      = n_cat_am + n_cat_iucn) %>%
-  as.data.frame()
-
-loiczid_rast <- raster(file.path(dir_goal, 'spatial/loiczid.tif'))
-
-### use tmap mapping function
-# spp_plot_raster(cells_spp_count, loiczid_rast, which_id = 'n_cat', 
-#                 poly_rgn = poly_bc_rgn,
-#                 title = 'Species count', scale_label = 'spp count', 
-#                 scale_limits = c(0, max(cells_spp_count$n_cat)))
+spp_cat_ts_clean <- spp_scored %>%
+  select(am_sid, iucn_sid, sciname, year, category_score = cat_ts_score) %>%
+  distinct()
+write_csv(spp_cat_ts_clean, file.path(dir_goal, 'output', 'spp_cat_by_yr.csv'))
 
 ```
 
 -----
 
+### Generate area-weighted summary of species by ID and name
 
-# Calculate goal model
+For each species in the scored list, attach the region and area values.  
 
-## Summarize mean category & trend per cell & region
+``` {r generate_spp_rgn_area_lookup}
 
-In this section we perform the model calculations:
+spp_source_info <- read_csv(file.path(dir_goal, 'int', 'spp_list_scored.csv')) %>%
+  select(am_sid, iucn_sid, sciname, spatial_source) %>%
+  distinct()
 
-* We calculate mean extinction risk score across all species identified in each cell, based on NatureServe province-level rankings where available, and IUCN category ranks elsewhere.
-    * IUCN ranks exclude subpopulation scores due to lack of spatially explicit distribution info for subpopulations.
-* We calculate mean population trend across all species identified in each cell, based on IUCN population trend information.
-* From raster-level summaries, we generate a region-level summary based on area-weighted average extinction risk and population trend.
-* From the region-level summary of risk, we determine the SPP goal status based on the goal model equation.  SPP trend is identical to the regional average population trend score.
+iucn_spp_rgn_area <- read_csv(file.path(dir_goal, 'int', 'iucn_spp_area_by_rgn.csv')) %>%
+  mutate(spatial_source = 'iucn') %>%
+  inner_join(spp_source_info)
+am_spp_rgn_area   <- read_csv(file.path(dir_goal, 'int', 'am_spp_area_by_rgn.csv')) %>%
+  mutate(spatial_source = 'am') %>%
+  inner_join(spp_source_info)
 
-``` {r generate_means_per_cell}
+spp_rgn_area <- iucn_spp_rgn_area %>%
+  bind_rows(am_spp_rgn_area) %>%
+  filter(!is.na(rgn_id))
 
-iucn_cells_sum <- read_csv(file.path(dir_goal, 'summary/spp_iucn_cells_summary.csv'))
-am_cells_sum   <- read_csv(file.path(dir_goal, 'summary/spp_am_cells_summary.csv'))
-rgn2cell_df    <- read_csv(file.path(dir_goal, 'spatial/rgn2cell.csv'))
-
-sum_by_loiczid <- spp_calc_cell_means(am_cells_sum, iucn_cells_sum)
-### This returns location of dataframe with variables:
-### loiczid | weighted_mean_cat | weighted_mean_trend | n_cat_species | n_trend_species
-### and saves it to the summary folder.
-write_csv(sum_by_loiczid, file.path(dir_goal, 'summary/spp_cell_summary_by_loiczid.csv'))
-
-
-sum_by_rgn     <- spp_calc_rgn_means(sum_by_loiczid, rgn2cell_df)
-### This returns a summary by region, including:
-### rgn_id | year | rgn_mean_cat | mean_n_cat_spp | mean_n_trend_spp | status
-### where the mean_n_cat_spp and trend_spp are area-weighted means of species
-### counts for each region, where trend only counts species using time-series
-### category data (trend excludes static, i.e. provincial, scores)
-
-spp_st_tr_rgn <- calc_trends_per_rgn(sum_by_rgn,
-                                     include_years = c(2000:2016),
-                                     span = 10) %>%
-    mutate(trend = round(trend/(mean_n_trend_spp/mean_n_cat_spp), 5),
-           mean_n_cat_spp   = round(mean_n_cat_spp, 2),
-           mean_n_trend_spp = round(mean_n_trend_spp, 2))
-
-### This calculates trend based on a time-series span, normalizes by status
-### in first year of trend; then manually normalizes by proportion of time-series
-### species (only these count for trend calcs; provincial scores have no
-### time series so the trend is weighted to account for this)
-
-write_csv(spp_st_tr_rgn, file.path(dir_goal, 'summary/spp_rgn_summary.csv'))
-
-```
-
-Cell summary saved to: `r file.path(dir_goal, 'summary/cell_spp_summary_by_loiczid.csv')`
-
-`r DT::datatable(sum_by_loiczid %>% filter(year == max(year)), caption = 'Overall cell summary (latest year)')`
-
-Region summary saved to: `r file.path(dir_goal, 'summary/spp_rgn_summary.csv')`
-
-`r DT::datatable(spp_st_tr_rgn %>% select(rgn_id, year, status, trend, mean_n_cat_spp, mean_n_trend_spp), caption = 'Region summary (all assessment years)')`
-
-### Map of mean extinction risk category value by cell
-
-*** not evaluated ***
-
-``` {r spp_plot_cell_score_raster, fig.height = 4, fig.width = 6, fig.align = 'center', eval = FALSE}
-
-scale_limits = c(min(sum_by_loiczid$weighted_mean_cat,  na.rm = TRUE), 
-                 max(sum_by_loiczid$weighted_mean_cat,  na.rm = TRUE))
-
-
-spp_plot_raster(as.data.frame(sum_by_loiczid %>% filter(year == 2015)), 
-                loiczid_rast, 
-                which_id = 'weighted_mean_cat', 
-                poly_rgn = poly_bc_rgn,
-                title = 'Mean extinction risk', scale_label = 'spp risk', 
-                scale_limits = scale_limits,
-                rev_scale = TRUE)
-
-```
-
------
-
-## Create and save final output files
-
-Status and trend layers saved to `output` folder.  
-
-``` {r save_status_and_trend}
-
-sum_by_rgn <- read_csv(file.path(dir_goal, 'summary/spp_rgn_summary.csv'))
-
-spp_status <- sum_by_rgn %>%
-  dplyr::select(rgn_id, score = status, year)
-spp_trend  <- sum_by_rgn %>%
-  dplyr::select(rgn_id, score = trend,  year)
-
-
-spp_status_file <- file.path(dir_goal, 'output/spp_status.csv')
-spp_trend_file  <- file.path(dir_goal, 'output/spp_trend.csv')
-
-message('Writing SPP status and trend to:\n  ', 
-        spp_status_file, '\n  ', 
-        spp_trend_file)
-
-write_csv(spp_status, spp_status_file)
-write_csv(spp_trend, spp_trend_file)
+write_csv(spp_rgn_area, file.path(dir_goal, 'output', 'spp_area_by_rgn.csv'))
 
 ```
 
 
-### Plot map of status by region
+# Estimate goal model
 
-The maps and tables show status based upon rankings from NatureServe (where available) and IUCN (where NatureServe is not available).  Currently no trend information is taken from NatureServe, so trend is based entirely on IUCN rankings.
+## Summarize mean category & trend per region
 
-``` {r spp_plot_scores_as_polygons, fig.height = 4, fig.width = 6, fig.align = 'center', eval = FALSE}
+In this section we estimate the model calculations:
 
-map_scores(sum_by_rgn %>%
-             filter(year == 2015),
-           score_vars   = c('status', 'rgn_mean_trend'),
-           scale_labels = c('SPP status', 'SPP trend'),
-           map_titles   = 'OHIBC Species subgoal')
+* We calculate area-weighted mean extinction risk score across all species identified in each region, based on NatureServe province-level rankings where available, and IUCN category ranks elsewhere.
+* From the region-level summary of risk, we determine the SPP goal status based on the goal model equation.
+
+``` {r generate_means_per_rgn}
+
+spp_area_by_rgn <- read_csv(file.path(dir_goal, 'output', 'spp_area_by_rgn.csv'))
+spp_cat_by_yr <- read_csv(file.path(dir_goal, 'output', 'spp_cat_by_yr.csv'))
+
+spp_cat_by_rgn <- spp_area_by_rgn %>%
+  inner_join(spp_cat_by_yr, by = c('iucn_sid', 'am_sid', 'sciname')) %>%
+  filter(!is.na(category_score))
+
+spp_cat_rgn_yr <- spp_cat_by_rgn %>%
+  group_by(rgn_id, year) %>%
+  summarize(mean_cat_score = sum(category_score * spp_pct_area) / n()) %>%
+  mutate(status = (.75 - mean_cat_score) / .75)
+
+DT::datatable(spp_cat_rgn_yr)
+
 
 ```
+
 
 -----
 
@@ -600,7 +477,7 @@ map_scores(sum_by_rgn %>%
 
 Create final outputs for 3nm zone for resilience calculations.  In this step, rather than using full assessment regions, only the three-nautical-mile offshore zone is examined.
 
-``` {r calc_3nm_SPP_status}
+``` {r calc_3nm_spp_areas}
 
 ### Read in OHIBC 3nm offshore polygons, in WGS84 CRS
 rgn_lyr <- 'ohibc_offshore_3nm'
@@ -608,22 +485,79 @@ poly_bc_3nm <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
                        verbose = FALSE, stringsAsFactors = FALSE) %>%
     spTransform(p4s_wgs84)
 
-rgn2cell_3nm_df <- spp_rgn2cell(poly_bc_3nm, rgn_tag = '_3nm', reload = FALSE)[[1]]
+rgn2cell_3nm_df <- spp_rgn2cell(poly_bc_3nm, rgn_tag = '_3nm', reload = FALSE)[[1]] %>%
+  group_by(rgn_id) %>%
+  mutate(area_tot = sum(cell_area * prop_area)) %>%
+  ungroup()
 
-sum_by_loiczid <- read_csv(file.path(dir_goal, 'summary/spp_cell_summary_by_loiczid.csv'))
+### collect AquaMaps and IUCN species within 3 nm regions
 
-sum_by_rgn_3nm  <- spp_calc_rgn_means(sum_by_loiczid, rgn2cell_3nm_df)
+am_spp_cells_bc <- read_csv(file.path(dir_goal, 'int/am_spp_cells_bc.csv')) %>%
+  select(loiczid, am_sid) %>%
+  distinct()
 
-spp_status_3nm <- sum_by_rgn_3nm %>%
-  dplyr::select(rgn_id, score = status, year)
+am_spp_cells_3nm <- rgn2cell_3nm_df %>%
+  inner_join(am_spp_cells_bc, by = 'loiczid')
 
-write_csv(spp_status_3nm, file.path(dir_goal, 'output/spp_status_3nm.csv'))
+am_spp_3nm_area <- am_spp_cells_3nm %>%
+  group_by(am_sid, rgn_id) %>%
+  summarize(spp_area     = sum(cell_area * prop_area),
+            spp_pct_area = sum(cell_area * prop_area / area_tot))
+
+
+iucn_spp_cells_bc <- read_csv(file.path(dir_goal, 'int/iucn_spp_cells_bc.csv')) %>%
+  select(loiczid, iucn_sid) %>%
+  distinct()
+  
+iucn_spp_cells_3nm <- rgn2cell_3nm_df %>%
+  inner_join(iucn_spp_cells_bc, by = 'loiczid')
+
+iucn_spp_3nm_area <- iucn_spp_cells_3nm %>%
+  group_by(iucn_sid, rgn_id) %>%
+  summarize(spp_area     = sum(cell_area * prop_area),
+            spp_pct_area = sum(cell_area * prop_area / area_tot))
+  
+### join together with species info
+spp_source_info <- read_csv(file.path(dir_goal, 'int', 'spp_list_scored.csv')) %>%
+  select(am_sid, iucn_sid, sciname, spatial_source) %>%
+  distinct()
+
+iucn_spp_3nm_area <- iucn_spp_3nm_area %>%
+  mutate(spatial_source = 'iucn') %>%
+  inner_join(spp_source_info)
+am_spp_3nm_area   <- am_spp_3nm_area %>%
+  mutate(spatial_source = 'am') %>%
+  inner_join(spp_source_info)
+
+spp_3nm_area <- iucn_spp_3nm_area %>%
+  bind_rows(am_spp_3nm_area)
+
+write_csv(spp_3nm_area, file.path(dir_goal, 'int', 'spp_area_by_rgn_3nm.csv'))
 
 ```
 
-3 Nautical Mile region summary saved to: `r file.path(dir_goal, 'summary/spp_rgn_summary_3nm.csv')`
 
-`r DT::datatable(sum_by_rgn_3nm, caption = 'Region summary (all years)')`
+``` {r calc_status_3nm}
+
+spp_3nm_area <- read_csv(file.path(dir_goal, 'int', 'spp_area_by_rgn_3nm.csv'))
+
+spp_cat_by_yr <- read_csv(file.path(dir_goal, 'output', 'spp_cat_by_yr.csv'))
+
+spp_cat_3nm <- spp_3nm_area %>%
+  full_join(spp_cat_by_yr, by = c('iucn_sid', 'am_sid', 'sciname')) %>%
+  filter(!is.na(category_score))
+
+spp_cat_3nm_yr <- spp_cat_3nm %>%
+  group_by(rgn_id, year) %>%
+  summarize(mean_cat_score = sum(category_score * spp_pct_area) / n()) %>%
+  mutate(status = (.75 - mean_cat_score) / .75)
+
+write_csv(spp_cat_3nm_yr, file.path(dir_goal, 'output/spp_status_3nm.csv'))
+
+DT::datatable(spp_cat_3nm_yr)
+
+```
+
 
 -----
 

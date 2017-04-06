@@ -44,9 +44,9 @@ p4s_wgs84 <- c('wgs84' = '+init=epsg:4326')
 
 ```
 
-# Summary: OHIBC Species and Iconic Species
+# Summary: OHIBC Iconic Species
 
-This script prepares scores (status and trend) for species richness in 
+This script prepares layers (species presence and species health) for Iconic Species subgoal in 
 British Columbia's coastal regions.  Spatial data from IUCN and Aquamaps is
 combined with extinction risk information from IUCN and conservation rank
 info based on province-level NatureServe categories.
@@ -56,7 +56,7 @@ health for species found within each OHIBC region.
 
 From Halpern et al (2012):
 
-> The target for the Species sub-goal is to have all species at a risk status of Least Concern. We scaled the lower end of the biodiversity goal to be 0 when 75% species are extinct, a level comparable to the five documented mass extinctions and would constitute a catastrophic loss of biodiversity. The Status of assessed species was calculated as the area- and threat status-weighted average of the number of threatened species within each 0.5 degree grid cell.
+> The reference point is to have the risk status of all assessed species as Least Concern (i.e., a goal score = 1.0). Species that have not been assessed or labeled as data deficient are not included in the calculation.
 
 **Mean risk status for OHIBC:**
 
@@ -64,7 +64,7 @@ $$\bar{R} = \frac{\displaystyle\sum_{species}(Risk)}{n_{spp}}$$
 
 **Iconic Species goal model**
 
-$$X_{SPP} = 1 - \bar{R}_{ICO} * 100%$$
+$$X_{SPP} = (1 - \bar{R}_{ICO}) * 100%$$
 
 where:
 
@@ -269,10 +269,10 @@ ico_ts <- read_csv(file.path(dir_goal, 'int/ico_info_ts_incl_orcas.csv')) %>%
          pr_score, cat_ts_score, year) %>%
   distinct()
 
-am_ico_rgn <- read_csv(file.path(dir_goal, 'int/am_spp_cells.csv')) %>%
+am_ico_rgn <- read_csv(file.path(dir_goal, 'int/am_spp_cells_bc.csv')) %>%
   select(am_sid, rgn_id) %>%
   distinct()
-iucn_ico_rgn <- read_csv(file.path(dir_goal, 'int/iucn_spp_cells.csv')) %>%
+iucn_ico_rgn <- read_csv(file.path(dir_goal, 'int/iucn_spp_cells_bc.csv')) %>%
   select(iucn_sid, subpop, rgn_id) %>%
   distinct()
 iucn_ico_rgn_custom <- read_csv(file.path(dir_goal, 'spatial/BOTW_custom.csv')) %>%
@@ -290,7 +290,7 @@ ico_rgn_ts <- ico_ts %>%
     left_join(am_ico_rgn, by = c('am_sid'))) %>%
   select(rgn_id, year, sciname, comname, iucn_sid, am_sid, pr_score, cat_ts_score)
 
-cat_list <- data.frame(cat_ts_score = c(   0,      .1,    .2,      .3,    .4,      .5,    .6,      .7,    .8,      .9,   1.0),
+cat_list <- data.frame(cat_ts_score = c(  1.0,      .9,    .8,      .7,    .6,      .5,    .4,      .3,    .2,      .1,   0.0),
                        cat_label    = c( 'EX', 'CR/EX',  'CR', 'CR/EN',  'EN', 'EN/VU',  'VU', 'VU/NT',  'NT', 'NT/LC',  'LC'),
                        stringsAsFactors = FALSE)
 
@@ -352,7 +352,7 @@ ico_table_info <- ico_table_info %>%
               filter(!is.na(ico_health))) %>%
   mutate(n_ico = 1:n())
 
-### list status cats on the plot itself?
+### list status cats on the plot itself? ICO HEALTH IS INVERSE OF CATEGORY!!!!!
 cat_list <- data.frame(ico_health = c(   0,      .1,    .2,      .3,    .4,      .5,    .6,      .7,    .8,      .9,   1.0),
                        cat_lab    = c('EX', 'CR/EX',  'CR', 'CR/EN',  'EN', 'EN/VU',  'VU', 'VU/NT',  'NT', 'NT/LC',  'LC'),
                        stringsAsFactors = FALSE)

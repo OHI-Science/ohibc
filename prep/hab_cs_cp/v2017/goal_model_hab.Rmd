@@ -1,0 +1,99 @@
+---
+title: 'OHIBC: Habitats goal prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+dir_git     <- '~/github/ohibc'
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal      <- 'hab_cs_cp'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+```
+
+# Summary
+
+Process individual habitat scores for each of the habitats in HAB subgoal.  Combine scores to determine overall status and trend for HAB subgoal.
+
+***
+
+# Data Source 
+
+For data sources, see the data_prep files for each of the habitats represented in this subgoal calculation:
+
+* `data_prep_sm_cf.Rmd` (salt marsh)
+* `data_prep_hab_ebsa.Rmd` (EBSAs and soft bottom)
+
+***
+  
+# Methods
+
+### Salt marsh habitat status
+
+The status for salt marsh condition is based upon the current area relative to the reference area.  Zero represents total loss of habitat relative to the reference (1990) extent of salt marshes; a score of 1 represents no net loss (or potentially a net gain) of salt marsh habitat relative to reference (1990) extent of salt marshes within a region.
+
+$$x_{SM} = \frac{C_{sm}}{C_{sm_{ref}}} = max\left(\frac{A_c}{A_{ref}}, 1\right)$$
+Since data is based upon rasters in 1990, 2000, and 2010, the intervening years will be gap-filled based on a simple linear interpolation.
+
+For data-preparation script and details for salt marsh, see: `data_prep_sm_cf.Rmd`
+
+### Soft-bottom benthic habitat status
+
+The status for soft-bottom benthic habitat condition is based upon trawling pressure;   
+
+* The trawl pressure is calculated as the ratio of the annual hours of bottom trawl effort relative to the reference trawl effort (110% of maximum trawl effort found within the entire soft-bottom habitat of BC's EEZ).  This ratio results in scores from 0 to 1.
+* This ratio is transformed using log(x+1) to emphasize the idea that the marginal impact of an additional hour of trawling is less than the impact of the first hour.
+* Finally the result is rescaled back to 0-1 by dividing by log(2) (i.e. log(max + 1)).
+* The score for each region is simply (1 - rescaled trawl pressure).  Zero represents no trawl pressure at all within a region; 1 represents a scenario in which the entire bottom is trawled at the reference trawl rate (not likely).
+
+$$x_{SB} = 1 - ln \left(\frac{E_{trawl}}{E_{trawl_{ref}}} + 1\right)\bigg/ln(2)$$
+
+For data-preparation scripts and details for EBSAs and soft bottom habitats, see: `data_prep_hab_ebsa.Rmd`
+
+### EBSA habitat status
+
+The status for EBSA habitat condition is based upon trawling pressure.  Since the EBSAs generally represent highly vulnerable and slow-growing biogenic habitats (glass sponge reefs, hydrothermal vents in particular), any non-zero trawl pressure within a particular raster cell is considered a loss.
+
+A score of zero indicates all EBSA area within a region has been exposed to bottom trawling for a given year; a score of 1 indicates all EBSA areas have been free of bottom trawling for the year.
+
+$$x_{EBSA} = 1 - \frac{A_{ebsa_{trawled}}}{A_{ebsa_{total}}}$$
+
+For data-preparation scripts and details for EBSAs and soft bottom habitats, see: `data_prep_hab_ebsa.Rmd`
+
+## Goal model
+
+The Habitat goal model is the unweighted mean of the status $x_i$ for three biodiversity-supporting habitats included herein: salt marsh, soft-bottom benthic habitat, and ecologically/biologically significant areas (sponge reefs, hydrothermal vents, seamounts, and the like).  
+
+$$x_{HAB} = \displaystyle\sum_{i=1}^{n}{\frac{x_i}{n}} $$
+
+Because the data sets cover different years (1990-2010 for salt marsh, 2005-2015 for EBSAs and soft-bottom), the 2010 values for salt marsh are simply carried forward through 2015 to align with the appropriate data years for the other two habitats.
+
+
+

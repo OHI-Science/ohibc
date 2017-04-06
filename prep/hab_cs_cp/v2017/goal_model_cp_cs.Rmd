@@ -1,0 +1,130 @@
+---
+title: 'OHIBC: Carbon Storage and Coastal Protection goals'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+dir_git     <- path.expand('~/github/ohibc')
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal      <- 'hab_cs_cp'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+```
+
+# Summary
+
+Pull data layers for Salt Marsh and Coastal Forests to calculate Howe Sound goals: Coastal Protection, Carbon Storage
+
+# Data Sources
+
+See the data_prep_sm_cf.Rmd file for data sources.
+
+***
+
+# Coastal Protection
+
+## Salt marsh
+
+In this model, salt marsh habitat is considered to be more important to coastal protection in areas that are highly exposed to wave action.  Loss of habitat in such areas thus is weighed more heavily in the calculations.
+
+$$\frac{P_{sm}}{P_{sm_{ref}}} = \displaystyle\sum_{i=1}^{n_c}(A_i * E_i) \bigg/ \displaystyle\sum_{i=1}^{n_{ref}}(A_i * E_i)$$
+
+where $n_c$ is the set of current presence cells, $n_{ref}$ is the set of reference presence cells, $A$ and $E$ represent cell area and exposure.
+
+## Seagrass
+
+Seagrass is currently excluded from OHIBC calculations.  Spatial changes in seagrass extent are not currently available, so direct assessment of habitat extent are not feasible.  An early proposed model would have considered nutrient pressure on established seagrass areas, but nutrient pressure is not significant for most of BC, and is not important compared to pressures due to log booms and logging sedimentation.  Without a reasonable model to account for these pressures, we will instead exclude seagrasses from consideration and note this as an important caveat.
+
+<!-- In this model, seagrass habitat is considered to be more important to coastal protection in areas that are highly exposed to wave action.  As a pressure-based model applied to a fixed area, rather than an area-loss-based model, the pressure itself reduces the effective protective value in a given area. -->
+
+<!-- $$\frac{P_{sg}}{P_{sg_{ref}}} = \displaystyle\sum_{j=1}^{n_c}((1 - p_j) * A_j * E_j) / A_{total}$$ -->
+
+<!-- where $p$ represents the nutrient pressure (relative to the maximum nutrient pressure found in British Columbia's coastal waters).  Because nutrient pressure is negligible in Howe Sound, and we have not yet crafted a pressure model based on log booms, sedimentation, and development, we will exclude seagrass from coastal protection considerations. -->
+
+## Coastal forests
+
+In this model, coastal forest habitat is considered to be more important to coastal protection in areas that are highly exposed to wave action; in the Howe Sound sub-assessment, coastal forest protective value is diminished as elevation increases, but for the overall BC coastline, we will simply exclude coastal forest above 5 meters, beyond which storm surge and inundation is highly unlikely.
+
+$$\frac{P_{cf}}{P_{cf_{ref}}} = \displaystyle\sum_{k=1}^{n_c}(A_k * E_k * h_k) \bigg/ \displaystyle\sum_{k=1}^{n_{ref}}(A_k * E_k * h_k)$$
+
+where $h$ represents an elevation adjustment factor.  In this assessment, $h$ will simply be held constant at 1 (for elevations below 5 m) or 0 (at elevations above 5 m).
+
+## Goal model
+
+The coastal protection goal model is the weighted mean of the two protective habitats included here, weighted by reference area (as a proportion of total reference area $A_{ref_T}$) and protection weight factor $w/w_{ref}$.  
+
+$$x_{CP} = \displaystyle\sum_{i=1}^{n}\left(\frac{P_i}{P_{i_{ref}}} * w_i * A_i\right) \bigg/ \displaystyle\sum_{i=1}^{n}\left(w_i * A_i\right)$$
+
+Protection weights are assigned based on vulnerability values from [InVEST Coastal Vulnerability Model](http://data.naturalcapitalproject.org/nightly-build/invest-users-guide/html/coastal_vulnerability.html):  
+
+| Vulnerability     | Very Low   | Low   | Moderate   | High   | Very High   |
+| ----              | :--------: | :---: | :--------: | :----: | :---------: |
+| Score             | 1          | 2     | 3          | 4      | 5           |
+| Natural Habitats  | Coral reef; mangrove; coastal forest | High dune; marsh | Low dune | Seagrass; kelp | No habitat |
+| Protection weight | 4          | 3     | 2          | 1      | 0           |
+
+
+# Carbon Storage
+
+Carbon storage potential depends on the extent and health of a habitat, and the amount of carbon effectively sequestered in a given extent of habitat.
+
+## Salt marsh and Coastal Forests
+
+Condition of each of these habitats will be scored based on its current extent relative to the extent in 1990.  Salt marsh will additionally be adjusted to account for a documented 30% decrease in salt marsh habitat between historical extents and 1990.  The area of assessment for each will count habitat within the coastal sub-watersheds (sub-watersheds that intersect a 1 km buffer inland from the coast).
+
+$$\frac{C_{sm}}{C_{sm_{ref}}} = \frac{A_c}{A_{ref}}$$
+
+where $A_c$ is the set of current extent of habitat, $A_{ref}$ is the reference extent of habitat.  Using extent rasters at equal area projection, the condition can be calculated simply using the ratio of cell counts for current and reference time periods.
+
+## Seagrass
+
+Same as for the coastal protection goal, seagrass will be excluded for this assessment.
+
+<!-- Since seagrass condition is based on pressure rather than area, the model is different from saltmarsh and forests. -->
+
+<!-- $$\frac{C_{sg}}{C_{sg_{ref}}} = \displaystyle\sum_{j=1}^{n_c}((1 - p_j) * A_j) / A_{total}$$ -->
+
+<!-- where $p$ represents the nutrient pressure.  Using an equal area projection raster and a fixed habitat extent, we can calculate this more simply by $$1 - \bar{p}$$. Because nutrient pressure is negligible in Howe Sound, and we have not yet crafted a pressure model based on log booms, sedimentation, and development, we will exclude seagrass from carbon storage considerations. -->
+
+## Goal model
+
+The carbon storage goal model is the weighted mean of the two carbon-storing habitats included herein, weighted by reference area (as a proportion of total reference area $A_{ref_T}$) and carbon storage factor $w/w_{ref}$.  
+
+$$x_{CS} = \displaystyle\sum_{i=1}^{n}\left(\frac{C_i}{C_{i_{ref}}} * w_i * A_i\right) \bigg/ \displaystyle\sum_{i=1}^{n}\left(w_i * A_i\right)$$
+
+Carbon burial rates (gC m^-2^ yr^-1^)
+
+* Salt marsh: 218 +/- 24 gC m^-2^ yr^-1^ (mean +/- SE)
+* Seagrasses: 138 +/- 38 gC m^-2^ yr^-1^ 
+* Coastal forests
+    * temperate: 5.1 +/- 1.0 gC m^-2^ yr^-1^ 
+    * boreal: 4.6 +/- 2.1 gC m^-2^ yr^-1^ 
+
+Source: Mcleod et al. 2011. A blueprint for blue carbon: toward an improved understanding of the role of vegetated coastal habitats in sequestering CO2. Frontiers in Ecology 9(10): 552-560, DOI
+
