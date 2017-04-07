@@ -291,13 +291,13 @@ shi_ohibc <- shi_df %>%
   ungroup() %>%
   left_join(get_rgn_names(), by = 'rgn_id')
 
-write_csv(shi_ohibc, file.path(dir_goal, 'int/shi_by_rgn.csv'))
+write_csv(shi_ohibc, file.path(dir_goal, 'output/ao_spawn_hab_index.csv'))
 
 ```
 
 ``` {r plot_shi_vs_ref}
 
-shi_by_rgn <- read_csv(file.path(dir_goal, 'int/shi_by_rgn.csv'))
+shi_by_rgn <- read_csv(file.path(dir_goal, 'output/ao_spawn_hab_index.csv'))
 
 ref_yrs <- c(1900:1960)
 
@@ -370,7 +370,7 @@ hspawn_dfo_summary <- hspawn_dfo_clean %>%
   ungroup()
 
   
-shi_ohibc_05_15 <- read_csv(file.path(dir_goal, 'int/shi_by_rgn.csv')) %>%
+shi_ohibc_05_15 <- read_csv(file.path(dir_goal, 'output/ao_spawn_hab_index.csv')) %>%
   filter(year >= 2005 & year <= 2015) %>%
   full_join(hspawn_dfo_summary, by = c('year', 'rgn_id')) %>%
   group_by(rgn_id) %>%

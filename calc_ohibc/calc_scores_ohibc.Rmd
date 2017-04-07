@@ -53,10 +53,8 @@ Set up scenarios by assigning years.  Each scenario (eg. 'region2015') will be t
 
 ``` {r set up scenario directories and files}
 
-scenario_years <- c(2005:2015) %>%
-  setNames(paste0('region', .))
-
-prep_scenario_dirs(dir_calc)
+prep_scenario_dirs(dir_calc, dir_master, master_flag = '_master', purge = TRUE)
+# prep_scenario_dirs(dir_calc2, dir_master, master_flag = '_master_scenario2', purge = TRUE)
 
 ### copy layers from data sources to layers folder
 message('Copying all layers to ', file.path(dir_calc, 'layers'))
@@ -76,9 +74,15 @@ write_csv(lyrs %>% dplyr::select(-path_in, -path_in_exists, -path_out),
 ### confirm all layers conform to details of layers.csv
 conf   <- Conf(file.path(dir_calc, 'conf'))
 
-CheckLayers(layers.csv = file.path(dir_calc, 'layers.csv'),
-            layers.dir = file.path(dir_calc, 'layers'),
-            flds_id    = conf$config$layers_id_fields)
+capture.output( ### the function prints crap to screen
+  {
+    CheckLayers(layers.csv = file.path(dir_calc, 'layers.csv'),
+              layers.dir = file.path(dir_calc, 'layers'),
+              flds_id    = conf$config$layers_id_fields)
+  },
+  file = 'delete_this.txt')
+unlink('delete_this.txt')
+
 
 ```
 
@@ -91,25 +95,35 @@ CheckLayers(layers.csv = file.path(dir_calc, 'layers.csv'),
 
 ``` {r iterate across years}
 
+scenarios <- read_csv(file.path(dir_calc, 'master/data_year_matrix_master.csv')) %>%
+  .$scen_name %>%
+  unique()
+
 conf   <- Conf(file.path(dir_calc, 'conf'))
 layers <- Layers(layers.csv = file.path(dir_calc, 'layers.csv'),
                  layers.dir = file.path(dir_calc, 'layers'))
-layers$data$dir_calc    <- dir_calc
+
+layers$data$dir_calc   <- dir_calc
+layers$data$data_years <- read_csv(file.path(dir_calc, 'conf/data_year_matrix.csv'))
 
 scores_all <- data.frame() ### initialize scores
 
-for (yr_i in seq_along(scenario_years)) { ### yr_i <- 1
+for (scen_i in scenarios) { ### scen_i <- scenarios[1]
 
-  scenario <- names(scenario_years)[yr_i]
-  status_year <- scenario_years[yr_i]
-  message('Calculating scores for ', status_year)
+  message('Calculating scores for ', scen_i)
 
   ### For each run through loop, assign status_year inside
   ###   the layers object/env't so it is accessible to functions.R
-  layers$data$status_year <- status_year
+  layers$data$scenario <- scen_i
 
-  scores <- CalculateAll(conf, layers) %>%
-    mutate(year = status_year)
+  capture.output( ### the function prints crap to screen
+    {
+      scores <- CalculateAll(conf, layers) %>%
+        mutate(scenario = scen_i,
+               year     = as.integer(str_replace_all(scen_i, '[^0-9]', '')))
+    },
+    file = 'delete_this.txt')
+  unlink('delete_this.txt')
 
   scores_all <- scores_all %>%
     bind_rows(scores)
@@ -127,11 +141,21 @@ x <- scores_all %>%
 ``` {r plot_all_scores}
 
 scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
-  filter(dimension %in% c('status', 'trend'))
+  filter(dimension %in% c('status', 'trend')) %>%
+  spread(dimension, score) %>%
+  filter(!is.na(status)) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
 
+status_plot <- ggplot(scores %>% 
+                        filter(region_id != 0), 
+                      aes(x = year, y = status, color = rgn_name)) +
+  geom_line(aes(group = region_id)) +
+  geom_line(data = scores %>% 
+              filter(region_id == 0), 
+            aes(x = year, y = status), size = 1.5, color = 'grey40', alpha = .8) +
+  facet_wrap( ~ goal)
 
-
-
+status_plot
 
 ```
 

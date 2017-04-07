@@ -534,9 +534,9 @@ write_csv(closures_by_year_no_seasonal, file.path('int/closures_by_year_excl_sea
 
 `r DT::datatable(closures_by_year_no_seasonal)`
 
-### Maps of closures
+<!-- ### Maps of closures -->
 
-``` {r plot_closures}
+``` {r plot_closures, eval = FALSE}
 
 library(tmap)
 library(rgdal)
@@ -604,32 +604,40 @@ Note that 2008 and 2016 data are incomplete (first closure in the data is Aug 20
 
 ``` {r pfmsa_area_within_3nm}
 
-dir_pfmsa <- file.path(dir_anx, '_raw_data/dfo_khunter/d2016/management_boundaries/pac_fishery_mgmt_subareas') %>%
-  path.expand()
-poly_pfmsa <- readOGR(dsn = dir_pfmsa,
-                      layer = 'DFO_BC_PFMA_SUBAREAS_50K_V3_1')
+pfmsa_areas_file <- file.path(dir_goal, 'int/closure_pfmsa_to_rgn.csv')
 
-rast_3nm <- raster(file.path(dir_spatial, 'raster/ohibc_offshore_3nm_raster_500m.tif'))
+if(!file.exists(pfmsa_areas_file)) {
+  
+  dir_pfmsa <- file.path(dir_anx, '_raw_data/dfo_khunter/d2016/management_boundaries/pac_fishery_mgmt_subareas') %>%
+    path.expand()
+  poly_pfmsa <- readOGR(dsn = dir_pfmsa,
+                        layer = 'DFO_BC_PFMA_SUBAREAS_50K_V3_1')
+  
+  rast_3nm <- raster(file.path(dir_spatial, 'raster/ohibc_offshore_3nm_raster_500m.tif'))
+  
+  
+  pfmsa_3nm <- raster::extract(rast_3nm, poly_pfmsa, 
+                               # weights = TRUE, normalize_weights = FALSE, 
+                               progress = 'text')
+  
+  pfmsa_3nm_df <- lapply(seq_along(pfmsa_3nm), FUN = function(x) {
+    y <- pfmsa_3nm[[x]]
+    z <- data.frame(pfmsa_id = rep(poly_pfmsa@data$LABEL[x], length(y)),
+                    rgn_id   = y)
+  }) %>%
+    bind_rows() %>%
+    group_by(rgn_id, pfmsa_id) %>%
+    summarize(area_km2 = n() * 0.25) %>%
+    group_by(rgn_id) %>%
+    mutate(a_tot_km2 = sum(area_km2)) %>%
+    ungroup() %>%
+    filter(!is.na(rgn_id))
+  
+  write_csv(pfmsa_3nm_df, pfmsa_areas_file)
 
-
-pfmsa_3nm <- raster::extract(rast_3nm, poly_pfmsa, 
-                             # weights = TRUE, normalize_weights = FALSE, 
-                             progress = 'text')
-
-pfmsa_3nm_df <- lapply(seq_along(pfmsa_3nm), FUN = function(x) {
-  y <- pfmsa_3nm[[x]]
-  z <- data.frame(pfmsa_id = rep(poly_pfmsa@data$LABEL[x], length(y)),
-                  rgn_id   = y)
-}) %>%
-  bind_rows() %>%
-  group_by(rgn_id, pfmsa_id) %>%
-  summarize(area_km2 = n() * 0.25) %>%
-  group_by(rgn_id) %>%
-  mutate(a_tot_km2 = sum(area_km2)) %>%
-  ungroup() %>%
-  filter(!is.na(rgn_id))
-
-write_csv(pfmsa_3nm_df, file.path(dir_goal, 'int/closure_pfmsa_to_rgn.csv'))
+} else {
+  git_prov(pfmsa_areas_file, filetype = 'output')
+}
 
 ```
 
@@ -655,13 +663,13 @@ closures_rgn_yr <- closures_yr %>%
   ungroup() %>%
   filter(year %in% c(2009:2015))
 
-write_csv(closures_rgn_yr, file.path(dir_goal, 'int/closures_rgn_yr.csv'))
+write_csv(closures_rgn_yr, file.path(dir_goal, 'output/ao_closures.csv'))
 
 ```
 
 ``` {r plot_closures_vs_time}
 
-closures_rgn_yr <- read_csv(file.path(dir_goal, 'int/closures_rgn_yr.csv')) %>%
+closures_rgn_yr <- read_csv(file.path(dir_goal, 'output/ao_closures.csv')) %>%
   left_join(get_rgn_names(), by = 'rgn_id') %>%
   filter(!is.na(rgn_id))
 
