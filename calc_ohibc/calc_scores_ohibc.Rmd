@@ -95,7 +95,7 @@ unlink('delete_this.txt')
 
 ``` {r iterate across years}
 
-scenarios <- read_csv(file.path(dir_calc, 'master/data_year_matrix_master.csv')) %>%
+scenarios <- read_csv(file.path(dir_calc, 'master/scenario_matrix_master.csv')) %>%
   .$scen_name %>%
   unique()
 
@@ -104,7 +104,7 @@ layers <- Layers(layers.csv = file.path(dir_calc, 'layers.csv'),
                  layers.dir = file.path(dir_calc, 'layers'))
 
 layers$data$dir_calc   <- dir_calc
-layers$data$data_years <- read_csv(file.path(dir_calc, 'conf/data_year_matrix.csv'))
+layers$data$data_years <- read_csv(file.path(dir_calc, 'conf/scenario_matrix.csv'))
 
 scores_all <- data.frame() ### initialize scores
 
@@ -149,10 +149,10 @@ scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
 status_plot <- ggplot(scores %>% 
                         filter(region_id != 0), 
                       aes(x = year, y = status, color = rgn_name)) +
-  geom_line(aes(group = region_id)) +
   geom_line(data = scores %>% 
               filter(region_id == 0), 
-            aes(x = year, y = status), size = 1.5, color = 'grey40', alpha = .8) +
+            aes(x = year, y = status), size = 1.5, color = 'grey20', alpha = .8) +
+  geom_line(aes(group = region_id)) +
   facet_wrap( ~ goal)
 
 status_plot

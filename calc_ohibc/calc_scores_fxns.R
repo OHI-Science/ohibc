@@ -21,7 +21,7 @@ prep_scenario_dirs <- function(dir_calc,          ### destination location for s
 
   ### copy configuration files from masters to scenario folder
   files_to <- file.path(dir_calc, 'conf',
-                        c('functions.R', 'config.R', 'goals.csv', 'data_year_matrix.csv',
+                        c('functions.R', 'config.R', 'goals.csv', 'scenario_matrix.csv',
                         'pressures_matrix.csv', 'resilience_matrix.csv',
                         'resilience_categories.csv', 'pressure_categories.csv'))
   files_from <- file.path(dir_master,
