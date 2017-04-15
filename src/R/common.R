@@ -18,7 +18,7 @@ library(stringr)
 rm(packages)
 
 ### Set up some options
-options(scipen = "999")           ### Turn off scientific notation
+# options(scipen = "999")           ### Turn off scientific notation
 options(stringsAsFactors = FALSE) ### Ensure strings come in as character types
 
 

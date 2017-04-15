@@ -32,7 +32,7 @@ dir_master <- file.path(dir_calc, 'master')
 source(file.path(dir_calc, 'calc_scores_fxns.R'))
 
 ### provenance tracking
-# library(provRmd); prov_setup()
+library(provRmd); prov_setup()
 
 ```
 
@@ -68,7 +68,8 @@ verify_layers(lyrs)
 
 copy_layers_to_scenario(lyrs)
 
-write_csv(lyrs %>% dplyr::select(-path_in, -path_in_exists, -path_out),
+write_csv(lyrs %>% 
+            select(-path_in, -path_in_exists, -path_out),
           file.path(dir_calc, 'layers.csv'))
 
 ### confirm all layers conform to details of layers.csv
@@ -95,8 +96,8 @@ unlink('delete_this.txt')
 
 ``` {r iterate across years}
 
-scenarios <- read_csv(file.path(dir_calc, 'master/scenario_matrix_master.csv')) %>%
-  .$scen_name %>%
+status_years <- read_csv(file.path(dir_calc, 'master/status_year_matrix_master.csv')) %>%
+  .$status_year %>%
   unique()
 
 conf   <- Conf(file.path(dir_calc, 'conf'))
@@ -104,23 +105,23 @@ layers <- Layers(layers.csv = file.path(dir_calc, 'layers.csv'),
                  layers.dir = file.path(dir_calc, 'layers'))
 
 layers$data$dir_calc   <- dir_calc
-layers$data$data_years <- read_csv(file.path(dir_calc, 'conf/scenario_matrix.csv'))
+layers$data$status_year_matrix <- read_csv(file.path(dir_calc, 'conf/status_year_matrix.csv'))
 
 scores_all <- data.frame() ### initialize scores
 
-for (scen_i in scenarios) { ### scen_i <- scenarios[1]
+for (status_year in status_years) { ### status_year <- status_years[1]
 
-  message('Calculating scores for ', scen_i)
+  message('Calculating scores for ', status_year)
 
   ### For each run through loop, assign status_year inside
   ###   the layers object/env't so it is accessible to functions.R
-  layers$data$scenario <- scen_i
+  layers$data$status_year <- status_year
 
   capture.output( ### the function prints crap to screen
     {
       scores <- CalculateAll(conf, layers) %>%
-        mutate(scenario = scen_i,
-               year     = as.integer(str_replace_all(scen_i, '[^0-9]', '')))
+        mutate(yr_text = status_year,
+               year    = as.integer(str_replace_all(status_year, '[^0-9]', '')))
     },
     file = 'delete_this.txt')
   unlink('delete_this.txt')

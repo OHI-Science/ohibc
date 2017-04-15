@@ -19,7 +19,7 @@ write_ref_pts <- function(goal, method, ref_pt) {
     return()
   }
   ref_pts <- read_csv(ref_pt_file)  %>%
-    rbind(data.frame(year   = layers$data$scenario,
+    rbind(data.frame(year   = layers$data$status_year,
                      goal   = goal,
                      method = method,
                      reference_point = ref_pt))
@@ -78,9 +78,9 @@ calc_trend <- function(scenario_df, years = NULL) {
 
 }
 
-get_data_year <- function(goal, scenario, layers) {
-  data_year <- layers$data$data_years %>%
-    filter(goal_name == goal & scen_name == scenario) %>%
+get_data_year <- function(goal, status_yr, layers) {
+  data_year <- layers$data$status_year_matrix %>%
+    filter(goal_name == goal & status_year == status_yr) %>%
     .$data_year
 
   return(data_year)
@@ -112,7 +112,7 @@ complete_years <- function(score_df, year_span) {
   return(score_df)
 }
 
-FIS <- function(layers, scenario) {
+FIS <- function(layers) {
 
   # #catch data
   # c = SelectLayersData(layers, layers='fis_meancatch', narrow = TRUE) %>%
@@ -291,7 +291,7 @@ FIS <- function(layers, scenario) {
                     score = rep(NA, 16)))
 }
 
-MAR <- function(layers, scenario) {
+MAR <- function(layers) {
   # # layers used: mar_harvest_tonnes, mar_harvest_species, mar_sustainability_score, mar_coastalpopn_inland25mi, mar_trend_years
   # harvest_tonnes <- SelectLayersData(layers, layers='mar_harvest_tonnes', narrow = TRUE) %>%
   #   select(region_id=id_num, species_code=category, year, tonnes=val_num)
@@ -397,7 +397,7 @@ MAR <- function(layers, scenario) {
                     score = rep(NA, 16)))
 }
 
-FP <- function(layers, scores, scenario) {
+FP <- function(layers, scores) {
 
   # # weights
   # w <-  SelectLayersData(layers, layers='fp_wildcaught_weight', narrow = TRUE) %>%
@@ -452,14 +452,12 @@ FP <- function(layers, scores, scenario) {
                     score = rep(NA, 16))))
 }
 
-AO <- function(layers, scenario) {
+AO <- function(layers) {
 
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
 
-  if(is.null(scenario)) {
-    scenario <- layers$data$scenario
-  }
-  data_year <- get_data_year('CS', scenario, layers)
+  status_year <- layers$data$status_year
+  data_year <- get_data_year('AO', status_year, layers)
 
   year_span <- c(1990:2017)
 
@@ -563,14 +561,12 @@ AO <- function(layers, scenario) {
 
 }
 
-CS <- function(layers, scenario) {
+CS <- function(layers) {
 
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
 
-  if(is.null(scenario)) {
-    scenario <- layers$data$scenario
-  }
-  data_year <- get_data_year('CS', scenario, layers)
+  status_year <- layers$data$status_year
+  data_year <- get_data_year('CS', status_year, layers)
 
   year_span <- c(1990:2017)
 
@@ -637,13 +633,11 @@ CS <- function(layers, scenario) {
 
 }
 
-CP <- function(layers, scenario) {
+CP <- function(layers) {
 
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
-  if(is.null(scenario)) {
-    scenario <- layers$data$scenario
-  }
-  data_year <- get_data_year('CP', scenario, layers)
+  status_year <- layers$data$status_year
+  data_year <- get_data_year('CP', status_year, layers)
 
   year_span <- c(1990:2017)
 
@@ -845,7 +839,7 @@ CP <- function(layers, scenario) {
 
 }
 
-TR <- function(layers, scenario) {
+TR <- function(layers) {
 
   # ## formula:
   # ##  E   = Ep                         # Ep: % of direct tourism jobs. tr_jobs_pct_tourism.csv
@@ -960,7 +954,7 @@ TR <- function(layers, scenario) {
                     score = rep(NA, 16)))
 }
 
-LIV_ECO <- function(layers, subgoal, scenario) {
+LIV_ECO <- function(layers, subgoal) {
 
   # g.component = c('LIV'='livelihood','ECO'='economy')[[subgoal]]
   #
@@ -1344,7 +1338,7 @@ LIV_ECO <- function(layers, subgoal, scenario) {
                     score = rep(NA, 16)))
 }
 
-LE <- function(scores, layers, scenario) {
+LE <- function(scores, layers) {
 
   # if (eez2012){
   #   # replacing 2012 scores for ECO and LIV with 2013 data (email Feb 28, Ben H.)
@@ -1410,14 +1404,12 @@ LE <- function(scores, layers, scenario) {
                     score = rep(NA, 16)))
 }
 
-ICO <- function(layers, scenario) {
+ICO <- function(layers) {
 
-  if(is.null(scenario)) {
-    ### in goals.csv, allow status year to be NULL, so it can be reassigned
-    ### for each iteration through calculate loop
-    scenario <- layers$data$scenario
-  }
-  data_year <- get_data_year('ICO', scenario, layers)
+  ### in goals.csv, allow status year to be NULL, so it can be reassigned
+  ### for each iteration through calculate loop
+  status_year <- layers$data$status_year
+  data_year <- get_data_year('ICO', status_year, layers)
 
   ico_layer <- layers$data[['ico_spp_risk_score']] %>%
     select(year, region_id = rgn_id, cat_label, cat_score = cat_ts_score, sciname)
@@ -1479,12 +1471,10 @@ ICO <- function(layers, scenario) {
 
 }
 
-LSP <- function(layers, scenario, ref_pct_cmpa = 30, ref_pct_cp = 30) {
+LSP <- function(layers, ref_pct_cmpa = 30, ref_pct_cp = 30) {
 
-  if(is.null(scenario)) {
-    scenario <- layers$data$scenario
-  }
-  data_year <- get_data_year('LSP', scenario, layers)
+  status_year <- layers$data$status_year
+  data_year <- get_data_year('LSP', status_year, layers)
 
   tot_area_rgn  <- layers$data[['lsp_tot_area_inland_ws']] %>%
     select(-layer) %>%
@@ -1537,7 +1527,7 @@ LSP <- function(layers, scenario, ref_pct_cmpa = 30, ref_pct_cp = 30) {
 
 }
 
-SP <- function(scores, scenario) {
+SP <- function(scores) {
 
   ### to calculate the four SP dimesions, average those dimensions for ICO and LSP
   sp_scores <- scores %>%
@@ -1556,7 +1546,12 @@ SP <- function(scores, scenario) {
   return(scores_sp)
 }
 
-CW <- function(layers, scenario) {
+CW <- function(layers) {
+
+  status_year <- layers$data$status_year
+  data_year <- get_data_year('CW', status_year, layers)
+
+  year_span <- c(2000:2016)
 
   # # layers
   # lyrs <- c('po_pathogens', 'po_nutrients_3nm', 'po_chemicals_3nm', 'po_trash',
@@ -1576,51 +1571,67 @@ CW <- function(layers, scenario) {
   # }
   #
   #
-  # d_pressures <- d %>%
-  #   filter(layer %in% grep('po_', lyrs, value=TRUE))  %>%
-  #   mutate(pressure = 1 - value) %>%  # invert pressures
-  #   group_by(region_id) %>%
-  #   summarize(score = geometric.mean2(pressure, na.rm=TRUE)) %>% # take geometric mean
-  #   mutate(score = score * 100) %>%
-  #   mutate(dimension = "status") %>%
-  #   ungroup()
-  #
-  # d_trends <- d %>%
-  #   filter(layer %in% grep('_trend', lyrs, value=TRUE)) %>%
-  #   mutate(trend = -1 * value)  %>%  # invert trends
-  #   group_by(region_id) %>%
-  #   summarize(score = mean(trend, na.rm = TRUE)) %>%
-  #   mutate(dimension = "trend") %>%
-  #   ungroup()
-  #
-  #
-  # # return scores
-  # scores_cw = rbind(d_pressures, d_trends) %>%
-  #   mutate(goal = "CW") %>%
-  #   select(region_id, goal, dimension, score) %>%
-  #   data.frame()
-  #
-  # ## reference points
-  # rp <- read.csv('temp/referencePoints.csv', stringsAsFactors=FALSE) %>%
-  #   rbind(data.frame(goal = "CW", method = "spatial: pressures scaled from 0-1 at raster level",
-  #                    reference_point = NA))
-  # write.csv(rp, 'temp/referencePoints.csv', row.names=FALSE)
-  #
-  # return(scores_cw)
-  return(data.frame(goal = 'CW',
-                    region_id = rep(c(1:8), 2),
-                    dimension = c(rep('status', 8), rep('trend', 8)),
-                    score = rep(NA, 16)))
+  nutr_pressure <- layers$data[['po_nutrient']] %>%
+    complete_years(year_span)
+  chem_pressure <- layers$data[['po_chemical']] %>%
+    complete_years(year_span)
+  trash_pressure <- layers$data[['po_trash']] %>%
+    rename(region_id = rgn_id) %>%
+    left_join(nutr_pressure %>% select(region_id, year),
+              by = 'region_id') %>%
+    complete_years(year_span)
+
+  cw_pressure_df <- nutr_pressure %>%
+    full_join(chem_pressure, by = c('year', 'region_id')) %>%
+    # full_join(path_score_df, by = c('year', 'region_id')) %>%
+    full_join(trash_pressure, by = c('year', 'region_id')) %>%
+    select(-starts_with('layer'))
+  ### that last bit is because somewhere the layer dfs get a layer name column... ???
+
+  cw_score_summary <- cw_pressure_df %>%
+    gather(source, value, nutr_pressure:trash_pressure) %>%
+    group_by(year, region_id) %>%
+    filter(!is.na(value)) %>%
+    mutate(component_score = 1 - value) %>%
+    summarize(n_sources = n(),
+              prod = prod(component_score),
+              status = prod^(1/n_sources), ### this finishes our geometric mean
+              sources = paste(source, collapse = ', '),
+              values  = paste(round(value, 4), collapse = ', ')) %>%
+    ungroup()
+
+  rgn_status <- cw_score_summary %>%
+    select(year, region_id, score = status) %>%
+    mutate(score = round(score * 100, 5),
+           goal  = 'CW',
+           dimension = 'status')
+
+  ### calculate trend
+  trend_years <- (data_year - 4):data_year
+
+  rgn_trend <-calc_trend(rgn_status, trend_years)
+
+  ### reference points
+  write_ref_pts(goal   = "CW",
+                method = 'Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure',
+                ref_pt = NA)
+
+  ### return scores
+  scores_cw <- rgn_status %>%
+    filter(year == data_year) %>%
+    bind_rows(rgn_trend) %>%
+    select(goal, dimension, region_id, score)
+
+  return(scores_cw)
 }
 
-HAB <- function(layers, scenario) {
-  ### Salt marsh, coastal forest based on extent from 30-meter rasters
+HAB <- function(layers) {
+  ### Salt marsh based on extent from 30-meter rasters
   ### EBSA, soft bottom habitats based on trawl pressures
+  ### Coastal forests excluded
 
-  if(is.null(scenario)) {
-    scenario <- layers$data$scenario
-  }
-  data_year <- get_data_year('HAB', scenario, layers)
+  status_year <- layers$data$status_year
+  data_year <- get_data_year('HAB', status_year, layers)
 
   year_span <- c(1990:2017)
 
@@ -1645,17 +1656,17 @@ HAB <- function(layers, scenario) {
            status = ifelse(status > 1, 1, status)) %>%
     complete_years(year_span)
 
-  cf_health   <- layers$data[['hab_cf_health']] %>%
-    group_by(rgn_id) %>%
-    arrange(rgn_id, year) %>%
-    mutate(hab    = 'coastal_forest',
-           ref_pt = first(cf_area_km2),
-           ref_yr = first(year),
-           status = cf_area_km2 / ref_pt,
-           status = ifelse(status > 1, 1, status)) %>%
-    complete_years(year_span)
+  # cf_health   <- layers$data[['hab_cf_health']] %>%
+  #   group_by(rgn_id) %>%
+  #   arrange(rgn_id, year) %>%
+  #   mutate(hab    = 'coastal_forest',
+  #          ref_pt = first(cf_area_km2),
+  #          ref_yr = first(year),
+  #          status = cf_area_km2 / ref_pt,
+  #          status = ifelse(status > 1, 1, status)) %>%
+  #   complete_years(year_span)
 
-  hab_status <- bind_rows(ebsa_health, sb_health, sm_health, cf_health) %>%
+  hab_status <- bind_rows(ebsa_health, sb_health, sm_health) %>% # cf_health) %>%
     select(region_id, year, status, hab) %>%
     group_by(region_id, year) %>%
     summarize(score = mean(status)) %>%
@@ -1682,12 +1693,10 @@ HAB <- function(layers, scenario) {
 
 }
 
-SPP <- function(layers, scenario) {
+SPP <- function(layers) {
 
-  if(is.null(scenario)) {
-    scenario <- layers$data$scenario
-  }
-  data_year <- get_data_year('SPP', scenario, layers)
+  status_year <- layers$data$status_year
+  data_year <- get_data_year('SPP', status_year, layers)
 
   spp_range_by_rgn <- layers$data[['spp_range_areas']] %>%
     select(region_id = rgn_id, spp_pct_area, iucn_sid, am_sid, sciname, spatial_source)
@@ -1724,7 +1733,7 @@ SPP <- function(layers, scenario) {
   return(spp_scores)
 }
 
-BD <- function(scores, scenario) {
+BD <- function(scores) {
 
   bd_scores <- scores %>%
     filter(goal %in% c('HAB', 'SPP')) %>%
@@ -1743,7 +1752,7 @@ BD <- function(scores, scenario) {
 # FinalizeScores <- function(layers, conf, scores){
 #
 #   # get regions
-#   rgns = SelectLayersData(layers, layers=conf$config$layer_region_labels, narrow = TRUE)
+#   rgns = SelectLayersData(layers, layers = conf$config$layer_region_labels, narrow = TRUE)
 #
 #   # add NAs to missing combos (region_id, goal, dimension)
 #   d = expand.grid(list(score_NA  = NA,
