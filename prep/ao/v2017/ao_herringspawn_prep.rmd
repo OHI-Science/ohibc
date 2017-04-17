@@ -204,7 +204,7 @@ if(!file.exists(shi_data_file)) {
 
 #### Herring spawn index by rgn by year
 
-Possible reference point: mean herring spawn index from 1940-1960?  For each DFO larger region, let's plot this.  These are not OHIBC analysis regions.
+Possible reference point: mean herring spawn index from 1940-1960?  For each DFO larger region, let's plot this.  These are not OHIBC analysis regions, but match somewhat.  These figures are simply for reference.
 
 ``` {r plot_herring_spawn_by_dfo_rgn}
 
@@ -273,19 +273,76 @@ shi_fix <- read_csv(file.path(dir_goal, 'raw/shi_secs_67_135_136.csv'),
 
 ```
 
+### Alternate method with Herring Sections from DFO geodatabase
+
+Note that this method is more "repeatable" than the previous, using area-weighting of a section across region boundaries to assign harvest values.  For the most part, the results appear nearly indistinguishable from the previous method, except for Aristazabal Island, which comes out looking better than the other version.  This is the method that will be used in the analysis.
+
+``` {r extract_herring_section_by_rgn}
+
+hsect_to_rgn_file <- file.path(dir_goal, 'herring_maps/hsect_to_rgn.csv')
+
+if(!file.exists(hsect_to_rgn_file)) {
+  
+  # read the OGR; check the layers; get the herring layer
+  
+  boundaries_gdb <- file.path(dir_anx, '_raw_data/dfo_khunter/d2017/boundaries.gdb')
+  herring_lyr <- rgdal::ogrListLayers(boundaries_gdb) %>%
+    .[str_detect(tolower(.), 'herring')]
+  
+  hsects <- rgdal::readOGR(boundaries_gdb, herring_lyr) 
+  ### is already in BC Albers
+  
+  ohibc_rast <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif'))
+  ### in BC Albers
+  
+  hsects_rgn <- raster::extract(ohibc_rast, hsects, progress = 'text')
+  
+  hsects_rgn_df <- hsects_rgn %>%
+    setNames(hsects@data$Section) %>%
+    lapply(FUN = function(x) {
+      data.frame(rgn_id = x)
+    }) %>%
+    bind_rows(.id = 'section') %>%
+    mutate(section = paste0('Section ', section)) %>%
+    group_by(section, rgn_id) %>%
+    summarize(n_cells = n(),
+              area_km2 = n_cells/4) %>%
+    ungroup() %>%
+    filter(!is.na(rgn_id) & !is.na(section))
+
+  write_csv(hsects_rgn_df, hsect_to_rgn_file)
+  
+} else {
+  
+  git_prov(hsect_to_rgn_file, filetype = 'output')
+  
+}
+```
+
+
 ``` {r calc_spawn_hab_index_by_rgn}
 
 shi_df <- read_csv(file.path(dir_goal, 'int/shi_data.csv'))
 
-shi_sec <- read_csv(file.path(dir_goal, 'raw/shi_sections.csv')) %>%
-  select(-area_name) %>%
-  distinct()
+shi_sec <- read_csv(hsect_to_rgn_file) %>%
+  group_by(section) %>%
+  mutate(rgn_wgt = area_km2 / sum(area_km2))
+
+### This part reads the manual lookup table - commented out in favor of .gdb spatialization
+# shi_sec <- read_csv(file.path(dir_goal, 'raw/shi_sections.csv')) %>%
+#   select(-area_name) %>%
+#   distinct()
+
+# x <- shi_df %>% select(section = area) %>% filter(!section %in% shi_sec$section) %>% distinct()
+### All sections in shi_df accounted for...
+# y <- shi_sec %>% select(section) %>% filter(!section %in% shi_df$area) %>% distinct()
+### Sections 031, 071, 081, 101, 171, 201, 211 not in shi_df... OK
 
 shi_ohibc <- shi_df %>%
   filter(str_detect(tolower(area), 'section')) %>%
-  select(area, area_name, year, tot_records, spawn_hab_index) %>%
+  select(section = area, area_name, year, tot_records, spawn_hab_index) %>%
   distinct() %>%
-  left_join(shi_sec, by = c('area')) %>%
+  left_join(shi_sec, by = c('section')) %>%
   group_by(rgn_id, year) %>%
   summarize(shi_tot = sum(spawn_hab_index * rgn_wgt, na.rm = TRUE)) %>%
   ungroup() %>%
