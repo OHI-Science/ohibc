@@ -163,7 +163,11 @@ closure_dates_clean <- closures_intermediate %>%
 
 closure_dates_clean <- closure_dates_clean %>%
   select(order_no, issued_date, revoked_date = revoked_datex, closes_area, species) %>%
-  distinct()
+  distinct() %>%
+  mutate(closure_type = if_else(str_detect(tolower(order_no), 'ptn'), 'biotoxins', 'unknown'),
+         closure_type = if_else(str_detect(tolower(order_no), 'psn'), 'sanitary closure', closure_type),
+         closure_type = if_else(str_detect(tolower(order_no), 'pch'), 'chemical closure', closure_type),
+         closure_type = if_else(str_detect(tolower(order_no), 'wwt'), 'sanitary wwtp', closure_type))
 
 write_csv(closures_intermediate, file.path(dir_goal, 'int/closures_intermediate.csv'))
 write_csv(closure_dates_clean, file.path(dir_goal, 'int/closure_dates_cleaned.csv'))
@@ -211,7 +215,7 @@ season_months_replace <- c('may [0-9]+' = '',
                      '20[0-9]{2}' = '') ### this last bit cuts a four-digit number (i.e. year)
 
 closure_areas <- read_csv(file.path(dir_goal, 'int/closure_dates_cleaned.csv')) %>%
-  select(order_no, issued_date, closes_area) %>%
+  select(order_no, issued_date, closes_area, closure_type) %>%
   mutate(closes_edit = tolower(closes_area),
          closes_edit = str_replace_all(closes_edit, 'except use?less inlet', ''), ### annoying and unhelpful
          closes_edit = str_replace_all(closes_edit, 'Expand the 25 m closure', ''),
@@ -247,7 +251,7 @@ closure_areas_to <- closure_areas %>%
                               str_replace(area_split, to_clause, to_vec),
                               area_split)) %>%
   select(-area_split, -to_clause, -from_num, -to_num, -to_vec, -tmp_area) %>%
-  group_by(order_no, issued_date, closes_area) %>%
+  group_by(order_no, issued_date, closes_area, closure_type) %>%
   summarize(closes_edit = paste(area_split2, collapse = ' ')) %>%
   ungroup()
   
@@ -370,11 +374,11 @@ closure_areas_revoke <- closure_areas_all %>%
   distinct()
 
 closure_areas_clean <- closure_areas_easy %>%
-  select(order_no, issued_date, closes_area, area, subarea) %>%
+  select(order_no, issued_date, closes_area, area, subarea, closure_type) %>%
   bind_rows(closure_areas_except %>%
-              select(order_no, issued_date, closes_area, area, subarea)) %>%
+              select(order_no, issued_date, closes_area, area, subarea, closure_type)) %>%
   bind_rows(closure_areas_revoke %>%
-              select(order_no, issued_date, closes_area, area, subarea)) %>%
+              select(order_no, issued_date, closes_area, area, subarea, closure_type)) %>%
   inner_join(area_subarea_list, by = c('area', 'subarea'))
 
 write_csv(closure_areas_clean, file.path(dir_goal, 'int/closure_areas_cleaned.csv'))
@@ -418,7 +422,7 @@ expand_closures <- function(closures_df) {
 
 date_clip <- function(closures_df) {
   tmp <- closures_df %>%
-    select(order_no, year, area, subarea, date_start, date_end, days) %>%
+    select(order_no, year, area, subarea, date_start, date_end, days, closure_type) %>%
     distinct() %>%
     arrange(year, area, subarea)
   
@@ -491,9 +495,9 @@ closure_dates <- closure_dates %>%
 ### if_else instead of ifelse: this preserves the date fields as dates, rather than integers
 
 closures <- closure_dates %>%
-  inner_join(closure_areas, by = c('order_no', 'issued_date', 'closes_area')) %>%
+  inner_join(closure_areas, by = c('order_no', 'issued_date', 'closes_area', 'closure_type')) %>%
   select(-species) %>%
-  mutate(year_issued = lubridate::year(issued_date),
+  mutate(year_issued  = lubridate::year(issued_date),
          year_revoked = lubridate::year(revoked_date),
          year = year_issued)
 
@@ -518,8 +522,15 @@ closures_by_year_no_seasonal <- area_year_no_seasonal %>%
   summarize(total_days_closed = sum(days)) %>%
   ungroup()
 
+closures_by_year_and_type <- area_year_no_seasonal %>%
+  group_by(year, area, subarea, closure_type) %>%
+  summarize(total_days_closed = sum(days)) %>%
+  ungroup()
+
+
 write_csv(closures_by_year, file.path('int/closures_by_year.csv'))
 write_csv(closures_by_year_no_seasonal, file.path('int/closures_by_year_excl_seasonal.csv'))
+write_csv(closures_by_year_and_type, file.path('int/closures_by_year_and_type.csv'))
 
 ### x <- closures_by_year %>% full_join(closures_by_year_no_seasonal %>% rename(days_ns = total_days_closed))
 ### y <- x %>% filter(total_days_closed != days_ns | is.na(days_ns))
@@ -533,6 +544,10 @@ write_csv(closures_by_year_no_seasonal, file.path('int/closures_by_year_excl_sea
 ### Closures by year, excluding seasonal closures
 
 `r DT::datatable(closures_by_year_no_seasonal)`
+
+### Closures by year and type, excluding seasonal closures
+
+`r DT::datatable(closures_by_year_and_type)`
 
 <!-- ### Maps of closures -->
 
@@ -665,6 +680,26 @@ closures_rgn_yr <- closures_yr %>%
 
 write_csv(closures_rgn_yr, file.path(dir_goal, 'output/ao_closures.csv'))
 
+
+closures_type_yr <- read_csv(file.path('int/closures_by_year_and_type.csv')) %>%
+  rename(days = total_days_closed) %>%
+  left_join(pfmsa_3nm_df, by = c('area', 'subarea')) 
+### check closures not associated with any OHIBC region:
+# x <- closures_yr %>%
+#   filter(is.na(rgn_id)) %>%
+#   select(area, subarea) %>%
+#   distinct()
+### Some closures affect offshore areas, or else inlets that do not register
+### in the OHIBC 3nm raster due to size or far inland.
+
+closures_rgn_type_yr <- closures_type_yr %>%
+  group_by(rgn_id, year, closure_type) %>%
+  summarize(days_avg = sum(days * area_km2 / a_tot_km2)) %>%
+  ungroup() %>%
+  filter(year %in% c(2009:2015))
+
+write_csv(closures_rgn_type_yr, file.path(dir_goal, 'output/ao_closures_by_type.csv'))
+
 ```
 
 ``` {r plot_closures_vs_time}
@@ -673,9 +708,14 @@ closures_rgn_yr <- read_csv(file.path(dir_goal, 'output/ao_closures.csv')) %>%
   left_join(get_rgn_names(), by = 'rgn_id') %>%
   filter(!is.na(rgn_id))
 
+closures_rgn_type_yr <- read_csv(file.path(dir_goal, 'output/ao_closures_by_type.csv')) %>%
+  left_join(get_rgn_names(), by = 'rgn_id') %>%
+  filter(!is.na(rgn_id))
+
 ggplot(closures_rgn_yr, aes(x = year, y = days_avg, group = rgn_id)) +
   theme(axis.title.x = element_blank()) +
-  geom_line() +
+  geom_line(data = closures_rgn_type_yr, aes(x = year, y = days_avg, group = closure_type, color = closure_type), alpha = .8) +
+  geom_line(alpha = .8) +
   scale_y_continuous(limits = c(0, 365)) +
   scale_x_continuous(breaks = seq(2009, 2015, 2), labels = c("'09", "'11", "'13", "'15")) +
   labs(y = 'Closure days, area-weighted avg') +
