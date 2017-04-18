@@ -79,7 +79,7 @@ calc_trend <- function(scenario_df, years = NULL) {
 }
 
 get_data_year <- function(goal, status_yr, layers) {
-  data_year <- layers$data$status_year_matrix %>%
+  data_year <- layers$data$stat_yr_matrix %>%
     filter(goal_name == goal & status_year == status_yr) %>%
     .$data_year
 
@@ -1571,33 +1571,41 @@ CW <- function(layers) {
   # }
   #
   #
-  nutr_pressure <- layers$data[['po_nutrient']] %>%
-    complete_years(year_span)
-  chem_pressure <- layers$data[['po_chemical']] %>%
-    complete_years(year_span)
-  trash_pressure <- layers$data[['po_trash']] %>%
+  nutr_prs <- layers$data[['po_nutrient_3nm']] %>%
+    complete_years(year_span) %>%
+    rename(pressure = nutr_pressure)
+  chem_prs <- layers$data[['po_chemical_3nm']] %>%
+    complete_years(year_span) %>%
+    rename(pressure = chem_pressure)
+  trash_prs <- layers$data[['po_trash']] %>%
     rename(region_id = rgn_id) %>%
-    left_join(nutr_pressure %>% select(region_id, year),
+    left_join(nutr_prs %>% select(region_id, year),
               by = 'region_id') %>%
+    complete_years(year_span) %>%
+    rename(pressure = trash_pressure)
+
+  patho_prs <- layers$data[['po_pathogens_closures']] %>%
+    # filter(closure_type %in% c('biotoxins', 'sanitary closure')) %>%
+    mutate(days_in_year = ifelse(lubridate::leap_year(year), 366, 365)) %>%
+    group_by(rgn_id, year) %>%
+    summarize(pressure = (sum(days_avg) / first(days_in_year)),
+              layer = 'po_pathogens_closures') %>%
+    ungroup() %>%
     complete_years(year_span)
 
-  cw_pressure_df <- nutr_pressure %>%
-    full_join(chem_pressure, by = c('year', 'region_id')) %>%
-    # full_join(path_score_df, by = c('year', 'region_id')) %>%
-    full_join(trash_pressure, by = c('year', 'region_id')) %>%
-    select(-starts_with('layer'))
+
+  cw_pressure_df <- bind_rows(chem_prs, nutr_prs, trash_prs, patho_prs) %>%
+    rename(component = layer)
   ### that last bit is because somewhere the layer dfs get a layer name column... ???
 
   cw_score_summary <- cw_pressure_df %>%
-    gather(source, value, nutr_pressure:trash_pressure) %>%
+    filter(!is.na(pressure)) %>%
+    mutate(component_score = 1 - pressure) %>%
     group_by(year, region_id) %>%
-    filter(!is.na(value)) %>%
-    mutate(component_score = 1 - value) %>%
-    summarize(n_sources = n(),
-              prod = prod(component_score),
-              status = prod^(1/n_sources), ### this finishes our geometric mean
-              sources = paste(source, collapse = ', '),
-              values  = paste(round(value, 4), collapse = ', ')) %>%
+    summarize(n_components = n(),
+              status    = prod(component_score)^(1/n_components), ### this finishes our geometric mean
+              sources   = paste(component, collapse = ', '),
+              pressures = paste(round(pressure, 4), collapse = ', ')) %>%
     ungroup()
 
   rgn_status <- cw_score_summary %>%

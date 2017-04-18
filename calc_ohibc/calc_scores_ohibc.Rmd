@@ -32,7 +32,7 @@ dir_master <- file.path(dir_calc, 'master')
 source(file.path(dir_calc, 'calc_scores_fxns.R'))
 
 ### provenance tracking
-library(provRmd); prov_setup()
+# library(provRmd); prov_setup()
 
 ```
 
@@ -105,7 +105,7 @@ layers <- Layers(layers.csv = file.path(dir_calc, 'layers.csv'),
                  layers.dir = file.path(dir_calc, 'layers'))
 
 layers$data$dir_calc   <- dir_calc
-layers$data$status_year_matrix <- read_csv(file.path(dir_calc, 'conf/status_year_matrix.csv'))
+layers$data$stat_yr_matrix <- read_csv(file.path(dir_calc, 'conf/status_year_matrix.csv'))
 
 scores_all <- data.frame() ### initialize scores
 
@@ -147,20 +147,28 @@ scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
   filter(!is.na(status)) %>%
   left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
 
-status_plot <- ggplot(scores %>% 
-                        filter(region_id != 0), 
+for(goalname in scores$goal %>% unique() %>% sort) {
+  # goalname <- scores$goal[1]
+  scores_tmp <- scores %>%
+    filter(goal == goalname)
+  status_plot <- ggplot(scores_tmp %>% 
+                          filter(region_id != 0), 
                       aes(x = year, y = status, color = rgn_name)) +
-  geom_line(data = scores %>% 
+  geom_line(data = scores_tmp %>% 
               filter(region_id == 0), 
             aes(x = year, y = status), size = 1.5, color = 'grey20', alpha = .8) +
   geom_line(aes(group = region_id)) +
-  facet_wrap( ~ goal)
+  scale_x_continuous(breaks = scores_tmp$year %>% unique() %>% sort) +
+  scale_y_continuous(limits = c(0, 100)) +
+  labs(color = goalname)
 
-status_plot
+  print(status_plot)
+}
+
 
 ```
 
 ``` {r prov_footer, results = 'asis'}
-prov_wrapup(commit_outputs = FALSE)
+# prov_wrapup(commit_outputs = FALSE)
 ```
 

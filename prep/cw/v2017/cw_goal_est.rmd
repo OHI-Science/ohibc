@@ -1,0 +1,399 @@
+---
+title: 'OHIBC: Clean Waters goal prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(rgdal)
+library(raster)
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+dir_git     <- '~/github/ohibc'
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal     <- 'cw'
+scenario <- 'v2017'
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### support scripts
+source(file.path('~/github/ohibc/src/R/map_scores.R'))
+  ### score plotting scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### raster plotting and analyzing scripts
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+```
+
+# Summary
+
+This script pulls together data from the four components of Clean Waters and outputs layers for toolbox:
+
+* chemical pollution, which includes land-based organic chemicals (pesticides), land-based inorganic chemicals (impervious surface runoff), and ocean-based pollution from shipping and harbors.
+    * processed by `cw_chem_prep.Rmd`; log-transformed and normalized by 99.99%tile within EEZ.
+    * as in the global analysis, this is assessed using the 3 nm coastal buffer zone.
+    * details: 
+        * years       : 2002 - 2013
+        * resolution  : 1000, 1000  (x, y) in m
+        * coord. ref. : `+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs` 
+        * values      : 0, 2.889625  (min, max) (for first layer)
+* nutrient pollution, which includes nutrient runoff from agriculture
+    * processed by `cw_nutrient_prep.Rmd`; log-transformed and normalized by 99.99%tile within EEZ.
+    * as in the global analysis, this is assessed at the 3 nm coastal buffer zone.
+    * details: 
+        * years       : 2002 - 2013
+        * resolution  : 1000, 1000  (x, y) in m
+        * coord. ref. : `+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs` 
+        * values      : 0, 1  (min, max)
+* marine debris, which includes marine plastics debris surface density by mass
+    * processed by `cw_trash_prep.Rmd`; log-transformed and normalized by 99.99%tile within __NE Pacific__ rather than BC EEZ.
+    * as in the global analysis, this is assessed across the entire EEZ.
+    * details: 
+        * years       : no time series
+        * resolution  : 1000, 1000  (x, y) in m
+        * coord. ref. : `+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs` 
+        * values      : 0.2782703, 1  (min, max)
+
+* pathogens, processed TBD.
+
+This script pulls in finalized raster layers for each component, determines a score for each component by OHIBC region, then determines the overall score using a geometric mean calculation.
+
+***
+
+# Data Source -- REMOVE from here? if adjusting the other preps to be children of this, each has its own data source section...
+
+* **Reference**: 
+* **Downloaded**: 
+* **Native Data Resolution**:   
+* **Values**: 
+* **Time Range**: 
+* **Format**: 
+
+***
+
+# Methods
+
+## Calculate nutrient scores
+
+Nutrient scores are determined using the 3 nm offshore region.  Scores are calculated as (1 - mean nutrient pressure); since nutrient pressure scales from 0 to 1, a region with mean pressures near zero will result in a region score near 1.
+
+``` {r define_rgn_extract}
+rgn_extract <- function(rast, rgn_poly) {
+  message('Extracting raster ', names(rast))
+  ptm <- proc.time()
+  rgn_vals <- raster::extract(rast, rgn_poly, weights = FALSE)
+  message('... elapsed time: ', round((proc.time() - ptm)[3], 2), ' sec')
+  
+  names(rgn_vals) <- rgn_poly@data$rgn_id
+  
+  ### For the dataframe without cell weights, each list is just a
+  ### vector of values, so we can simply assign that to a column in
+  ### the data frame.
+  rgn_vals_df <- data.frame()
+  for (rgn_id in names(rgn_vals)) {
+    temp_df <- data.frame(rgn_id   = as.numeric(rgn_id), 
+                          cell_val = unlist(rgn_vals[[rgn_id]]))
+    rgn_vals_df <- rbind(rgn_vals_df, temp_df)
+  }
+  
+  return(rgn_vals_df)
+}
+
+```
+
+``` {r calc_nutrient_scores}
+
+### nutrient: rescaled fertilizers from 2002-2013
+
+### 1. load regions
+if(!exists('bc_rgn_poly')) 
+  bc_rgn_poly <- readOGR(dsn = path.expand(dir_spatial),
+                         layer = 'ohibc_rgn')
+if(!exists('bc_3nm_poly')) 
+  bc_3nm_poly <- readOGR(dsn = path.expand(dir_spatial),
+                         layer = 'ohibc_offshore_3nm')
+### 2. load layers
+nutr_layer_files <- list.files(file.path(dir_goal_anx, 'rescaled_layers'),
+                               pattern = 'fert',
+                               full.names = TRUE)
+nutr_stack <- stack(nutr_layer_files) %>%
+  setNames(nutr_layer_files %>% basename %>% str_replace('.tif', '')) %>%
+  raster::crop(bc_rgn_poly)
+
+years <- names(nutr_stack) %>%
+  str_extract('[0-9]{4}') %>%
+  as.integer()
+
+rgns_list <- list('po_nutrient'     = bc_rgn_poly,
+                  'po_nutrient_3nm' = bc_3nm_poly)
+
+reload <- FALSE
+
+for (i in seq_along(rgns_list)) { # i <- 1
+  po_filename <- file.path(dir_goal, 'output', paste0(names(rgns_list)[i], '.csv'))
+  if(file.exists(po_filename) & reload == FALSE) {
+    message('Pressure file exists: \n  ', po_filename)
+    next()
+  }
+  
+  message('Calculating nutrient pressures from ', names(rgns_list)[i])
+  nutr_list <- vector('list', length = length(years))
+  for (j in 1:length(years)) {
+    # j <- 1
+    message('In loop; processing layer ', j, ' out of ', length(years))
+    tmp_df <- rgn_extract(nutr_stack[[j]], rgns_list[[i]])
+    nutr_list[[j]] <- tmp_df %>%
+      rename(nutr_val = cell_val) %>%
+      mutate(year = years[j])
+  }
+  
+  nutr_df <- bind_rows(nutr_list)
+  
+  po_nutr <- nutr_df %>%
+    group_by(year, rgn_id) %>%
+    summarize(nutr_pressure = mean(nutr_val, na.rm = TRUE))
+  
+  write_csv(po_nutr, po_filename)
+  
+}
+
+nutr_map <- plot_rast_map(nutr_stack[[nlayers(nutr_stack)]],
+                          rgn_poly = bc_rgn_poly,
+                          rev_scale = TRUE,
+                          title = 'Nutrient pressures')
+
+
+```
+
+## Calculate chemical scores
+
+Chemical scores are determined using the 3 nm offshore region.  Since these rasters are sums of multiple rescaled chemical pollution source layers, values can exceed 1.0.  So the cell values must be clipped to 1.0 (simple clip, not a new normalization)
+
+``` {r calc_chem_scores}
+
+### chemical: sum of rescaled inorganic (no TS) + ocean (no TS) + pesticides (2002-2013)
+
+### 1. load regions
+bc_rgn_poly <- readOGR(dsn = path.expand(dir_spatial),
+                       layer = 'ohibc_rgn')
+bc_3nm_poly <- readOGR(dsn = path.expand(dir_spatial),
+                       layer = 'ohibc_offshore_3nm')
+
+### 2. load layer(s)
+chem_layer_files <- list.files(file.path(dir_goal_anx, 'rescaled_layers'),
+                               pattern = 'chem_gmean',
+                               full.names = TRUE)
+chem_stack <- stack(chem_layer_files) %>%
+  setNames(chem_layer_files %>% 
+             basename %>% 
+             str_replace('\\.tif', '')) %>%
+  raster::crop(bc_rgn_poly)
+
+### NOTE:  The chem layers are sums of multiple sources of chemical pollution.
+### These sums exceed 1.0; anything over 1 must be rescaled.
+chem_stack_clipped <- chem_stack
+values(chem_stack_clipped)[values(chem_stack_clipped) > 1] <- 1
+
+years <- names(chem_stack_clipped) %>%
+  str_extract('[0-9]{4}') %>%
+  as.integer()
+
+rgns_list <- list('po_chemical'     = bc_rgn_poly,
+                  'po_chemical_3nm' = bc_3nm_poly)
+
+reload <- FALSE
+
+for (i in seq_along(rgns_list)) { # i <- 1
+  po_filename <- file.path(dir_goal, 'output', paste0(names(rgns_list)[i], '.csv'))
+  if(file.exists(po_filename) & reload == FALSE) {
+    message('Pressure file exists: \n  ', po_filename)
+    next()
+  }
+  
+  message('Calculating chemical pressures from ', names(rgns_list)[i])
+  chem_list <- vector('list', length = length(years))
+  for (j in 1:length(years)) {
+    # j <- 1
+    message('In loop; processing layer ', j, ' out of ', length(years))
+    tmp_df <- rgn_extract(chem_stack_clipped[[j]], rgns_list[[i]])
+    chem_list[[j]] <- tmp_df %>%
+      rename(chem_val = cell_val) %>%
+      mutate(year = years[j])
+  }
+  
+  chem_df <- bind_rows(chem_list)
+  
+  po_chem <- chem_df %>%
+    group_by(year, rgn_id) %>%
+    summarize(chem_pressure = mean(chem_val, na.rm = TRUE))
+  
+  write_csv(po_chem, po_filename)
+  
+}
+
+chem_map <- plot_rast_map(chem_stack[[nlayers(chem_stack)]],
+                          rgn_poly = bc_rgn_poly,
+                          rev_scale = TRUE,
+                          title = 'Chem pollution pressures')
+
+```
+
+## Calculate trash scores
+
+Trash scores are calculated across the entire EEZ.  There is no time series for this layer.
+
+``` {r calc_trash_scores}
+
+### trash: rescaled marine plastics (no TS)
+
+### 1. load regions
+bc_rgn_poly <- readOGR(dsn = path.expand(dir_spatial),
+                       layer = 'ohibc_rgn')
+bc_3nm_poly <- readOGR(dsn = path.expand(dir_spatial),
+                       layer = 'ohibc_offshore_3nm')
+
+### 2. load layer(s)
+trash_layer_files <- list.files(file.path(dir_goal, 'rescaled_layers'),
+                               pattern = 'trash',
+                               full.names = TRUE)
+
+if(length(trash_layer_files) > 1) {
+  message('More than one trash rescaled layer file! \n  ', paste(trash_layer_files, collapse = '\n  '))
+  
+  ### select max, linear scale, EEZ ref point
+  quantile_tag <- str_detect(trash_layer_files, '_max_')
+  region_tag   <- str_detect(trash_layer_files, '_eez')
+
+  trash_layer_file <- trash_layer_files[quantile_tag & region_tag]
+  message('Using: \n  ', trash_layer_file)
+} else {
+  trash_layer_file <- trash_layer_files[1]
+}
+  
+
+trash_rast <- raster(trash_layer_file) %>%
+  setNames(trash_layer_file %>% 
+             basename %>% 
+             str_replace('.tif', '')) %>%
+  raster::crop(bc_rgn_poly)
+
+
+rgns_list <- list('po_trash'     = bc_rgn_poly,
+                  'po_trash_3nm' = bc_3nm_poly)
+
+for (i in seq_along(rgns_list)) { # i <- 1
+  
+  message('Calculating marine debris pressures from ', names(rgns_list)[i])
+  trash_df <- rgn_extract(trash_rast, rgns_list[[i]]) %>%
+    rename(trash_val = cell_val)
+
+  po_trash_df <- trash_df %>%
+    group_by(rgn_id) %>%
+    summarize(trash_pressure = mean(trash_val, na.rm = TRUE)) 
+  
+  write_csv(po_trash_df, file.path(dir_goal, 'output', paste0(names(rgns_list)[i], '.csv')))
+}
+
+trash_map <- plot_rast_map(trash_rast,
+                          rgn_poly = bc_rgn_poly,
+                          rev_scale = TRUE,
+                          title = 'Marine plastic debris pressures')
+
+```
+
+### pathogens: still TBD
+
+
+## Calculate geometric mean of all scores.
+
+``` {r calc_geom_means}
+nutr_score_df  <- read_csv(file.path(dir_goal, 'output', 'po_nutrient_3nm.csv'))
+chem_score_df  <- read_csv(file.path(dir_goal, 'output', 'po_chemical_3nm.csv'))
+trash_score_df <- read_csv(file.path(dir_goal, 'output', 'po_trash.csv')) %>%
+  left_join(nutr_score_df %>% select(rgn_id, year),
+            by = 'rgn_id')
+path_score_df <- read_csv(file.path(dir_git, 'prep/ao/v2017/output', 'ao_closures.csv')) %>%
+    mutate(days_in_year = ifelse(lubridate::leap_year(year), 366, 365)) %>%
+    group_by(rgn_id, year) %>%
+    summarize(path_pressure = (sum(days_avg) / first(days_in_year))) %>%
+    ungroup()
+
+cw_score_df <- nutr_score_df %>%
+  full_join(chem_score_df,  by = c('year', 'rgn_id')) %>%
+  full_join(path_score_df,  by = c('year', 'rgn_id')) %>%
+  full_join(trash_score_df, by = c('year', 'rgn_id')) %>%
+  gather(type, value, nutr_pressure:trash_pressure) %>%
+  filter(!is.na(value)) %>%
+  mutate(component_score = 1 - value)
+
+cw_score_summary <- cw_score_df %>%
+  group_by(rgn_id, year) %>%
+  summarize(n_sources = n(), 
+            prod = prod(component_score), 
+            score = prod^(1/n_sources), ### this finishes our geometric mean
+            sources = paste(type, collapse = ', '),
+            values  = paste(round(value, 4), collapse = ', ')) %>%
+  ungroup()
+  
+write_csv(cw_score_summary, file.path(dir_goal, 'output', 'cw_score_summary.csv'))
+
+DT::datatable(cw_score_summary)
+
+```
+
+``` {r plot them}
+
+cw_status_components <- cw_score_summary %>%
+  select(rgn_id, year, score) %>%
+  mutate(type = 'total') %>%
+  bind_rows(cw_score_df %>% rename(score = component_score) %>% select(-value)) %>%
+  left_join(get_rgn_names(), by = c('rgn_id'))
+
+
+cw_status_plot <- ggplot(cw_status_components %>% filter(type != 'total'), 
+                           aes(x = year, y = score, color = type, group = type)) +
+  ggtheme_plot() +
+  geom_line(size = 1, alpha = .8) +
+  scale_colour_brewer(palette = 'BrBG') +
+  labs(x = 'year',
+       y = 'Clean Waters status',
+       title = 'Clean Waters status',
+       color = 'Region') +
+  facet_wrap( ~ rgn_name)
+
+print(cw_status_plot)
+
+
+```
+
+
+***
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup()
+```
+

@@ -354,91 +354,104 @@ With the rasters for raw and exposure-mediated saltmarsh presence, use crosstab(
 
 ``` {r count_sm_cells_by_rgn}
 
-rast_rgn_30m   <- raster(rast_rgn_file) %>%
-  setNames('rgn_id')
+sm_area_file <- file.path(dir_goal, 'output/hab_sm_area.csv')
+sm_exp_file  <- file.path(dir_goal, 'output/cp_sm_exposure.csv')
 
-if(!exists('rast_elev_30m')) {
-  rast_elev_30m <- raster(topo_rast_file)
-  values(rast_elev_30m)[values(rast_elev_30m) > 5] <- NA
-  rast_elev_30m <- rast_elev_30m / rast_elev_30m ### set all elevs below 5 m to 1.0
+if(any(!file.exists(c(sm_area_file, sm_exp_file)))) {
+    
+  rast_rgn_30m   <- raster(rast_rgn_file) %>%
+    setNames('rgn_id')
+  
+  if(!exists('rast_elev_30m')) {
+    rast_elev_30m <- raster(topo_rast_file)
+    values(rast_elev_30m)[values(rast_elev_30m) > 5] <- NA
+    rast_elev_30m <- rast_elev_30m / rast_elev_30m ### set all elevs below 5 m to 1.0
+  }
+  
+  if(!exists('rast_expos_30m')) {
+    rast_expos_30m <- raster(expos_rast_file) ### NOTE: exposure is 1-6
+    rast_expos_30m <- (rast_expos_30m - 1) / 5 ### rescale to 0-1 values, where 
+      ### 0 is "very protected", and 1 is "very exposed"
+  }
+  
+  ### adjust the raw saltmarsh raster by elevation under 5 m;
+  ### then for coastal protection, adjust by exposure
+  sm_rast_files  <- file.path(dir_goal_anx, sprintf('habs/ohibc_sm_%s_30m.tif', c(1990, 2000, 2010)))
+  stack_sm       <- stack(sm_rast_files) * rast_elev_30m # clip by elev for HAB, CS and CP
+  stack_sm_expos <- stack_sm * rast_expos_30m # adj by exposure for CP
+  
+  saltmarsh_yrs <- c(1990, 2000, 2010)
+  
+  ### crosstab the raw stack to get raw count of saltmarsh area
+  sm_area_df <- data.frame()
+  for(i in 1:length(saltmarsh_yrs)) {
+    message('Processing ', saltmarsh_yrs[i])
+    sm_area_tmp <- crosstab(stack_sm[[i]] %>%
+                              setNames('sm_present'), 
+                            rast_rgn_30m, 
+                            useNA  = TRUE,
+                            digits = 1,
+                            progress = 'text') %>%
+      as.data.frame() %>%
+      mutate(year       = saltmarsh_yrs[i],
+             rgn_id     = as.integer(as.character(rgn_id)), ### factors! ugh
+             sm_present = as.integer(as.character(sm_present))) %>%
+      select(year, rgn_id, sm_present, n_cells = Freq)
+    sm_area_df <- bind_rows(sm_area_df, sm_area_tmp)
+  }
+  
+  ### * crosstab the exposure-adjusted stack to get exposure-weighted area
+  sm_exp_df <- data.frame()
+  for(i in 1:length(saltmarsh_yrs)) {
+    message('Processing ', saltmarsh_yrs[i])
+    sm_exp_tmp <- crosstab(stack_sm_expos[[i]] %>%
+                             setNames('sm_expos'), 
+                           rast_rgn_30m, 
+                           useNA  = TRUE,
+                           digits = 1,
+                           progress = 'text') %>%
+      as.data.frame() %>%
+      mutate(year     = saltmarsh_yrs[i],
+             rgn_id   = as.integer(as.character(rgn_id)), ### factors! ugh
+             sm_expos = as.numeric(as.character(sm_expos))) %>%
+      select(year, rgn_id, sm_expos, n_cells = Freq)
+    sm_exp_df <- bind_rows(sm_exp_df, sm_exp_tmp)
+  }
+  
+  sm_area_df2 <- sm_area_df %>%
+    group_by(rgn_id, year) %>%
+    mutate(sm_area_km2 = n_cells * 0.03^2,
+           area_km2_tot = sum(sm_area_km2)) %>% ### 30-meter resolution
+    filter(!is.na(sm_present) & !is.na(rgn_id)) %>%
+    select(-sm_present, -n_cells) %>%
+    ungroup()
+  sm_exp_df2 <- sm_exp_df %>%
+    mutate(area_km2 = n_cells * 0.03^2,
+           sm_expos_area = sm_expos * area_km2) %>%
+    group_by(rgn_id, year) %>%
+    summarize(area_km2_tot = sum(area_km2),
+              sm_expos_area_tot = sum(sm_expos_area, na.rm = TRUE)) %>%
+    filter(!is.na(rgn_id)) %>%
+    ungroup()
+  
+  # sm_area_df2 <- read_csv(file.path(dir_goal, 'output/hab_sm_area.csv')) %>% filter(year %in% c(1990, 2000, 2010)) %>% distinct()
+  # sm_exp_df2  <- read_csv(file.path(dir_goal, 'output/cp_sm_exposure.csv')) %>% filter(year %in% c(1990, 2000, 2010)) %>% distinct()
+  
+  sm_area_df3 <- interpolate_hab(sm_area_df2, 'sm_area_km2') %>%
+    fill(area_km2_tot)
+  sm_exp_df3 <- interpolate_hab(sm_exp_df2, 'sm_expos_area_tot') %>%
+    fill(area_km2_tot)
+  
+  write_csv(sm_area_df3, sm_area_file)
+  write_csv(sm_exp_df3,  sm_exp_file)
+  
+} else {
+  
+  message('Salt marsh area files already exist: \n  ',
+          sm_area_file, '\n  ', sm_exp_file)
+  git_prov(c(sm_area_file, sm_exp_file), filetype = 'output')
+  
 }
-
-if(!exists('rast_expos_30m')) {
-  rast_expos_30m <- raster(expos_rast_file) ### NOTE: exposure is 1-6
-  rast_expos_30m <- (rast_expos_30m - 1) / 5 ### rescale to 0-1 values, where 
-    ### 0 is "very protected", and 1 is "very exposed"
-}
-
-### adjust the raw saltmarsh raster by elevation under 5 m;
-### then for coastal protection, adjust by exposure
-sm_rast_files  <- file.path(dir_goal_anx, sprintf('habs/ohibc_sm_%s_30m.tif', c(1990, 2000, 2010)))
-stack_sm       <- stack(sm_rast_files) * rast_elev_30m # clip by elev for HAB, CS and CP
-stack_sm_expos <- stack_sm * rast_expos_30m # adj by exposure for CP
-
-saltmarsh_yrs <- c(1990, 2000, 2010)
-
-### crosstab the raw stack to get raw count of saltmarsh area
-sm_area_df <- data.frame()
-for(i in 1:length(saltmarsh_yrs)) {
-  message('Processing ', saltmarsh_yrs[i])
-  sm_area_tmp <- crosstab(stack_sm[[i]] %>%
-                            setNames('sm_present'), 
-                          rast_rgn_30m, 
-                          useNA  = TRUE,
-                          digits = 1,
-                          progress = 'text') %>%
-    as.data.frame() %>%
-    mutate(year       = saltmarsh_yrs[i],
-           rgn_id     = as.integer(as.character(rgn_id)), ### factors! ugh
-           sm_present = as.integer(as.character(sm_present))) %>%
-    select(year, rgn_id, sm_present, n_cells = Freq)
-  sm_area_df <- bind_rows(sm_area_df, sm_area_tmp)
-}
-
-### * crosstab the exposure-adjusted stack to get exposure-weighted area
-sm_exp_df <- data.frame()
-for(i in 1:length(saltmarsh_yrs)) {
-  message('Processing ', saltmarsh_yrs[i])
-  sm_exp_tmp <- crosstab(stack_sm_expos[[i]] %>%
-                           setNames('sm_expos'), 
-                         rast_rgn_30m, 
-                         useNA  = TRUE,
-                         digits = 1,
-                         progress = 'text') %>%
-    as.data.frame() %>%
-    mutate(year     = saltmarsh_yrs[i],
-           rgn_id   = as.integer(as.character(rgn_id)), ### factors! ugh
-           sm_expos = as.numeric(as.character(sm_expos))) %>%
-    select(year, rgn_id, sm_expos, n_cells = Freq)
-  sm_exp_df <- bind_rows(sm_exp_df, sm_exp_tmp)
-}
-
-sm_area_df2 <- sm_area_df %>%
-  group_by(rgn_id, year) %>%
-  mutate(sm_area_km2 = n_cells * 0.03^2,
-         area_km2_tot = sum(sm_area_km2)) %>% ### 30-meter resolution
-  filter(!is.na(sm_present) & !is.na(rgn_id)) %>%
-  select(-sm_present, -n_cells) %>%
-  ungroup()
-sm_exp_df2 <- sm_exp_df %>%
-  mutate(area_km2 = n_cells * 0.03^2,
-         sm_expos_area = sm_expos * area_km2) %>%
-  group_by(rgn_id, year) %>%
-  summarize(area_km2_tot = sum(area_km2),
-            sm_expos_area_tot = sum(sm_expos_area, na.rm = TRUE)) %>%
-  filter(!is.na(rgn_id)) %>%
-  ungroup()
-
-# sm_area_df2 <- read_csv(file.path(dir_goal, 'output/hab_sm_area.csv')) %>% filter(year %in% c(1990, 2000, 2010)) %>% distinct()
-# sm_exp_df2  <- read_csv(file.path(dir_goal, 'output/cp_sm_exposure.csv')) %>% filter(year %in% c(1990, 2000, 2010)) %>% distinct()
-
-sm_area_df3 <- interpolate_hab(sm_area_df2, 'sm_area_km2') %>%
-  fill(area_km2_tot)
-sm_exp_df3 <- interpolate_hab(sm_exp_df2, 'sm_expos_area_tot') %>%
-  fill(area_km2_tot)
-
-write_csv(sm_area_df3, file.path(dir_goal, 'output/hab_sm_area.csv'))
-write_csv(sm_exp_df3,  file.path(dir_goal, 'output/cp_sm_exposure.csv'))
 
 ```
 
@@ -468,102 +481,118 @@ if(any(!file.exists(cf_rast_files))) {
 
 ``` {r count_cf_cells_by_rgn}
 
-rast_rgn_30m   <- raster(rast_rgn_file) %>%
-  setNames('rgn_id')
+cf_area_file <- file.path(dir_goal, 'output/hab_cf_area.csv')
+cf_exp_file  <- file.path(dir_goal, 'output/cp_cf_exposure.csv')
 
-if(!exists('rast_elev_30m')) {
-  rast_elev_30m <- raster(topo_rast_file)
-  values(rast_elev_30m)[values(rast_elev_30m) > 5] <- NA
-  rast_elev_30m <- rast_elev_30m / rast_elev_30m ### set all elevs below 5 m to 1.0
+if(any(!file.exists(c(cf_area_file, cf_exp_file)))) {
+
+  rast_rgn_30m   <- raster(rast_rgn_file) %>%
+    setNames('rgn_id')
+  
+  if(!exists('rast_elev_30m')) {
+    rast_elev_30m <- raster(topo_rast_file)
+    values(rast_elev_30m)[values(rast_elev_30m) > 5] <- NA
+    rast_elev_30m <- rast_elev_30m / rast_elev_30m ### set all elevs below 5 m to 1.0
+  }
+  
+  if(!exists('rast_expos_30m')) {
+    rast_expos_30m <- raster(expos_rast_file) ### NOTE: exposure is 1-6
+    rast_expos_30m <- (rast_expos_30m - 1) / 5 ### rescale to 0-1 values, where 
+      ### 0 is "very protected", and 1 is "very exposed"
+  }
+  
+  ### adjust coastal forest rasters by elevation and exposure
+  cf_rast_files  <- file.path(dir_goal_anx, sprintf('habs/ohibc_cf_%s_30m.tif', c(1990, 2000, 2010)))
+  stack_cf       <- stack(cf_rast_files) # not adj by elev for CS - use whole watershed
+  stack_cf_expos <- stack_cf * rast_expos_30m * rast_elev_30m # adj by elev and expos for CP
+  
+  coastalforest_yrs <- c(1990, 2000, 2010)
+  
+  ### crosstab the raw stack to get raw count of saltmarsh area
+  cf_area_df <- data.frame()
+  for(i in 1:length(coastalforest_yrs)) {
+    message('Processing ', coastalforest_yrs[i])
+    cf_area_tmp <- crosstab(stack_cf[[i]] %>%
+                              setNames('cf_present'), 
+                            rast_rgn_30m, 
+                            useNA  = TRUE,
+                            digits = 1,
+                            progress = 'text') %>%
+      as.data.frame() %>%
+      mutate(year       = coastalforest_yrs[i],
+             rgn_id     = as.integer(as.character(rgn_id)), ### factors! ugh
+             cf_present = as.integer(as.character(cf_present))) %>%
+      select(year, rgn_id, cf_present, n_cells = Freq)
+    cf_area_df <- bind_rows(cf_area_df, cf_area_tmp)
+  }
+  
+  ### * crosstab the exposure-adjusted stack to get exposure-weighted area
+  cf_exp_df <- data.frame()
+  for(i in 1:length(coastalforest_yrs)) {
+    message('Processing ', coastalforest_yrs[i])
+    cf_exp_tmp <- crosstab(stack_cf_expos[[i]] %>%
+                             setNames('cf_expos'), 
+                           rast_rgn_30m, 
+                           useNA  = TRUE,
+                           digits = 1,
+                           progress = 'text') %>%
+      as.data.frame() %>%
+      mutate(year     = coastalforest_yrs[i],
+             rgn_id   = as.integer(as.character(rgn_id)), ### factors! ugh
+             cf_expos = as.numeric(as.character(cf_expos))) %>%
+      select(year, rgn_id, cf_expos, n_cells = Freq)
+    cf_exp_df <- bind_rows(cf_exp_df, cf_exp_tmp)
+  }
+  
+  cf_area_df2 <- cf_area_df %>%
+    group_by(rgn_id, year) %>%
+    mutate(cf_area_km2 = n_cells * 0.03^2,
+           area_km2_tot = sum(cf_area_km2)) %>% ### 30-meter resolution
+    filter(!is.na(cf_present) & !is.na(rgn_id)) %>%
+    select(-cf_present, -n_cells) %>%
+    ungroup()
+  cf_exp_df2 <- cf_exp_df %>%
+    mutate(area_km2 = n_cells * 0.03^2,
+           cf_expos_area = cf_expos * area_km2) %>%
+    group_by(rgn_id, year) %>%
+    summarize(area_km2_tot = sum(area_km2),
+              cf_expos_area_tot = sum(cf_expos_area, na.rm = TRUE)) %>%
+    filter(!is.na(rgn_id)) %>%
+    ungroup()
+  
+  # cf_area_df2 <- read_csv(file.path(dir_goal, 'output/hab_cf_area.csv')) %>% filter(year %in% c(1990, 2000, 2010)) %>% distinct()
+  # cf_exp_df2  <- read_csv(file.path(dir_goal, 'output/cp_cf_exposure.csv')) %>% filter(year %in% c(1990, 2000, 2010)) %>% distinct()
+  
+  cf_area_df3 <- interpolate_hab(cf_area_df2, 'cf_area_km2') %>%
+    fill(area_km2_tot)
+  cf_exp_df3 <- interpolate_hab(cf_exp_df2, 'cf_expos_area_tot') %>%
+    fill(area_km2_tot)
+  
+  write_csv(cf_area_df3, file.path(dir_goal, 'output/hab_cf_area.csv'))
+  write_csv(cf_exp_df3,  file.path(dir_goal, 'output/cp_cf_exposure.csv'))
+
+} else {
+  
+  message('Coastal forest area files already exist: \n  ',
+          cf_area_file, '\n  ', cf_exp_file)
+  git_prov(c(cf_area_file, cf_exp_file), filetype = 'output')
+  
 }
-
-if(!exists('rast_expos_30m')) {
-  rast_expos_30m <- raster(expos_rast_file) ### NOTE: exposure is 1-6
-  rast_expos_30m <- (rast_expos_30m - 1) / 5 ### rescale to 0-1 values, where 
-    ### 0 is "very protected", and 1 is "very exposed"
-}
-
-### adjust coastal forest rasters by elevation and exposure
-cf_rast_files  <- file.path(dir_goal_anx, sprintf('habs/ohibc_cf_%s_30m.tif', c(1990, 2000, 2010)))
-stack_cf       <- stack(cf_rast_files) # not adj by elev for CS - use whole watershed
-stack_cf_expos <- stack_cf * rast_expos_30m * rast_elev_30m # adj by elev and expos for CP
-
-coastalforest_yrs <- c(1990, 2000, 2010)
-
-### crosstab the raw stack to get raw count of saltmarsh area
-cf_area_df <- data.frame()
-for(i in 1:length(coastalforest_yrs)) {
-  message('Processing ', coastalforest_yrs[i])
-  cf_area_tmp <- crosstab(stack_cf[[i]] %>%
-                            setNames('cf_present'), 
-                          rast_rgn_30m, 
-                          useNA  = TRUE,
-                          digits = 1,
-                          progress = 'text') %>%
-    as.data.frame() %>%
-    mutate(year       = coastalforest_yrs[i],
-           rgn_id     = as.integer(as.character(rgn_id)), ### factors! ugh
-           cf_present = as.integer(as.character(cf_present))) %>%
-    select(year, rgn_id, cf_present, n_cells = Freq)
-  cf_area_df <- bind_rows(cf_area_df, cf_area_tmp)
-}
-
-### * crosstab the exposure-adjusted stack to get exposure-weighted area
-cf_exp_df <- data.frame()
-for(i in 1:length(coastalforest_yrs)) {
-  message('Processing ', coastalforest_yrs[i])
-  cf_exp_tmp <- crosstab(stack_cf_expos[[i]] %>%
-                           setNames('cf_expos'), 
-                         rast_rgn_30m, 
-                         useNA  = TRUE,
-                         digits = 1,
-                         progress = 'text') %>%
-    as.data.frame() %>%
-    mutate(year     = coastalforest_yrs[i],
-           rgn_id   = as.integer(as.character(rgn_id)), ### factors! ugh
-           cf_expos = as.numeric(as.character(cf_expos))) %>%
-    select(year, rgn_id, cf_expos, n_cells = Freq)
-  cf_exp_df <- bind_rows(cf_exp_df, cf_exp_tmp)
-}
-
-cf_area_df2 <- cf_area_df %>%
-  group_by(rgn_id, year) %>%
-  mutate(cf_area_km2 = n_cells * 0.03^2,
-         area_km2_tot = sum(cf_area_km2)) %>% ### 30-meter resolution
-  filter(!is.na(cf_present) & !is.na(rgn_id)) %>%
-  select(-cf_present, -n_cells) %>%
-  ungroup()
-cf_exp_df2 <- cf_exp_df %>%
-  mutate(area_km2 = n_cells * 0.03^2,
-         cf_expos_area = cf_expos * area_km2) %>%
-  group_by(rgn_id, year) %>%
-  summarize(area_km2_tot = sum(area_km2),
-            cf_expos_area_tot = sum(cf_expos_area, na.rm = TRUE)) %>%
-  filter(!is.na(rgn_id)) %>%
-  ungroup()
-
-# cf_area_df2 <- read_csv(file.path(dir_goal, 'output/hab_cf_area.csv')) %>% filter(year %in% c(1990, 2000, 2010)) %>% distinct()
-# cf_exp_df2  <- read_csv(file.path(dir_goal, 'output/cp_cf_exposure.csv')) %>% filter(year %in% c(1990, 2000, 2010)) %>% distinct()
-
-cf_area_df3 <- interpolate_hab(cf_area_df2, 'cf_area_km2') %>%
-  fill(area_km2_tot)
-cf_exp_df3 <- interpolate_hab(cf_exp_df2, 'cf_expos_area_tot') %>%
-  fill(area_km2_tot)
-
-write_csv(cf_area_df3, file.path(dir_goal, 'output/hab_cf_area.csv'))
-write_csv(cf_exp_df3,  file.path(dir_goal, 'output/cp_cf_exposure.csv'))
-
 ```
 
 ## results
 
 ### saltmarsh
 
-`r knitr::kable(saltmarsh_df)`
+`r DT::datatable(read_csv(sm_area_file, nogit = TRUE))`
+
+`r DT::datatable(read_csv(sm_exp_file, nogit = TRUE))`
 
 ### coastal forests
 
-`r knitr::kable(coastalforest_df)`
+`r DT::datatable(read_csv(cf_area_file, nogit = TRUE))`
+
+`r DT::datatable(read_csv(cf_exp_file, nogit = TRUE))`
 
 ***
 

@@ -1,0 +1,162 @@
+---
+title: 'OHIBC: AO goal prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+dir_git     <- '~/github/ohibc'
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal     <- 'ao'
+scenario <- 'v2017'
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+```
+
+#Summary
+
+Estimate the goal components for AO goal for OHIBC
+
+***
+
+``` {r}
+
+year_span <- c(1990:2017)
+
+complete_years <- function(score_df, year_span) {
+  if('rgn_id' %in% names(score_df)) {
+    message('The complete_years() function automagically renames "rgn_id" to "region_id" for your convenience.')
+    score_df <- score_df %>%
+      rename(region_id = rgn_id)
+  }
+  data_range <- range(score_df$year, na.rm = TRUE)
+  if(min(year_span) > data_range[1] | max(year_span) < data_range[2]) {
+    min_yr <- min(min(year_span), data_range[1])
+    max_yr <- max(max(year_span), data_range[2])
+    message('Data year span (', data_range[1], ':', data_range[2],
+            ') exceeds assigned year span (',
+            min(year_span), ':', max(year_span),
+            '); completing data sequence from ', min_yr, ' to ', max_yr, '.')
+    year_span <- min_yr : max_yr
+  }
+  score_df <- score_df %>%
+    group_by(region_id) %>%
+    complete(year = year_span) %>%
+    fill(-year, -region_id, .direction = 'down') %>% fill(-year, -region_id, .direction = 'up') %>%
+    ungroup()
+
+  return(score_df)
+}
+
+
+### get the data:
+closures <- read_csv(file.path(dir_goal, 'output/ao_closures.csv'))
+licenses <- read_csv(file.path(dir_goal, 'output/ao_licenses.csv'))
+shi      <- read_csv(file.path(dir_goal, 'output/ao_spawn_hab_index.csv'))
+# salmon   <- layers$data[['ao_salmon']]
+
+### assign weights to each layer
+component_wts <- c('shellfish_closures' = 1,
+                   'first_nations_licenses' = 1,
+                   'herring_spawn_hab_index' = 1,
+                   'salmon' = 0)
+
+### Calculate status for each component
+### Closures:
+### * proportion of year open for access; 0 closures = 100%
+closure_status <- closures %>%
+  complete_years(year_span) %>%
+  mutate(days_in_year = ifelse(lubridate::leap_year(year), 366, 365),
+         status = 100 * (1 - (days_avg / days_in_year)),
+         component = 'shellfish_closures') %>%
+  select(year, region_id, status, component)
+
+### Licenses:
+### * prop of licenses allocated to FNs, with some level (25%?) as target?
+### * no net loss vs some rolling average?
+license_ref_pt <- .25 ### arbitrary at this point; how should we consider ref pt?
+license_status <- licenses %>%
+  complete_years(year_span) %>%
+  mutate(status = pct_fn / license_ref_pt,
+         status = 100 * ifelse(status > 1, 1, status),
+         component = 'first_nations_licenses') %>%
+  select(year, region_id, status, component)
+# ggplot(licenses_target, aes(x = year, y = status, group = rgn_id, color = rgn_id)) + geom_line()
+
+### Spawn habitat index
+### * SHI vs historical reference point of mean SHI from 1940-1960.
+shi_hist_ref <- shi %>%
+  complete_years(year_span) %>%
+  filter(year %in% c(1940:1960)) %>%
+  group_by(region_id) %>%
+  summarize(shi_ref_pt = mean(shi_tot, na.rm = TRUE)) %>%
+  ungroup()
+shi_status <- shi %>%
+  complete_years(year_span) %>%
+  left_join(shi_hist_ref, by = 'region_id') %>%
+  mutate(shi_3yr_mean = (shi_tot + lag(shi_tot, 1) + lag(shi_tot, 2)) / 3,
+         status = shi_3yr_mean / shi_ref_pt,
+         status = 100 * ifelse(status > 1, 1, status),
+         component = 'herring_spawn_hab_index') %>%
+  select(year, region_id, status, component)
+
+### Salmon
+### * dummy for now
+# salmon_status <- salmon %>%
+#   complete_years(year_span) %>%
+#   mutate(status = 0,
+#          component = 'salmon') %>%
+#   select(year, region_id, status, component)
+
+
+### Combine all components by weighting
+ao_status <- bind_rows(closure_status, license_status, shi_status) %>% # , salmon_status) %>%
+  mutate(comp_wt = component_wts[component]) %>%
+  group_by(region_id, year) %>%
+  summarize(score = sum(status * comp_wt, na.rm = TRUE) / sum(comp_wt),
+            score = round(score, 5)) %>%
+  ungroup() %>%
+  mutate(goal = 'AO',
+         dimension = 'status')
+
+ao_status_components <- bind_rows(closure_status, license_status, shi_status) %>%
+  filter(year %in% 2000:2017) %>%
+  filter(!is.na(region_id)) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')) %>%
+  left_join(ao_status, by = c('year', 'region_id'))
+
+ggplot(ao_status_components, aes(x = year, y = status, group = component, color = component)) +
+  geom_line(aes(y = score), color = 'grey40', size = 1.5, alpha = .8) +
+  geom_line(size = 1, alpha = .8) +
+  facet_wrap( ~ rgn_name)
+
+
+```

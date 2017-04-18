@@ -1,0 +1,113 @@
+section,area_name,rgn_id,rgn_wgt
+Section 000,not named,2,1
+Section 001,Tasu Sound &amp; Gowgaia Bay,2,1
+Section 002,Port Louis,2,1
+Section 003,Rennell Sound,2,1
+Section 004,Cartwright Sound,2,1
+Section 005,Englefield Bay,2,1
+Section 006,Louscoone Inlet,2,1
+Section 011,Masset Inlet,2,1
+Section 012,Naden Harbour,2,1
+Section 021,Juan Perez Sound,2,1
+Section 022,Skidegate Inlet,2,1
+Section 023,Cumshewa Inlet,2,1
+Section 024,Laskeek Bay,2,1
+Section 025,Skincuttle Inlet,2,1
+Section 032,Portland Inlet,1,1
+Section 033,Port Simpson,1,1
+Section 040,not named,1,1
+Section 041,Dundas Island,1,1
+Section 042,Prince Rupert,1,1
+Section 043,North Porcher Island,1,1
+Section 050,not named,1,1
+Section 051,Banks Island,1,1
+Section 052,Kitikatla Inlet,1,1
+Section 053,Principe Channel,1,1
+Section 061,Caamano Sound,8,1
+Section 062,Gil Island,1,1
+Section 063,Kitimat Arm,1,1
+Section 064,Gardner Canal,1,1
+Section 065,Princess Royal Channel,3,1
+Section 066,Surf Inlet,8,1
+Section 067,Kitasu Bay &amp; Weeteeam Bay,3,0.946
+Section 067,Kitasu Bay &amp; Weeteeam Bay,8,0.054
+Section 070,not named,3,1
+Section 071,not named,3,1
+Section 072,Powell Anchorage,3,1
+Section 073,Bella Bella,3,1
+Section 074,Thompson Bay,3,1
+Section 075,McNaughton Group,3,1
+Section 076,Kildidt Sound,3,1
+Section 077,Milbanke Sound,3,1
+Section 078,Spiller &amp; Mathieson Channels,3,1
+Section 082,Dean Channel &amp; Cousins Inlet,3,1
+Section 083,Bentinck Arms,3,1
+Section 084,Burke Channel,3,1
+Section 085,Kwakshua Channel,3,1
+Section 086,Fitzhugh Sound,3,1
+Section 091,Fish Egg Inlet,3,1
+Section 092,Rivers Inlet (Entrance),3,1
+Section 093,Rivers Inlet (Head),3,1
+Section 101,not named,3,0.5
+Section 101,not named,4,0.5
+Section 102,Takush Harbour,4,1
+Section 103,Smith Inlet,4,1
+Section 111,Belize Inlet,4,1
+Section 112,Seymour Inlet &amp; Nugent Sound,4,1
+Section 121,Queen Charlotte Strait,4,1
+Section 122,Beaver Harbour,4,1
+Section 123,West Cracroft Island,4,1
+Section 124,Wells Passage,4,1
+Section 125,Thompson Sound &amp; Cramer Passage,4,1
+Section 126,Kingcome Inlet,4,1
+Section 127,Knight Inlet,4,1
+Section 131,Thurlow Islands,4,1
+Section 132,Deepwater Bay,4,1
+Section 133,Loughborough Inlet,4,1
+Section 134,Bute Inlet,4,1
+Section 135,Cape Mudge,4,0.679
+Section 135,Cape Mudge,6,0.321
+Section 136,Reed Island <hr>,4,0.105
+Section 136,Reed Island <hr>,6,0.895
+Section 141,Oyster Bay,6,1
+Section 142,Baynes Sound,6,1
+Section 143,Qualicum,6,1
+Section 151,Redonda Islands,6,1
+Section 152,Powell River,6,1
+Section 161,Sabine Channel,6,1
+Section 162,Hotham Sound,6,1
+Section 163,Malaspina Strait,6,1
+Section 164,Jervis Inlet,6,1
+Section 165,Sechelt Inlet,6,1
+Section 172,Nanoose Bay,6,1
+Section 173,Yellow Point,6,1
+Section 181,Swanson Channel,6,1
+Section 182,Plumper Sound,6,1
+Section 191,Saanich Inlet,5,1
+Section 192,Cordova Bay,5,1
+Section 193,Victoria Harbour,5,1
+Section 201,not named,5,1
+Section 202,Sooke Harbour,5,1
+Section 280,Howe Sound,6,1
+Section 291,Fraser Foreshore,6,1
+Section 292,Sechelt,6,1
+Section 293,Boundary Bay <hr>,6,1
+Section 220,Nitinat Lake,5,1
+Section 231,Trevor Channel,5,1
+Section 232,West Barkley Sound,5,1
+Section 233,Imperial Eagle Channel,5,1
+Section 241,Tofino Inlet,5,1
+Section 242,Hesquiat Harbour,5,1
+Section 243,Sydney Inlet,5,1
+Section 244,Millar Channel,5,1
+Section 245,Vargas Island,5,1
+Section 251,Tahsis Inlet,5,1
+Section 252,Nootka Sound,5,1
+Section 253,Esperanza Inlet,5,1
+Section 261,Tahsish Inlet,5,1
+Section 262,Clannick Cove,5,1
+Section 263,Checleset Bay,5,1
+Section 271,Quatsino Sound,4,1
+Section 272,Brooks Bay,4,1
+Section 273,Forward Inlet,4,1
+Section 274,Holberg Inlet,4,1
