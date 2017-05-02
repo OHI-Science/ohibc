@@ -102,7 +102,7 @@ poly_ebsa@data <- poly_ebsa@data %>%
          phys = ifelse(str_detect(label, 'Seamount'), 'seamount', phys),
          phys = ifelse(str_detect(label, 'Hydrothermal'), 'hydrothermal', phys),
          hab  = (agg %in% c('corals', 'sponges') | 
-                   phys %in% c('soft bank', 'seamount', 'hydrothermal')),
+                   phys %in% c('seamount', 'hydrothermal')),
          ebsa_id = ifelse(ebsa_id == 0, 200, ebsa_id)) %>%
   select(-unique, -label)
 

@@ -1,0 +1,490 @@
+---
+title: 'OHIBC: data prep for wild-capture fisheries: RAM Database'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+
+### goal specific folders and info
+goal      <- 'fis'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### Kobe plot functions
+source(file.path(dir_goal, 'kobe_fxns.R'))
+
+### set up proj4string options: BC Albers and WGS84
+p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+
+```
+
+# Summary
+
+Process RAM database for British Columbia fisheries stock status and harvest levels.
+
+***
+
+# Data Source 
+
+**Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+
+**Downloaded**: [date downloaded or received]
+
+**Description**:  [e.g., surface aragonite state]
+
+**Native data resolution**: [e.g., 1 degree, 30 m, etc.]   
+
+**Time range**: [e.g., 1880-1899, monthly data provided for each year] 
+
+**Format**:  [e.g. NetCDF]
+
+***
+  
+# Methods
+
+Explore RAM:  Preliminary RAM database v. 3.8.  Load from .RData file, including time series and metadata.  This initial chunk explores the variables included in the data.
+
+``` {r load_ram, eval = FALSE}
+
+###################################################################################
+#
+# The data is stored in the following objects:
+# --- timeseries
+#	The time series data is a matrix object with the following headers/columns:
+#	(1) assessid (2) stockid (3) stocklong (4) tsid (5) tsyear (6) tsvalue
+# --- bioparams
+#	The time series data is a matrix object with the following headers/columns:
+#	(1) assessid (2) stockid (3) stocklong (4) bioid (5) biovalue (6) bioyear (7) bionotes
+# --- timeseries.views.data
+#	This stores the timeseries values with timeseries type along the columns (TB, SSB, TN, R,
+#	TC, TL, F, ER, TB/TBmsy, SSB/SSBmsy, F/Fmsy, ER/ERmsy, Btouse, Ctouse, Utouse, B/Bmsytouse, U/Umsytouse,
+#	TB/TBmgt, SSB/SSBmgt, F/Fmgt, ER/ERmgt, B/Bmgttouse, U/Umgttouse) and stocks along the rows	
+# --- timeseries.views.units
+#	This stores the timeseries units (or time series source for touse time series), with timeseries type 
+#	along the columns (TB, SSB, TN, R, TC, TL, F, ER) and stocks along the rows
+# --- timeseries.views.ids
+#	This stores the timeseries ids with timeseries id along the columns (TB, SSB, TN, R,
+#	TC, TL, F, ER, TB/TBmsy, SSB/SSBmsy, F/Fmsy, ER/ERmsy, Btouse, Ctouse, Utouse, B/Bmsytouse, U/Umsytouse,
+#	TB/TBmgt, SSB/SSBmgt, F/Fmgt, ER/ERmgt, B/Bmgttouse, U/Umgttouse) and stocks along the rows
+# --- bioparams.views.data
+#	This stores the bioparams values, with bioparam type along the columns
+#	(TBmsy, SSBmsy, Nmsy, MSY, Fmsy, ERmsy, TB0, SSB0, M, Bmsytouse, Umsytouse, TBmgt, SSBmgt, Fmgt, ERmgt, 
+#	Bmgttouse, Umgttouse) and stocks along the rows
+# --- bioparams.views.units
+#	This stores the bioparams units (or parameter source for touse parameters), with bioparam type 
+#	along the columns (TBmsy, SSBmsy, Nmsy, MSY, Fmsy, ERmsy, TB0, SSB0, M, TBmgt, SSBmgt, Fmgt, ERmgt) and 
+#	stocks along the rows 
+# --- bioparams.views.ids
+#	This stores the bioparams ids, with bioparam id along the columns
+#	(TBmsy, SSBmsy, Nmsy, MSY, Fmsy, ERmsy, TB0, SSB0, M, Bmsytouse, Umsytouse, TBmgt, SSBmgt, Fmgt, ERmgt, 
+#	Bmgttouse, Umgttouse) and stocks along the rows
+# --- meta.data
+#	This stores assorted metadata associated with the stock, with datatypes along the columns 
+#	(assessid, stockid, stocklong, scientificname, FisheryType, region, areaid, areaname, 
+#	assessorid, mgmt, management authority) and stock by row
+#
+###################################################################################
+###################################################################################
+###################################################################################
+#
+# Once the DBdata.RData file is in the working directory, simply run the following command to
+# load up the database data into R objects
+
+
+
+# load(file.path(dir_anx, '_raw_data/ram_fisheries/d2017/RAM_v3.80/DB_Files_With_Assessment_Data/DBdata.RData'))
+load(file.path(dir_anx, '_raw_data/ram_fisheries/d2017/RAM_v3.80/DB_Files_With_Model_Fit_Data/DBdata.RData'))
+
+ts <- as.data.frame(timeseries, stringsAsFactors = FALSE)
+### has the values for time series for all the stocks
+# head(ts)
+#                           assessid     stockid                 stocklong      tsid tsyear               tsvalue
+# 1 DFO-ACADRED2J3K-1960-2010-WATSON ACADRED2J3K Acadian redfish NAFO-2J3K Btouse-MT   1978  4.38000000000000e+05
+# 2 DFO-ACADRED2J3K-1960-2010-WATSON ACADRED2J3K Acadian redfish NAFO-2J3K Btouse-MT   1979  1.78000000000000e+05
+# 3 DFO-ACADRED2J3K-1960-2010-WATSON ACADRED2J3K Acadian redfish NAFO-2J3K Btouse-MT   1980  5.52000000000000e+05
+# 4 DFO-ACADRED2J3K-1960-2010-WATSON ACADRED2J3K Acadian redfish NAFO-2J3K Btouse-MT   1981  7.11000000000000e+05
+# 5 DFO-ACADRED2J3K-1960-2010-WATSON ACADRED2J3K Acadian redfish NAFO-2J3K Btouse-MT   1982  1.20000000000000e+05
+# 6 DFO-ACADRED2J3K-1960-2010-WATSON ACADRED2J3K Acadian redfish NAFO-2J3K Btouse-MT   1983  1.06000000000000e+06
+# ts$tsid %>% unique()
+### tsid: use BdivBmsytouse-dimensionless and FdivFmsy-calc-dimensionless?
+### assessid and stockid for matching to metadata dataframe
+
+md <- as.data.frame(meta.data, stringsAsFactors = FALSE)
+### use for identifying region, mgmt, etc
+# head(md)
+#                                assessid          stockid                                    stocklong     scientificname     FisheryType            region
+# 1      DFO-ACADRED2J3K-1960-2010-WATSON      ACADRED2J3K                    Acadian redfish NAFO-2J3K Sebastes fasciatus        Rockfish Canada East Coast
+# 2 DFO-ACADRED3LNO-UT12-1960-2010-WATSON ACADRED3LNO-UT12      Acadian redfish Units 1-2 and NAFO-3LNO Sebastes fasciatus        Rockfish Canada East Coast
+# 3   NEFSC-ACADREDGOMGB-1913-2007-MILLER     ACADREDGOMGB Acadian redfish Gulf of Maine / Georges Bank Sebastes fasciatus        Rockfish     US East Coast
+# 4       DFO-ACADREDUT3-1960-2010-WATSON       ACADREDUT3                       Acadian redfish Unit 3 Sebastes fasciatus        Rockfish Canada East Coast
+# 5          IFOP-AFLONCH-1998-2011-CHING          AFLONCH                              Alfonsino Chile    Beryx splendens    Other Marine     South America
+# 6            IOTC-ALBAIO-1950-2014-PONS           ALBAIO                   Albacore tuna Indian Ocean   Thunnus alalunga Tuna and Marlin      Indian Ocean
+#                    areaid                             areaname assessorid   mgmt                                            managementauthority
+# 1         Canada-DFO-2J3K                   NAFO Division 2J3K        DFO    DFO Department of Fisheries and Oceans, Canada national management
+# 2    Canada-DFO-3LNO-UT12 NAFO Division 3LNO and Units 1 and 2        DFO    DFO Department of Fisheries and Oceans, Canada national management
+# 3            USA-NMFS-5YZ         Gulf of Maine / Georges Bank      NEFSC   NMFS      National Marine Fisheries Service, US national management
+# 4          Canada-DFO-UT3                               Unit 3        DFO    DFO Department of Fisheries and Oceans, Canada national management
+# 5 multinational-SPRFMO-CH             Chilean EEZ and offshore       IFOP SPRFMO       South Pacific Regional Fisheries Management Organization
+# 6   multinational-IOTC-IO                         Indian Ocean       IOTC   IOTC                                   Indian Ocean Tuna Commission
+
+x <- md$region %>% unique()
+#  [1] Canada East Coast                  US East Coast                      South America                      Indian Ocean                      
+#  [5] Mediterranean-Black Sea            Atlantic Ocean                     US West Coast                      Pacific Ocean                     
+#  [9] US Alaska                          European Union                     South Africa                       Other                             
+# [13] West Africa                        Russia Japan                       Antarctic                          New Zealand                       
+# [17] Australia                          US Southeast and Gulf              Canada West Coast                  Europe non EU                     
+# [21] Canada West Coast (Pacific Salmon) US Alaska (Pacific Salmon)         Russia Japan (Pacific Salmon)      US West Coast (Pacific Salmon)    
+```
+
+## BC-specific stocks
+
+From global RAM data, filter to stocks whose region is 'Canada West Coast', and save to the 'ram' folder in GitHub.
+
+``` {r bc_specific}
+
+model_data_file <- file.path(dir_anx, '_raw_data/ram_fisheries/d2017/RAM_v3.80/DB_Files_With_Model_Fit_Data/DBdata.RData')
+# load(file.path(dir_anx, '_raw_data/ram_fisheries/d2017/RAM_v3.80/DB_Files_With_Assessment_Data/DBdata.RData'))
+load(model_data_file)
+git_prov(model_data_file, filetype = 'input')
+
+ts <- as.data.frame(timeseries, stringsAsFactors = FALSE)
+md <- as.data.frame(meta.data, stringsAsFactors = FALSE)
+
+bc_fish_md <- md %>%
+  filter(str_detect(region, 'Canada West'))
+
+bc_fish_ts <- ts %>%
+  inner_join(bc_fish_md) %>%
+  filter(!is.na(tsvalue))
+
+write_csv(bc_fish_ts, file.path(dir_goal, 'ram/stocks_ram_ts_raw.csv'))
+
+```
+
+Explore variables within time series; examine options for B/Bmsy and F/Fmsy and variants.
+
+``` {r examine_bc_timeseries, eval = FALSE}
+
+bc_fish_ts <- read_csv(file.path(dir_goal, 'ram/stocks_ram_ts_raw.csv'))
+
+### all available fish species for Canada west coast?
+x <- bc_fish_ts %>% 
+  .$stocklong %>%
+  unique()
+### 166 different species (umm, as can be seen from bc_fish_md)
+
+x <- bc_fish_ts %>% 
+  filter(str_detect(tsid, 'BdivBmsy')) %>%
+  .$stocklong %>%
+  unique()
+### 11 species from assessment; 23 with model fit
+
+### F/Fmsy data
+x <- bc_fish_ts %>% 
+  filter(str_detect(tsid, 'FdivFmsy')) %>%
+  .$stocklong %>%
+  unique()
+# [1] "Pacific cod West Coast of Vancouver Island"
+### which also has BdivBmsytouse
+
+### what other time series methods are there?
+x <- bc_fish_ts$tsid %>% unique()
+#  [1] "Ctouse-MT"                       "survB-1-fishperE02hooks"         "survB-fishperE02hooks"           "TC-MT"                          
+#  [5] "survB-2-MT"                      "BdivBmsytouse-dimensionless"     "Btouse-MT"                       "ER-calc-ratio"                  
+#  [9] "TB-MT"                           "TBdivTBmsy-calc-dimensionless"   "Utouse-index"                    "ER-ratio"                       
+# [13] "ERdivERmsy-calc-dimensionless"   "SSB-MT"                          "SSBdivSSBmsy-calc-dimensionless" "UdivUmsytouse-dimensionless"    
+# [17] "SSB-E00"                         "TC-E00"                          "R-E00"                           "TN-E00"                         
+# [21] "F-1/yr"                          "TL-MT"                           "YEAR-yr"                         "TB-1-MT"                        
+# [25] "TN-index"                        "BdivBmgttouse-dimensionless"     "RecC-E00"                        "SSBdivSSBmgt-calc-dimensionless"
+# [29] "TC-1-MT"                         "TC-2-MT"                         "TC-3-MT"                         "survB-1-MT"                     
+# [33] "survB-2-fishperE02hooks"         "survB-3-MT"                      "survB-3-fishperE02hooks"         "survB-4-MT"                     
+# [37] "Cpair-MT"                        "TAC-MT"                          "CPUE-kg/hour"                    "TBdivTBmsy-conv-dimensionless"  
+# [41] "survB-MT"                        "TBdivTBmgt-calc-dimensionless"   "CPUEraw-C/E"                     "FdivFmsy-calc-dimensionless"    
+# [45] "ERdivERmsy-dimensionless"        "TBdivTBmsy-dimensionless"        "ERdivERmgt-calc-dimensionless"   "UdivUmgttouse-dimensionless"    
+# [49] "RecC-MT"  
+### other B/Bmsy variants?
+x <- bc_fish_ts %>% 
+  filter(str_detect(tsid, 'BdivBmsy|TBdivTBmsy|SSBdivSSBmsy')) %>%
+  .$stocklong %>%
+  unique()
+### same list as before; just duplicated numbers
+
+### what if we include management targets? (Bmgt?)
+bmsy <- bc_fish_ts %>% 
+  filter(str_detect(tsid, 'BdivB|TBdivTB|SSBdivSSB')) %>%
+  .$stocklong %>%
+  unique()
+### same list as before; just duplicated numbers; mgt is .8 msy (for a couple of quick checks at least)
+
+bmsy_years <- bc_fish_ts %>% 
+  filter(str_detect(tsid, 'BdivB|TBdivTB|SSBdivSSB')) %>% 
+  group_by(stocklong, tsid) %>% 
+  arrange(tsyear) %>% 
+  summarize(year_1 = first(tsyear), year_n = last(tsyear)) %>%
+  ungroup() %>%
+  select(-tsid) %>%
+  distinct()
+
+#                                                                                             stocklong year1 yearn
+#                                                                                                 <chr> <chr> <chr>
+# 1                                                                    Bocaccio British Columbia Waters  1935  2012
+# 2  Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands  1945  2009
+# 3                                                                           Lingcod Strait of Georgia  1927  2014
+# 4                                                                           Pacific cod Hecate Strait  1956  2014
+# 5                                                                   Pacific cod Queen Charlotte Sound  1956  2014
+# 6                                                          Pacific cod West Coast of Vancouver Island  1956  2002
+# 7                                                         Pacific Ocean perch Queen Charlotte Islands  1940  2013
+# 8                                                  Pacific Ocean perch West Coast of Vancouver Island  1940  2013
+# 9                                                                             Rock sole Hecate Strait  1945  2014
+# 10                                                                    Rock sole Queen Charlotte Sound  1945  2014
+# 11                                                                  Sablefish Pacific Coast of Canada  1965  2010
+
+### Other F/Fmsy variants incl mgt?
+fmsy <- bc_fish_ts %>% 
+  filter(str_detect(tsid, 'FdivF|UdivU')) %>%
+  .$stocklong %>%
+  unique()
+# 7 species assessment; 23 modeled... U/Umsy = F/Fmsy
+
+fmsy_years <- bc_fish_ts %>% 
+  filter(str_detect(tsid, 'FdivF|UdivU')) %>% 
+  group_by(stocklong, tsid) %>% 
+  arrange(tsyear) %>% 
+  summarize(year_1 = first(tsyear), year_n = last(tsyear)) %>%
+  ungroup() %>%
+  select(-tsid) %>%
+  distinct()
+#                                                                                            stocklong year_1 year_n
+#                                                                                                <chr>  <chr>  <chr>
+# 1 Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands   1945   2009
+# 2                                                         Pacific cod West Coast of Vancouver Island   1956   2001
+# 3                                                        Pacific Ocean perch Queen Charlotte Islands   1940   2012
+# 4                                                 Pacific Ocean perch West Coast of Vancouver Island   1940   2012
+# 5                                                                            Rock sole Hecate Strait   1945   2013
+# 6                                                                    Rock sole Queen Charlotte Sound   1945   2013
+# 7                                                                  Sablefish Pacific Coast of Canada   1965   2010
+
+### B options?
+x <- bc_fish_ts %>% 
+  filter(str_detect(tsid, 'Btouse-|TB-|SSB-')) %>%
+  .$stocklong %>%
+  unique()
+### 149 spp! better, if we can find or approximate Bmsy values?
+
+b_years <- bc_fish_ts %>% 
+  filter(str_detect(tsid, 'Btouse-|TB-|SSB-')) %>%
+  group_by(stocklong, tsid) %>% 
+  arrange(tsyear) %>% 
+  summarize(year_1 = first(tsyear), year_n = last(tsyear)) %>%
+  ungroup() %>%
+  select(-tsid) %>%
+  distinct()
+
+### F options?
+x <- bc_fish_ts %>% 
+  filter(str_detect(tsid, 'Ctouse-|Utouse-|TC-|F-')) %>%
+  .$stocklong %>%
+  unique()
+### 126 species if we can find or approximate Fmsy values.
+f_years <- bc_fish_ts %>% 
+  filter(str_detect(tsid, 'Ctouse-|Utouse-|TC-|F-')) %>%
+  group_by(stocklong, tsid) %>% 
+  arrange(tsyear) %>% 
+  summarize(year_1 = first(tsyear), year_n = last(tsyear)) %>%
+  ungroup() %>%
+  select(-tsid) %>%
+  distinct()
+
+```
+
+### Examine time series of stocks
+
+For each BC-specific stock, plot and examine the time series of B/Bmsy and F/Fmsy.
+
+``` {r plot_bmsy_modeled}
+
+bc_fish_ts <- read_csv(file.path(dir_goal, 'ram/stocks_ram_ts_raw.csv'))
+
+bmsy_ts <- bc_fish_ts %>% 
+  filter(str_detect(tsid, 'BdivBmsy')) %>%
+  mutate(tsyear  = as.integer(tsyear),
+         tsvalue = as.numeric(tsvalue)) %>%
+  # select(-tsid) %>%
+  distinct()
+
+ggplot(bmsy_ts, aes(x = tsyear, y = tsvalue)) +
+  geom_path(aes(group = stockid, color = stockid)) +
+  labs(x = 'year', y = 'B/Bmsy')
+
+fmsy_ts <- bc_fish_ts %>% 
+  filter(str_detect(tsid, 'FdivFmsy|UdivUmsy')) %>%
+  mutate(tsyear  = as.integer(tsyear),
+         tsvalue = as.numeric(tsvalue)) %>%
+  # select(-tsid) %>%
+  distinct()
+
+y <- fmsy_ts %>% select(-tsyear, -tsvalue) %>% distinct()
+
+ggplot(fmsy_ts, aes(x = tsyear, y = tsvalue)) +
+  geom_path(aes(group = stockid, color = stockid)) +
+  labs(x = 'year', y = 'F/Fmsy')
+
+```
+
+### Examine F/Fmsy and B/Bmsy time series together against modified Kobe
+
+The time series for each species tracks the stock status and fishing pressure over time.  Using data for FdifFmsy... and UdivUmsy... to identify relative fishing pressure for each stock, and BdivBmsy... values to identify stock status for each stock over time.
+
+The fishing pressure is smoothed using a three-year rolling average from the current value and the values for the two previous years.  This reduces the impact of anomalous of short-term (one-year) drops or peaks in fishing pressure.
+
+``` {r examine_stocks_vs_kobe}
+
+bc_fish_ts <- read_csv(file.path(dir_goal, 'ram/stocks_ram_ts_raw.csv'))
+
+fstocks_ts <- bc_fish_ts %>% 
+  filter(str_detect(tsid, 'FdivFmsy|UdivUmsy')) %>%
+  mutate(tsyear  = as.integer(tsyear),
+         tsvalue = as.numeric(tsvalue)) %>%
+  select(stockid, stocklong, tsyear, ts_ffmsy = tsvalue, areaid) %>%
+  distinct()
+
+bstocks_ts <- bc_fish_ts %>% 
+  filter(str_detect(tsid, 'BdivBmsy')) %>%
+  mutate(tsyear  = as.integer(tsyear),
+         tsvalue = as.numeric(tsvalue)) %>%
+  select(stockid, tsyear, ts_bbmsy = tsvalue) %>%
+  distinct()
+
+stocks_ts <- fstocks_ts %>%
+  full_join(bstocks_ts, by = c('stockid', 'tsyear'))
+
+### apply 4-year rolling mean to f/fmsy; add in some vars for plotting:
+stocks_ts <- stocks_ts %>%
+  arrange(stockid, tsyear) %>%
+  group_by(stockid) %>%
+  filter(!is.na(ts_ffmsy)) %>%
+  mutate(mean_ffmsy = zoo::rollmean(ts_ffmsy, k = 4, align = 'right', fill = NA)) %>%
+  ungroup()
+
+write_csv(stocks_ts, file.path(dir_goal, 'ram/stocks_ram_timeseries.csv'))
+
+stock_ids <- stocks_ts %>%
+  select(stockid, stocklong, areaid) %>%
+  distinct()
+
+write_csv(stock_ids, file.path(dir_goal, 'ram/ram_stock_ids.csv'))
+
+```
+
+`r DT::datatable(stocks_ts)`
+
+
+
+``` {r examine_each_stock}
+
+stocks_ts <- read_csv(file.path(dir_goal, 'ram/stocks_ram_timeseries.csv')) %>%
+  group_by(stockid) %>%
+  mutate(last_bbmsy = last(ts_bbmsy),
+       last_ffmsy = last(ts_ffmsy),
+       last_mfmsy = last(mean_ffmsy),
+       last_datayear = last(tsyear)) %>%
+  ungroup()
+
+spp_ids <- stocks_ts %>%
+  .$stockid %>%
+  unique()
+
+for(spp in spp_ids) {
+  # spp <- spp_ids[1]
+  stocks_ts1 <- stocks_ts %>%
+    # filter(str_detect(tolower(stocklong), 'herring'))
+    filter(stockid == spp) %>%
+    filter(!is.na(ts_ffmsy))
+  
+  # max(stocks_ts1$ts_ffmsy, na.rm = TRUE); max(stocks_ts1$mean_ffmsy, na.rm = TRUE); max(stocks_ts1$ts_bbmsy, na.rm = TRUE)
+  # [1] 3.895409
+  # [1] 3.089609
+  # [1] 3.355013
+  
+  bbmsy_lim <- max(round(max(stocks_ts1$ts_bbmsy,   na.rm = TRUE) + .1, 1), 3.5)
+  ffmsy_lim <- max(round(max(stocks_ts1$mean_ffmsy, na.rm = TRUE) + .1, 1), 2.5)
+  
+  kobe_df <- generate_kobe_df(f_fmsy_max = ffmsy_lim,
+                           b_bmsy_max = bbmsy_lim,
+                           bmax_val = .25,
+                           fmin_val = .25)
+  
+  hcr_df <- data.frame(b_bmsy = c(0, .4, .8, bbmsy_lim),
+                       f_fmsy = c(0,  0,  1, 1))
+  
+  plot_title <- paste0(stocks_ts1$stocklong[1], ' (', stocks_ts1$stockid[1], ')')
+  
+  kobe_stock_plot <- ggplot(data = kobe_df, aes(x = b_bmsy, y = f_fmsy)) +
+    ggtheme_plot + 
+    geom_raster(alpha = .8, aes(fill = x_geom), show.legend = FALSE) +
+    scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
+    geom_line(data = hcr_df, aes(x = b_bmsy, y = f_fmsy), color = 'black', size = 1.5, alpha = .6) +
+    labs(title = plot_title,
+         x = 'B/Bmsy',
+         y = 'F/Fmsy') +
+    annotate(geom = 'text', label = 'critical', x = .15, y = -.1, 
+             size = 2, 
+             color = 'grey20') + 
+    annotate(geom = 'text', label = 'cautious', x =  .5, y = -.1, 
+             size = 2, 
+             color = 'grey20') + 
+    annotate(geom = 'text', label = 'healthy',  x = 1.2, y = -.1, 
+             size = 2, 
+             color = 'grey20') + 
+    annotate(geom = 'text', label = 'underexploited',  x = 2.5, y = -.1, 
+             size = 2, 
+             color = 'grey20') +
+    geom_path(data = stocks_ts1, 
+              show.legend = FALSE,
+              aes(x = ts_bbmsy, y = mean_ffmsy, group = stockid),
+              color = 'grey30') +
+    geom_point(data = stocks_ts1, 
+               show.legend = FALSE,
+              aes(x = last_bbmsy, y = last_mfmsy)) +
+    geom_text(data = stocks_ts1 %>%
+                mutate(tsyear = ifelse(tsyear/5 == round(tsyear/5) | tsyear == last_datayear, tsyear, NA)), 
+              aes(x = ts_bbmsy, y = mean_ffmsy, label = tsyear), 
+              hjust = 0, nudge_x = .05, size = 2)
+  
+  print(kobe_stock_plot)
+}
+
+```
+
+-----
+
+``` {r provenance, results = 'asis'}
+prov_wrapup(commit_outputs = FALSE)
+```

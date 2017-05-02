@@ -1,0 +1,40 @@
+taxonkey,taxonsciname,taxoncomname,taxongroup
+100039,Marine fishes not identified,Marine fishes nei,Medium demersals (30 - 89 cm)
+100077,Miscellaneous aquatic invertebrates,Aquatic invertebrates,Other demersal invertebrates
+100239,Marine groundfishes not identified,Groundfishes,Medium demersals (30 - 89 cm)
+100339,Marine pelagic fishes not identified,Pelagic fishes,Medium pelagics (30 - 89 cm)
+190195,Mollusca,"Clams, seasnails, squids, octopuses",Cephalopods
+200004,Elasmobranchii,"Sharks, rays, skates",Large sharks (>=90 cm)
+290004,Bivalvia,Clams,Other demersal invertebrates
+290013,Scyphozoa,True jellyfishes,Jellyfish
+290022,Malacostraca,"Lobsters, crabs, shrimps, krill",Shrimps
+300061,Pleuronectiformes,Flatfishes,Small to medium flatfishes (<90 cm)
+390013,Decapoda,"Crabs, lobsters, shrimps","Lobsters, crabs"
+400019,Rajidae,Stingrays,Large rays (>=90 cm)
+400043,Clupeidae,"Herrings, sardines, menhadens",Small pelagics (<30 cm)
+400314,Carangidae,"Jacks, pompanos",Medium pelagics (30 - 89 cm)
+400416,Scombridae,"Mackerels, tunas, bonitos",Large pelagics (>=90 cm)
+400573,Sebastidae,"Rockfishes, rockcods, thornyheads",Medium demersals (30 - 89 cm)
+490097,Brachyura,Marine crabs,"Lobsters, crabs"
+490143,Ostreidae,True oysters,Other demersal invertebrates
+590269,Tresus,Gaper clams,Other demersal invertebrates
+600239,Oncorhynchus mykiss,Rainbow trout,Large benthopelagics (>=90 cm)
+600240,Oncorhynchus gorbuscha,Pink salmon,Medium demersals (30 - 89 cm)
+600241,Oncorhynchus keta,Chum salmon,Large benthopelagics (>=90 cm)
+600243,Oncorhynchus nerka,Sockeye salmon,Medium pelagics (30 - 89 cm)
+600244,Oncorhynchus tshawytscha,Chinook salmon,Large benthopelagics (>=90 cm)
+600245,Oncorhynchus kisutch,Coho salmon,Large demersals (>=90 cm)
+600255,Hypomesus pretiosus,Surf smelt,Small pelagics (<30 cm)
+600256,Thaleichthys pacificus,Eulachon,Small pelagics (<30 cm)
+600308,Gadus macrocephalus,Pacific cod,Large demersals (>=90 cm)
+600318,Theragra chalcogramma,Alaska pollock,Medium benthopelagics (30 - 89 cm)
+600504,Sebastes alutus,Pacific ocean perch,Medium demersals (30 - 89 cm)
+600509,Ophiodon elongatus,Lingcod,Large demersals (>=90 cm)
+600512,Anoplopoma fimbria,Sablefish,Large bathydemersals (>=90 cm)
+600514,Hippoglossus stenolepis,Pacific halibut,Large flatfishes (>=90 cm)
+600517,Atheresthes stomias,Arrowtooth flounder,Small to medium flatfishes (<90 cm)
+601520,Clupea pallasii pallasii,Pacific herring,Medium pelagics (30 - 89 cm)
+690064,Saxidomus gigantea,Butter clam,Other demersal invertebrates
+690115,Cancer magister,Dungeness crab,"Lobsters, crabs"
+690283,Crassostrea gigas,Pacific cupped oyster,Other demersal invertebrates
+690284,Panopea abrupta,Pacific geoduck,Other demersal invertebrates

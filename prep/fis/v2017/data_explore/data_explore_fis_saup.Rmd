@@ -1,0 +1,301 @@
+---
+title: 'OHIBC: data prep for wild-capture fisheries: Sea Around Us data'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(data.table)
+library(seaaroundus)
+library(raster)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_spatial <- path.expand(file.path(dir_git, 'prep/spatial'))  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+
+### goal specific folders and info
+goal      <- 'fis'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### set up proj4string options: BC Albers and WGS84
+p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+
+```
+
+# Summary
+
+Process Sea Around Us data for British Columbia, to determine spatial distribution of catch for each species in BC.  The catch levels are used to weight the scores for fisheries stock status scores.
+
+***
+
+# Data Source 
+
+**Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+
+**Downloaded**: [date downloaded or received]
+
+**Description**:  [e.g., surface aragonite state]
+
+**Native data resolution**: [e.g., 1 degree, 30 m, etc.]   
+
+**Time range**: [e.g., 1880-1899, monthly data provided for each year] 
+
+**Format**:  [e.g. NetCDF]
+
+***
+  
+# Methods
+
+``` {r set_directories}
+
+# Path to data
+dir_data <- file.path(dir_M, 'git-annex/globalprep/_raw_data/SAUP/d2016/Data')
+alloc_data_file    <- 'SeaAroundUs/AllocationData.dat'
+alloc_results_file <- 'SeaAroundUs/AllocationResult.dat'
+taxon_file         <- 'SeaAroundUs/taxon.dat'
+entity_file        <- 'FishingEntity.dat'
+
+```
+
+## Create SAUP cell to BC region lookup
+
+Using BC EEZ region bounding box, determine SAUP cells within that rectangle.  Extract against OHIBC regions and normalize to ocean area (rather than total area).
+
+Apparently SAUP uses LOICZID cell IDs so cell borders should be on the .00 and .50... do not select cells with a window that is right on the borders, since inclusion or exclusion on the borders is not clear.
+
+``` {r identify_bc_cells}
+
+rgn_to_saup_file <- file.path(dir_goal, 'saup/rgn_to_saup.csv')
+
+if(!file.exists(rgn_to_saup_file)) {
+  
+  ### Find cells for BC EEZ
+  # bc_rgn <- readOGR(dir_spatial, 'ohibc_rgn') %>%
+  #   spTransform(CRS('+init=epsg:4326'))
+  # bbox(bc_rgn)
+  # # min        max
+  # # x -138.75908 -122.75493
+  # # y   46.52686   55.93538
+  xmin <- -138.75908; xmax <- -122.75493
+  ymin <-   46.52686; ymax <-   55.93538
+  
+  bc_cells <- getcells(sprintf('POLYGON ((%s %s, %s %s, %s %s, %s %s, %s %s))', 
+                               xmin, ymin, xmin, ymax, xmax, ymax, xmax, ymin, xmin, ymin))
+  
+  
+  ### Create raster of cell IDs
+  saup_bc_rast   <- raster::raster(xmn = -139.0, xmx = -122.5, 
+                                   ymn =   46.5, ymx =   56.0,
+                                   resolution = .5)
+  saup_bc_rast[] <- bc_cells
+  
+  ### Find area of each cell by cell ID
+  area_df <- area(saup_bc_rast) %>%
+    crosstab(saup_bc_rast, digits = 2) %>%
+    filter(Freq == 1) %>%
+    dplyr::select(cell_id  = Var2,
+                  area_km2 = Var1) %>%
+    mutate(cell_id  = as.integer(as.character(cell_id)),
+           area_km2 = as.numeric(as.character(area_km2)))
+  
+  ### Identify cells that fall within BC regions (BC EEZ only);
+  ### extract to a list then bind to data frame.
+  bc_rgn <- readOGR(dir_spatial, 'ohibc_rgn') %>%
+    spTransform(crs(saup_bc_rast))
+  
+  rgn_to_saup_list <- raster::extract(saup_bc_rast, bc_rgn, 
+                                       weights = TRUE,
+                                       normalizeWeights = FALSE) %>%
+    lapply(FUN = function(x) as.data.frame(x, stringsAsFactors = FALSE)) %>%
+    setNames(bc_rgn@data$rgn_id)
+  
+  ### weight is how much of cell is in EEZ; but this also includes area
+  ### lost to land, not just to other regions.  Normalize cell weights
+  ### to total *ocean* area; then attach area dataframe.
+  rgn_to_saup <- rgn_to_saup_list %>%
+    bind_rows(.id = 'rgn_id') %>%
+    rename(cell_id = value) %>%
+    group_by(cell_id) %>%
+    mutate(weight = weight / sum(weight)) %>%
+    ungroup() %>%
+    left_join(area_df, by = 'cell_id')
+  
+  values(saup_bc_rast)[!values(saup_bc_rast) %in% rgn_to_saup$cell_id] <- NA
+  writeRaster(saup_bc_rast, 
+              file.path(dir_goal, 'saup/saup_bc_rast.tif'), 
+              overwrite = TRUE)
+  write_csv(rgn_to_saup, rgn_to_saup_file)
+
+} else {
+  message('Region-to-SAUP-cell lookup already exists; ', rgn_to_saup_file)
+  
+  git_prov(rgn_to_saup_file, filetype = 'output')
+}
+
+```
+
+## Pare SAUP data down to BC region
+
+Load SAUP data: allocation data (species-specific info by year) and allocation results (cell-specific info by species and year).
+
+Pare results down to just observations that fall within BC cells; then pare the allocation data to just these species.  Combine the two into a single dataset (along with taxonomic info) and save to git-annex.
+
+``` {r load_saup_from_file}
+
+saup_raw_file <- file.path(dir_goal_anx, 'saup/saup_bc_raw.csv')
+
+reload <- FALSE
+
+if(!file.exists(saup_raw_file) | reload) {
+  # load the allocation info: allocation of each species per year
+  data_dt <- fread(file.path(dir_data, alloc_data_file),
+                   sep=';', showProgress = TRUE,
+                   header = FALSE)
+  colnames(data_dt) <- c('UniversalDataID', 'DataLayerID', 'FishingEntityID', 'Year', 'TaxonKey',
+                         'InputTypeID', 'sector_type_name', 'catch_type_name',
+                         'reporting_status_name')
+  
+  # load the Results data: for each UDI, allocated catch per cell
+  results_dt <- fread(file.path(dir_data, alloc_results_file),
+                      sep=';', showProgress = TRUE,
+                      header = FALSE)
+  colnames(results_dt) <- c('UniversalDataID', 'CellID', 'AllocatedCatch')
+  
+  setkey(results_dt, UniversalDataID)
+  setkey(data_dt,    UniversalDataID)
+  
+  results_bc_dt <- results_dt[CellID %in% bc_cells]
+  data_bc_dt    <- data_dt[UniversalDataID %in% results_bc_dt$UniversalDataID]
+  
+  saup_bc_dt <- data_bc_dt[results_bc_dt] ### essentially right_join(data_bc, results_bc)
+  
+  taxon_dt <- fread(file.path(dir_data, taxon_file),
+                      sep=';', showProgress = TRUE,
+                      header = FALSE)
+  colnames(taxon_dt) <- c('TaxonKey', 'TaxonSciName', 'TaxonComName', 'TaxonGroup')
+  setkey(taxon_dt, 'TaxonKey'); setkey(saup_bc_dt, 'TaxonKey')
+  saup_bc_dt <- taxon_dt[saup_bc_dt]
+  
+  entity_dt <- fread(file.path(dir_data, entity_file),
+                      sep=';', showProgress = TRUE,
+                      header = FALSE)
+  colnames(entity_dt) <- c('FishingEntityID', 'EntityName')
+  setkey(entity_dt, 'FishingEntityID'); setkey(saup_bc_dt, 'FishingEntityID')
+  saup_bc_dt <- entity_dt[saup_bc_dt]
+
+  
+  write_csv(saup_bc_dt, saup_raw_file)
+  
+} else {
+  message('BC-specific SAUP data already present: ', saup_raw_file)
+  
+  git_prov(file.path(dir_data, alloc_data_file),    filetype = 'input')
+  git_prov(file.path(dir_data, alloc_results_file), filetype = 'input')
+  git_prov(file.path(dir_data, taxon_file),         filetype = 'input')
+  git_prov(file.path(dir_data, entity_file),        filetype = 'input')
+  
+  git_prov(saup_raw_file, filetype = 'output')
+  
+}
+
+```
+
+## Summarize SAUP data to BC regions
+
+From the overall BC SAUP data by species, year, and cell, combine this with the lookup of SAUP cells to BC regions and summarize catch for each species to each region.
+
+
+``` {r summarize_to_rgn}
+
+saup_bc_raw <- read_csv(saup_raw_file)
+
+rgn_to_saup <- read_csv(file.path(dir_goal, 'saup/rgn_to_saup.csv'))
+
+saup_bc_clean <- saup_bc_raw %>%
+  setNames(tolower(names(.))) %>%
+  filter(entityname == 'Canada') %>%
+  dplyr::select(year,
+         cell_id = cellid,
+         allocatedcatch,
+         taxonkey,
+         taxonsciname,
+         taxoncomname,
+         taxongroup,
+         sector_type_name,  ### "Industrial" "Subsistence" "Artisanal" "Recreational"
+         catch_type_name,   ### "Landings" "Discards"
+         reporting_status_name) %>% ### "Reported" "Unreported"
+  inner_join(rgn_to_saup, by = 'cell_id') 
+
+write_csv(saup_bc_clean, file.path(dir_goal_anx, 'saup/saup_bc_clean.csv'))
+
+saup_bc_sum <- saup_bc_clean %>%
+  group_by(year,
+           rgn_id,
+           taxonkey,
+           taxonsciname,
+           taxoncomname,
+           sector_type_name,
+           catch_type_name,
+           reporting_status_name) %>%
+  summarize(rgn_catch = round(sum(allocatedcatch * weight), 2)) %>%
+  group_by(year, taxonkey, rgn_id) %>%
+  mutate(rgn_taxon_total = sum(rgn_catch)) %>%
+  group_by(year, rgn_id) %>%
+  mutate(rgn_total = sum(rgn_catch)) %>%
+  ungroup()
+
+saup_bc_totcatch <- saup_bc_sum %>%
+  dplyr::select(year, rgn_id, 
+         taxonkey, taxonsciname, taxoncomname,
+         rgn_taxon_total, rgn_total) %>%
+  distinct()
+
+saup_ids <- saup_bc_raw %>%
+  setNames(tolower(names(.))) %>%
+  filter(entityname == 'Canada') %>%
+  dplyr::select(taxonkey, taxonsciname, taxoncomname, taxongroup) %>%
+  distinct()
+
+write_csv(saup_bc_sum, file.path(dir_goal, 'saup/saup_bc_summary.csv'))
+write_csv(saup_bc_totcatch, file.path(dir_goal, 'saup/saup_bc_totcatch.csv'))
+write_csv(saup_ids, file.path(dir_goal, 'saup/saup_species_ids.csv'))
+
+```
+
+### Summary datatable (for most recent year only)
+
+`r DT::datatable(saup_bc_sum %>% filter(year == max(year)))`
+
+### Total catch datatable (for most recent year only)
+
+`r DT::datatable(saup_bc_totcatch %>% filter(year == max(year)))`
+
+-----
+
+``` {r provenance, results = 'asis'}
+prov_wrapup()
+```

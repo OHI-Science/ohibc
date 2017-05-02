@@ -34,22 +34,19 @@ dir_anx <- file.path(dir_M, 'git-annex/bcprep')
 
 ### goal specific folders and info
 goal      <- 'fis'
-scenario  <- 'v2016'
+scenario  <- 'v2017'
 dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
 dir_goal_anx <- file.path(dir_anx, goal, scenario)
+dir_spatial  <- file.path(dir_git, 'prep/spatial')
+dir_dfo_data <- file.path(dir_anx, '_raw_data/dfo_khunter')
+
 
 ### provenance tracking
-source(file.path(dir_git, 'src/R/prov.R'))   
-  ### Provenance tracking functions: must source at start to initialize prov_track
-prov_run_tag <- 'standard run'
+library(provRmd); prov_setup()
 
 ### support scripts
-source(file.path(dir_git, 'src/R/poly_plot_scores.R')) 
-  ### score plotting scripts
 source(file.path(dir_git, 'src/R/rast_tools.R')) 
   ### raster plotting and analyzing scripts
-#source(file.path(dir_spp, 'R/SCRIPT_FXN.R'))
-  ### goal- or script-specific support functions
 
 ### set up proj4string options: BC Albers and WGS84
 p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
@@ -57,307 +54,255 @@ p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000
 
 ```
 
-fisheries reporting:
-* fisheries reporting is in zones (denoted by polygons)
-* some fisheries are reported by cells (4 km cells?)
-  * dungeness crabs
+# Summary
+[general description: What data are being generated? Why (what project, etc.)? Upstream/downstream processing information that might be helpful?  Other information?]
+
+# Updates from previous assessment
+[Any significant changes in methods from previous analyses?]
+
+***
+
+# Data Source [NOTE: can be copied from README.md in rawdata file]
+**Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+
+**Downloaded**: [date downloaded or received]
+
+**Description**:  [e.g., surface aragonite state]
+
+**Native data resolution**: [e.g., 1 degree, 30 m, etc.]   
+
+**Time range**: [e.g., 1880-1899, monthly data provided for each year] 
+
+**Format**:  [e.g. NetCDF]
+
+***
   
-  
-We will work at 1 km resolution (?)
-* create a raster of rgn_id at 1 km resolution
-  * does this already exist?
-    * yes: prep/spatial/ohibc_rgn_raster_1000m.tif
-      * NOTE: the raster has some problems; e.g. Haida Gwaii is filled in
-    * also 500 m raster if desired
-* create a raster of fishery zones (for csv reporting)
-  * at 1 km resolution
-* rasterize layers for each year:
-  * use nearest neighbor if reclassifying
-  * use cell center (default) otherwise; this allows for gdal_rasterize
-  * stack together all years of a single fishery for processing
+# Methods
 
-Explore layers:
-``` {r, eval = FALSE}
-dir_dfo <- file.path(dir_anx, '_raw_data/dfo_khunter')
-dir_list <- list.files(dir_dfo)
-dir_list <- dir_list[file.info(file.path(dir_dfo, dir_list))$isdir] %>%
-  file.path(dir_dfo, .)
-#  [1] "aquaculture"               "dungeness_crab"            "ferry_terminals"          
-#  [4] "geoduck"                   "groundfish_longline"       "groundfish_mgmt_areas"    
-#  [7] "groundfish_trawl"          "marina_pnt"                "pac_fishery_mgmt_areas"   
-# [10] "pac_fishery_mgmt_subareas" "pacific_sardine"           "salmon_enhancement"       
-# [13] "spot_prawn"  
+Spatialize catch for fisheries.  Each fishery layer will be rasterized to 1 km cells, with values of catch normalized by total area within each reporting block.  For fisheries with distinct RAM stock areas, the catch will be allocated according to these RAM areas to facilitate scoring of stock status per area.
 
-basename(dir_list[i])
-shp_list <- list.files(dir_list[i], full.names = TRUE)
-# shp_list <- list.files(file.path(dir_list[i], 'TENURES_PNT'), full.names = TRUE)
+The resulting rasters will then be used to determine allocation to each OHIBC region.
 
-shp_list <- shp_list[str_detect(shp_list, '.shp$')] %>%
-  str_replace('.shp', '')
-shp <- list()
-for (j in 1:length(shp_list)) { ### j <- 1
-  shp[j] <- rgdal::readOGR(dsn   = dirname(shp_list[j]), 
-                           layer = basename(shp_list[j]), 
-                           stringsAsFactors = FALSE)
-  print(names(shp[[j]]@data))
-}
+## Determine fisheries to analyze
 
-names(shp) <- shp_list
+For all the DFO fisheries data, we need to know how the data is spatialized.  For some fisheries, data is reported as 4 x 4 km cells; for others it may be different. We will generate a lookup table of each fishery with info on year span, catch reporting field, spatial notes, and whether to include it in the analysis.
 
-plot(shp[[1]])
+``` {r get fisheries folders, eval = FALSE}
 
-d <- shp[[1]]@data
+dir_list <- list.files(file.path(dir_dfo_data, 'd2016/fisheries'), full.names = TRUE)
 
-d[1, ]
-shp_list
-### dungeness_crab: 2001 through 2011 (2001 duplicated?)
-#   ID ET_ID GRIDCELL PNT_COUNT Catch_kg Effort_hr SEASON Shape_Leng Shape_Area
-# 0  0 21178  60--298         1        0         0   2001      16000    1.6e+07
-  
-### geoduck: 2003 through 2011
-#   ID ET_ID GRIDCELL PNT_COUNT Catch_kg Effort_hr SEASON Shape_Leng Shape_Area
-# 0  0 26405  75--305         3      776        12   2003      16000    1.6e+07
+dir_list <- dir_list[file.info(dir_list)$isdir]
 
-### pacific_sardine: 2002, 2003, 2004 (?)
-#   OBJECTID OID_1 Count_ Sum_EstTon Shape_Leng Shape_Area
-# 0     2893  2893      3         50      16000    1.6e+07
-
-### spot_prawn: 2001, 2002
-#   ID ET_ID GRIDCELL PNT_COUNT Catch_kg Effort_trp SEASON Shape_Leng Shape_Area
-# 0  0 23574  67--258         1        0          0   2001      16000    1.6e+07
-
-
-
-
-### ferry_terminals: CHRFRRTRMN_point
-#                  ROUTE TELE_NUM TRMNL_LOC OPERATOR TRCKTTLFRR FERRY_ID   DATA_SRC COMMENTS VCLOHTTYR VCLTTYR
-# 1 Victoria To Port Ang     <NA>      <NA>     <NA>          0        1 CHS CHARTS     <NA>         0       0
-#   VCLUHTTYR VSSLSZLMT BERTHS PSNGRTTAUG PSNGRTTDEC PSNGRTTFEB OBJECTID PSNGRTTAPR PSNGRTTJAN       FYTRMTYP
-# 1         0         0     NA          0          0          0        1          0          0 Ferry Terminal
-#   AGENT PSNGRTTYR RI PSNGRTTJUL BUSTTLYR SRC_PROJ PSNGRTTJUN PSNGRTTMAR PSNGRTTMAY PSNGRTTNOV PSNGRTTOCT
-# 1  <NA>         0  0          0        0     SSOG          0          0          0          0          0
-#   PSNGRTTSEP
-# 1          0
-
-### marina_pnt: MARINA_PNT_point
-#   FAX_NUMBER TREAT_AVL UNIT_TOTAL WSHRM_AVL EMAIL_ADDR WATER_AVL RV_SITE_TO MARINA_ID PEAK_PERID LOCATION CAMPSITE_T
-# 1       <NA>      <NA>          0         U       <NA>         U          0       265       <NA>     <NA>          0
-#   OBJECTID NAME MOORAGE_AV MAX_BOATS MARINA_SUP LUB_AVL LIVE_ABOAR LNDRY_AVL HOLD_TANKS GAS_AVL FUEL_AVL     F_CODE
-# 1      265 <NA>          U         0          U       U          0         U          0       U        U BL17000000
-#   PRI_PHNE_N DISPSL_AVL DIESEL_AV                  DESCRIPT DATA_SRC CONTACT COMMENTS CITY AVG_OCCUP AVG_DEPTH
-# 1       <NA>          U         U Information Not Available     <NA>    <NA>     <NA> <NA>         0         0
-#   ACCOM_TYPE SHOW_AVL SEC_PHNE_N SEASON RSTRT_AVL REL_IMPORT PROVINCE PWR_AVL POSTAL_COD SOURCE_PRJ STR_ADDRES TRSVLBL
-# 1       <NA>        U       <NA>   <NA>         U          3     <NA>    <NA>       <NA>       NSOG       <NA>       U
-
-### salmon_enhancement_facilities: Accommodation
-# [1] "Echo Bay Guardian Trailer"
-
-
-### Aquaculture:
-### NOTE: not all shapefiles have the same attributes... shellfish vs finfish
-### NOTE: readOGR returns warning 'Z-dimension discarded'
-# Aquaculture layers:
-# [1] "Finfish_Tenure_AtlanticSalmon"  31 columns
-# [2] "Finfish_Tenure_ChinookSalmon"   31 columns   
-# [3] "Finfish_Tenure_CohoSalmon"      31 columns   
-# [4] "Finfish_Tenure_Sablefish"       31 columns    
-# [5] "Finfish_Tenure_SockeyeSalmon"   31 columns
-# [6] "Shellfish_Tenure_Clams"         28 columns  
-# [7] "Shellfish_Tenure_Mussels"       28 columns 
-# [8] "Shellfish_Tenure_Oyster"        28 columns     
-# [9] "Shellfish_Tenure_Scallops"      28 columns 
-
-### cols for finfish (atl salmon):
-#   OBJECTID_1 CMPY_NUM CUL_TYPE F_CODE LAND_FILE                     LEGAL_DESC
-# 0          1     1618       NC   <NA>   1409321 UF, part bed of Chancellor Cha
-#            LEGAL_DE_1 LEGAL_DE_2 LEGAL_DE_3                                 LOCATION MAP_LONG
-# 0 R 1, Coast District       <NA>       <NA> Hardwicke Is. Site B, Chancellor Channel  1254502
-#                         NAME OBJECTID REF_NUM FINFISH_ID MAP_LAT STAT_AREA SITE_AREA TENURE_DOC
-# 0 Marine Harvest Canada Inc.    23128    1581         88  502528      1340        48     112026
-#   TENURE_ISS TENURE_STA        COMMONAME                               LOCATION_1 LAND_FILE_ STAT
-# 0   20051231         LI Hardwicke Site B Hardwicke Is. Site B, Chancellor Channel    1409321   13
-#   STAT_SUB LONGITUDE LATITUDE                        SP_LIC Shape_Leng Shape_Area
-# 0       40 -125.7665  50.4147 Atlantic Salmon (Salmo salar)   1936.549   174593.6
-
-```
-
-``` {r setup_pfma_rasters, eval = FALSE}
-
-rast_rgn <- raster(file.path(dir_git, 'prep/spatial/ohibc_rgn_raster_1000m.tif'))
-
-good_rasterize <- function(in_shp, out_tif, field) {
-  if(!exists('rast_rgn'))
-    rast_rgn <- raster('~/github/ohibc/prep/spatial/ohibc_rgn_raster_1000m.tif')
-  te <- rast_rgn@extent
-  base_te <- c(te@xmin, te@ymin, te@xmax, te@ymax)
-  base_tr <- raster::res(rast_rgn)
-  
-  if(!str_detect(in_shp, '.shp')) 
-    in_shp <- paste0(in_shp, '.shp')
-  
-  out_tif_tmp <- out_tif %>%
-    str_replace('.tif', '_tmp.tif')
-  if(!file.exists(out_tif_tmp))
-    raster::writeRaster(rast_rgn, out_tif_tmp)
-  ### need a file there for gdalUtils::gdal_rasterize to do its work
-  
-  message('Rasterizing:\n  ', in_shp, '\nto temp tif: \n  ', out_tif_tmp)
-  rast_tmp <- gdalUtils::gdal_rasterize(
-    src_datasource = path.expand(in_shp),
-    dst_filename   = path.expand(out_tif_tmp),
-    a = field, # attribute to burn
-    a_nodata = NA,
-    # at = TRUE,
-    te = base_te,
-    tr = base_tr,
-    output_Raster = TRUE)
-  
-  ### rewrite for compression and unlink the temp raster
-  message('Compressing: \n  ', out_tif_tmp, '\nto: \n  ', out_tif)
-  raster::writeRaster(rast_tmp, out_tif, overwrite = TRUE)
-  unlink(out_tif_tmp)
-  return(invisible(raster::raster(out_tif)))
-}
-
-### Rasterize Pacific Fishery Management Areas
-###   STATAREA HECTARES    SQ_KM SHAPE_Leng SHAPE_Area
-###          1 109760.7 1097.607   891758.4 1097606860
-
-pfma_shp <- file.path(dir_anx, '_raw_data/dfo_khunter',
-                      'PacificFisheryMgmtAreas',
-                      'DFO_BC_PFMA_AREAS_50K_V3_1')
-
-pfma_tif <- file.path(dir_anx, 'fis', scenario, 'spatial', 
-                      'DFO_BC_PFMA_AREAS_50K_V3_1.tif')
-
-rast_pfma <- good_rasterize(pfma_shp, pfma_tif, 'STATAREA')
-
-### Rasterize Pacific Fishery Management Sub-Areas
-### NOTE: DFO_BC_PFMA_SUBAREAS_CHS_V3.shp is corrupted or invalid
-### DFO_BC_PFMA_SUBAREAS_50K_V3_1:
-###   MGNT_AREA SUBAREA_         NAME LABEL HECTARES    SQ_KM SHAPE_Leng SHAPE_Area
-###           7       22 Subarea 7-22  7-22 227.6391 2.276391   16178.94    2276387
-
-pfmasub_shp <- file.path(dir_anx, '_raw_data/dfo_khunter',
-                      'PacificFisheryMgmtArea_SUBAREAS',
-                      'DFO_BC_PFMA_SUBAREAS_50K_V3_1')
-
-pfmasub_tif <- file.path(dir_anx, 'fis', scenario, 'spatial', 
-                         'DFO_BC_PFMA_SUBAREAS_50K_V3_1.tif')
-
-rast_pfmasub <- good_rasterize(pfmasub_shp, pfmasub_tif, 'SUBAREA_')
-
-### Rasterize Groundfish Management Areas
-###   MINOR_CODE         MINOR_NAME MAJOR_CODE MAJOR_NAME GFB_MIN_CD GFB_MAJ_CD DESCR Shape_Leng Shape_Area
-###            1 2A-EAST- SKIDEGATE          8         5D         01         08 5D-01   433586.1 4000732438
-gfma_shp <- file.path(dir_anx, '_raw_data/dfo_khunter',
-                      'GroundfishMgmtAreas',
-                      'MajorMinor_GroundfishManagementAreas')
-
-gfma_tif <- file.path(dir_anx, 'fis', scenario, 'spatial', 
-                      'MajorMinor_GroundfishManagementAreas.tif')
-
-rast_gfma <- good_rasterize(gfma_shp, gfma_tif, 'MINOR_CODE')
-
-plot(rast_pfma)
-plot(rast_pfmasub)
-plot(rast_gfma)
-```
-
-``` {r setup_harvest_rasters, eval = FALSE}
-
-### UPDATE WITH BETTER RASTER FUNCTION (using gdal_rasterize)
-
-### two automation functions:
-### * create_poly_list takes a directory name, identifies the shapefiles,
-###   trims the filename ends if needed, and returns a named list of the SPDFs.
-### * rasterize_list() takes the named SPDFs list, and a field name argument,
-###   and rasterizes each SPDF to the fisheries spatial folder.
-create_poly_list <- function(dir_shp, trim_end = -17) {
-  shp_list <- list.files(dir_shp, full.names = TRUE)
-
-  shp_list <- shp_list[str_detect(shp_list, '.shp$')] %>%
-    str_replace('.shp', '')
-  shp <- list()
-  for (j in 1:length(shp_list)) { ### j <- 1
-    shp[[j]] <- rgdal::readOGR(dsn   = dirname(shp_list[j]), 
-                             layer = basename(shp_list[j]), 
-                             stringsAsFactors = FALSE)
-    names(shp[[j]]@data) <- tolower(names(shp[[j]]@data))
+# basename(dir_list)
+field_df <- data.frame()
+for (i in dir_list) { ### i <- dir_list[2]
+  dbfs <- list.files(i, full.names = TRUE, pattern = '.dbf')
+  if(length(dbfs) == 0) {
+    tmp_df1 <- data.frame(fishery = basename(i),
+                          shp     = NA,
+                          fields  = NA,
+                          values  = NA)
+  } else {
+    tmp_df1 <- data.frame()
+    for(j in dbfs) { ### j <- dbfs[1]
+      df <- foreign::read.dbf(file.path(j))
+      x <- paste(names(df), collapse = ', ')
+      y <- paste(df[1, ], collapse = ', ')
+      tmp_df2 <- data.frame(fishery = basename(i),
+                            shp     = basename(j) %>% str_replace('\\.dbf$', ''),
+                            fields  = x,
+                            values  = y)
+      tmp_df1 <- bind_rows(tmp_df1, tmp_df2)
+    }
   }
   
-  names(shp) <- basename(shp_list) %>%
-    tolower() %>%
-    str_sub(1, trim_end)
+  field_df <- bind_rows(field_df, tmp_df1)
   
-  return(shp)
 }
 
-rasterize_list <- function(poly_list, fld_name) {
-  for (j in 1:length(poly_list)) { # j = 2
-    lyr_name <- names(poly_list[j]) 
-      ### single bracket returns name of the list item; double returns the names of the columns in the object
-    poly <- poly_list[[j]]
-      ### double bracket returns the single object held in that list slot
-    names(poly@data)[names(poly@data) == fld_name] <- 'fld'
-    poly@data <- poly@data %>%
-      mutate(fld_per_km2 = fld/(shape_area/1e6))
-    rast_item <- rasterize(poly, rast_rgn, 
-                         field = 'fld_per_km2', 
-                         fun   = 'last',
-                         filename = file.path(dir_anx, 'fis', scenario, 'spatial', 
-                                              sprintf('%s_%s.tif', lyr_name, fld_name)),
-                         overwrite = TRUE)
-  }
-  return(invisible(rast_item))
-}
-
-if(!exists('rast_rgn')) 
-  rast_rgn <- raster(file.path(dir_git, 'prep/spatial/ohibc_rgn_raster_1000m.tif'))
-
-### dungeness_crab: 2001 through 2011 (2001 duplicated?)
-###   ID ET_ID GRIDCELL PNT_COUNT Catch_kg Effort_hr SEASON Shape_Leng Shape_Area
-###    0 21178  60--298         1        0         0   2001      16000    1.6e+07
-  
-dir_shp <- file.path(dir_anx, '_raw_data/dfo_khunter',
-                      'dungeness_crab')
-crab_polys <- create_poly_list(dir_shp)
-x <- rasterize_list(crab_polys, fld_name = 'catch_kg')
-y <- rasterize_list(crab_polys, fld_name = 'effort_hr')
-
-
-### geoduck: 2003 through 2011
-#   ID ET_ID GRIDCELL PNT_COUNT Catch_kg Effort_hr SEASON Shape_Leng Shape_Area
-# 0  0 26405  75--305         3      776        12   2003      16000    1.6e+07
-
-dir_shp <- file.path(dir_anx, '_raw_data/dfo_khunter',
-                      'geoduck')
-geoduck_polys <- create_poly_list(dir_shp)
-rasterize_list(geoduck_polys, fld_name = 'catch_kg')
-rasterize_list(geoduck_polys, fld_name = 'effort_hr')
-
-
-### spot_prawn: 2001, 2002
-#   ID ET_ID GRIDCELL PNT_COUNT Catch_kg Effort_trp SEASON Shape_Leng Shape_Area
-# 0  0 23574  67--258         1        0          0   2001      16000    1.6e+07
-
-dir_shp <- file.path(dir_anx, '_raw_data/dfo_khunter',
-                      'spot_prawn')
-prawn_polys <- create_poly_list(dir_shp)
-rasterize_list(prawn_polys, fld_name = 'catch_kg')
-rasterize_list(prawn_polys, fld_name = 'effort_trp')
-
-### pacific_sardine: 2002, 2003, 2004 (?)
-#   OBJECTID OID_1 Count_ Sum_EstTon Shape_Leng Shape_Area
-# 0     2893  2893      3         50      16000    1.6e+07
-
-dir_shp <- file.path(dir_anx, '_raw_data/dfo_khunter',
-                      'pacific_sardine')
-sardine_polys <- create_poly_list(dir_shp, trim_end = -1)
-names(sardine_polys) <- paste0('sardines', c(2002:2004))
-rasterize_list(sardine_polys, fld_name = 'sum_estton')
+dir_df <- data.frame(fish_dir = dir_list) %>%
+  mutate(fishery = basename(fish_dir)) %>%
+  left_join(field_df, by = 'fishery')
+write_csv(dir_df, file.path(dir_goal, 'raw/fish_files_include_raw.csv'))
 
 ```
+
+
+## Generate required spatial files
+
+* OHIBC region raster at 1000 m
+* RAM DFO regions polygons
+    * This will be used to create a lookup of RAM DFO regions to OHIBC regions, incl. area,
+    * or possibly to mask rasters
+* rasterize catch to 1000 m; 
+    * NOTE: catch IS NOT normalized by area (divide by 16 for 4 x 4 km cells); since we are working with relative weighting across regions, relative weight (or units of weight) will drop out of the calculations.  Normalizing just adds an additional slow step.
+
+
+``` {r setup_single_harvest_rasters}
+
+fish_files_single <- read_csv(file.path(dir_goal, 'raw/fish_files_include.csv')) %>%
+  filter(include == TRUE) %>%
+  filter(!is.na(tot_catch_field))
+
+rast_rgn <- raster(file.path(dir_git, 'prep/spatial/raster/ohibc_rgn_raster_1000m.tif'))
+
+for(shp_id in unique(fish_files_single$shp)) {
+  ### loop through each fishery directory
+  # shp_id <- fish_files_single$shp[1]
+  shp_info <- fish_files_single %>%
+    filter(shp == shp_id)
+  if(nrow(shp_info) > 1) stop('Duplicate shapefile names detected')
+  
+  shp_file   <- file.path(shp_info$fish_dir, shp_id)
+  shp_field  <- shp_info$catch_field
+  shp_reproj <- shp_info$reproject
+  stock_name <- str_replace_all(shp_info$fishery, '[0-9_]', '') %>%
+    paste0('_', shp_info$year)
+  
+  message('Processing ', shp_id, ' to ', stock_name)
+  message('  Projection: ', readLines(paste0(shp_file, '.prj')))
+  
+  if(shp_reproj) {
+    message('  ... reprojecting')
+    tmp_shp <- readOGR(dsn = dirname(shp_file),
+                       layer = basename(shp_file)) %>%
+      spTransform(crs(rast_rgn))
+    writeOGR(tmp_shp, 
+             dsn = dirname(shp_file),
+             layer = paste0(basename(shp_file), '_reproj'),
+             overwrite_layer = TRUE)
+    shp_file <- file.path(dirname(shp_file), paste0(basename(shp_file), '_reproj'))
+    message('  New projection: ', readLines(paste0(shp_file, '.prj')))
+  }
+  
+  output_rast <- file.path(dir_goal_anx, 'fis_rasts', paste0(stock_name, '.tif'))
+  
+  rast <- gdal_rast2(src = shp_file,
+                     rast_base = rast_rgn,
+                     dst = output_rast,
+                     value = shp_field,
+                     override_p4s = TRUE)
+  
+  if(shp_reproj) {
+    message('  ... unlinking temp shapefile ', shp_file)
+    if(str_detect(shp_file, 'reproj')) unlink(shp_file)
+  }
+
+}
+
+```
+
+``` {r setup_multiple_harvest_rasters}
+
+fish_files_mult <- read_csv(file.path(dir_goal, 'raw/fish_files_include.csv')) %>%
+  filter(include == TRUE) %>%
+  filter(!is.na(mult_catch_fields))
+
+rast_rgn <- raster(file.path(dir_git, 'prep/spatial/raster/ohibc_rgn_raster_1000m.tif'))
+
+for(shp_id in unique(fish_files_mult$shp)) {
+  ### loop through each fishery directory
+  # shp_id <- fish_files_mult$shp[1]
+  shp_info <- fish_files_mult %>%
+    filter(shp == shp_id)
+  if(nrow(shp_info) > 1) stop('Duplicate shapefile names detected')
+  
+  shp_file   <- file.path(shp_info$fish_dir, shp_id)
+  shp_fields  <- shp_info$mult_catch_fields %>%
+    str_split(' ') %>% unlist()
+  shp_reproj <- shp_info$reproject
+  
+  message('Processing ', shp_id)
+  message('  Projection: ', readLines(paste0(shp_file, '.prj')))
+  
+  if(shp_reproj) {
+    message('  ... reprojecting')
+    tmp_shp <- readOGR(dsn = dirname(shp_file),
+                       layer = basename(shp_file)) %>%
+      spTransform(crs(rast_rgn))
+    writeOGR(tmp_shp, 
+             dsn = dirname(shp_file),
+             layer = paste0(basename(shp_file), '_reproj'),
+             overwrite_layer = TRUE)
+    shp_file <- file.path(dirname(shp_file), paste0(basename(shp_file), '_reproj'))
+    message('  New projection: ', readLines(paste0(shp_file, '.prj')))
+  }
+  
+  for(shp_field in shp_fields) {
+    ### shp_field <- shp_fields[1]
+    message('processing ', shp_field, ' in ', shp_id)
+    stock_name <- str_replace_all(shp_info$fishery, '[0-9_]', '') %>%
+      paste0('_', tolower(shp_field), '_', shp_info$year)
+
+    output_rast <- file.path(dir_goal_anx, 'fis_rasts', paste0(stock_name, '.tif'))
+  
+    rast <- gdal_rast2(src = shp_file,
+                       rast_base = rast_rgn,
+                       dst = output_rast,
+                       value = shp_field,
+                       override_p4s = TRUE)
+  }
+  
+  if(shp_reproj) {
+    message('  ... unlinking temp shapefile ', shp_file)
+    if(str_detect(shp_file, 'reproj')) unlink(shp_file)
+  }
+
+}
+
+```
+
+* Catch is summed across all years of data for each fishery group
+    * mean, rather than year-by-year, would avoid issues with non-overlapping year spans
+    * mean also smooths out uneven harvests from year-to-year and cell-to-cell
+    * sum will be adequate since we're looking at relative weight.  mean() might drop NAs rather than counting as zero...
+
+``` {r sum_catch_across_years}
+
+rast_list <- list.files(file.path(dir_goal_anx, 'fis_rasts'), pattern = '.tif$', full.names = TRUE)
+
+rast_groups <- rast_list %>%
+  basename() %>%
+  str_replace('_[0-9]{4}.tif', '') %>%
+  unique()
+
+rast_groups <- rast_groups[!str_detect(rast_groups, '^tot')]
+
+for(gp in rast_groups) {
+  # gp <- rast_groups[1]
+
+  gp_rasts <- list.files(file.path(dir_goal_anx, 'fis_rasts'), 
+                         pattern = paste0('^', gp, '_[0-9]{4}'), 
+                         full.names = TRUE)
+
+  cat(c('Processing ', gp, ': \n  ', paste(basename(gp_rasts), collapse = ', '), '\n'))
+  
+  years    <- basename(gp_rasts) %>% 
+    str_extract('[0-9]{4}') %>%
+    as.integer()
+  
+  gp_stack <- raster::stack(gp_rasts)
+  
+  cat('... summing across all years\n')
+  gp_sum <- raster::calc(gp_stack, sum, na.rm = TRUE)
+  
+  rast_file <- paste0('tot_', gp, '_', min(years), '-', max(years), '.tif')
+  
+  cat(c('... Writing sum of ', gp, ' catch to ', rast_file, '\n'))
+  writeRaster(gp_sum, 
+              file.path(dir_goal_anx, 'fis_rasts', rast_file), 
+              overwrite = TRUE)
+  
+}
+
+```
+
+## Associate DFO fishery data with RAM stocks
+
+Most of these DFO fishery datasets do not align directly with RAM stocks.  Here is a lookup of DFO fishery datasets aligned to available RAM stocks:
+
+`r DT::datatable(read_csv(file.path(dir_goal, 'raw', 'dfo_to_ram_ids.csv')))`
+
 
 ``` {r aggregate_to_rgn, eval = FALSE}
 if(!exists('rast_rgn'))
@@ -418,83 +363,9 @@ write_csv(catch_df, file.path(dir_goal, sprintf('int/%s_catch_estton.csv', fis_s
 
 ```
 
-``` {r fish_mgmt_zones_by_rgn}
-if(!exists('rast_rgn'))
-  rast_rgn <- raster(file.path(dir_git, 'prep/spatial/ohibc_rgn_raster_1000m.tif'))
 
-### count cells of each fishery management zone that fall within each OHIBC region.
-### e.g. zone 100 (300 cells) falls between region 1 (100 cells) and region 2 (200 cells)
-### set up df with columns: rgn_id, pfma_id, pfmsa_id, gfma_id using getValues.
-### If all rasters are same extents, then the return from getValues() should be a vector
-### of cell values that correspond to the same order of cells for each vector.
+-----
 
-rast_pfma  <- raster(file.path(dir_anx, 'fis', scenario, 'spatial', 
-                              'DFO_BC_PFMA_AREAS_50K_V3_1.tif'))
-rast_pfmsa <- raster(file.path(dir_anx, 'fis', scenario, 'spatial', 
-                              'DFO_BC_PFMA_SUBAREAS_50K_V3_1.tif'))
-rast_gfma  <- raster(file.path(dir_anx, 'fis', scenario, 'spatial', 
-                              'MajorMinor_GroundfishManagementAreas.tif'))
-
-if(!(extent(rast_pfma)  == extent(rast_rgn))) {
-  message('rgn and pfma extents not equal... fix them!')
-} else {
-  rgn_pfma_df <- data.frame(
-      rgn_id   = round(getValues(rast_rgn)),
-      pfma_id  = round(getValues(rast_pfma))) %>%
-    group_by(rgn_id) %>%
-    mutate(n_cells_rgn = n()) %>%
-    group_by(pfma_id) %>%
-    mutate(n_pfma_tot = n()) %>%
-    group_by(rgn_id, pfma_id) %>%
-    mutate(n_pfma_rgn = n()) %>%
-    filter(!is.na(rgn_id)) %>%
-    distinct()
-}
-
-if(!(extent(rast_pfmsa)  == extent(rast_rgn))) {
-  message('rgn and pfmsa extents not equal... fix them!')
-} else {
-  rgn_pfmsa_df <- data.frame(
-      rgn_id   = round(getValues(rast_rgn)),
-      pfma_id  = round(getValues(rast_pfma)),
-      pfmsa_id = round(getValues(rast_pfmsa))) %>%
-    group_by(rgn_id) %>%
-    mutate(n_cells_rgn = n(),
-           pfmsa_label = paste0(pfma_id, '-', pfmsa_id)) %>%
-    group_by(pfmsa_label) %>%
-    mutate(n_pfmsa_tot = n()) %>%
-    group_by(rgn_id, pfmsa_label) %>%
-    mutate(n_pfmsa_rgn = n()) %>%
-    filter(!is.na(rgn_id)) %>%
-    distinct()
-}
-
-if(!(extent(rast_gfma)  == extent(rast_rgn))) {
-  message('rgn and gfma extents not equal... fix them!')
-} else {
-  rgn_gfma_df <- data.frame(
-      rgn_id   = round(getValues(rast_rgn)),
-      gfma_id  = round(getValues(rast_gfma))) %>%
-    group_by(rgn_id) %>%
-    mutate(n_cells_rgn = n()) %>%
-    group_by(gfma_id) %>%
-    mutate(n_gfma_tot = n()) %>%
-    group_by(rgn_id, gfma_id) %>%
-    mutate(n_gfma_rgn = n()) %>%
-    filter(!is.na(rgn_id)) %>%
-    distinct()
-}
-
-x <- xx <- rast_pfma
-y <- yy <- rast_pfmsa
-values(xx)[is.na(values(x)) & !is.na(values(y))] <- 10000
-values(xx)[is.na(values(y)) & !is.na(values(x))]  <- 3000
-plot(xx)
-
-### WHY ARE THERE MISSING ZONES?
-
+``` {r provenance, results = 'asis'}
+prov_wrapup(commit_outputs = FALSE)
 ```
-
-``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
-```
-

@@ -46,7 +46,7 @@ show_dupes <- function(x, y, na.rm = FALSE) {
 
 get_rgn_names <- function() {
   x <- foreign::read.dbf('~/github/ohibc/prep/spatial/ohibc_rgn.dbf', as.is = TRUE) %>%
-    select(rgn_id, rgn_name, rgn_code) %>%
+    dplyr::select(rgn_id, rgn_name, rgn_code) %>%
     bind_rows(data.frame(rgn_id   = 0,
                          rgn_name = 'British Columbia',
                          rgn_code = 'BC'))

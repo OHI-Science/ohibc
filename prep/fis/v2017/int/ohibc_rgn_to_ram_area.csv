@@ -1,0 +1,32 @@
+rgn_id,area_code,area_km2,area_id,rgn_name,rgn_code
+1,hs,13858,10,North Coast,NC
+1,ncc,17416.25,2,North Coast,NC
+1,qci,35.25,1,North Coast,NC
+1,sma-prd,4892.25,6,North Coast,NC
+2,5ab,9071.25,9,Haida Gwaii,HG
+2,hs,14057.25,10,Haida Gwaii,HG
+2,ncc,7264,2,Haida Gwaii,HG
+2,qci,38719.75,1,Haida Gwaii,HG
+2,sma-prd,787.75,6,Haida Gwaii,HG
+3,5ab,17278,9,Central Coast,CC
+3,hs,2737.5,10,Central Coast,CC
+3,ncc,17328.5,2,Central Coast,CC
+3,qcs,2142.25,3,Central Coast,CC
+3,wcvani,1001.25,5,Central Coast,CC
+4,5ab,5177,9,North Vancouver Island,NV
+4,ncc,498.75,2,North Vancouver Island,NV
+4,qcs,6788.75,3,North Vancouver Island,NV
+4,sog,718.5,4,North Vancouver Island,NV
+4,wcvani,5684.5,5,North Vancouver Island,NV
+5,sog,632.25,4,West Vancouver Island,WV
+5,wcvani,27499.75,5,West Vancouver Island,WV
+6,sma-14,1691.25,8,Strait of Georgia,SG
+6,sma-fr,2253.75,7,Strait of Georgia,SG
+6,sog,8146,4,Strait of Georgia,SG
+7,5ab,77099,9,Pacific Offshore,PO
+7,ncc,41243.75,2,Pacific Offshore,PO
+7,qci,93674.5,1,Pacific Offshore,PO
+7,wcvani,180816.5,5,Pacific Offshore,PO
+8,5ab,95.75,9,Aristazabal Island,AZ
+8,hs,3113.75,10,Aristazabal Island,AZ
+8,ncc,3197.75,2,Aristazabal Island,AZ

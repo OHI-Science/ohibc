@@ -1,0 +1,34 @@
+stock_id,stock_name,dfo_area_id,area_code,area_id
+BOCACCBCW,Bocaccio British Columbia Waters,Canada-DFO-BCW,qci,1
+BOCACCBCW,Bocaccio British Columbia Waters,Canada-DFO-BCW,ncc,2
+BOCACCBCW,Bocaccio British Columbia Waters,Canada-DFO-BCW,qcs,3
+BOCACCBCW,Bocaccio British Columbia Waters,Canada-DFO-BCW,sog,4
+BOCACCBCW,Bocaccio British Columbia Waters,Canada-DFO-BCW,wcvani,5
+CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,Canada-DFO-WCVANI-SOG-QCI,qci,1
+CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,Canada-DFO-WCVANI-SOG-QCI,sog,4
+CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,Canada-DFO-WCVANI-SOG-QCI,wcvani,5
+ESOLEHS,English sole Hecate Strait,Canada-DFO-HS,hs,10
+EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,Canada-DFO-PCOASTFRDU,sog,4
+HERRCC,Pacific herring Central Coast,Canada-DFO-CC,ncc,2
+HERRQCI,Pacific herring Queen Charlotte Islands,Canada-DFO-QCI,qci,1
+HERRSOG,Pacific herring Straight of Georgia,Canada-DFO-SOG,sog,4
+HERRWCVANI,Pacific herring West Coast of Vancouver Island,Canada-DFO-WCVANI,wcvani,5
+LINGCODSOG,Lingcod Strait of Georgia,Canada-DFO-SOG,sog,4
+PANDALSMA14,Northern shrimp SMA 14,Canada-DFO-SMA-14,sma-14,8
+PANDALSMAFR,Northern shrimp SMA FR,Canada-DFO-SMA-FR,sma-fr,7
+PANDALSMAPRD,Northern shrimp SMA PRD,Canada-DFO-SMA-PRD,sma-prd,6
+PCOD5AB,Pacific cod Queen Charlotte Sound,Canada-DFO-5AB,5ab,9
+PCODHS,Pacific cod Hecate Strait,Canada-DFO-HS,hs,10
+PCODWCVANI,Pacific cod West Coast of Vancouver Island,Canada-DFO-WCVANI,wcvani,5
+PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,Canada-DFO-QCI,qci,1
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,Canada-DFO-WCVANI,wcvani,5
+RSOLE5AB,Rock sole Queen Charlotte Sound,Canada-DFO-5AB,5ab,9
+RSOLEHSTR,Rock sole Hecate Strait,Canada-DFO-HS,hs,10
+SABLEFPCAN,Sablefish Pacific Coast of Canada,Canada-DFO-PCOAST,qci,1
+SABLEFPCAN,Sablefish Pacific Coast of Canada,Canada-DFO-PCOAST,ncc,2
+SABLEFPCAN,Sablefish Pacific Coast of Canada,Canada-DFO-PCOAST,qcs,3
+SABLEFPCAN,Sablefish Pacific Coast of Canada,Canada-DFO-PCOAST,sog,4
+SABLEFPCAN,Sablefish Pacific Coast of Canada,Canada-DFO-PCOAST,wcvani,5
+SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,Canada-DFO-SMA-PRD,sma-prd,6
+SSSHRIMPSMA14,Sidestripe shrimp SMA 14,Canada-DFO-SMA-14,sma-14,8
+SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,Canada-DFO-SMA-FR,sma-fr,7
