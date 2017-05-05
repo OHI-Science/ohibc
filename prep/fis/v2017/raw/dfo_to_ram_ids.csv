@@ -1,1 +1,49 @@
-stock_id,stock_name,dfo_fishery,notesBOCACCBCW,Bocaccio British Columbia Waters,,CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,,ESOLEHS,English sole Hecate Strait,,EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,,HERRCC,Pacific herring Central Coast,,HERRQCI,Pacific herring Queen Charlotte Islands,,HERRSOG,Pacific herring Straight of Georgia,,HERRWCVANI,Pacific herring West Coast of Vancouver Island,,LINGCODSOG,Lingcod Strait of Georgia,,PANDALSMA14,Northern shrimp SMA 14,tot_shrimptrawl_sum_pinks_2005-2015.tif,Pink Shrimp - Spiny (Pandalus borealis)PANDALSMAFR,Northern shrimp SMA FR,tot_shrimptrawl_sum_pinks_2005-2015.tif,Pink Shrimp - Spiny (Pandalus borealis)PANDALSMAPRD,Northern shrimp SMA PRD,tot_shrimptrawl_sum_pinks_2005-2015.tif,Pink Shrimp - Spiny (Pandalus borealis)PCOD5AB,Pacific cod Queen Charlotte Sound,,PCODHS,Pacific cod Hecate Strait,,PCODWCVANI,Pacific cod West Coast of Vancouver Island,,PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,tot_groundfishlonglineold_popwt_2006-2012.tif,PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,tot_groundfishlonglineold_popwt_2006-2012.tif,RSOLE5AB,Rock sole Queen Charlotte Sound,,RSOLEHSTR,Rock sole Hecate Strait,,SABLEFPCAN,Sablefish Pacific Coast of Canada,tot_groundfishtrawlold_sablewt_1996-2012.tif,SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,tot_shrimptrawl_sum_sdstrp_2005-2015.tif,Sidestripe or Giant Shrimp (Pandalopsis dispar)SSSHRIMPSMA14,Sidestripe shrimp SMA 14,tot_shrimptrawl_sum_sdstrp_2005-2015.tif,Sidestripe or Giant Shrimp (Pandalopsis dispar)SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,tot_shrimptrawl_sum_sdstrp_2005-2015.tif,Sidestripe or Giant Shrimp (Pandalopsis dispar),,tot_shrimptrawl_sum_smth_p_2005-2015.tif,Smooth Pink or Ocean Pink Shrimp (Pandalus jordani),,tot_spotprawntrap_2001-2011.tif,,,tot_spotprawntrap_sum_cnstrp_2012-2015.tif,Coonstripe or Dock Shrimp (Pandalus danae),,tot_spotprawntrap_sum_hmpbck_2012-2015.tif,Humpback or King Shrimp (Pandalus hypsinotus),,tot_spotprawntrap_sum_prwn_w_2012-2015.tif,Prawn or Spot Shrimp (Pandalus platyceros),,tot_dungenesscrab_2001-2015.tif,,,tot_geoduck_2003-2014.tif,,,tot_groundfishhookline_2007-2015.tif,,,tot_groundfishlongline_2007-2014.tif,,,tot_groundfishlonglineold_hakewt_2006-2012.tif,,,tot_groundfishlonglineold_halibwt_2006-2012.tif,,,tot_groundfishlonglineold_otherwt_2006-2012.tif,,,tot_groundfishlonglineold_sablewt_2006-2012.tif,,,tot_groundfishtrawl_2007-2015.tif,,,tot_groundfishtrawlold_hakewt_1996-2012.tif,,,tot_groundfishtrawlold_halibwt_1996-2012.tif,,,tot_groundfishtrawlold_otherwt_1996-2012.tif,,,tot_groundfishtrawlold_popwt_1996-2012.tif,,,tot_sardine_2002-2012.tif,,,tot_scalloptrawl_2005-2015.tif,,,tot_shrimptrawl_sum_docks_2005-2015.tif,Coonstripe or Dock Shrimp (Pandalus danae),,tot_shrimptrawl_sum_hmpbck_2005-2015.tif,Humpback or King Shrimp (Pandalus hypsinotus),,tot_shrimptrawl_sum_othr_w_2005-2015.tif,,,tot_shrimptrawl_sum_prawns_2005-2015.tif,Prawn or Spot Shrimp (Pandalus platyceros)
+stock_id,stock_name,dfo_fishery,notes
+BOCACCBCW,Bocaccio British Columbia Waters,,
+CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,,
+ESOLEHS,English sole Hecate Strait,,
+EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,,
+HERRCC,Pacific herring Central Coast,tot_dfo_herring_catch_1989_2015.tif,
+HERRQCI,Pacific herring Queen Charlotte Islands,tot_dfo_herring_catch_1989_2015.tif,
+HERRSOG,Pacific herring Straight of Georgia,tot_dfo_herring_catch_1989_2015.tif,
+HERRWCVANI,Pacific herring West Coast of Vancouver Island,tot_dfo_herring_catch_1989_2015.tif,
+LINGCODSOG,Lingcod Strait of Georgia,,
+PANDALSMA14,Northern shrimp SMA 14,tot_shrimptrawl_sum_pinks_2005_2015.tif,Pink Shrimp - Spiny (Pandalus borealis)
+PANDALSMAFR,Northern shrimp SMA FR,tot_shrimptrawl_sum_pinks_2005_2015.tif,Pink Shrimp - Spiny (Pandalus borealis)
+PANDALSMAPRD,Northern shrimp SMA PRD,tot_shrimptrawl_sum_pinks_2005_2015.tif,Pink Shrimp - Spiny (Pandalus borealis)
+PCOD5AB,Pacific cod Queen Charlotte Sound,,
+PCODHS,Pacific cod Hecate Strait,,
+PCODWCVANI,Pacific cod West Coast of Vancouver Island,,
+PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,tot_groundfishlonglineold_popwt_2006_2012.tif,
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,tot_groundfishlonglineold_popwt_2006_2012.tif,
+PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,tot_groundfishtrawlold_popwt_1996_2012.tif,
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,tot_groundfishtrawlold_popwt_1996_2012.tif,
+RSOLE5AB,Rock sole Queen Charlotte Sound,,
+RSOLEHSTR,Rock sole Hecate Strait,,
+SABLEFPCAN,Sablefish Pacific Coast of Canada,tot_groundfishtrawlold_sablewt_1996_2012.tif,
+SABLEFPCAN,Sablefish Pacific Coast of Canada,tot_groundfishlonglineold_sablewt_2006_2012.tif,
+SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,tot_shrimptrawl_sum_sdstrp_2005_2015.tif,Sidestripe or Giant Shrimp (Pandalopsis dispar)
+SSSHRIMPSMA14,Sidestripe shrimp SMA 14,tot_shrimptrawl_sum_sdstrp_2005_2015.tif,Sidestripe or Giant Shrimp (Pandalopsis dispar)
+SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,tot_shrimptrawl_sum_sdstrp_2005_2015.tif,Sidestripe or Giant Shrimp (Pandalopsis dispar)
+,,tot_shrimptrawl_sum_smth_p_2005_2015.tif,Smooth Pink or Ocean Pink Shrimp (Pandalus jordani)
+,,tot_spotprawntrap_2001_2011.tif,
+,,tot_spotprawntrap_sum_cnstrp_2012_2015.tif,Coonstripe or Dock Shrimp (Pandalus danae)
+,,tot_spotprawntrap_sum_hmpbck_2012_2015.tif,Humpback or King Shrimp (Pandalus hypsinotus)
+,,tot_spotprawntrap_sum_prwn_w_2012_2015.tif,Prawn or Spot Shrimp (Pandalus platyceros)
+,,tot_dungenesscrab_2001_2015.tif,
+,,tot_geoduck_2003_2014.tif,
+,,tot_groundfishhookline_2007_2015.tif,
+,,tot_groundfishlongline_2007_2014.tif,
+,,tot_groundfishlonglineold_hakewt_2006_2012.tif,
+,,tot_groundfishlonglineold_halibwt_2006_2012.tif,
+,,tot_groundfishlonglineold_otherwt_2006_2012.tif,
+,,tot_groundfishtrawl_2007_2015.tif,
+,,tot_groundfishtrawlold_hakewt_1996_2012.tif,
+,,tot_groundfishtrawlold_halibwt_1996_2012.tif,
+,,tot_groundfishtrawlold_otherwt_1996_2012.tif,
+,,tot_sardine_2002_2012.tif,
+,,tot_scalloptrawl_2005_2015.tif,
+,,tot_shrimptrawl_sum_docks_2005_2015.tif,Coonstripe or Dock Shrimp (Pandalus danae)
+,,tot_shrimptrawl_sum_hmpbck_2005_2015.tif,Humpback or King Shrimp (Pandalus hypsinotus)
+,,tot_shrimptrawl_sum_othr_w_2005_2015.tif,
+,,tot_shrimptrawl_sum_prawns_2005_2015.tif,Prawn or Spot Shrimp (Pandalus platyceros)

@@ -1,5 +1,5 @@
 ---
-title: 'OHIBC: data prep for wild-capture fisheries'
+title: 'OHIBC: data prep for wild-capture fisheries: DFO fisheries datasets'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -24,7 +24,6 @@ knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
 library(sp)
 library(rgdal)
 library(raster)
-library(DT)
 
 dir_git <- '~/github/ohibc'
 source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
@@ -128,23 +127,31 @@ write_csv(dir_df, file.path(dir_goal, 'raw/fish_files_include_raw.csv'))
 ```
 
 
-## Generate required spatial files
+## Rasterize catch for gridded catch data
 
-* OHIBC region raster at 1000 m
-* RAM DFO regions polygons
-    * This will be used to create a lookup of RAM DFO regions to OHIBC regions, incl. area,
-    * or possibly to mask rasters
-* rasterize catch to 1000 m; 
-    * NOTE: catch IS NOT normalized by area (divide by 16 for 4 x 4 km cells); since we are working with relative weighting across regions, relative weight (or units of weight) will drop out of the calculations.  Normalizing just adds an additional slow step.
+Many of the DFO fisheries datasets are gridded at a 4 km x 4 km scale.  For these, we will rasterize the catch at a 1 km x 1 km scale, which can be summed across all years and portioned into regions for RAM-identified stocks and/or OHIBC regions.  NOTE: catch WILL NOT be normalized by area (divide by 16 for 4 x 4 km cells); since we are working with relative weighting across regions, relative weight (or units of weight) will drop out of the calculations.  Normalizing just adds an additional slow step.
 
+First we process the simple datasets, with a single catch value across all years.
 
 ``` {r setup_single_harvest_rasters}
 
+reload <- FALSE
+
 fish_files_single <- read_csv(file.path(dir_goal, 'raw/fish_files_include.csv')) %>%
   filter(include == TRUE) %>%
-  filter(!is.na(tot_catch_field))
+  filter(!is.na(tot_catch_field)) %>%
+  mutate(stock_name = str_replace_all(fishery, '[0-9_]', '') %>%
+           paste0('_', year))
+
+if(!reload) {
+  fis_rasts <- list.files(file.path(dir_goal_anx, 'fis_rasts')) %>%
+    str_replace('\\.tif', '')
+  fish_files_single <- fish_files_single %>%
+    filter(!stock_name %in% fis_rasts)
+}
 
 rast_rgn <- raster(file.path(dir_git, 'prep/spatial/raster/ohibc_rgn_raster_1000m.tif'))
+
 
 for(shp_id in unique(fish_files_single$shp)) {
   ### loop through each fishery directory
@@ -156,8 +163,7 @@ for(shp_id in unique(fish_files_single$shp)) {
   shp_file   <- file.path(shp_info$fish_dir, shp_id)
   shp_field  <- shp_info$catch_field
   shp_reproj <- shp_info$reproject
-  stock_name <- str_replace_all(shp_info$fishery, '[0-9_]', '') %>%
-    paste0('_', shp_info$year)
+  stock_name <- shp_info$stock_name
   
   message('Processing ', shp_id, ' to ', stock_name)
   message('  Projection: ', readLines(paste0(shp_file, '.prj')))
@@ -192,6 +198,8 @@ for(shp_id in unique(fish_files_single$shp)) {
 
 ```
 
+Then we run a similar process on the datasets with multiple fields available (e.g. individual stocks instead of total catch).
+
 ``` {r setup_multiple_harvest_rasters}
 
 fish_files_mult <- read_csv(file.path(dir_goal, 'raw/fish_files_include.csv')) %>%
@@ -199,6 +207,21 @@ fish_files_mult <- read_csv(file.path(dir_goal, 'raw/fish_files_include.csv')) %
   filter(!is.na(mult_catch_fields))
 
 rast_rgn <- raster(file.path(dir_git, 'prep/spatial/raster/ohibc_rgn_raster_1000m.tif'))
+
+reload <- FALSE
+
+if(!reload) {
+  stock_check_df <- fish_files_mult %>%
+    select(fishery, mult_catch_fields, year) %>%
+    mutate(field = str_split(mult_catch_fields, ' ')) %>%
+    unnest(field) %>%
+    mutate(stock_check = str_replace_all(fishery, '[0-9_]', '') %>%
+      paste0('_', tolower(field), '_', year, '.tif'))
+
+  fish_files_mult <- stock_check_df %>%
+    filter(!file.exists(file.path(dir_goal_anx, 'fis_rasts', stock_check)))
+
+}
 
 for(shp_id in unique(fish_files_mult$shp)) {
   ### loop through each fishery directory
@@ -252,13 +275,15 @@ for(shp_id in unique(fish_files_mult$shp)) {
 
 ```
 
-* Catch is summed across all years of data for each fishery group
-    * mean, rather than year-by-year, would avoid issues with non-overlapping year spans
-    * mean also smooths out uneven harvests from year-to-year and cell-to-cell
-    * sum will be adequate since we're looking at relative weight.  mean() might drop NAs rather than counting as zero...
+Catch is then summed across all years of data for each fishery group or stock.  These sums span the entire fishery and have not yet been isolated to RAM-identified regions, where appropriate.
+
+* mean, rather than year-by-year, would avoid issues with non-overlapping year spans
+* mean also smooths out uneven harvests from year-to-year and cell-to-cell
+* `sum` will be adequate since we're looking at relative weight.  `mean()` might drop NAs rather than counting as zero...
 
 ``` {r sum_catch_across_years}
-
+### Find all processed rasters (skipping .aux etc) and group by ignoring year tags;
+### also ditch any that start with 'tot' (for totaled rasters)
 rast_list <- list.files(file.path(dir_goal_anx, 'fis_rasts'), pattern = '.tif$', full.names = TRUE)
 
 rast_groups <- rast_list %>%
@@ -266,16 +291,26 @@ rast_groups <- rast_list %>%
   str_replace('_[0-9]{4}.tif', '') %>%
   unique()
 
-rast_groups <- rast_groups[!str_detect(rast_groups, '^tot')]
+groups_to_do <- rast_groups[!str_detect(rast_groups, '^tot')]
 
-for(gp in rast_groups) {
-  # gp <- rast_groups[1]
+reload <- FALSE
+if(!reload) {
+  rasts_done <- rast_groups[str_detect(rast_groups, '^tot')] %>%
+    str_replace('_[0-9]{4}', '') %>%
+    str_replace('^tot_', '')
+  
+  groups_to_do <- groups_to_do[!groups_to_do %in% rasts_done]
+}
+
+### Loop over all groups to create summed rasters
+for(gp in groups_to_do) {
+  # gp <- rast_groups[1] # gp <- 'groundfishlonglineold_hakewt'
 
   gp_rasts <- list.files(file.path(dir_goal_anx, 'fis_rasts'), 
-                         pattern = paste0('^', gp, '_[0-9]{4}'), 
+                         pattern = paste0('^', gp, '_[0-9]{4}.tif$'), 
                          full.names = TRUE)
 
-  cat(c('Processing ', gp, ': \n  ', paste(basename(gp_rasts), collapse = ', '), '\n'))
+  message('Processing ', gp, ': \n  ', paste(basename(gp_rasts), collapse = ', '))
   
   years    <- basename(gp_rasts) %>% 
     str_extract('[0-9]{4}') %>%
@@ -283,17 +318,111 @@ for(gp in rast_groups) {
   
   gp_stack <- raster::stack(gp_rasts)
   
-  cat('... summing across all years\n')
-  gp_sum <- raster::calc(gp_stack, sum, na.rm = TRUE)
+  message('...summing across all years...')
+  gp_sum <- sum(gp_stack, na.rm = TRUE)
   
-  rast_file <- paste0('tot_', gp, '_', min(years), '-', max(years), '.tif')
+  values(gp_sum)[values(gp_sum) == 0] <- NA
   
-  cat(c('... Writing sum of ', gp, ' catch to ', rast_file, '\n'))
+  message('...Checking raster...')
+  x <- values(gp_sum)
+  n_cells <- sum(values(gp_sum) != 0); xrange <- range(x, na.rm = TRUE)
+  message('  Range of new raster: ', xrange[1], ' to ', xrange[2], '\n',
+        ' number of non-zero cells = ', n_cells)
+
+  rast_file <- paste0('tot_', gp, '_', min(years), '_', max(years), '.tif')
+  
+  message('... Writing sum of ', gp, ' catch to ', rast_file)
   writeRaster(gp_sum, 
               file.path(dir_goal_anx, 'fis_rasts', rast_file), 
               overwrite = TRUE)
-  
 }
+
+result_rasts <- list.files(file.path(dir_goal_anx, 'fis_rasts'), pattern = '^tot')
+result_rasts <- result_rasts[str_detect(result_rasts, 'tif$')]
+
+```
+
+`r paste(result_rasts, collapse = '\n')`
+
+## Herring data
+
+Herring catch is available as .xlsx files, with catch totals by year/season and by herring section.  These will be treated differently than the gridded catch data.  
+
+* The catch data will be summed across all years for each section.  We will include both 'roe herring' and 'test' dispositions.
+* A raster will be created that substitutes section data with catch data; the catch data will be area-weighted across the section.
+* The resulting raster will display the catch across the entire region, not yet divided into RAM-identified regions.
+
+``` {r create_herring_section_rast}
+### Create herring section raster at 1000 m resolution
+rast_rgn <- raster(file.path(dir_git, 'prep/spatial/raster/ohibc_rgn_raster_1000m.tif'))
+herr_sect_rast_file <- file.path(dir_goal_anx, 'stock_boundaries/dfo_herring_sections.tif')
+
+if(!file.exists(herr_sect_rast_file)) {
+    
+  # ogrListLayers(file.path(dir_dfo_data, 'd2017/boundaries.gdb')) # Herring_Sections
+  herr_sect_poly <- readOGR(dsn = file.path(dir_dfo_data, 'd2017/boundaries.gdb'),
+                            layer = 'Herring_Sections')
+  # herr_sect_poly@proj4string # BC Albers!
+  # herr_sect_poly@data$Section %>% unique() # this is the field
+  writeOGR(herr_sect_poly, dsn = path.expand(dir_goal), layer = 'tmp_herr_sect_poly', driver = 'ESRI Shapefile', overwrite_layer = TRUE)
+  
+  herr_sect_rast <- gdal_rast2(src       = file.path(dir_goal, 'tmp_herr_sect_poly'),
+                               rast_base = rast_rgn,
+                               dst       = herr_sect_rast_file,
+                               value     = 'Section',
+                               override_p4s = TRUE)
+  unlink(file.path(dir_goal, 'tmp_herr_sect_poly.*'))
+
+} else {
+  git_prov(file.path(dir_dfo_data, 'd2017/boundaries.gdb'), filetype = 'input')
+  git_prov(herr_sect_rast_file, filetype = 'output')
+}
+
+```
+
+Note that some of the herring sections with catch reported do not seem to have polygons in the herring_sections shapefile.  These will be dropped, since the spatial locations of these sections cannot be readily identified (for now).
+
+``` {r process_herring_catch}
+
+herr_xlsx <- file.path(dir_dfo_data, 'd2016/fisheries/HerringCatch 19890-20145 MainCatchTable_IMPORT.xlsx')
+# readxl::excel_sheets(herr_xlsx) # HerringCatch_1989_2015
+# readxl::read_excel(herr_xlsx, sheet = 'Read me') 
+# Note 1: Catch is recorded as metric tonnes.
+# Note 2: Herring Season runs from July 1 to June 30 of the following year. For example, Herring Season 20123 runs from July 1, 2012 to June 30, 2013.
+# Note 3: For more information about Herring Sections and Statistical Areas please refer to http://www.dfo-mpo.gc.ca/Library/274857.pdf
+# Note 4: Since 19978 Herring Roe Fishery has been a pool fishery. All pool roe herring catch can be released. Prior to that we do have license information for roe catch to use for 3 party rule.
+# Note 5: For some years Roe Catch is Roe Herring + Test Fishery (disposals).
+# Note 6: There is no Latitude and Longitude data associated with roe catch. For this request we have linked the Herring Locations to BC Gazetteer latitudes and longitudes. So some locations may plot on land.
+
+herr_catch_raw <- readxl::read_excel(herr_xlsx, sheet = 'HerringCatch_1989_2015')
+
+herr_catch <- herr_catch_raw %>%
+  setNames(tolower(names(.)) %>% str_replace_all('[^a-z]', '_')) %>%
+  select(statarea, herring_section, catch) %>%
+  mutate(herring_section = as.integer(herring_section)) %>%
+  group_by(herring_section) %>%
+  summarize(total_catch = sum(catch, na.rm = TRUE))
+
+herr_sect_rast_file <- file.path(dir_goal_anx, 'stock_boundaries/dfo_herring_sections.tif')
+herr_sect_rast <- raster(herr_sect_rast_file)
+
+herr_sect_area <- data.frame(herring_section = values(herr_sect_rast)) %>%
+  group_by(herring_section) %>%
+  summarize(area_km2 = n()) %>%
+  filter(!is.na(herring_section))
+
+herr_catch_per_km2 <- herr_catch %>%
+  left_join(herr_sect_area, by = 'herring_section') %>%
+  mutate(total_catch_km2 = total_catch/area_km2)
+
+herr_catch_rast <- subs(herr_sect_rast, herr_catch_per_km2, 
+                        by = 'herring_section', 
+                        which = 'total_catch_km2', 
+                        subsWithNA = TRUE)
+
+writeRaster(herr_catch_rast, file.path(dir_goal_anx, 'fis_rasts/tot_dfo_herring_catch_1989_2015.tif'), overwrite = TRUE)
+
+plot(herr_catch_rast)
 
 ```
 
@@ -303,66 +432,134 @@ Most of these DFO fishery datasets do not align directly with RAM stocks.  Here 
 
 `r DT::datatable(read_csv(file.path(dir_goal, 'raw', 'dfo_to_ram_ids.csv')))`
 
+## Clip to RAM stock areas and aggregate to regions
 
-``` {r aggregate_to_rgn, eval = FALSE}
-if(!exists('rast_rgn'))
-  rast_rgn <- raster(file.path(dir_git, 'prep/spatial/ohibc_rgn_raster_1000m.tif'))
+For the subset of DFO fisheries that are associated with RAM stocks, we will clip the raster data to the appropriate RAM regions and aggregate catch to the OHIBC region level, in order to properly weight catches (based on RAM-reported total catch) across regions.
 
-dir_rast <- file.path(dir_anx, goal, scenario, 'spatial')
+* For each RAM stock, identify the fishery raster(s) to determine catch
+    * for each raster,mask against RAM area polygons listed for that raster.
+    * Then use zonal against the OHIBC 1000m regions raster to tally up catch within each region.
+* Create dataframe of all RAM stock catches by OHIBC region and save to:
+    * `fis/v2017/int/rgn_stock_wt_dfo.csv'
 
-zonestats <- function(stock, value, yrs, fun = 'sum') {
-  fis_df <- data.frame()
-  for (yr in yrs) { # yr <- 2001
-    tmp_rast <- raster(file.path(dir_rast, sprintf('%s%s_%s.tif', stock, yr, value)))
-    tmp_zonal <- zonal(tmp_rast, rast_rgn, fun = fun, digits=0, na.rm=TRUE) %>%
-      as.data.frame()
-    fis_df <- bind_rows(tmp_zonal, fis_df)
+``` {r aggregate_to_ohibc_rgns}
+
+### get stock info
+ram_stock_areas  <- read_csv(file.path(dir_goal, 'int', 'ram_stock_to_area.csv'))
+dfo_to_ram <- read_csv(file.path(dir_goal, 'raw', 'dfo_to_ram_ids.csv')) %>%
+  filter(!is.na(dfo_fishery) & !is.na(stock_id)) %>%
+  left_join(ram_stock_areas, by = c('stock_id', 'stock_name'))
+  
+ram_stocks <- dfo_to_ram$stock_id %>% unique()
+
+### get spatial info and raster locations
+rast_rgn <- raster(file.path(dir_git, 'prep/spatial/raster/ohibc_rgn_raster_1000m.tif'))
+ram_area_poly <- readOGR(dsn = file.path(dir_goal_anx, 'stock_boundaries'),
+                         layer = 'stock_boundaries_bcalb')
+dir_dfo_rasts <- file.path(dir_goal_anx, 'fis_rasts')
+
+stock_weight_df <- data.frame()
+for(stock in ram_stocks) {
+  ### stock <- ram_stocks[2]
+  cat(c('Processing DFO data for RAM stock: ', stock, '\n'))
+  # message('Processing DFO data for RAM stock: ', stock)
+  stock_df <- dfo_to_ram %>%
+    filter(stock_id == stock)
+  poly <- ram_area_poly[ram_area_poly@data$area_id %in% stock_df$area_id, ]
+  
+  if(length(stock_df$dfo_fishery) > 1) {
+    cat(c('Adding catches from multiple sources: ', paste(unique(stock_df$dfo_fishery), collapse = ', '), '\n'))
+    # message('Adding catches from multiple sources: ', paste(unique(stock_df$dfo_fishery), collapse = ', '))
+    rast <- raster::stack(file.path(dir_dfo_rasts, stock_df$dfo_fishery)) %>%
+      sum(na.rm = TRUE)
+  } else {
+    rast <- raster::raster(file.path(dir_dfo_rasts, stock_df$dfo_fishery))
   }
-names(fis_df) <- c('rgn_id', value, 'year')
-return(fis_df)
+  
+  cat(c('Masking raster to region(s): ', paste(unique(stock_df$area_code), collapse = ', '), '\n'))
+  # message('Masking raster to region(s): ', paste(unique(stock_df$area_code), collapse = ', '))
+  rast_masked <- raster::mask(rast, poly)
+  
+  cat('Getting zonal stats by OHIBC region...\n')
+  # message('Getting zonal stats by OHIBC region...')
+  stock_vals <- raster::zonal(rast_masked, rast_rgn, fun = 'sum') %>%
+    as.data.frame() %>%
+    setNames(c('rgn_id', 'catch_total')) %>%
+    mutate(ram_stock_id = stock,
+           dfo_stock    = paste(stock_df$dfo_fishery, collapse = ', '),
+           catch_wt     = catch_total/sum(catch_total, na.rm = TRUE),
+           catch_wt     = round(catch_wt,))
+  
+  stock_weight_df <- stock_weight_df %>%
+    bind_rows(stock_vals)
 }
 
-### dungeness crabs!
-fis_stock <- 'crabtrap_dungeness'
-fis_value <- 'catch_kg'
-fis_fun   <- 'sum'
-yrs <- c(2001:2011)
+write_csv(stock_weight_df, file.path(dir_goal, 'output', 'rgn_stock_wt_dfo.csv'))
 
-catch_df  <- zonestats(fis_stock, 'catch_kg',  yrs, fis_fun)
-effort_df <- zonestats(fis_stock, 'effort_hr', yrs, fis_fun)
-write_csv(catch_df, file.path(dir_goal, sprintf('int/%s_catch_kg.csv', fis_stock)))
-write_csv(effort_df, file.path(dir_goal, sprintf('int/%s_effort_hr.csv', fis_stock)))
-
-### Geoduck!
-fis_stock <- 'dive_geoduck'
-fis_fun   <- 'sum'
-yrs <- c(2003:2011)
-
-catch_df  <- zonestats(fis_stock, 'catch_kg',  yrs, fis_fun)
-effort_df <- zonestats(fis_stock, 'effort_hr', yrs, fis_fun)
-write_csv(catch_df, file.path(dir_goal, sprintf('int/%s_catch_kg.csv', fis_stock)))
-write_csv(effort_df, file.path(dir_goal, sprintf('int/%s_effort_hr.csv', fis_stock)))
-
-### Spot prawns!
-fis_stock <- 'prawntrap_prawns'
-fis_fun   <- 'sum'
-yrs <- c(2001:2002)
-
-catch_df  <- zonestats(fis_stock, 'catch_kg',  yrs, fis_fun)
-effort_df <- zonestats(fis_stock, 'effort_trp', yrs, fis_fun)
-write_csv(catch_df, file.path(dir_goal, sprintf('int/%s_catch_kg.csv', fis_stock)))
-write_csv(effort_df, file.path(dir_goal, sprintf('int/%s_effort_trp.csv', fis_stock)))
-
-### Sardines!
-fis_stock <- 'sardines'
-fis_fun   <- 'sum'
-yrs <- c(2002:2004)
-  
-catch_df  <- zonestats(fis_stock, 'sum_estton',  yrs, fis_fun)
-write_csv(catch_df, file.path(dir_goal, sprintf('int/%s_catch_estton.csv', fis_stock)))
+DT::datatable(stock_weight_df %>% left_join(get_rgn_names(), by = 'rgn_id'))
 
 ```
 
+### Total catch by region (summed across all years)
+
+``` {r plot_catch_by_rgn}
+
+sum_by_ohibc_rgn <- read_csv(file.path(dir_goal, 'output/rgn_stock_wt_dfo.csv')) %>%
+  left_join(read_csv(file.path(dir_goal, 'raw', 'ram_ids_to_names.csv')),
+            by = c('ram_stock_id' = 'stock_id')) %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
+
+
+ohibc_rgn_catch_plot <- ggplot(sum_by_ohibc_rgn, aes(x = stock_name_mod, y = catch_total, fill = rgn_name)) +
+  ggtheme_plot(base_size = 7) +
+  geom_bar(stat = 'identity') +
+  scale_fill_brewer(palette = 'Dark2') +
+  coord_flip()
+
+ohibc_rgn_weight_plot <- ggplot(sum_by_ohibc_rgn, aes(x = stock_name_mod, y = catch_wt, fill = rgn_name)) +
+  ggtheme_plot(base_size = 7) +
+  geom_bar(stat = 'identity') +
+  scale_fill_brewer(palette = 'Dark2') +
+  coord_flip()
+
+```
+
+### Meanwhile, create a uniform distribution table
+
+... for RAM regions to OHIBC region.  For any RAM fisheries whose catch is not spatialized in either SAUP or DFO data, we will assume a uniform distribution across the RAM-defined region, and assign weights to OHIBC regions accordingly.
+
+
+``` {r RAM_rgn_to_OHIBC_uniform}
+
+### get spatial info
+rast_rgn <- raster(file.path(dir_git, 'prep/spatial/raster/ohibc_rgn_raster_1000m.tif'))
+ram_area_poly <- readOGR(dsn = file.path(dir_goal_anx, 'stock_boundaries'),
+                         layer = 'stock_boundaries_bcalb')
+
+rgn_wt_file <- file.path(dir_goal, 'output', 'rgn_stock_wt_uniform.csv')
+
+if(!file.exists(rgn_wt_file)) {
+  ohibc_ram_extract <- raster::extract(rast_rgn, ram_area_poly) %>%
+    lapply(FUN = function(x) data.frame(rgn_id = x)) %>%
+    setNames(ram_area_poly@data$area_id) %>%
+    bind_rows(.id = 'area_id') 
+  
+  ohibc_to_ram_rgn <- ohibc_ram_extract %>%
+    mutate(area_id = as.integer(area_id)) %>%
+    group_by(rgn_id, area_id) %>%
+    summarize(area_km2 = n()) %>%
+    filter(!is.na(rgn_id) & !is.na(area_id)) %>%
+    group_by(area_id) %>%
+    mutate(ram_area_wt = area_km2 / sum(area_km2),
+           ram_area_wt = round(ram_area_wt, 5)) %>%
+    left_join(ram_area_poly@data, by = 'area_id')
+    
+  write_csv(ohibc_to_ram_rgn, rgn_wt_file)
+
+} else {
+  git_prov(rgn_wt_file, filetype = 'output')
+} 
+```
 
 -----
 

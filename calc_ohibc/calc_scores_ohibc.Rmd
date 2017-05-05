@@ -75,7 +75,7 @@ write_csv(lyrs %>%
 ### confirm all layers conform to details of layers.csv
 conf   <- Conf(file.path(dir_calc, 'conf'))
 
-capture.output( ### the function prints crap to screen
+capture.output( ### the function prints a lot crap to screen - let's change those to messages please!
   {
     CheckLayers(layers.csv = file.path(dir_calc, 'layers.csv'),
               layers.dir = file.path(dir_calc, 'layers'),
@@ -94,7 +94,7 @@ unlink('delete_this.txt')
 * Initialize scores_all dataframe to hold scores for all years
 * Calculate scores for each scenario and append to scores_all
 
-``` {r iterate across years}
+``` {r configure_toolbox}
 
 status_years <- read_csv(file.path(dir_calc, 'master/status_year_matrix_master.csv')) %>%
   .$status_year %>%
@@ -106,6 +106,10 @@ layers <- Layers(layers.csv = file.path(dir_calc, 'layers.csv'),
 
 layers$data$dir_calc   <- dir_calc
 layers$data$stat_yr_matrix <- read_csv(file.path(dir_calc, 'conf/status_year_matrix.csv'))
+
+```
+
+``` {r iterate_across_years}
 
 scores_all <- data.frame() ### initialize scores
 

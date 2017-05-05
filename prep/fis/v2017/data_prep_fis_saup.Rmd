@@ -380,21 +380,35 @@ saup_bc_sum <- saup_bc_clean %>%
 saup_bc_sum <- saup_bc_sum %>%
   inner_join(ram_to_saup_spp, by = c('taxonkey' = 'saup_taxonkey', 'area_id'))
 
-saup_bc_catch_tot <- saup_bc_sum %>%
+write_csv(saup_bc_sum, file.path(dir_goal, 'int/saup_bc_summary.csv'))
+
+```
+
+``` {r saup_to_ram_by_rgn}
+
+# rgn_id,catch_total,ram_stock_id,dfo_stock,catch_wt
+
+saup_catch_rgn_yr <- read_csv(file.path(dir_goal, 'int/saup_bc_summary.csv')) %>%
   group_by(year,
            rgn_id,
-           area_id,
-           taxonkey) %>%
-  summarize(catch_total = sum(rgn_catch)) %>%
+           taxonkey,
+           ram_stockid) %>%
+  summarize(rgn_catch = sum(rgn_catch)) %>%
   ungroup()
-  
+
+rgn_stock_wt_saup <- saup_catch_rgn_yr %>%
+  group_by(rgn_id, taxonkey, ram_stockid) %>%
+  summarize(catch_total = sum(rgn_catch)) %>%
+  group_by(taxonkey, ram_stockid) %>%
+  mutate(catch_wt = catch_total / sum(catch_total),
+         catch_wt = ifelse(is.nan(catch_wt), 0, round(catch_wt, 5)))
+
 
 saup_ids <- saup_bc_clean %>%
   dplyr::select(taxonkey, taxonsciname, taxoncomname, taxongroup) %>%
   distinct()
 
-write_csv(saup_bc_sum, file.path(dir_goal, 'int/saup_bc_summary.csv'))
-write_csv(saup_bc_sum, file.path(dir_goal, 'output/saup_catch_tot.csv'))
+write_csv(rgn_stock_wt_saup, file.path(dir_goal, 'output/rgn_stock_wt_saup.csv'))
 write_csv(saup_ids, file.path(dir_goal, 'int/saup_species_ids.csv'))
 
 ```
@@ -407,36 +421,23 @@ write_csv(saup_ids, file.path(dir_goal, 'int/saup_species_ids.csv'))
 
 ``` {r plot_catch_by_rgn}
 
-saup_bc_sum <- read_csv(file.path(dir_goal, 'output/saup_catch_tot.csv')) %>%
+sum_by_ohibc_rgn <- read_csv(file.path(dir_goal, 'output/rgn_stock_wt_saup.csv')) %>%
   left_join(read_csv(file.path(dir_goal, 'raw', 'ram_ids_to_names.csv')),
-            by = c('ram_stockid' = 'stock_id'))
-
-sum_by_ram_area <- saup_bc_sum %>%
-  group_by(year, stock_name_mod, taxonkey, area_id, area_code) %>%
-  summarize(catch = sum(rgn_catch)) %>%
-  ungroup()
-
-sum_by_ohibc_rgn <- saup_bc_sum %>%
-  group_by(year, stock_name_mod, taxonkey, rgn_id) %>%
-  summarize(catch = sum(rgn_catch)) %>%
-  ungroup() %>%
+            by = c('ram_stockid' = 'stock_id')) %>%
   left_join(get_rgn_names(), by = 'rgn_id')
 
 
-ram_rgn_plot <- ggplot(sum_by_ram_area, aes(x = stock_name_mod, y = catch, fill = area_code)) +
+ohibc_rgn_plot <- ggplot(sum_by_ohibc_rgn, aes(x = stock_name_mod, y = catch_total, fill = rgn_name)) +
   ggtheme_plot(base_size = 7) +
   geom_bar(stat = 'identity') +
+  scale_fill_brewer(palette = 'Dark2') +
   coord_flip()
 
-ggsave(file.path(dir_goal, 'Figs', 'saup_catch_by_ram_rgn.png'), width = 6, height = 6)
-
-ohibc_rgn_plot <- ggplot(sum_by_ohibc_rgn, aes(x = stock_name_mod, y = catch, fill = rgn_name)) +
+ohibc_rgn_plot <- ggplot(sum_by_ohibc_rgn, aes(x = stock_name_mod, y = catch_wt, fill = rgn_name)) +
   ggtheme_plot(base_size = 7) +
   geom_bar(stat = 'identity') +
+  scale_fill_brewer(palette = 'Dark2') +
   coord_flip()
-
-ggsave(file.path(dir_goal, 'Figs', 'saup_catch_by_ohibc_rgn.png'), width = 6, height = 6)
-
 
 ```
 
