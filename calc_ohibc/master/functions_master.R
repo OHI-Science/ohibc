@@ -125,8 +125,7 @@ FIS <- function(layers) {
 
   status_year <- layers$data$status_year
   data_year <- get_data_year('FIS', status_year, layers)
-
-  year_span <- c(1990:2017)
+  year_span <- layers$data$year_span
 
   ram_b_bmsy        <- layers$data[['fis_ram_b_bmsy']] %>%
     select(year, stock_id, b_bmsy = value)
@@ -148,6 +147,16 @@ FIS <- function(layers) {
   ##### run each fishery through the Kobe plot calcs #####
   ########################################################.
   ### * ram_b_bmsy, ram_f_fmsy
+
+  ### Apply rolling mean to F/Fmsy
+  ram_f_fmsy <- ram_f_fmsy %>%
+    mutate(f_fmsy_raw = f_fmsy) %>%
+    arrange(stock_id, year) %>%
+    group_by(stock_id) %>%
+    filter(!is.na(f_fmsy)) %>%
+    mutate(f_fmsy = zoo::rollmean(f_fmsy_raw, k = 4, align = 'right', fill = NA)) %>%
+    ungroup() %>%
+    select(-f_fmsy_raw)
 
   ### Function for converting B/Bmsy values into a 0 - 1 score
   rescale_bprime_crit <- function(fish_stat_df, underfished_th = 1.5,
@@ -264,16 +273,11 @@ FIS <- function(layers) {
     ungroup() %>%
     full_join(catch_df, by = c('stock_id', 'year')) %>%
     select(rgn_id, year, stock_id, score, rgn_catch) %>%
-    filter(year %in% year_span)
+    filter(year %in% year_span & !is.na(rgn_id))
 
-  score_df <- stock_score_df %>%
-    group_by(rgn_id, year) %>%
-    mutate(stock_catch = sprintf('%s: %.2f', stock_id, rgn_catch)) %>%
-    summarize(total_catch = sum(rgn_catch),
-              total_score = sum(score * rgn_catch) / total_catch,
-              n_stocks    = sum(rgn_catch > 0),
-              stocks      = paste(tolower(stock_catch), collapse = '\n')) %>%
-    ungroup()
+  if(data_year == max(year_span)) {
+    write_csv(stock_score_df, '~/github/ohibc/prep/fis/v2017/summary/fis_from_functions.csv')
+  }
 
   ### plotting fishery catch weighting by region
   # stock_plot_df <- stock_score_df %>%
@@ -295,6 +299,15 @@ FIS <- function(layers) {
   #          y     = 'Proportion of catch')
   #   print(rgn_plot)
   # }
+
+  score_df <- stock_score_df %>%
+    group_by(rgn_id, year) %>%
+    mutate(stock_catch = sprintf('%s: %.2f', stock_id, rgn_catch)) %>%
+    summarize(total_catch = sum(rgn_catch),
+              total_score = sum(score * rgn_catch) / total_catch,
+              n_stocks    = sum(rgn_catch > 0),
+              stocks      = paste(tolower(stock_catch), collapse = '\n')) %>%
+    ungroup()
 
   fis_status <- score_df %>%
     select(region_id = rgn_id, year, score = total_score) %>%
@@ -487,9 +500,8 @@ AO <- function(layers) {
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
 
   status_year <- layers$data$status_year
+  year_span <- layers$data$year_span
   data_year <- get_data_year('AO', status_year, layers)
-
-  year_span <- c(1990:2017)
 
   ### get the data:
   closures <- layers$data[['ao_closures']]
@@ -561,15 +573,19 @@ AO <- function(layers) {
     mutate(goal      = 'AO',
            dimension = 'status')
 
-  # ao_status_components <- bind_rows(closure_status, license_status, shi_status, salmon_status) %>%
-  #   filter(year %in% 2000:2017) %>%
-  #   filter(!is.na(region_id)) %>%
-  #   left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')) %>%
-  #   left_join(ao_status, by = c('year', 'region_id'))
+  if(data_year == max(year_span)) {
+    ao_status_components <- bind_rows(closure_status, license_status, shi_status, salmon_status) %>%
+      filter(year %in% 2000:2017) %>%
+      filter(!is.na(region_id)) %>%
+      left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')) %>%
+      left_join(ao_status, by = c('year', 'region_id'))
+
+    write_csv(ao_status_components, '~/github/ohibc/prep/ao/v2017/summary/ao_from_functions.csv')
   # ggplot(ao_status_components, aes(x = year, y = status, group = component, color = component)) +
   #   geom_line(aes(y = score), color = 'grey40', size = 1.5, alpha = .8) +
   #   geom_line(size = 1, alpha = .8) +
   #   facet_wrap( ~ rgn_name)
+  }
 
   ## reference points
   write_ref_pts(goal   = "AO",
@@ -587,7 +603,6 @@ AO <- function(layers) {
     bind_rows(ao_trend) %>%
     select(region_id, goal, dimension, score)
 
-  cat('Returning AO scores... ')
   return(ao_scores)
 
 }
@@ -598,8 +613,7 @@ CS <- function(layers) {
 
   status_year <- layers$data$status_year
   data_year <- get_data_year('CS', status_year, layers)
-
-  year_span <- c(1990:2017)
+  year_span <- layers$data$year_span
 
   # Carbon burial rates (gC m^-2^ yr^-1^)
   #
@@ -669,8 +683,7 @@ CP <- function(layers) {
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
   status_year <- layers$data$status_year
   data_year <- get_data_year('CP', status_year, layers)
-
-  year_span <- c(1990:2017)
+  year_span <- layers$data$year_span
 
   # Protection values
   # Protection weights are assigned based on vulnerability values from InVEST
@@ -1581,8 +1594,7 @@ CW <- function(layers) {
 
   status_year <- layers$data$status_year
   data_year <- get_data_year('CW', status_year, layers)
-
-  year_span <- c(2000:2016)
+  year_span <- layers$data$year_span
 
   # # layers
   # lyrs <- c('po_pathogens', 'po_nutrients_3nm', 'po_chemicals_3nm', 'po_trash',
@@ -1671,8 +1683,7 @@ HAB <- function(layers) {
 
   status_year <- layers$data$status_year
   data_year <- get_data_year('HAB', status_year, layers)
-
-  year_span <- c(1990:2017)
+  year_span <- layers$data$year_span
 
   ### get the data:
   ebsa_health <- layers$data[['hab_ebsa_health']] %>%

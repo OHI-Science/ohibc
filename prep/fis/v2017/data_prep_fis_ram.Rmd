@@ -226,7 +226,103 @@ ggsave(file.path(dir_goal, 'Figs', 'ram_stock_id_spans.png'), width = 6, height 
 
 ![](Figs/ram_stock_id_spans.png)
 
-### Associate stocks with spatial boundaries
+## Plot stock status against modified Kobe
+
+``` {r examine_each_stock, cache = FALSE}
+
+stocks_ts_df <- bind_rows(read_csv(file.path(dir_goal, 'output/ram_b_bmsy.csv')),
+                     read_csv(file.path(dir_goal, 'output/ram_f_fmsy.csv'))) %>%
+  left_join(read_csv(file.path(dir_goal, 'raw', 'ram_ids_to_names.csv'))) %>%
+  ungroup() %>%
+  mutate(param = str_replace_all(tolower(param), '[^a-z]', '_') %>%
+           str_replace_all('u', 'f')) %>%
+  spread(key = param, value = value)
+
+### apply four-year rolling mean to F/Fmsy
+stocks_ts_df <- stocks_ts_df %>%
+    mutate(f_fmsy_raw = f_fmsy) %>%
+    arrange(stock_id, year) %>%
+    group_by(stock_id) %>%
+    filter(!is.na(f_fmsy)) %>%
+    mutate(f_fmsy = zoo::rollmean(f_fmsy_raw, k = 4, align = 'right', fill = NA)) %>%
+    ungroup() %>%
+    select(-f_fmsy_raw)
+
+
+stocks_ts_df <- stocks_ts_df %>%
+  group_by(stock_id) %>%
+  arrange(year) %>%
+  mutate(last_bbmsy = last(b_bmsy),
+         last_ffmsy = last(f_fmsy),
+         last_datayear = last(year)) %>%
+  ungroup()
+
+spp_ids <- stocks_ts_df %>%
+  .$stock_id %>%
+  unique()
+
+for(spp in spp_ids) {
+  # spp <- spp_ids[1]
+  stocks_ts1 <- stocks_ts_df %>%
+    # filter(str_detect(tolower(stocklong), 'herring'))
+    filter(stock_id == spp) %>%
+    filter(!is.na(f_fmsy))
+  
+  bbmsy_lim <- max(round(max(stocks_ts1$b_bmsy, na.rm = TRUE) + .1, 1), 3.5)
+  ffmsy_lim <- max(round(max(stocks_ts1$f_fmsy, na.rm = TRUE) + .1, 1), 2.5)
+  
+  kobe_df <- generate_kobe_df(f_fmsy_max = ffmsy_lim,
+                           b_bmsy_max = bbmsy_lim,
+                           bmax_val = .25,
+                           fmin_val = .25)
+  
+  hcr_df <- data.frame(b_bmsy = c(0, .4, .8, bbmsy_lim),
+                       f_fmsy = c(0,  0,  1, 1))
+  
+  plot_title <- stocks_ts1$stock_name_mod[1]
+  
+  kobe_stock_plot <- ggplot(data = kobe_df, aes(x = b_bmsy, y = f_fmsy)) +
+    ggtheme_plot() + 
+    geom_raster(alpha = .8, aes(fill = x_geom), show.legend = FALSE) +
+    scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
+    geom_line(data = hcr_df, aes(x = b_bmsy, y = f_fmsy), color = 'black', size = 1.5, alpha = .6) +
+    labs(title = plot_title,
+         x = 'B/Bmsy',
+         y = 'F/Fmsy') +
+    annotate(geom = 'text', label = 'critical', x = .15, y = -.15, 
+             size = 2, 
+             color = 'grey20') + 
+    annotate(geom = 'text', label = 'cautious', x =  .5, y = -.15, 
+             size = 2, 
+             color = 'grey20') + 
+    annotate(geom = 'text', label = 'healthy',  x = 1.2, y = -.15, 
+             size = 2, 
+             color = 'grey20') + 
+    annotate(geom = 'text', label = 'underexploited',  x = 2.5, y = -.15, 
+             size = 2, 
+             color = 'grey20') +
+    geom_path(data = stocks_ts1, 
+              show.legend = FALSE,
+              aes(x = b_bmsy, y = f_fmsy, group = stock_id),
+              color = 'grey30') +
+    geom_point(data = stocks_ts1, 
+               show.legend = FALSE,
+              aes(x = last_bbmsy, y = last_ffmsy)) +
+    geom_text(data = stocks_ts1 %>%
+                mutate(year = ifelse(year/5 == round(year/5) | year == last_datayear, year, NA)), 
+              aes(x = b_bmsy, y = f_fmsy, label = year), 
+              hjust = 0, nudge_x = .05, size = 2)
+  
+  print(kobe_stock_plot)
+  
+  plot_file <- paste0('kobe_', str_replace_all(tolower(plot_title), ' ', '_'), '.png')
+  ggsave(file.path(dir_goal, 'Figs', plot_file),
+         width = 6, height = 4)
+}
+
+```
+
+## Associate stocks with spatial boundaries
 
 Spatial boundaries for RAM stocks are derived from shapefiles provided by DFO.  
 

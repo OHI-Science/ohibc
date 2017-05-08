@@ -106,6 +106,7 @@ layers <- Layers(layers.csv = file.path(dir_calc, 'layers.csv'),
 
 layers$data$dir_calc   <- dir_calc
 layers$data$stat_yr_matrix <- read_csv(file.path(dir_calc, 'conf/status_year_matrix.csv'))
+layers$data$year_span <- 1990:2016
 
 ```
 
@@ -169,6 +170,38 @@ for(goalname in scores$goal %>% unique() %>% sort) {
   print(status_plot)
 }
 
+
+```
+
+``` {r plot_fis}
+
+  ## plotting fishery catch weighting by region
+  stock_plot_df <- read_csv(file.path(dir_ohibc, 'prep/fis/v2017/summary/fis_from_functions.csv')) %>%
+    group_by(rgn_id, year) %>%
+    mutate(total_catch = sum(rgn_catch),
+           rgn_catch_pct = rgn_catch / total_catch,
+           total_score = sum(score * rgn_catch) / total_catch) %>%
+    ungroup() %>%
+    left_join(get_rgn_names(), by = 'rgn_id')
+
+  for(rgn in 1:8) {
+    rgn_plot_df <- stock_plot_df %>%
+      filter(rgn_id == rgn)
+    status_plot <- ggplot(rgn_plot_df, aes(x = year, y = score)) +
+      geom_line(aes(group = stock_id, color = stock_id,
+                    size = rgn_catch_pct),
+                lineend = 'round', alpha = .5) +
+      scale_size_continuous(guide = FALSE) +
+      geom_line(data = rgn_plot_df %>%
+                  select(year, total_score) %>%
+                  distinct(),
+                aes(x = year, y = total_score),
+                size = 1.5, color = 'grey20')  +
+      labs(title = first(rgn_plot_df$rgn_name),
+           color = 'Stock ID',
+           y     = 'Proportion of catch')
+    print(status_plot)
+  }
 
 ```
 

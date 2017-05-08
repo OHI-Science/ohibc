@@ -125,8 +125,7 @@ FIS <- function(layers) {
 
   status_year <- layers$data$status_year
   data_year <- get_data_year('FIS', status_year, layers)
-
-  year_span <- c(1990:2017)
+  year_span <- layers$data$year_span
 
   ram_b_bmsy        <- layers$data[['fis_ram_b_bmsy']] %>%
     select(year, stock_id, b_bmsy = value)
@@ -229,7 +228,12 @@ FIS <- function(layers) {
     mutate(x_prod = (fPrime * bPrime)) %>%
     dplyr::select(year, stock_id,
                   score = x_prod,
-                  b_bmsy, f_fmsy)
+                  b_bmsy, f_fmsy)  %>%
+    group_by(stock_id) %>%
+    complete(year = year_span) %>%
+    arrange(year) %>%
+    fill(score, .direction = 'down') %>%
+    ungroup()
 
   ##############################################################.
   ##### calculate distribution of fishery catch to regions #####
@@ -241,21 +245,29 @@ FIS <- function(layers) {
     left_join(stock_wt_src, by = 'stock_id') %>%
     gather(key = src, value = catch_wt, dfo_wt:saup_wt) %>%
     filter(str_detect(src, priority) & !is.na(catch_wt)) %>%
-    select(rgn_id, stock_id, catch_wt)
+    select(rgn_id, stock_id, catch_wt) %>%
+    filter(catch_wt > 0)
 
   ### calculate weights within each region by regional catch
   catch_df <- ram_catch %>%
     left_join(stock_wt_df, by = 'stock_id') %>%
-    mutate(rgn_catch = catch * catch_wt)
+    group_by(rgn_id, stock_id) %>%
+    complete(year = unique(.$year)) %>%
+    mutate(rgn_catch = catch * catch_wt,
+           rgn_catch = ifelse(is.na(rgn_catch), 0, rgn_catch))
 
   stock_score_df <- stock_status_df %>%
     group_by(stock_id) %>%
     arrange(stock_id, year) %>%
     fill(score, .direction = c('down', 'up')) %>%
     ungroup() %>%
-    inner_join(catch_df, by = c('stock_id', 'year')) %>%
+    full_join(catch_df, by = c('stock_id', 'year')) %>%
     select(rgn_id, year, stock_id, score, rgn_catch) %>%
-    filter(year %in% year_span)
+    filter(year %in% year_span & !is.na(rgn_id))
+
+  if(data_year == max(year_span)) {
+    write_csv(stock_score_df, '~/github/ohibc/prep/fis/v2017/summary/fis_from_functions.csv')
+  }
 
   score_df <- stock_score_df %>%
     group_by(rgn_id, year) %>%
@@ -457,9 +469,8 @@ AO <- function(layers) {
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
 
   status_year <- layers$data$status_year
+  year_span <- layers$data$year_span
   data_year <- get_data_year('AO', status_year, layers)
-
-  year_span <- c(1990:2017)
 
   ### get the data:
   closures <- layers$data[['ao_closures']]
@@ -557,7 +568,6 @@ AO <- function(layers) {
     bind_rows(ao_trend) %>%
     select(region_id, goal, dimension, score)
 
-  cat('Returning AO scores... ')
   return(ao_scores)
 
 }
@@ -568,8 +578,7 @@ CS <- function(layers) {
 
   status_year <- layers$data$status_year
   data_year <- get_data_year('CS', status_year, layers)
-
-  year_span <- c(1990:2017)
+  year_span <- layers$data$year_span
 
   # Carbon burial rates (gC m^-2^ yr^-1^)
   #
@@ -639,8 +648,7 @@ CP <- function(layers) {
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
   status_year <- layers$data$status_year
   data_year <- get_data_year('CP', status_year, layers)
-
-  year_span <- c(1990:2017)
+  year_span <- layers$data$year_span
 
   # Protection values
   # Protection weights are assigned based on vulnerability values from InVEST
@@ -1551,8 +1559,7 @@ CW <- function(layers) {
 
   status_year <- layers$data$status_year
   data_year <- get_data_year('CW', status_year, layers)
-
-  year_span <- c(2000:2016)
+  year_span <- layers$data$year_span
 
   # # layers
   # lyrs <- c('po_pathogens', 'po_nutrients_3nm', 'po_chemicals_3nm', 'po_trash',
@@ -1641,8 +1648,7 @@ HAB <- function(layers) {
 
   status_year <- layers$data$status_year
   data_year <- get_data_year('HAB', status_year, layers)
-
-  year_span <- c(1990:2017)
+  year_span <- layers$data$year_span
 
   ### get the data:
   ebsa_health <- layers$data[['hab_ebsa_health']] %>%

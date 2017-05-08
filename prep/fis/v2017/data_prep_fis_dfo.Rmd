@@ -54,25 +54,24 @@ p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000
 ```
 
 # Summary
-[general description: What data are being generated? Why (what project, etc.)? Upstream/downstream processing information that might be helpful?  Other information?]
 
-# Updates from previous assessment
-[Any significant changes in methods from previous analyses?]
+Processing BC DFO fisheries spatial data, to help determine allocation of total catch (from RAM catch values) to each OHIBC region.
 
 ***
 
-# Data Source [NOTE: can be copied from README.md in rawdata file]
-**Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+# Data Source
 
-**Downloaded**: [date downloaded or received]
+**Reference**: 
 
-**Description**:  [e.g., surface aragonite state]
+**Downloaded**: Various.
 
-**Native data resolution**: [e.g., 1 degree, 30 m, etc.]   
+**Description**:  Shapefiles of catch for various fisheries, reported by year.  Some files (groundfish and shrimp files) offer catch reported at the species level rather than at the taxo group level.
 
-**Time range**: [e.g., 1880-1899, monthly data provided for each year] 
+**Native data resolution**: Generally these shapefiles report catch in 4 km x 4 km grid cells.  For Herring catch, total catch reported on .xlsx file is allocated to herring sections, and normalized by area, to estimate the spatial distribution of catch.
 
-**Format**:  [e.g. NetCDF]
+**Time range**: Varies from fishery to fishery.
+
+**Format**:  ESRI shapefiles.  For herring catch, .xlsx, spatially allocated using an ESRI shapefile.
 
 ***
   
@@ -422,7 +421,7 @@ herr_catch_rast <- subs(herr_sect_rast, herr_catch_per_km2,
 
 writeRaster(herr_catch_rast, file.path(dir_goal_anx, 'fis_rasts/tot_dfo_herring_catch_1989_2015.tif'), overwrite = TRUE)
 
-plot(herr_catch_rast)
+# plot(herr_catch_rast)
 
 ```
 
@@ -461,27 +460,27 @@ dir_dfo_rasts <- file.path(dir_goal_anx, 'fis_rasts')
 stock_weight_df <- data.frame()
 for(stock in ram_stocks) {
   ### stock <- ram_stocks[2]
-  cat(c('Processing DFO data for RAM stock: ', stock, '\n'))
-  # message('Processing DFO data for RAM stock: ', stock)
+  # cat(c('Processing DFO data for RAM stock: ', stock, '\n'))
+  message('Processing DFO data for RAM stock: ', stock)
   stock_df <- dfo_to_ram %>%
     filter(stock_id == stock)
   poly <- ram_area_poly[ram_area_poly@data$area_id %in% stock_df$area_id, ]
   
   if(length(stock_df$dfo_fishery) > 1) {
-    cat(c('Adding catches from multiple sources: ', paste(unique(stock_df$dfo_fishery), collapse = ', '), '\n'))
-    # message('Adding catches from multiple sources: ', paste(unique(stock_df$dfo_fishery), collapse = ', '))
+    # cat(c('Adding catches from multiple sources: ', paste(unique(stock_df$dfo_fishery), collapse = ', '), '\n'))
+    message('Adding catches from multiple sources: ', paste(unique(stock_df$dfo_fishery), collapse = ', '))
     rast <- raster::stack(file.path(dir_dfo_rasts, stock_df$dfo_fishery)) %>%
       sum(na.rm = TRUE)
   } else {
     rast <- raster::raster(file.path(dir_dfo_rasts, stock_df$dfo_fishery))
   }
   
-  cat(c('Masking raster to region(s): ', paste(unique(stock_df$area_code), collapse = ', '), '\n'))
-  # message('Masking raster to region(s): ', paste(unique(stock_df$area_code), collapse = ', '))
+  # cat(c('Masking raster to region(s): ', paste(unique(stock_df$area_code), collapse = ', '), '\n'))
+  message('Masking raster to region(s): ', paste(unique(stock_df$area_code), collapse = ', '))
   rast_masked <- raster::mask(rast, poly)
   
-  cat('Getting zonal stats by OHIBC region...\n')
-  # message('Getting zonal stats by OHIBC region...')
+  # cat('Getting zonal stats by OHIBC region...\n')
+  message('Getting zonal stats by OHIBC region...')
   stock_vals <- raster::zonal(rast_masked, rast_rgn, fun = 'sum') %>%
     as.data.frame() %>%
     setNames(c('rgn_id', 'catch_total')) %>%
