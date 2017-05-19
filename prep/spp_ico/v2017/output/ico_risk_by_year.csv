@@ -2,7 +2,7 @@ sciname,comname,iucn_sid,am_sid,year,risk_score,pr_score,cat_ts
 Ammodytes hexapterus,Pacific Sand Lance,NA,Fis-29620,NA,NA,NA,NE
 Ardea herodias,Great Blue Heron,22696998,NA,1988,0.4,0.4,LC
 Ardea herodias,Great Blue Heron,22696998,NA,1994,0.4,0.4,LC
-Ardea herodias,Great Blue Heron,22696998,NA,2000,0.4,0.4,LC
+Ardea herodias,Great Blue Heron,22696998,NA,2e3,0.4,0.4,LC
 Ardea herodias,Great Blue Heron,22696998,NA,2004,0.4,0.4,LC
 Ardea herodias,Great Blue Heron,22696998,NA,2008,0.4,0.4,LC
 Ardea herodias,Great Blue Heron,22696998,NA,2009,0.4,0.4,LC
@@ -29,26 +29,26 @@ Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,1994,0.6,0.6,VU
 Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,1996,0.6,0.6,EN
 Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,2008,0.6,0.6,EN
 Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,2013,0.6,0.6,EN
-Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,2000,0.4,0.4,VU
+Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,2e3,0.4,0.4,VU
 Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,2004,0.4,0.4,EN
 Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,2005,0.4,0.4,EN
 Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,2008,0.4,0.4,EN
 Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,2010,0.4,0.4,EN
 Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,2012,0.4,0.4,EN
 Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,2016,0.4,0.4,EN
-Branta canadensis,Canada Goose,22679935,NA,2006,NA,0,LC
-Branta canadensis,Canada Goose,22679935,NA,2008,NA,0,LC
-Branta canadensis,Canada Goose,22679935,NA,2009,NA,0,LC
-Branta canadensis,Canada Goose,22679935,NA,2012,NA,0,LC
-Branta canadensis,Canada Goose,22679935,NA,2016,NA,0,LC
+Branta canadensis,Canada Goose,22679935,NA,2006,0,0,LC
+Branta canadensis,Canada Goose,22679935,NA,2008,0,0,LC
+Branta canadensis,Canada Goose,22679935,NA,2009,0,0,LC
+Branta canadensis,Canada Goose,22679935,NA,2012,0,0,LC
+Branta canadensis,Canada Goose,22679935,NA,2016,0,0,LC
 Cetorhinus maximus,Basking Shark,4292,Fis-22747,1996,0.4,NA,VU
-Cetorhinus maximus,Basking Shark,4292,Fis-22747,2000,0.4,NA,VU
+Cetorhinus maximus,Basking Shark,4292,Fis-22747,2e3,0.4,NA,VU
 Cetorhinus maximus,Basking Shark,4292,Fis-22747,2005,0.4,NA,VU
 Clupea pallasii,Pacific Herring,NA,Fis-153539,NA,NA,NA,NE
 Delphinus delphis,Common Dophin,6336,ITS-Mam-180438,1996,0,NA,LC
 Delphinus delphis,Common Dophin,6336,ITS-Mam-180438,2008,0,NA,LC
 Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,1996,0.4,0.4,LC
-Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,2000,0.4,0.4,EN
+Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,2e3,0.4,0.4,EN
 Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,2008,0.4,0.4,EN
 Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,2011,0.4,0.4,EN
 Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,2015,0.4,0.4,EN
@@ -63,7 +63,7 @@ Eumetopias jubatus,Steller Sea Lion,8239,ITS-Mam-180625,2012,0.4,0.4,NT
 Eumetopias jubatus,Steller Sea Lion,8239,ITS-Mam-180625,2016,0.4,0.4,NT
 Gavia immer,Common Loon,22697842,NA,1988,0,0,LC
 Gavia immer,Common Loon,22697842,NA,1994,0,0,LC
-Gavia immer,Common Loon,22697842,NA,2000,0,0,LC
+Gavia immer,Common Loon,22697842,NA,2e3,0,0,LC
 Gavia immer,Common Loon,22697842,NA,2004,0,0,LC
 Gavia immer,Common Loon,22697842,NA,2008,0,0,LC
 Gavia immer,Common Loon,22697842,NA,2009,0,0,LC
@@ -74,7 +74,7 @@ Grampus griseus,Risso's Dolphin,9461,ITS-Mam-180457,2008,0.2,0.2,LC
 Grampus griseus,Risso's Dolphin,9461,ITS-Mam-180457,2012,0.2,0.2,LC
 Haliaeetus leucocephalus,Bald Eagle,22695144,NA,1988,0,0,LC
 Haliaeetus leucocephalus,Bald Eagle,22695144,NA,1994,0,0,LC
-Haliaeetus leucocephalus,Bald Eagle,22695144,NA,2000,0,0,LC
+Haliaeetus leucocephalus,Bald Eagle,22695144,NA,2e3,0,0,LC
 Haliaeetus leucocephalus,Bald Eagle,22695144,NA,2004,0,0,LC
 Haliaeetus leucocephalus,Bald Eagle,22695144,NA,2008,0,0,LC
 Haliaeetus leucocephalus,Bald Eagle,22695144,NA,2009,0,0,LC
@@ -96,11 +96,11 @@ Megaptera novaeangliae,Humpback Whale,13006,ITS-Mam-180530,1994,0.4,0.4,VU
 Megaptera novaeangliae,Humpback Whale,13006,ITS-Mam-180530,1996,0.4,0.4,VU
 Megaptera novaeangliae,Humpback Whale,13006,ITS-Mam-180530,2008,0.4,0.4,LC
 Mesoplodon densirostris,Blainville's Beaked Whale,13244,ITS-Mam-180517,NA,NA,NA,DD
-Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,0,0,NE
-Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,0.2,0.2,NE
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,2017,0,0,NE
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,2017,0.2,0.2,NE
 Oncorhynchus nerka,Sockeye Salmon,135301,Fis-22920,2008,0.2,0.2,LC
 Oncorhynchus nerka,Sockeye Salmon,135301,Fis-22920,2011,0.2,0.2,LC
-Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,0.2,0.2,NE
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,2017,0.2,0.2,NE
 Phoca vitulina,Harbor Seal,17013,ITS-Mam-180649,1996,0,0,LC
 Phoca vitulina,Harbor Seal,17013,ITS-Mam-180649,2008,0,0,LC
 Phoca vitulina,Harbor Seal,17013,ITS-Mam-180649,2016,0,0,LC
@@ -114,7 +114,7 @@ Physeter macrocephalus,Sperm Whale,41755,ITS-Mam-180488,2008,0.3,0.3,VU
 Pseudorca crassidens,False Killer Whale,18596,ITS-Mam-180463,1996,0,NA,LC
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,1988,0.4,0.4,LC
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,1994,0.4,0.4,LC
-Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,2000,0.4,0.4,LC
+Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,2e3,0.4,0.4,LC
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,2004,0.4,0.4,LC
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,2008,0.4,0.4,LC
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,2009,0.4,0.4,LC
