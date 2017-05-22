@@ -1,12 +1,12 @@
-sciname,comname,risk_score,pr_score,rgn_id
-Ammodytes hexapterus,Pacific Sand Lance,NA,NA,1
-Ammodytes hexapterus,Pacific Sand Lance,NA,NA,2
-Ammodytes hexapterus,Pacific Sand Lance,NA,NA,3
-Ammodytes hexapterus,Pacific Sand Lance,NA,NA,4
-Ammodytes hexapterus,Pacific Sand Lance,NA,NA,5
-Ammodytes hexapterus,Pacific Sand Lance,NA,NA,6
-Ammodytes hexapterus,Pacific Sand Lance,NA,NA,7
-Ammodytes hexapterus,Pacific Sand Lance,NA,NA,8
+sciname,comname,risk_score,risk_source,rgn_id
+Ammodytes hexapterus,Pacific Sand Lance,NA,iucn,1
+Ammodytes hexapterus,Pacific Sand Lance,NA,iucn,2
+Ammodytes hexapterus,Pacific Sand Lance,NA,iucn,3
+Ammodytes hexapterus,Pacific Sand Lance,NA,iucn,4
+Ammodytes hexapterus,Pacific Sand Lance,NA,iucn,5
+Ammodytes hexapterus,Pacific Sand Lance,NA,iucn,6
+Ammodytes hexapterus,Pacific Sand Lance,NA,iucn,7
+Ammodytes hexapterus,Pacific Sand Lance,NA,iucn,8
 Ardea herodias,Great Blue Heron,0.4,NA,1
 Ardea herodias,Great Blue Heron,0.4,NA,2
 Ardea herodias,Great Blue Heron,0.4,NA,3
@@ -31,14 +31,14 @@ Balaenoptera borealis,Sei Whale,1,NA,5
 Balaenoptera borealis,Sei Whale,1,NA,6
 Balaenoptera borealis,Sei Whale,1,NA,7
 Balaenoptera borealis,Sei Whale,1,NA,8
-Balaenoptera edeni,Bryde's Whale,NA,NA,1
-Balaenoptera edeni,Bryde's Whale,NA,NA,2
-Balaenoptera edeni,Bryde's Whale,NA,NA,3
-Balaenoptera edeni,Bryde's Whale,NA,NA,4
-Balaenoptera edeni,Bryde's Whale,NA,NA,5
-Balaenoptera edeni,Bryde's Whale,NA,NA,6
-Balaenoptera edeni,Bryde's Whale,NA,NA,7
-Balaenoptera edeni,Bryde's Whale,NA,NA,8
+Balaenoptera edeni,Bryde's Whale,NA,iucn,1
+Balaenoptera edeni,Bryde's Whale,NA,iucn,2
+Balaenoptera edeni,Bryde's Whale,NA,iucn,3
+Balaenoptera edeni,Bryde's Whale,NA,iucn,4
+Balaenoptera edeni,Bryde's Whale,NA,iucn,5
+Balaenoptera edeni,Bryde's Whale,NA,iucn,6
+Balaenoptera edeni,Bryde's Whale,NA,iucn,7
+Balaenoptera edeni,Bryde's Whale,NA,iucn,8
 Balaenoptera musculus,Blue Whale,0.8,NA,1
 Balaenoptera musculus,Blue Whale,0.8,NA,2
 Balaenoptera musculus,Blue Whale,0.8,NA,3
@@ -79,14 +79,14 @@ Cetorhinus maximus,Basking Shark,0.4,NA,5
 Cetorhinus maximus,Basking Shark,0.4,NA,6
 Cetorhinus maximus,Basking Shark,0.4,NA,7
 Cetorhinus maximus,Basking Shark,0.4,NA,8
-Clupea pallasii,Pacific Herring,NA,NA,1
-Clupea pallasii,Pacific Herring,NA,NA,2
-Clupea pallasii,Pacific Herring,NA,NA,3
-Clupea pallasii,Pacific Herring,NA,NA,4
-Clupea pallasii,Pacific Herring,NA,NA,5
-Clupea pallasii,Pacific Herring,NA,NA,6
-Clupea pallasii,Pacific Herring,NA,NA,7
-Clupea pallasii,Pacific Herring,NA,NA,8
+Clupea pallasii,Pacific Herring,NA,iucn,1
+Clupea pallasii,Pacific Herring,NA,iucn,2
+Clupea pallasii,Pacific Herring,NA,iucn,3
+Clupea pallasii,Pacific Herring,NA,iucn,4
+Clupea pallasii,Pacific Herring,NA,iucn,5
+Clupea pallasii,Pacific Herring,NA,iucn,6
+Clupea pallasii,Pacific Herring,NA,iucn,7
+Clupea pallasii,Pacific Herring,NA,iucn,8
 Delphinus delphis,Common Dophin,0,NA,4
 Delphinus delphis,Common Dophin,0,NA,5
 Delphinus delphis,Common Dophin,0,NA,6
@@ -158,22 +158,22 @@ Haliotis kamtschatkana,Northern Abalone,0.6,NA,5
 Haliotis kamtschatkana,Northern Abalone,0.6,NA,6
 Haliotis kamtschatkana,Northern Abalone,0.6,NA,7
 Haliotis kamtschatkana,Northern Abalone,0.6,NA,8
-Hippoglossus stenolepis,Halibut,NA,NA,1
-Hippoglossus stenolepis,Halibut,NA,NA,2
-Hippoglossus stenolepis,Halibut,NA,NA,3
-Hippoglossus stenolepis,Halibut,NA,NA,4
-Hippoglossus stenolepis,Halibut,NA,NA,5
-Hippoglossus stenolepis,Halibut,NA,NA,6
-Hippoglossus stenolepis,Halibut,NA,NA,7
-Hippoglossus stenolepis,Halibut,NA,NA,8
-Hypomesus pretiosus,Surf Smelt,NA,NA,1
-Hypomesus pretiosus,Surf Smelt,NA,NA,2
-Hypomesus pretiosus,Surf Smelt,NA,NA,3
-Hypomesus pretiosus,Surf Smelt,NA,NA,4
-Hypomesus pretiosus,Surf Smelt,NA,NA,5
-Hypomesus pretiosus,Surf Smelt,NA,NA,6
-Hypomesus pretiosus,Surf Smelt,NA,NA,7
-Hypomesus pretiosus,Surf Smelt,NA,NA,8
+Hippoglossus stenolepis,Halibut,NA,iucn,1
+Hippoglossus stenolepis,Halibut,NA,iucn,2
+Hippoglossus stenolepis,Halibut,NA,iucn,3
+Hippoglossus stenolepis,Halibut,NA,iucn,4
+Hippoglossus stenolepis,Halibut,NA,iucn,5
+Hippoglossus stenolepis,Halibut,NA,iucn,6
+Hippoglossus stenolepis,Halibut,NA,iucn,7
+Hippoglossus stenolepis,Halibut,NA,iucn,8
+Hypomesus pretiosus,Surf Smelt,NA,iucn,1
+Hypomesus pretiosus,Surf Smelt,NA,iucn,2
+Hypomesus pretiosus,Surf Smelt,NA,iucn,3
+Hypomesus pretiosus,Surf Smelt,NA,iucn,4
+Hypomesus pretiosus,Surf Smelt,NA,iucn,5
+Hypomesus pretiosus,Surf Smelt,NA,iucn,6
+Hypomesus pretiosus,Surf Smelt,NA,iucn,7
+Hypomesus pretiosus,Surf Smelt,NA,iucn,8
 Kogia breviceps,Pygmy Sperm Whale,0,NA,5
 Kogia breviceps,Pygmy Sperm Whale,0,NA,7
 Lagenorhynchus obliquidens,White-Sided Dolphin,0.1,NA,1
@@ -200,30 +200,30 @@ Megaptera novaeangliae,Humpback Whale,0.4,NA,5
 Megaptera novaeangliae,Humpback Whale,0.4,NA,6
 Megaptera novaeangliae,Humpback Whale,0.4,NA,7
 Megaptera novaeangliae,Humpback Whale,0.4,NA,8
-Mesoplodon densirostris,Blainville's Beaked Whale,NA,NA,1
-Mesoplodon densirostris,Blainville's Beaked Whale,NA,NA,2
-Mesoplodon densirostris,Blainville's Beaked Whale,NA,NA,3
-Mesoplodon densirostris,Blainville's Beaked Whale,NA,NA,4
-Mesoplodon densirostris,Blainville's Beaked Whale,NA,NA,5
-Mesoplodon densirostris,Blainville's Beaked Whale,NA,NA,6
-Mesoplodon densirostris,Blainville's Beaked Whale,NA,NA,7
-Mesoplodon densirostris,Blainville's Beaked Whale,NA,NA,8
-Oncorhynchus gorbuscha,Pink Salmon,0,0,1
-Oncorhynchus gorbuscha,Pink Salmon,0,0,2
-Oncorhynchus gorbuscha,Pink Salmon,0,0,3
-Oncorhynchus gorbuscha,Pink Salmon,0,0,4
-Oncorhynchus gorbuscha,Pink Salmon,0,0,5
-Oncorhynchus gorbuscha,Pink Salmon,0,0,6
-Oncorhynchus gorbuscha,Pink Salmon,0,0,7
-Oncorhynchus gorbuscha,Pink Salmon,0,0,8
-Oncorhynchus kisutch,Coho Salmon,0.2,0.2,1
-Oncorhynchus kisutch,Coho Salmon,0.2,0.2,2
-Oncorhynchus kisutch,Coho Salmon,0.2,0.2,3
-Oncorhynchus kisutch,Coho Salmon,0.2,0.2,4
-Oncorhynchus kisutch,Coho Salmon,0.2,0.2,5
-Oncorhynchus kisutch,Coho Salmon,0.2,0.2,6
-Oncorhynchus kisutch,Coho Salmon,0.2,0.2,7
-Oncorhynchus kisutch,Coho Salmon,0.2,0.2,8
+Mesoplodon densirostris,Blainville's Beaked Whale,NA,iucn,1
+Mesoplodon densirostris,Blainville's Beaked Whale,NA,iucn,2
+Mesoplodon densirostris,Blainville's Beaked Whale,NA,iucn,3
+Mesoplodon densirostris,Blainville's Beaked Whale,NA,iucn,4
+Mesoplodon densirostris,Blainville's Beaked Whale,NA,iucn,5
+Mesoplodon densirostris,Blainville's Beaked Whale,NA,iucn,6
+Mesoplodon densirostris,Blainville's Beaked Whale,NA,iucn,7
+Mesoplodon densirostris,Blainville's Beaked Whale,NA,iucn,8
+Oncorhynchus gorbuscha,Pink Salmon,0,bc,1
+Oncorhynchus gorbuscha,Pink Salmon,0,bc,2
+Oncorhynchus gorbuscha,Pink Salmon,0,bc,3
+Oncorhynchus gorbuscha,Pink Salmon,0,bc,4
+Oncorhynchus gorbuscha,Pink Salmon,0,bc,5
+Oncorhynchus gorbuscha,Pink Salmon,0,bc,6
+Oncorhynchus gorbuscha,Pink Salmon,0,bc,7
+Oncorhynchus gorbuscha,Pink Salmon,0,bc,8
+Oncorhynchus kisutch,Coho Salmon,0.2,bc,1
+Oncorhynchus kisutch,Coho Salmon,0.2,bc,2
+Oncorhynchus kisutch,Coho Salmon,0.2,bc,3
+Oncorhynchus kisutch,Coho Salmon,0.2,bc,4
+Oncorhynchus kisutch,Coho Salmon,0.2,bc,5
+Oncorhynchus kisutch,Coho Salmon,0.2,bc,6
+Oncorhynchus kisutch,Coho Salmon,0.2,bc,7
+Oncorhynchus kisutch,Coho Salmon,0.2,bc,8
 Oncorhynchus nerka,Sockeye Salmon,0.2,NA,1
 Oncorhynchus nerka,Sockeye Salmon,0.2,NA,2
 Oncorhynchus nerka,Sockeye Salmon,0.2,NA,3
@@ -232,14 +232,14 @@ Oncorhynchus nerka,Sockeye Salmon,0.2,NA,5
 Oncorhynchus nerka,Sockeye Salmon,0.2,NA,6
 Oncorhynchus nerka,Sockeye Salmon,0.2,NA,7
 Oncorhynchus nerka,Sockeye Salmon,0.2,NA,8
-Oncorhynchus tshawytscha,Chinook Salmon,0.2,0.2,1
-Oncorhynchus tshawytscha,Chinook Salmon,0.2,0.2,2
-Oncorhynchus tshawytscha,Chinook Salmon,0.2,0.2,3
-Oncorhynchus tshawytscha,Chinook Salmon,0.2,0.2,4
-Oncorhynchus tshawytscha,Chinook Salmon,0.2,0.2,5
-Oncorhynchus tshawytscha,Chinook Salmon,0.2,0.2,6
-Oncorhynchus tshawytscha,Chinook Salmon,0.2,0.2,7
-Oncorhynchus tshawytscha,Chinook Salmon,0.2,0.2,8
+Oncorhynchus tshawytscha,Chinook Salmon,0.2,bc,1
+Oncorhynchus tshawytscha,Chinook Salmon,0.2,bc,2
+Oncorhynchus tshawytscha,Chinook Salmon,0.2,bc,3
+Oncorhynchus tshawytscha,Chinook Salmon,0.2,bc,4
+Oncorhynchus tshawytscha,Chinook Salmon,0.2,bc,5
+Oncorhynchus tshawytscha,Chinook Salmon,0.2,bc,6
+Oncorhynchus tshawytscha,Chinook Salmon,0.2,bc,7
+Oncorhynchus tshawytscha,Chinook Salmon,0.2,bc,8
 Orcinus orca pop. 2,Killer Whale (Northeast Pacific Offshore Population),0.6,NA,1
 Orcinus orca pop. 2,Killer Whale (Northeast Pacific Offshore Population),0.6,NA,2
 Orcinus orca pop. 2,Killer Whale (Northeast Pacific Offshore Population),0.6,NA,3
