@@ -1,0 +1,135 @@
+sciname,comname,iucn_sid,am_sid,spp_group,map_iucn_sid,map_subpop,pr_score,pop_trend,spatial_source,year,cat_ts,risk_score,cat_txt
+Ammodytes hexapterus,Pacific Sand Lance,NA,Fis-29620,NA,NA,NA,NA,NA,am,NA,NE,NA,NA
+Ardea herodias,Great Blue Heron,22696998,NA,BOTW_marine,22696998,NA,0.4,increasing,iucn,1988,LC,0.4,NA
+Ardea herodias,Great Blue Heron,22696998,NA,BOTW_marine,22696998,NA,0.4,increasing,iucn,1994,LC,0.4,NA
+Ardea herodias,Great Blue Heron,22696998,NA,BOTW_marine,22696998,NA,0.4,increasing,iucn,2e3,LC,0.4,NA
+Ardea herodias,Great Blue Heron,22696998,NA,BOTW_marine,22696998,NA,0.4,increasing,iucn,2004,LC,0.4,NA
+Ardea herodias,Great Blue Heron,22696998,NA,BOTW_marine,22696998,NA,0.4,increasing,iucn,2008,LC,0.4,NA
+Ardea herodias,Great Blue Heron,22696998,NA,BOTW_marine,22696998,NA,0.4,increasing,iucn,2009,LC,0.4,NA
+Ardea herodias,Great Blue Heron,22696998,NA,BOTW_marine,22696998,NA,0.4,increasing,iucn,2012,LC,0.4,NA
+Ardea herodias,Great Blue Heron,22696998,NA,BOTW_marine,22696998,NA,0.4,increasing,iucn,2016,LC,0.4,NA
+Balaenoptera acutorostrata,Minke Whale,2474,ITS-Mam-180524,MARINE_MAMMALS,2474,NA,0.2,stable,iucn,1996,NT,0.2,NA
+Balaenoptera acutorostrata,Minke Whale,2474,ITS-Mam-180524,MARINE_MAMMALS,2474,NA,0.2,stable,iucn,2008,LC,0.2,NA
+Balaenoptera borealis,Sei Whale,2475,ITS-Mam-180526,MARINE_MAMMALS,2475,NA,1,unknown,iucn,1994,VU,1,NA
+Balaenoptera borealis,Sei Whale,2475,ITS-Mam-180526,MARINE_MAMMALS,2475,NA,1,unknown,iucn,1996,EN,1,NA
+Balaenoptera borealis,Sei Whale,2475,ITS-Mam-180526,MARINE_MAMMALS,2475,NA,1,unknown,iucn,2008,EN,1,NA
+Balaenoptera edeni,Bryde's Whale,2476,ITS-Mam-180525,MARINE_MAMMALS,2476,NA,NA,NA,am,NA,DD,NA,NA
+Balaenoptera musculus,Blue Whale,2477,ITS-Mam-180528,MARINE_MAMMALS,2477,NA,0.8,increasing,iucn,1965,CR,0.8,NA
+Balaenoptera musculus,Blue Whale,2477,ITS-Mam-180528,MARINE_MAMMALS,2477,NA,0.8,increasing,iucn,1986,EN,0.8,NA
+Balaenoptera musculus,Blue Whale,2477,ITS-Mam-180528,MARINE_MAMMALS,2477,NA,0.8,increasing,iucn,1988,EN,0.8,NA
+Balaenoptera musculus,Blue Whale,2477,ITS-Mam-180528,MARINE_MAMMALS,2477,NA,0.8,increasing,iucn,1990,EN,0.8,NA
+Balaenoptera musculus,Blue Whale,2477,ITS-Mam-180528,MARINE_MAMMALS,2477,NA,0.8,increasing,iucn,1994,EN,0.8,NA
+Balaenoptera musculus,Blue Whale,2477,ITS-Mam-180528,MARINE_MAMMALS,2477,NA,0.8,increasing,iucn,1996,EN,0.8,NA
+Balaenoptera musculus,Blue Whale,2477,ITS-Mam-180528,MARINE_MAMMALS,2477,NA,0.8,increasing,iucn,2008,EN,0.8,NA
+Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,MARINE_MAMMALS,2478,NA,0.6,unknown,iucn,1965,EN,0.6,NA
+Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,MARINE_MAMMALS,2478,NA,0.6,unknown,iucn,1986,VU,0.6,NA
+Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,MARINE_MAMMALS,2478,NA,0.6,unknown,iucn,1988,VU,0.6,NA
+Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,MARINE_MAMMALS,2478,NA,0.6,unknown,iucn,1990,VU,0.6,NA
+Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,MARINE_MAMMALS,2478,NA,0.6,unknown,iucn,1994,VU,0.6,NA
+Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,MARINE_MAMMALS,2478,NA,0.6,unknown,iucn,1996,EN,0.6,NA
+Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,MARINE_MAMMALS,2478,NA,0.6,unknown,iucn,2008,EN,0.6,NA
+Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,MARINE_MAMMALS,2478,NA,0.6,unknown,iucn,2013,EN,0.6,NA
+Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,BOTW_marine,22694870,NA,0.4,decreasing,iucn,2e3,VU,0.4,NA
+Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,BOTW_marine,22694870,NA,0.4,decreasing,iucn,2004,EN,0.4,NA
+Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,BOTW_marine,22694870,NA,0.4,decreasing,iucn,2005,EN,0.4,NA
+Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,BOTW_marine,22694870,NA,0.4,decreasing,iucn,2008,EN,0.4,NA
+Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,BOTW_marine,22694870,NA,0.4,decreasing,iucn,2010,EN,0.4,NA
+Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,BOTW_marine,22694870,NA,0.4,decreasing,iucn,2012,EN,0.4,NA
+Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,BOTW_marine,22694870,NA,0.4,decreasing,iucn,2016,EN,0.4,NA
+Branta canadensis,Canada Goose,22679935,NA,BOTW,22679935,NA,0,NA,iucn,2006,LC,0,Least Concern
+Branta canadensis,Canada Goose,22679935,NA,BOTW,22679935,NA,0,NA,iucn,2008,LC,0,Least Concern
+Branta canadensis,Canada Goose,22679935,NA,BOTW,22679935,NA,0,NA,iucn,2009,LC,0,Least Concern
+Branta canadensis,Canada Goose,22679935,NA,BOTW,22679935,NA,0,NA,iucn,2012,LC,0,Least Concern
+Branta canadensis,Canada Goose,22679935,NA,BOTW,22679935,NA,0,NA,iucn,2016,LC,0,Least Concern
+Cetorhinus maximus,Basking Shark,4292,Fis-22747,CHONDRICHTHYES,4292,NA,NA,decreasing,iucn,1996,VU,0.4,NA
+Cetorhinus maximus,Basking Shark,4292,Fis-22747,CHONDRICHTHYES,4292,NA,NA,decreasing,iucn,2e3,VU,0.4,NA
+Cetorhinus maximus,Basking Shark,4292,Fis-22747,CHONDRICHTHYES,4292,NA,NA,decreasing,iucn,2005,VU,0.4,NA
+Clupea pallasii,Pacific Herring,NA,Fis-153539,NA,NA,NA,NA,NA,am,NA,NE,NA,NA
+Delphinus delphis,Common Dophin,6336,ITS-Mam-180438,MARINE_MAMMALS,6336,NA,NA,unknown,iucn,1996,LC,0,NA
+Delphinus delphis,Common Dophin,6336,ITS-Mam-180438,MARINE_MAMMALS,6336,NA,NA,unknown,iucn,2008,LC,0,NA
+Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,TERRESTRIAL_MAMMALS_marine,7750,NA,0.4,decreasing,iucn,1996,LC,0.4,NA
+Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,TERRESTRIAL_MAMMALS_marine,7750,NA,0.4,decreasing,iucn,2e3,EN,0.4,NA
+Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,TERRESTRIAL_MAMMALS_marine,7750,NA,0.4,decreasing,iucn,2008,EN,0.4,NA
+Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,TERRESTRIAL_MAMMALS_marine,7750,NA,0.4,decreasing,iucn,2011,EN,0.4,NA
+Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,TERRESTRIAL_MAMMALS_marine,7750,NA,0.4,decreasing,iucn,2015,EN,0.4,NA
+Eschrichtius robustus,Gray Whale,8097,ITS-Mam-180521,MARINE_MAMMALS,8097,NA,0.4,stable,iucn,1996,VU,0.4,NA
+Eschrichtius robustus,Gray Whale,8097,ITS-Mam-180521,MARINE_MAMMALS,8097,NA,0.4,stable,iucn,2008,LC,0.4,NA
+Eubalaena japonica,North Pacific Right Whale,41711,ITS-Mam-612591,MARINE_MAMMALS,41711,NA,1,unknown,am,1996,EN,1,NA
+Eubalaena japonica,North Pacific Right Whale,41711,ITS-Mam-612591,MARINE_MAMMALS,41711,NA,1,unknown,am,2008,EN,1,NA
+Eumetopias jubatus,Steller Sea Lion,8239,ITS-Mam-180625,MARINE_MAMMALS,8239,NA,0.4,increasing,iucn,1994,VU,0.4,NA
+Eumetopias jubatus,Steller Sea Lion,8239,ITS-Mam-180625,MARINE_MAMMALS,8239,NA,0.4,increasing,iucn,1996,EN,0.4,NA
+Eumetopias jubatus,Steller Sea Lion,8239,ITS-Mam-180625,MARINE_MAMMALS,8239,NA,0.4,increasing,iucn,2008,EN,0.4,NA
+Eumetopias jubatus,Steller Sea Lion,8239,ITS-Mam-180625,MARINE_MAMMALS,8239,NA,0.4,increasing,iucn,2012,NT,0.4,NA
+Eumetopias jubatus,Steller Sea Lion,8239,ITS-Mam-180625,MARINE_MAMMALS,8239,NA,0.4,increasing,iucn,2016,NT,0.4,NA
+Gavia immer,Common Loon,22697842,NA,BOTW_marine,22697842,NA,0,stable,iucn,1988,LC,0,NA
+Gavia immer,Common Loon,22697842,NA,BOTW_marine,22697842,NA,0,stable,iucn,1994,LC,0,NA
+Gavia immer,Common Loon,22697842,NA,BOTW_marine,22697842,NA,0,stable,iucn,2e3,LC,0,NA
+Gavia immer,Common Loon,22697842,NA,BOTW_marine,22697842,NA,0,stable,iucn,2004,LC,0,NA
+Gavia immer,Common Loon,22697842,NA,BOTW_marine,22697842,NA,0,stable,iucn,2008,LC,0,NA
+Gavia immer,Common Loon,22697842,NA,BOTW_marine,22697842,NA,0,stable,iucn,2009,LC,0,NA
+Gavia immer,Common Loon,22697842,NA,BOTW_marine,22697842,NA,0,stable,iucn,2012,LC,0,NA
+Gavia immer,Common Loon,22697842,NA,BOTW_marine,22697842,NA,0,stable,iucn,2016,LC,0,NA
+Globicephala macrorhynchus,Short-Finned Pilot Whale,9249,ITS-Mam-180466,MARINE_MAMMALS,9249,NA,NA,NA,iucn,1996,VU,0.4,NA
+Grampus griseus,Risso's Dolphin,9461,ITS-Mam-180457,MARINE_MAMMALS,9461,NA,0.2,unknown,iucn,2008,LC,0.2,NA
+Grampus griseus,Risso's Dolphin,9461,ITS-Mam-180457,MARINE_MAMMALS,9461,NA,0.2,unknown,iucn,2012,LC,0.2,NA
+Haliaeetus leucocephalus,Bald Eagle,22695144,NA,BOTW_marine,22695144,NA,0,increasing,iucn,1988,LC,0,NA
+Haliaeetus leucocephalus,Bald Eagle,22695144,NA,BOTW_marine,22695144,NA,0,increasing,iucn,1994,LC,0,NA
+Haliaeetus leucocephalus,Bald Eagle,22695144,NA,BOTW_marine,22695144,NA,0,increasing,iucn,2e3,LC,0,NA
+Haliaeetus leucocephalus,Bald Eagle,22695144,NA,BOTW_marine,22695144,NA,0,increasing,iucn,2004,LC,0,NA
+Haliaeetus leucocephalus,Bald Eagle,22695144,NA,BOTW_marine,22695144,NA,0,increasing,iucn,2008,LC,0,NA
+Haliaeetus leucocephalus,Bald Eagle,22695144,NA,BOTW_marine,22695144,NA,0,increasing,iucn,2009,LC,0,NA
+Haliaeetus leucocephalus,Bald Eagle,22695144,NA,BOTW_marine,22695144,NA,0,increasing,iucn,2012,LC,0,NA
+Haliaeetus leucocephalus,Bald Eagle,22695144,NA,BOTW_marine,22695144,NA,0,increasing,iucn,2016,LC,0,NA
+Haliotis kamtschatkana,Northern Abalone,61743,W-Msc-405014,NA,NA,NA,0.6,stable,am,2006,EN,0.6,NA
+Hippoglossus stenolepis,Halibut,NA,Fis-29418,NA,NA,NA,NA,NA,am,NA,NE,NA,NA
+Hypomesus pretiosus,Surf Smelt,NA,Fis-22880,NA,NA,NA,NA,NA,am,NA,NE,NA,NA
+Kogia breviceps,Pygmy Sperm Whale,11047,ITS-Mam-180491,MARINE_MAMMALS,11047,NA,NA,NA,iucn,1996,LC,0,NA
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145,ITS-Mam-180444,MARINE_MAMMALS,11145,NA,0.1,unknown,iucn,1996,LC,0.1,NA
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145,ITS-Mam-180444,MARINE_MAMMALS,11145,NA,0.1,unknown,iucn,2008,LC,0.1,NA
+Lagenorhynchus obliquidens,White-Sided Dolphin,11145,ITS-Mam-180444,MARINE_MAMMALS,11145,NA,0.1,unknown,iucn,2012,LC,0.1,NA
+Lamna ditropis,Salmon Shark,39342,Fis-29426,CHONDRICHTHYES,39342,NA,NA,stable,iucn,2009,LC,0,NA
+Megaptera novaeangliae,Humpback Whale,13006,ITS-Mam-180530,MARINE_MAMMALS,13006,NA,0.4,increasing,iucn,1965,EN,0.4,NA
+Megaptera novaeangliae,Humpback Whale,13006,ITS-Mam-180530,MARINE_MAMMALS,13006,NA,0.4,increasing,iucn,1986,EN,0.4,NA
+Megaptera novaeangliae,Humpback Whale,13006,ITS-Mam-180530,MARINE_MAMMALS,13006,NA,0.4,increasing,iucn,1988,EN,0.4,NA
+Megaptera novaeangliae,Humpback Whale,13006,ITS-Mam-180530,MARINE_MAMMALS,13006,NA,0.4,increasing,iucn,1990,VU,0.4,NA
+Megaptera novaeangliae,Humpback Whale,13006,ITS-Mam-180530,MARINE_MAMMALS,13006,NA,0.4,increasing,iucn,1994,VU,0.4,NA
+Megaptera novaeangliae,Humpback Whale,13006,ITS-Mam-180530,MARINE_MAMMALS,13006,NA,0.4,increasing,iucn,1996,VU,0.4,NA
+Megaptera novaeangliae,Humpback Whale,13006,ITS-Mam-180530,MARINE_MAMMALS,13006,NA,0.4,increasing,iucn,2008,LC,0.4,NA
+Mesoplodon densirostris,Blainville's Beaked Whale,13244,ITS-Mam-180517,MARINE_MAMMALS,13244,NA,NA,NA,am,NA,DD,NA,NA
+Oncorhynchus gorbuscha,Pink Salmon,NA,Fis-22915,NA,NA,NA,0,NA,am,2017,NE,0,NA
+Oncorhynchus kisutch,Coho Salmon,NA,Fis-22917,NA,NA,NA,0.2,NA,am,2017,NE,0.2,NA
+Oncorhynchus nerka,Sockeye Salmon,135301,Fis-22920,NA,NA,NA,0.2,stable,am,2008,LC,0.2,NA
+Oncorhynchus nerka,Sockeye Salmon,135301,Fis-22920,NA,NA,NA,0.2,stable,am,2011,LC,0.2,NA
+Oncorhynchus tshawytscha,Chinook Salmon,NA,Fis-22921,NA,NA,NA,0.2,NA,am,2017,NE,0.2,NA
+Orcinus orca,Killer Whale,15421,ITS-Mam-180469,MARINE_MAMMALS,15421,NA,0.6,NA,iucn,1996,VU,0.6,NA
+Phoca vitulina,Harbor Seal,17013,ITS-Mam-180649,MARINE_MAMMALS,17013,NA,0,unknown,iucn,1996,LC,0,NA
+Phoca vitulina,Harbor Seal,17013,ITS-Mam-180649,MARINE_MAMMALS,17013,NA,0,unknown,iucn,2008,LC,0,NA
+Phoca vitulina,Harbor Seal,17013,ITS-Mam-180649,MARINE_MAMMALS,17013,NA,0,unknown,iucn,2016,LC,0,NA
+Phocoena phocoena,Harbor Porpoise,17027,ITS-Mam-180473,MARINE_MAMMALS,17027,NA,0.4,unknown,iucn,1996,VU,0.4,NA
+Phocoena phocoena,Harbor Porpoise,17027,ITS-Mam-180473,MARINE_MAMMALS,17027,NA,0.4,unknown,iucn,2008,LC,0.4,NA
+Phocoenoides dalli,Dall's Porpoise,17032,ITS-Mam-180480,MARINE_MAMMALS,17032,NA,0.1,unknown,iucn,1996,VU,0.1,NA
+Phocoenoides dalli,Dall's Porpoise,17032,ITS-Mam-180480,MARINE_MAMMALS,17032,NA,0.1,unknown,iucn,2008,LC,0.1,NA
+Phocoenoides dalli,Dall's Porpoise,17032,ITS-Mam-180480,MARINE_MAMMALS,17032,NA,0.1,unknown,iucn,2012,LC,0.1,NA
+Physeter macrocephalus,Sperm Whale,41755,ITS-Mam-180488,MARINE_MAMMALS,41755,NA,0.3,unknown,iucn,1996,VU,0.3,NA
+Physeter macrocephalus,Sperm Whale,41755,ITS-Mam-180488,MARINE_MAMMALS,41755,NA,0.3,unknown,iucn,2008,VU,0.3,NA
+Pseudorca crassidens,False Killer Whale,18596,ITS-Mam-180463,MARINE_MAMMALS,18596,NA,NA,NA,iucn,1996,LC,0,NA
+Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,1988,LC,0.4,NA
+Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,1994,LC,0.4,NA
+Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,2e3,LC,0.4,NA
+Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,2004,LC,0.4,NA
+Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,2008,LC,0.4,NA
+Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,2009,LC,0.4,NA
+Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,2012,LC,0.4,NA
+Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,2015,NT,0.4,NA
+Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,2016,NT,0.4,NA
+Squalus suckleyi,Spiny Dogfish,195488,Fis-164793,CHONDRICHTHYES,195488,NA,NA,stable,iucn,2016,LC,0,NA
+Stenella coeruleoalba,Striped Dolphin,20731,ITS-Mam-180434,MARINE_MAMMALS,20731,NA,NA,unknown,iucn,1996,VU,0.4,NA
+Stenella coeruleoalba,Striped Dolphin,20731,ITS-Mam-180434,MARINE_MAMMALS,20731,NA,NA,unknown,iucn,2008,LC,0,NA
+Thaleichthys pacificus,Eulachon,202415,Fis-22963,NA,NA,NA,0.5,unknown,am,2013,LC,0.5,NA
+Tursiops truncatus,Bottlenose Dolphin,22563,ITS-Mam-180426,MARINE_MAMMALS,22563,NA,NA,unknown,am,2008,LC,0,NA
+Tursiops truncatus,Bottlenose Dolphin,22563,ITS-Mam-180426,MARINE_MAMMALS,22563,NA,NA,unknown,am,2012,LC,0,NA
+Zalophus californianus,California Sea Lion,41666,ITS-Mam-180621,MARINE_MAMMALS,41666,NA,0,increasing,iucn,1965,CR,0,NA
+Zalophus californianus,California Sea Lion,41666,ITS-Mam-180621,MARINE_MAMMALS,41666,NA,0,increasing,iucn,1996,LC,0,NA
+Zalophus californianus,California Sea Lion,41666,ITS-Mam-180621,MARINE_MAMMALS,41666,NA,0,increasing,iucn,2008,LC,0,NA
+Zalophus californianus,California Sea Lion,41666,ITS-Mam-180621,MARINE_MAMMALS,41666,NA,0,increasing,iucn,2015,LC,0,NA
+Ziphius cavirostris,Cuvier's Beaked Whale,23211,ITS-Mam-180498,MARINE_MAMMALS,23211,NA,NA,unknown,iucn,2008,LC,0,NA

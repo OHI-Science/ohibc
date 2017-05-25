@@ -84,45 +84,7 @@ See goal_prep_spp.Rmd for data sources
 
 # Methods
 
-## Define assessment region
-
-Using OHIBC region polygon, determine 0.5° raster cells corresponding to the region.
-
-``` {r setup_region-to-cell_lookup}
-
-rgn2cell_file <- file.path(dir_goal, 'spatial/rgn2cell.csv')
-loiczid_rast_file <- file.path(dir_goal, 'spatial/loiczid.tif')
-
-if(!file.exists(rgn2cell_file) | !file.exists(loiczid_rast_file)) {
-  ### Read in OHIBC polygons, in WGS84 CRS
-  rgn_lyr <- 'ohibc_rgn_wgs84'
-  
-  message(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
-  poly_bc_rgn <- readOGR(dsn     = path.expand(dir_rgn), 
-                         layer   = rgn_lyr,
-                         verbose = FALSE, 
-                         stringsAsFactors = FALSE)
-  
-  poly_bc_rgn@data <- poly_bc_rgn@data %>%
-    mutate(rgn_id = as.integer(rgn_id))
-  
-  rgn_p4s <- proj4string(poly_bc_rgn)
-  message('Region loaded: CRS = \n  ', rgn_p4s)
-  
-  rgn2cell_list <- spp_rgn2cell(poly_bc_rgn, reload = TRUE)
-  
-  write_csv(rgn2cell_list[[1]], rgn2cell_file)
-  writeRaster(rgn2cell_list[[2]], loiczid_rast_file, overwrite = TRUE)
-} else {
-  git_prov(c(rgn2cell_file, loiczid_rast_file), filetype = 'output')
-}
-
-```
-
-
-## Identify OHIBC-specific species and info
-
-The goal_prep_spp.Rmd script creates a time series of species info for all species present within OHIBC regions, as determined by AquaMaps and IUCN (incl. BirdLife International).
+The goal_prep_spp.Rmd script creates files for species info and species area within each OHIBC region, for all species present within OHIBC regions, as determined by AquaMaps and IUCN (incl. BirdLife International).
 
 -----
 
@@ -139,6 +101,7 @@ spp_ohibc <- read_csv(file.path(dir_goal, 'int/spp_list_clean.csv')) %>%
 ### This includes all species, including DD and N.E. species, found within
 ### OHIBC regions according to AM, IUCN, BLI.
 
+### Set up the raw list, to be edited into a usable format
 # ico_list_gl <- read_csv(file.path(dir_goal, 'raw/ico_list_global.csv')) %>%
 #   select(sciname = `Specie Scientific Name`,
 #          comname = `Specie Common Name`) %>%
@@ -147,7 +110,7 @@ spp_ohibc <- read_csv(file.path(dir_goal, 'int/spp_list_clean.csv')) %>%
 #   mutate(include = TRUE) %>%
 #   distinct() %>%
 #   write_csv(file.path(dir_goal, 'raw/ico_list_gl_incl.csv'))
-ico_list_gl <- read_csv(file.path(dir_goal, 'raw/ico_list_gl_incl.csv')) %>%
+ico_list_gl <- read_csv(file.path(dir_goal, 'raw/ico_list_gl_prepped.csv')) %>%
   filter(include == TRUE) %>%
   select(-include)
 ### from this list, we include: 
@@ -161,8 +124,7 @@ ico_list_gl <- read_csv(file.path(dir_goal, 'raw/ico_list_gl_incl.csv')) %>%
 
 ico_list_cori <- read_csv(file.path(dir_goal, 'raw/ico_list_cori.csv')) %>%
   filter(!str_detect(comments, 'elimin')) %>% ### some spp tagged to not include
-  mutate(comname = str_replace_all(comname, '<d5>', "'"),
-         comname = tools::toTitleCase(comname)) %>%
+  mutate(comname = tools::toTitleCase(comname)) %>%
   select(sciname, comname) %>%
   filter(!is.na(sciname)) %>%
   left_join(spp_ohibc, by = 'sciname') %>%
@@ -201,13 +163,14 @@ For the identified species, we attach the assessment info generated in the SPP g
 ``` {r summarize_ico}
 
 ico_list <- read_csv(file.path(dir_goal, 'int', 'ico_list_ohibc.csv')) %>%
-  select(sciname, comname, iucn_sid)
+  select(sciname, comname, iucn_sid, am_sid)
 spp_scored <- read_csv(file.path(dir_goal, 'int', 'spp_list_scored.csv')) %>%
   # filter(!is.na(iucn_sid)) %>%
   bind_rows(read_csv(file.path(dir_goal, 'int', 'spp_custom_scored.csv')))
 
 ico_info_ts <- ico_list %>%
-  left_join(spp_scored, by = c('sciname', 'iucn_sid'))
+  left_join(spp_scored, by = c('sciname', 'iucn_sid', 'am_sid')) %>%
+  mutate(year = ifelse(is.na(year) & !is.na(risk_score), 2017, year))
 
 ### ico_list %>% filter(!sciname %in% ico_info_timeseries$sciname)
 write_csv(ico_info_ts, file.path(dir_goal, 'int/ico_info_timeseries.csv'))
@@ -226,26 +189,27 @@ orca_ts_full <- bind_rows(
     mutate(sciname = 'Orcinus orca pop. 2',
            comname = 'Killer Whale (Northeast Pacific Offshore Population)',
            pr_score = .6,
-           cat_ts_score = .6),
+           risk_score = .6),
   orca_ts_raw %>%
     mutate(sciname = 'Orcinus orca pop. 3',
            comname = 'Killer Whale (West Coast Transient Population)',
            pr_score = .6,
-           cat_ts_score = .6),
+           risk_score = .6),
   orca_ts_raw %>%
     mutate(sciname = 'Orcinus orca pop. 5',
            comname = 'Killer Whale (Northeast Pacific Southern Resident Population)',
            pr_score = .8,
-           cat_ts_score = .8),
+           risk_score = .8),
   orca_ts_raw %>%
     mutate(sciname = 'Orcinus orca pop. 6',
            comname = 'Killer Whale (Northeast Pacific Northern Resident Population)',
            pr_score = .6,
-           cat_ts_score = .6))
+           risk_score = .6))
 
 ico_info_ts_fixed <- ico_info_ts %>%
   filter(!str_detect(sciname, 'Orcinus orca')) %>%
-  bind_rows(orca_ts_full)
+  bind_rows(orca_ts_full) %>%
+  mutate(risk_source = ifelse(is.na(pr_score), 'iucn', 'bc'))
 
 write_csv(ico_info_ts_fixed, file.path(dir_goal, 'int/ico_info_ts_incl_orcas.csv'))
 
@@ -259,149 +223,167 @@ The most recent assessment info for OHIBC Iconic Species:
 
 ***
 
-In spatializing and summarizing, data-deficient and not-evaluated species will be dropped.  Status is based on mean risk category: 1 = LC, 0 = EX.  Trend is based on average risk trend of all species, normalized to the status, to get a rough estimate of percent change in status over five years.
+## Write layers
 
-``` {r spatialize_and_summarize}
+Layers for ICO:
+
+* ICO spp info and categories time series (sciname, comname, iucn_sid, year, risk_score, pr_score, cat_ts) - NOTE not the same as for SPP, since Orcas are expanded out and custom species added (Branta canadensis)
+* ICO species by region (sciname, iucn_sid, rgn_id)
+
+``` {r write_ico_spp_info_and_score_timeseries} 
 
 ico_ts <- read_csv(file.path(dir_goal, 'int/ico_info_ts_incl_orcas.csv')) %>%
-  mutate(cat_ts_score = ifelse(is.na(pr_score), cat_ts_score, pr_score)) %>%
-  select(sciname, comname, iucn_sid, am_sid, 
-         map_iucn_sid, map_subpop, spatial_source, 
-         pr_score, cat_ts_score, year) %>%
+  select(sciname, comname, iucn_sid, am_sid, year, risk_score, risk_source, cat_ts) %>%
   distinct()
-
-am_ico_rgn <- read_csv(file.path(dir_goal, 'int/am_spp_cells_bc.csv')) %>%
-  select(am_sid, rgn_id) %>%
-  distinct()
-iucn_ico_rgn <- read_csv(file.path(dir_goal, 'int/iucn_spp_cells_bc.csv')) %>%
-  select(iucn_sid, subpop, rgn_id) %>%
-  distinct()
-iucn_ico_rgn_custom <- read_csv(file.path(dir_goal, 'spatial/BOTW_custom.csv')) %>%
-  inner_join(read_csv(file.path(dir_goal, 'spatial/rgn2cell.csv')), by = 'loiczid') %>%
-  select(iucn_sid, subpop, rgn_id) %>%
-  distinct()
-iucn_ico_rgn <- iucn_ico_rgn %>%
-  bind_rows(iucn_ico_rgn_custom)
-
-ico_rgn_ts <- ico_ts %>%
-  filter(spatial_source == 'iucn') %>%
-  left_join(iucn_ico_rgn, by = c('map_iucn_sid' = 'iucn_sid', 'map_subpop' = 'subpop')) %>%
-  bind_rows(ico_ts %>%
-    filter(spatial_source == 'am') %>%
-    left_join(am_ico_rgn, by = c('am_sid'))) %>%
-  select(rgn_id, year, sciname, comname, iucn_sid, am_sid, pr_score, cat_ts_score)
-
-cat_list <- data.frame(cat_ts_score = c(  1.0,      .9,    .8,      .7,    .6,      .5,    .4,      .3,    .2,      .1,   0.0),
-                       cat_label    = c( 'EX', 'CR/EX',  'CR', 'CR/EN',  'EN', 'EN/VU',  'VU', 'VU/NT',  'NT', 'NT/LC',  'LC'),
-                       stringsAsFactors = FALSE)
-
-ico_rgn_ts <- ico_rgn_ts %>%
-  left_join(cat_list, by = 'cat_ts_score') %>%
-  select(rgn_id,year,cat_ts_score,cat_label,sciname,comname,iucn_sid,am_sid,pr_score)
-
-write_csv(ico_rgn_ts, file.path(dir_goal, 'output/ico_rgn_cat_ts.csv'))
-# x <- ico_info_rgn_ts %>% select(sciname, rgn_id) %>% distinct() %>% group_by(sciname) %>% summarize(n_rgn = n())
-# y <- ico_list %>% filter(!sciname %in% x$sciname)
-
-ico_rgn_sum_ts <- ico_rgn_ts %>%
-  select(rgn_id, sciname, cat_ts_score, year, pr_score) %>%
-  group_by(rgn_id, year) %>%
-  summarize(mean_cat   = mean(cat_ts_score, na.rm = TRUE),
-            n_total    = n(),
-            n_cat      = sum(!is.na(cat_ts_score)),
-            n_trend    = sum(!is.na(cat_ts_score) & is.na(pr_score)),
-            status     = round(1 - mean_cat, 5))
-
-ico_rgn_st_tr_ts <- calc_trends_per_rgn(ico_rgn_sum_ts, include_years = c(2000:2016), span = 10)  %>%
-    mutate(trend = round(trend/(n_trend/n_cat), 5))
-  
-write_csv(ico_rgn_st_tr_ts, file.path(dir_goal, 'summary/ico_rgn_summary.csv'))
+write_csv(ico_ts, file.path(dir_goal, 'output', 'ico_risk_by_year.csv'))
 
 ```
 
-### OHIBC Iconic Species status and trends
+Spatial distribution of ICO species can be taken from the SPP list; this does not include Canada Goose however, so this is added from the custom spatial output (`ico_custom_spp_info.Rmd`).
 
-Status and trends by region:
+``` {r spatialize_and_summarize}
 
-`r DT::datatable(ico_rgn_st_tr_ts %>% select(rgn_id, year, status, trend, n_cat, n_trend))`
+ico_spp <- read_csv(file.path(dir_goal, 'output/ico_risk_by_year.csv')) %>%
+  select(sciname, comname, iucn_sid, am_sid) %>%
+  distinct()
+
+
+### Get custom spatial info for Canada Goose
+iucn_ico_rgn_custom <- read_csv(file.path(dir_goal, 'spatial/BOTW_custom.csv')) %>%
+  inner_join(read_csv(file.path(dir_goal, 'spatial/rgn2cell.csv')), by = 'loiczid') %>%
+  select(iucn_sid, rgn_id) %>%
+  distinct()
+
+spp_rgn <- read_csv(file.path(dir_goal, 'output', 'spp_area_by_rgn.csv')) %>%
+  bind_rows(iucn_ico_rgn_custom) %>%
+  inner_join(ico_spp, by = c('iucn_sid', 'am_sid')) %>%
+  select(iucn_sid, am_sid, rgn_id, sciname, comname) %>%
+  distinct()
+
+### Fix Bald Eagle - listed only in two regions...
+bald_eagle_rgn <- spp_rgn %>%
+  filter(comname == 'Bald Eagle') %>%
+  complete(rgn_id = c(1:8), nesting(iucn_sid, am_sid, sciname, comname))
+
+spp_rgn <- spp_rgn %>%
+  bind_rows(bald_eagle_rgn) %>%
+  distinct()
+
+write_csv(spp_rgn, file.path(dir_goal, 'output', 'ico_spp_by_rgn.csv'))
+
+```
 
 ***
 
-Plotting functions disabled...
+# Visualize ICO health by region
 
-``` {r plot_ico_by_cat, eval = FALSE}
+Create a heatmap showing species health by region (for most recent assessment)
 
-ico_info_timeseries <- read_csv(file.path(dir_goal, 'int/ico_info_timeseries.csv'))
+``` {r get_ico_layers}
 
-ico_table_info <- ico_info_timeseries %>%
-  group_by(sciname) %>%
-  # filter(sciname == last(sciname)) %>%
-  arrange(year) %>%
-  filter(year == last(year)) %>%
+ico_risk <- read_csv(file.path(dir_goal, 'output', 'ico_risk_by_year.csv')) %>%
+  mutate(year = ifelse(is.na(year), 2017, year)) %>%
+  group_by(sciname, comname) %>%
+  fill(risk_score, risk_source, cat_ts, .direction = 'down') %>%
+  filter(year == max(year)) %>%
   ungroup() %>%
-  select(am_sid, iucn_sid, year,
-         sciname, comname,
-         cat_score, pr_score) %>%
-  distinct() %>%
-  mutate(ico_health = round(1 - cat_score, 1)) %>%
-  arrange(desc(cat_score), desc(comname))
+  select(sciname, comname, risk_score, risk_source)
+
+ico_rgns <- read_csv(file.path(dir_goal, 'output', 'ico_spp_by_rgn.csv')) %>%
+  select(sciname, comname, rgn_id) %>%
+  distinct()
+
+ico_df <- ico_risk %>%
+  full_join(ico_rgns, by = c('sciname', 'comname'))
+
+write_csv(ico_df, file.path(dir_goal, 'int', 'ico_df_for_heatmap.csv'))
+```
+
+
+``` {r create_heatmap}
+
+ico_df <- read_csv(file.path(dir_goal, 'int', 'ico_df_for_heatmap.csv')) %>%
+  mutate(present = TRUE) %>%
+  complete(rgn_id = full_seq(rgn_id, 1), nesting(sciname, comname, risk_score, risk_source)) %>%
+  mutate(present = ifelse(is.na(present), FALSE, present)) %>%
+  mutate(comname = str_replace(comname, 'Northeast Pacific Offshore Population', 'offshore'),
+         comname = str_replace(comname, 'West Coast Transient Population', 'transient'),
+         comname = str_replace(comname, 'Northeast Pacific Southern Resident Population', 'Southern res.'),
+         comname = str_replace(comname, 'Northeast Pacific Northern Resident Population', 'Northern res.'))
+
+ico_table_info <- ico_df %>%
+  mutate(ico_health = round(1 - risk_score, 1)) %>%
+  arrange(desc(risk_score), desc(comname))
 
 ### rearrange to get the NAs on top
 ico_table_info <- ico_table_info %>%
   filter(is.na(ico_health)) %>%
   bind_rows(ico_table_info %>%
-              filter(!is.na(ico_health))) %>%
-  mutate(n_ico = 1:n())
+              filter(!is.na(ico_health)))
 
-### list status cats on the plot itself? ICO HEALTH IS INVERSE OF CATEGORY!!!!!
-cat_list <- data.frame(ico_health = c(   0,      .1,    .2,      .3,    .4,      .5,    .6,      .7,    .8,      .9,   1.0),
-                       cat_lab    = c('EX', 'CR/EX',  'CR', 'CR/EN',  'EN', 'EN/VU',  'VU', 'VU/NT',  'NT', 'NT/LC',  'LC'),
-                       stringsAsFactors = FALSE)
+ico_order <- ico_table_info %>%
+  filter(present) %>%
+  select(comname, sciname) %>%
+  distinct() %>%
+  mutate(name_order = 1:n())
 
 ico_table_labeled <- ico_table_info %>%
-  left_join(cat_list, by = 'ico_health') %>%
-  group_by(ico_health) %>%
-  mutate(cat_lab = ifelse(is.na(ico_health), 'NE/DD', cat_lab),
-         cat_lab = ifelse(n_ico == last(n_ico), cat_lab, NA),
-         ico_lab = paste0(comname, ' (', sciname, ')'),
-         ico_lab = ifelse(!is.na(pr_score), ico_lab, paste0(ico_lab, '*')))
+  left_join(ico_order, by = c('comname', 'sciname')) %>%
+  mutate(ico_lab = paste0(comname, ' (', sciname, ')'),
+         ico_lab = ifelse(risk_source == 'iucn', ico_lab, paste0(ico_lab, '*'))) %>%
+  left_join(get_rgn_names(), by = c('rgn_id')) %>%
+  transform(rgn_name = reorder(rgn_name, rgn_id)) %>%
+  transform(ico_lab = reorder(ico_lab, name_order))
 
-ico_plot <- ggplot(ico_table_labeled, aes(x = n_ico, y = 0.3, fill = ico_health)) +
-  theme(axis.ticks = element_blank(),
-        text = element_text(family = 'Helvetica', color = 'gray30', size = 8),
-        plot.title = element_text(size = rel(1.25), hjust = 0, face = 'bold'),
-        legend.key = element_rect(colour = NA, fill = NA),
-        panel.border     = element_blank(),
-        panel.background = element_blank(),
-        panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text  = element_blank(),
-        legend.position = 'none') +
-  geom_bar(stat = 'identity', width = 1, color = 'grey80', size = .25) +
-  geom_text(aes(label = ico_lab, y = .35), 
-            size = 2.5 * 1.8,
-            color = 'grey20',
-           # angle = 90, 
-            hjust = 0) +
-  geom_text(aes(label = cat_lab, y = 0),
-            nudge_y = .02, 
-            size = 2.5 * 1.5,
-            color = 'black',
-            # angle = 90, 
-            hjust = 0) +
-  scale_fill_gradient2(low = '#F27259', mid = '#FFCF5C', high = '#1F9B90', 
+ # ico_plot <- ggplot(ico_table_labeled, aes(x = n_ico, y = 0.3, fill = ico_health)) +
+#   geom_bar(stat = 'identity', width = 1, color = 'grey80', size = .25) +
+#   geom_text(aes(label = ico_lab, y = .35), 
+#             size = 2.5 * 1.8,
+#             color = 'grey20',
+#            # angle = 90, 
+#             hjust = 0) +
+#   geom_text(aes(label = cat_lab, y = 0),
+#             nudge_y = .02, 
+#             size = 2.5 * 1.5,
+#             color = 'black',
+#             # angle = 90, 
+#             hjust = 0) +
+#   scale_fill_gradient2(low = '#F27259', mid = '#FFCF5C', high = '#1F9B90', 
+#                        midpoint = 0.5,
+#                        breaks = c(0, .2, .4, .6, .8, 1.0),
+#                        labels = c('EX', 'CR', 'EN', 'VU', 'NT', 'LC'))+
+#   scale_y_continuous(limits = c(0, 3)) +
+#   coord_flip() +
+#   labs(fill = 'Species health') + 
+#   facet_wrap( ~ rgn_name)
+
+### Turn it into a heat map!
+
+ico_heatmap <- ggplot(data = ico_table_labeled, aes(x = rgn_name, y = ico_lab)) +
+  ggtheme_plot() +
+  geom_tile(fill = 'grey40') +
+  geom_tile(aes(fill = ico_health, alpha = present), color = 'grey80') +
+  scale_fill_gradient2(low = '#F27259', mid = '#FFCF5C', high = '#1F9B90',
                        midpoint = 0.5,
                        breaks = c(0, .2, .4, .6, .8, 1.0),
-                       labels = c('EX', 'CR', 'EN', 'VU', 'NT', 'LC'))+
-  scale_y_continuous(limits = c(0, 3)) +
-  coord_flip() +
-  labs(fill = 'Species health')
+                       labels = c('EX', 'CR', 'EN', 'VU', 'NT', 'LC'),
+                       na.value = 'grey60',
+                       guide = 'none') +
+  scale_alpha_discrete(guide = 'none') +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title  = element_blank())
 
-ggsave(file.path(dir_goal, 'ico_plot_w_lines.png'),
+
+
+ggsave(file.path(dir_goal, 'Figs/ico_heatmap.png'),
        width = 6, height = 6, units = 'in', dpi = 300)
+ggsave(file.path(dir_goal, 'Figs/ico_heatmap_lo_res.png'),
+       width = 6, height = 6, units = 'in', dpi = 100)
 ```
 
-``` {r plot_ico_cat_legend, eval = FALSE}
+![](Figs/ico_heatmap_lo_res.png)
+
+``` {r plot_ico_cat_legend}
 
 cat_list <- data.frame(label_y    = c(-.2, seq(0, 1, 0.1)),
                        ico_health = c(NA,  seq(0, 1, 0.1)),
@@ -435,14 +417,21 @@ ico_legend <- ggplot(cat_list, aes(x = 0, y = label_y, fill = ico_health)) +
             hjust = 0) +
   scale_fill_gradient2(low = '#F27259', mid = '#FFCF5C', high = '#1F9B90', 
                        midpoint = 0.5,
-                       breaks = seq(0, 1, 0.1)) +
+                       breaks = seq(0, 1, 0.1),
+                       na.value = 'grey60') +
   scale_y_continuous(limits = c(-.2, 1)) +
   scale_x_continuous(limits = c(0, .5)) +
   labs(title = 'Species health')
 
-ggsave(file.path(dir_goal, 'spp_ico_legend.png'),
+### Saving it at these height/width squishes the squares together into
+### a single color bar...
+ggsave(file.path(dir_goal, 'Figs/spp_ico_legend.png'),
        height = 2.3, width = 2.2, units = 'in', dpi = 300)
+ggsave(file.path(dir_goal, 'Figs/spp_ico_legend_lo_res.png'),
+       height = 2.3, width = 2.2, units = 'in', dpi = 100)
 ```
+
+![](Figs/spp_ico_legend_lo_res.png)
 
 ***
 

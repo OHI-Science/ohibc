@@ -1,5 +1,5 @@
 ---
-title: 'OHIBC: data_prep_spp.Rmd'
+title: 'OHIBC: ICO custom species info'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -154,29 +154,15 @@ spp_past_df <- mc_get_from_api(spp_hist_url, custom_spp_id, api_key, delay = 1, 
 #          cat_txt  = category,
 #          cat_ts   = code_current)
 
-pop_cat <- data.frame(cat_ts       = c("LC", "NT", "VU", "EN", "CR", "EX", "NE", "DD"), 
-                      cat_ts_score = c(   0,  0.2,  0.4,  0.6,  0.8,  1.0,  NA,   NA))
+pop_cat <- data.frame(cat_ts     = c("LC", "NT", "VU", "EN", "CR", "EX", "NE", "DD"), 
+                      risk_score = c(   0,  0.2,  0.4,  0.6,  0.8,  1.0,  NA,   NA))
   
 spp_past_df <- spp_past_df %>% 
   left_join(pop_cat, by = 'cat_ts') %>%
-  filter(!is.na(cat_ts_score) & !is.na(year)) %>%
+  filter(!is.na(risk_score) & !is.na(year)) %>%
   arrange(iucn_sid, year)
 
-### expand the time series and calculate trend
-cat_years    <- c(1980:2016)
-
 spp_cat_ts <- spp_past_df %>%
-  select(iucn_sid, year, cat_ts, cat_ts_score) %>%
-  complete(year = cat_years, nesting(iucn_sid)) %>%
-  arrange(iucn_sid, year) %>%
-  group_by(iucn_sid) %>%
-  fill(cat_ts, cat_ts_score) %>%                    
-    ### fills forward to most recent assessment year; older category valid til new assessment
-  fill(cat_ts, cat_ts_score, .direction = 'up') %>% 
-    ### fills back from first non-NE or DD assessment; assume early status is same as first assessment
-  ungroup()
-
-spp_cat_ts <- spp_cat_ts %>%
   left_join(custom_info, by = 'iucn_sid') %>%
   mutate(am_sid = NA,
          map_iucn_sid = iucn_sid,

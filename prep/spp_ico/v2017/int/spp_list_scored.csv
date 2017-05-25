@@ -1,4 +1,4 @@
-am_sid,iucn_sid,sciname,spp_group,map_iucn_sid,map_subpop,pr_score,pop_trend,spatial_source,year,cat_ts,cat_ts_score
+am_sid,iucn_sid,sciname,spp_group,map_iucn_sid,map_subpop,pr_score,pop_trend,spatial_source,year,cat_ts,risk_score
 ITS-Mam-180524,2474,Balaenoptera acutorostrata,MARINE_MAMMALS,2474,NA,0.2,stable,iucn,1996,NT,0.2
 ITS-Mam-180524,2474,Balaenoptera acutorostrata,MARINE_MAMMALS,2474,NA,0.2,stable,iucn,2008,LC,0.2
 ITS-Mam-180526,2475,Balaenoptera borealis,MARINE_MAMMALS,2475,NA,1,unknown,iucn,1994,VU,1

@@ -376,19 +376,19 @@ Time series risk assessments are determined in the global SPP analysis.  In this
 
 spp_clean <- read_csv(file.path(dir_goal, 'int/spp_list_clean.csv'))
 
-spp_cat_ts <- read_csv(file.path(dir_goal_global, 'int', 'spp_cat_timeseries_raw.csv')) %>%
-  select(iucn_sid, year, cat_ts, cat_ts_score) %>%
+spp_risk_ts <- read_csv(file.path(dir_goal_global, 'int', 'spp_cat_timeseries_raw.csv')) %>%
+  select(iucn_sid, year, cat_ts, risk_score = cat_ts_score) %>%
   filter(iucn_sid %in% spp_clean$iucn_sid)
 ### This will be expanded upon in the toolbox.
 
 spp_scored <- read_csv(file.path(dir_goal, 'int/spp_list_clean.csv')) %>%
   filter(!(is.na(map_iucn_sid) & is.na(am_sid))) %>%
-  left_join(spp_cat_ts, by = 'iucn_sid') 
+  left_join(spp_risk_ts, by = 'iucn_sid') 
 ### Note: still some N.E. and DD species here... keep 'em in b/c some
 ### of these show up in ICO (e.g. Clupea pallasii)
 
 spp_scored <- spp_scored %>% 
-  mutate(cat_ts_score = ifelse(!is.na(pr_score), pr_score, cat_ts_score),
+  mutate(risk_score = ifelse(!is.na(pr_score), pr_score, risk_score),
          cat_ts = ifelse(is.na(cat_ts), cat_code, cat_ts)) %>%
   select(-cat_code)
 
@@ -441,6 +441,8 @@ spp_rgn_area <- iucn_spp_rgn_area %>%
   bind_rows(am_spp_rgn_area) %>%
   filter(!is.na(rgn_id)) %>%
   select(iucn_sid, am_sid, rgn_id, spp_area, spp_pct_area, spatial_source) %>%
+  mutate(spp_area     = round(spp_area, 5),
+         spp_pct_area = round(spp_pct_area, 5)) %>%
   distinct()
 
 write_csv(spp_rgn_area, file.path(dir_goal, 'output', 'spp_area_by_rgn.csv'))
@@ -458,10 +460,11 @@ spp_trend_layer <- spp_list_scored %>%
   distinct()
 write_csv(spp_trend_layer, file.path(dir_goal, 'output', 'spp_trend_by_id.csv'))
 
-spp_cat_ts_layer <- spp_list_scored %>%
-  select(iucn_sid, am_sid, cat_ts_score, year, pr_score, cat_ts) %>%
+spp_risk_ts_layer <- spp_list_scored %>%
+  mutate(risk_source = ifelse(is.na(pr_score), 'iucn', 'bc')) %>%
+  select(iucn_sid, am_sid, risk_score, risk_source, year, cat_ts) %>%
   distinct()
-write_csv(spp_cat_ts_layer, file.path(dir_goal, 'output', 'spp_cat_by_year.csv'))
+write_csv(spp_risk_ts_layer, file.path(dir_goal, 'output', 'spp_risk_by_year.csv'))
 
 ```
 
@@ -479,29 +482,29 @@ In this section we estimate the model calculations:
 spp_area_by_rgn <- read_csv(file.path(dir_goal, 'output', 'spp_area_by_rgn.csv'))
 
 ### Flesh out the time series
-spp_cat_by_yr <- read_csv(file.path(dir_goal, 'output', 'spp_cat_by_year.csv')) %>%
+spp_risk_by_yr <- read_csv(file.path(dir_goal, 'output', 'spp_risk_by_year.csv')) %>%
   filter(!is.na(year)) %>%
   complete(year = full_seq(year, period = 1), nesting(iucn_sid, am_sid)) %>%
   group_by(iucn_sid, am_sid) %>%
   arrange(year) %>%
-  fill(cat_ts_score, .direction = 'up') %>%
-  fill(cat_ts_score, .direction = 'down') %>%
+  fill(risk_score, .direction = 'up') %>%
+  fill(risk_score, .direction = 'down') %>%
   filter(year >= 1990) %>%
-  select(iucn_sid, am_sid, year, cat_ts_score) %>%
+  select(iucn_sid, am_sid, year, risk_score) %>%
   ungroup()
 
-spp_cat_by_rgn <- spp_area_by_rgn %>%
-  inner_join(spp_cat_by_yr, by = c('iucn_sid', 'am_sid')) %>%
-  filter(!is.na(cat_ts_score))
+spp_risk_by_rgn <- spp_area_by_rgn %>%
+  inner_join(spp_risk_by_yr, by = c('iucn_sid', 'am_sid')) %>%
+  filter(!is.na(risk_score))
 
-spp_cat_rgn_yr <- spp_cat_by_rgn %>%
+spp_risk_rgn_yr <- spp_risk_by_rgn %>%
   group_by(rgn_id, year) %>%
-  summarize(mean_cat_score = sum(cat_ts_score * spp_pct_area) / n()) %>%
-  mutate(status = (.75 - mean_cat_score) / .75,
+  summarize(mean_risk_score = sum(risk_score * spp_pct_area) / n()) %>%
+  mutate(status = (.75 - mean_risk_score) / .75,
          status = round(status, 5),
-         mean_cat_score = round(mean_cat_score, 5))
+         mean_risk_score = round(mean_risk_score, 5))
 
-DT::datatable(spp_cat_rgn_yr)
+DT::datatable(spp_risk_rgn_yr)
 
 
 ```
@@ -582,36 +585,175 @@ write_csv(spp_3nm_area, file.path(dir_goal, 'int', 'spp_area_by_rgn_3nm.csv'))
 
 spp_3nm_area <- read_csv(file.path(dir_goal, 'int', 'spp_area_by_rgn_3nm.csv'))
 
-spp_cat_by_yr <- read_csv(file.path(dir_goal, 'output', 'spp_cat_by_year.csv')) %>%
+spp_risk_by_yr <- read_csv(file.path(dir_goal, 'output', 'spp_risk_by_year.csv')) %>%
   filter(!is.na(year)) %>%
   complete(year = full_seq(year, period = 1), nesting(iucn_sid, am_sid)) %>%
   group_by(iucn_sid, am_sid) %>%
   arrange(year) %>%
-  fill(cat_ts_score, .direction = 'up') %>%
-  fill(cat_ts_score, .direction = 'down') %>%
+  fill(risk_score, .direction = 'up') %>%
+  fill(risk_score, .direction = 'down') %>%
   filter(year >= 1990) %>%
-  select(iucn_sid, am_sid, year, cat_ts_score) %>%
+  select(iucn_sid, am_sid, year, risk_score) %>%
   ungroup()
 
-spp_cat_3nm <- spp_3nm_area %>%
-  full_join(spp_cat_by_yr, by = c('iucn_sid', 'am_sid')) %>%
-  filter(!is.na(cat_ts_score))
+spp_risk_3nm <- spp_3nm_area %>%
+  full_join(spp_risk_by_yr, by = c('iucn_sid', 'am_sid')) %>%
+  filter(!is.na(risk_score))
 
-spp_cat_3nm_yr <- spp_cat_3nm %>%
+spp_risk_3nm_yr <- spp_risk_3nm %>%
   group_by(rgn_id, year) %>%
-  summarize(mean_cat_score = sum(cat_ts_score * spp_pct_area) / n()) %>%
-  mutate(status = (.75 - mean_cat_score) / .75,
+  summarize(mean_risk_score = sum(risk_score * spp_pct_area) / n()) %>%
+  mutate(status = (.75 - mean_risk_score) / .75,
          status = round(status, 5),
-         mean_cat_score = round(mean_cat_score, 5))
+         mean_risk_score = round(mean_risk_score, 5))
 
-write_csv(spp_cat_3nm_yr %>% 
+write_csv(spp_risk_3nm_yr %>% 
             select(rgn_id, year, status), 
           file.path(dir_goal, 'output/spp_status_3nm.csv'))
 
-DT::datatable(spp_cat_3nm_yr)
+DT::datatable(spp_risk_3nm_yr)
 
 ```
 
+## Visualize data
+
+Create a heatmap showing species health by region (for most recent assessment)
+
+``` {r get_ico_layers}
+
+spp_names <- read_csv(file.path(dir_goal, 'output', 'spp_info_by_id.csv')) %>%
+  select(iucn_sid, am_sid, sciname) %>%
+  distinct()
+
+spp_risk <- read_csv(file.path(dir_goal, 'output', 'spp_risk_by_year.csv')) %>%
+  mutate(year = ifelse(is.na(year), 2017, year)) %>%
+  group_by(iucn_sid, am_sid) %>%
+  fill(risk_score, risk_source, cat_ts, .direction = 'down') %>%
+  filter(year == max(year)) %>%
+  ungroup() %>%
+  select(iucn_sid, am_sid, risk_score, risk_source)
+
+spp_rgns <- read_csv(file.path(dir_goal, 'output', 'spp_area_by_rgn.csv')) %>%
+  select(iucn_sid, am_sid, rgn_id, spp_pct_area) %>%
+  distinct()
+
+spp_df <- spp_risk %>%
+  full_join(spp_rgns, by = c('iucn_sid', 'am_sid')) %>%
+  full_join(spp_names, by = c('iucn_sid', 'am_sid')) %>%
+  filter(!is.na(risk_score))
+
+write_csv(spp_df, file.path(dir_goal, 'int', 'spp_df_for_heatmap.csv'))
+
+```
+
+
+``` {r create_heatmap}
+
+spp_df <- read_csv(file.path(dir_goal, 'int', 'spp_df_for_heatmap.csv')) %>%
+  mutate(present = TRUE) %>%
+  complete(rgn_id = full_seq(rgn_id, 1), nesting(am_sid, iucn_sid, sciname, risk_score, risk_source)) %>%
+  mutate(present = ifelse(is.na(present), FALSE, present))
+
+spp_table_info <- spp_df %>%
+  mutate(spp_health = round(1 - risk_score, 1)) %>%
+  arrange(desc(risk_score), desc(sciname))
+
+### rearrange to get the NAs on top
+spp_table_info <- spp_table_info %>%
+  filter(is.na(spp_health)) %>%
+  bind_rows(spp_table_info %>%
+              filter(!is.na(spp_health)))
+
+spp_order <- spp_table_info %>%
+  filter(present) %>%
+  select(sciname) %>%
+  distinct() %>%
+  mutate(name_order = 1:n())
+
+spp_table_labeled <- spp_table_info %>%
+  left_join(spp_order, by = c('sciname')) %>%
+  left_join(get_rgn_names(), by = c('rgn_id')) %>%
+  transform(rgn_name = reorder(rgn_name, rgn_id)) %>%
+  transform(sciname = reorder(sciname, name_order)) %>%
+  rename(percent_of_rgn = spp_pct_area)
+
+### Turn it into a heat map!
+
+spp_heatmap <- ggplot(data = spp_table_labeled, aes(x = rgn_name, y = sciname, key = percent_of_rgn, key2 = risk_source)) +
+  ggtheme_plot() +
+  # geom_tile(fill = 'grey40') +
+  geom_tile(aes(fill = spp_health, alpha = present), 
+            color = 'grey80', size = 0.1) +
+  scale_fill_gradient2(low = '#F27259', mid = '#FFCF5C', high = '#1F9B90',
+                       midpoint = 0.5,
+                       breaks = c(0, .2, .4, .6, .8, 1.0),
+                       labels = c('EX', 'CR', 'EN', 'VU', 'NT', 'LC'),
+                       na.value = 'grey60',
+                       guide = 'none') +
+  scale_alpha_discrete(guide = 'none') +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.text.y = element_blank(),
+        axis.title  = element_blank())
+
+ggsave(file.path(dir_goal, 'Figs/spp_heatmap.png'),
+       width = 6, height = 10, units = 'in', dpi = 300)
+ggsave(file.path(dir_goal, 'Figs/spp_heatmap_lo_res.png'),
+       width = 6, height = 10, units = 'in', dpi = 100)
+
+plotly::ggplotly(spp_heatmap)
+
+```
+
+
+``` {r plot_spp_cat_legend, eval = FALSE}
+
+# cat_list <- data.frame(label_y    = c(-.2, seq(0, 1, 0.1)),
+#                        ico_health = c(NA,  seq(0, 1, 0.1)),
+#                        label      = c('Data Deficient/Not Evaluated',
+#                                       'Extinct', '', 
+#                                       'Critically Endangered', '',
+#                                       'Endangered', '',
+#                                       'Vulnerable', '',
+#                                       'Near Threatened', '',
+#                                       'Least Concern'),
+#                        stringsAsFactors = FALSE)
+# 
+# 
+# ico_legend <- ggplot(cat_list, aes(x = 0, y = label_y, fill = ico_health)) +
+#   theme(axis.ticks = element_blank(),
+#         text = element_text(family = 'Helvetica', color = 'gray30', size = 8),
+#         plot.title = element_text(size = rel(1.25), hjust = 0, face = 'bold'),
+#         legend.key = element_rect(colour = NA, fill = NA),
+#         panel.border     = element_blank(),
+#         panel.background = element_blank(),
+#         panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text  = element_blank(),
+#         legend.position = 'none',
+#         title = element_text(size = 10)) +
+#   geom_point(size = 5, shape = 22, color = 'grey80') +
+#   geom_text(aes(label = label, x = .04), 
+#             size = 3.2,
+#             color = 'grey30',
+#             # angle = 90, 
+#             hjust = 0) +
+#   scale_fill_gradient2(low = '#F27259', mid = '#FFCF5C', high = '#1F9B90', 
+#                        midpoint = 0.5,
+#                        breaks = seq(0, 1, 0.1),
+#                        na.value = 'grey60') +
+#   scale_y_continuous(limits = c(-.2, 1)) +
+#   scale_x_continuous(limits = c(0, .5)) +
+#   labs(title = 'Species health')
+# 
+# ### Saving it at these height/width squishes the squares together into
+# ### a single color bar...
+# ggsave(file.path(dir_goal, 'Figs/spp_ico_legend.png'),
+#        height = 2.3, width = 2.2, units = 'in', dpi = 300)
+# ggsave(file.path(dir_goal, 'Figs/spp_ico_legend_lo_res.png'),
+#        height = 2.3, width = 2.2, units = 'in', dpi = 100)
+```
+
+![](Figs/spp_ico_legend_lo_res.png)
 
 -----
 
