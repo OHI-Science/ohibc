@@ -109,6 +109,7 @@ complete_years <- function(score_df, year_span) {
   score_df <- score_df %>%
     group_by(region_id) %>%
     complete(year = year_span) %>%
+    arrange(year) %>%
     fill(-year, -region_id, .direction = 'down') %>% fill(-year, -region_id, .direction = 'up') %>%
     ungroup()
 
@@ -134,9 +135,9 @@ FIS <- function(layers) {
   ram_catch         <- layers$data[['fis_ram_catch']] %>%
     select(year, stock_id, catch = value)
   rgn_stock_wt_dfo  <- layers$data[['fis_stock_wt_dfo']] %>%
-    select(rgn_id, stock_id = ram_stock_id, dfo_wt = catch_wt)
+    select(region_id = rgn_id, stock_id = ram_stock_id, dfo_wt = catch_wt)
   rgn_stock_wt_saup <- layers$data[['fis_stock_wt_saup']] %>%
-    select(rgn_id, stock_id = ram_stockid, saup_wt = catch_wt)
+    select(region_id = rgn_id, stock_id = ram_stockid, saup_wt = catch_wt)
   stock_wt_src      <- layers$data[['fis_stock_wt_src']] %>%
     select(stock_id = ram_stock_id, priority)
 
@@ -147,6 +148,16 @@ FIS <- function(layers) {
   ##### run each fishery through the Kobe plot calcs #####
   ########################################################.
   ### * ram_b_bmsy, ram_f_fmsy
+
+  ### Apply rolling mean to F/Fmsy
+  ram_f_fmsy <- ram_f_fmsy %>%
+    mutate(f_fmsy_raw = f_fmsy) %>%
+    arrange(stock_id, year) %>%
+    group_by(stock_id) %>%
+    filter(!is.na(f_fmsy)) %>%
+    mutate(f_fmsy = zoo::rollmean(f_fmsy_raw, k = 4, align = 'right', fill = NA)) %>%
+    ungroup() %>%
+    select(-f_fmsy_raw)
 
   ### Function for converting B/Bmsy values into a 0 - 1 score
   rescale_bprime_crit <- function(fish_stat_df, underfished_th = 1.5,
@@ -241,36 +252,61 @@ FIS <- function(layers) {
   ### * ram_catch, rgn_stock_wt_*
 
   stock_wt_df <- rgn_stock_wt_dfo %>%
-    full_join(rgn_stock_wt_saup, by = c('stock_id', 'rgn_id')) %>%
+    full_join(rgn_stock_wt_saup, by = c('stock_id', 'region_id')) %>%
     left_join(stock_wt_src, by = 'stock_id') %>%
     gather(key = src, value = catch_wt, dfo_wt:saup_wt) %>%
     filter(str_detect(src, priority) & !is.na(catch_wt)) %>%
-    select(rgn_id, stock_id, catch_wt) %>%
+    select(region_id, stock_id, catch_wt) %>%
     filter(catch_wt > 0)
 
   ### calculate weights within each region by regional catch
   catch_df <- ram_catch %>%
     left_join(stock_wt_df, by = 'stock_id') %>%
-    group_by(rgn_id, stock_id) %>%
-    complete(year = unique(.$year)) %>%
+    group_by(region_id, stock_id) %>%
+    complete(year = year_span) %>%
+    arrange(year) %>%
+    fill(catch, catch_wt, .direction = 'down') %>%
+    ungroup() %>%
     mutate(rgn_catch = catch * catch_wt,
            rgn_catch = ifelse(is.na(rgn_catch), 0, rgn_catch))
 
   stock_score_df <- stock_status_df %>%
     group_by(stock_id) %>%
     arrange(stock_id, year) %>%
-    fill(score, .direction = c('down', 'up')) %>%
+    fill(score, .direction = c('down')) %>%
+    fill(score, .direction = c('up')) %>%
     ungroup() %>%
     full_join(catch_df, by = c('stock_id', 'year')) %>%
-    select(rgn_id, year, stock_id, score, rgn_catch) %>%
-    filter(year %in% year_span & !is.na(rgn_id))
+    select(region_id, year, stock_id, score, rgn_catch) %>%
+    filter(year %in% year_span & !is.na(region_id))
 
   if(data_year == max(year_span)) {
     write_csv(stock_score_df, '~/github/ohibc/prep/fis/v2017/summary/fis_from_functions.csv')
   }
 
+  ### plotting fishery catch weighting by region
+  # stock_plot_df <- stock_score_df %>%
+  #   group_by(region_id, year) %>%
+  #   mutate(total_catch = sum(rgn_catch),
+  #          rgn_catch_pct = rgn_catch / total_catch,
+  #          total_score = sum(score * rgn_catch) / total_catch) %>%
+  #   ungroup() %>%
+  #   left_join(get_rgn_names(), by = 'region_id')
+  #
+  # for(rgn in 1:8) {
+  #   # rgn <- 1
+  #   rgn_plot_df <- stock_plot_df %>%
+  #     filter(region_id == rgn)
+  #   rgn_plot <- ggplot(rgn_plot_df, aes(x = year, y = rgn_catch_pct)) +
+  #     geom_area(aes(group = stock_id, fill = stock_id)) +
+  #     labs(title = first(rgn_plot_df$rgn_name),
+  #          fill  = 'Stock ID',
+  #          y     = 'Proportion of catch')
+  #   print(rgn_plot)
+  # }
+
   score_df <- stock_score_df %>%
-    group_by(rgn_id, year) %>%
+    group_by(region_id, year) %>%
     mutate(stock_catch = sprintf('%s: %.2f', stock_id, rgn_catch)) %>%
     summarize(total_catch = sum(rgn_catch),
               total_score = sum(score * rgn_catch) / total_catch,
@@ -279,8 +315,9 @@ FIS <- function(layers) {
     ungroup()
 
   fis_status <- score_df %>%
-    select(region_id = rgn_id, year, score = total_score) %>%
-    mutate(goal      = 'FIS',
+    select(region_id = region_id, year, score = total_score) %>%
+    mutate(score     = 100 * score,
+           goal      = 'FIS',
            dimension = 'status')
 
   ## reference points
@@ -504,7 +541,7 @@ AO <- function(layers) {
            status = ifelse(status > 1, 1, status),
            component = 'first_nations_licenses') %>%
     select(year, region_id, status, component)
-  # ggplot(licenses_target, aes(x = year, y = status, group = rgn_id, color = rgn_id)) + geom_line()
+  # ggplot(licenses_target, aes(x = year, y = status, group = region_id, color = region_id)) + geom_line()
 
   ### Spawn habitat index
   ### * SHI vs historical reference point of mean SHI from 1940-1960.
@@ -542,15 +579,19 @@ AO <- function(layers) {
     mutate(goal      = 'AO',
            dimension = 'status')
 
-  # ao_status_components <- bind_rows(closure_status, license_status, shi_status, salmon_status) %>%
-  #   filter(year %in% 2000:2017) %>%
-  #   filter(!is.na(region_id)) %>%
-  #   left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')) %>%
-  #   left_join(ao_status, by = c('year', 'region_id'))
+  if(data_year == max(year_span)) {
+    ao_status_components <- bind_rows(closure_status, license_status, shi_status, salmon_status) %>%
+      filter(year %in% 2000:2017) %>%
+      filter(!is.na(region_id)) %>%
+      left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')) %>%
+      left_join(ao_status, by = c('year', 'region_id'))
+
+    write_csv(ao_status_components, '~/github/ohibc/prep/ao/v2017/summary/ao_from_functions.csv')
   # ggplot(ao_status_components, aes(x = year, y = status, group = component, color = component)) +
   #   geom_line(aes(y = score), color = 'grey40', size = 1.5, alpha = .8) +
   #   geom_line(size = 1, alpha = .8) +
   #   facet_wrap( ~ rgn_name)
+  }
 
   ## reference points
   write_ref_pts(goal   = "AO",
@@ -1420,32 +1461,39 @@ ICO <- function(layers) {
   status_year <- layers$data$status_year
   data_year <- get_data_year('ICO', status_year, layers)
 
-  ico_layer <- layers$data[['ico_spp_risk_score']] %>%
-    select(year, region_id = rgn_id, cat_label, cat_score = cat_ts_score, sciname)
+  ico_score <- layers$data[['ico_spp_risk_score']] %>%
+    select(year, risk_score, sciname, iucn_sid, am_sid) %>%
+    filter(!is.na(year)) %>%
+    complete(year = full_seq(year, 1), nesting(sciname, iucn_sid, am_sid)) %>%
+    group_by(sciname, iucn_sid, am_sid) %>%
+    arrange(year) %>%
+    fill(risk_score, .direction = 'up') %>%
+    fill(risk_score, .direction = 'down') %>%
+    ungroup()
 
-  # lookup for weights status
-  #  LC <- "LOWER RISK/LEAST CONCERN (LR/LC)"
-  #  NT <- "LOWER RISK/NEAR THREATENED (LR/NT)"
-  #  T  <- "THREATENED (T)" treat as "EN"
-  #  VU <- "VULNERABLE (V)"
-  #  EN <- "ENDANGERED (E)"
-  #  LR/CD <- "LOWER RISK/CONSERVATION DEPENDENT (LR/CD)" treat as between VU and NT
-  #  CR <- "VERY RARE AND BELIEVED TO BE DECREASING IN NUMBERS"
-  #  DD <- "INSUFFICIENTLY KNOWN (K)"
-  #  DD <- "INDETERMINATE (I)"
-  #  DD <- "STATUS INADEQUATELY KNOWN-SURVEY REQUIRED OR DATA SOUGHT"
+
+  ico_rgns <- layers$data[['ico_spp_presence']] %>%
+    select(iucn_sid, am_sid, region_id = rgn_id, sciname, comname)
 
   ### calculate base status across all years
   # STEP 1: take mean of subpopulation scores if necessary
-  rgn_ico_status_spp <- ico_layer %>%
-    group_by(region_id, sciname, year) %>%
-    summarize(spp_mean = 1 - mean(cat_score, na.rm = TRUE)) %>%
+  rgn_ico_status_spp <- ico_rgns %>%
+    full_join(ico_score, by = c('sciname', 'iucn_sid', 'am_sid')) %>%
+    group_by(region_id, sciname, comname, year) %>%
+    summarize(spp_health = 1 - mean(risk_score, na.rm = TRUE)) %>%
     ungroup()
+
+  ### identify spp with no score available (NE or DD)
+  rgn_ico_no_score <- rgn_ico_status_spp %>%
+    filter(is.nan(spp_health)) %>%
+    select(region_id, sciname, comname)
 
   # STEP 2: take mean of populations within regions
   rgn_ico_status <- rgn_ico_status_spp %>%
+    filter(!is.nan(spp_health)) %>%
     group_by(region_id, year) %>%
-    summarize(score = mean(spp_mean, na.rm = TRUE)) %>%
+    summarize(score = mean(spp_health, na.rm = TRUE),
+              n_spp = n()) %>%
     ungroup() %>%
     mutate('goal' = 'ICO')
 
@@ -1471,10 +1519,14 @@ ICO <- function(layers) {
                 method = "scaled IUCN risk categories",
                 ref_pt = NA)
 
-  # return scores
+  ### combine and return scores df
   scores_ico <- bind_rows(rgn_ico_status, rgn_ico_trend) %>%
     filter(year == data_year) %>%
     select(goal, dimension, region_id, score)
+
+  ### For now, ICO trend is NA - not enough data to calculate trends
+  scores_ico <- scores_ico %>%
+    mutate(score = ifelse(dimension == 'trend', NA, score))
 
   return(scores_ico)
 
@@ -1714,9 +1766,11 @@ SPP <- function(layers) {
   data_year <- get_data_year('SPP', status_year, layers)
 
   spp_range_by_rgn <- layers$data[['spp_range_areas']] %>%
-    select(region_id = rgn_id, spp_pct_area, iucn_sid, am_sid, sciname, spatial_source)
-  spp_category_by_yr <- layers$data[['spp_cat_scores']] %>%
-    select(year, iucn_sid, am_sid, sciname, cat_score = category_score)
+    select(region_id = rgn_id, spp_pct_area, iucn_sid, am_sid, spatial_source)
+  spp_risk_by_yr   <- layers$data[['spp_risk_scores']] %>%
+    select(year, iucn_sid, am_sid, risk_score, risk_source)
+  spp_pop_trends   <- layers$data[['spp_pop_trends']] %>%
+    select(iucn_sid, am_sid, pop_trend)
 
 
   ## reference points
@@ -1724,24 +1778,69 @@ SPP <- function(layers) {
                 method = "Average of IUCN risk categories, scaled to historic extinction",
                 ref_pt = NA)
 
-  ### Calculate status for all year, from species range and species risk
-  spp_status <- spp_range_by_rgn %>%
-    inner_join(spp_category_by_yr, by = c('iucn_sid', 'am_sid', 'sciname')) %>%
-    filter(!is.na(cat_score)) %>%
-    group_by(region_id, year) %>%
-    summarize(mean_cat_score = sum(cat_score * spp_pct_area) / n()) %>%
+  ### prepare scores (status and trend) for current status year.
+  ### Linear trend calculated only for species with two or more assessments,
+  ### and not using BC-specific scores; otherwise use the "population trend"
+  ### method of calculation using these values:
+  pop_trend_score_lookup <- c('increasing' = 0.025, 'decreasing' = -0.025, 'stable' = 0)
+
+  ### For species with more than one assessment, calculate linear model trend
+  spp_lm_trends <- spp_risk_by_yr %>%
+    group_by(iucn_sid, am_sid) %>%
+    filter(n() >= 2 & risk_source == 'iucn') %>%
+    mutate(spp_health = 1 - risk_score) %>%
+    do(trend_lm = lm(spp_health ~ year, data = .)[['coefficients']][['year']]) %>%
+    mutate(trend_lm = trend_lm / .75, ### scale to species calculation
+           trend_lm = round(trend_lm, 5))
+
+
+  ### Build overall dataframe with species risk and trend
+  spp_risk_expanded <- spp_risk_by_yr %>%
+    filter(!is.na(risk_score)) %>%
+    mutate(year = ifelse(is.na(year), data_year, year)) %>%
+    group_by(iucn_sid, am_sid) %>%
+    complete(year = layers$data$year_span) %>%
+    arrange(year) %>%
+    fill(risk_score, risk_source, .direction = 'down') %>%
+    fill(risk_score, risk_source, .direction = 'up') %>%
+    ungroup()
+
+  spp_df <- spp_risk_expanded %>%
+    inner_join(spp_range_by_rgn, by = c('iucn_sid', 'am_sid')) %>%
+    left_join(spp_lm_trends, by = c('iucn_sid', 'am_sid')) %>%
+    left_join(spp_pop_trends, by = c('iucn_sid', 'am_sid')) %>%
+    mutate(pop_trend_score = pop_trend_score_lookup[pop_trend]) %>%
+    mutate(trend_score = ifelse(!is.na(trend_lm), trend_lm, NA),
+           trend_score = ifelse(is.na(trend_score) & !is.na(pop_trend_score), pop_trend_score, trend_score),
+           trend_score = ifelse(risk_source != 'iucn', NA, trend_score), ### NA trend for BC-specific scores
+           trend_score = ifelse(risk_score == 1, NA, trend_score)) %>% ### NA trend for extinct species
+    filter(year == data_year) %>%
+    select(region_id, spp_pct_area, iucn_sid, am_sid, risk_score, trend_score)
+
+
+  spp_status <- spp_df %>%
+    group_by(region_id) %>%
+    summarize(mean_risk_score  = sum(risk_score * spp_pct_area) / n()) %>%
     ungroup() %>%
-    mutate(score = 100 * (.75 - mean_cat_score) / .75,
+    mutate(score = 100 * (.75 - mean_risk_score) / .75,
            goal   = 'SPP',
            dimension = 'status')
 
-  ### prepare scores (status and trend) for current status year
+  spp_trend <- spp_df %>%
+    group_by(region_id) %>%
+    filter(!is.na(trend_score)) %>%
+    summarize(score = sum(trend_score * spp_pct_area) / n()) %>%
+    ungroup() %>%
+    ### Normalize by status to get proportional annual change (note,
+    ### since trends are tiny, assume status ten years ago is nearly the same
+    ### as status now; so simply use current status as normalizing factor):
+    left_join(spp_status %>% rename(status = score), by = 'region_id') %>%
+    mutate(score = score / (status / 100)) %>%
+    mutate(goal   = 'SPP',
+           dimension = 'trend')
 
-  trend_years <- (data_year - 9) : data_year
-  spp_trend   <- calc_trend(spp_status, trend_years)
 
   spp_scores <- spp_status %>%
-    filter(year == data_year) %>%
     bind_rows(spp_trend) %>%
     select(region_id, goal, dimension, score)
 
