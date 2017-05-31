@@ -7,6 +7,7 @@
 4,4,5,"CS","","Carbon Storage","Carbon Storage","This goal captures the carbon stored in natural coastal ecosystems that absorb and sequester carbon in large amounts.",1,"CS(layers)",""
 5,5,6,"CP","","Coastal Protection","Coastal\nProtection","This goal measures the amount of protection certain coastal habitats provide by measuring the current area they cover relative to the area they covered in the recent past.",1,"CP(layers)",""
 6,6,7,"TR","","Tourism & Recreation","Tourism & \nRecreation","This goal captures the value people have for experiencing and taking pleasure in coastal areas.",1,"TR(layers)",""
+7.1,7.1,8,"LIV","LE","Livelihoods","Livelihoods","This subgoal evaluates the benefits people obtain from the oceans in the form of jobs and wages.",1,"LIV(layers)",""
 9,9,12,"CW","","Clean Waters","Clean Waters","This goal captures the degree to which waters are polluted.",1,"CW(layers)",""
 10.2,10,18,"BD","","Biodiversity","Biodiversity","This goal captures the conservation status of marine species.",1,"","BD(scores)"
 10.1,10.1,13,"HAB","BD","Habitats","Habitats","This subgoal measures the condition of habitats that are important for supporting a wide array of species diversity.",0.5,"HAB(layers)",""

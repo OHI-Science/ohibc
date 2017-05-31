@@ -51,28 +51,8 @@ hd_subtidal_hb,ohibc:calc_ohibc/master/dummy_layers,hd_subtidal_hb_gl2016placeho
 hd_subtidal_sb,ohibc:calc_ohibc/master/dummy_layers,hd_subtidal_sb_gl2016.csv,TRUE,pressure_score,pressure,Subtidal softbottom habitat destruction,scaled 0-1,"Demersal destructive commercial fishing practices (i.e., trawling) in softbottom habitat as a proxy for soft bottom habitat destruction"
 ico_spp_risk_score,ohibc:prep/spp_ico/v2017/output,ico_risk_by_year.csv,TRUE,risk_score,ICO,IUCN or BCSEE extinction risk score,IUCN or BCSEE risk category score,IUCN or BCSEE scored extinction risk category for iconic species per assessment year
 ico_spp_presence,ohibc:prep/spp_ico/v2017/output,ico_spp_by_rgn.csv,TRUE,rgn_id,ICO,Region ID,ICO spp presence within OHIBC regions,List of iconic species and the regions in which they are found according to IUCN or Aquamaps
-le_gdp,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,GDP,2012 USD,Gross Domestic Product (GDP)
-le_gdp_pc_ppp,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,GDP per capita PPP,USD,Gross domestic product per person at purchasing power parity
-le_jobs_cur_adj_value,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Current jobs adjusted,value,Modeled LE data
-le_jobs_cur_base_value,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Current jobs base,value,Modeled LE data
-le_jobs_ref_adj_value,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Reference jobs adjusted,value,Modeled LE data
-le_jobs_ref_base_value,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Reference jobs base,value,Modeled LE data
-le_jobs_sector_year,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Jobs,number of jobs,Modeled LE data
-le_popn,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Total human population,number of people,Human population of OHI regions
-le_rev_cur_adj_value,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Current revenue adjusted,value,Modeled LE data
-le_rev_cur_base_value,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Current revenue base,value,Modeled LE data
-le_rev_ref_adj_value,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Reference revenue adjusted,value,Modeled LE data
-le_rev_ref_base_value,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Reference revenue base,value,Modeled LE data
-le_rev_sector_year,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Revenue,2010 USD,Modeled LE data
-le_revenue_adj,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Revenue adjusted,USD,Modeled LE data
-le_sector_weight,ohibc:calc_ohibc/master/dummy_layers,le_sector_weight_gl2016.csv,TRUE,weight,LE,Sector weight by jobs,value,Proportion of jobs within each sector
-le_unemployment,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Unemployment,proportion,Modeled LE data
-le_wage_cur_adj_value,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Current wages adjusted,value,Modeled LE data
-le_wage_cur_base_value,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Current wages base,value,Modeled LE data
-le_wage_ref_adj_value,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Reference wages adjusted,value,Modeled LE data
-le_wage_ref_base_value,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Reference wages base,value,Modeled LE data
-le_wage_sector_year,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Wages,2010 USD,Modeled LE data
-le_workforcesize_adj,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,LE,Adjusted workforce size,number of jobs,Modeled LE data
+liv_income,ohibc:prep/le/v2017/output,liv_income.csv,TRUE,median_income,LIV,dollars,??? Canadian dollars,Median household income
+liv_unemployment,ohibc:prep/le/v2017/output,liv_unemployment.csv,TRUE,unemployment_rate,LIV,unemployment rate,proportion unemployed 0-1,Mean unemployment rate
 li_gci,ohibc:calc_ohibc/master/dummy_layers,li_gci_gl2016.csv,TRUE,score,resilience,Competitiveness in achieving sustained economic prosperity,scaled,Global Competitiveness Index (GCI) scores from the World Economic Forum
 li_sector_evenness,ohibc:calc_ohibc/master/dummy_layers,li_sector_evenness_gl2016.csv,TRUE,resilience_score,resilience,Sector evenness as a measure of economic diversity,scaled,Shannon's Diversity Index calculated sector evenness based on the total number of sectors and the proportion of jobs belonging to any sector
 lsp_prot_area_inland_ws,ohibc:prep/lsp/v2017/output,lsp_protected_inland_ws.csv,TRUE,a_prot_inland,LSP,Inland coastal protected areas,km2,Protected areas located 1 km inland
