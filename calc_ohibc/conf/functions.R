@@ -1072,58 +1072,87 @@ ICO <- function(layers) {
   status_year <- layers$data$status_year
   data_year <- get_data_year('ICO', status_year, layers)
 
-  ico_score <- layers$data[['ico_spp_risk_score']] %>%
-    select(year, risk_score, sciname, iucn_sid, am_sid) %>%
-    filter(!is.na(year)) %>%
-    complete(year = full_seq(year, 1), nesting(sciname, iucn_sid, am_sid)) %>%
-    group_by(sciname, iucn_sid, am_sid) %>%
-    arrange(year) %>%
-    fill(risk_score, .direction = 'up') %>%
-    fill(risk_score, .direction = 'down') %>%
-    ungroup()
+  ico_risk_by_year <- layers$data[['ico_spp_risk_score']] %>%
+    select(-layer)
 
+  ico_trend <- layers$data[['ico_spp_trend']] %>%
+    select(-layer)
 
   ico_rgns <- layers$data[['ico_spp_presence']] %>%
-    select(iucn_sid, am_sid, region_id = rgn_id, sciname, comname)
+    select(-layer, region_id = rgn_id)
 
   ### calculate base status across all years
   # STEP 1: take mean of subpopulation scores if necessary
-  rgn_ico_status_spp <- ico_rgns %>%
-    full_join(ico_score, by = c('sciname', 'iucn_sid', 'am_sid')) %>%
+
+  ico_risk <- ico_risk_by_year %>%
+    filter(!is.na(year)) %>%
+    complete(year = full_seq(year, 1), nesting(sciname, iucn_sid, am_sid, comname)) %>%
+    group_by(sciname, iucn_sid, am_sid, comname) %>%
+    arrange(year) %>%
+    fill(risk_score, risk_source, .direction = 'up') %>%
+    fill(risk_score, risk_source, .direction = 'down') %>%
+    ungroup()
+
+  rgn_ico_spp <- ico_rgns %>%
+    full_join(ico_risk, by = c('sciname', 'iucn_sid', 'am_sid', 'comname')) %>%
     group_by(region_id, sciname, comname, year) %>%
-    summarize(spp_health = 1 - mean(risk_score, na.rm = TRUE)) %>%
+    mutate(spp_health = 1 - mean(risk_score, na.rm = TRUE)) %>%
     ungroup()
 
   ### identify spp with no score available (NE or DD)
-  rgn_ico_no_score <- rgn_ico_status_spp %>%
+  rgn_ico_no_score <- rgn_ico_spp %>%
     filter(is.nan(spp_health)) %>%
     select(region_id, sciname, comname)
 
+  ### Linear trend calculated only for species with two or more assessments,
+  ### and not using BC-specific scores; otherwise use the COSEWIC trend or
+  ### "population trend" method of calculation using these values:
+  ### For species with more than one assessment, calculate linear model trend
+  ico_lm_trends <- ico_risk_by_year %>%
+    group_by(iucn_sid, am_sid) %>%
+    filter(n() >= 2 & risk_source == 'iucn') %>%
+    mutate(spp_health = 1 - risk_score) %>%
+    do(trend_lm = lm(spp_health ~ year, data = .)[['coefficients']]['year']) %>%
+    mutate(trend_lm = 5 * round(trend_lm, 5))
+
+  pop_trend_score_lookup <- c('increasing' = 0.025, 'decreasing' = -0.025, 'stable' = 0)
+
+  rgn_ico_spp_scores <- rgn_ico_spp %>%
+    left_join(ico_lm_trends, by = c('am_sid', 'iucn_sid')) %>%
+    left_join(ico_trend, by = c('am_sid', 'iucn_sid', 'sciname', 'comname')) %>%
+    mutate(pop_trend_score = pop_trend_score_lookup[iucn_pop_trend]) %>%
+    mutate(trend_score = ifelse(!is.na(trend_lm), trend_lm, NA),
+           trend_score = ifelse(is.na(trend_score) & !is.na(pop_trend_score), pop_trend_score, trend_score),
+           trend_score = ifelse(risk_source != 'iucn', cosewic_trend, trend_score), ### COSEWIC or NA trend for BC-specific scores
+           trend_score = ifelse(risk_score == 1, NA, trend_score)) %>% ### NA trend for extinct species
+    filter(year == data_year) %>%
+    select(region_id, iucn_sid, am_sid, risk_score, trend_score)
+
   # STEP 2: take mean of populations within regions
-  rgn_ico_status <- rgn_ico_status_spp %>%
+  rgn_ico_status <- rgn_ico_spp_scores %>%
+    mutate(spp_health = 1 - risk_score) %>%
     filter(!is.nan(spp_health)) %>%
-    group_by(region_id, year) %>%
+    group_by(region_id) %>%
     summarize(score = mean(spp_health, na.rm = TRUE),
               n_spp = n()) %>%
     ungroup() %>%
-    mutate('goal' = 'ICO')
+    mutate(goal      = 'ICO',
+           score     = round(score * 100, 5),
+           dimension = 'status') %>%
+    select(goal, region_id, score, dimension)
 
   ### calculate trend for data_year
-  trend_span       <- 10 ### trend based on 10 years of data, due to infrequency of IUCN assessments
-  trend_yr_include <- c(data_year:(data_year - trend_span + 1))
+  rgn_ico_trend <- rgn_ico_spp_scores %>%
+    filter(!is.nan(trend_score)) %>%
+    group_by(region_id) %>%
+    summarize(score = mean(trend_score, na.rm = TRUE),
+              n_spp = n()) %>%
+    ungroup() %>%
+    mutate(goal      = 'ICO',
+           score     = round(score, 5),
+           dimension = 'trend') %>%
+    select(goal, region_id, score, dimension)
 
-  if(!all(trend_yr_include %in% rgn_ico_status$year)) {
-    message('Calculating trend for ', data_year, ': status not available for ',
-            paste(trend_yr_include[!trend_yr_include %in% rgn_ico_status$year], collapse = ', '))
-  }
-
-  rgn_ico_trend <- calc_trend(rgn_ico_status, trend_yr_include)
-
-  ### format status for reporting
-  rgn_ico_status <- rgn_ico_status %>%
-    mutate(score = round(score * 100, 5)) %>%
-    mutate(dimension = "status") %>%
-    select(goal, year, region_id, score, dimension)
 
   ### write reference points
   write_ref_pts(goal   = "ICO",
@@ -1132,12 +1161,8 @@ ICO <- function(layers) {
 
   ### combine and return scores df
   scores_ico <- bind_rows(rgn_ico_status, rgn_ico_trend) %>%
-    filter(year == data_year) %>%
     select(goal, dimension, region_id, score)
 
-  ### For now, ICO trend is NA - not enough data to calculate trends
-  scores_ico <- scores_ico %>%
-    mutate(score = ifelse(dimension == 'trend', NA, score))
 
   return(scores_ico)
 
@@ -1381,7 +1406,7 @@ SPP <- function(layers) {
   spp_risk_by_yr   <- layers$data[['spp_risk_scores']] %>%
     select(year, iucn_sid, am_sid, risk_score, risk_source)
   spp_pop_trends   <- layers$data[['spp_pop_trends']] %>%
-    select(iucn_sid, am_sid, pop_trend)
+    select(iucn_sid, am_sid, iucn_pop_trend, cosewic_trend)
 
 
   ## reference points
@@ -1400,9 +1425,9 @@ SPP <- function(layers) {
     group_by(iucn_sid, am_sid) %>%
     filter(n() >= 2 & risk_source == 'iucn') %>%
     mutate(spp_health = 1 - risk_score) %>%
-    do(trend_lm = lm(spp_health ~ year, data = .)[['coefficients']][['year']]) %>%
+    do(trend_lm = lm(spp_health ~ year, data = .)[['coefficients']]['year']) %>%
     mutate(trend_lm = trend_lm / .75, ### scale to species calculation
-           trend_lm = round(trend_lm, 5))
+           trend_lm = 5 * round(trend_lm, 5)) ### multiply by 5 for likely future state
 
 
   ### Build overall dataframe with species risk and trend
@@ -1420,10 +1445,10 @@ SPP <- function(layers) {
     inner_join(spp_range_by_rgn, by = c('iucn_sid', 'am_sid')) %>%
     left_join(spp_lm_trends, by = c('iucn_sid', 'am_sid')) %>%
     left_join(spp_pop_trends, by = c('iucn_sid', 'am_sid')) %>%
-    mutate(pop_trend_score = pop_trend_score_lookup[pop_trend]) %>%
+    mutate(pop_trend_score = pop_trend_score_lookup[iucn_pop_trend]) %>%
     mutate(trend_score = ifelse(!is.na(trend_lm), trend_lm, NA),
            trend_score = ifelse(is.na(trend_score) & !is.na(pop_trend_score), pop_trend_score, trend_score),
-           trend_score = ifelse(risk_source != 'iucn', NA, trend_score), ### NA trend for BC-specific scores
+           trend_score = ifelse(risk_source != 'iucn', cosewic_trend, trend_score), ### COSEWIC or NA trend for BC-specific scores
            trend_score = ifelse(risk_score == 1, NA, trend_score)) %>% ### NA trend for extinct species
     filter(year == data_year) %>%
     select(region_id, spp_pct_area, iucn_sid, am_sid, risk_score, trend_score)

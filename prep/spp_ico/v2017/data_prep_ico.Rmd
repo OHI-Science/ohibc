@@ -165,6 +165,7 @@ For the identified species, we attach the assessment info generated in the SPP g
 ico_list <- read_csv(file.path(dir_goal, 'int', 'ico_list_ohibc.csv')) %>%
   select(sciname, comname, iucn_sid, am_sid)
 spp_scored <- read_csv(file.path(dir_goal, 'int', 'spp_list_scored.csv')) %>%
+  rename(population_name = comname) %>%
   # filter(!is.na(iucn_sid)) %>%
   bind_rows(read_csv(file.path(dir_goal, 'int', 'spp_custom_scored.csv')))
 
@@ -182,29 +183,35 @@ write_csv(ico_info_ts, file.path(dir_goal, 'int/ico_info_timeseries.csv'))
 ico_info_ts <- read_csv(file.path(dir_goal, 'int/ico_info_timeseries.csv')) 
 
 orca_ts_raw <- ico_info_ts %>%
-  filter(str_detect(sciname, 'Orcinus orca'))
+  filter(str_detect(sciname, 'Orcinus orca')) %>%
+  select(-cosewic_trend, -population_name) %>%
+  distinct()
 
 orca_ts_full <- bind_rows(
   orca_ts_raw %>%
     mutate(sciname = 'Orcinus orca pop. 2',
            comname = 'Killer Whale (Northeast Pacific Offshore Population)',
            pr_score = .6,
-           risk_score = .6),
+           risk_score = .6,
+           cosewic_trend = -0.0373),
   orca_ts_raw %>%
     mutate(sciname = 'Orcinus orca pop. 3',
            comname = 'Killer Whale (West Coast Transient Population)',
            pr_score = .6,
-           risk_score = .6),
+           risk_score = .6,
+           cosewic_trend = -0.5000),
   orca_ts_raw %>%
     mutate(sciname = 'Orcinus orca pop. 5',
            comname = 'Killer Whale (Northeast Pacific Southern Resident Population)',
            pr_score = .8,
-           risk_score = .8),
+           risk_score = .8,
+           cosewic_trend = -0.0821),
   orca_ts_raw %>%
     mutate(sciname = 'Orcinus orca pop. 6',
            comname = 'Killer Whale (Northeast Pacific Northern Resident Population)',
            pr_score = .6,
-           risk_score = .6))
+           risk_score = .6,
+           cosewic_trend = 0.0000))
 
 ico_info_ts_fixed <- ico_info_ts %>%
   filter(!str_detect(sciname, 'Orcinus orca')) %>%
@@ -232,10 +239,15 @@ Layers for ICO:
 
 ``` {r write_ico_spp_info_and_score_timeseries} 
 
-ico_ts <- read_csv(file.path(dir_goal, 'int/ico_info_ts_incl_orcas.csv')) %>%
+ico_risk_ts <- read_csv(file.path(dir_goal, 'int/ico_info_ts_incl_orcas.csv')) %>%
   select(sciname, comname, iucn_sid, am_sid, year, risk_score, risk_source, cat_ts) %>%
   distinct()
-write_csv(ico_ts, file.path(dir_goal, 'output', 'ico_risk_by_year.csv'))
+write_csv(ico_risk_ts, file.path(dir_goal, 'output', 'ico_risk_by_year.csv'))
+
+ico_trend <- read_csv(file.path(dir_goal, 'int/ico_info_ts_incl_orcas.csv')) %>%
+  select(sciname, comname, iucn_sid, am_sid, iucn_pop_trend = pop_trend, cosewic_trend) %>%
+  distinct()
+write_csv(ico_trend, file.path(dir_goal, 'output', 'ico_trend_by_id.csv'))
 
 ```
 

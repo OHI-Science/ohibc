@@ -372,6 +372,109 @@ write_csv(spp_clean, file.path(dir_goal, 'int/spp_list_clean.csv'))
 
 Time series risk assessments are determined in the global SPP analysis.  In this analysis, we will prefer province-level risk assessments over IUCN time-series assessments.  We will keep all instances, including N.E. and DD species instances, because some of these may show up in the ICO analysis (e.g. _Clupea pallasii_)
 
+### COSEWIC scores to calculate trends for species with province-specific scores.
+
+***Note:*** COSEWIC scores will only be used to calculate trends, not status.  Status will come from NatureServe province-level scores taken from BC Species and Ecosystem Explorer, which rely on COSEWIC data but are more geographically specific.  In some cases, this may capture Canada-wide trends rather than local.  Trend here is calculated based on population health (1 - risk) and calculated as a change over five years (not annual).
+
+``` {r process_cosewic_time_series}
+spp_clean <- read_csv(file.path(dir_goal, 'int/spp_list_clean.csv'))
+
+cosewic_file <- file.path(dir_M, 'git-annex/bcprep/_raw_data/sara/d2017/oceans_health_may_2017_data_request_bc_pco.csv')
+
+cosewic_df <- read_csv(cosewic_file) %>%
+  setNames(tolower(names(.)) %>% str_replace_all('[^a-z]+', '_')) %>%
+  select(sciname = scientific_name,
+         comname = common_name_population_name_,
+         assess_year = most_recent_assessment_date,
+         status, status_change, stat_hist_raw = status_history) %>%
+  filter(sciname %in% spp_clean$sciname) %>%
+  mutate(status      = tolower(status),
+         stat_hist_raw = str_replace_all(stat_hist_raw, '[^a-zA-Z0-9\\. \\-]', ''), ### remove unhelpful punctuation
+         stat_hist   = tolower(stat_hist_raw),
+         comname     = str_replace_all(comname, '[^a-zA-Z0-9\'\\- ]', ''), ### remove unhelpful punctuation
+         assess_year = str_match(assess_year, '[0-9]{2}$') %>% as.integer(),
+         assess_year = ifelse(assess_year > 20, assess_year + 1900, assess_year + 2000)) %>%
+  distinct()
+
+# cosewic_df$status %>% unique()
+### From http://www.cosewic.gc.ca/default.asp?lang=En&n=ED199D3B-1&offset=8&toc=show:
+# Extinct (X) A wildlife species that no longer exists.
+# Extirpated (XT) A wildlife species that no longer exists in the wild in Canada, but exists elsewhere.
+# Endangered (E) A wildlife species facing imminent extirpation or extinction.
+# Threatened (T) A wildlife species that is likely to become an endangered if nothing is done to reverse the factors leading to its extirpation or extinction.
+# Special Concern (SC) A wildlife species that may become threatened or endangered because of a combination of biological characteristics and identified threats.
+# Data Deficient (DD) A category that applies when the available information is insufficient (a) to resolve a wildlife species' eligibility for assessment or (b) to permit an assessment of the wildlife species' risk of extinction.
+# Not At Risk (NAR) A wildlife species that has been evaluated and found to be not at risk of extinction given the current circumstances.
+### Comparing these categories to provincial rankings, these seem to be the best fit:
+cosewic_risk_lookup <- c("not at risk"     = 0,
+                         "special concern" = .4, ### consider analogous to IUCN vulnerable
+                         "threatened"      = .6, ### consider analogous to IUCN endangered
+                         "endangered"      = .8, ### consider analogous to IUCN critically endangered
+                         "extinct"         = 1,  
+                         "data deficient"  = NA) 
+
+### Divide status history into clauses to parse out assessments
+cosewic_history <- cosewic_df %>%
+  select(sciname, comname, stat_hist) %>%
+  mutate(stat_hist = str_split(stat_hist, '\\.|and may|and november')) %>% 
+    ### divide into sentences; also divide by "and" between two assessment dates
+    ### (for e.g. "confirmed in November 2003 *and* May 2014")
+  unnest(stat_hist) %>%
+  mutate(year = str_extract(stat_hist, '[0-9]{4}') %>% as.integer(),
+           ### get year
+         status_text = str_extract(stat_hist, paste(names(cosewic_risk_lookup), collapse = '|'))) %>%
+           ### get text that matches one of the COSEWIC categories
+  filter(stat_hist != '') %>%                  
+    ### ditch empty lines
+  filter(!(str_detect(stat_hist, 'split') & !str_detect(stat_hist, 'designated'))) %>%  
+    ### ditch splits; keep only the ones that also include designations
+  group_by(sciname, comname) %>%
+  fill(status_text, .direction = 'down') %>% 
+    ### this fills any "reexamined and confirmed" statuses; group_by maybe not
+    ### technically necessary but better safe than sorry
+  ungroup() %>%
+  select(-stat_hist)
+
+# cosewic_history %>% filter(is.na(status_text)) %>% .$stat_hist %>% unique()
+
+cosewic_scores_df <- cosewic_df %>%
+  full_join(cosewic_history, by = c('sciname', 'comname')) %>%
+  mutate(cosewic_risk_score = cosewic_risk_lookup[status_text]) %>%
+  select(sciname, comname, 
+         status = status_text, year, cosewic_risk_score,
+         status_history = stat_hist_raw)
+
+x <- cosewic_scores_df %>%
+  group_by(sciname, comname) %>%
+  mutate(n_obs = n(),
+         years = paste(year, collapse = ', ')) %>%
+  ungroup() %>%
+  select(sciname, comname, n_obs, cosewic_risk_score) %>%
+  distinct() %>%
+  group_by(sciname, comname) %>%
+  mutate(n_obs_distinct = n()) %>%
+  ungroup()
+  
+cosewic_trend <- cosewic_scores_df %>%
+  filter(!is.na(year) & !is.na(cosewic_risk_score)) %>%
+  mutate(cosewic_health = (1 - cosewic_risk_score)) %>%
+  group_by(sciname, comname) %>%
+  do(trend = lm(cosewic_health ~ year, data = .)[['coefficients']]['year']) %>%
+  mutate(trend = round(trend, 5) * 5) %>%
+  ungroup()
+
+cosewic_status_trend_df <- cosewic_scores_df %>%
+  left_join(cosewic_trend, by = c('sciname', 'comname'))
+  
+write_csv(cosewic_status_trend_df, file.path(dir_goal, 'int/cosewic_st_tr_timeseries.csv'))
+
+DT::datatable(cosewic_status_trend_df)
+```
+
+### Create a complete score chart
+
+Here we combine the clean species info list, which contains IUCN and AquaMaps IDs, scientific names, and snapshot of IUCN category, BCSEE category, and IUCN population trend, with the IUCN time series of categories, and then with the COSEWIC trends.
+
 ``` {r complete_time_series}
 
 spp_clean <- read_csv(file.path(dir_goal, 'int/spp_list_clean.csv'))
@@ -381,9 +484,15 @@ spp_risk_ts <- read_csv(file.path(dir_goal_global, 'int', 'spp_cat_timeseries_ra
   filter(iucn_sid %in% spp_clean$iucn_sid)
 ### This will be expanded upon in the toolbox.
 
+spp_trend_cosewic <- read_csv(file.path(dir_goal, 'int/cosewic_st_tr_timeseries.csv')) %>%
+  select(sciname, comname, cosewic_trend = trend) %>%
+  distinct() %>%
+  left_join(spp_clean %>% select(sciname, iucn_sid), by = 'sciname')
+
 spp_scored <- read_csv(file.path(dir_goal, 'int/spp_list_clean.csv')) %>%
   filter(!(is.na(map_iucn_sid) & is.na(am_sid))) %>%
-  left_join(spp_risk_ts, by = 'iucn_sid') 
+  left_join(spp_risk_ts, by = 'iucn_sid') %>%
+  left_join(spp_trend_cosewic, by = c('iucn_sid', 'sciname'))
 ### Note: still some N.E. and DD species here... keep 'em in b/c some
 ### of these show up in ICO (e.g. Clupea pallasii)
 
@@ -451,12 +560,18 @@ write_csv(spp_rgn_area, file.path(dir_goal, 'output', 'spp_area_by_rgn.csv'))
 
 ### Save species category score time series and population trend layers
 
+For species with BC-specific status, we will use COSEWIC trend where available, otherwise NA.  For species with global IUCN scores and a time series of assessments, we will use the linear regression of the time series of species health.  For species with global IUCN scores and no time series, we will use population trend text field, otherwise NA.
+
 ``` {r save_spp_cat_and_trend_layers}
 
 spp_list_scored <- read_csv(file.path(dir_goal, 'int', 'spp_list_scored.csv'))
 
 spp_trend_layer <- spp_list_scored %>%
-  select(iucn_sid, am_sid, pop_trend) %>%
+  group_by(iucn_sid, am_sid, pop_trend) %>%
+  summarize(cosewic_trend = mean(cosewic_trend, na.rm = TRUE)) %>%
+  mutate(cosewic_trend = ifelse(is.nan(cosewic_trend), NA, cosewic_trend)) %>%
+  ungroup() %>%
+  rename(iucn_pop_trend = pop_trend) %>%
   distinct()
 write_csv(spp_trend_layer, file.path(dir_goal, 'output', 'spp_trend_by_id.csv'))
 
