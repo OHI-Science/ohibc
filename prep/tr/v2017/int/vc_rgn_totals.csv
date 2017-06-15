@@ -131,17 +131,17 @@ VCReport_Ladysmith.csv,2010,8879,ladysmith,814482,Vancouver Island,Ladysmith Vis
 VCReport_Ladysmith.csv,2009,6520,ladysmith,814482,Vancouver Island,Ladysmith Visitor Centre,Strait of Georgia,6,SG
 VCReport_Ladysmith.csv,2008,6417,ladysmith,814482,Vancouver Island,Ladysmith Visitor Centre,Strait of Georgia,6,SG
 VCReport_Ladysmith.csv,2007,5095,ladysmith,814482,Vancouver Island,Ladysmith Visitor Centre,Strait of Georgia,6,SG
-VCReport_Langley.csv,2017,0,langley,NA,NA,NA,NA,NA,NA
-VCReport_Langley.csv,2016,0,langley,NA,NA,NA,NA,NA,NA
-VCReport_Langley.csv,2015,221,langley,NA,NA,NA,NA,NA,NA
-VCReport_Langley.csv,2014,2719,langley,NA,NA,NA,NA,NA,NA
-VCReport_Langley.csv,2013,2834,langley,NA,NA,NA,NA,NA,NA
-VCReport_Langley.csv,2012,3757,langley,NA,NA,NA,NA,NA,NA
-VCReport_Langley.csv,2011,4293,langley,NA,NA,NA,NA,NA,NA
-VCReport_Langley.csv,2010,5247,langley,NA,NA,NA,NA,NA,NA
-VCReport_Langley.csv,2009,0,langley,NA,NA,NA,NA,NA,NA
-VCReport_Langley.csv,2008,0,langley,NA,NA,NA,NA,NA,NA
-VCReport_Langley.csv,2007,11088,langley,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2017,0,NA,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2016,0,NA,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2015,221,NA,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2014,2719,NA,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2013,2834,NA,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2012,3757,NA,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2011,4293,NA,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2010,5247,NA,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2009,0,NA,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2008,0,NA,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2007,11088,NA,NA,NA,NA,NA,NA,NA
 VCReport_Nanaimo.csv,2017,2970,nanaimo,812174,Vancouver Island,Nanaimo Visitor Centre,Strait of Georgia,6,SG
 VCReport_Nanaimo.csv,2016,21025,nanaimo,812174,Vancouver Island,Nanaimo Visitor Centre,Strait of Georgia,6,SG
 VCReport_Nanaimo.csv,2015,13264,nanaimo,812174,Vancouver Island,Nanaimo Visitor Centre,Strait of Georgia,6,SG
@@ -164,6 +164,17 @@ VCReport_NewWestminster.csv,2010,3652,newwestminster,812202,Vancouver Coast and 
 VCReport_NewWestminster.csv,2009,2284,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
 VCReport_NewWestminster.csv,2008,4249,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
 VCReport_NewWestminster.csv,2007,2514,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouverlonsdale.csv,2017,4994,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouverlonsdale.csv,2016,15465,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouverlonsdale.csv,2015,12453,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouverlonsdale.csv,2014,8849,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouverlonsdale.csv,2013,7829,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouverlonsdale.csv,2012,7100,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouverlonsdale.csv,2011,8652,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouverlonsdale.csv,2010,13557,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouverlonsdale.csv,2009,12611,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouverlonsdale.csv,2008,11964,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouverlonsdale.csv,2007,6091,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
 VCReport_Parksville.csv,2017,3628,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
 VCReport_Parksville.csv,2016,30285,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
 VCReport_Parksville.csv,2015,24469,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
@@ -208,17 +219,17 @@ VCReport_PortHardy.csv,2010,15547,porthardy,812177,Vancouver Island,Port Hardy V
 VCReport_PortHardy.csv,2009,15126,porthardy,812177,Vancouver Island,Port Hardy Visitor Centre,North Vancouver Island,4,NV
 VCReport_PortHardy.csv,2008,19550,porthardy,812177,Vancouver Island,Port Hardy Visitor Centre,North Vancouver Island,4,NV
 VCReport_PortHardy.csv,2007,21313,porthardy,812177,Vancouver Island,Port Hardy Visitor Centre,North Vancouver Island,4,NV
-VCReport_PortMcNeill.csv,2017,614,portmcneill,NA,NA,NA,NA,NA,NA
-VCReport_PortMcNeill.csv,2016,8427,portmcneill,NA,NA,NA,NA,NA,NA
-VCReport_PortMcNeill.csv,2015,940,portmcneill,NA,NA,NA,NA,NA,NA
-VCReport_PortMcNeill.csv,2014,14872,portmcneill,NA,NA,NA,NA,NA,NA
-VCReport_PortMcNeill.csv,2013,16372,portmcneill,NA,NA,NA,NA,NA,NA
-VCReport_PortMcNeill.csv,2012,16661,portmcneill,NA,NA,NA,NA,NA,NA
-VCReport_PortMcNeill.csv,2011,16605,portmcneill,NA,NA,NA,NA,NA,NA
-VCReport_PortMcNeill.csv,2010,17417,portmcneill,NA,NA,NA,NA,NA,NA
-VCReport_PortMcNeill.csv,2009,14601,portmcneill,NA,NA,NA,NA,NA,NA
-VCReport_PortMcNeill.csv,2008,11746,portmcneill,NA,NA,NA,NA,NA,NA
-VCReport_PortMcNeill.csv,2007,10857,portmcneill,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2017,614,NA,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2016,8427,NA,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2015,940,NA,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2014,14872,NA,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2013,16372,NA,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2012,16661,NA,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2011,16605,NA,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2010,17417,NA,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2009,14601,NA,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2008,11746,NA,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2007,10857,NA,NA,NA,NA,NA,NA,NA
 VCReport_PowellRiver.csv,2017,1356,powellriver,812206,Vancouver Coast and Mountains,Powell River Visitor Centre,Strait of Georgia,6,SG
 VCReport_PowellRiver.csv,2016,8735,powellriver,812206,Vancouver Coast and Mountains,Powell River Visitor Centre,Strait of Georgia,6,SG
 VCReport_PowellRiver.csv,2015,8183,powellriver,812206,Vancouver Coast and Mountains,Powell River Visitor Centre,Strait of Georgia,6,SG
@@ -362,17 +373,17 @@ VCReport_Surrey.csv,2010,9272,surrey,812210,Vancouver Coast and Mountains,Surrey
 VCReport_Surrey.csv,2009,7470,surrey,812210,Vancouver Coast and Mountains,Surrey Visitor Centre,Strait of Georgia,6,SG
 VCReport_Surrey.csv,2008,8211,surrey,812210,Vancouver Coast and Mountains,Surrey Visitor Centre,Strait of Georgia,6,SG
 VCReport_Surrey.csv,2007,8348,surrey,812210,Vancouver Coast and Mountains,Surrey Visitor Centre,Strait of Georgia,6,SG
-VCReport_Terrace.csv,2017,250,terrace,NA,NA,NA,NA,NA,NA
-VCReport_Terrace.csv,2016,6330,terrace,NA,NA,NA,NA,NA,NA
-VCReport_Terrace.csv,2015,5376,terrace,NA,NA,NA,NA,NA,NA
-VCReport_Terrace.csv,2014,5974,terrace,NA,NA,NA,NA,NA,NA
-VCReport_Terrace.csv,2013,5214,terrace,NA,NA,NA,NA,NA,NA
-VCReport_Terrace.csv,2012,7664,terrace,NA,NA,NA,NA,NA,NA
-VCReport_Terrace.csv,2011,6906,terrace,NA,NA,NA,NA,NA,NA
-VCReport_Terrace.csv,2010,6644,terrace,NA,NA,NA,NA,NA,NA
-VCReport_Terrace.csv,2009,6720,terrace,NA,NA,NA,NA,NA,NA
-VCReport_Terrace.csv,2008,8056,terrace,NA,NA,NA,NA,NA,NA
-VCReport_Terrace.csv,2007,9403,terrace,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2017,250,NA,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2016,6330,NA,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2015,5376,NA,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2014,5974,NA,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2013,5214,NA,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2012,7664,NA,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2011,6906,NA,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2010,6644,NA,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2009,6720,NA,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2008,8056,NA,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2007,9403,NA,NA,NA,NA,NA,NA,NA
 VCReport_Tofino.csv,2017,6630,tofino,812183,Vancouver Island,Tofino Visitor Centre,West Vancouver Island,5,WV
 VCReport_Tofino.csv,2016,37438,tofino,812183,Vancouver Island,Tofino Visitor Centre,West Vancouver Island,5,WV
 VCReport_Tofino.csv,2015,51035,tofino,812183,Vancouver Island,Tofino Visitor Centre,West Vancouver Island,5,WV
@@ -395,28 +406,28 @@ VCReport_Ucluelet.csv,2010,3748,ucluelet,812184,Vancouver Island,Ucluelet Visito
 VCReport_Ucluelet.csv,2009,9107,ucluelet,812184,Vancouver Island,Ucluelet Visitor Centre,West Vancouver Island,5,WV
 VCReport_Ucluelet.csv,2008,8955,ucluelet,812184,Vancouver Island,Ucluelet Visitor Centre,West Vancouver Island,5,WV
 VCReport_Ucluelet.csv,2007,3553,ucluelet,812184,Vancouver Island,Ucluelet Visitor Centre,West Vancouver Island,5,WV
-VCReport_Vancouver2010.csv,2017,0,vancouver2010,NA,NA,NA,NA,NA,NA
-VCReport_Vancouver2010.csv,2016,0,vancouver2010,NA,NA,NA,NA,NA,NA
-VCReport_Vancouver2010.csv,2015,0,vancouver2010,NA,NA,NA,NA,NA,NA
-VCReport_Vancouver2010.csv,2014,0,vancouver2010,NA,NA,NA,NA,NA,NA
-VCReport_Vancouver2010.csv,2013,25565,vancouver2010,NA,NA,NA,NA,NA,NA
-VCReport_Vancouver2010.csv,2012,26128,vancouver2010,NA,NA,NA,NA,NA,NA
-VCReport_Vancouver2010.csv,2011,12994,vancouver2010,NA,NA,NA,NA,NA,NA
-VCReport_Vancouver2010.csv,2010,67773,vancouver2010,NA,NA,NA,NA,NA,NA
-VCReport_Vancouver2010.csv,2009,29724,vancouver2010,NA,NA,NA,NA,NA,NA
-VCReport_Vancouver2010.csv,2008,27780,vancouver2010,NA,NA,NA,NA,NA,NA
-VCReport_Vancouver2010.csv,2007,0,vancouver2010,NA,NA,NA,NA,NA,NA
-VCReport_Vancouver.csv,2017,17871,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_Vancouver.csv,2016,89597,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_Vancouver.csv,2015,89011,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_Vancouver.csv,2014,101654,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_Vancouver.csv,2013,140684,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_Vancouver.csv,2012,101072,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_Vancouver.csv,2011,110472,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_Vancouver.csv,2010,128899,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_Vancouver.csv,2009,119550,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_Vancouver.csv,2008,120767,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_Vancouver.csv,2007,141220,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver2010.csv,2017,0,NA,NA,NA,NA,NA,NA,NA
+VCReport_Vancouver2010.csv,2016,0,NA,NA,NA,NA,NA,NA,NA
+VCReport_Vancouver2010.csv,2015,0,NA,NA,NA,NA,NA,NA,NA
+VCReport_Vancouver2010.csv,2014,0,NA,NA,NA,NA,NA,NA,NA
+VCReport_Vancouver2010.csv,2013,25565,NA,NA,NA,NA,NA,NA,NA
+VCReport_Vancouver2010.csv,2012,26128,NA,NA,NA,NA,NA,NA,NA
+VCReport_Vancouver2010.csv,2011,12994,NA,NA,NA,NA,NA,NA,NA
+VCReport_Vancouver2010.csv,2010,67773,NA,NA,NA,NA,NA,NA,NA
+VCReport_Vancouver2010.csv,2009,29724,NA,NA,NA,NA,NA,NA,NA
+VCReport_Vancouver2010.csv,2008,27780,NA,NA,NA,NA,NA,NA,NA
+VCReport_Vancouver2010.csv,2007,0,NA,NA,NA,NA,NA,NA,NA
+VCReport_Vancouver.csv,2017,17871,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2016,89597,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2015,89011,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2014,101654,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2013,140684,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2012,101072,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2011,110472,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2010,128899,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2009,119550,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2008,120767,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2007,141220,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
 VCReport_Victoria.csv,2017,17915,victoria,812186,Vancouver Island,Victoria Visitor Centre,West Vancouver Island,5,WV
 VCReport_Victoria.csv,2016,94740,victoria,812186,Vancouver Island,Victoria Visitor Centre,West Vancouver Island,5,WV
 VCReport_Victoria.csv,2015,109151,victoria,812186,Vancouver Island,Victoria Visitor Centre,West Vancouver Island,5,WV
@@ -445,5 +456,5 @@ NA,NA,NA,coquitlam,814218,Vancouver Coast and Mountains,Coquitlam Tourist/Visito
 NA,NA,NA,cortesisland,816933,Vancouver Island,Cortes Island Tourist/Visitor Info Booth,Strait of Georgia,6,SG
 NA,NA,NA,madeirapark,814484,Vancouver Coast and Mountains,Madeira Park Tourist/Visitor Info Booth,Strait of Georgia,6,SG
 NA,NA,NA,millbay,814487,Vancouver Island,Mill Bay Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+NA,NA,NA,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
 NA,NA,NA,pittmeadowsmapleridge,819050,Vancouver Coast and Mountains,Pitt Meadows/Maple Ridge Visitor Centre,Strait of Georgia,6,SG
-NA,NA,NA,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
