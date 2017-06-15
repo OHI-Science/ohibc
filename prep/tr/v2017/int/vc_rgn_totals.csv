@@ -1,0 +1,418 @@
+filename,year,total,vc_name,id,tourregion,name,rgn_name,rgn_id,rgn_code
+VCReport_AlertBay.csv,2017,770,alertbay,812069,Vancouver Island,Alert Bay Visitor Centre,North Vancouver Island,4,NV
+VCReport_AlertBay.csv,2016,10244,alertbay,812069,Vancouver Island,Alert Bay Visitor Centre,North Vancouver Island,4,NV
+VCReport_AlertBay.csv,2015,9195,alertbay,812069,Vancouver Island,Alert Bay Visitor Centre,North Vancouver Island,4,NV
+VCReport_AlertBay.csv,2014,9188,alertbay,812069,Vancouver Island,Alert Bay Visitor Centre,North Vancouver Island,4,NV
+VCReport_AlertBay.csv,2013,7182,alertbay,812069,Vancouver Island,Alert Bay Visitor Centre,North Vancouver Island,4,NV
+VCReport_AlertBay.csv,2012,7026,alertbay,812069,Vancouver Island,Alert Bay Visitor Centre,North Vancouver Island,4,NV
+VCReport_AlertBay.csv,2011,6115,alertbay,812069,Vancouver Island,Alert Bay Visitor Centre,North Vancouver Island,4,NV
+VCReport_AlertBay.csv,2010,7674,alertbay,812069,Vancouver Island,Alert Bay Visitor Centre,North Vancouver Island,4,NV
+VCReport_AlertBay.csv,2009,9730,alertbay,812069,Vancouver Island,Alert Bay Visitor Centre,North Vancouver Island,4,NV
+VCReport_AlertBay.csv,2008,9089,alertbay,812069,Vancouver Island,Alert Bay Visitor Centre,North Vancouver Island,4,NV
+VCReport_AlertBay.csv,2007,9763,alertbay,812069,Vancouver Island,Alert Bay Visitor Centre,North Vancouver Island,4,NV
+VCReport_Bowen.csv,2017,0,bowenisland,814495,Vancouver Coast and Mountains,Bowen Island Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+VCReport_Bowen.csv,2016,1732,bowenisland,814495,Vancouver Coast and Mountains,Bowen Island Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+VCReport_Bowen.csv,2015,6213,bowenisland,814495,Vancouver Coast and Mountains,Bowen Island Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+VCReport_Bowen.csv,2014,4807,bowenisland,814495,Vancouver Coast and Mountains,Bowen Island Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+VCReport_Bowen.csv,2013,0,bowenisland,814495,Vancouver Coast and Mountains,Bowen Island Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+VCReport_Bowen.csv,2012,0,bowenisland,814495,Vancouver Coast and Mountains,Bowen Island Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+VCReport_Bowen.csv,2011,7204,bowenisland,814495,Vancouver Coast and Mountains,Bowen Island Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+VCReport_Bowen.csv,2010,10852,bowenisland,814495,Vancouver Coast and Mountains,Bowen Island Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+VCReport_Bowen.csv,2009,17802,bowenisland,814495,Vancouver Coast and Mountains,Bowen Island Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+VCReport_Bowen.csv,2008,12238,bowenisland,814495,Vancouver Coast and Mountains,Bowen Island Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+VCReport_Bowen.csv,2007,10015,bowenisland,814495,Vancouver Coast and Mountains,Bowen Island Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+VCReport_Campbell.csv,2017,648,campbellriver,811941,Vancouver Island,Campbell River Visitor Centre,North Vancouver Island,4,NV
+VCReport_Campbell.csv,2016,30202,campbellriver,811941,Vancouver Island,Campbell River Visitor Centre,North Vancouver Island,4,NV
+VCReport_Campbell.csv,2015,33432,campbellriver,811941,Vancouver Island,Campbell River Visitor Centre,North Vancouver Island,4,NV
+VCReport_Campbell.csv,2014,38514,campbellriver,811941,Vancouver Island,Campbell River Visitor Centre,North Vancouver Island,4,NV
+VCReport_Campbell.csv,2013,39677,campbellriver,811941,Vancouver Island,Campbell River Visitor Centre,North Vancouver Island,4,NV
+VCReport_Campbell.csv,2012,40575,campbellriver,811941,Vancouver Island,Campbell River Visitor Centre,North Vancouver Island,4,NV
+VCReport_Campbell.csv,2011,40002,campbellriver,811941,Vancouver Island,Campbell River Visitor Centre,North Vancouver Island,4,NV
+VCReport_Campbell.csv,2010,38875,campbellriver,811941,Vancouver Island,Campbell River Visitor Centre,North Vancouver Island,4,NV
+VCReport_Campbell.csv,2009,37070,campbellriver,811941,Vancouver Island,Campbell River Visitor Centre,North Vancouver Island,4,NV
+VCReport_Campbell.csv,2008,37534,campbellriver,811941,Vancouver Island,Campbell River Visitor Centre,North Vancouver Island,4,NV
+VCReport_Campbell.csv,2007,43415,campbellriver,811941,Vancouver Island,Campbell River Visitor Centre,North Vancouver Island,4,NV
+VCReport_Chemainus.csv,2017,5177,chemainus,812155,Vancouver Island,Chemainus Visitor Centre,Strait of Georgia,6,SG
+VCReport_Chemainus.csv,2016,25512,chemainus,812155,Vancouver Island,Chemainus Visitor Centre,Strait of Georgia,6,SG
+VCReport_Chemainus.csv,2015,17885,chemainus,812155,Vancouver Island,Chemainus Visitor Centre,Strait of Georgia,6,SG
+VCReport_Chemainus.csv,2014,26115,chemainus,812155,Vancouver Island,Chemainus Visitor Centre,Strait of Georgia,6,SG
+VCReport_Chemainus.csv,2013,23822,chemainus,812155,Vancouver Island,Chemainus Visitor Centre,Strait of Georgia,6,SG
+VCReport_Chemainus.csv,2012,30303,chemainus,812155,Vancouver Island,Chemainus Visitor Centre,Strait of Georgia,6,SG
+VCReport_Chemainus.csv,2011,25912,chemainus,812155,Vancouver Island,Chemainus Visitor Centre,Strait of Georgia,6,SG
+VCReport_Chemainus.csv,2010,43513,chemainus,812155,Vancouver Island,Chemainus Visitor Centre,Strait of Georgia,6,SG
+VCReport_Chemainus.csv,2009,50278,chemainus,812155,Vancouver Island,Chemainus Visitor Centre,Strait of Georgia,6,SG
+VCReport_Chemainus.csv,2008,60088,chemainus,812155,Vancouver Island,Chemainus Visitor Centre,Strait of Georgia,6,SG
+VCReport_Chemainus.csv,2007,67131,chemainus,812155,Vancouver Island,Chemainus Visitor Centre,Strait of Georgia,6,SG
+VCReport_Comox.csv,2017,7839,comoxvalley,823223,Vancouver Island,Comox Valley Visitor Centre,Strait of Georgia,6,SG
+VCReport_Comox.csv,2016,29976,comoxvalley,823223,Vancouver Island,Comox Valley Visitor Centre,Strait of Georgia,6,SG
+VCReport_Comox.csv,2015,27644,comoxvalley,823223,Vancouver Island,Comox Valley Visitor Centre,Strait of Georgia,6,SG
+VCReport_Comox.csv,2014,27312,comoxvalley,823223,Vancouver Island,Comox Valley Visitor Centre,Strait of Georgia,6,SG
+VCReport_Comox.csv,2013,28300,comoxvalley,823223,Vancouver Island,Comox Valley Visitor Centre,Strait of Georgia,6,SG
+VCReport_Comox.csv,2012,30218,comoxvalley,823223,Vancouver Island,Comox Valley Visitor Centre,Strait of Georgia,6,SG
+VCReport_Comox.csv,2011,0,comoxvalley,823223,Vancouver Island,Comox Valley Visitor Centre,Strait of Georgia,6,SG
+VCReport_Comox.csv,2010,0,comoxvalley,823223,Vancouver Island,Comox Valley Visitor Centre,Strait of Georgia,6,SG
+VCReport_Comox.csv,2009,0,comoxvalley,823223,Vancouver Island,Comox Valley Visitor Centre,Strait of Georgia,6,SG
+VCReport_Comox.csv,2008,0,comoxvalley,823223,Vancouver Island,Comox Valley Visitor Centre,Strait of Georgia,6,SG
+VCReport_Comox.csv,2007,0,comoxvalley,823223,Vancouver Island,Comox Valley Visitor Centre,Strait of Georgia,6,SG
+VCReport_Delta.csv,2017,595,delta,812194,Vancouver Coast and Mountains,Delta Visitor Centre,Strait of Georgia,6,SG
+VCReport_Delta.csv,2016,2197,delta,812194,Vancouver Coast and Mountains,Delta Visitor Centre,Strait of Georgia,6,SG
+VCReport_Delta.csv,2015,2254,delta,812194,Vancouver Coast and Mountains,Delta Visitor Centre,Strait of Georgia,6,SG
+VCReport_Delta.csv,2014,1997,delta,812194,Vancouver Coast and Mountains,Delta Visitor Centre,Strait of Georgia,6,SG
+VCReport_Delta.csv,2013,1935,delta,812194,Vancouver Coast and Mountains,Delta Visitor Centre,Strait of Georgia,6,SG
+VCReport_Delta.csv,2012,2140,delta,812194,Vancouver Coast and Mountains,Delta Visitor Centre,Strait of Georgia,6,SG
+VCReport_Delta.csv,2011,2264,delta,812194,Vancouver Coast and Mountains,Delta Visitor Centre,Strait of Georgia,6,SG
+VCReport_Delta.csv,2010,2557,delta,812194,Vancouver Coast and Mountains,Delta Visitor Centre,Strait of Georgia,6,SG
+VCReport_Delta.csv,2009,2621,delta,812194,Vancouver Coast and Mountains,Delta Visitor Centre,Strait of Georgia,6,SG
+VCReport_Delta.csv,2008,2530,delta,812194,Vancouver Coast and Mountains,Delta Visitor Centre,Strait of Georgia,6,SG
+VCReport_Delta.csv,2007,3509,delta,812194,Vancouver Coast and Mountains,Delta Visitor Centre,Strait of Georgia,6,SG
+VCReport_Duncan.csv,2017,4160,duncan,812162,Vancouver Island,Duncan Visitor Centre,Strait of Georgia,6,SG
+VCReport_Duncan.csv,2016,22668,duncan,812162,Vancouver Island,Duncan Visitor Centre,Strait of Georgia,6,SG
+VCReport_Duncan.csv,2015,21355,duncan,812162,Vancouver Island,Duncan Visitor Centre,Strait of Georgia,6,SG
+VCReport_Duncan.csv,2014,18522,duncan,812162,Vancouver Island,Duncan Visitor Centre,Strait of Georgia,6,SG
+VCReport_Duncan.csv,2013,9785,duncan,812162,Vancouver Island,Duncan Visitor Centre,Strait of Georgia,6,SG
+VCReport_Duncan.csv,2012,11400,duncan,812162,Vancouver Island,Duncan Visitor Centre,Strait of Georgia,6,SG
+VCReport_Duncan.csv,2011,10288,duncan,812162,Vancouver Island,Duncan Visitor Centre,Strait of Georgia,6,SG
+VCReport_Duncan.csv,2010,9284,duncan,812162,Vancouver Island,Duncan Visitor Centre,Strait of Georgia,6,SG
+VCReport_Duncan.csv,2009,8210,duncan,812162,Vancouver Island,Duncan Visitor Centre,Strait of Georgia,6,SG
+VCReport_Duncan.csv,2008,8978,duncan,812162,Vancouver Island,Duncan Visitor Centre,Strait of Georgia,6,SG
+VCReport_Duncan.csv,2007,11363,duncan,812162,Vancouver Island,Duncan Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gabriola.csv,2017,270,gabriolaisland,812163,Vancouver Island,Gabriola Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gabriola.csv,2016,3410,gabriolaisland,812163,Vancouver Island,Gabriola Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gabriola.csv,2015,2372,gabriolaisland,812163,Vancouver Island,Gabriola Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gabriola.csv,2014,1839,gabriolaisland,812163,Vancouver Island,Gabriola Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gabriola.csv,2013,2371,gabriolaisland,812163,Vancouver Island,Gabriola Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gabriola.csv,2012,2353,gabriolaisland,812163,Vancouver Island,Gabriola Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gabriola.csv,2011,2917,gabriolaisland,812163,Vancouver Island,Gabriola Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gabriola.csv,2010,3492,gabriolaisland,812163,Vancouver Island,Gabriola Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gabriola.csv,2009,3969,gabriolaisland,812163,Vancouver Island,Gabriola Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gabriola.csv,2008,2965,gabriolaisland,812163,Vancouver Island,Gabriola Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gabriola.csv,2007,3073,gabriolaisland,812163,Vancouver Island,Gabriola Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gibsons.csv,2017,2068,gibsons,812195,Vancouver Coast and Mountains,Gibsons Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gibsons.csv,2016,12240,gibsons,812195,Vancouver Coast and Mountains,Gibsons Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gibsons.csv,2015,11099,gibsons,812195,Vancouver Coast and Mountains,Gibsons Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gibsons.csv,2014,10858,gibsons,812195,Vancouver Coast and Mountains,Gibsons Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gibsons.csv,2013,11296,gibsons,812195,Vancouver Coast and Mountains,Gibsons Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gibsons.csv,2012,11055,gibsons,812195,Vancouver Coast and Mountains,Gibsons Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gibsons.csv,2011,9777,gibsons,812195,Vancouver Coast and Mountains,Gibsons Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gibsons.csv,2010,12639,gibsons,812195,Vancouver Coast and Mountains,Gibsons Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gibsons.csv,2009,11667,gibsons,812195,Vancouver Coast and Mountains,Gibsons Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gibsons.csv,2008,7333,gibsons,812195,Vancouver Coast and Mountains,Gibsons Visitor Centre,Strait of Georgia,6,SG
+VCReport_Gibsons.csv,2007,12783,gibsons,812195,Vancouver Coast and Mountains,Gibsons Visitor Centre,Strait of Georgia,6,SG
+VCReport_Kitimat.csv,2017,508,kitimat,812304,Northern British Columbia,Kitimat Visitor Centre,North Coast,1,NC
+VCReport_Kitimat.csv,2016,3169,kitimat,812304,Northern British Columbia,Kitimat Visitor Centre,North Coast,1,NC
+VCReport_Kitimat.csv,2015,3380,kitimat,812304,Northern British Columbia,Kitimat Visitor Centre,North Coast,1,NC
+VCReport_Kitimat.csv,2014,4109,kitimat,812304,Northern British Columbia,Kitimat Visitor Centre,North Coast,1,NC
+VCReport_Kitimat.csv,2013,3965,kitimat,812304,Northern British Columbia,Kitimat Visitor Centre,North Coast,1,NC
+VCReport_Kitimat.csv,2012,4075,kitimat,812304,Northern British Columbia,Kitimat Visitor Centre,North Coast,1,NC
+VCReport_Kitimat.csv,2011,3609,kitimat,812304,Northern British Columbia,Kitimat Visitor Centre,North Coast,1,NC
+VCReport_Kitimat.csv,2010,4081,kitimat,812304,Northern British Columbia,Kitimat Visitor Centre,North Coast,1,NC
+VCReport_Kitimat.csv,2009,4563,kitimat,812304,Northern British Columbia,Kitimat Visitor Centre,North Coast,1,NC
+VCReport_Kitimat.csv,2008,6209,kitimat,812304,Northern British Columbia,Kitimat Visitor Centre,North Coast,1,NC
+VCReport_Kitimat.csv,2007,5822,kitimat,812304,Northern British Columbia,Kitimat Visitor Centre,North Coast,1,NC
+VCReport_Ladysmith.csv,2017,1495,ladysmith,814482,Vancouver Island,Ladysmith Visitor Centre,Strait of Georgia,6,SG
+VCReport_Ladysmith.csv,2016,8783,ladysmith,814482,Vancouver Island,Ladysmith Visitor Centre,Strait of Georgia,6,SG
+VCReport_Ladysmith.csv,2015,8535,ladysmith,814482,Vancouver Island,Ladysmith Visitor Centre,Strait of Georgia,6,SG
+VCReport_Ladysmith.csv,2014,8719,ladysmith,814482,Vancouver Island,Ladysmith Visitor Centre,Strait of Georgia,6,SG
+VCReport_Ladysmith.csv,2013,9319,ladysmith,814482,Vancouver Island,Ladysmith Visitor Centre,Strait of Georgia,6,SG
+VCReport_Ladysmith.csv,2012,9693,ladysmith,814482,Vancouver Island,Ladysmith Visitor Centre,Strait of Georgia,6,SG
+VCReport_Ladysmith.csv,2011,8637,ladysmith,814482,Vancouver Island,Ladysmith Visitor Centre,Strait of Georgia,6,SG
+VCReport_Ladysmith.csv,2010,8879,ladysmith,814482,Vancouver Island,Ladysmith Visitor Centre,Strait of Georgia,6,SG
+VCReport_Ladysmith.csv,2009,6520,ladysmith,814482,Vancouver Island,Ladysmith Visitor Centre,Strait of Georgia,6,SG
+VCReport_Ladysmith.csv,2008,6417,ladysmith,814482,Vancouver Island,Ladysmith Visitor Centre,Strait of Georgia,6,SG
+VCReport_Ladysmith.csv,2007,5095,ladysmith,814482,Vancouver Island,Ladysmith Visitor Centre,Strait of Georgia,6,SG
+VCReport_Langley.csv,2017,0,langley,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2016,0,langley,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2015,221,langley,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2014,2719,langley,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2013,2834,langley,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2012,3757,langley,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2011,4293,langley,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2010,5247,langley,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2009,0,langley,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2008,0,langley,NA,NA,NA,NA,NA,NA
+VCReport_Langley.csv,2007,11088,langley,NA,NA,NA,NA,NA,NA
+VCReport_Nanaimo.csv,2017,2970,nanaimo,812174,Vancouver Island,Nanaimo Visitor Centre,Strait of Georgia,6,SG
+VCReport_Nanaimo.csv,2016,21025,nanaimo,812174,Vancouver Island,Nanaimo Visitor Centre,Strait of Georgia,6,SG
+VCReport_Nanaimo.csv,2015,13264,nanaimo,812174,Vancouver Island,Nanaimo Visitor Centre,Strait of Georgia,6,SG
+VCReport_Nanaimo.csv,2014,13675,nanaimo,812174,Vancouver Island,Nanaimo Visitor Centre,Strait of Georgia,6,SG
+VCReport_Nanaimo.csv,2013,14901,nanaimo,812174,Vancouver Island,Nanaimo Visitor Centre,Strait of Georgia,6,SG
+VCReport_Nanaimo.csv,2012,8780,nanaimo,812174,Vancouver Island,Nanaimo Visitor Centre,Strait of Georgia,6,SG
+VCReport_Nanaimo.csv,2011,11285,nanaimo,812174,Vancouver Island,Nanaimo Visitor Centre,Strait of Georgia,6,SG
+VCReport_Nanaimo.csv,2010,12432,nanaimo,812174,Vancouver Island,Nanaimo Visitor Centre,Strait of Georgia,6,SG
+VCReport_Nanaimo.csv,2009,15884,nanaimo,812174,Vancouver Island,Nanaimo Visitor Centre,Strait of Georgia,6,SG
+VCReport_Nanaimo.csv,2008,17753,nanaimo,812174,Vancouver Island,Nanaimo Visitor Centre,Strait of Georgia,6,SG
+VCReport_Nanaimo.csv,2007,44853,nanaimo,812174,Vancouver Island,Nanaimo Visitor Centre,Strait of Georgia,6,SG
+VCReport_NewWestminster.csv,2017,177,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
+VCReport_NewWestminster.csv,2016,2774,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
+VCReport_NewWestminster.csv,2015,2098,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
+VCReport_NewWestminster.csv,2014,3573,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
+VCReport_NewWestminster.csv,2013,1889,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
+VCReport_NewWestminster.csv,2012,3868,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
+VCReport_NewWestminster.csv,2011,5955,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
+VCReport_NewWestminster.csv,2010,3652,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
+VCReport_NewWestminster.csv,2009,2284,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
+VCReport_NewWestminster.csv,2008,4249,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
+VCReport_NewWestminster.csv,2007,2514,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
+VCReport_Parksville.csv,2017,3628,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
+VCReport_Parksville.csv,2016,30285,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
+VCReport_Parksville.csv,2015,24469,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
+VCReport_Parksville.csv,2014,23719,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
+VCReport_Parksville.csv,2013,24464,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
+VCReport_Parksville.csv,2012,27276,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
+VCReport_Parksville.csv,2011,24291,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
+VCReport_Parksville.csv,2010,23118,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
+VCReport_Parksville.csv,2009,35365,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
+VCReport_Parksville.csv,2008,26417,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
+VCReport_Parksville.csv,2007,26275,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
+VCReport_PeaceArch.csv,2017,4519,peacearch,812383,Vancouver Coast and Mountains,British Columbia Visitor Centre @ Peace Arch,Strait of Georgia,6,SG
+VCReport_PeaceArch.csv,2016,23856,peacearch,812383,Vancouver Coast and Mountains,British Columbia Visitor Centre @ Peace Arch,Strait of Georgia,6,SG
+VCReport_PeaceArch.csv,2015,23139,peacearch,812383,Vancouver Coast and Mountains,British Columbia Visitor Centre @ Peace Arch,Strait of Georgia,6,SG
+VCReport_PeaceArch.csv,2014,19014,peacearch,812383,Vancouver Coast and Mountains,British Columbia Visitor Centre @ Peace Arch,Strait of Georgia,6,SG
+VCReport_PeaceArch.csv,2013,17212,peacearch,812383,Vancouver Coast and Mountains,British Columbia Visitor Centre @ Peace Arch,Strait of Georgia,6,SG
+VCReport_PeaceArch.csv,2012,16758,peacearch,812383,Vancouver Coast and Mountains,British Columbia Visitor Centre @ Peace Arch,Strait of Georgia,6,SG
+VCReport_PeaceArch.csv,2011,18745,peacearch,812383,Vancouver Coast and Mountains,British Columbia Visitor Centre @ Peace Arch,Strait of Georgia,6,SG
+VCReport_PeaceArch.csv,2010,32623,peacearch,812383,Vancouver Coast and Mountains,British Columbia Visitor Centre @ Peace Arch,Strait of Georgia,6,SG
+VCReport_PeaceArch.csv,2009,19767,peacearch,812383,Vancouver Coast and Mountains,British Columbia Visitor Centre @ Peace Arch,Strait of Georgia,6,SG
+VCReport_PeaceArch.csv,2008,22087,peacearch,812383,Vancouver Coast and Mountains,British Columbia Visitor Centre @ Peace Arch,Strait of Georgia,6,SG
+VCReport_PeaceArch.csv,2007,63518,peacearch,812383,Vancouver Coast and Mountains,British Columbia Visitor Centre @ Peace Arch,Strait of Georgia,6,SG
+VCReport_PortAlberni.csv,2017,3696,portalberni,812176,Vancouver Island,Port Alberni Visitor Centre,West Vancouver Island,5,WV
+VCReport_PortAlberni.csv,2016,22304,portalberni,812176,Vancouver Island,Port Alberni Visitor Centre,West Vancouver Island,5,WV
+VCReport_PortAlberni.csv,2015,29617,portalberni,812176,Vancouver Island,Port Alberni Visitor Centre,West Vancouver Island,5,WV
+VCReport_PortAlberni.csv,2014,18403,portalberni,812176,Vancouver Island,Port Alberni Visitor Centre,West Vancouver Island,5,WV
+VCReport_PortAlberni.csv,2013,21597,portalberni,812176,Vancouver Island,Port Alberni Visitor Centre,West Vancouver Island,5,WV
+VCReport_PortAlberni.csv,2012,20402,portalberni,812176,Vancouver Island,Port Alberni Visitor Centre,West Vancouver Island,5,WV
+VCReport_PortAlberni.csv,2011,28320,portalberni,812176,Vancouver Island,Port Alberni Visitor Centre,West Vancouver Island,5,WV
+VCReport_PortAlberni.csv,2010,19120,portalberni,812176,Vancouver Island,Port Alberni Visitor Centre,West Vancouver Island,5,WV
+VCReport_PortAlberni.csv,2009,20967,portalberni,812176,Vancouver Island,Port Alberni Visitor Centre,West Vancouver Island,5,WV
+VCReport_PortAlberni.csv,2008,19518,portalberni,812176,Vancouver Island,Port Alberni Visitor Centre,West Vancouver Island,5,WV
+VCReport_PortAlberni.csv,2007,23647,portalberni,812176,Vancouver Island,Port Alberni Visitor Centre,West Vancouver Island,5,WV
+VCReport_PortHardy.csv,2017,864,porthardy,812177,Vancouver Island,Port Hardy Visitor Centre,North Vancouver Island,4,NV
+VCReport_PortHardy.csv,2016,8949,porthardy,812177,Vancouver Island,Port Hardy Visitor Centre,North Vancouver Island,4,NV
+VCReport_PortHardy.csv,2015,15938,porthardy,812177,Vancouver Island,Port Hardy Visitor Centre,North Vancouver Island,4,NV
+VCReport_PortHardy.csv,2014,11772,porthardy,812177,Vancouver Island,Port Hardy Visitor Centre,North Vancouver Island,4,NV
+VCReport_PortHardy.csv,2013,13900,porthardy,812177,Vancouver Island,Port Hardy Visitor Centre,North Vancouver Island,4,NV
+VCReport_PortHardy.csv,2012,15142,porthardy,812177,Vancouver Island,Port Hardy Visitor Centre,North Vancouver Island,4,NV
+VCReport_PortHardy.csv,2011,14856,porthardy,812177,Vancouver Island,Port Hardy Visitor Centre,North Vancouver Island,4,NV
+VCReport_PortHardy.csv,2010,15547,porthardy,812177,Vancouver Island,Port Hardy Visitor Centre,North Vancouver Island,4,NV
+VCReport_PortHardy.csv,2009,15126,porthardy,812177,Vancouver Island,Port Hardy Visitor Centre,North Vancouver Island,4,NV
+VCReport_PortHardy.csv,2008,19550,porthardy,812177,Vancouver Island,Port Hardy Visitor Centre,North Vancouver Island,4,NV
+VCReport_PortHardy.csv,2007,21313,porthardy,812177,Vancouver Island,Port Hardy Visitor Centre,North Vancouver Island,4,NV
+VCReport_PortMcNeill.csv,2017,614,portmcneill,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2016,8427,portmcneill,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2015,940,portmcneill,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2014,14872,portmcneill,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2013,16372,portmcneill,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2012,16661,portmcneill,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2011,16605,portmcneill,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2010,17417,portmcneill,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2009,14601,portmcneill,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2008,11746,portmcneill,NA,NA,NA,NA,NA,NA
+VCReport_PortMcNeill.csv,2007,10857,portmcneill,NA,NA,NA,NA,NA,NA
+VCReport_PowellRiver.csv,2017,1356,powellriver,812206,Vancouver Coast and Mountains,Powell River Visitor Centre,Strait of Georgia,6,SG
+VCReport_PowellRiver.csv,2016,8735,powellriver,812206,Vancouver Coast and Mountains,Powell River Visitor Centre,Strait of Georgia,6,SG
+VCReport_PowellRiver.csv,2015,8183,powellriver,812206,Vancouver Coast and Mountains,Powell River Visitor Centre,Strait of Georgia,6,SG
+VCReport_PowellRiver.csv,2014,7378,powellriver,812206,Vancouver Coast and Mountains,Powell River Visitor Centre,Strait of Georgia,6,SG
+VCReport_PowellRiver.csv,2013,6571,powellriver,812206,Vancouver Coast and Mountains,Powell River Visitor Centre,Strait of Georgia,6,SG
+VCReport_PowellRiver.csv,2012,13040,powellriver,812206,Vancouver Coast and Mountains,Powell River Visitor Centre,Strait of Georgia,6,SG
+VCReport_PowellRiver.csv,2011,12084,powellriver,812206,Vancouver Coast and Mountains,Powell River Visitor Centre,Strait of Georgia,6,SG
+VCReport_PowellRiver.csv,2010,14880,powellriver,812206,Vancouver Coast and Mountains,Powell River Visitor Centre,Strait of Georgia,6,SG
+VCReport_PowellRiver.csv,2009,21155,powellriver,812206,Vancouver Coast and Mountains,Powell River Visitor Centre,Strait of Georgia,6,SG
+VCReport_PowellRiver.csv,2008,15159,powellriver,812206,Vancouver Coast and Mountains,Powell River Visitor Centre,Strait of Georgia,6,SG
+VCReport_PowellRiver.csv,2007,16543,powellriver,812206,Vancouver Coast and Mountains,Powell River Visitor Centre,Strait of Georgia,6,SG
+VCReport_PrinceRupert.csv,2017,935,princerupert,812296,Northern British Columbia,Prince Rupert Visitor Centre,North Coast,1,NC
+VCReport_PrinceRupert.csv,2016,16293,princerupert,812296,Northern British Columbia,Prince Rupert Visitor Centre,North Coast,1,NC
+VCReport_PrinceRupert.csv,2015,13284,princerupert,812296,Northern British Columbia,Prince Rupert Visitor Centre,North Coast,1,NC
+VCReport_PrinceRupert.csv,2014,9459,princerupert,812296,Northern British Columbia,Prince Rupert Visitor Centre,North Coast,1,NC
+VCReport_PrinceRupert.csv,2013,8150,princerupert,812296,Northern British Columbia,Prince Rupert Visitor Centre,North Coast,1,NC
+VCReport_PrinceRupert.csv,2012,9050,princerupert,812296,Northern British Columbia,Prince Rupert Visitor Centre,North Coast,1,NC
+VCReport_PrinceRupert.csv,2011,15024,princerupert,812296,Northern British Columbia,Prince Rupert Visitor Centre,North Coast,1,NC
+VCReport_PrinceRupert.csv,2010,12428,princerupert,812296,Northern British Columbia,Prince Rupert Visitor Centre,North Coast,1,NC
+VCReport_PrinceRupert.csv,2009,31503,princerupert,812296,Northern British Columbia,Prince Rupert Visitor Centre,North Coast,1,NC
+VCReport_PrinceRupert.csv,2008,34267,princerupert,812296,Northern British Columbia,Prince Rupert Visitor Centre,North Coast,1,NC
+VCReport_PrinceRupert.csv,2007,31468,princerupert,812296,Northern British Columbia,Prince Rupert Visitor Centre,North Coast,1,NC
+VCReport_Qualicum.csv,2017,2242,qualicumbeach,812179,Vancouver Island,Qualicum Beach Visitor Centre,Strait of Georgia,6,SG
+VCReport_Qualicum.csv,2016,16643,qualicumbeach,812179,Vancouver Island,Qualicum Beach Visitor Centre,Strait of Georgia,6,SG
+VCReport_Qualicum.csv,2015,24564,qualicumbeach,812179,Vancouver Island,Qualicum Beach Visitor Centre,Strait of Georgia,6,SG
+VCReport_Qualicum.csv,2014,24901,qualicumbeach,812179,Vancouver Island,Qualicum Beach Visitor Centre,Strait of Georgia,6,SG
+VCReport_Qualicum.csv,2013,24366,qualicumbeach,812179,Vancouver Island,Qualicum Beach Visitor Centre,Strait of Georgia,6,SG
+VCReport_Qualicum.csv,2012,24499,qualicumbeach,812179,Vancouver Island,Qualicum Beach Visitor Centre,Strait of Georgia,6,SG
+VCReport_Qualicum.csv,2011,22874,qualicumbeach,812179,Vancouver Island,Qualicum Beach Visitor Centre,Strait of Georgia,6,SG
+VCReport_Qualicum.csv,2010,29112,qualicumbeach,812179,Vancouver Island,Qualicum Beach Visitor Centre,Strait of Georgia,6,SG
+VCReport_Qualicum.csv,2009,28932,qualicumbeach,812179,Vancouver Island,Qualicum Beach Visitor Centre,Strait of Georgia,6,SG
+VCReport_Qualicum.csv,2008,35270,qualicumbeach,812179,Vancouver Island,Qualicum Beach Visitor Centre,Strait of Georgia,6,SG
+VCReport_Qualicum.csv,2007,38094,qualicumbeach,812179,Vancouver Island,Qualicum Beach Visitor Centre,Strait of Georgia,6,SG
+VCReport_QueenCharlotte.csv,2017,873,queencharlotte,812298,Northern British Columbia,Queen Charlotte Visitor Centre,Haida Gwaii,2,HG
+VCReport_QueenCharlotte.csv,2016,15225,queencharlotte,812298,Northern British Columbia,Queen Charlotte Visitor Centre,Haida Gwaii,2,HG
+VCReport_QueenCharlotte.csv,2015,13532,queencharlotte,812298,Northern British Columbia,Queen Charlotte Visitor Centre,Haida Gwaii,2,HG
+VCReport_QueenCharlotte.csv,2014,10452,queencharlotte,812298,Northern British Columbia,Queen Charlotte Visitor Centre,Haida Gwaii,2,HG
+VCReport_QueenCharlotte.csv,2013,10818,queencharlotte,812298,Northern British Columbia,Queen Charlotte Visitor Centre,Haida Gwaii,2,HG
+VCReport_QueenCharlotte.csv,2012,11342,queencharlotte,812298,Northern British Columbia,Queen Charlotte Visitor Centre,Haida Gwaii,2,HG
+VCReport_QueenCharlotte.csv,2011,12827,queencharlotte,812298,Northern British Columbia,Queen Charlotte Visitor Centre,Haida Gwaii,2,HG
+VCReport_QueenCharlotte.csv,2010,11836,queencharlotte,812298,Northern British Columbia,Queen Charlotte Visitor Centre,Haida Gwaii,2,HG
+VCReport_QueenCharlotte.csv,2009,15066,queencharlotte,812298,Northern British Columbia,Queen Charlotte Visitor Centre,Haida Gwaii,2,HG
+VCReport_QueenCharlotte.csv,2008,15834,queencharlotte,812298,Northern British Columbia,Queen Charlotte Visitor Centre,Haida Gwaii,2,HG
+VCReport_QueenCharlotte.csv,2007,15291,queencharlotte,812298,Northern British Columbia,Queen Charlotte Visitor Centre,Haida Gwaii,2,HG
+VCReport_Richmond.csv,2017,6723,richmond,812207,Vancouver Coast and Mountains,Richmond Visitor Centre,Strait of Georgia,6,SG
+VCReport_Richmond.csv,2016,25805,richmond,812207,Vancouver Coast and Mountains,Richmond Visitor Centre,Strait of Georgia,6,SG
+VCReport_Richmond.csv,2015,24282,richmond,812207,Vancouver Coast and Mountains,Richmond Visitor Centre,Strait of Georgia,6,SG
+VCReport_Richmond.csv,2014,19262,richmond,812207,Vancouver Coast and Mountains,Richmond Visitor Centre,Strait of Georgia,6,SG
+VCReport_Richmond.csv,2013,15569,richmond,812207,Vancouver Coast and Mountains,Richmond Visitor Centre,Strait of Georgia,6,SG
+VCReport_Richmond.csv,2012,10361,richmond,812207,Vancouver Coast and Mountains,Richmond Visitor Centre,Strait of Georgia,6,SG
+VCReport_Richmond.csv,2011,6976,richmond,812207,Vancouver Coast and Mountains,Richmond Visitor Centre,Strait of Georgia,6,SG
+VCReport_Richmond.csv,2010,9341,richmond,812207,Vancouver Coast and Mountains,Richmond Visitor Centre,Strait of Georgia,6,SG
+VCReport_Richmond.csv,2009,9150,richmond,812207,Vancouver Coast and Mountains,Richmond Visitor Centre,Strait of Georgia,6,SG
+VCReport_Richmond.csv,2008,9211,richmond,812207,Vancouver Coast and Mountains,Richmond Visitor Centre,Strait of Georgia,6,SG
+VCReport_Richmond.csv,2007,8363,richmond,812207,Vancouver Coast and Mountains,Richmond Visitor Centre,Strait of Georgia,6,SG
+VCReport_Saltspring.csv,2017,4935,saltspringisland,812180,Vancouver Island,Salt Spring Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Saltspring.csv,2016,33274,saltspringisland,812180,Vancouver Island,Salt Spring Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Saltspring.csv,2015,31827,saltspringisland,812180,Vancouver Island,Salt Spring Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Saltspring.csv,2014,32813,saltspringisland,812180,Vancouver Island,Salt Spring Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Saltspring.csv,2013,32887,saltspringisland,812180,Vancouver Island,Salt Spring Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Saltspring.csv,2012,33694,saltspringisland,812180,Vancouver Island,Salt Spring Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Saltspring.csv,2011,31286,saltspringisland,812180,Vancouver Island,Salt Spring Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Saltspring.csv,2010,35176,saltspringisland,812180,Vancouver Island,Salt Spring Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Saltspring.csv,2009,42039,saltspringisland,812180,Vancouver Island,Salt Spring Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Saltspring.csv,2008,40180,saltspringisland,812180,Vancouver Island,Salt Spring Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Saltspring.csv,2007,37447,saltspringisland,812180,Vancouver Island,Salt Spring Island Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sandspit.csv,2017,0,sandspit,812302,Northern British Columbia,Sandspit Visitor Centre,Haida Gwaii,2,HG
+VCReport_Sandspit.csv,2016,9272,sandspit,812302,Northern British Columbia,Sandspit Visitor Centre,Haida Gwaii,2,HG
+VCReport_Sandspit.csv,2015,6973,sandspit,812302,Northern British Columbia,Sandspit Visitor Centre,Haida Gwaii,2,HG
+VCReport_Sandspit.csv,2014,6348,sandspit,812302,Northern British Columbia,Sandspit Visitor Centre,Haida Gwaii,2,HG
+VCReport_Sandspit.csv,2013,7073,sandspit,812302,Northern British Columbia,Sandspit Visitor Centre,Haida Gwaii,2,HG
+VCReport_Sandspit.csv,2012,6420,sandspit,812302,Northern British Columbia,Sandspit Visitor Centre,Haida Gwaii,2,HG
+VCReport_Sandspit.csv,2011,5462,sandspit,812302,Northern British Columbia,Sandspit Visitor Centre,Haida Gwaii,2,HG
+VCReport_Sandspit.csv,2010,7005,sandspit,812302,Northern British Columbia,Sandspit Visitor Centre,Haida Gwaii,2,HG
+VCReport_Sandspit.csv,2009,10448,sandspit,812302,Northern British Columbia,Sandspit Visitor Centre,Haida Gwaii,2,HG
+VCReport_Sandspit.csv,2008,12269,sandspit,812302,Northern British Columbia,Sandspit Visitor Centre,Haida Gwaii,2,HG
+VCReport_Sandspit.csv,2007,7217,sandspit,812302,Northern British Columbia,Sandspit Visitor Centre,Haida Gwaii,2,HG
+VCReport_Sechelt.csv,2017,2456,sechelt,812208,Vancouver Coast and Mountains,Sechelt Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sechelt.csv,2016,13338,sechelt,812208,Vancouver Coast and Mountains,Sechelt Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sechelt.csv,2015,13287,sechelt,812208,Vancouver Coast and Mountains,Sechelt Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sechelt.csv,2014,14239,sechelt,812208,Vancouver Coast and Mountains,Sechelt Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sechelt.csv,2013,13203,sechelt,812208,Vancouver Coast and Mountains,Sechelt Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sechelt.csv,2012,12903,sechelt,812208,Vancouver Coast and Mountains,Sechelt Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sechelt.csv,2011,12213,sechelt,812208,Vancouver Coast and Mountains,Sechelt Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sechelt.csv,2010,15120,sechelt,812208,Vancouver Coast and Mountains,Sechelt Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sechelt.csv,2009,14425,sechelt,812208,Vancouver Coast and Mountains,Sechelt Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sechelt.csv,2008,13965,sechelt,812208,Vancouver Coast and Mountains,Sechelt Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sechelt.csv,2007,14308,sechelt,812208,Vancouver Coast and Mountains,Sechelt Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sidney.csv,2017,1659,sidney,812181,Vancouver Island,Sidney Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sidney.csv,2016,22766,sidney,812181,Vancouver Island,Sidney Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sidney.csv,2015,455,sidney,812181,Vancouver Island,Sidney Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sidney.csv,2014,0,sidney,812181,Vancouver Island,Sidney Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sidney.csv,2013,15998,sidney,812181,Vancouver Island,Sidney Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sidney.csv,2012,16530,sidney,812181,Vancouver Island,Sidney Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sidney.csv,2011,18280,sidney,812181,Vancouver Island,Sidney Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sidney.csv,2010,18408,sidney,812181,Vancouver Island,Sidney Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sidney.csv,2009,20558,sidney,812181,Vancouver Island,Sidney Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sidney.csv,2008,23053,sidney,812181,Vancouver Island,Sidney Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sidney.csv,2007,29577,sidney,812181,Vancouver Island,Sidney Visitor Centre,Strait of Georgia,6,SG
+VCReport_Sooke.csv,2017,1969,sooke,812182,Vancouver Island,Sooke Visitor Centre,West Vancouver Island,5,WV
+VCReport_Sooke.csv,2016,12724,sooke,812182,Vancouver Island,Sooke Visitor Centre,West Vancouver Island,5,WV
+VCReport_Sooke.csv,2015,15703,sooke,812182,Vancouver Island,Sooke Visitor Centre,West Vancouver Island,5,WV
+VCReport_Sooke.csv,2014,13587,sooke,812182,Vancouver Island,Sooke Visitor Centre,West Vancouver Island,5,WV
+VCReport_Sooke.csv,2013,13161,sooke,812182,Vancouver Island,Sooke Visitor Centre,West Vancouver Island,5,WV
+VCReport_Sooke.csv,2012,12649,sooke,812182,Vancouver Island,Sooke Visitor Centre,West Vancouver Island,5,WV
+VCReport_Sooke.csv,2011,14354,sooke,812182,Vancouver Island,Sooke Visitor Centre,West Vancouver Island,5,WV
+VCReport_Sooke.csv,2010,15625,sooke,812182,Vancouver Island,Sooke Visitor Centre,West Vancouver Island,5,WV
+VCReport_Sooke.csv,2009,18136,sooke,812182,Vancouver Island,Sooke Visitor Centre,West Vancouver Island,5,WV
+VCReport_Sooke.csv,2008,16954,sooke,812182,Vancouver Island,Sooke Visitor Centre,West Vancouver Island,5,WV
+VCReport_Sooke.csv,2007,20525,sooke,812182,Vancouver Island,Sooke Visitor Centre,West Vancouver Island,5,WV
+VCReport_Squamish.csv,2017,16780,squamish,812209,Vancouver Coast and Mountains,Squamish Visitor Centre,Strait of Georgia,6,SG
+VCReport_Squamish.csv,2016,61542,squamish,812209,Vancouver Coast and Mountains,Squamish Visitor Centre,Strait of Georgia,6,SG
+VCReport_Squamish.csv,2015,45172,squamish,812209,Vancouver Coast and Mountains,Squamish Visitor Centre,Strait of Georgia,6,SG
+VCReport_Squamish.csv,2014,34527,squamish,812209,Vancouver Coast and Mountains,Squamish Visitor Centre,Strait of Georgia,6,SG
+VCReport_Squamish.csv,2013,20255,squamish,812209,Vancouver Coast and Mountains,Squamish Visitor Centre,Strait of Georgia,6,SG
+VCReport_Squamish.csv,2012,16896,squamish,812209,Vancouver Coast and Mountains,Squamish Visitor Centre,Strait of Georgia,6,SG
+VCReport_Squamish.csv,2011,17595,squamish,812209,Vancouver Coast and Mountains,Squamish Visitor Centre,Strait of Georgia,6,SG
+VCReport_Squamish.csv,2010,20785,squamish,812209,Vancouver Coast and Mountains,Squamish Visitor Centre,Strait of Georgia,6,SG
+VCReport_Squamish.csv,2009,24293,squamish,812209,Vancouver Coast and Mountains,Squamish Visitor Centre,Strait of Georgia,6,SG
+VCReport_Squamish.csv,2008,21734,squamish,812209,Vancouver Coast and Mountains,Squamish Visitor Centre,Strait of Georgia,6,SG
+VCReport_Squamish.csv,2007,31672,squamish,812209,Vancouver Coast and Mountains,Squamish Visitor Centre,Strait of Georgia,6,SG
+VCReport_Surrey.csv,2017,766,surrey,812210,Vancouver Coast and Mountains,Surrey Visitor Centre,Strait of Georgia,6,SG
+VCReport_Surrey.csv,2016,6397,surrey,812210,Vancouver Coast and Mountains,Surrey Visitor Centre,Strait of Georgia,6,SG
+VCReport_Surrey.csv,2015,6101,surrey,812210,Vancouver Coast and Mountains,Surrey Visitor Centre,Strait of Georgia,6,SG
+VCReport_Surrey.csv,2014,6713,surrey,812210,Vancouver Coast and Mountains,Surrey Visitor Centre,Strait of Georgia,6,SG
+VCReport_Surrey.csv,2013,7766,surrey,812210,Vancouver Coast and Mountains,Surrey Visitor Centre,Strait of Georgia,6,SG
+VCReport_Surrey.csv,2012,7286,surrey,812210,Vancouver Coast and Mountains,Surrey Visitor Centre,Strait of Georgia,6,SG
+VCReport_Surrey.csv,2011,9168,surrey,812210,Vancouver Coast and Mountains,Surrey Visitor Centre,Strait of Georgia,6,SG
+VCReport_Surrey.csv,2010,9272,surrey,812210,Vancouver Coast and Mountains,Surrey Visitor Centre,Strait of Georgia,6,SG
+VCReport_Surrey.csv,2009,7470,surrey,812210,Vancouver Coast and Mountains,Surrey Visitor Centre,Strait of Georgia,6,SG
+VCReport_Surrey.csv,2008,8211,surrey,812210,Vancouver Coast and Mountains,Surrey Visitor Centre,Strait of Georgia,6,SG
+VCReport_Surrey.csv,2007,8348,surrey,812210,Vancouver Coast and Mountains,Surrey Visitor Centre,Strait of Georgia,6,SG
+VCReport_Terrace.csv,2017,250,terrace,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2016,6330,terrace,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2015,5376,terrace,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2014,5974,terrace,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2013,5214,terrace,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2012,7664,terrace,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2011,6906,terrace,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2010,6644,terrace,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2009,6720,terrace,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2008,8056,terrace,NA,NA,NA,NA,NA,NA
+VCReport_Terrace.csv,2007,9403,terrace,NA,NA,NA,NA,NA,NA
+VCReport_Tofino.csv,2017,6630,tofino,812183,Vancouver Island,Tofino Visitor Centre,West Vancouver Island,5,WV
+VCReport_Tofino.csv,2016,37438,tofino,812183,Vancouver Island,Tofino Visitor Centre,West Vancouver Island,5,WV
+VCReport_Tofino.csv,2015,51035,tofino,812183,Vancouver Island,Tofino Visitor Centre,West Vancouver Island,5,WV
+VCReport_Tofino.csv,2014,40773,tofino,812183,Vancouver Island,Tofino Visitor Centre,West Vancouver Island,5,WV
+VCReport_Tofino.csv,2013,40736,tofino,812183,Vancouver Island,Tofino Visitor Centre,West Vancouver Island,5,WV
+VCReport_Tofino.csv,2012,36970,tofino,812183,Vancouver Island,Tofino Visitor Centre,West Vancouver Island,5,WV
+VCReport_Tofino.csv,2011,38009,tofino,812183,Vancouver Island,Tofino Visitor Centre,West Vancouver Island,5,WV
+VCReport_Tofino.csv,2010,28434,tofino,812183,Vancouver Island,Tofino Visitor Centre,West Vancouver Island,5,WV
+VCReport_Tofino.csv,2009,15453,tofino,812183,Vancouver Island,Tofino Visitor Centre,West Vancouver Island,5,WV
+VCReport_Tofino.csv,2008,16594,tofino,812183,Vancouver Island,Tofino Visitor Centre,West Vancouver Island,5,WV
+VCReport_Tofino.csv,2007,0,tofino,812183,Vancouver Island,Tofino Visitor Centre,West Vancouver Island,5,WV
+VCReport_Ucluelet.csv,2017,0,ucluelet,812184,Vancouver Island,Ucluelet Visitor Centre,West Vancouver Island,5,WV
+VCReport_Ucluelet.csv,2016,7277,ucluelet,812184,Vancouver Island,Ucluelet Visitor Centre,West Vancouver Island,5,WV
+VCReport_Ucluelet.csv,2015,11060,ucluelet,812184,Vancouver Island,Ucluelet Visitor Centre,West Vancouver Island,5,WV
+VCReport_Ucluelet.csv,2014,9010,ucluelet,812184,Vancouver Island,Ucluelet Visitor Centre,West Vancouver Island,5,WV
+VCReport_Ucluelet.csv,2013,6368,ucluelet,812184,Vancouver Island,Ucluelet Visitor Centre,West Vancouver Island,5,WV
+VCReport_Ucluelet.csv,2012,5331,ucluelet,812184,Vancouver Island,Ucluelet Visitor Centre,West Vancouver Island,5,WV
+VCReport_Ucluelet.csv,2011,4216,ucluelet,812184,Vancouver Island,Ucluelet Visitor Centre,West Vancouver Island,5,WV
+VCReport_Ucluelet.csv,2010,3748,ucluelet,812184,Vancouver Island,Ucluelet Visitor Centre,West Vancouver Island,5,WV
+VCReport_Ucluelet.csv,2009,9107,ucluelet,812184,Vancouver Island,Ucluelet Visitor Centre,West Vancouver Island,5,WV
+VCReport_Ucluelet.csv,2008,8955,ucluelet,812184,Vancouver Island,Ucluelet Visitor Centre,West Vancouver Island,5,WV
+VCReport_Ucluelet.csv,2007,3553,ucluelet,812184,Vancouver Island,Ucluelet Visitor Centre,West Vancouver Island,5,WV
+VCReport_Vancouver.csv,2017,17871,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2016,89597,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2015,89011,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2014,101654,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2013,140684,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2012,101072,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2011,110472,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2010,128899,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2009,119550,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2008,120767,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Vancouver.csv,2007,141220,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_Victoria.csv,2017,17915,victoria,812186,Vancouver Island,Victoria Visitor Centre,West Vancouver Island,5,WV
+VCReport_Victoria.csv,2016,94740,victoria,812186,Vancouver Island,Victoria Visitor Centre,West Vancouver Island,5,WV
+VCReport_Victoria.csv,2015,109151,victoria,812186,Vancouver Island,Victoria Visitor Centre,West Vancouver Island,5,WV
+VCReport_Victoria.csv,2014,95557,victoria,812186,Vancouver Island,Victoria Visitor Centre,West Vancouver Island,5,WV
+VCReport_Victoria.csv,2013,92716,victoria,812186,Vancouver Island,Victoria Visitor Centre,West Vancouver Island,5,WV
+VCReport_Victoria.csv,2012,144336,victoria,812186,Vancouver Island,Victoria Visitor Centre,West Vancouver Island,5,WV
+VCReport_Victoria.csv,2011,156082,victoria,812186,Vancouver Island,Victoria Visitor Centre,West Vancouver Island,5,WV
+VCReport_Victoria.csv,2010,145060,victoria,812186,Vancouver Island,Victoria Visitor Centre,West Vancouver Island,5,WV
+VCReport_Victoria.csv,2009,133695,victoria,812186,Vancouver Island,Victoria Visitor Centre,West Vancouver Island,5,WV
+VCReport_Victoria.csv,2008,164023,victoria,812186,Vancouver Island,Victoria Visitor Centre,West Vancouver Island,5,WV
+VCReport_Victoria.csv,2007,209093,victoria,812186,Vancouver Island,Victoria Visitor Centre,West Vancouver Island,5,WV
+VCReport_WhiteRock.csv,2017,1301,whiterock,824388,Vancouver Coast and Mountains,White Rock Visitor Centre,Strait of Georgia,6,SG
+VCReport_WhiteRock.csv,2016,9953,whiterock,824388,Vancouver Coast and Mountains,White Rock Visitor Centre,Strait of Georgia,6,SG
+VCReport_WhiteRock.csv,2015,6137,whiterock,824388,Vancouver Coast and Mountains,White Rock Visitor Centre,Strait of Georgia,6,SG
+VCReport_WhiteRock.csv,2014,7470,whiterock,824388,Vancouver Coast and Mountains,White Rock Visitor Centre,Strait of Georgia,6,SG
+VCReport_WhiteRock.csv,2013,20624,whiterock,824388,Vancouver Coast and Mountains,White Rock Visitor Centre,Strait of Georgia,6,SG
+VCReport_WhiteRock.csv,2012,21447,whiterock,824388,Vancouver Coast and Mountains,White Rock Visitor Centre,Strait of Georgia,6,SG
+VCReport_WhiteRock.csv,2011,20111,whiterock,824388,Vancouver Coast and Mountains,White Rock Visitor Centre,Strait of Georgia,6,SG
+VCReport_WhiteRock.csv,2010,18257,whiterock,824388,Vancouver Coast and Mountains,White Rock Visitor Centre,Strait of Georgia,6,SG
+VCReport_WhiteRock.csv,2009,16213,whiterock,824388,Vancouver Coast and Mountains,White Rock Visitor Centre,Strait of Georgia,6,SG
+VCReport_WhiteRock.csv,2008,13947,whiterock,824388,Vancouver Coast and Mountains,White Rock Visitor Centre,Strait of Georgia,6,SG
+VCReport_WhiteRock.csv,2007,11213,whiterock,824388,Vancouver Coast and Mountains,White Rock Visitor Centre,Strait of Georgia,6,SG
+NA,NA,NA,stewart,812305,Northern British Columbia,Stewart Visitor Centre,North Coast,1,NC
+NA,NA,NA,bellacoolavalley,814215,Cariboo Chilcotin Coast,Bella Coola Valley Tourist/Visitor Info Booth,Central Coast,3,CC
+NA,NA,NA,sointula,816247,Vancouver Island,Sointula Tourist/Visitor Info Booth,North Vancouver Island,4,NV
+NA,NA,NA,goldriver,812172,Vancouver Island,Gold River Visitor Centre,West Vancouver Island,5,WV
+NA,NA,NA,coquitlam,814218,Vancouver Coast and Mountains,Coquitlam Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+NA,NA,NA,cortesisland,816933,Vancouver Island,Cortes Island Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+NA,NA,NA,madeirapark,814484,Vancouver Coast and Mountains,Madeira Park Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+NA,NA,NA,millbay,814487,Vancouver Island,Mill Bay Tourist/Visitor Info Booth,Strait of Georgia,6,SG
+NA,NA,NA,pittmeadowsmapleridge,819050,Vancouver Coast and Mountains,Pitt Meadows/Maple Ridge Visitor Centre,Strait of Georgia,6,SG
+NA,NA,NA,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
