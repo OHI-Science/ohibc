@@ -164,17 +164,17 @@ VCReport_NewWestminster.csv,2010,3652,newwestminster,812202,Vancouver Coast and 
 VCReport_NewWestminster.csv,2009,2284,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
 VCReport_NewWestminster.csv,2008,4249,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
 VCReport_NewWestminster.csv,2007,2514,newwestminster,812202,Vancouver Coast and Mountains,New Westminster Visitor Centre,Strait of Georgia,6,SG
-VCReport_northvancouverlonsdale.csv,2017,4994,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_northvancouverlonsdale.csv,2016,15465,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_northvancouverlonsdale.csv,2015,12453,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_northvancouverlonsdale.csv,2014,8849,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_northvancouverlonsdale.csv,2013,7829,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_northvancouverlonsdale.csv,2012,7100,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_northvancouverlonsdale.csv,2011,8652,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_northvancouverlonsdale.csv,2010,13557,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_northvancouverlonsdale.csv,2009,12611,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_northvancouverlonsdale.csv,2008,11964,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
-VCReport_northvancouverlonsdale.csv,2007,6091,vancouver,812211,Vancouver Coast and Mountains,Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouver.csv,2017,4994,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouver.csv,2016,15465,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouver.csv,2015,12453,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouver.csv,2014,8849,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouver.csv,2013,7829,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouver.csv,2012,7100,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouver.csv,2011,8652,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouver.csv,2010,13557,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouver.csv,2009,12611,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouver.csv,2008,11964,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
+VCReport_northvancouver.csv,2007,6091,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
 VCReport_Parksville.csv,2017,3628,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
 VCReport_Parksville.csv,2016,30285,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
 VCReport_Parksville.csv,2015,24469,parksville,812175,Vancouver Island,Parksville Visitor Centre,Strait of Georgia,6,SG
@@ -456,5 +456,4 @@ NA,NA,NA,coquitlam,814218,Vancouver Coast and Mountains,Coquitlam Tourist/Visito
 NA,NA,NA,cortesisland,816933,Vancouver Island,Cortes Island Tourist/Visitor Info Booth,Strait of Georgia,6,SG
 NA,NA,NA,madeirapark,814484,Vancouver Coast and Mountains,Madeira Park Tourist/Visitor Info Booth,Strait of Georgia,6,SG
 NA,NA,NA,millbay,814487,Vancouver Island,Mill Bay Tourist/Visitor Info Booth,Strait of Georgia,6,SG
-NA,NA,NA,northvancouver,812203,Vancouver Coast and Mountains,North Vancouver Visitor Centre,Strait of Georgia,6,SG
 NA,NA,NA,pittmeadowsmapleridge,819050,Vancouver Coast and Mountains,Pitt Meadows/Maple Ridge Visitor Centre,Strait of Georgia,6,SG
