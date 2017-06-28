@@ -69,12 +69,14 @@ where $H_{lowR}$ is calculated separately for finfish and shellfish aquaculture 
 
 Mariculture score $x_c$ for harvest $H_c$, calculated separately for each aquaculture class $c$:
 
-$x_{shellfish} = H/H_{lowR}$ when $0 \leq H_{shellfish} < H_{lowR}$
-$x_{shellfish} = 1$ when $H_{shellfish} \geq H_{lowR}$
-$x_{finfish} = H/H_{lowR}$ when $0 \leq H_{finfish} < H_{lowR}$
-$x_{finfish} = 1$ when $H_{lowR} \leq H_{finfish} \leq H_{highR}$
-$x_{finfish} = 1 - \frac{H_f - H_{highR}}{H_{max} - H_{highR}}$ when $H_{highR} < H_{finfish} \leq H_{max}$
-$x_{finfish} = 0$ when $H_{finfish} > H_{max}$
+| value           |           | condition |
+|:--------------- |:--------- |:--------- |
+| $x_{shellfish} = H/H_{lowR}$ | when | $0 \leq H_{shellfish} < H_{lowR}$ |
+| $x_{shellfish} = 1$ | when | $H_{shellfish} \geq H_{lowR}$ |
+| $x_{finfish} = H/H_{lowR}$ | when | $0 \leq H_{finfish} < H_{lowR}$ |
+| $x_{finfish} = 1$ | when | $H_{lowR} \leq H_{finfish} \leq H_{highR}$ |
+| $x_{finfish} = 1 - \frac{H_f - H_{highR}}{H_{max} - H_{highR}}$ | when | $H_{highR} < H_{finfish} \leq H_{max}$ |
+| $x_{finfish} = 0$ | when | $H_{finfish} > H_{max}$ |
 
 The Mariculture score will be the harvest-weighted average of $x_{finfish}$ and $x_{shellfish}$.
 
@@ -807,6 +809,6 @@ print(aq_b_plot)
 
 ``` {r provenance, results = 'asis'}
 
-# prov_wrapup()
+prov_wrapup()
 
 ```

@@ -1,0 +1,403 @@
+---
+title: 'sf vs sp spatial packages'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(rgdal)
+library(sf)
+library(tmap)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R;
+  ### includes library(tidyverse); library(stringr)
+
+```
+
+# Methods
+
+## Read polygon features
+
+Reading standard shapefiles (OHIBC regions as example) using `sf` package and `rgdal` package (which is based on `sp`).
+
+`sf::read_sf` (or `st_read()`) uses similar grammar to `rgdal::readOGR()`, i.e. specify `dsn` and `layer` arguments rather than just the full path at once.
+
+``` {r readOGR vs read_sf}
+
+dir_ohibc   <- path.expand('~/github/ohibc/prep/_spatial')
+ohibc_layer <- 'ohibc_rgn'
+
+# system.time(
+#   {
+#     for (i in 1:50) {
+#       ohibc_rgn <- rgdal::readOGR(dir_ohibc, ohibc_layer)
+#     }
+#   }
+# )
+### loading ohibc_rgn.shp 50 times = 87.489 seconds
+### ~ 1.80 s average
+
+# system.time(
+#   {
+#     for (i in 1:50) {
+#       ohibc_rgn <- sf::read_sf(dir_ohibc, ohibc_layer)
+#     }
+#   }
+# )
+### loading ohibc_rgn.shp 50 times = 3.156 seconds
+### ~ 0.063 s average
+
+```
+
+Loading the ohibc_rgn.shp file 50 times with each package, on Mazu:
+
+| function call | elapsed time, 50 loads | mean load time |
+|:---------     |:----------------------:|:--------------:|
+| `rgdal::readOGR()` |      87.489 s     |      1.75 s    |
+| `sf::read_sf()`    |       3.156 s     |     0.063 s    |
+
+Based on this, `sf::read_sf()` is about 30 x faster than `rgdal::readOGR()`.
+
+## Write polygon features
+
+`sf::write_sf()` seems to have an issue with `dsn` directories with existing shapefiles.  If the only shapefile is the same one I am writing to, it seems to delete it and overwrite as default.  But if another shapefile (with another name) is in there, it chokes and gives the error:
+
+```
+Error in CPL_write_ogr(obj, dsn, layer, driver, as.character(dataset_options),  : 
+  Dataset already exists.
+```
+
+You can get around this by creating a temp folder, writing to that, then copying over when you are done, but hopefully a future version of the `sf` package will just fix this to a better system.
+
+``` {r writeOGR vs write_sf}
+
+dir_ohibc   <- path.expand('~/github/ohibc/prep/_spatial')
+ohibc_layer <- 'ohibc_rgn'
+
+dir.create('sf_sp_testing')
+dir_tmpsave <- path.expand('~/github/ohibc/sf_sp_testing')
+
+ohibc_spdf <- rgdal::readOGR(dir_ohibc, ohibc_layer)
+
+# system.time(
+#   {
+#     for (i in 1:50) {
+#       writeOGR(ohibc_spdf, 
+#                dir_tmpsave, ohibc_layer, 
+#                driver = 'ESRI Shapefile',
+#                overwrite_layer = TRUE)
+#     }
+#   }
+# )
+### writing ohibc_rgn.shp 50 times = 125.551 seconds
+### ~ 2.51 s average
+
+ohibc_sf   <- sf::read_sf(dir_ohibc, ohibc_layer)
+
+# system.time(
+#   {
+#     for (i in 1:50) {
+#       write_sf(ohibc_sf,
+#                dir_tmpsave, ohibc_layer,
+#                driver = 'ESRI Shapefile')
+#     }
+#   }
+# )
+### writing ohibc_rgn.shp 50 times = 58.179 seconds
+### ~ 1.16s average
+
+```
+
+Writing the ohibc_rgn.shp file 50 times with each package, on Mazu:
+
+| function call | elapsed time, 50 writes | mean write time |
+|:---------     |:-----------------------:|:---------------:|
+| `rgdal::writeOGR()` |      125.551 s    |       2.51 s    |
+| `sf::write_sf()`    |       58.179 s    |       1.16 s    |
+
+Based on this, `sf::write_sf()` is about 2.2 x faster than `rgdal::writeOGR()`.
+
+## Get data from spatial feature
+
+Let's take a spatial data object and extract the attribute table as a data frame.  In SpatialPolygonsDataFrame objects, the data is in the `@data` slot and comes right out as a `data.frame` object.  In an sf object, the object itself is like a modified data.frame with a geometry column.  So for this comparison, I'll convert the sf object to a data.frame and strip the geometry.
+
+Because of those extra operations, it's much slower (~ 2000 x slower).  But this probably isn't a big issue.  On the other hand, `setdiff(x, y)` shows the two resulting dataframes are identical.
+
+``` {r get attributes}
+
+dir_pfmsa   <- file.path(dir_M, 'git-annex/bcprep/_raw_data/dfo_khunter',
+                         'management_boundaries/d2016/pac_fishery_mgmt_subareas')
+pfmsa_layer <- 'DFO_BC_PFMA_SUBAREAS_50K_V3_1'
+
+pfmsa_spdf <- rgdal::readOGR(dir_pfmsa, pfmsa_layer)
+
+# system.time(
+#   {
+#     for (i in 1:1e8) {
+#       x <- pfmsa_spdf@data
+#     }
+#   }
+# )
+### getting data from pfmsa_spdf 100 million times = 20.264 seconds
+### = 2.0264e-07 s each
+
+pfmsa_sf   <- sf::read_sf(dir_pfmsa, pfmsa_layer)
+
+# system.time(
+#   {
+#     for (i in 1:1e5) {
+#       y <- pfmsa_sf %>%
+#         as.data.frame() %>%
+#         select(-geometry)
+#     }
+#   }
+# )
+### getting data from pfmsa_sf 100,000 times = 46.705 seconds
+### = 4.6705e-4 s each
+
+```
+
+## Functions operating on features
+
+### Area calculation
+
+`sf::st_area()` vs `rgeos::gArea()`
+
+* `rgeos::gArea()`:
+    * needs `byid = TRUE` if you want areas for each feature
+    * returns vector of unitless numbers
+* `sf::st_area()`:
+    * returns areas for each feature by default
+    * returns vector of class 'units' with numbers.
+
+``` {r load features for examples}
+dir_ohibc   <- path.expand('~/github/ohibc/prep/_spatial')
+ohibc_layer <- 'ohibc_rgn'
+
+ohibc_spdf <- rgdal::readOGR(dir_ohibc, ohibc_layer)
+ohibc_sf   <- sf::read_sf(dir_ohibc, ohibc_layer)
+
+
+dir_pfmsa   <- file.path(dir_M, 'git-annex/bcprep/_raw_data/dfo_khunter',
+                         'management_boundaries/d2016/pac_fishery_mgmt_subareas')
+pfmsa_layer <- 'DFO_BC_PFMA_SUBAREAS_50K_V3_1'
+
+pfmsa_spdf <- rgdal::readOGR(dir_pfmsa, pfmsa_layer)
+pfmsa_sf   <- sf::read_sf(dir_pfmsa, pfmsa_layer)
+
+```
+
+``` {r get area}
+
+x <- rgeos::gArea(ohibc_spdf, byid = TRUE)
+x
+y <- sf::st_area(ohibc_sf)
+y
+
+```
+```
+x <- rgeos::gArea(ohibc_spdf, byid = TRUE)
+#           0            1            2            3            4            5            6            7 
+# 28162406566   8159221123  17519936788  46053741067  20517013399  13731588963   3210947740 315888121302
+ 
+y <- sf::st_area(ohibc_sf)
+# Units: m^2
+# [1]  28162406566   8159221123  17519936788  46053741067  20517013399  13731588963   3210947740 315888121302
+```
+
+To compare the results, coercing the `units` vector into numeric, and finding the difference between the two:
+
+``` {r, echo = TRUE} 
+x - as.numeric(y)
+```
+
+```
+x - as.numeric(y)
+           0             1             2             3             4             5             6             7 
+7.247925e-05 -5.655289e-04  8.659363e-04 -1.449585e-04 -7.629395e-04  1.716614e-04  4.243851e-05  3.051758e-04 
+```
+Not identical, but pretty damn small differences proportionally:
+
+``` {r, echo = TRUE} 
+(x - as.numeric(y)) / x
+```
+
+### Simplify and Validity check
+
+It would be good to test the validity check with a known invalid polygon shapefile.  Performance wise, `rgeos::gSimplify()` and `sf::st_simplify()` are similar in elapsed time, as are `rgeos::gIsValid()` and `sf::st_is_valid()`.
+
+``` {r check validity}
+
+# system.time({
+#   for (i in 1:10) {
+#     tmp_spdf <- pfmsa_spdf %>%
+#       rgeos::gSimplify(tol = 5)
+#   }
+# }) ### 2.48 s per iteration
+
+# system.time({
+#   for (i in 1:10) {
+#     x <- rgeos::gIsValid(tmp_spdf, byid = TRUE)
+#   }
+# }) ### 1.5 s per iteration
+
+# system.time({
+#   for (i in 1:10) {
+#     tmp_sf <- pfmsa_sf %>%
+#       sf::st_simplify(dTolerance = 5)
+#   }
+# }) ### 2.26 s per iteration
+
+# system.time({
+#   for (i in 1:10) {
+#     y <- sf::st_is_valid(tmp_sf)
+#   }
+# }) ### 1.88 s per iteration.
+
+```
+
+### Intersection of two features
+
+`rgeos::gIntersection()` returns a SpatialPolygons object but loses the dataframe.  `raster::intersect()` (which I believe is built on `rgeos::gIntersection()`) returns a SpatialPolygonsDataFrame and keeps the data from both objects.  `sf::st_intersection` returns the sf object of intersecting geometries with data from both objects included.
+
+Performance-wise, `st_intersection` and `gIntersection` are pretty close to the same, while `raster::intersect` is considerably slower.  But `st_intersection`'s output includes attributes.
+
+* `rgeos::gIntersection()`: 167 s
+* `raster::intersect()`:  263 s
+* `sf::st_intersection`: 182 s
+
+``` {r intersecting}
+# system.time({
+#   x <- rgeos::gIntersection(ohibc_spdf, pfmsa_spdf, byid = TRUE)
+# })
+#    user  system elapsed 
+# 166.976   0.108 167.050 
+
+# system.time({
+#   y <- raster::intersect(ohibc_spdf, pfmsa_spdf)
+# })
+#    user  system elapsed 
+# 263.104   0.192 263.242 
+
+# system.time({
+#   z <- sf::st_intersection(ohibc_sf, pfmsa_sf)
+# })
+#    user  system elapsed 
+# 181.836   0.212 181.996 
+```
+
+### Create a Buffer
+
+Testing `rgeos::gBuffer()`, `raster::buffer()`, and `sf::st_buffer()`.  
+ 
+`sf::st_buffer()` seems significantly faster than `rgeos::gBuffer()` and especially `raster::buffer()`, and has the advantage of keeping all the attributes from the objects.
+
+* `rgeos::gBuffer()`: 165 s
+* `raster::buffer()`: 534 s
+* `sf::st_buffer()`: 102 s (1.6x faster than `rgeos::gBuffer()` and 5x faster than `raster::buffer()`)
+ 
+``` {r buffering}
+# system.time({
+#   x <- rgeos::gBuffer(ohibc_spdf, width = 1000, byid = TRUE)
+# })
+#    user  system elapsed 
+# 150.572  14.740 165.263 
+
+# system.time({
+#   y <- raster::buffer(ohibc_spdf, width = 1000)
+# })
+#    user  system elapsed 
+# 453.860  80.340 534.053 
+
+# system.time({
+#   z <- sf::st_buffer(ohibc_sf, dist = 1000)
+# })
+ #   user  system elapsed 
+ # 98.584   3.152 101.732 
+```
+
+### Raster functions
+
+## Plotting
+
+### ggplot2 vs tmap: time to create basic plot
+
+***NOTE:*** This uses the ggplot2 installed from the sf branch...
+
+These are all based on a reasonably simple shapefile.
+
+* `ggplot2` and `Spatial*` objects: __3.357 seconds__
+    * Using `ggplot2` to plot `Spatial*` objects requires using `broom::tidy()` or `ggplot2::fortify()` (on its way out) on the object to turn it into a dataframe.  This loses the data and is annoying.
+    * It also messes up the plots and fills in holes.
+    * Don't do it.
+* `tmap` and `Spatial*` objects: __53.912 seconds__
+    * no need to modify the `Spatial*` object.
+    * use `tm_polygons`, `tm_borders`, or `tm_fill`
+    * slower than `ggplot2`, but `ggplot2` is terrible for these objects.
+* `ggplot2` and `sf` objects: __1.860 seconds__
+    * no need to modify the `sf` object.  `sf` objects are pretty much dataframes already!
+    * use `geom_sf()`
+    * even in a non-degree CRS, it plots the degrees grid behind it.  Cool!
+    * remarkably faster and looks good!  new favorite?
+* `tmap` and `sf` objects: __53.635 seconds__
+    * no need to modify the `sf` object.
+    * use `tm_polygons`, `tm_borders`, or `tm_fill`
+    * slower than `ggplot2`; about the same as `tmap` for `Spatial*` objects.
+
+``` {r plotting with ggplot2}
+
+# system.time({
+  ohibc_spdf_fort <- broom::tidy(ohibc_spdf)
+  x <- ggplot(ohibc_spdf_fort, aes(x = long, y = lat)) +
+    geom_polygon() +
+    labs(title = 'ggplot2 and Spatial*')
+  print(x)
+# })
+#  user  system elapsed 
+# 2.384   0.976   3.357
+
+# system.time({
+  y <- tm_shape(ohibc_spdf) +
+    tm_polygons() +
+    tm_layout(title = 'tmap and Spatial*')
+  print(y)
+# })
+#   user  system elapsed 
+# 53.752   0.176  53.912 
+
+# system.time({
+  z <- ggplot(ohibc_sf) +
+    geom_sf() +
+    labs(title = 'ggplot2 and sf')
+  print(z)
+# })
+#  user  system elapsed 
+# 1.856   0.004   1.860 
+
+# system.time({
+  w <- tm_shape(ohibc_sf) +
+    tm_polygons() +
+    tm_layout(title = 'tmap and sf')
+  print(w)
+# })
+#   user  system elapsed 
+# 53.424   0.228  53.635 
+
+```
+
