@@ -4,6 +4,8 @@ dir_M             <- c('Windows' = '//mazu.nceas.ucsb.edu/ohi',
                        'Darwin'  = '/Volumes/ohi',    ### connect (cmd-K) to smb://mazu/ohi
                        'Linux'   = '/home/shares/ohi')[[ Sys.info()[['sysname']] ]]
 
+dir_M <- path.expand(dir_M)
+
 # install (if necessary) and load commonly used libraries
 packages <- c('tidyverse')
 if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
@@ -45,7 +47,7 @@ show_dupes <- function(x, y, na.rm = FALSE) {
 }
 
 get_rgn_names <- function() {
-  x <- foreign::read.dbf('~/github/ohibc/prep/spatial/ohibc_rgn.dbf', as.is = TRUE) %>%
+  x <- foreign::read.dbf('~/github/ohibc/prep/_spatial/ohibc_rgn.dbf', as.is = TRUE) %>%
     dplyr::select(rgn_id, rgn_name, rgn_code) %>%
     bind_rows(data.frame(rgn_id   = 0,
                          rgn_name = 'British Columbia',

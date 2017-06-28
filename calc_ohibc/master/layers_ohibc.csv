@@ -82,7 +82,8 @@ spp_pop_trends,ohibc:prep/spp_ico/v2017/output,spp_trend_by_id.csv,TRUE,iucn_pop
 spp_range_areas,ohibc:prep/spp_ico/v2017/output,spp_area_by_rgn.csv,TRUE,spp_pct_area,SPP,Species range as pct of region,percent of area,Species range as a percent of region area as determined by IUCN or AquaMaps range maps
 ss_spi,ohibc:calc_ohibc/master/dummy_layers,ss_spi_gl2016.csv,FALSE,pressure_score,pressure,Weakness of social progress,scaled 0-1,Inverse of Social Progress Index scores
 ss_wgi,ohibc:calc_ohibc/master/dummy_layers,ss_wgi_gl2016.csv,TRUE,pressure_score,pressure,Weakness of governance,scaled 0-1,Inverse of World Governance Indicators (WGI) six combined scores
-tr_jobs_pct_tourism,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,TR,Percent direct employment in tourism,proportion,Percent direct employment in tourism
-tr_sustainability,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,TR,Tourism sustainability index,score,Tourism Competitiveness Index (TTCI)
-tr_travelwarnings,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,TR,US State Department travel warnings,score,Countries with US State Department travel warnings
+tr_vis_ctr_visits,ohibc:prep/tr/v2017/output,vis_ctr_visits.csv,TRUE,visits,TR,Number of visitors,count,Number of visitors to visitor centers in OHIBC regions
+tr_vis_ctr_visits_all,ohibc:prep/tr/v2017/output,vis_ctr_visits_all.csv,TRUE,visits,TR,Number of visitors,count,Number of visitors to visitor centers in all BC Province
+tr_park_visits,ohibc:prep/tr/v2017/output,park_visits.csv,TRUE,visits_wt,TR,Number of visitors,count,Number of visitors to provincial parks in OHIBC regions
+tr_park_visits_all,ohibc:prep/tr/v2017/output,park_visits_all.csv,TRUE,visits,TR,Number of visitors,count,Number of visitors to provincial parks in all BC province
 wgi_all,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,resilience,Strength of governance,scaled 0-1,World Governance Indicators (WGI) six combined scores

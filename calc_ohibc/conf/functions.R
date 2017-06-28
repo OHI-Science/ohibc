@@ -754,264 +754,103 @@ CP <- function(layers) {
 
   return(cp_scores)
 
-  # ## read in layers
-  # extent <- layers$data[['hab_extent']] %>%
-  #   select(region_id, habitat, km2) %>%
-  #   mutate(habitat = as.character(habitat))
-  #
-  # health <-  layers$data[['hab_health']] %>%
-  #   select(region_id, habitat, health) %>%
-  #   mutate(habitat = as.character(habitat))
-  #
-  # trend <-layers$data[['hab_trend']] %>%
-  #   select(region_id, habitat, trend) %>%
-  #   mutate(habitat = as.character(habitat))
-  #
-  #
-  # ## sum mangrove_offshore + mangrove_inland1km = mangrove to match with extent and trend
-  # mangrove_extent <- extent %>%
-  #   filter(habitat %in% c('mangrove_inland1km','mangrove_offshore'))
-  #
-  # if (nrow(mangrove_extent) > 0){
-  #   mangrove_extent <- mangrove_extent %>%
-  #     group_by(region_id) %>%
-  #     summarize(km2 = sum(km2, na.rm = TRUE)) %>%
-  #     mutate(habitat='mangrove') %>%
-  #     ungroup()
-  # }
-  #
-  # extent <- extent %>%
-  #   filter(!habitat %in% c('mangrove','mangrove_inland1km','mangrove_offshore')) %>%  #do not use all mangrove
-  #   rbind(mangrove_extent)  #just the inland 1km and offshore
-  #
-  # ## join layer data
-  # d <-  extent %>%
-  #   full_join(health, by=c("region_id", "habitat")) %>%
-  #   full_join(trend, by=c("region_id", "habitat"))
-  #
-  # ## set ranks for each habitat
-  # habitat.rank <- c('coral'            = 4,
-  #                   'mangrove'         = 4,
-  #                   'saltmarsh'        = 3,
-  #                   'seagrass'         = 1,
-  #                   'seaice_shoreline' = 4)
-  #
-  # ## limit to CP habitats and add rank
-  # d <- d %>%
-  #   filter(habitat %in% names(habitat.rank)) %>%
-  #   mutate(
-  #     rank = habitat.rank[habitat],
-  #     extent = ifelse(km2==0, NA, km2))
-  #
-  # ## output file to temp folder that describes how much each habitat
-  # ## contributes to the score based on rank and extent
-  # ## this output is for the dataplayground website
-  # dp <- d %>%
-  #   mutate(weighted_cont = rank*extent) %>%
-  #   filter(!is.na(weighted_cont)) %>%
-  #   group_by(region_id) %>%
-  #   mutate(prop_score = weighted_cont/sum(weighted_cont)) %>%
-  #   mutate(prop_score = round(prop_score, 3)) %>%
-  #   select(region_id, habitat, prop_score)
-  # write.csv(dp, 'temp/cp_hab_contributions.csv', row.names=FALSE)
-  #
-  # ## status and trend models; ensure at least one habitat-region has extent (km2) > 0, otherwise set NA.
-  # if (sum(d$km2, na.rm=TRUE) > 0){
-  #   # status
-  #   scores_CP <- d %>%
-  #     filter(!is.na(rank) & !is.na(health) & !is.na(extent)) %>%
-  #     group_by(region_id) %>%
-  #     summarize(score = pmin(1, sum(rank * health * extent, na.rm=TRUE) /
-  #                              (sum(extent * rank, na.rm=TRUE)) ) * 100) %>%
-  #     mutate(dimension = 'status') %>%
-  #     ungroup()
-  #
-  #   # trend
-  #   d_trend <- d %>%
-  #     filter(!is.na(rank) & !is.na(trend) & !is.na(extent))
-  #
-  #   if (nrow(d_trend) > 0 ){
-  #     scores_CP <- dplyr::bind_rows(
-  #       scores_CP,
-  #       d_trend %>%
-  #         group_by(region_id) %>%
-  #         summarize(
-  #           score = sum(rank * trend * extent, na.rm=TRUE) / (sum(extent*rank, na.rm=TRUE)),
-  #           dimension = 'trend'))
-  #   } else { # if no trend score, assign NA
-  #     scores_CP <- dplyr::bind_rows(
-  #       scores_CP,
-  #       d %>%
-  #         group_by(region_id) %>%
-  #         summarize(
-  #           score = NA,
-  #           dimension = 'trend'))
-  #   }
-  #
-  #   ### output data file for checking and data review
-  #   scores_check <- spread(scores_CP, dimension, score) %>%
-  #     select(region_id, status, trend_score=trend)
-  #
-  #   d_check <- d %>%
-  #     select(region_id, habitat, extent, health, trend, rank) %>%
-  #     arrange(region_id, habitat) %>%
-  #     left_join(scores_check, by="region_id")
-  #   write.csv(d_check, sprintf('temp/cp_data_%s.csv', scenario), row.names=FALSE)
-  #
-  #   ## finalize scores_CP
-  #   scores_CP <- scores_CP %>%
-  #     mutate(
-  #       goal = 'CP') %>%
-  #     select(region_id=region_id, goal, dimension, score)
-  #
-  # } else { ## else -- if sum(d$km2) is not greater than 0
-  #
-  #   ## set status and trend to NA for all regions
-  #   message('CP status and trend are NA, consider removing goal if no CP habitats in assessment area')
-  #
-  #   rgns <-layers$data[['rgn_labels']]
-  #   scores_CP <- bind_rows(
-  #     rgns %>%
-  #       mutate(goal      = 'CP',
-  #              dimension = 'status',
-  #              score     = NA),
-  #     rgns %>%
-  #       mutate(goal      = 'CP',
-  #              dimension = 'trend',
-  #              score     = NA)) %>%
-  #     select(goal, dimension, region_id = region_id, score)
-  #
-  # } ## end -- if (sum(d$km2) > 0)
-  #
-  # ## reference points
-  # rp <- read.csv('temp/referencePoints.csv', stringsAsFactors=FALSE) %>%
-  #   rbind(data.frame(goal = "CP", method = "Health/condition variable based on current vs. historic extent",
-  #                    reference_point = "varies for each region/habitat"))
-  # write.csv(rp, 'temp/referencePoints.csv', row.names=FALSE)
-  #
-  #
-  # # return scores
-  # return(scores_CP)
-  return(data.frame(goal = 'CP',
-                    region_id = rep(c(1:8), 2),
-                    dimension = c(rep('status', 8), rep('trend', 8)),
-                    score = rep(NA, 16)))
-
 }
 
 TR <- function(layers) {
 
-  # ## formula:
-  # ##  E   = Ep                         # Ep: % of direct tourism jobs. tr_jobs_pct_tourism.csv
-  # ##  S   = (S_score - 1) / (7 - 1)    # S_score: raw TTCI score, not normalized (1-7). tr_sustainability.csv
-  # ##  Xtr = E * S
-  #
-  # ## read in layers
-  # tr_data  <- full_join(
-  #   layers$data[['tr_jobs_pct_tourism']] %>%
-  #     select(-layer),
-  #   layers$data[['tr_sustainability']] %>%
-  #     select(-layer),
-  #   by = c('region_id')) %>%
-  #   filter(year <= scenario)
-  #
-  # tr_model <- tr_data %>%
-  #   mutate(
-  #     E   = Ep,
-  #     S   = (S_score - 1) / (7 - 1), # scale score from 1 to 7.
-  #     Xtr = E * S ) %>%
-  #   filter(year <= scenario & year > scenario - 5)
-  # # five data years for trend calcs
-  #
-  # # regions with Travel Warnings
-  # ### adjust the travel warning years...these always reflect the current year
-  # ### but the other datasets will lag
-  # if (exists('scenarios')) { ## if global scenarios
-  #   scenario_year <- as.numeric(substring(scenario, 4,7))
-  #   offset_years <- scenario_year - scenario
-  #
-  #   ## read in layers for regions with Travel Warnings
-  #   rgn_travel_warnings <- layers$data[['tr_travelwarnings']] %>%
-  #     select(region_id, year, multiplier) %>%
-  #     mutate(year = year - offset_years)
-  #
-  #   ## incorporate Travel Warnings
-  #   tr_model <- tr_model %>%
-  #     left_join(rgn_travel_warnings, by = c('region_id', 'year')) %>%
-  #     mutate(Xtr = ifelse(!is.na(multiplier), multiplier * Xtr, Xtr)) %>%
-  #     select(-multiplier)
-  #
-  # } ## end if (exists('scenarios'))
-  #
-  # ### Calculate status based on quantile reference (see function call for pct_ref)
-  # tr_model <- tr_model %>%
-  #   select(region_id, year, Xtr) %>%
-  #   left_join(tr_model %>%
-  #               group_by(year) %>%
-  #               summarize(Xtr_q = quantile(Xtr, probs = pct_ref/100, na.rm = TRUE)),
-  #             by = 'year') %>%
-  #   mutate(
-  #     Xtr_rq  = ifelse(Xtr / Xtr_q > 1, 1, Xtr / Xtr_q)) # rescale to qth percentile, cap at 1
-  #
-  # ## reference points
-  # ref_point <- tr_model %>%
-  #   filter(year == scenario) %>%
-  #   select(Xtr_q) %>%
-  #   unique()
-  # rp <- read.csv('temp/referencePoints.csv', stringsAsFactors=FALSE) %>%
-  #   rbind(data.frame(goal = "TR", method = paste0('spatial: ', pct_ref, "th quantile"),
-  #                    reference_point = ref_point$Xtr_q))
-  # write.csv(rp, 'temp/referencePoints.csv', row.names=FALSE)
-  #
-  #
-  # adj_trend_year <- min(tr_model$year)
-  #
-  #
-  # # calculate trend
-  # tr_trend <- tr_model %>%
-  #   filter(!is.na(Xtr_rq)) %>%
-  #   arrange(year, region_id) %>%
-  #   group_by(region_id) %>%
-  #   do(mdl = lm(Xtr_rq ~ year, data=.),
-  #      adjust_trend = .$Xtr_rq[.$year == adj_trend_year]) %>%
-  #   summarize(region_id, trend = ifelse(coef(mdl)['year']==0, 0, coef(mdl)['year']/adjust_trend * 5)) %>%
-  #   ungroup() %>%
-  #   mutate(trend = ifelse(trend>1, 1, trend)) %>%
-  #   mutate(trend = ifelse(trend<(-1), (-1), trend)) %>%
-  #   mutate(trend = round(trend, 4)) %>%
-  #   select(region_id, score = trend) %>%
-  #   mutate(dimension = "trend")
-  #
-  # # get status (as last year's value)
-  # tr_status <- tr_model %>%
-  #   arrange(year, region_id) %>%
-  #   group_by(region_id) %>%
-  #   summarize(
-  #     dimension = 'status',
-  #     score     = last(Xtr_rq) * 100)
-  #
-  # # bind status and trend by rows
-  # tr_score <- bind_rows(tr_status, tr_trend) %>%
-  #   mutate(goal = 'TR')
-  #
-  # if (conf$config$layer_region_labels=='rgn_global'){
-  #   # assign NA for uninhabitated islands
-  #   unpopulated = layers$data[['le_popn']] %>%
-  #     group_by(region_id) %>%
-  #     filter(count==0) %>%
-  #     select(region_id)
-  #   tr_score$score = ifelse(tr_score$region_id %in% unpopulated$region_id, NA, tr_score$score)
-  # }
-  #
-  # # return final scores
-  # scores_tr = tr_score %>%
-  #   select(region_id=region_id, goal, dimension, score)
-  #
-  # return(scores_tr)
-  return(data.frame(goal = 'TR',
-                    region_id = rep(c(1:8), 2),
-                    dimension = c(rep('status', 8), rep('trend', 8)),
-                    score = rep(NA, 16)))
+  ### TR model includes Tourism Center visits and Park visits; these are
+  ### summed per region and adjusted by changes in the province-wide
+  ### visitors to cancel system-wide shifts in tourism (e.g. economics)
+
+  status_year <- layers$data$status_year
+  data_year <- get_data_year('TR', status_year, layers)
+  year_span <- layers$data$year_span
+
+  vc_visits     <- layers$data[['tr_vis_ctr_visits']] %>%
+    select(-layer)
+  vc_visits_all <- layers$data[['tr_vis_ctr_visits_all']] %>%
+    rename(visits_all = visits) %>%
+    select(-layer)
+  park_visits   <- layers$data[['tr_park_visits']] %>%
+    select(-layer)
+  park_visits_all <- layers$data[['tr_park_visits_all']] %>%
+    rename(visits_all = visits) %>%
+    select(-layer)
+
+  ### Sum visitor center (or park) visits within each region, then adjust by
+  ### province-wide totals (by dividing by normalized province total visits).
+  vc_visits_adj <- vc_visits %>%
+    group_by(rgn_id, year) %>%
+    summarize(visits = sum(visits)) %>%
+    ungroup() %>%
+    left_join(vc_visits_all, by = 'year') %>%
+    mutate(visits_all_norm = visits_all / max(visits_all, na.rm = TRUE),
+           visits_adj = visits / visits_all_norm)
+
+
+  park_visits_adj <- park_visits %>%
+    group_by(rgn_id, year) %>%
+    summarize(visits = sum(visits_wt)) %>%
+    ungroup() %>%
+    left_join(park_visits_all, by = 'year') %>%
+    mutate(visits_all_norm = visits_all / max(visits_all, na.rm = TRUE),
+           visits_adj = visits / visits_all_norm)
+
+  ### Create reference point by looking at rolling mean over prior five years.
+  ### This also back- and forward-fills using LOCF (or FOCB) to complete
+  ### year sequence, which affects reference points.
+  vc_visits_ref <- vc_visits_adj %>%
+    complete_years(year_span) %>%
+    group_by(region_id) %>%
+    arrange(region_id, year) %>%
+    mutate(ref_pt = zoo::rollmean(visits_adj, k = 5, fill = NA, align = 'right')) %>%
+    ### reference point is mean of past five years (incl current)
+    ungroup()
+
+  park_visits_ref <- park_visits_adj %>%
+    complete_years(year_span) %>%
+    group_by(region_id) %>%
+    arrange(region_id, year) %>%
+    mutate(ref_pt = zoo::rollmean(visits_adj, k = 5, fill = NA, align = 'right')) %>%
+    ### reference point is mean of past five years (incl current)
+    ungroup()
+
+  ### Calculate scores for vis ctrs and parks
+
+  vc_scores <- vc_visits_ref %>%
+    mutate(vc_score = visits_adj / ref_pt,
+           vc_score = ifelse(vc_score > 1, 1, vc_score)) %>%
+    select(region_id, year, vc_score)
+
+  park_scores <- park_visits_ref %>%
+    mutate(park_score = visits_adj / ref_pt,
+           park_score = ifelse(park_score > 1, 1, park_score)) %>%
+    select(region_id, year, park_score)
+
+  tr_status <- vc_scores %>%
+    left_join(park_scores, by = c('year', 'region_id')) %>%
+    rowwise() %>%
+    mutate(score = mean(c(vc_score, park_score), na.rm = TRUE),
+           score = round(100 * score, 5)) %>%
+    ungroup() %>%
+    select(year, region_id, score) %>%
+    mutate(goal = 'TR',
+           dimension = 'status') %>%
+    filter(!is.nan(score))
+
+  trend_years <- (data_year - 4) : data_year
+  tr_trend <- calc_trend(tr_status, years = trend_years)
+
+  tr_scores <- tr_status %>%
+    filter(year == data_year) %>%
+    bind_rows(tr_trend) %>%
+    group_by(year, dimension, goal) %>%
+    complete(region_id = 1:8) %>%
+    ungroup()
+
+
+  return(tr_scores)
+
 }
 
 LIV <- function(layers) {

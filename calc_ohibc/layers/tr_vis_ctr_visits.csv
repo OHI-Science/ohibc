@@ -1,0 +1,408 @@
+rgn_id,year,visits,name
+4,2017,770,Alert Bay Visitor Centre
+4,2016,10244,Alert Bay Visitor Centre
+4,2015,9195,Alert Bay Visitor Centre
+4,2014,9188,Alert Bay Visitor Centre
+4,2013,7182,Alert Bay Visitor Centre
+4,2012,7026,Alert Bay Visitor Centre
+4,2011,6115,Alert Bay Visitor Centre
+4,2010,7674,Alert Bay Visitor Centre
+4,2009,9730,Alert Bay Visitor Centre
+4,2008,9089,Alert Bay Visitor Centre
+4,2007,9763,Alert Bay Visitor Centre
+6,2017,0,Bowen Island Tourist/Visitor Info Booth
+6,2016,1732,Bowen Island Tourist/Visitor Info Booth
+6,2015,6213,Bowen Island Tourist/Visitor Info Booth
+6,2014,4807,Bowen Island Tourist/Visitor Info Booth
+6,2013,0,Bowen Island Tourist/Visitor Info Booth
+6,2012,0,Bowen Island Tourist/Visitor Info Booth
+6,2011,7204,Bowen Island Tourist/Visitor Info Booth
+6,2010,10852,Bowen Island Tourist/Visitor Info Booth
+6,2009,17802,Bowen Island Tourist/Visitor Info Booth
+6,2008,12238,Bowen Island Tourist/Visitor Info Booth
+6,2007,10015,Bowen Island Tourist/Visitor Info Booth
+4,2017,648,Campbell River Visitor Centre
+4,2016,30202,Campbell River Visitor Centre
+4,2015,33432,Campbell River Visitor Centre
+4,2014,38514,Campbell River Visitor Centre
+4,2013,39677,Campbell River Visitor Centre
+4,2012,40575,Campbell River Visitor Centre
+4,2011,40002,Campbell River Visitor Centre
+4,2010,38875,Campbell River Visitor Centre
+4,2009,37070,Campbell River Visitor Centre
+4,2008,37534,Campbell River Visitor Centre
+4,2007,43415,Campbell River Visitor Centre
+6,2017,5177,Chemainus Visitor Centre
+6,2016,25512,Chemainus Visitor Centre
+6,2015,17885,Chemainus Visitor Centre
+6,2014,26115,Chemainus Visitor Centre
+6,2013,23822,Chemainus Visitor Centre
+6,2012,30303,Chemainus Visitor Centre
+6,2011,25912,Chemainus Visitor Centre
+6,2010,43513,Chemainus Visitor Centre
+6,2009,50278,Chemainus Visitor Centre
+6,2008,60088,Chemainus Visitor Centre
+6,2007,67131,Chemainus Visitor Centre
+6,2017,7839,Comox Valley Visitor Centre
+6,2016,29976,Comox Valley Visitor Centre
+6,2015,27644,Comox Valley Visitor Centre
+6,2014,27312,Comox Valley Visitor Centre
+6,2013,28300,Comox Valley Visitor Centre
+6,2012,30218,Comox Valley Visitor Centre
+6,2011,0,Comox Valley Visitor Centre
+6,2010,0,Comox Valley Visitor Centre
+6,2009,0,Comox Valley Visitor Centre
+6,2008,0,Comox Valley Visitor Centre
+6,2007,0,Comox Valley Visitor Centre
+6,2017,595,Delta Visitor Centre
+6,2016,2197,Delta Visitor Centre
+6,2015,2254,Delta Visitor Centre
+6,2014,1997,Delta Visitor Centre
+6,2013,1935,Delta Visitor Centre
+6,2012,2140,Delta Visitor Centre
+6,2011,2264,Delta Visitor Centre
+6,2010,2557,Delta Visitor Centre
+6,2009,2621,Delta Visitor Centre
+6,2008,2530,Delta Visitor Centre
+6,2007,3509,Delta Visitor Centre
+6,2017,4160,Duncan Visitor Centre
+6,2016,22668,Duncan Visitor Centre
+6,2015,21355,Duncan Visitor Centre
+6,2014,18522,Duncan Visitor Centre
+6,2013,9785,Duncan Visitor Centre
+6,2012,11400,Duncan Visitor Centre
+6,2011,10288,Duncan Visitor Centre
+6,2010,9284,Duncan Visitor Centre
+6,2009,8210,Duncan Visitor Centre
+6,2008,8978,Duncan Visitor Centre
+6,2007,11363,Duncan Visitor Centre
+6,2017,270,Gabriola Island Visitor Centre
+6,2016,3410,Gabriola Island Visitor Centre
+6,2015,2372,Gabriola Island Visitor Centre
+6,2014,1839,Gabriola Island Visitor Centre
+6,2013,2371,Gabriola Island Visitor Centre
+6,2012,2353,Gabriola Island Visitor Centre
+6,2011,2917,Gabriola Island Visitor Centre
+6,2010,3492,Gabriola Island Visitor Centre
+6,2009,3969,Gabriola Island Visitor Centre
+6,2008,2965,Gabriola Island Visitor Centre
+6,2007,3073,Gabriola Island Visitor Centre
+6,2017,2068,Gibsons Visitor Centre
+6,2016,12240,Gibsons Visitor Centre
+6,2015,11099,Gibsons Visitor Centre
+6,2014,10858,Gibsons Visitor Centre
+6,2013,11296,Gibsons Visitor Centre
+6,2012,11055,Gibsons Visitor Centre
+6,2011,9777,Gibsons Visitor Centre
+6,2010,12639,Gibsons Visitor Centre
+6,2009,11667,Gibsons Visitor Centre
+6,2008,7333,Gibsons Visitor Centre
+6,2007,12783,Gibsons Visitor Centre
+5,2017,120,Gold River Visitor Centre
+5,2016,2693,Gold River Visitor Centre
+5,2015,2551,Gold River Visitor Centre
+5,2014,1881,Gold River Visitor Centre
+5,2013,2473,Gold River Visitor Centre
+5,2012,3018,Gold River Visitor Centre
+5,2011,2976,Gold River Visitor Centre
+5,2010,3097,Gold River Visitor Centre
+5,2009,3446,Gold River Visitor Centre
+5,2008,1470,Gold River Visitor Centre
+5,2007,3140,Gold River Visitor Centre
+1,2017,508,Kitimat Visitor Centre
+1,2016,3169,Kitimat Visitor Centre
+1,2015,3380,Kitimat Visitor Centre
+1,2014,4109,Kitimat Visitor Centre
+1,2013,3965,Kitimat Visitor Centre
+1,2012,4075,Kitimat Visitor Centre
+1,2011,3609,Kitimat Visitor Centre
+1,2010,4081,Kitimat Visitor Centre
+1,2009,4563,Kitimat Visitor Centre
+1,2008,6209,Kitimat Visitor Centre
+1,2007,5822,Kitimat Visitor Centre
+6,2017,1495,Ladysmith Visitor Centre
+6,2016,8783,Ladysmith Visitor Centre
+6,2015,8535,Ladysmith Visitor Centre
+6,2014,8719,Ladysmith Visitor Centre
+6,2013,9319,Ladysmith Visitor Centre
+6,2012,9693,Ladysmith Visitor Centre
+6,2011,8637,Ladysmith Visitor Centre
+6,2010,8879,Ladysmith Visitor Centre
+6,2009,6520,Ladysmith Visitor Centre
+6,2008,6417,Ladysmith Visitor Centre
+6,2007,5095,Ladysmith Visitor Centre
+6,2017,2970,Nanaimo Visitor Centre
+6,2016,21025,Nanaimo Visitor Centre
+6,2015,13264,Nanaimo Visitor Centre
+6,2014,13675,Nanaimo Visitor Centre
+6,2013,14901,Nanaimo Visitor Centre
+6,2012,8780,Nanaimo Visitor Centre
+6,2011,11285,Nanaimo Visitor Centre
+6,2010,12432,Nanaimo Visitor Centre
+6,2009,15884,Nanaimo Visitor Centre
+6,2008,17753,Nanaimo Visitor Centre
+6,2007,44853,Nanaimo Visitor Centre
+6,2017,177,New Westminster Visitor Centre
+6,2016,2774,New Westminster Visitor Centre
+6,2015,2098,New Westminster Visitor Centre
+6,2014,3573,New Westminster Visitor Centre
+6,2013,1889,New Westminster Visitor Centre
+6,2012,3868,New Westminster Visitor Centre
+6,2011,5955,New Westminster Visitor Centre
+6,2010,3652,New Westminster Visitor Centre
+6,2009,2284,New Westminster Visitor Centre
+6,2008,4249,New Westminster Visitor Centre
+6,2007,2514,New Westminster Visitor Centre
+6,2017,4994,North Vancouver Visitor Centre
+6,2016,15465,North Vancouver Visitor Centre
+6,2015,12453,North Vancouver Visitor Centre
+6,2014,8849,North Vancouver Visitor Centre
+6,2013,7829,North Vancouver Visitor Centre
+6,2012,7100,North Vancouver Visitor Centre
+6,2011,8652,North Vancouver Visitor Centre
+6,2010,13557,North Vancouver Visitor Centre
+6,2009,12611,North Vancouver Visitor Centre
+6,2008,11964,North Vancouver Visitor Centre
+6,2007,6091,North Vancouver Visitor Centre
+6,2017,3628,Parksville Visitor Centre
+6,2016,30285,Parksville Visitor Centre
+6,2015,24469,Parksville Visitor Centre
+6,2014,23719,Parksville Visitor Centre
+6,2013,24464,Parksville Visitor Centre
+6,2012,27276,Parksville Visitor Centre
+6,2011,24291,Parksville Visitor Centre
+6,2010,23118,Parksville Visitor Centre
+6,2009,35365,Parksville Visitor Centre
+6,2008,26417,Parksville Visitor Centre
+6,2007,26275,Parksville Visitor Centre
+6,2017,4519,British Columbia Visitor Centre @ Peace Arch
+6,2016,23856,British Columbia Visitor Centre @ Peace Arch
+6,2015,23139,British Columbia Visitor Centre @ Peace Arch
+6,2014,19014,British Columbia Visitor Centre @ Peace Arch
+6,2013,17212,British Columbia Visitor Centre @ Peace Arch
+6,2012,16758,British Columbia Visitor Centre @ Peace Arch
+6,2011,18745,British Columbia Visitor Centre @ Peace Arch
+6,2010,32623,British Columbia Visitor Centre @ Peace Arch
+6,2009,19767,British Columbia Visitor Centre @ Peace Arch
+6,2008,22087,British Columbia Visitor Centre @ Peace Arch
+6,2007,63518,British Columbia Visitor Centre @ Peace Arch
+5,2017,3696,Port Alberni Visitor Centre
+5,2016,22304,Port Alberni Visitor Centre
+5,2015,29617,Port Alberni Visitor Centre
+5,2014,18403,Port Alberni Visitor Centre
+5,2013,21597,Port Alberni Visitor Centre
+5,2012,20402,Port Alberni Visitor Centre
+5,2011,28320,Port Alberni Visitor Centre
+5,2010,19120,Port Alberni Visitor Centre
+5,2009,20967,Port Alberni Visitor Centre
+5,2008,19518,Port Alberni Visitor Centre
+5,2007,23647,Port Alberni Visitor Centre
+4,2017,864,Port Hardy Visitor Centre
+4,2016,8949,Port Hardy Visitor Centre
+4,2015,15938,Port Hardy Visitor Centre
+4,2014,11772,Port Hardy Visitor Centre
+4,2013,13900,Port Hardy Visitor Centre
+4,2012,15142,Port Hardy Visitor Centre
+4,2011,14856,Port Hardy Visitor Centre
+4,2010,15547,Port Hardy Visitor Centre
+4,2009,15126,Port Hardy Visitor Centre
+4,2008,19550,Port Hardy Visitor Centre
+4,2007,21313,Port Hardy Visitor Centre
+6,2017,1356,Powell River Visitor Centre
+6,2016,8735,Powell River Visitor Centre
+6,2015,8183,Powell River Visitor Centre
+6,2014,7378,Powell River Visitor Centre
+6,2013,6571,Powell River Visitor Centre
+6,2012,13040,Powell River Visitor Centre
+6,2011,12084,Powell River Visitor Centre
+6,2010,14880,Powell River Visitor Centre
+6,2009,21155,Powell River Visitor Centre
+6,2008,15159,Powell River Visitor Centre
+6,2007,16543,Powell River Visitor Centre
+1,2017,935,Prince Rupert Visitor Centre
+1,2016,16293,Prince Rupert Visitor Centre
+1,2015,13284,Prince Rupert Visitor Centre
+1,2014,9459,Prince Rupert Visitor Centre
+1,2013,8150,Prince Rupert Visitor Centre
+1,2012,9050,Prince Rupert Visitor Centre
+1,2011,15024,Prince Rupert Visitor Centre
+1,2010,12428,Prince Rupert Visitor Centre
+1,2009,31503,Prince Rupert Visitor Centre
+1,2008,34267,Prince Rupert Visitor Centre
+1,2007,31468,Prince Rupert Visitor Centre
+6,2017,2242,Qualicum Beach Visitor Centre
+6,2016,16643,Qualicum Beach Visitor Centre
+6,2015,24564,Qualicum Beach Visitor Centre
+6,2014,24901,Qualicum Beach Visitor Centre
+6,2013,24366,Qualicum Beach Visitor Centre
+6,2012,24499,Qualicum Beach Visitor Centre
+6,2011,22874,Qualicum Beach Visitor Centre
+6,2010,29112,Qualicum Beach Visitor Centre
+6,2009,28932,Qualicum Beach Visitor Centre
+6,2008,35270,Qualicum Beach Visitor Centre
+6,2007,38094,Qualicum Beach Visitor Centre
+2,2017,873,Queen Charlotte Visitor Centre
+2,2016,15225,Queen Charlotte Visitor Centre
+2,2015,13532,Queen Charlotte Visitor Centre
+2,2014,10452,Queen Charlotte Visitor Centre
+2,2013,10818,Queen Charlotte Visitor Centre
+2,2012,11342,Queen Charlotte Visitor Centre
+2,2011,12827,Queen Charlotte Visitor Centre
+2,2010,11836,Queen Charlotte Visitor Centre
+2,2009,15066,Queen Charlotte Visitor Centre
+2,2008,15834,Queen Charlotte Visitor Centre
+2,2007,15291,Queen Charlotte Visitor Centre
+6,2017,6723,Richmond Visitor Centre
+6,2016,25805,Richmond Visitor Centre
+6,2015,24282,Richmond Visitor Centre
+6,2014,19262,Richmond Visitor Centre
+6,2013,15569,Richmond Visitor Centre
+6,2012,10361,Richmond Visitor Centre
+6,2011,6976,Richmond Visitor Centre
+6,2010,9341,Richmond Visitor Centre
+6,2009,9150,Richmond Visitor Centre
+6,2008,9211,Richmond Visitor Centre
+6,2007,8363,Richmond Visitor Centre
+6,2017,4935,Salt Spring Island Visitor Centre
+6,2016,33274,Salt Spring Island Visitor Centre
+6,2015,31827,Salt Spring Island Visitor Centre
+6,2014,32813,Salt Spring Island Visitor Centre
+6,2013,32887,Salt Spring Island Visitor Centre
+6,2012,33694,Salt Spring Island Visitor Centre
+6,2011,31286,Salt Spring Island Visitor Centre
+6,2010,35176,Salt Spring Island Visitor Centre
+6,2009,42039,Salt Spring Island Visitor Centre
+6,2008,40180,Salt Spring Island Visitor Centre
+6,2007,37447,Salt Spring Island Visitor Centre
+2,2017,0,Sandspit Visitor Centre
+2,2016,9272,Sandspit Visitor Centre
+2,2015,6973,Sandspit Visitor Centre
+2,2014,6348,Sandspit Visitor Centre
+2,2013,7073,Sandspit Visitor Centre
+2,2012,6420,Sandspit Visitor Centre
+2,2011,5462,Sandspit Visitor Centre
+2,2010,7005,Sandspit Visitor Centre
+2,2009,10448,Sandspit Visitor Centre
+2,2008,12269,Sandspit Visitor Centre
+2,2007,7217,Sandspit Visitor Centre
+6,2017,2456,Sechelt Visitor Centre
+6,2016,13338,Sechelt Visitor Centre
+6,2015,13287,Sechelt Visitor Centre
+6,2014,14239,Sechelt Visitor Centre
+6,2013,13203,Sechelt Visitor Centre
+6,2012,12903,Sechelt Visitor Centre
+6,2011,12213,Sechelt Visitor Centre
+6,2010,15120,Sechelt Visitor Centre
+6,2009,14425,Sechelt Visitor Centre
+6,2008,13965,Sechelt Visitor Centre
+6,2007,14308,Sechelt Visitor Centre
+6,2017,1659,Sidney Visitor Centre
+6,2016,22766,Sidney Visitor Centre
+6,2015,455,Sidney Visitor Centre
+6,2014,0,Sidney Visitor Centre
+6,2013,15998,Sidney Visitor Centre
+6,2012,16530,Sidney Visitor Centre
+6,2011,18280,Sidney Visitor Centre
+6,2010,18408,Sidney Visitor Centre
+6,2009,20558,Sidney Visitor Centre
+6,2008,23053,Sidney Visitor Centre
+6,2007,29577,Sidney Visitor Centre
+5,2017,1969,Sooke Visitor Centre
+5,2016,12724,Sooke Visitor Centre
+5,2015,15703,Sooke Visitor Centre
+5,2014,13587,Sooke Visitor Centre
+5,2013,13161,Sooke Visitor Centre
+5,2012,12649,Sooke Visitor Centre
+5,2011,14354,Sooke Visitor Centre
+5,2010,15625,Sooke Visitor Centre
+5,2009,18136,Sooke Visitor Centre
+5,2008,16954,Sooke Visitor Centre
+5,2007,20525,Sooke Visitor Centre
+6,2017,16780,Squamish Visitor Centre
+6,2016,61542,Squamish Visitor Centre
+6,2015,45172,Squamish Visitor Centre
+6,2014,34527,Squamish Visitor Centre
+6,2013,20255,Squamish Visitor Centre
+6,2012,16896,Squamish Visitor Centre
+6,2011,17595,Squamish Visitor Centre
+6,2010,20785,Squamish Visitor Centre
+6,2009,24293,Squamish Visitor Centre
+6,2008,21734,Squamish Visitor Centre
+6,2007,31672,Squamish Visitor Centre
+1,2017,144,Stewart Visitor Centre
+1,2016,11574,Stewart Visitor Centre
+1,2015,5570,Stewart Visitor Centre
+1,2014,6442,Stewart Visitor Centre
+1,2013,8782,Stewart Visitor Centre
+1,2012,7447,Stewart Visitor Centre
+1,2011,7525,Stewart Visitor Centre
+1,2010,6199,Stewart Visitor Centre
+1,2009,7683,Stewart Visitor Centre
+1,2008,6789,Stewart Visitor Centre
+1,2007,8076,Stewart Visitor Centre
+6,2017,766,Surrey Visitor Centre
+6,2016,6397,Surrey Visitor Centre
+6,2015,6101,Surrey Visitor Centre
+6,2014,6713,Surrey Visitor Centre
+6,2013,7766,Surrey Visitor Centre
+6,2012,7286,Surrey Visitor Centre
+6,2011,9168,Surrey Visitor Centre
+6,2010,9272,Surrey Visitor Centre
+6,2009,7470,Surrey Visitor Centre
+6,2008,8211,Surrey Visitor Centre
+6,2007,8348,Surrey Visitor Centre
+5,2017,6630,Tofino Visitor Centre
+5,2016,37438,Tofino Visitor Centre
+5,2015,51035,Tofino Visitor Centre
+5,2014,40773,Tofino Visitor Centre
+5,2013,40736,Tofino Visitor Centre
+5,2012,36970,Tofino Visitor Centre
+5,2011,38009,Tofino Visitor Centre
+5,2010,28434,Tofino Visitor Centre
+5,2009,15453,Tofino Visitor Centre
+5,2008,16594,Tofino Visitor Centre
+5,2007,0,Tofino Visitor Centre
+5,2017,0,Ucluelet Visitor Centre
+5,2016,7277,Ucluelet Visitor Centre
+5,2015,11060,Ucluelet Visitor Centre
+5,2014,9010,Ucluelet Visitor Centre
+5,2013,6368,Ucluelet Visitor Centre
+5,2012,5331,Ucluelet Visitor Centre
+5,2011,4216,Ucluelet Visitor Centre
+5,2010,3748,Ucluelet Visitor Centre
+5,2009,9107,Ucluelet Visitor Centre
+5,2008,8955,Ucluelet Visitor Centre
+5,2007,3553,Ucluelet Visitor Centre
+6,2017,17871,Vancouver Visitor Centre
+6,2016,89597,Vancouver Visitor Centre
+6,2015,89011,Vancouver Visitor Centre
+6,2014,101654,Vancouver Visitor Centre
+6,2013,140684,Vancouver Visitor Centre
+6,2012,101072,Vancouver Visitor Centre
+6,2011,110472,Vancouver Visitor Centre
+6,2010,128899,Vancouver Visitor Centre
+6,2009,119550,Vancouver Visitor Centre
+6,2008,120767,Vancouver Visitor Centre
+6,2007,141220,Vancouver Visitor Centre
+5,2017,17915,Victoria Visitor Centre
+5,2016,94740,Victoria Visitor Centre
+5,2015,109151,Victoria Visitor Centre
+5,2014,95557,Victoria Visitor Centre
+5,2013,92716,Victoria Visitor Centre
+5,2012,144336,Victoria Visitor Centre
+5,2011,156082,Victoria Visitor Centre
+5,2010,145060,Victoria Visitor Centre
+5,2009,133695,Victoria Visitor Centre
+5,2008,164023,Victoria Visitor Centre
+5,2007,209093,Victoria Visitor Centre
+6,2017,1301,White Rock Visitor Centre
+6,2016,9953,White Rock Visitor Centre
+6,2015,6137,White Rock Visitor Centre
+6,2014,7470,White Rock Visitor Centre
+6,2013,20624,White Rock Visitor Centre
+6,2012,21447,White Rock Visitor Centre
+6,2011,20111,White Rock Visitor Centre
+6,2010,18257,White Rock Visitor Centre
+6,2009,16213,White Rock Visitor Centre
+6,2008,13947,White Rock Visitor Centre
+6,2007,11213,White Rock Visitor Centre

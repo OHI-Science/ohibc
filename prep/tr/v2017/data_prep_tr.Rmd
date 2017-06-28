@@ -1,0 +1,677 @@
+---
+title: 'OHIBC data prep: Tourism and Recreation'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(raster)
+library(sf)
+library(tmap)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+scenario <- 'v2017'
+goal     <- 'tr'
+dir_git  <- '~/github/ohibc'
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_spatial <- file.path(dir_git, 'prep/spatial')
+
+dir_data_bc <- file.path(dir_M, 'git-annex/bcprep', '_raw_data')
+
+library(provRmd); prov_setup()
+
+### set up proj4string options: BC Albers and WGS84
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+p4s_wgs84 <- c('wgs84' = '+init=epsg:4326')
+
+```
+
+# Summary: OHIBC Tourism and Recreation
+
+This script prepares layers (Visitors to parks and visitors centers) for Tourism and Recreation goal in 
+British Columbia's coastal regions.  
+
+We will analyze Livelihoods according to the model:
+
+$x_{TR} = \frac{P' + V'}{2}$
+
+$P' = \frac{P_c / P_{ref}}$
+
+where P is total visitation to tourism centers found within each BC coastal region, compared to a reference period over the prior five years, and
+
+$V' = \frac{V_c / V_{ref}}$
+
+where V is total visitation to parks found within each coastal region, compared to a reference period over the prior five years.
+
+-----
+
+# Data sources
+
+* Visitors centers: https://catalogue.data.gov.bc.ca/dataset/2e264b91-5936-4e08-a79f-6236a20feeda
+    * Licensed under Open Government License - Destination BC
+    * This dataset is a listing of B.C.'s Visitor Centres (including their locations) that are registered with the HelloBC Listings Program
+        * gateway
+        * information booth
+        * kiosk
+        * sites registry
+        * visitor centre
+
+-----
+
+# Methods
+
+## Visitation to visitor centers within OHIBC regions
+
+### Spatialize visitor centers
+
+Visitor centers simply will be allocated to the region in which the point location of that center falls.
+
+* Get the visitor center shapefile
+* get the OHIBC regions shapefile
+    * unclipped version, with inland watersheds?
+    * 15 km inland buffer (about 10 miles)?  This is what we will go with.
+* Intersect the visitor center points with the OHIBC region polygons
+* Discard the spatial information and save as a CSV of visitor centers <-> OHIBC regions.
+
+``` {r spatialize_visitor_centers}
+
+vc_pts_sf <- read_sf(dsn = file.path(dir_data_bc, 'tr/TourismCentres/HelloBC_visitor_centers/HLLBC_VC'),
+                  layer = 'HLLBC_VC_point')
+
+# glimpse(vc_pts %>% select(-geometry))
+
+vc_pts <- vc_pts_sf %>%
+  setNames(tolower(names(.))) %>%
+  select(id = product_id, tourregion, name)
+
+### Due to the vagaries of spatial data, let's include both the inland AND
+### offshore regions.  Otherwise, some (like Alert Bay) get dropped; perhaps
+### their point falls into what the regions think is ocean.  This very special
+### shapefile represents that conbination.
+bc_rgns_layer <- file.path(dir_goal, 'spatial', 'ohibc_clipped_15km_inland')
+bc_rgns <- read_sf(dsn = dirname(bc_rgns_layer),
+                   layer = basename(bc_rgns_layer))
+
+vc_to_bc <- st_intersection(vc_pts, bc_rgns) %>%
+  as.data.frame() %>%
+  select(-geometry)
+
+write_csv(vc_to_bc, file.path(dir_goal, 'int/vis_ctr_locations.csv'))
+
+# DT::datatable(vc_to_bc, caption = 'Visitors centers within OHIBC regions')
+
+```
+
+### Collate visitor center visitation logs
+
+Read and parse visitor center logs.
+
+* Read in all `.xls` files
+    * NOTE: `readxl::read_excel` didn't recognize the files as Excel files.  Converted all to `.csv` and used `read_csv` instead.
+* Parse down to just the Total Visitors per center per year, and save as .csv.
+
+``` {r collate_vis_ctr_logs}
+
+dir_vc <- file.path(dir_data_bc, 'tr/TourismCentres')
+
+### readxl::read_excel does not recognize the files as being Excel files.
+# vc_logs <- list.files(dir_vc, pattern = '.xls$', full.names = TRUE)
+vc_logs <- list.files(dir_vc, pattern = '.csv$', full.names = TRUE)
+
+vc_df_raw <- lapply(vc_logs, FUN = function(x) read_csv(x, skip = 6)) %>%
+  setNames(basename(vc_logs)) %>%
+  bind_rows(.id = 'filename') %>%
+  setNames(tolower(names(.)) %>% str_replace_all('[^a-z0-9]+', '_'))
+
+vc_df <- vc_df_raw %>%
+  rename(desc = parties_per_hour) %>%
+  filter(!str_detect(desc, '%')) %>%
+  mutate(year = str_extract(desc, '[0-9]{4}') %>% as.integer(),
+         desc = ifelse(str_detect(desc, '[0-9]{4}'), NA, desc)) %>%
+  group_by(filename) %>%
+  fill(desc, .direction = 'down') %>%
+  filter(!is.na(year)) %>%
+  ungroup()
+### NOTE: This leaves the first few instances with a NA description;
+### these are "parties per hour" so not gonna worry about it because
+### they will get filtered out in the next step.
+
+# vc_df$desc %>% unique()
+# [1] "Parties Per Hour"            "Total Hours"                 "Total Parties"              
+# [4] "Total Parties-Event/Roaming" "Total Visitors"              "Total Visitor-Event/Roaming"
+# [7] "Total Buses" 
+
+vc_df_total <- vc_df %>%
+  filter(desc == 'Total Visitors') %>%
+  select(filename, year, total) %>%
+  distinct()
+
+write_csv(vc_df_total %>%
+            filter(!str_detect(filename, 'all_centers')), 
+          file.path(dir_goal, 'int/vis_ctr_totals.csv'))
+write_csv(vc_df_total %>%
+            filter(str_detect(filename, 'all_centers')), 
+          file.path(dir_goal, 'int/vis_ctr_totals_all_bc.csv'))
+
+# DT::datatable(vc_df_total, caption = 'Visitor centers total visitors')
+```
+
+### Attach visitor center logs to spatial visitor center location
+
+The visitor log filenames contain a reference to the visitor center name; however, not an exact match to those in the spatial file.
+
+* Parse the spatial file name down to the base center name, all lower case with no spaces.
+* Do the same for the visitor center logs.
+* Identify the spatial names that at least partially match the visitor center logs to create a lookup.  The spatial names are more complete than the visitor center log file names.
+* Link the spatial info to the visitor log info and save as .csv.
+
+``` {r attach_vc_logs_and_spatial}
+
+### For spatial info, collapse name to just the base name, lower case, no spaces
+rgns_extra_text <- c('Visitor Centre', 'Tourist/Visitor Info Booth', 'British Columbia') %>%
+  paste(collapse = '|')
+
+vc_rgns <- read_csv(file.path(dir_goal, 'int/vis_ctr_locations.csv')) %>%
+  mutate(vc_name = str_replace_all(name, rgns_extra_text, ''),
+         vc_name = str_replace_all(tolower(vc_name), '[^a-z]', ''))
+
+vc_logs <- read_csv(file.path(dir_goal, 'int/vis_ctr_totals.csv')) %>%
+  mutate(log_name = str_replace_all(tolower(filename), 'vcreport_|\\.csv', ''))
+
+vc_lookup <- lapply(vc_logs$log_name %>% unique(), FUN = function(x) { 
+  ### x <- 'vancouver'
+  name_match <- vc_rgns$vc_name[str_detect(vc_rgns$vc_name, x)]
+  if (length(name_match) == 0) name_match <- NA
+  y <- data.frame(log_name = x, 
+                  vc_name  = name_match)
+}) %>%
+  bind_rows()
+
+### North Vancouver matches improperly with Vancouver.  Let's ditch it,
+### leaving N Vancouver and Vancouver each with its own unique match.
+### Let's also ditch the Vancouver 2010 since that seems to be
+### specific to the 2010 Olympics.
+vc_lookup <- vc_lookup %>%
+  filter(!(vc_name == 'northvancouver' & log_name == 'vancouver')) %>%
+  filter(log_name != 'vancouver2010')
+
+vc_rgn_totals <- vc_logs %>%
+  full_join(vc_lookup, by = 'log_name') %>%
+  full_join(vc_rgns, by = 'vc_name') %>%
+  select(-log_name)
+
+write_csv(vc_rgn_totals, file.path(dir_goal, 'int/vc_rgn_totals.csv'))
+
+DT::datatable(vc_rgn_totals %>% select(-filename, -rgn_name, -vc_name, -id))
+
+```
+
+### Map visitor centers against OHIBC regions
+
+``` {r map_vis_ctrs}
+vc_rgn_sum <- read_csv(file.path(dir_goal, 'int/vc_rgn_totals.csv')) %>%
+  group_by(filename, vc_name, id) %>%
+  summarize(tot_vis = sum(total, na.rm = TRUE)) %>%
+  mutate(tot_vis = ifelse(is.na(filename), NA, tot_vis)) %>%
+  filter(!is.na(vc_name))
+
+vc_rgn_incl <- read_csv(file.path(dir_goal, 'int/vc_rgn_totals.csv')) %>%
+  select(-year, -total) %>%
+  filter(!is.na(rgn_id)) %>%
+  distinct()
+
+
+vc_pts_sf <- read_sf(dsn = file.path(dir_data_bc, 'tr/TourismCentres/HelloBC_visitor_centers/HLLBC_VC'),
+                  layer = 'HLLBC_VC_point')
+
+vc_pts_sf <- vc_pts_sf %>%
+  setNames(tolower(names(.))) %>%
+  select(id = product_id, tourregion, name) %>%
+  mutate(id = as.integer(id)) %>%
+  left_join(vc_rgn_sum, by = 'id') %>%
+  mutate(vc_name = ifelse(is.na(vc_name), 
+                          str_replace_all(tolower(name), tolower(rgns_extra_text), '') %>%
+                            str_replace_all('[^a-z]', ''),
+                          vc_name))
+
+bc_inland_rgns <- read_sf(dsn = dirname(bc_rgns_layer),
+                          layer = basename(bc_rgns_layer))
+bc_ocean_rgns <- read_sf(dsn = dir_spatial,
+                          layer = 'ohibc_rgn_simple')
+
+
+vc_map <- tm_shape(bc_inland_rgns) +
+    tm_polygons(col = 'green4', border.col = 'blue3', alpha = .2, border.alpha = .2) +
+  tm_shape(bc_ocean_rgns) +
+    tm_fill(col = 'blue3', alpha = .3) +
+  tm_shape(vc_pts_sf %>% filter(!is.na(tot_vis))) +
+    tm_dots(col = 'blue', size = .1) +
+  tm_shape(x <- vc_pts_sf %>% filter(is.na(tot_vis) & !id %in% vc_rgn_incl$id)) +
+    tm_dots(col = 'grey60', shape = 4, size = .25) +
+  tm_shape(y <- vc_pts_sf %>% filter(is.na(tot_vis) &  id %in% vc_rgn_incl$id)) +
+    tm_dots(col = 'red', shape = 4, size = .25) +
+    tm_text(text = 'vc_name', 
+            size = .6, just = c('right', 'bottom'), 
+            col = 'grey20') # +
+  # tm_shape(vc_pts_sf %>% filter(vc_name %in% vc_no_spatial$vc_name)) +
+  #   tm_text(text = 'vc_name', 
+  #           size = .6, just = c('right', 'bottom'), 
+  #           col = 'grey70')
+  
+
+print(vc_map)
+
+vc_no_logs <- vc_pts_sf %>% 
+  filter(is.na(tot_vis) & id %in% vc_rgn_incl$id) %>%
+  as.data.frame() %>%
+  select(name, tourregion)
+
+
+```
+
+Visitor centers mapped against OHIBC regions, using a 15 km inland buffer to define areas of "coastal" interest.  Centers with logs are noted in blue; centers not included in OHIBC regions are noted as a grey X.  Centers without logs, but within the boundaries of the inland regions, are named and marked with a red X, though these are generally visitor booths rather than full visitor centers.
+
+`r DT::datatable(vc_no_logs, caption = 'Spatially in OHIBC but no log files')`
+
+#### Number of visitor centers per region
+
+(only centers with non-NA counts across all years)
+
+``` {r}
+
+knitr::kable(vc_rgn_totals %>% 
+               filter(!is.na(total) & !is.na(rgn_id)) %>%
+               select(rgn_id, name) %>%
+               distinct() %>%
+               group_by(rgn_id) %>% 
+               summarize(n_vis_ctrs = n()) %>% 
+               full_join(get_rgn_names(), by = 'rgn_id') %>%
+               filter(rgn_id %in% c(1:6, 8)) %>%
+               arrange(rgn_id))
+```
+
+
+## Spatialize parks to OHIBC regions.
+
+For parks that fall entirely within a region, the entire visitation count will be allocated to that region.  For parks that cross between two regions, park visitation will be allocated based on proportion of total park area falling within each region.
+
+### Spatialize parks
+
+Parks will be allocated by area within OHIBC regions.
+
+* Get the Parks shapefile; create a column with total area of each park.
+* get the OHIBC regions shapefile
+    * unclipped version, with inland watersheds?
+    * 15 km inland buffer (about 10 miles)?  This is what we will go with.
+* Intersect the parks and OHIBC regions to locate parks.  Park "allocation" will be the ratio of area in OHIBC coastal region to total area (including area outside OHIBC coastal region), to allocate the visitors proportionally to each OHIBC region. 
+* Discard the spatial information and save as a CSV of parks <-> OHIBC regions.
+
+``` {r spatialize_parks}
+
+park_poly_sf <- read_sf(dsn = file.path(dir_data_bc, 'tr/ParkVisitation/ParkLocations/TA_PEP_SVW'),
+                  layer = 'TA_PEP_SVW_polygon')
+
+# glimpse(park_poly_sf %>% select(-geometry))
+
+park_poly <- park_poly_sf %>%
+  setNames(tolower(names(.))) %>%
+  select(# id = objectid, 
+         name = prot_name, 
+         desig = prot_desg, code = prot_code, class = park_class) %>%
+  mutate(tot_area = st_area(.))
+
+
+bc_rgns_layer <- file.path(dir_goal, 'spatial', 'ohibc_clipped_15km_inland')
+bc_rgns <- read_sf(dsn = dirname(bc_rgns_layer),
+                   layer = basename(bc_rgns_layer))
+
+park_to_bc_sf <- st_intersection(park_poly, bc_rgns)
+
+park_to_bc <- park_to_bc_sf %>%
+  mutate(rgn_area = st_area(.)) %>%
+  as.data.frame() %>%
+  select(-geometry) %>%
+  distinct()
+
+write_csv(park_to_bc, file.path(dir_goal, 'int/park_locations.csv'))
+
+# DT::datatable(park_to_bc, caption = 'Visitors centers within OHIBC regions')
+
+```
+
+### Collate parks visitation logs
+
+Read and parse parks logs.
+
+* Read in all `.xls` files
+    * NOTE: `readxl::read_excel` didn't recognize the files as Excel files.  Converted all to `.csv` and used `read_csv` instead.
+* Parse down to just the Total Visitors per center per year, and save as .csv.
+
+``` {r collate_park_logs}
+
+dir_parks <- file.path(dir_data_bc, 'tr/ParkVisitation')
+
+park_logs <- list.files(dir_parks, pattern = '.csv$', full.names = TRUE)
+
+park_df_raw <- lapply(park_logs, FUN = function(x) read_csv(x)) %>%
+  setNames(basename(park_logs)) %>%
+  bind_rows(.id = 'filename') %>%
+  setNames(tolower(names(.)))
+
+### Decide: does a '-' count as zero or NA?  Assume NA; a park with zero
+###   attendance is not much of a park...
+park_df <- park_df_raw %>%
+  mutate(rept_yr = str_extract(filename, '[0-9]{2}_[0-9]{2}'),
+         year = str_replace(rept_yr, '[0-9]{2}_', ''),
+         year = as.integer(year) + 2000,
+         visits = as.integer(str_replace(count, '[^0-9]', ''))) %>%
+  filter(!is.na(park)) %>%  ### NA park names: these are totals; exclude 'em
+  select(park, visits, year) %>%
+  distinct()
+
+
+write_csv(park_df, file.path(dir_goal, 'int/park_totals.csv'))
+
+# DT::datatable(park_df_total, caption = 'parks total visitors')
+```
+
+### Attach parks logs to spatial parks
+
+The visitor log filenames contain a reference to the park name; however, not an exact match to those in the spatial file.
+
+* Parse the spatial file name down to the base center name, all lower case with no spaces.
+* Do the same for the parks logs.
+* Identify the spatial names that at least partially match the parks logs to create a lookup.  The spatial names are more complete than the parks log file names.
+* Link the spatial info to the visitor log info and save as .csv.
+
+``` {r attach_park_logs_and_spatial}
+
+### For spatial info, collapse name to just the base name, lower case, no spaces
+park_rgns <- read_csv(file.path(dir_goal, 'int/park_locations.csv')) %>%
+  mutate(park_name = str_replace_all(tolower(name), '[^a-z]', ''))
+
+park_logs <- read_csv(file.path(dir_goal, 'int/park_totals.csv')) %>%
+  mutate(log_name = str_replace_all(tolower(park), '[^a-z]', ''))
+
+park_lookup <- lapply(park_rgns$park_name %>% unique(), FUN = function(x) { 
+  # x <- park_logs$log_name[1]
+  name_match <- park_logs$log_name[str_detect(park_logs$log_name, x) | str_detect(x, park_logs$log_name) ]
+  if (length(name_match) == 0) name_match <- NA
+  y <- data.frame(park_name = x, 
+                  log_name  = name_match)
+}) %>%
+  bind_rows() %>%
+  # mutate(full_match = (log_name == park_name)) %>%
+  filter(log_name != 'lakepark')
+  
+### Lookup includes parks that fall spatially within OHIBC regions AND have
+### visitation logs.  Some to note:
+### Lake Park (inland somewhere? but falsely name-matches any 'XXX Lake Park')
+### Sechelt Inlets Marine Park has numerous sites by spatial file.
+
+park_rgn_totals_all <- park_logs %>%
+  full_join(park_lookup, by = 'log_name') %>%
+  full_join(park_rgns, by = 'park_name') %>%
+  select(park, year, visits, park_name, rgn_area, tot_area, rgn_id) %>%
+  distinct()
+
+park_bc_totals <- park_rgn_totals_all %>%
+  group_by(year) %>%
+  summarize(bc_visits = sum(visits, na.rm = TRUE)) %>%
+  ungroup()
+
+park_rgn_totals <- park_rgn_totals_all %>%
+  filter(!is.na(park_name) & !is.na(visits))
+  
+
+write_csv(park_rgn_totals, file.path(dir_goal, 'int/park_rgn_totals.csv'))
+write_csv(park_bc_totals, file.path(dir_goal, 'int/park_totals_all_bc.csv'))
+
+DT::datatable(park_rgn_totals %>% 
+                select(-park_name) %>%
+                mutate(rgn_area = round(rgn_area), 
+                       tot_area = round(tot_area)))
+
+
+```
+
+### Map parks against OHIBC regions
+
+``` {r map_parks}
+bc_rgns_layer <- file.path(dir_goal, 'spatial', 'ohibc_clipped_15km_inland')
+bc_rgns <- read_sf(dsn = dirname(bc_rgns_layer),
+                   layer = basename(bc_rgns_layer))
+bc_ocean_rgns <- read_sf(dsn = dir_spatial,
+                          layer = 'ohibc_rgn_simple')
+
+park_rgn_sum <- read_csv(file.path(dir_goal, 'int/park_rgn_totals.csv')) %>%
+  group_by(park_name, rgn_id) %>%
+  filter(!is.na(visits)) %>%
+  summarize(tot_vis = sum(visits, na.rm = TRUE)) %>%
+  ungroup() %>%
+  distinct()
+
+# park_rgn_sum$rgn_id %>% table()
+
+park_poly_sf <- read_sf(dsn = file.path(dir_data_bc, 'tr/ParkVisitation/ParkLocations/TA_PEP_SVW'),
+                  layer = 'TA_PEP_SVW_polygon') %>%
+  select(name = PROT_NAME) %>%
+  mutate(name = tolower(name) %>% str_replace_all('[^a-z]', '')) %>%
+  st_zm()
+
+park_poly_incl <- park_poly_sf %>%
+  st_intersection(bc_rgns) %>%
+  filter(name %in% park_rgn_sum$park_name) %>%
+  distinct()
+
+
+park_map <- tm_shape(bc_rgns) +
+    tm_polygons(col = 'green4', border.col = 'blue3', alpha = .2, border.alpha = .2) +
+  tm_shape(bc_ocean_rgns) +
+    tm_fill(col = 'blue3', alpha = .3) +
+  tm_shape(park_poly_sf %>% filter(name %in% park_poly_incl$name)) +
+    tm_polygons(col = 'grey60', border.col = 'grey30', lwd = .25, alpha = .3) +
+  tm_shape(park_poly_incl) +
+    tm_polygons(col = 'blue', alpha = .3, border.col = 'blue', lwd = .25, border.alpha = 1) +
+  tm_shape(park_poly_sf %>% filter(!name %in% park_poly_incl$name)) +
+    tm_fill(col = 'red', alpha = .3)
+
+print(park_map)
+
+```
+
+Parks mapped against OHIBC regions, using a 15 km inland buffer to define areas of "coastal" interest.  Parks falling partially or entirely within OHIBC regions are noted in blue; for parks that cross the boundary, the remainder is noted in grey.  Parks with no visitor log information are noted in red (regardless of inclusion in OHIBC regions).
+
+#### Number of parks per region
+
+(only parks with non-NA counts across all years)
+
+``` {r}
+knitr::kable(park_rgn_totals %>% 
+               select(rgn_id, park) %>%
+               distinct() %>%
+               group_by(rgn_id) %>% 
+               summarize(n_parks = n()) %>% 
+               full_join(get_rgn_names(), by = 'rgn_id') %>%
+               filter(rgn_id %in% c(1:6, 8)) %>%
+               arrange(rgn_id))
+```
+
+## Create Output Layers
+
+This script writes four layers for calculation of OHIBC Tourism and Recreation scores:
+
+* Visitation to visitors centers/tourism centers, by year, by center, and by region.  If we wish to count no net loss per center, rather than across the entire region, the center-by-center reports are necessary.
+* Visitation to provincial parks, by year, by park, and by region.  Again, center-by-center numbers are necessary in case we count no net loss on a park-by-park basis.  In this step, visitations will be area-weighted by region area compared to total area, and count will report the resulting proportion of visitors.
+* Overall visitation to visitors centers across all BC.  This can be used to account for system-wide peaks and dips in park visitorship, such as economic downturns.
+* Overall visitation to parks across all BC.
+
+``` {r write_layers}
+vc_visits <- read_csv(file.path(dir_goal, 'int/vc_rgn_totals.csv')) %>%
+  select(rgn_id, year, visits = total, name) %>%
+  filter(!is.na(rgn_id) & !is.na(visits)) %>%
+  distinct()
+
+park_visits <- read_csv(file.path(dir_goal, 'int/park_rgn_totals.csv')) %>%
+  filter(!is.na(rgn_id)) %>% ### filter to just OHIBC parks
+  filter(!is.na(visits)) %>%
+  mutate(visits_wt = round(visits * rgn_area / tot_area)) %>%
+  select(rgn_id, year, visits_wt, name = park) %>%
+  distinct()
+  
+vc_visits_all <- read_csv(file.path(dir_goal, 'int/vis_ctr_totals_all_bc.csv')) %>%
+  select(year, visits = total)
+
+park_visits_all <- read_csv(file.path(dir_goal, 'int/park_totals_all_bc.csv')) %>%
+  filter(!is.na(year)) %>%
+  rename(visits = bc_visits)
+
+write_csv(vc_visits,       file.path(dir_goal, 'output/vis_ctr_visits.csv'))
+write_csv(park_visits,     file.path(dir_goal, 'output/park_visits.csv'))
+write_csv(vc_visits_all,   file.path(dir_goal, 'output/vis_ctr_visits_all.csv'))
+write_csv(park_visits_all, file.path(dir_goal, 'output/park_visits_all.csv'))
+
+```
+
+## Visualize
+
+### Visits normalized by max visits
+
+Plotting the normalized visitation count (relative to the max count seen in the region) across all regions, and then the region-by-region count normalized by the proportional total province-wide count.
+
+``` {r data_viz_normalized_visits}
+
+vc_visits <- read_csv(file.path(dir_goal, 'output/vis_ctr_visits.csv')) %>%
+  group_by(rgn_id, year) %>%
+  summarize(visits = sum(visits)) %>%
+  group_by(rgn_id) %>%
+  mutate(visits_norm = visits / max(visits)) %>%
+  left_join(get_rgn_names(), by = 'rgn_id') %>%
+  ungroup()
+vc_visits_all <- read_csv(file.path(dir_goal, 'output/vis_ctr_visits_all.csv')) %>%
+  mutate(rgn_name = 'All province',
+         visits_norm = visits / max(visits))
+         
+
+vc_plot <- ggplot(vc_visits, aes(x = year, y = visits_norm, size = visits, color = rgn_name)) +
+  ggtheme_plot() +
+  geom_line(data = vc_visits_all, 
+            size = 1, color = 'grey30', linetype = 'dotted') +
+  geom_point() +
+  geom_line(aes(group = rgn_name, size = visits), alpha = .6) +
+  scale_x_continuous(breaks = c(2005:2017)) +
+  theme(axis.text.x = element_text(angle = 75, hjust = 1)) +
+  scale_y_continuous(limits = c(0, NA)) +
+  labs(title = 'Annual visitor center visitations',
+       y     = 'Normalized visits',
+       fill  = 'OHIBC region')
+print(vc_plot)
+
+park_visits <- read_csv(file.path(dir_goal, 'output/park_visits.csv')) %>%
+  group_by(rgn_id, year) %>%
+  summarize(visits = sum(visits_wt)) %>%
+  group_by(rgn_id) %>%
+  mutate(visits_norm = visits / max(visits)) %>%
+  left_join(get_rgn_names(), by = 'rgn_id') %>%
+  ungroup()
+park_visits_all <- read_csv(file.path(dir_goal, 'output/park_visits_all.csv')) %>%
+  mutate(rgn_name = 'All province',
+         visits_norm = visits / max(visits))
+
+parks_plot <- ggplot(park_visits, aes(x = year, y = visits_norm, size = visits, color = rgn_name)) +
+  ggtheme_plot() +
+  geom_line(data = park_visits_all, 
+            size = 1, color = 'grey30', linetype = 'dotted') +
+  geom_point() +
+  geom_line(aes(group = rgn_name), alpha = .6) +
+  scale_x_continuous(breaks = c(2005:2017)) +
+  theme(axis.text.x = element_text(angle = 75, hjust = 1)) +
+  scale_y_continuous(limits = c(0, NA)) +
+  labs(title = 'Annual park visitations',
+       y     = 'Normalized visits',
+       fill  = 'OHIBC region')
+
+print(parks_plot)
+
+```
+
+### Visits adjusted by province-wide tourism
+
+Plotting the normalized visitation count adjusted by the normalized total count across the province, to eliminate systemic factors that affect tourism province-wide.
+
+``` {r data_viz_adjusted_visits}
+
+vc_visits_adj <- vc_visits %>%
+  left_join(vc_visits_all %>%
+              select(visits_all = visits, year),
+            by = 'year') %>%
+  mutate(visits_all_norm = visits_all / max(visits_all)) %>%
+  group_by(rgn_id) %>%
+  mutate(visits_adj = visits / visits_all_norm,
+         visits_norm_adj = visits_adj / max(visits_adj)) %>%
+  ungroup()
+         
+
+vc_plot <- ggplot(vc_visits_adj, aes(x = year, y = visits_norm_adj, size = visits_adj, color = rgn_name)) +
+  ggtheme_plot() +
+  geom_point() +
+  geom_line(aes(y = visits_all_norm), size = 1, color = 'grey30', linetype = 'dotted') +
+  geom_line(aes(group = rgn_name, size = visits), alpha = .6) +
+  scale_x_continuous(breaks = c(2005:2017)) +
+  theme(axis.text.x = element_text(angle = 75, hjust = 1)) +
+  scale_y_continuous(limits = c(0, NA)) +
+  labs(title = 'Annual visitor center visitations',
+       y     = 'Normalized visits, total-adjusted',
+       fill  = 'OHIBC region')
+print(vc_plot)
+
+park_visits_adj <- park_visits %>%
+  left_join(park_visits_all %>%
+              select(visits_all = visits, year),
+            by = 'year') %>%
+  mutate(visits_all_norm = visits_all / max(visits_all)) %>%
+  group_by(rgn_id) %>%
+  mutate(visits_adj = visits / visits_all_norm,
+         visits_norm_adj = visits_adj / max(visits_adj)) %>%
+  ungroup()
+
+park_plot <- ggplot(park_visits_adj, aes(x = year, y = visits_norm_adj, size = visits_adj, color = rgn_name)) +
+  ggtheme_plot() +
+  geom_point() +
+  geom_line(aes(y = visits_all_norm), size = 1, color = 'grey30', linetype = 'dotted') +
+  geom_line(aes(group = rgn_name, size = visits), alpha = .6) +
+  scale_x_continuous(breaks = c(2005:2017)) +
+  theme(axis.text.x = element_text(angle = 75, hjust = 1)) +
+  scale_y_continuous(limits = c(0, NA)) +
+  labs(title = 'Annual park visitations',
+       y     = 'Normalized visits, total-adjusted',
+       fill  = 'OHIBC region')
+print(park_plot)
+
+
+```
+
+***
+
+``` {r provenance, results = 'asis'}
+
+prov_wrapup()
+
+```

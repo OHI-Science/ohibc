@@ -207,7 +207,7 @@ for(goalname in scores$goal %>% unique() %>% sort) {
                 size = 1.5, color = 'grey30')  +
       labs(title = first(rgn_plot_df$rgn_name),
            color = 'Stock ID',
-           y     = 'Proportion of catch')
+           y     = 'Stock Score')
     print(status_plot)
   }
 

@@ -102,7 +102,7 @@ closure_status <- closures %>%
 ### Licenses:
 ### * prop of licenses allocated to FNs, with some level (25%?) as target?
 ### * no net loss vs some rolling average?
-license_ref_pt <- .25 ### arbitrary at this point; how should we consider ref pt?
+license_ref_pt <- max(licenses$pct_fn, na.rm = TRUE)
 license_status <- licenses %>%
   complete_years(year_span) %>%
   mutate(status = pct_fn / license_ref_pt,

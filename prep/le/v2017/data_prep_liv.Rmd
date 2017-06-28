@@ -46,12 +46,12 @@ p4s_wgs84 <- c('wgs84' = '+init=epsg:4326')
 
 # Summary: OHIBC Livelihoods
 
-This script prepares layers (species presence and species health) for Livelihoods goal in 
+This script prepares layers (employment rates and median income) for Livelihoods goal in 
 British Columbia's coastal regions.  
 
 From Halpern et al. (2014) (OHI California Current):
 
->Livelihood sub-goal: As was done in the global analysis, coastal livelihoods is measured by two equally weighted sub-components, the number of jobs (j), which is a proxy for livelihood quantity, and the per capita average annual wages (g), which is a proxy for job quality. For jobs we used a no-net loss reference point whereas for wages we used a spatial comparison. 
+>Livelihood sub-goal: As was done in the global analysis, coastal livelihoods is measured by two equally weighted sub-components, the number of jobs (j), which is a proxy for livelihood quantity, and the median annual household wages (g), which is a proxy for job quality. For jobs and wages we used a no-net loss reference point. 
 
 For British Columbia, we do not currently have sector-specific unemployment and wage information.  As such we will analyze Livelihoods according to the model:
 
