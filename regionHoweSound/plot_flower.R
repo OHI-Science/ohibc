@@ -108,7 +108,7 @@ plot_flower <- function(score_df,
 
   ### clean up the theme
   plot_obj <- plot_obj +
-    ggtheme_plot +
+    ggtheme_plot() +
     theme(panel.grid.major = element_blank(),
           axis.line  = element_blank(),
           axis.text  = element_blank(),
