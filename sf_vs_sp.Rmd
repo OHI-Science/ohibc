@@ -30,6 +30,18 @@ source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common
 
 ```
 
+# References
+
+* [Simple features for R, part 1](https://cran.r-project.org/web/packages/sf/vignettes/sf1.html)
+* [Simple features for R, part 2: Reading, Writing and Converting Simple Features](https://cran.r-project.org/web/packages/sf/vignettes/sf2.html)
+* [Simple features for R, part 3: Manipulating Simple Feature Geometries](https://cran.r-project.org/web/packages/sf/vignettes/sf3.html)
+* [Simple Features for R v0.5-1](https://www.rdocumentation.org/packages/sf/versions/0.5-1)
+* [First impressions from sf – the simple features R package](https://geographicdatascience.com/2017/01/06/first-impressions-from-sf-the-simple-features-r-package/)
+* [Tidying feature geometries with sf](http://r-spatial.org/r/2017/03/19/invalid.html)
+* [Tidy spatial data in R: using dplyr, tidyr, and ggplot2 with sf](http://strimas.com/r/tidy-sf/)
+* [sf - plot, graticule, transform, units, cast, is](http://r-spatial.org/r/2017/01/12/newssf.html)
+* unrelated but this looks rad: [mapedit - interactively edit spatial data in R](http://r-spatial.org/r/2017/01/30/mapedit_intro.html)
+
 # Methods
 
 ## Read polygon features

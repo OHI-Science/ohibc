@@ -57,9 +57,10 @@ verify_layers <- function(lyrs) {
     x <- lyrs %>%
       filter(!path_in_exists) %>%
       select(layer, path_in)
-    message('The following layers paths do not exist:')
-    message('\n  ', paste(paste(x$layer, x$path_in, sep = ': '), collapse = '\n  '))
-    stop('Data cannot be found - check file paths/names in layers.csv')
+    # message('The following layers paths do not exist:')
+    # message('\n  ', paste(paste(x$layer, x$path_in, sep = ': '), collapse = '\n  '))
+    stop('Data cannot be found - check file paths/names in layers.csv: ',
+         '\n  ', paste(paste(x$layer, x$path_in, sep = ': '), collapse = '\n  '))
   } else {
     message('All registered layers exist')
   }

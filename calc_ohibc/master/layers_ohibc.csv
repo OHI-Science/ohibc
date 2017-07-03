@@ -60,9 +60,9 @@ lsp_prot_area_inland_ws,ohibc:prep/lsp/v2017/output,lsp_protected_inland_ws.csv,
 lsp_prot_area_offshore3nm,ohibc:prep/lsp/v2017/output,lsp_protected_offshore3nm.csv,TRUE,a_prot_3nm,LSP,Offshore coastal protected areas,km2,Protected areas located 3nm offshore
 lsp_tot_area_inland_ws,ohibc:prep/lsp/v2017/output,lsp_a_total_inland_ws.csv,TRUE,a_tot_inland,LSP,Inland area,km2,Inland area of OHI regions within 1km of shoreline
 lsp_tot_area_offshore3nm,ohibc:prep/lsp/v2017/output,lsp_a_total_offshore3nm.csv  ,TRUE,a_tot_3nm,LSP,Offshore area,km2,Offshore area of OHI regions within 3nm of shoreline
-mar_coastalpopn_inland25mi,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,MAR,Inland coastal population,number of people,Total coastal population within 25 miles of coast.
-mar_harvest_tonnes,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,MAR,Mariculture harvest,tonnes,Tonnes of mariculture harvest
-mar_sustainability_score,ohibc:calc_ohibc/master/dummy_layers,wgi_all_gl2016.csv,TRUE,resilience_score,MAR,Mariculture sustainability score,score,Mariculture sustainability from the Mariculture Sustainability Index (MSI).
+mar_harvest_tonnes,ohibc:prep/mar/v2017/output,aq_harvest.csv,TRUE,harvest_tonnes,MAR,Mariculture harvest,tonnes,Tonnes of mariculture harvest
+mar_tenure_areas,ohibc:prep/mar/v2017/output,aq_areas.csv,TRUE,area_km2,MAR,Aquaculture tenure area,km^2,DFO aquaculture tenures
+mar_potential,ohibc:prep/mar/v2017/output,aq_potential.csv,TRUE,potential,MAR,Aquaculture production potential,tonnes per km2 per year,Aquaculture production potential for finfish and shellfish at different reference levels
 po_chemical,ohibc:prep/cw/v2017/output,po_chemical.csv,TRUE,chem_pressure,pressure,Chemical pollution,scaled 0-1,"Modeled chemical pollution from commercial shipping traffic, ports and harbors, and pesticide use"
 po_chemical_3nm,ohibc:prep/cw/v2017/output,po_chemical_3nm.csv,TRUE,chem_pressure,CW pressure,Coastal chemical pollution,scaled 0-1,"Modeled chemical pollution from commercial shipping traffic, ports and harbors, land-based pesticide use (organic pollution), and urban runoff (inorganic pollution)"
 po_nutrient,prep/cw/v2017/output,po_nutrient.csv,TRUE,nutr_pressure,pressure,Nutrient pollution,scaled 0-1,Modeled data based on fertilizer consumption from the Food and Agricultural Organization

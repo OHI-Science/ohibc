@@ -1,0 +1,15 @@
+rgn_id,aq_type,area_km2,source,a_tot_km2
+1,shellfish,78.605,mapp,78.81700000000001
+2,shellfish,64.804,mapp,65.374
+3,finfish,225.206,mapp,233.322
+4,shellfish,163.885,mapp,168.77499999999998
+1,shellfish,0.212,dfo,78.81700000000001
+2,shellfish,0.57,dfo,65.374
+3,finfish,8.116,dfo,233.322
+3,shellfish,0.963,dfo,0.963
+4,finfish,34.236,dfo,34.236
+4,shellfish,4.89,dfo,168.77499999999998
+5,finfish,32.749,dfo,32.749
+5,shellfish,11.175,dfo,11.175
+6,finfish,6.919,dfo,6.919
+6,shellfish,56.58,dfo,56.58

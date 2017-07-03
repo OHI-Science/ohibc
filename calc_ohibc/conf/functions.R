@@ -67,6 +67,7 @@ calc_trend <- function(scenario_df, years = NULL) {
     summarize(
       region_id = region_id,
       score = 5 * coef(mdl)['year'] / status_1,
+      score = ifelse(is.nan(score), NA, score),
       score = min(max(score, -1), 1)) %>% # set boundaries so trend does not go below -1 or above 1
     ungroup() %>%
     mutate(year  = max_year,
@@ -90,7 +91,7 @@ get_data_year <- function(goal, status_yr, layers) {
 
 }
 
-complete_years <- function(score_df, year_span) {
+complete_years <- function(score_df, year_span, method = c('carry', 'zero')[1]) {
   if('rgn_id' %in% names(score_df)) {
     message('The complete_years() function automagically renames "rgn_id" to "region_id" for your convenience.')
     score_df <- score_df %>%
@@ -106,13 +107,32 @@ complete_years <- function(score_df, year_span) {
             '); completing data sequence from ', min_yr, ' to ', max_yr, '.')
     year_span <- min_yr : max_yr
   }
+
   score_df <- score_df %>%
     group_by(region_id) %>%
     complete(year = year_span) %>%
     arrange(year) %>%
-    fill(-year, -region_id, .direction = 'down') %>% fill(-year, -region_id, .direction = 'up') %>%
     ungroup()
 
+  if(method == 'carry') {
+    score_df <- score_df %>%
+      group_by(region_id) %>%
+      fill(-year, -region_id, .direction = 'down') %>%
+      fill(-year, -region_id, .direction = 'up') %>%
+      ungroup()
+  } else {
+    ### method == 'zero': zero out numerics, carry text fields
+    score_df <- score_df %>%
+      lapply(FUN = function(x) {
+          if(!class(x) %in% c('character', 'factor')) x[is.na(x)] <- 0
+          return(x)
+        }) %>%
+      data.frame() %>%
+      group_by(region_id) %>%
+      fill(-year, -region_id, .direction = 'down') %>%
+      fill(-year, -region_id, .direction = 'up') %>%
+      ungroup()
+  }
   return(score_df)
 }
 
@@ -351,109 +371,82 @@ FIS <- function(layers) {
 }
 
 MAR <- function(layers) {
-  # # layers used: mar_harvest_tonnes, mar_harvest_species, mar_sustainability_score, mar_coastalpopn_inland25mi, mar_trend_years
-  # harvest_tonnes <- SelectLayersData(layers, layers='mar_harvest_tonnes', narrow = TRUE) %>%
-  #   select(region_id=id_num, species_code=category, year, tonnes=val_num)
-  #
-  # sustainability_score <- SelectLayersData(layers, layers='mar_sustainability_score', narrow = TRUE) %>%
-  #   select(region_id=id_num, species_code=category, sust_coeff=val_num)
-  #
-  # popn_inland25mi <- SelectLayersData(layers, layers='mar_coastalpopn_inland25mi', narrow = TRUE) %>%
-  #   select(region_id=id_num, year, popsum=val_num) %>%
-  #   mutate(popsum = popsum + 1)
-  #
-  #
-  # rky <-  harvest_tonnes %>%
-  #   left_join(sustainability_score, by = c('region_id', 'species_code'))
-  #
-  # # fill in gaps with no data
-  # rky <- spread(rky, year, tonnes)
-  # rky <- gather(rky, "year", "tonnes", 4:dim(rky)[2])
-  #
-  #
-  # # 4-year rolling mean of data
-  # m <- rky %>%
-  #   mutate(year = as.numeric(as.character(year))) %>%
-  #   group_by(region_id, species_code, sust_coeff) %>%
-  #   arrange(region_id, species_code, year) %>%
-  #   mutate(sm_tonnes = zoo::rollapply(tonnes, 4, mean, na.rm=TRUE, partial=TRUE)) %>%
-  #   ungroup()
-  #
-  # # smoothed mariculture harvest * sustainability coefficient
-  # m <- m %>%
-  #   mutate(sust_tonnes = sust_coeff * sm_tonnes)
-  #
-  #
-  # # aggregate all weighted timeseries per region, and divide by coastal human population
-  # ry <- m %>%
-  #   group_by(region_id, year) %>%
-  #   summarize(sust_tonnes_sum = sum(sust_tonnes, na.rm=TRUE)) %>%  #na.rm = TRUE assumes that NA values are 0
-  #   left_join(popn_inland25mi, by = c('region_id','year')) %>%
-  #   mutate(mar_pop = sust_tonnes_sum / popsum) %>%
-  #   ungroup()
-  #
-  #
-  # # get reference quantile based on argument years
-  # ref_95pct_data <- ry %>%
-  #   filter(year <= scenario)
-  #
-  # ref_95pct <- quantile(ref_95pct_data$mar_pop, 0.95, na.rm=TRUE)
-  #
-  # # identify reference region_id
-  # ry_ref = ref_95pct_data %>%
-  #   arrange(mar_pop) %>%
-  #   filter(mar_pop >= ref_95pct)
-  # message(sprintf('95th percentile for MAR ref pt is: %s\n', ref_95pct)) # region_id 25 = Thailand
-  # message(sprintf('95th percentile region_id for MAR ref pt is: %s\n', ry_ref$region_id[1])) # region_id 25 = Thailand
-  #
-  # rp <- read.csv('temp/referencePoints.csv', stringsAsFactors=FALSE) %>%
-  #   rbind(data.frame(goal = "MAR", method = "spatial 95th quantile",
-  #                    reference_point = paste0("region id: ", ry_ref$region_id[1], ' value: ', ref_95pct)))
-  # write.csv(rp, 'temp/referencePoints.csv', row.names=FALSE)
-  #
-  #
-  # ry = ry %>%
-  #   mutate(status = ifelse(mar_pop / ref_95pct > 1,
-  #                          1,
-  #                          mar_pop / ref_95pct))
-  # status <- ry %>%
-  #   filter(year == scenario) %>%
-  #   select(region_id, status) %>%
-  #   mutate(status = round(status*100, 2))
-  #
-  # trend_years <- (scenario-4):(scenario)
-  # first_trend_year <- min(trend_years)
-  #
-  # # get MAR trend
-  # trend = ry %>%
-  #   group_by(region_id) %>%
-  #   filter(year %in% trend_years) %>%
-  #   filter(!is.na(popsum)) %>%
-  #   do(mdl = lm(status ~ year, data=.),
-  #      adjust_trend = .$status[.$year == first_trend_year]) %>%
-  #   summarize(region_id, trend = ifelse(coef(mdl)['year']==0, 0, coef(mdl)['year']/adjust_trend * 5)) %>%
-  #   ungroup()
-  #
-  # trend <- trend %>%
-  #   mutate(trend = ifelse(trend>1, 1, trend)) %>%
-  #   mutate(trend = ifelse(trend<(-1), (-1), trend)) %>%
-  #   mutate(trend = round(trend, 4)) %>%
-  #   select(region_id = region_id, score = trend) %>%
-  #   mutate(dimension = "trend")
-  #
-  # # return scores
-  # scores_mar = status %>%
-  #   select(region_id = region_id,
-  #          score     = status) %>%
-  #   mutate(dimension='status') %>%
-  #   rbind(trend) %>%
-  #   mutate(goal='MAR')
-  #
-  # return(scores_mar)
-  return(data.frame(goal = 'MAR',
-                    region_id = rep(c(1:8), 2),
-                    dimension = c(rep('status', 8), rep('trend', 8)),
-                    score = rep(NA, 16)))
+
+  status_year <- layers$data$status_year
+  data_year <- get_data_year('MAR', status_year, layers)
+  year_span <- layers$data$year_span
+
+  mar_harvest   <- layers$data[['mar_harvest_tonnes']] %>%
+    select(-layer)
+  mar_areas     <- layers$data[['mar_tenure_areas']] %>%
+    select(-layer)
+  mar_potential <- layers$data[['mar_potential']] %>%
+    select(-layer)
+
+  mar_all <- mar_areas %>%
+    left_join(mar_potential, by = c('rgn_id', 'aq_type')) %>%
+    left_join(mar_harvest, by = c('rgn_id', 'aq_type')) %>%
+    mutate(ref_pt = area_km2 * potential) %>%
+    left_join(get_rgn_names(), by = 'rgn_id') %>%
+    filter(source == 'dfo')
+
+  mar_f_df <- mar_all %>%
+    filter(aq_type == 'finfish') %>%
+    select(year, region_id = rgn_id, harvest_tonnes, ref, ref_pt, aq_type)
+
+  mar_f_score <- mar_f_df %>%
+    spread(key = ref, value = ref_pt) %>%
+    mutate(f_score = harvest_tonnes / lowR_prod,
+           f_score = ifelse(harvest_tonnes > lowR_prod, 1, f_score),
+           f_score = ifelse(harvest_tonnes > highR_prod, (1 - (harvest_tonnes - highR_prod) / (max_prod - highR_prod) ), f_score),
+           f_score = ifelse(harvest_tonnes > max_prod, 0, f_score)) %>%
+    select(region_id, year, score = f_score, harvest_tonnes, aq_type) %>%
+    filter(!is.na(score)) %>%
+    complete_years(year_span, method = 'zero')
+
+
+  mar_b_df <- mar_all %>%
+    filter(aq_type == 'shellfish') %>%
+    select(year, region_id = rgn_id, ref, harvest_tonnes, ref_pt, aq_type)
+
+  mar_b_score <- mar_b_df %>%
+    spread(key = ref, value = ref_pt) %>%
+    mutate(b_score = harvest_tonnes / lowR_prod,
+           b_score = ifelse(harvest_tonnes > lowR_prod, 1, b_score)) %>%
+    select(region_id, year, score = b_score, harvest_tonnes, aq_type) %>%
+    filter(!is.na(score)) %>%
+    complete_years(year_span, method = 'zero')
+
+  mar_status <- bind_rows(mar_f_score, mar_b_score) %>%
+    group_by(region_id, year) %>%
+    mutate() %>%
+    summarize(score_wt    = sum(score * harvest_tonnes, na.rm = TRUE),
+              harvest_tot = sum(harvest_tonnes, na.rm = TRUE),
+              score = ifelse(harvest_tot > 0, score_wt / harvest_tot, 0),
+              score = round(100 * score, 5)) %>%
+    ungroup() %>%
+    select(region_id, year, score) %>%
+    mutate(goal = 'MAR',
+           dimension = 'status')
+
+  ## reference points
+  write_ref_pts(goal   = "MAR",
+                method = "XXXXXXXX",
+                ref_pt = NA)
+
+  ### prepare scores (status and trend) for current status year
+
+  trend_years <- (data_year - 4) : data_year
+  mar_trend   <- calc_trend(mar_status, trend_years)
+
+  mar_scores <- mar_status %>%
+    filter(!is.na(region_id)) %>%
+    filter(year == data_year) %>%
+    bind_rows(mar_trend) %>%
+    select(region_id, goal, dimension, score)
+
+  return(mar_scores)
+
 }
 
 FP <- function(layers, scores) {
@@ -544,7 +537,7 @@ AO <- function(layers) {
   ### Licenses:
   ### * prop of licenses allocated to FNs, with some level (25%?) as target?
   ### * no net loss vs some rolling average?
-  license_ref_pt <- .25 ### arbitrary at this point; how should we consider ref pt?
+  license_ref_pt <- max(licenses$pct_fn, na.rm = TRUE)
   license_status <- licenses %>%
     complete_years(year_span) %>%
     mutate(status = pct_fn / license_ref_pt,
