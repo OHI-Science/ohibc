@@ -1,0 +1,182 @@
+taxon_key,taxon_scientific_name,taxon_common_name,stockid,stocklong,scientificname,match
+600107,Katsuwonus pelamis,Skipjack tuna,SKJCWPAC,Skipjack tuna Central Western Pacific,Katsuwonus pelamis,NA
+600256,Thaleichthys pacificus,Eulachon,EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,Thaleichthys pacificus,NA
+600308,Gadus macrocephalus,Pacific cod,PCOD5AB,Pacific cod Queen Charlotte Sound,Gadus macrocephalus,NA
+600308,Gadus macrocephalus,Pacific cod,PCODHS,Pacific cod Hecate Strait,Gadus macrocephalus,NA
+600308,Gadus macrocephalus,Pacific cod,PCODWCVANI,Pacific cod West Coast of Vancouver Island,Gadus macrocephalus,NA
+600504,Sebastes alutus,Pacific ocean perch,PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,Sebastes alutus,NA
+600504,Sebastes alutus,Pacific ocean perch,PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,Sebastes alutus,NA
+600509,Ophiodon elongatus,Lingcod,LINGCODSOG,Lingcod Strait of Georgia,Ophiodon elongatus,NA
+600512,Anoplopoma fimbria,Sablefish,SABLEFPCAN,Sablefish Pacific Coast of Canada,Anoplopoma fimbria,NA
+600514,Hippoglossus stenolepis,Pacific halibut,PHALNPAC,Pacific halibut North Pacific,Hippoglossus stenolepis,NA
+601477,Sardinops sagax,Pacific sardine,SARDBC,Pacific sardine British Columbia,Sardinops sagax,NA
+601520,Clupea pallasii,Pacific herring,HERRCC,Pacific herring Central Coast,Clupea pallasii,NA
+601520,Clupea pallasii,Pacific herring,HERRPRD,Pacific herring Prince Rupert District,Clupea pallasii,NA
+601520,Clupea pallasii,Pacific herring,HERRQCI,Pacific herring Queen Charlotte Islands,Clupea pallasii,NA
+601520,Clupea pallasii,Pacific herring,HERRSOG,Pacific herring Straight of Georgia,Clupea pallasii,NA
+601520,Clupea pallasii,Pacific herring,HERRWCVANI,Pacific herring West Coast of Vancouver Island,Clupea pallasii,NA
+603987,Sebastes paucispinis,Bocaccio rockfish,BOCACCBCW,Bocaccio British Columbia Waters,Sebastes paucispinis,NA
+603989,Sebastes pinniger,Canary rockfish,CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,Sebastes pinniger,NA
+604248,Parophrys vetulus,English sole,ESOLEHS,English sole Hecate Strait,Parophrys vetulus,NA
+614290,Thunnus orientalis,Pacific bluefin tuna,PACBTUNA,Pacific bluefin tuna Pacific Ocean,Thunnus orientalis,NA
+624237,Lepidopsetta bilineata,Rock sole,RSOLE5AB,Rock sole Queen Charlotte Sound,Lepidopsetta bilineata,NA
+624237,Lepidopsetta bilineata,Rock sole,RSOLEHSTR,Rock sole Hecate Strait,Lepidopsetta bilineata,NA
+500108,Raja,"Stingrays, skates",BIGSKA3CD,Big skate West Coast Vancouver Island,Raja binoculata,NA
+500108,Raja,"Stingrays, skates",BIGSKA4B,Big skate Strait of Georgia,Raja binoculata,NA
+500108,Raja,"Stingrays, skates",BIGSKA5AB,Big skate Queen Charlotte Sound,Raja binoculata,NA
+500108,Raja,"Stingrays, skates",BIGSKA5CDE,Big skate Hecate Strait,Raja binoculata,NA
+500108,Raja,"Stingrays, skates",LNOSESKA3CD,Longnose skate West Coast Vancouver Island,Raja rhina,NA
+500108,Raja,"Stingrays, skates",LNOSESKA4B,Longnose Skate Strait of Georgia,Raja rhina,NA
+500108,Raja,"Stingrays, skates",LNOSESKA5AB,Longnose Skate Queen Charlotte Sound,Raja rhina,NA
+500108,Raja,"Stingrays, skates",LNOSESKA5CDE,Longnose skate Hecate Strait,Raja rhina,NA
+501135,Sebastes,Redfishes,BOCACCBCW,Bocaccio British Columbia Waters,Sebastes paucispinis,NA
+501135,Sebastes,Redfishes,CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,Sebastes pinniger,NA
+501135,Sebastes,Redfishes,PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,Sebastes alutus,NA
+501135,Sebastes,Redfishes,PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,Sebastes alutus,NA
+501135,Sebastes,Redfishes,QROCKPCOASTIN,Quillback rockfish Pacific Coast of Canada (Inside),Sebastes maliger,NA
+501135,Sebastes,Redfishes,QROCKPCOASTOUT,Quillback rockfish Pacific Coast of Canada (Outside),Sebastes maliger,NA
+501135,Sebastes,Redfishes,YEYEROCKPCOASTIN,Yelloweye rockfish Pacific Coast of Canada (Inside),Sebastes ruberrimus,NA
+590093,Pandalus,Seabed shrimps,PANDALSMA14,Northern shrimp SMA 14,Pandalus borealis,NA
+590093,Pandalus,Seabed shrimps,PANDALSMA16,Northern shrimp SMA 16,Pandalus borealis,NA
+590093,Pandalus,Seabed shrimps,PANDALSMA18-19,Northern shrimp SMA 18-19,Pandalus borealis,NA
+590093,Pandalus,Seabed shrimps,PANDALSMAFR,Northern shrimp SMA FR,Pandalus borealis,NA
+590093,Pandalus,Seabed shrimps,PANDALSMAGTSE,Northern shrimp SMA GTSE,Pandalus borealis,NA
+590093,Pandalus,Seabed shrimps,PANDALSMAPRD,Northern shrimp SMA PRD,Pandalus borealis,NA
+100039,Marine fishes not identified,Marine fishes nei,NA,NA,NA,none
+100047,Miscellaneous marine crustaceans,"Marine crabs, shrimps, lobsters nei",NA,NA,NA,none
+100077,Miscellaneous aquatic invertebrates,Aquatic invertebrates,NA,NA,NA,none
+100139,Marine finfishes not identified,Finfishes,NA,NA,NA,none
+100239,Marine groundfishes not identified,Groundfishes,NA,NA,NA,none
+100339,Marine pelagic fishes not identified,Pelagic fishes,NA,NA,NA,none
+190195,Mollusca,"Clams, seasnails, squids, octopuses",NA,NA,NA,none
+200004,Elasmobranchii,"Sharks, rays, skates",NA,NA,NA,none
+200538,Chondrichthyes,"Sharks, rays, chimaeras",NA,NA,NA,none
+290002,Cephalopoda,"Squids, cuttlefishes, octopuses",NA,NA,NA,none
+290004,Bivalvia,Clams,NA,NA,NA,none
+290013,Scyphozoa,True jellyfishes,NA,NA,NA,none
+290022,Malacostraca,"Lobsters, crabs, shrimps, krill",NA,NA,NA,none
+300014,Rajiformes,Skates and rays,NA,NA,NA,none
+300028,Clupeiformes,"Herrings, shads, anchovies",NA,NA,NA,none
+300044,Gadiformes,Cods,NA,NA,NA,none
+300059,Scorpaeniformes,"Scorpionfishes, flatheads",NA,NA,NA,none
+300060,Perciformes,Perch-likes,NA,NA,NA,none
+300061,Pleuronectiformes,Flatfishes,NA,NA,NA,none
+390002,Teuthida,Squids,NA,NA,NA,none
+390007,Octopoda,"Octopuses, argonauts",NA,NA,NA,none
+390013,Decapoda,"Crabs, lobsters, shrimps",NA,NA,NA,none
+400009,Lamnidae,Mackerel/white sharks,NA,NA,NA,none
+400019,Rajidae,Stingrays,NA,NA,NA,none
+400043,Clupeidae,"Herrings, sardines, menhadens",NA,NA,NA,none
+400076,Salmonidae,Salmonids,NA,NA,NA,none
+400080,Osmeridae,Smelts,NA,NA,NA,none
+400183,Gadidae,"Cods, haddocks",NA,NA,NA,none
+400271,Hexagrammidae,Greenlings,NA,NA,NA,none
+400277,Cottidae,Sculpins,NA,NA,NA,none
+400314,Carangidae,"Jacks, pompanos",NA,NA,NA,none
+400402,Ammodytidae,Sand lances,NA,NA,NA,none
+400416,Scombridae,"Mackerels, tunas, bonitos",NA,NA,NA,none
+400440,Pleuronectidae,Righteye flounders,NA,NA,NA,none
+400454,Engraulidae,"Anchovies, round herrings",NA,NA,NA,none
+400488,Triakidae,Houndsharks,NA,NA,NA,none
+400573,Sebastidae,"Rockfishes, rockcods, thornyheads",NA,NA,NA,none
+490012,Octopodidae,Octopuses,NA,NA,NA,none
+490036,Lithodidae,Stone/king crabs,NA,NA,NA,none
+490043,Penaeidae,Commercial shrimps and prawns,NA,NA,NA,none
+490046,Pandalidae,Northern shrimps,NA,NA,NA,none
+490058,Cardiidae,Cockles,NA,NA,NA,none
+490060,Veneridae,Venus clams,NA,NA,NA,none
+490061,Solenidae,"Razor, knife clams",NA,NA,NA,none
+490097,Brachyura,Marine crabs,NA,NA,NA,none
+490143,Ostreidae,True oysters,NA,NA,NA,none
+500124,Ammodytes,Sand eels,NA,NA,NA,none
+500638,Isurus,Mako sharks,NA,NA,NA,none
+500717,Myoxocephalus,Grubbies and sculpins,NA,NA,NA,none
+502224,Porichthys,Midshipman,NA,NA,NA,none
+502724,Oncorhynchus,"Salmons, trouts",NA,NA,NA,none
+506253,Coregonus,Whitefishes,NA,NA,NA,none
+590010,Loligo,Common squids,NA,NA,NA,none
+590014,Crassostrea,Cupped oysters,NA,NA,NA,none
+590046,Haliotis,Abalones,NA,NA,NA,none
+590065,Chionoecetes,"Tanner, snow crabs",NA,NA,NA,none
+590112,Ostrea,Flat oysters,NA,NA,NA,none
+590158,Strongylocentrotus,Sickle-arched sea urchins,NA,NA,NA,none
+590269,Tresus,Gaper clams,NA,NA,NA,none
+600117,Scomber japonicus,Chub mackerel,NA,NA,NA,none
+600239,Oncorhynchus mykiss,Rainbow trout,NA,NA,NA,none
+600240,Oncorhynchus gorbuscha,Pink salmon,NA,NA,NA,none
+600241,Oncorhynchus keta,Chum salmon,NA,NA,NA,none
+600243,Oncorhynchus nerka,Sockeye salmon,NA,NA,NA,none
+600244,Oncorhynchus tshawytscha,Chinook salmon,NA,NA,NA,none
+600245,Oncorhynchus kisutch,Coho salmon,NA,NA,NA,none
+600252,Mallotus villosus,Capelin,NA,NA,NA,none
+600255,Hypomesus pretiosus,Surf smelt,NA,NA,NA,none
+600303,Cololabis saira,Pacific saury,NA,NA,NA,none
+600318,Theragra chalcogramma,Alaska pollock,NA,NA,NA,none
+600368,Trachurus symmetricus,Pacific jack mackerel,NA,NA,NA,none
+600502,Sebastes entomelas,Widow rockfish,NA,NA,NA,none
+600503,Sebastes flavidus,Yellowtail rockfish,NA,NA,NA,none
+600516,Reinhardtius hippoglossoides,Greenland halibut,NA,NA,NA,none
+600517,Atheresthes stomias,Arrowtooth flounder,NA,NA,NA,none
+600518,Atheresthes evermanni,Kamchatka flounder,NA,NA,NA,none
+600519,Hippoglossoides elassodon,Flathead sole,NA,NA,NA,none
+600520,Limanda aspera,Yellowfin sole,NA,NA,NA,none
+600752,Isurus oxyrinchus,Shortfin mako,NA,NA,NA,none
+600898,Prionace glauca,Blue shark,NA,NA,NA,none
+601584,Alosa sapidissima,American shad,NA,NA,NA,none
+601664,Engraulis mordax,Californian anchovy,NA,NA,NA,none
+601732,Mola mola,Ocean sunfish,NA,NA,NA,none
+601879,Microgadus proximus,Pacific tomcod,NA,NA,NA,none
+602535,Alopias vulpinus,Thresher,NA,NA,NA,none
+602544,Somniosus pacificus,Pacific sleeper shark,NA,NA,NA,none
+602570,Raja stellulata,Starry skate,NA,NA,NA,none
+602589,Hydrolagus colliei,Spotted ratfish,NA,NA,NA,none
+602676,Coregonus pidschian,Humpback whitefish,NA,NA,NA,none
+602678,Coregonus sardinella,Sardine cisco,NA,NA,NA,none
+602691,Salvelinus malma malma,Dolly varden,NA,NA,NA,none
+603578,Atractoscion nobilis,White weakfish,NA,NA,NA,none
+603962,Sebastes crameri,Darkblotched rockfish,NA,NA,NA,none
+603971,Sebastes goodei,Chilipepper rockfish,NA,NA,NA,none
+603979,Sebastes melanops,Black rockfish,NA,NA,NA,none
+604009,Sebastolobus alascanus,Shortspine thornyhead,NA,NA,NA,none
+604037,Pleurogrammus monopterygius,Atka mackerel,NA,NA,NA,none
+604140,Scorpaenichthys marmoratus,Cabezon,NA,NA,NA,none
+604215,Citharichthys sordidus,Pacific sanddab,NA,NA,NA,none
+604237,Eopsetta jordani,Petrale sole,NA,NA,NA,none
+604238,Glyptocephalus zachirus,Rex sole,NA,NA,NA,none
+604247,Microstomus pacificus,Dover sole,NA,NA,NA,none
+604249,Platichthys stellatus,Starry flounder,NA,NA,NA,none
+604250,Pleuronectes quadrituberculatus,Alaska plaice,NA,NA,NA,none
+604252,Pleuronichthys decurrens,Curlfin sole,NA,NA,NA,none
+604255,Psettichthys melanostictus,Pacific sand sole,NA,NA,NA,none
+604642,Galeorhinus galeus,Tope shark,NA,NA,NA,none
+604796,Sarda chiliensis lineolata,Pacific bonito,NA,NA,NA,none
+690064,Saxidomus gigantea,Butter clam,NA,NA,NA,none
+690115,Metacarcinus magister,Dungeness crab,NA,NA,NA,none
+690283,Crassostrea gigas,Pacific cupped oyster,NA,NA,NA,none
+690284,Panopea abrupta,Pacific geoduck,NA,NA,NA,none
+690285,Leukoma staminea,Pacific littleneck clam,NA,NA,NA,none
+690286,Siliqua patula,Pacific razor clam,NA,NA,NA,none
+690287,Cancer productus,Pacific rock crab,NA,NA,NA,none
+690337,Mya arenaria,Sand gaper,NA,NA,NA,none
+690429,Patinopecten caurinus,Weathervane scallop,NA,NA,NA,none
+690608,Erimacrus isenbeckii,Hair Crab,NA,NA,NA,none
+690621,Paralithodes camtschaticus,Red king crab,NA,NA,NA,none
+690651,Clinocardium nuttallii,Nuttall cockle,NA,NA,NA,none
+690658,Doryteuthis opalescens,California market squid,NA,NA,NA,none
+690660,Pandalus jordani,Ocean shrimp,NA,NA,NA,none
+690665,Upogebia pugettensis,Blue mud shrimp,NA,NA,NA,none
+690891,Enteroctopus dofleini,North Pacific giant octopus,NA,NA,NA,none
+NA,NA,NA,ALBANPAC,Albacore tuna North Pacific,Thunnus alalunga,none
+NA,NA,NA,BIGEYECWPAC,Bigeye tuna Central Western Pacific,Thunnus obesus,none
+NA,NA,NA,BIGEYEEPAC,Bigeye tuna Eastern Pacific,Thunnus obesus,none
+NA,NA,NA,BMARLINPAC,Blue marlin Pacific Ocean,Makaira nigricans,none
+NA,NA,NA,SSHRIMPSMAGTSE,Sidestripe shrimp SMA GTSE,Pandalopsis dispar,none
+NA,NA,NA,SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,Pandalopsis dispar,none
+NA,NA,NA,SSSHRIMPSMA14,Sidestripe shrimp SMA 14,Pandalopsis dispar,none
+NA,NA,NA,SSSHRIMPSMA16,Sidestripe shrimp SMA 16,Pandalopsis dispar,none
+NA,NA,NA,SSSHRIMPSMA18-19,Sidestripe shrimp SMA 18-19,Pandalopsis dispar,none
+NA,NA,NA,SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,Pandalopsis dispar,none
+NA,NA,NA,SWORDEPAC,Swordfish Eastern Pacific,Xiphias gladius,none
+NA,NA,NA,SWORDNPAC,Swordfish North Pacific,Xiphias gladius,none
+NA,NA,NA,YFINCWPAC,Yellowfin tuna Central Western Pacific,Thunnus albacares,none
+NA,NA,NA,YFINEPAC,Yellowfin tuna Eastern Pacific,Thunnus albacares,none

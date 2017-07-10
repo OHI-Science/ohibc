@@ -1,0 +1,54 @@
+assessid,stockid,stocklong,scientificname,FisheryType,region,areaid,areaname
+ISC-ALBANPAC-1950-2012-PONS,ALBANPAC,Albacore tuna North Pacific,Thunnus alalunga,Tuna and Marlin,US West Coast,Multinational-ISC-NPAC,North Pacific Ocean
+SPC-BIGEYECWPAC-1952-2012-PONS,BIGEYECWPAC,Bigeye tuna Central Western Pacific,Thunnus obesus,Tuna and Marlin,Pacific Ocean,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+IATTC-BIGEYEEPAC-1954-2012-PONS,BIGEYEEPAC,Bigeye tuna Eastern Pacific,Thunnus obesus,Tuna and Marlin,Pacific Ocean,multinational-IATTC-EPAC,Eastern Pacific
+DFO-PAC-BIGSKA3CD-1954-2011-OSGOOD,BIGSKA3CD,Big skate West Coast Vancouver Island,Raja binoculata,Sharks Rays and Skates,Canada West Coast,Canada-DFO-WCVANI,West Coast of Vancouver Island
+DFO-PAC-BIGSKA4B-1996-2011-OSGOOD,BIGSKA4B,Big skate Strait of Georgia,Raja binoculata,Sharks Rays and Skates,Canada West Coast,Canada-DFO-SOG,Straight of Georgia
+DFO-PAC-BIGSKA5AB-1954-2011-OSGOOD,BIGSKA5AB,Big skate Queen Charlotte Sound,Raja binoculata,Sharks Rays and Skates,Canada West Coast,Canada-DFO-5AB,Queen Charlotte Sound
+DFO-PAC-BIGSKA5CDE-1954-2011-OSGOOD,BIGSKA5CDE,Big skate Hecate Strait,Raja binoculata,Sharks Rays and Skates,Canada West Coast,Canada-DFO-HS,Hecate Strait
+ISC-BMARLINPAC-1952-2011-PONS,BMARLINPAC,Blue marlin Pacific Ocean,Makaira nigricans,Tuna and Marlin,Pacific Ocean,Multinational-ISC-PAC,Pacific Ocean
+DFO-PAC-BOCACCBCW-1935-2012-CHING,BOCACCBCW,Bocaccio British Columbia Waters,Sebastes paucispinis,Rockfish,Canada West Coast,Canada-DFO-BCW,British Columbia Waters
+DFO-CROCKWCVANISOGQCI-1945-2009-STANTON,CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,Sebastes pinniger,Rockfish,Canada West Coast,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
+DFO-PAC-ESOLEHS-1944-2001-COLLIE,ESOLEHS,English sole Hecate Strait,Parophrys vetulus,Flatfish,Canada West Coast,Canada-DFO-HS,Hecate Strait
+DFO-EULAPCOASTFRDU-1900-2012-WATSON,EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,Thaleichthys pacificus,Forage Fish,Canada West Coast,Canada-DFO-PCOASTFRDU,Pacific Coast of Canada Fraser River Designatable Unit
+DFO-HERRCC-1951-2015-WATSON,HERRCC,Pacific herring Central Coast,Clupea pallasii,Forage Fish,Canada West Coast,Canada-DFO-CC,Central Coast
+DFO-HERRPRD-1951-2015-WATSON,HERRPRD,Pacific herring Prince Rupert District,Clupea pallasii,Forage Fish,Canada West Coast,Canada-DFO-PRD,Prince Rupert District
+DFO-HERRQCI-1951-2015-WATSON,HERRQCI,Pacific herring Queen Charlotte Islands,Clupea pallasii,Forage Fish,Canada West Coast,Canada-DFO-QCI,Queen Charlotte Islands
+DFO-HERRSOG-1951-2015-WATSON,HERRSOG,Pacific herring Straight of Georgia,Clupea pallasii,Forage Fish,Canada West Coast,Canada-DFO-SOG,Straight of Georgia
+DFO-HERRWCVANI-1951-2015-WATSON,HERRWCVANI,Pacific herring West Coast of Vancouver Island,Clupea pallasii,Forage Fish,Canada West Coast,Canada-DFO-WCVANI,West Coast of Vancouver Island
+DFO-PAC-LINGCODSOG-1927-2014-OSGOOD,LINGCODSOG,Lingcod Strait of Georgia,Ophiodon elongatus,Other Marine,Canada West Coast,Canada-DFO-SOG,Straight of Georgia
+DFO-PAC-LNOSESKA3CD-1954-2011-OSGOOD,LNOSESKA3CD,Longnose skate West Coast Vancouver Island,Raja rhina,Sharks Rays and Skates,Canada West Coast,Canada-DFO-WCVANI,West Coast of Vancouver Island
+DFO-PAC-LNOSESKA4B-1996-2011-OSGOOD,LNOSESKA4B,Longnose Skate Strait of Georgia,Raja rhina,Sharks Rays and Skates,Canada West Coast,Canada-DFO-SOG,Straight of Georgia
+DFO-PAC-LNOSESKA5AB-1954-2012-OSGOOD,LNOSESKA5AB,Longnose Skate Queen Charlotte Sound,Raja rhina,Sharks Rays and Skates,Canada West Coast,Canada-DFO-5AB,Queen Charlotte Sound
+DFO-PAC-LNOSESKA5CDE-1954-2011-OSGOOD,LNOSESKA5CDE,Longnose skate Hecate Strait,Raja rhina,Sharks Rays and Skates,Canada West Coast,Canada-DFO-HS,Hecate Strait
+ISC-PACBTUNA-1952-2012-PONS,PACBTUNA,Pacific bluefin tuna Pacific Ocean,Thunnus orientalis,Tuna and Marlin,Pacific Ocean,Multinational-ISC-PAC,Pacific Ocean
+DFO-PANDALSMA14-1987-2011-WATSON,PANDALSMA14,Northern shrimp SMA 14,Pandalus borealis,Invertebrate,Canada West Coast,Canada-DFO-SMA-14,Shrimp Management Area 14
+DFO-PANDALSMA16-1987-2011-WATSON,PANDALSMA16,Northern shrimp SMA 16,Pandalus borealis,Invertebrate,Canada West Coast,Canada-DFO-SMA-16,Shrimp Management Area 16
+DFO-PANDALSMA18-19-1987-2011-WATSON,PANDALSMA18-19,Northern shrimp SMA 18-19,Pandalus borealis,Invertebrate,Canada West Coast,Canada-DFO-SMA-18-19,Shrimp Management Areas 18 and 19
+DFO-PANDALSMAFR-1987-2011-WATSON,PANDALSMAFR,Northern shrimp SMA FR,Pandalus borealis,Invertebrate,Canada West Coast,Canada-DFO-SMA-FR,Shrimp Management Area FR
+DFO-PANDALSMAGTSE-1990-2012-WATSON,PANDALSMAGTSE,Northern shrimp SMA GTSE,Pandalus borealis,Invertebrate,Canada West Coast,Canada-DFO-SMA-GTSE,Shrimp Management Area GTSE
+DFO-PANDALSMAPRD-1987-2011-WATSON,PANDALSMAPRD,Northern shrimp SMA PRD,Pandalus borealis,Invertebrate,Canada West Coast,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
+DFO-PAC-PCOD5AB-1945-2014-OSGOOD,PCOD5AB,Pacific cod Queen Charlotte Sound,Gadus macrocephalus,Gadids,Canada West Coast,Canada-DFO-5AB,Queen Charlotte Sound
+DFO-PAC-PCODHS-1944-2014-OSGOOD,PCODHS,Pacific cod Hecate Strait,Gadus macrocephalus,Gadids,Canada West Coast,Canada-DFO-HS,Hecate Strait
+DFO-PAC-PCODWCVANI-1956-2002-COLLIE,PCODWCVANI,Pacific cod West Coast of Vancouver Island,Gadus macrocephalus,Gadids,Canada West Coast,Canada-DFO-WCVANI,West Coast of Vancouver Island
+DFO-PERCHQCI-1939-2013-WATSON,PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,Sebastes alutus,Rockfish,Canada West Coast,Canada-DFO-QCI,Queen Charlotte Islands
+DFO-PERCHWCVANI-1939-2013-WATSON,PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,Sebastes alutus,Rockfish,Canada West Coast,Canada-DFO-WCVANI,West Coast of Vancouver Island
+IPHC-PHALNPAC-1888-2014-HIVELY,PHALNPAC,Pacific halibut North Pacific,Hippoglossus stenolepis,Flatfish,US Alaska,multinational-IPHC-NPAC,North Pacific
+DFO-QROCKPCOASTIN-1918-2010-WATSON,QROCKPCOASTIN,Quillback rockfish Pacific Coast of Canada (Inside),Sebastes maliger,Rockfish,Canada West Coast,Canada-DFO-PCOASTIN,Pacific Coast of Canada (Inside)
+DFO-QROCKPCOASTOUT-1918-2010-WATSON,QROCKPCOASTOUT,Quillback rockfish Pacific Coast of Canada (Outside),Sebastes maliger,Rockfish,Canada West Coast,Canada-DFO-PCOASTOUT,Pacific Coast of Canada (Outside)
+DFO-PAC-RSOLE5AB-1944-2014-OSGOOD,RSOLE5AB,Rock sole Queen Charlotte Sound,Lepidopsetta bilineata,Flatfish,Canada West Coast,Canada-DFO-5AB,Queen Charlotte Sound
+DFO-PAC-RSOLEHSTR-1945-2014-OSGOOD,RSOLEHSTR,Rock sole Hecate Strait,Lepidopsetta bilineata,Flatfish,Canada West Coast,Canada-DFO-HS,Hecate Strait
+DFO-PAC-SABLEFPCAN-1913-2010-HIVELY,SABLEFPCAN,Sablefish Pacific Coast of Canada,Anoplopoma fimbria,Other Marine,Canada West Coast,Canada-DFO-PCOAST,Pacific Coast of Canada
+DFO-PAC-SARDBC-2002-2012-OSGOOD,SARDBC,Pacific sardine British Columbia,Sardinops sagax,Forage Fish,Canada West Coast,Canada-DFO-PCOAST,Pacific Coast of Canada
+SPC-SKJCWPAC-1950-2012-PONS,SKJCWPAC,Skipjack tuna Central Western Pacific,Katsuwonus pelamis,Tuna and Marlin,Pacific Ocean,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+DFO-SSHRIMPSMAGTSE-1992-2011-WATSON,SSHRIMPSMAGTSE,Sidestripe shrimp SMA GTSE,Pandalopsis dispar,Invertebrate,Canada West Coast,Canada-DFO-SMA-GTSE,Shrimp Management Area GTSE
+DFO-SSHRIMPSMAPRD-1987-2011-WATSON,SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,Pandalopsis dispar,Invertebrate,Canada West Coast,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
+DFO-SSSHRIMPSMA14-1987-2011-WATSON,SSSHRIMPSMA14,Sidestripe shrimp SMA 14,Pandalopsis dispar,Invertebrate,Canada West Coast,Canada-DFO-SMA-14,Shrimp Management Area 14
+DFO-SSSHRIMPSMA16-1987-2011-WATSON,SSSHRIMPSMA16,Sidestripe shrimp SMA 16,Pandalopsis dispar,Invertebrate,Canada West Coast,Canada-DFO-SMA-16,Shrimp Management Area 16
+DFO-SSSHRIMPSMA18-19-1987-2011-WATSON,SSSHRIMPSMA18-19,Sidestripe shrimp SMA 18-19,Pandalopsis dispar,Invertebrate,Canada West Coast,Canada-DFO-SMA-18-19,Shrimp Management Areas 18 and 19
+DFO-SSSHRIMPSMAFR-1987-2011-WATSON,SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,Pandalopsis dispar,Invertebrate,Canada West Coast,Canada-DFO-SMA-FR,Shrimp Management Area FR
+IATTC-SWORDEPAC-1951-2012-PONS,SWORDEPAC,Swordfish Eastern Pacific,Xiphias gladius,Tuna and Marlin,Pacific Ocean,multinational-IATTC-EPAC,Eastern Pacific
+ISC-SWORDNPAC-1951-2012-PONS,SWORDNPAC,Swordfish North Pacific,Xiphias gladius,Tuna and Marlin,Pacific Ocean,Multinational-ISC-NPAC,North Pacific Ocean
+DFO-YEYEROCKPCOASTIN-1918-2009-WATSON,YEYEROCKPCOASTIN,Yelloweye rockfish Pacific Coast of Canada (Inside),Sebastes ruberrimus,Rockfish,Canada West Coast,Canada-DFO-PCOASTIN,Pacific Coast of Canada (Inside)
+SPC-YFINCWPAC-1952-2012-PONS,YFINCWPAC,Yellowfin tuna Central Western Pacific,Thunnus albacares,Tuna and Marlin,Pacific Ocean,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+IATTC-YFINEPAC-1950-2012-PONS,YFINEPAC,Yellowfin tuna Eastern Pacific,Thunnus albacares,Tuna and Marlin,Pacific Ocean,multinational-IATTC-NEPAC,Northeast Pacific

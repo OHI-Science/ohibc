@@ -1,4 +1,189 @@
-stock_id,stock_name,param,year,value,sciname,dfo_area_id,areaname
+stock_id,stock_name,param,year,value,sciname,ram_area_id,ram_area_name
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1966,2.96,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1967,3.13,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1968,3.18,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1969,3.27,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1970,3.36,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1971,3.42,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1972,3.39,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1973,3.3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1974,3.18,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1975,3.02,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1976,2.95,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1977,2.78,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1978,2.75,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1979,2.51,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1980,2.37,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1981,2.25,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1982,2.16,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1983,2.13,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1984,2.14,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1985,2.02,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1986,1.91,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1987,1.88,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1988,1.83,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1989,1.79,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1990,1.79,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1991,1.84,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1992,1.99,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1993,2.09,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1994,2.26,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1995,2.38,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1996,2.45,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1997,2.47,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1998,2.43,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,1999,2.35,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,2000,2.19,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,2001,2.23,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,2002,2.25,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,2003,2.16,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,2004,2.06,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,2005,1.99,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,2006,2.07,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,2007,2.12,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,2008,2.07,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,2009,2.13,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,2010,2.14,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,2011,2.17,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,B/Bmsy,2012,2.2,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1952,3.25,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1953,3.3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1954,3.33,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1955,3.4,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1956,3.5,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1957,3.49,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1958,3.31,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1959,3.11,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1960,2.96,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1961,2.81,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1962,2.71,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1963,2.64,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1964,2.55,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1965,2.5,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1966,2.43,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1967,2.38,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1968,2.31,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1969,2.2,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1970,2.16,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1971,2.06,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1972,1.91,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1973,1.76,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1974,1.61,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1975,1.48,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1976,1.45,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1977,1.45,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1978,1.45,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1979,1.43,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1980,1.35,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1981,1.34,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1982,1.33,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1983,1.36,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1984,1.38,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1985,1.34,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1986,1.33,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1987,1.29,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1988,1.26,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1989,1.3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1990,1.33,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1991,1.37,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1992,1.39,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1993,1.33,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1994,1.28,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1995,1.22,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1996,1.29,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1997,1.38,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1998,1.36,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,1999,1.3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,2000,1.2,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,2001,1.17,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,2002,1.19,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,2003,1.16,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,2004,1.21,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,2005,1.15,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,2006,1.12,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,2007,1.06,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,2008,1.03,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,2009,0.987,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,2010,0.924,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,B/Bmsy,2011,0.921,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1976,2.84,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1977,2.84,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1978,2.79,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1979,2.78,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1980,2.79,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1981,2.82,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1982,2.99,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1983,3.36,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1984,3.6,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1985,3.44,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1986,3.13,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1987,2.92,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1988,2.82,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1989,2.34,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1990,1.97,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1991,1.75,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1992,1.61,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1993,1.49,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1994,1.44,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1995,1.44,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1996,1.38,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1997,1.41,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1998,1.53,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,1999,1.49,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,2000,1.37,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,2001,1.17,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,2002,1.09,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,2003,1.11,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,2004,1.19,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,2005,1.29,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,2006,1.39,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,2007,1.39,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,2008,1.3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,2009,1.17,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,2010,1.04,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,2011,0.955,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,B/Bmsy,2012,0.945,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1971,3.46,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1972,3.34,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1973,3.23,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1974,3.12,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1975,3.05,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1976,2.9,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1977,2.7,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1978,2.5,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1979,2.4,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1980,2.34,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1981,2.36,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1982,2.33,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1983,2.3,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1984,2.34,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1985,2.36,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1986,2.39,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1987,2.31,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1988,2.14,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1989,2.12,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1990,2.16,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1991,2.23,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1992,2.26,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1993,2.24,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1994,2.14,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1995,2,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1996,1.86,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1997,1.88,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1998,1.84,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,1999,1.86,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,2000,1.78,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,2001,1.65,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,2002,1.5,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,2003,1.34,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,2004,1.19,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,2005,1.17,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,2006,1.11,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,2007,1.12,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,2008,1.18,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,2009,1.21,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,2010,1.18,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,B/Bmsy,2011,1.29,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
 BOCACCBCW,Bocaccio British Columbia Waters,B/Bmsy,1935,1.666348175043,Sebastes paucispinis,Canada-DFO-BCW,British Columbia Waters
 BOCACCBCW,Bocaccio British Columbia Waters,B/Bmsy,1936,1.59373208484617,Sebastes paucispinis,Canada-DFO-BCW,British Columbia Waters
 BOCACCBCW,Bocaccio British Columbia Waters,B/Bmsy,1937,1.52111599464934,Sebastes paucispinis,Canada-DFO-BCW,British Columbia Waters
@@ -142,337 +327,6 @@ CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of
 CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,B/Bmsy,2007,1.16197183098592,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
 CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,B/Bmsy,2008,1.28269617706237,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
 CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,B/Bmsy,2009,1.37323943661972,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1944,1.10787974960042,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1945,1.40387815598221,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1946,1.51804896987233,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1947,1.6956480137014,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1948,1.90284689816866,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1949,1.89438980084346,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1950,1.86056141154269,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1951,1.25165040412872,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1952,1.1290224929134,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1953,0.959880546409523,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1954,0.83725263519421,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1955,0.972566192397314,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1956,0.976794741059911,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1957,0.972566192397314,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1958,0.887995219145374,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1959,0.833024086531613,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1960,0.731538918629284,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1961,0.553939874800209,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1962,0.465140352885672,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1963,0.498968742186448,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1964,0.600453910088777,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1965,0.773824405255254,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1966,0.955651997746926,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1967,1.25165040412872,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1968,1.31930718273027,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1969,1.28970734209209,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1970,1.16285088221418,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1971,0.959880546409523,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1972,0.993708935710299,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1973,1.40387815598221,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1974,1.61953413777466,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1975,1.58570574847388,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1976,1.95781803078242,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1977,1.8394186682297,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1978,1.699876562364,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1979,1.71256220835179,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1980,1.1290224929134,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1981,1.1374795902386,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1982,1.23473620947833,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1983,1.46730638592117,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1984,1.40387815598221,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1985,1.17553652820197,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1986,1.34467847470585,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1987,1.52227751853493,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1988,1.38273541266922,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1989,1.75484769497776,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1990,1.72101930567699,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1991,1.57302010248609,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1992,1.68296236771361,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1993,2.04238900403436,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1994,1.95358948211982,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1995,1.91976109281905,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1996,1.65336252707543,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1997,2.32993031309096,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1998,1.2727931474417,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,1999,1.22627911215314,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,2000,1.31507863406767,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-ESOLEHS,English sole Hecate Strait,B/Bmsy,2001,1.44193509394558,Parophrys vetulus,Canada-DFO-HS,Hecate Strait
-EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,B/Bmsy,2000,0.409193363957981,Thaleichthys pacificus,Canada-DFO-PCOASTFRDU,Pacific Coast of Canada Fraser River Designatable Unit
-EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,B/Bmsy,2001,1.0370935258935,Thaleichthys pacificus,Canada-DFO-PCOASTFRDU,Pacific Coast of Canada Fraser River Designatable Unit
-EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,B/Bmsy,2002,2.42341242275115,Thaleichthys pacificus,Canada-DFO-PCOASTFRDU,Pacific Coast of Canada Fraser River Designatable Unit
-EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,B/Bmsy,2003,4.55051240953272,Thaleichthys pacificus,Canada-DFO-PCOASTFRDU,Pacific Coast of Canada Fraser River Designatable Unit
-EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,B/Bmsy,2004,4.40941124954721,Thaleichthys pacificus,Canada-DFO-PCOASTFRDU,Pacific Coast of Canada Fraser River Designatable Unit
-EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,B/Bmsy,2005,1.31224078786525,Thaleichthys pacificus,Canada-DFO-PCOASTFRDU,Pacific Coast of Canada Fraser River Designatable Unit
-EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,B/Bmsy,2006,1.18172221487865,Thaleichthys pacificus,Canada-DFO-PCOASTFRDU,Pacific Coast of Canada Fraser River Designatable Unit
-EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,B/Bmsy,2007,0.53618440794494,Thaleichthys pacificus,Canada-DFO-PCOASTFRDU,Pacific Coast of Canada Fraser River Designatable Unit
-EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,B/Bmsy,2008,0.437413595955083,Thaleichthys pacificus,Canada-DFO-PCOASTFRDU,Pacific Coast of Canada Fraser River Designatable Unit
-EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,B/Bmsy,2009,1.59444310783627,Thaleichthys pacificus,Canada-DFO-PCOASTFRDU,Pacific Coast of Canada Fraser River Designatable Unit
-EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,B/Bmsy,2010,1.57680546283808,Thaleichthys pacificus,Canada-DFO-PCOASTFRDU,Pacific Coast of Canada Fraser River Designatable Unit
-EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,B/Bmsy,2011,3.20299633167109,Thaleichthys pacificus,Canada-DFO-PCOASTFRDU,Pacific Coast of Canada Fraser River Designatable Unit
-EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,B/Bmsy,2012,1.68263133282721,Thaleichthys pacificus,Canada-DFO-PCOASTFRDU,Pacific Coast of Canada Fraser River Designatable Unit
-HERRCC,Pacific herring Central Coast,B/Bmsy,1951,3.35501301322566,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1952,2.00803741828617,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1953,1.84898494951103,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1954,1.95087793732011,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1955,1.64768416871749,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1956,1.83904417021258,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1957,1.19786390546279,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1958,1.19289351581357,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1959,1.43395741380089,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1960,1.12330806072444,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1961,1.92105559942477,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1962,2.10496001644603,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1963,2.55975066934995,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1964,1.60792105152371,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1965,1.00153351431847,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1966,2.20933819907971,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1967,1.24756780195502,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1968,0.57408000448528,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1969,0.785321564577266,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1970,1.20283429511201,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1971,1.40662027073017,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1972,1.63028780494521,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1973,1.69987326003433,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1974,1.64519897389288,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1975,1.55324676538225,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1976,1.36437195871177,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1977,1.29727169844726,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1978,1.09100052800449,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1979,2.12981196469214,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1980,2.68401041058053,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1981,2.88282599654946,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1982,2.80827015181111,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1983,2.19939741978127,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1984,1.93845196319705,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1985,1.69490287038511,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1986,1.53336520678536,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1987,2.13229715951675,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1988,2.05277092512918,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1989,1.63525819459443,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1990,1.37928312765944,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1991,1.77194390994807,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1992,1.78934027372035,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1993,1.62531741529599,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1994,1.30224208809648,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1995,1.00153351431847,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1996,1.34200520529026,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1997,1.55324676538225,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1998,1.50851325853924,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,1999,1.4364426086255,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2000,1.26744936055192,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2001,1.113367281426,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2002,1.33703481564104,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2003,1.33454962081643,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2004,1.44389819309934,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2005,1.05869299528454,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2006,0.812658707647993,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2007,0.551713251063775,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2008,0.782836369752654,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2009,0.653606238872851,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2010,0.812658707647993,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2011,0.519405718343824,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2012,0.593961563082172,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2013,0.733132473260422,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2014,1.06863377458299,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRCC,Pacific herring Central Coast,B/Bmsy,2015,1.21526026923507,Clupea pallasii,Canada-DFO-CC,Central Coast
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1951,0.65359645694511,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1952,0.756795897515391,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1953,2.16432160084894,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1954,2.76631833750891,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1955,2.92398414949128,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1956,2.95265066076081,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1957,0.966061429782904,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1958,0.765395850896248,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1959,0.776862455404057,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1960,1.07786082373404,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1961,1.94358946407362,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1962,2.76058503525501,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1963,2.53411959622578,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1964,1.77159039645648,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1965,1.68845751377487,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1966,0.470130784820167,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1967,0.346864786361221,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1968,0.3841312510116,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1969,0.450064226931501,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1970,0.805528966673579,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1971,1.10366068387661,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1972,1.60532463109325,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1973,2.00092248661266,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1974,2.35065392410084,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1975,1.7887903032182,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1976,1.7285906295522,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1977,1.45625877249174,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1978,1.18679356655823,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1979,2.5570528052414,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1980,2.69178540820815,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1981,2.74625177962024,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1982,2.27325434367313,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1983,2.89531763822176,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1984,2.52838629397187,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1985,2.1069885783099,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1986,1.68559086264792,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1987,2.33058736621217,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1988,2.19298811211846,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1989,1.94358946407362,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1990,1.46485872587259,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1991,1.31292621614413,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1992,0.963194778655952,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1993,0.624929945675588,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1994,0.472997435947119,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1995,0.808395617800531,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1996,1.020527801195,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1997,1.95792271970838,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1998,1.19252686881213,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,1999,0.874328593720433,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2000,0.624929945675588,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2001,0.530330458486164,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2002,0.880061895974337,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2003,0.590530132152161,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2004,0.693729572722442,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2005,0.487330691581881,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2006,0.656463108072063,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2007,0.507397249470546,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2008,0.696596223849394,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2009,0.464397482566263,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2010,0.647863154691206,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2011,0.590530132152161,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2012,1.25272654247813,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2013,1.00906119668719,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2014,0.971794732036809,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRQCI,Pacific herring Queen Charlotte Islands,B/Bmsy,2015,0.779729106531009,Clupea pallasii,Canada-DFO-QCI,Queen Charlotte Islands
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1951,1.74977009494204,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1952,1.79510092641723,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1953,1.70443926346686,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1954,2.52946039631518,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1955,2.19401224339883,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1956,1.56844676904131,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1957,1.09700612169942,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1958,1.06074145651927,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1959,1.54124827015621,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1960,1.55938060274628,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1961,1.62284376681153,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1962,1.84949792418745,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1963,1.99455658490803,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1964,1.93109342084278,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1965,1.32366027907533,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1966,0.997278292454015,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1967,0.833180682513855,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1968,0.5711684765873,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1969,0.877604897359533,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1970,1.11513845428949,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1971,1.10607228799445,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1972,0.988212126158979,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1973,1.06074145651927,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1974,1.30552794648526,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1975,1.21486628353489,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1976,1.4415204409108,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1977,1.89482875566263,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1978,1.65910843199168,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1979,1.78603476012219,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1980,1.62284376681153,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1981,1.74977009494204,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1982,1.53218210386117,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1983,1.21486628353489,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1984,1.1423369531746,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1985,1.48685127238599,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1986,1.3417926116654,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1987,1.70443926346686,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1988,1.42338810832073,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1989,1.65004226569664,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1990,1.56844676904131,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1991,2.19401224339883,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1992,2.36626940300453,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1993,2.59292356038044,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1994,1.96735808602292,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1995,2.07615208156336,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1996,2.42066640077475,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1997,2.31187240523431,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1998,1.8132332590073,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,1999,1.78603476012219,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2000,1.96735808602292,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2001,2.53852656261022,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2002,2.62012205926555,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2003,2.41160023447971,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2004,2.02175508379314,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2005,1.94015958713781,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2006,1.98549041861299,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2007,1.47778510609095,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2008,1.29646178019022,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2009,1.09700612169942,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2010,1.33272644537037,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2011,1.49591743868102,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2012,1.5140497712711,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2013,1.75883626123708,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2014,1.67724076458175,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRSOG,Pacific herring Straight of Georgia,B/Bmsy,2015,2.10335058044847,Clupea pallasii,Canada-DFO-SOG,Straight of Georgia
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1951,1.17804263503011,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1952,0.953773555847909,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1953,0.842898954903899,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1954,1.0533087089681,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1955,0.812660427373714,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1956,1.06086834085065,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1957,1.01047079496701,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1958,1.38593251180013,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1959,1.77651349239835,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1960,1.17426281908884,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1961,1.08354723649829,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1962,1.02936987467337,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1963,1.14276435291156,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1964,1.04196926114428,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1965,0.686666562664611,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1966,0.549333250131689,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1967,0.592171164132784,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1968,0.349003005244215,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1969,0.531694109072414,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1970,1.00417110173155,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1971,1.37333312532922,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1972,1.5119263765092401,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1973,1.75131471945653,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1974,1.91510674357836,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1975,2.02850122181656,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1976,1.80171226534017,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1977,1.65051962768925,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1978,1.24607932197303,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1979,1.3481343523874,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1980,1.28513742003285,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1981,1.32293557944558,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1982,1.11882551861683,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1983,1.08858699108665,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1984,1.49932699003833,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1985,1.77651349239835,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1986,1.42373067121286,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1987,2.06629938122929,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1988,1.60012208180561,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1989,1.29773680650376,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1990,1.04700901573265,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1991,1.14528423020575,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1992,1.21710073308993,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1993,1.18056251232429,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1994,0.939914230729908,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1995,0.849198648139354,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1996,1.49932699003833,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1997,1.32293557944558,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1998,0.902116071317177,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,1999,0.676587053487883,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2000,0.710605396959341,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2001,0.919755212376452,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2002,1.00165122443737,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2003,0.818960120609169,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2004,0.627449446251333,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2005,0.393100857892401,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2006,0.361602391715125,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2007,0.246947974829842,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2008,0.275926563712936,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2009,0.206629938122929,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2010,0.304905152596029,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2011,0.238128404300205,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2012,0.239388342947296,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2013,0.410739998951676,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2014,0.432158955952223,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,B/Bmsy,2015,0.710605396959341,Clupea pallasii,Canada-DFO-WCVANI,West Coast of Vancouver Island
 LINGCODSOG,Lingcod Strait of Georgia,B/Bmsy,1927,2.0723436322532,Ophiodon elongatus,Canada-DFO-SOG,Straight of Georgia
 LINGCODSOG,Lingcod Strait of Georgia,B/Bmsy,1928,1.97814619442351,Ophiodon elongatus,Canada-DFO-SOG,Straight of Georgia
 LINGCODSOG,Lingcod Strait of Georgia,B/Bmsy,1929,1.87138909821653,Ophiodon elongatus,Canada-DFO-SOG,Straight of Georgia
@@ -561,47 +415,67 @@ LINGCODSOG,Lingcod Strait of Georgia,B/Bmsy,2011,0.394373273046973,Ophiodon elon
 LINGCODSOG,Lingcod Strait of Georgia,B/Bmsy,2012,0.411956794775182,Ophiodon elongatus,Canada-DFO-SOG,Straight of Georgia
 LINGCODSOG,Lingcod Strait of Georgia,B/Bmsy,2013,0.429540316503391,Ophiodon elongatus,Canada-DFO-SOG,Straight of Georgia
 LINGCODSOG,Lingcod Strait of Georgia,B/Bmsy,2014,0.4471238382316,Ophiodon elongatus,Canada-DFO-SOG,Straight of Georgia
-PANDALSMA14,Northern shrimp SMA 14,B/Bmsy,1999,2.88320500516248,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
-PANDALSMA14,Northern shrimp SMA 14,B/Bmsy,2000,1.74089713979534,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
-PANDALSMA14,Northern shrimp SMA 14,B/Bmsy,2001,1.55134386955974,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
-PANDALSMA14,Northern shrimp SMA 14,B/Bmsy,2002,4.39464292309368,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
-PANDALSMA14,Northern shrimp SMA 14,B/Bmsy,2003,1.83068553095957,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
-PANDALSMA14,Northern shrimp SMA 14,B/Bmsy,2004,1.89553270235596,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
-PANDALSMA14,Northern shrimp SMA 14,B/Bmsy,2005,0.496330273380046,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
-PANDALSMA14,Northern shrimp SMA 14,B/Bmsy,2006,0.947766351177978,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
-PANDALSMA14,Northern shrimp SMA 14,B/Bmsy,2007,1.64612050467754,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
-PANDALSMA14,Northern shrimp SMA 14,B/Bmsy,2008,0.947766351177978,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
-PANDALSMA14,Northern shrimp SMA 14,B/Bmsy,2009,3.47680603563711,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
-PANDALSMA14,Northern shrimp SMA 14,B/Bmsy,2010,2.10005070445226,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
-PANDALSMA14,Northern shrimp SMA 14,B/Bmsy,2011,0.64847171396388,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
-PANDALSMAFR,Northern shrimp SMA FR,B/Bmsy,1998,3.10093760613522,Pandalus borealis,Canada-DFO-SMA-FR,Shrimp Management Area FR
-PANDALSMAFR,Northern shrimp SMA FR,B/Bmsy,1999,1.79059877065552,Pandalus borealis,Canada-DFO-SMA-FR,Shrimp Management Area FR
-PANDALSMAFR,Northern shrimp SMA FR,B/Bmsy,2000,2.76890604601367,Pandalus borealis,Canada-DFO-SMA-FR,Shrimp Management Area FR
-PANDALSMAFR,Northern shrimp SMA FR,B/Bmsy,2001,2.70961469599196,Pandalus borealis,Canada-DFO-SMA-FR,Shrimp Management Area FR
-PANDALSMAFR,Northern shrimp SMA FR,B/Bmsy,2002,0.610700905223571,Pandalus borealis,Canada-DFO-SMA-FR,Shrimp Management Area FR
-PANDALSMAFR,Northern shrimp SMA FR,B/Bmsy,2003,0.966449005353807,Pandalus borealis,Canada-DFO-SMA-FR,Shrimp Management Area FR
-PANDALSMAFR,Northern shrimp SMA FR,B/Bmsy,2004,0.753000145275666,Pandalus borealis,Canada-DFO-SMA-FR,Shrimp Management Area FR
-PANDALSMAFR,Northern shrimp SMA FR,B/Bmsy,2005,0.610700905223571,Pandalus borealis,Canada-DFO-SMA-FR,Shrimp Management Area FR
-PANDALSMAFR,Northern shrimp SMA FR,B/Bmsy,2006,1.09688997540156,Pandalus borealis,Canada-DFO-SMA-FR,Shrimp Management Area FR
-PANDALSMAFR,Northern shrimp SMA FR,B/Bmsy,2007,1.06131516538854,Pandalus borealis,Canada-DFO-SMA-FR,Shrimp Management Area FR
-PANDALSMAFR,Northern shrimp SMA FR,B/Bmsy,2008,1.60086645058606,Pandalus borealis,Canada-DFO-SMA-FR,Shrimp Management Area FR
-PANDALSMAFR,Northern shrimp SMA FR,B/Bmsy,2009,3.73535505136748,Pandalus borealis,Canada-DFO-SMA-FR,Shrimp Management Area FR
-PANDALSMAFR,Northern shrimp SMA FR,B/Bmsy,2010,1.7135200156273,Pandalus borealis,Canada-DFO-SMA-FR,Shrimp Management Area FR
-PANDALSMAFR,Northern shrimp SMA FR,B/Bmsy,2011,1.28069316046885,Pandalus borealis,Canada-DFO-SMA-FR,Shrimp Management Area FR
-PANDALSMAPRD,Northern shrimp SMA PRD,B/Bmsy,1998,1.75198670726695,Pandalus borealis,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-PANDALSMAPRD,Northern shrimp SMA PRD,B/Bmsy,1999,4.29732588574913,Pandalus borealis,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-PANDALSMAPRD,Northern shrimp SMA PRD,B/Bmsy,2000,1.45447953056124,Pandalus borealis,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-PANDALSMAPRD,Northern shrimp SMA PRD,B/Bmsy,2001,2.12800272227,Pandalus borealis,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-PANDALSMAPRD,Northern shrimp SMA PRD,B/Bmsy,2002,1.31812207457113,Pandalus borealis,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-PANDALSMAPRD,Northern shrimp SMA PRD,B/Bmsy,2003,2.02056957512627,Pandalus borealis,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-PANDALSMAPRD,Northern shrimp SMA PRD,B/Bmsy,2004,1.1445762214928,Pandalus borealis,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-PANDALSMAPRD,Northern shrimp SMA PRD,B/Bmsy,2005,2.12800272227,Pandalus borealis,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-PANDALSMAPRD,Northern shrimp SMA PRD,B/Bmsy,2006,2.39658559012932,Pandalus borealis,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-PANDALSMAPRD,Northern shrimp SMA PRD,B/Bmsy,2007,2.16932316347913,Pandalus borealis,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-PANDALSMAPRD,Northern shrimp SMA PRD,B/Bmsy,2008,2.9130911052434,Pandalus borealis,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-PANDALSMAPRD,Northern shrimp SMA PRD,B/Bmsy,2009,3.3056352967301,Pandalus borealis,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-PANDALSMAPRD,Northern shrimp SMA PRD,B/Bmsy,2010,2.37592536952476,Pandalus borealis,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-PANDALSMAPRD,Northern shrimp SMA PRD,B/Bmsy,2011,2.49988669315214,Pandalus borealis,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1952,0.806,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1953,0.751,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1954,0.669,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1955,0.526,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1956,0.429,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1957,0.509,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1958,0.764,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1959,1.12,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1960,1.27,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1961,1.41,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1962,1.27,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1963,1.03,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1964,0.846,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1965,0.687,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1966,0.574,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1967,0.493,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1968,0.408,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1969,0.353,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1970,0.301,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1971,0.263,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1972,0.235,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1973,0.227,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1974,0.191,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1975,0.179,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1976,0.219,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1977,0.323,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1978,0.423,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1979,0.415,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1980,0.348,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1981,0.241,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1982,0.193,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1983,0.149,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1984,0.146,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1985,0.145,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1986,0.146,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1987,0.144,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1988,0.159,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1989,0.177,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1990,0.229,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1991,0.31,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1992,0.406,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1993,0.557,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1994,0.68,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1995,0.792,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1996,0.771,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1997,0.681,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1998,0.647,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,1999,0.599,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,2000,0.558,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,2001,0.547,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,2002,0.516,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,2003,0.511,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,2004,0.495,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,2005,0.498,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,2006,0.495,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,2007,0.445,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,2008,0.424,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,2009,0.38,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,2010,0.362,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,2011,0.348,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,B/Bmsy,2012,0.329,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
 PCOD5AB,Pacific cod Queen Charlotte Sound,B/Bmsy,1956,2.33183111078276,Gadus macrocephalus,Canada-DFO-5AB,Queen Charlotte Sound
 PCOD5AB,Pacific cod Queen Charlotte Sound,B/Bmsy,1957,2.5251883934838,Gadus macrocephalus,Canada-DFO-5AB,Queen Charlotte Sound
 PCOD5AB,Pacific cod Queen Charlotte Sound,B/Bmsy,1958,1.91914317904769,Gadus macrocephalus,Canada-DFO-5AB,Queen Charlotte Sound
@@ -915,6 +789,25 @@ PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,B/Bmsy,2010,1.44,
 PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,B/Bmsy,2011,1.48,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
 PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,B/Bmsy,2012,1.51,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
 PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,B/Bmsy,2013,1.53,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,1996,4.07665193629408,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,1997,4.23048785841839,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,1998,4.12280271293138,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,1999,3.95358319859464,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,2000,3.69206213098332,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,2001,3.36900669452228,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,2002,3.03056766584881,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,2003,2.67674504496291,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,2004,2.3690732007143,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,2005,2.09216854089055,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,2006,1.86141465770409,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,2007,1.69219514336736,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,2008,1.56912640566791,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,2009,1.42759735731355,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,2010,1.37990822145502,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,2011,1.36298627002134,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,2012,1.37529314379129,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,2013,1.42298227964982,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,B/Bmsy,2014,1.45528782329593,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
 RSOLE5AB,Rock sole Queen Charlotte Sound,B/Bmsy,1945,4.08074195308238,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
 RSOLE5AB,Rock sole Queen Charlotte Sound,B/Bmsy,1946,4.06983087834152,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
 RSOLE5AB,Rock sole Queen Charlotte Sound,B/Bmsy,1947,4.06983087834152,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
@@ -1101,44 +994,264 @@ SABLEFPCAN,Sablefish Pacific Coast of Canada,B/Bmsy,2007,0.903179190751445,Anopl
 SABLEFPCAN,Sablefish Pacific Coast of Canada,B/Bmsy,2008,0.867052023121387,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
 SABLEFPCAN,Sablefish Pacific Coast of Canada,B/Bmsy,2009,0.820086705202312,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
 SABLEFPCAN,Sablefish Pacific Coast of Canada,B/Bmsy,2010,0.783959537572254,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,B/Bmsy,1998,0.796447248630012,Pandalopsis dispar,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,B/Bmsy,1999,1.34170728807671,Pandalopsis dispar,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,B/Bmsy,2000,0.955736698356015,Pandalopsis dispar,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,B/Bmsy,2001,0.884260663222552,Pandalopsis dispar,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,B/Bmsy,2002,1.07214052700194,Pandalopsis dispar,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,B/Bmsy,2003,1.3437494605091,Pandalopsis dispar,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,B/Bmsy,2004,1.03129707835425,Pandalopsis dispar,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,B/Bmsy,2005,1.51120759996464,Pandalopsis dispar,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,B/Bmsy,2006,1.38459290915679,Pandalopsis dispar,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,B/Bmsy,2007,1.60718970428672,Pandalopsis dispar,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,B/Bmsy,2008,1.64190663563726,Pandalopsis dispar,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,B/Bmsy,2009,1.85633474103764,Pandalopsis dispar,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,B/Bmsy,2010,2.49145036750927,Pandalopsis dispar,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,B/Bmsy,2011,1.98090725941311,Pandalopsis dispar,Canada-DFO-SMA-PRD,Shrimp Management Area PRD
-SSSHRIMPSMA14,Sidestripe shrimp SMA 14,B/Bmsy,1999,0.944398708403326,Pandalopsis dispar,Canada-DFO-SMA-14,Shrimp Management Area 14
-SSSHRIMPSMA14,Sidestripe shrimp SMA 14,B/Bmsy,2000,0.540914931865338,Pandalopsis dispar,Canada-DFO-SMA-14,Shrimp Management Area 14
-SSSHRIMPSMA14,Sidestripe shrimp SMA 14,B/Bmsy,2001,0.546200745531774,Pandalopsis dispar,Canada-DFO-SMA-14,Shrimp Management Area 14
-SSSHRIMPSMA14,Sidestripe shrimp SMA 14,B/Bmsy,2002,4.14055403870861,Pandalopsis dispar,Canada-DFO-SMA-14,Shrimp Management Area 14
-SSSHRIMPSMA14,Sidestripe shrimp SMA 14,B/Bmsy,2003,1.6491738639282,Pandalopsis dispar,Canada-DFO-SMA-14,Shrimp Management Area 14
-SSSHRIMPSMA14,Sidestripe shrimp SMA 14,B/Bmsy,2004,1.81479602547654,Pandalopsis dispar,Canada-DFO-SMA-14,Shrimp Management Area 14
-SSSHRIMPSMA14,Sidestripe shrimp SMA 14,B/Bmsy,2005,0.798157863631915,Pandalopsis dispar,Canada-DFO-SMA-14,Shrimp Management Area 14
-SSSHRIMPSMA14,Sidestripe shrimp SMA 14,B/Bmsy,2006,1.16816482028247,Pandalopsis dispar,Canada-DFO-SMA-14,Shrimp Management Area 14
-SSSHRIMPSMA14,Sidestripe shrimp SMA 14,B/Bmsy,2007,1.59279185148621,Pandalopsis dispar,Canada-DFO-SMA-14,Shrimp Management Area 14
-SSSHRIMPSMA14,Sidestripe shrimp SMA 14,B/Bmsy,2008,1.53993371482184,Pandalopsis dispar,Canada-DFO-SMA-14,Shrimp Management Area 14
-SSSHRIMPSMA14,Sidestripe shrimp SMA 14,B/Bmsy,2009,3.48863701984811,Pandalopsis dispar,Canada-DFO-SMA-14,Shrimp Management Area 14
-SSSHRIMPSMA14,Sidestripe shrimp SMA 14,B/Bmsy,2010,4.10531528093237,Pandalopsis dispar,Canada-DFO-SMA-14,Shrimp Management Area 14
-SSSHRIMPSMA14,Sidestripe shrimp SMA 14,B/Bmsy,2011,2.20242236101522,Pandalopsis dispar,Canada-DFO-SMA-14,Shrimp Management Area 14
-SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,B/Bmsy,1998,1.76935057781029,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
-SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,B/Bmsy,1999,0.963064238554966,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
-SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,B/Bmsy,2000,1.37367302243499,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
-SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,B/Bmsy,2001,1.50058846472518,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
-SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,B/Bmsy,2002,0.718192091077424,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
-SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,B/Bmsy,2003,1.1646358233688,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
-SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,B/Bmsy,2004,0.776423882245864,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
-SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,B/Bmsy,2005,1.17210143762116,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
-SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,B/Bmsy,2006,2.51591200304669,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
-SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,B/Bmsy,2007,1.00039230981679,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
-SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,B/Bmsy,2008,2.19489059019504,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
-SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,B/Bmsy,2009,2.65775867384161,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
-SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,B/Bmsy,2010,3.70294466917258,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
-SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,B/Bmsy,2011,3.88211941122932,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1972,1.66,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1973,1.92,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1974,1.81,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1975,1.48,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1976,1.42,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1977,1.52,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1978,1.71,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1979,1.62,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1980,1.51,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1981,1.38,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1982,1.53,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1983,1.99,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1984,2.17,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1985,2.01,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1986,2.18,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1987,2.35,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1988,2.63,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1989,2.37,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1990,2.17,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1991,2.16,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1992,2.07,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1993,2.02,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1994,2.17,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1995,2.28,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1996,2.2,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1997,2.2,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1998,2.45,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,1999,2.58,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,2000,2.34,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,2001,2.12,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,2002,2.04,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,2003,1.74,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,2004,1.61,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,2005,1.78,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,2006,1.88,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,2007,2.01,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,2008,1.79,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,2009,1.73,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,2010,1.79,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,B/Bmsy,2011,1.71,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1951,1.84,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1952,1.76,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1953,1.65,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1954,1.46,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1955,1.23,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1956,1.19,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1957,1.34,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1958,1.31,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1959,1.27,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1960,1.38,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1961,1.58,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1962,1.76,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1963,1.9,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1964,1.93,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1965,1.86,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1966,1.93,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1967,2,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1968,2.06,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1969,2.15,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1970,2.08,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1971,1.96,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1972,1.97,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1973,2.02,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1974,1.92,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1975,1.81,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1976,1.79,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1977,1.76,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1978,1.68,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1979,1.59,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1980,1.62,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1981,1.67,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1982,1.56,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1983,1.48,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1984,1.38,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1985,1.35,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1986,1.42,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1987,1.43,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1988,1.36,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1989,1.35,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1990,1.39,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1991,1.28,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1992,1.22,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1993,1.15,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1994,1.03,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1995,1.01,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1996,1.08,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1997,1.16,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1998,1.22,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,1999,1.22,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,2000,1.39,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,2001,1.49,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,2002,1.42,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,2003,1.35,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,2004,1.3,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,2005,1.27,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,2006,1.38,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,2007,1.54,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,2008,1.73,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,2009,1.94,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,2010,1.99,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,2011,1.95,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,B/Bmsy,2012,1.88,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1951,1.72,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1952,1.43,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1953,1.31,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1954,1.35,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1955,1.3,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1956,1.23,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1957,1.25,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1958,1.35,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1959,1.27,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1960,1.27,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1961,1.21,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1962,1.14,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1963,1.21,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1964,1.23,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1965,1.32,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1966,1.3,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1967,1.2,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1968,1.13,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1969,1.13,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1970,1.16,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1971,1.19,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1972,1.23,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1973,1.33,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1974,1.42,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1975,1.42,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1976,1.41,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1977,1.33,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1978,1.28,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1979,1.31,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1980,1.41,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1981,1.45,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1982,1.5,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1983,1.69,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1984,1.75,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1985,1.93,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1986,1.94,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1987,2,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1988,1.92,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1989,1.78,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1990,1.79,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1991,1.71,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1992,1.71,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1993,1.56,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1994,1.32,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1995,1.16,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1996,1.08,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1997,1,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1998,0.991,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,1999,1.07,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,2000,1.15,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,2001,1.22,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,2002,1.24,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,2003,1.18,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,2004,1.21,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,2005,1.22,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,2006,1.26,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,2007,1.19,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,2008,1.13,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,2009,1.13,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,2010,1.14,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,2011,1.13,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,B/Bmsy,2012,1.19,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1952,3.21,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1953,3.19,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1954,3.03,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1955,3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1956,3.28,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1957,3.38,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1958,3.47,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1959,3.66,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1960,3.56,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1961,3.1,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1962,2.72,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1963,2.71,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1964,2.97,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1965,3.06,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1966,2.92,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1967,2.63,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1968,2.37,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1969,2.18,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1970,2.5,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1971,2.66,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1972,2.6,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1973,2.31,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1974,2.2,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1975,2.08,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1976,2,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1977,2.27,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1978,2.43,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1979,2.51,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1980,2.29,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1981,2.25,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1982,2.23,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1983,2.25,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1984,2.24,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1985,2.22,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1986,2.32,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1987,2.39,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1988,2.46,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1989,2.45,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1990,2.26,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1991,2.28,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1992,2.14,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1993,1.97,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1994,1.9,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1995,1.81,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1996,1.78,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1997,1.69,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1998,1.54,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,1999,1.55,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,2000,1.5,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,2001,1.4,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,2002,1.4,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,2003,1.36,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,2004,1.39,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,2005,1.32,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,2006,1.3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,2007,1.31,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,2008,1.31,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,2009,1.28,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,2010,1.2,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,B/Bmsy,2011,1.19,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1976,0.602,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1977,0.585,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1978,0.591,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1979,0.622,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1980,0.484,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1981,0.516,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1982,0.839,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1983,1.13,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1984,1.19,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1985,1.04,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1986,1.09,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1987,1.17,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1988,1.17,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1989,1.05,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1990,1.1,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1991,1.17,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1992,1.24,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1993,1.25,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1994,1.26,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1995,1.19,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1996,1.15,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1997,1.57,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1998,1.89,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,1999,2.24,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,2000,1.93,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,2001,1.45,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,2002,1.06,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,2003,0.928,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,2004,0.743,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,2005,0.803,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,2006,1.05,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,2007,1.13,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,2008,1.01,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,2009,0.99,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,2010,1.01,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,2011,0.985,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,B/Bmsy,2012,1.07,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific

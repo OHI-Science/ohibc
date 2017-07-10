@@ -1,0 +1,123 @@
+---
+title: 'OHIBC: data explore for wild-capture fisheries: Sea Around Us data'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(data.table)
+library(seaaroundus) ### devtools::install_github("ropensci/seaaroundus")
+library(raster)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_spatial <- path.expand(file.path(dir_git, 'prep/_spatial'))  ### github: general buffer region shapefiles
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+
+### goal specific folders and info
+goal      <- 'fis'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### set up proj4string options: BC Albers and WGS84
+p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+
+```
+
+# Plot all SAUP data in BC region
+
+For each taxa found in the BC extents (not necessarily in OHIBC regions), summarize total catch across all years and plot against a map of BC to identify which taxa are actually reported in the BC EEZ.
+
+``` {r define_plot_fxn}
+
+saup_base_rast <- raster::raster(file.path(dir_goal, 'saup/2_saup_bc_rast.tif'))
+
+ohibc_sf <- sf::read_sf(dir_spatial, 'ohibc_rgn') %>%
+  sf::st_transform(crs(saup_base_rast, asText = TRUE))
+
+plot_taxon <- function(saup_df) {
+  ### saup_df <- saup_sum %>% filter(taxon_key == first(taxon_key))
+  taxon_sciname <- saup_df$taxon_scientific_name[1]
+  taxon_comname <- saup_df$taxon_common_name[1]
+  taxon_rast <- subs(saup_base_rast, saup_df, by = 'cell_id', which = 'catch')
+  
+  taxon_pts <- rasterToPoints(taxon_rast) %>%
+    as.data.frame()
+  
+  taxon_plot <- ggplot() +
+    ggtheme_plot() +
+    geom_raster(data = taxon_pts, 
+                aes(x = x, y = y, fill = layer), 
+                alpha = .6) +
+    geom_sf(data = ohibc_sf, color = 'grey30', fill = NA) +
+    scale_fill_distiller(palette = 'Spectral') +
+    theme(axis.title = element_blank()) +
+    labs(fill = 'catch',
+         title = paste0(taxon_sciname, ': ', taxon_comname))
+  
+  return(taxon_plot)
+}
+
+```
+
+``` {r plot_all_saup}
+
+
+saup_raw <- read_csv(file.path(dir_goal_anx, 'saup/2_saup_bc_raw.csv'))
+
+saup_sum <- saup_raw %>%
+  group_by(cell_id, taxon_key) %>%
+  summarize(catch = sum(catch_sum, na.rm = TRUE)) %>%
+  ungroup() %>%
+  left_join(read_csv(file.path(dir_goal, 'saup/2_taxon_keys_allbc.csv')),
+            by = 'taxon_key')
+
+taxa_ids <- saup_sum$taxon_key %>%
+  unique() %>%
+  sort(decreasing = TRUE)
+
+for(taxon_id in taxa_ids) {
+  ### taxon_id <- taxa_ids[2]
+  saup_df <- saup_sum %>%
+    filter(taxon_key == taxon_id)
+  
+  message('generating plot for ', 
+          saup_df$taxon_scientific_name[1], 
+          ': ', 
+          saup_df$taxon_common_name[1])
+
+  taxon_plot <- plot_taxon(saup_df)
+  
+  print(taxon_plot)
+}
+
+```
+
+
+-----
+
+``` {r provenance, results = 'asis'}
+prov_wrapup(commit_outputs = FALSE)
+```

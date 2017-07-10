@@ -1,0 +1,368 @@
+---
+title: 'OHIBC: data prep for wild-capture fisheries: spatializing RAM and SAUP stocks'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(sp)
+library(rgdal)
+library(raster)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+
+
+### goal specific folders and info
+goal      <- 'fis'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+dir_spatial  <- file.path(dir_git, 'prep/spatial')
+dir_dfo_data <- file.path(dir_anx, '_raw_data/dfo_khunter')
+
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### support scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### raster plotting and analyzing scripts
+
+### set up proj4string options: BC Albers and WGS84
+p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+
+```
+
+# Summary
+
+This script collects spatial boundaries for RAM stocks, using stock IDs from the RAM prep script and the boundaries created by Chris Free: https://marine.rutgers.edu/~cfree/ram-legacy-stock-boundary-database/
+
+The basic idea is to attribute each SAUP cell to an OHIBC region (or proportionally divide it across OHIBC regions) and to RAM stock regions. For each RAM-identified stock, we assign a SAUP surrogate stock by species or by closest taxon.
+
+* First, SAUP catch data for the RAM stock is narrowed to just those cells that fall within the RAM stock region 
+    * e.g. for West Coast Vancouver Island herring, we identify the SAUP cells that fall within the WCVanI region, and assign herring catches within those cells to that stock.
+    * other SAUP herring cells are assigned to other RAM herring stocks accordingly.
+* Once the stock-specific cells are identified, those cells are then assigned to OHIBC regions proportionally.
+
+The final layer is a dataframe containing: year, OHIBC region, RAM area, SAUP info (taxonkey,sector,catch_type,reported), RAM stock ID, and then the total SAUP-reported catch for those parameters.
+
+***
+
+# Data Source
+
+**Reference**: https://marine.rutgers.edu/~cfree/ram-legacy-stock-boundary-database/
+
+**Downloaded**: 7/5/2017
+
+**Description**:  Boundaries for RAM stocks
+
+**Format**:  ESRI shapefile format.
+
+***
+  
+# Methods
+
+For each RAM stock identified in the script `1_data_prep_fis_ram.Rmd`, identify the appropriate shapefile for boundaries, either from the Chris Free datasets or from DFO (if there is a difference).
+
+## Determine fisheries to analyze
+
+The .zipped set of shapefiles seems to be named according to the RAM assess_id field.   Copy the relevant set to 
+
+``` {r get_fisheries_stocks}
+
+stock_list <- read_csv(file.path(dir_goal, 'output/ram_catch.csv')) %>%
+  select(stock_id, stock_name, ram_area_id, ram_area_name) %>%
+  distinct()
+
+ram_spatial_dir <- file.path(dir_anx, '_raw_data/ram_fisheries/d2017/spatial')
+boundary_list <- readxl::read_excel(file.path(ram_spatial_dir, 'ramldb_v3.8_stock_boundary_table_v2_formatted.xlsx')) %>%
+  filter(stockid %in% stock_list$stock_id)
+
+shp_list <- list.files(file.path(ram_spatial_dir, 'ramldb_boundaries'), full.names = TRUE)
+
+boundary_list <- boundary_list %>%
+  select(assessid, stockid, stocklong, zone_col, zones, notes) %>%
+  mutate(dir = file.path(ram_spatial_dir, 'ramldb_boundaries'),
+         shp = assessid,
+         file_exists = file.exists(file.path(dir, shp)))
+
+x <- lapply(boundary_list$shp, FUN = function(x) {
+  ### x <- boundary_list$shp[1]
+  file.copy(from = file.path(ram_spatial_dir, 'ramldb_boundaries', paste0(x, c('.shp', '.prj', '.shx', '.dbf'))),
+            to = file.path(dir_goal_anx, 'stock_boundaries/ram'))
+})
+
+```
+
+
+## Associate stocks with spatial boundaries
+
+Spatial boundaries for RAM stocks are derived from shapefiles provided by DFO.  
+
+* From dfo_khunter/d2017/boundaries.gdb:
+    * QCI aka Haida Gwaii, WCVANI, QCS, SoG, CC
+* From dfo_khunter/d2017/shrimp_trawl_areas/DFO_BC_SHRIMP_TRAWL_MGMT_AREA.shp:
+    * SMA-14, SMA-FR, SMA-PRD
+* From dfo_khunter/d2016/management_boundaries/groundfish_mgmt_areas/MajorMinor_GroundfishManagementAreas.shp:
+    * 5AB
+* BCW and PCOAST are union of all (areas 1-5) from boundaries.gdb
+* WCVANI-SOG-QCI is the union of those areas (1, 4, 5)
+* HS will be the area between Haida Gwaii island and the North Coast, bounded on the south by Area 5AB and bounded on the north at the level of the northeastern-most point of Haida Gwaii
+
+FRDU is Fraser River Designatable Unit - since eulachon are harvested when they return to the mouth of the Fraser River, we will assume that this fishery falls entirely within Strait of Georgia region.  If SAUP data are available, perhaps we can use those instead.
+
+``` {r get_stock_boundary_info}
+
+ram_area_ids <- read_csv(file.path(dir_goal, 'raw/1_ram_area_ids.csv'))
+
+ram_stock_ids <- read_csv(file.path(dir_goal, 'output/ram_b_bmsy.csv')) %>%
+  select(stock_id, stock_name, ram_area_id) %>%
+  distinct()
+
+ram_stock_to_area <- ram_stock_ids %>%
+  left_join(ram_area_ids)
+
+write_csv(ram_stock_to_area, file.path(dir_goal, 'int/ram_stock_to_area.csv'))
+
+```
+
+``` {r match_dfo_areas_to_ohibc_rgns}
+
+ohibc_rgns <- raster::raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif'))
+ram_areas  <- rgdal::readOGR(dsn = file.path(dir_goal_anx, 'stock_boundaries'), 
+                             layer = 'stock_boundaries_bcalb')
+
+rgn_to_ram_file <- file.path(dir_goal, 'int/ohibc_rgn_to_ram_area.csv')
+reload <- FALSE
+
+if(!file.exists(rgn_to_ram_file) | reload) {
+  
+  rgn_to_ram_area <- raster::extract(ohibc_rgns, ram_areas, progress = 'text') %>%
+    lapply(FUN = function(x) data.frame(rgn_id = x))  %>%
+    setNames(ram_areas@data$area_code) %>%
+    bind_rows(.id = 'area_code') %>%
+    group_by(rgn_id, area_code) %>%
+    summarize(area_km2 = n() * .5 * .5) %>%
+    left_join(ram_areas@data, by = 'area_code') %>%
+    left_join(get_rgn_names(), by = 'rgn_id') %>%
+    filter(!is.na(rgn_id))
+  
+  write_csv(rgn_to_ram_area, rgn_to_ram_file)
+  
+} else {
+  
+  git_prov(rgn_to_ram_file, filetype = 'output')
+  
+}
+
+
+```
+
+## Create SAUP cell to RAM region lookup
+
+Using a similar method as above, determine the allocation of cells within regions defined for RAM stocks.  In this case, weighting will be used to divide catch between the five main RAM areas (`area_id` 1-5, `area_code` qci/ncc/qcs/sog/wcvani) but not for the standalone areas (shrimp trawl areas, 5AB, and HS)
+
+``` {r identify_ram_cells}
+
+ram_rgn_to_saup_file <- file.path(dir_goal, 'int/rgn_to_saup_cells_ram.csv')
+
+saup_bc_rast <- raster(saup_bc_rast_file)
+
+if(!file.exists(ram_rgn_to_saup_file)) {
+  
+  ### Identify cells that fall within stock boundaries;
+  ### extract to a list then bind to data frame.
+  ram_stock_rgn <- readOGR(file.path(dir_goal_anx, 'stock_boundaries'),
+                           'stock_boundaries') %>%
+    spTransform(crs(saup_bc_rast))
+  
+  ram_rgn_to_saup_df <- raster::extract(saup_bc_rast, ram_stock_rgn, 
+                                       weights = TRUE,
+                                       normalizeWeights = FALSE,
+                                       progress = 'text') %>%
+    lapply(FUN = function(x) as.data.frame(x, stringsAsFactors = FALSE)) %>%
+    setNames(ram_stock_rgn@data$area_code) %>%
+    bind_rows(.id = 'area_code') %>%
+    rename(cell_id = value) %>%
+    left_join(ram_stock_rgn@data, by = 'area_code')
+  
+  ### weight is how much of cell is in EEZ; but this also includes area
+  ### lost to land, not just to other regions.  Normalize cell weights
+  ### to total *ocean* area; then attach area dataframe.
+  ram_main_rgns <- ram_rgn_to_saup_df %>%
+    filter(area_code %in% c('ncc', 'qci', 'qcs', 'sog', 'wcvani')) %>%
+    group_by(cell_id) %>%
+    mutate(weight = weight / sum(weight)) %>%
+    ungroup() 
+  ram_other_rgns <- ram_rgn_to_saup_df %>%
+    filter(!area_code %in% ram_main_rgns$area_code) %>%
+    mutate(weight = 1)
+  
+  ram_rgns_to_saup_cells <- ram_main_rgns %>%
+    bind_rows(ram_other_rgns) %>%
+    rename(ram_wt = weight) %>%
+    left_join(area_df, by = 'cell_id')
+  
+  write_csv(ram_rgns_to_saup_cells, ram_rgn_to_saup_file)
+
+} else {
+  message('Region-to-SAUP-cell lookup already exists; ', rgn_to_saup_file)
+  
+  git_prov(rgn_to_saup_file, filetype = 'output')
+}
+
+```
+
+## Summarize SAUP data to BC regions
+
+From the overall BC SAUP data by species, year, and cell, combine this with the lookup of SAUP cells to BC regions and summarize catch for each species to each region.
+
+
+``` {r summarize_to_rgn}
+
+saup_raw_file <- file.path(dir_goal_anx, 'saup/saup_bc_raw.csv')
+
+saup_bc_raw <- read_csv(saup_raw_file)
+
+rgn_to_saup_cells <- read_csv(file.path(dir_goal, 'int/rgn_to_saup_cells_ohibc.csv'))
+ram_to_saup_cells <- read_csv(file.path(dir_goal, 'int/rgn_to_saup_cells_ram.csv')) %>%
+  select(-area_km2)
+
+saup_bc_clean <- saup_bc_raw %>%
+  setNames(tolower(names(.))) %>%
+  filter(entityname == 'Canada') %>%
+  dplyr::select(year,
+         cell_id = cellid,
+         allocatedcatch,
+         taxonkey,
+         taxonsciname,
+         taxoncomname,
+         taxongroup,
+         sector_type_name,  ### "Industrial" "Subsistence" "Artisanal" "Recreational"
+         catch_type_name,   ### "Landings" "Discards"
+         reporting_status_name) %>% ### "Reported" "Unreported"
+  inner_join(rgn_to_saup_cells, by = 'cell_id') %>%
+  inner_join(ram_to_saup_cells, by = 'cell_id')
+
+
+write_csv(saup_bc_clean, file.path(dir_goal_anx, 'saup/saup_bc_clean.csv'))
+
+```
+
+The `saup_bc_clean.csv` contains all taxa present in BC, but for our final output we will keep only those species whose taxon matches up with RAM stocks.  Of those, we will only keep species whose cells fall within RAM stock regions.
+
+``` {r summarize_catch}
+
+saup_bc_clean <- read_csv(file.path(dir_goal_anx, 'saup/saup_bc_clean.csv'))
+
+ram_id_to_ram_area <- read_csv(file.path(dir_goal, 'raw', 'ram_area_ids.csv'))
+ram_to_saup_spp <- read_csv(file.path(dir_goal, 'raw', 'saup_to_ram_ids.csv')) %>%
+  select(saup_taxonkey, ram_stockid, ram_areaid) %>%
+  distinct() %>%
+  inner_join(ram_id_to_ram_area, by = c('ram_areaid' = 'dfo_area_id'))
+
+saup_bc_sum <- saup_bc_clean %>%
+  mutate(reported = (reporting_status_name == 'Reported')) %>%
+  group_by(year,
+           rgn_id,
+           area_id,
+           taxonkey,
+           sector_type_name,
+           catch_type_name,
+           reported) %>%
+  summarize(rgn_catch = round(sum(allocatedcatch * ohibc_wt * ram_wt), 2)) %>%
+  ungroup()
+
+saup_bc_sum <- saup_bc_sum %>%
+  inner_join(ram_to_saup_spp, by = c('taxonkey' = 'saup_taxonkey', 'area_id'))
+
+write_csv(saup_bc_sum, file.path(dir_goal, 'int/saup_bc_summary.csv'))
+
+```
+
+``` {r saup_to_ram_by_rgn}
+
+# rgn_id,catch_total,ram_stock_id,dfo_stock,catch_wt
+
+saup_catch_rgn_yr <- read_csv(file.path(dir_goal, 'int/saup_bc_summary.csv')) %>%
+  group_by(year,
+           rgn_id,
+           taxonkey,
+           ram_stockid) %>%
+  summarize(rgn_catch = sum(rgn_catch)) %>%
+  ungroup()
+
+rgn_stock_wt_saup <- saup_catch_rgn_yr %>%
+  group_by(rgn_id, taxonkey, ram_stockid) %>%
+  summarize(catch_total = sum(rgn_catch)) %>%
+  group_by(taxonkey, ram_stockid) %>%
+  mutate(catch_wt = catch_total / sum(catch_total),
+         catch_wt = ifelse(is.nan(catch_wt), 0, round(catch_wt, 5)))
+
+
+saup_ids <- saup_bc_clean %>%
+  dplyr::select(taxonkey, taxonsciname, taxoncomname, taxongroup) %>%
+  distinct()
+
+write_csv(rgn_stock_wt_saup, file.path(dir_goal, 'output/rgn_stock_wt_saup.csv'))
+write_csv(saup_ids, file.path(dir_goal, 'int/saup_species_ids.csv'))
+
+```
+
+### Summary datatable (for most recent year only)
+
+`r DT::datatable(saup_bc_sum %>% filter(year == max(year)))`
+
+### Total catch by region (summed across all years)
+
+``` {r plot_catch_by_rgn}
+
+sum_by_ohibc_rgn <- read_csv(file.path(dir_goal, 'output/rgn_stock_wt_saup.csv')) %>%
+  left_join(read_csv(file.path(dir_goal, 'raw', 'ram_ids_to_names.csv')),
+            by = c('ram_stockid' = 'stock_id')) %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
+
+
+ohibc_rgn_plot <- ggplot(sum_by_ohibc_rgn, aes(x = stock_name_mod, y = catch_total, fill = rgn_name)) +
+  ggtheme_plot(base_size = 7) +
+  geom_bar(stat = 'identity') +
+  scale_fill_brewer(palette = 'Dark2') +
+  coord_flip()
+
+ohibc_rgn_plot <- ggplot(sum_by_ohibc_rgn, aes(x = stock_name_mod, y = catch_wt, fill = rgn_name)) +
+  ggtheme_plot(base_size = 7) +
+  geom_bar(stat = 'identity') +
+  scale_fill_brewer(palette = 'Dark2') +
+  coord_flip()
+
+```
+
+![](Figs/saup_catch_by_ram_rgn.png)
+
+![](Figs/saup_catch_by_ohibc_rgn.png)
+
+-----
+
+``` {r provenance, results = 'asis'}
+prov_wrapup(commit_outputs = FALSE)
+```

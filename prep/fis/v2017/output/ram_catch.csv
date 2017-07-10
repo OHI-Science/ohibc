@@ -1,4 +1,187 @@
-stock_id,stock_name,param,year,value,sciname,dfo_area_id,areaname
+stock_id,stock_name,param,year,value,sciname,ram_area_id,ram_area_name
+ALBANPAC,Albacore tuna North Pacific,Catch,1950,68200,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1951,48100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1952,94200,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1953,76800,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1954,61500,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1955,54500,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1956,76500,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1957,92300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1958,55700,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1959,51300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1960,63400,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1961,52600,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1962,47300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1963,68900,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1964,62400,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1965,73e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1966,66100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1967,83100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1968,69500,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1969,75e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1970,68e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1971,91200,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1972,107e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1973,107e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1974,115e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1975,96800,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1976,127e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1977,62500,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1978,99600,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1979,70700,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1980,74900,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1981,70600,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1982,73e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1983,55e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1984,72600,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1985,59100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1986,46100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1987,49100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1988,45300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1989,44100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1990,53700,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1991,37300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1992,54800,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1993,54100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1994,73300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1995,67900,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1996,86200,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1997,107e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1998,98200,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1999,126e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2000,85100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2001,90200,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2002,105e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2003,92900,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2004,90600,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2005,63300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2006,66400,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2007,92700,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2008,68600,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2009,78e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2010,68600,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2011,80300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2012,80200,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1952,33900,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1953,31800,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1954,21500,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1955,33900,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1956,37e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1957,49600,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1958,69100,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1959,60400,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1960,63300,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1961,57400,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1962,55200,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1963,63500,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1964,45200,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1965,42500,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1966,45600,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1967,47700,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1968,37400,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1969,45300,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1970,42400,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1971,42700,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1972,57600,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1973,48500,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1974,52300,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1975,64e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1976,67900,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1977,74600,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1978,60900,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1979,74400,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1980,70700,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1981,62500,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1982,72900,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1983,76600,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1984,82800,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1985,89600,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1986,79200,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1987,102e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1988,97300,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1989,99900,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1990,121e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1991,106e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1992,121e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1993,105e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1994,128e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1995,114e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1996,116e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1997,176e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1998,158e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,1999,145e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,2000,151e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,2001,136e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,2002,154e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,2003,119e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,2004,178e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,2005,149e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,2006,156e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,2007,134e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,2008,133e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,2009,142e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,2010,117e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,2011,16e4,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYECWPAC,Bigeye tuna Central Western Pacific,Catch,2012,162e3,Thunnus obesus,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1954,1610,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1955,1810,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1956,2410,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1957,9700,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1958,10600,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1959,11500,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1960,17700,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1961,52600,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1962,45700,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1963,66800,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1964,46400,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1965,29400,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1966,35300,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1967,38900,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1968,4e4,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1969,53200,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1970,35800,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1971,34300,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1972,40200,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1973,54400,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1974,38500,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1975,48300,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1976,71600,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1977,85200,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1978,89200,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1979,67500,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1980,86400,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1981,68300,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1982,60400,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1983,64700,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1984,55300,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1985,72400,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1986,105e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1987,101e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1988,74300,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1989,73e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1990,105e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1991,109e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1992,92e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1993,82200,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1994,107e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1995,105e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1996,109e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1997,117e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1998,91100,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,1999,88100,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,2000,143e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,2001,129e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,2002,132e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,2003,113e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,2004,109e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,2005,109e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,2006,118e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,2007,93400,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,2008,101e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,2009,108e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,2010,93900,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,2011,81700,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
+BIGEYEEPAC,Bigeye tuna Eastern Pacific,Catch,2012,88e3,Thunnus obesus,multinational-IATTC-EPAC,Eastern Pacific
 BIGSKA3CD,Big skate West Coast Vancouver Island,Catch,1954,11.9,Raja binoculata,Canada-DFO-WCVANI,West Coast of Vancouver Island
 BIGSKA3CD,Big skate West Coast Vancouver Island,Catch,1955,10.2,Raja binoculata,Canada-DFO-WCVANI,West Coast of Vancouver Island
 BIGSKA3CD,Big skate West Coast Vancouver Island,Catch,1956,9.09,Raja binoculata,Canada-DFO-WCVANI,West Coast of Vancouver Island
@@ -189,6 +372,66 @@ BIGSKA5CDE,Big skate Hecate Strait,Catch,2008,404,Raja binoculata,Canada-DFO-HS,
 BIGSKA5CDE,Big skate Hecate Strait,Catch,2009,380,Raja binoculata,Canada-DFO-HS,Hecate Strait
 BIGSKA5CDE,Big skate Hecate Strait,Catch,2010,493,Raja binoculata,Canada-DFO-HS,Hecate Strait
 BIGSKA5CDE,Big skate Hecate Strait,Catch,2011,628,Raja binoculata,Canada-DFO-HS,Hecate Strait
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1952,8510,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1953,16100,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1954,18400,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1955,21e3,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1956,24400,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1957,29900,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1958,30200,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1959,27100,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1960,25600,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1961,28900,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1962,36300,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1963,37200,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1964,2e4,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1965,16200,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1966,17600,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1967,15900,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1968,16e3,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1969,16600,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1970,14300,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1971,11e3,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1972,12400,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1973,14900,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1974,11300,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1975,11400,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1976,12400,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1977,13200,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1978,15300,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1979,15500,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1980,18200,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1981,17500,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1982,17700,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1983,17500,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1984,19500,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1985,16e3,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1986,17900,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1987,19600,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1988,17700,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1989,18900,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1990,18400,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1991,19900,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1992,19e3,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1993,17600,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1994,22500,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1995,21500,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1996,19400,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1997,17e3,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1998,19100,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,1999,17800,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,2000,18200,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,2001,19100,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,2002,19800,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,2003,22800,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,2004,20300,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,2005,23900,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,2006,21300,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,2007,18600,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,2008,17700,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,2009,18100,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,2010,19400,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
+BMARLINPAC,Blue marlin Pacific Ocean,Catch,2011,17400,Makaira nigricans,Multinational-ISC-PAC,Pacific Ocean
 BOCACCBCW,Bocaccio British Columbia Waters,Catch,1935,1840,Sebastes paucispinis,Canada-DFO-BCW,British Columbia Waters
 BOCACCBCW,Bocaccio British Columbia Waters,Catch,1936,1910,Sebastes paucispinis,Canada-DFO-BCW,British Columbia Waters
 BOCACCBCW,Bocaccio British Columbia Waters,Catch,1937,1750,Sebastes paucispinis,Canada-DFO-BCW,British Columbia Waters
@@ -1057,6 +1300,67 @@ LNOSESKA5CDE,Longnose skate Hecate Strait,Catch,2008,96.9,Raja rhina,Canada-DFO-
 LNOSESKA5CDE,Longnose skate Hecate Strait,Catch,2009,101,Raja rhina,Canada-DFO-HS,Hecate Strait
 LNOSESKA5CDE,Longnose skate Hecate Strait,Catch,2010,81.1,Raja rhina,Canada-DFO-HS,Hecate Strait
 LNOSESKA5CDE,Longnose skate Hecate Strait,Catch,2011,73,Raja rhina,Canada-DFO-HS,Hecate Strait
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1952,18800,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1953,23400,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1954,32300,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1955,31500,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1956,36700,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1957,35600,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1958,28500,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1959,22900,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1960,26400,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1961,33200,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1962,33600,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1963,31900,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1964,27500,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1965,28400,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1966,29600,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1967,19300,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1968,19700,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1969,15900,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1970,15800,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1971,14600,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1972,19900,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1973,20900,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1974,23600,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1975,17500,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1976,22900,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1977,23300,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1978,30200,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1979,25200,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1980,20800,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1981,34600,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1982,33900,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1983,12100,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1984,14700,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1985,17300,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1986,18100,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1987,10200,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1988,10200,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1989,8970,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1990,9850,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1991,18900,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1992,12400,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1993,12100,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1994,19400,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1995,28600,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1996,24300,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1997,21800,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1998,25500,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,1999,29400,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,2000,28400,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,2001,15700,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,2002,19300,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,2003,19300,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,2004,28400,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,2005,26900,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,2006,18900,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,2007,22700,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,2008,20700,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,2009,19900,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,2010,18e3,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,2011,17600,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
+PACBTUNA,Pacific bluefin tuna Pacific Ocean,Catch,2012,15200,Thunnus orientalis,Multinational-ISC-PAC,Pacific Ocean
 PANDALSMA14,Northern shrimp SMA 14,Catch,1987,31.7,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
 PANDALSMA14,Northern shrimp SMA 14,Catch,1988,31.9,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
 PANDALSMA14,Northern shrimp SMA 14,Catch,1989,29.7,Pandalus borealis,Canada-DFO-SMA-14,Shrimp Management Area 14
@@ -1525,6 +1829,133 @@ PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,Catch,2009,512,Se
 PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,Catch,2010,419,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
 PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,Catch,2011,581,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
 PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,Catch,2012,382,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
+PHALNPAC,Pacific halibut North Pacific,Catch,1888,667,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1889,585,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1890,621,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1891,966,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1892,1260,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1893,1460,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1894,1710,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1895,1930,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1896,2460,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1897,2990,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1898,3520,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1899,4060,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1900,6080,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1901,8110,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1902,10100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1903,11400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1904,12700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1905,9980,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1906,16300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1907,22700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1908,23e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1909,23200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1910,23500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1911,25800,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1912,27400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1913,30200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1914,30600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1915,31100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1916,22600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1917,22e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1918,17100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1919,18200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1920,21100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1921,23800,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1922,19300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1923,23300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1924,24100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1925,23e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1926,23800,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1927,24900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1928,24600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1929,25800,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1930,22500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1931,20100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1932,20200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1933,21300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1934,20300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1935,21500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1936,22200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1937,22500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1938,22500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1939,23100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1940,24200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1941,23700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1942,22900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1943,24400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1944,24200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1945,24200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1946,27300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1947,25300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1948,25200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1949,25e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1950,26e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1951,25400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1952,28200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1953,27100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1954,32e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1955,26100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1956,30200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1957,27600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1958,29300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1959,32300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1960,32500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1961,31400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1962,34e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1963,32300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1964,27100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1965,28700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1966,28100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1967,25e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1968,22e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1969,26400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1970,24900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1971,21200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1972,19500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1973,14400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1974,9670,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1975,12500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1976,12500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1977,9920,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1978,9980,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1979,10200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1980,9920,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1981,11700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1982,13200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1983,17400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1984,20400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1985,25400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1986,31600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1987,31500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1988,33700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1989,30400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1990,27900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1991,25900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1992,27200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1993,26900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1994,24800,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1995,19900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1996,21500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1997,29600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1998,31600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1999,33700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2000,31e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2001,32100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2002,33900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2003,33200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2004,33200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2005,32600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2006,30800,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2007,28500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2008,26600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2009,23600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2010,22600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2011,17900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2012,14500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2013,13200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2014,10700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
 QROCKPCOASTIN,Quillback rockfish Pacific Coast of Canada (Inside),Catch,1918,29.2,Sebastes maliger,Canada-DFO-PCOASTIN,Pacific Coast of Canada (Inside)
 QROCKPCOASTIN,Quillback rockfish Pacific Coast of Canada (Inside),Catch,1919,72.5,Sebastes maliger,Canada-DFO-PCOASTIN,Pacific Coast of Canada (Inside)
 QROCKPCOASTIN,Quillback rockfish Pacific Coast of Canada (Inside),Catch,1920,36.3,Sebastes maliger,Canada-DFO-PCOASTIN,Pacific Coast of Canada (Inside)
@@ -1950,6 +2381,69 @@ SARDBC,Pacific sardine British Columbia,Catch,2009,15300,Sardinops sagax,Canada-
 SARDBC,Pacific sardine British Columbia,Catch,2010,22200,Sardinops sagax,Canada-DFO-PCOAST,Pacific Coast of Canada
 SARDBC,Pacific sardine British Columbia,Catch,2011,20700,Sardinops sagax,Canada-DFO-PCOAST,Pacific Coast of Canada
 SARDBC,Pacific sardine British Columbia,Catch,2012,19100,Sardinops sagax,Canada-DFO-PCOAST,Pacific Coast of Canada
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1950,39900,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1951,107e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1952,92300,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1953,80300,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1954,104e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1955,108e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1956,107e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1957,107e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1958,157e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1959,177e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1960,89900,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1961,157e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1962,182e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1963,123e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1964,183e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1965,155e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1966,25e4,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1967,205e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1968,195e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1969,351e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1970,423e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1971,381e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1972,238e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1973,329e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1974,356e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1975,288e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1976,357e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1977,404e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1978,449e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1979,412e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1980,456e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1981,437e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1982,479e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1983,656e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1984,736e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1985,577e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1986,729e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1987,664e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1988,794e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1989,779e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1990,841e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1991,108e4,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1992,977e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1993,932e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1994,997e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1995,103e4,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1996,97e4,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1997,911e3,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1998,12e5,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,1999,11e5,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,2000,114e4,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,2001,106e4,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,2002,123e4,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,2003,122e4,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,2004,13e5,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,2005,14e5,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,2006,148e4,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,2007,166e4,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,2008,164e4,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,2009,178e4,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,2010,169e4,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,2011,152e4,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+SKJCWPAC,Skipjack tuna Central Western Pacific,Catch,2012,165e4,Katsuwonus pelamis,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
 SSHRIMPSMAGTSE,Sidestripe shrimp SMA GTSE,Catch,1992,0.8,Pandalopsis dispar,Canada-DFO-SMA-GTSE,Shrimp Management Area GTSE
 SSHRIMPSMAGTSE,Sidestripe shrimp SMA GTSE,Catch,1993,11.2,Pandalopsis dispar,Canada-DFO-SMA-GTSE,Shrimp Management Area GTSE
 SSHRIMPSMAGTSE,Sidestripe shrimp SMA GTSE,Catch,1994,6.3,Pandalopsis dispar,Canada-DFO-SMA-GTSE,Shrimp Management Area GTSE
@@ -2088,6 +2582,130 @@ SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,Catch,2007,20.3,Pandalopsis dispar,Canada
 SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,Catch,2008,32.8,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
 SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,Catch,2009,49.7,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
 SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,Catch,2010,38.3,Pandalopsis dispar,Canada-DFO-SMA-FR,Shrimp Management Area FR
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1951,1,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1952,1,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1953,3,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1954,720,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1955,414,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1956,609,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1957,724,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1958,480,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1959,481,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1960,518,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1961,827,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1962,1360,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1963,1790,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1964,3970,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1965,2020,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1966,2230,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1967,2840,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1968,3170,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1969,7150,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1970,6420,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1971,2320,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1972,3230,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1973,5460,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1974,2370,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1975,2210,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1976,3310,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1977,3050,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1978,2630,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1979,1900,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1980,2800,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1981,3770,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1982,3440,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1983,2180,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1984,1500,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1985,1210,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1986,2710,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1987,3670,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1988,3520,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1989,3110,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1990,5970,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1991,4340,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1992,5240,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1993,3980,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1994,3760,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1995,2990,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1996,4160,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1997,5880,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1998,7520,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,1999,3360,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,2000,6150,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,2001,7370,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,2002,7090,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,2003,5750,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,2004,5880,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,2005,3480,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,2006,3240,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,2007,3700,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,2008,4260,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,2009,7470,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,2010,9630,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,2011,9590,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDEPAC,Swordfish Eastern Pacific,Catch,2012,9910,Xiphias gladius,multinational-IATTC-EPAC,Eastern Pacific
+SWORDNPAC,Swordfish North Pacific,Catch,1951,11700,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1952,11700,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1953,12400,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1954,13600,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1955,14100,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1956,15500,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1957,15200,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1958,19700,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1959,18700,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1960,22e3,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1961,21200,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1962,12e3,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1963,10900,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1964,7150,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1965,10100,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1966,11200,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1967,11700,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1968,10700,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1969,10300,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1970,9040,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1971,7440,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1972,6750,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1973,7520,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1974,8430,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1975,11e3,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1976,12e3,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1977,12200,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1978,13600,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1979,11500,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1980,10200,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1981,10800,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1982,9760,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1983,12300,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1984,13300,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1985,15800,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1986,13800,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1987,14100,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1988,13e3,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1989,11800,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1990,12500,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1991,13e3,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1992,18300,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1993,19200,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1994,15300,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1995,13700,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1996,12900,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1997,13900,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1998,13800,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,1999,14200,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,2000,17100,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,2001,13800,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,2002,13700,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,2003,13500,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,2004,13300,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,2005,14200,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,2006,15100,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,2007,15800,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,2008,13600,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,2009,12400,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,2010,10700,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,2011,9460,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
+SWORDNPAC,Swordfish North Pacific,Catch,2012,9860,Xiphias gladius,Multinational-ISC-NPAC,North Pacific Ocean
 YEYEROCKPCOASTIN,Yelloweye rockfish Pacific Coast of Canada (Inside),Catch,1918,29,Sebastes ruberrimus,Canada-DFO-PCOASTIN,Pacific Coast of Canada (Inside)
 YEYEROCKPCOASTIN,Yelloweye rockfish Pacific Coast of Canada (Inside),Catch,1919,71.8,Sebastes ruberrimus,Canada-DFO-PCOASTIN,Pacific Coast of Canada (Inside)
 YEYEROCKPCOASTIN,Yelloweye rockfish Pacific Coast of Canada (Inside),Catch,1920,36,Sebastes ruberrimus,Canada-DFO-PCOASTIN,Pacific Coast of Canada (Inside)
@@ -2180,3 +2798,127 @@ YEYEROCKPCOASTIN,Yelloweye rockfish Pacific Coast of Canada (Inside),Catch,2006,
 YEYEROCKPCOASTIN,Yelloweye rockfish Pacific Coast of Canada (Inside),Catch,2007,7.9,Sebastes ruberrimus,Canada-DFO-PCOASTIN,Pacific Coast of Canada (Inside)
 YEYEROCKPCOASTIN,Yelloweye rockfish Pacific Coast of Canada (Inside),Catch,2008,10.3,Sebastes ruberrimus,Canada-DFO-PCOASTIN,Pacific Coast of Canada (Inside)
 YEYEROCKPCOASTIN,Yelloweye rockfish Pacific Coast of Canada (Inside),Catch,2009,8.1,Sebastes ruberrimus,Canada-DFO-PCOASTIN,Pacific Coast of Canada (Inside)
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1952,21400,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1953,28600,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1954,27400,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1955,26700,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1956,28200,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1957,49400,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1958,57700,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1959,57200,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1960,69e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1961,72900,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1962,72100,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1963,66e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1964,52900,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1965,57200,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1966,80100,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1967,46900,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1968,53400,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1969,59800,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1970,91e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1971,95300,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1972,107e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1973,129e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1974,131e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1975,135e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1976,145e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1977,18e4,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1978,176e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1979,206e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1980,225e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1981,215e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1982,216e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1983,258e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1984,26e4,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1985,27e4,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1986,253e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1987,274e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1988,314e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1989,32e4,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1990,356e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1991,387e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1992,372e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1993,32e4,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1994,371e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1995,398e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1996,341e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1997,42e4,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1998,494e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,1999,442e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,2000,465e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,2001,448e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,2002,495e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,2003,533e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,2004,448e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,2005,589e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,2006,515e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,2007,531e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,2008,653e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,2009,506e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,2010,507e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,2011,522e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINCWPAC,Yellowfin tuna Central Western Pacific,Catch,2012,646e3,Thunnus albacares,multinational-WCPFC-CWPAC,Central Western Pacific Ocean
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1950,102e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1951,84400,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1952,88600,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1953,63500,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1954,63700,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1955,64300,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1956,81300,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1957,79800,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1958,72300,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1959,61600,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1960,108e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1961,109e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1962,78200,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1963,74700,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1964,1e5,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1965,88300,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1966,83900,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1967,80800,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1968,109e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1969,138e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1970,161e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1971,121e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1972,188e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1973,21e4,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1974,208e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1975,2e5,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1976,234e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1977,199e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1978,174e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1979,187e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1980,159e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1981,179e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1982,128e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1983,99700,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1984,149e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1985,226e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1986,286e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1987,286e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1988,296e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1989,299e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1990,302e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1991,266e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1992,253e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1993,251e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1994,244e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1995,239e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1996,261e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1997,272e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1998,276e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,1999,298e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,2000,281e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,2001,418e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,2002,439e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,2003,41e4,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,2004,294e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,2005,284e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,2006,178e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,2007,18e4,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,2008,195e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,2009,246e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,2010,259e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,2011,203e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific
+YFINEPAC,Yellowfin tuna Eastern Pacific,Catch,2012,191e3,Thunnus albacares,multinational-IATTC-NEPAC,Northeast Pacific

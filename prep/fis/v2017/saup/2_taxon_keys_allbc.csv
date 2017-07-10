@@ -1,0 +1,142 @@
+taxon_key,taxon_scientific_name,taxon_common_name
+100039,Marine fishes not identified,Marine fishes nei
+100047,Miscellaneous marine crustaceans,"Marine crabs, shrimps, lobsters nei"
+100077,Miscellaneous aquatic invertebrates,Aquatic invertebrates
+100139,Marine finfishes not identified,Finfishes
+100239,Marine groundfishes not identified,Groundfishes
+100339,Marine pelagic fishes not identified,Pelagic fishes
+190195,Mollusca,"Clams, seasnails, squids, octopuses"
+200004,Elasmobranchii,"Sharks, rays, skates"
+200538,Chondrichthyes,"Sharks, rays, chimaeras"
+290002,Cephalopoda,"Squids, cuttlefishes, octopuses"
+290004,Bivalvia,Clams
+290013,Scyphozoa,True jellyfishes
+290022,Malacostraca,"Lobsters, crabs, shrimps, krill"
+300014,Rajiformes,Skates and rays
+300028,Clupeiformes,"Herrings, shads, anchovies"
+300044,Gadiformes,Cods
+300059,Scorpaeniformes,"Scorpionfishes, flatheads"
+300060,Perciformes,Perch-likes
+300061,Pleuronectiformes,Flatfishes
+390002,Teuthida,Squids
+390007,Octopoda,"Octopuses, argonauts"
+390013,Decapoda,"Crabs, lobsters, shrimps"
+400009,Lamnidae,Mackerel/white sharks
+400019,Rajidae,Stingrays
+400043,Clupeidae,"Herrings, sardines, menhadens"
+400076,Salmonidae,Salmonids
+400080,Osmeridae,Smelts
+400183,Gadidae,"Cods, haddocks"
+400271,Hexagrammidae,Greenlings
+400277,Cottidae,Sculpins
+400314,Carangidae,"Jacks, pompanos"
+400402,Ammodytidae,Sand lances
+400416,Scombridae,"Mackerels, tunas, bonitos"
+400440,Pleuronectidae,Righteye flounders
+400454,Engraulidae,"Anchovies, round herrings"
+400488,Triakidae,Houndsharks
+400573,Sebastidae,"Rockfishes, rockcods, thornyheads"
+490012,Octopodidae,Octopuses
+490036,Lithodidae,Stone/king crabs
+490043,Penaeidae,Commercial shrimps and prawns
+490046,Pandalidae,Northern shrimps
+490058,Cardiidae,Cockles
+490060,Veneridae,Venus clams
+490061,Solenidae,"Razor, knife clams"
+490097,Brachyura,Marine crabs
+490143,Ostreidae,True oysters
+500108,Raja,"Stingrays, skates"
+500124,Ammodytes,Sand eels
+500638,Isurus,Mako sharks
+500717,Myoxocephalus,Grubbies and sculpins
+501135,Sebastes,Redfishes
+502224,Porichthys,Midshipman
+502724,Oncorhynchus,"Salmons, trouts"
+506253,Coregonus,Whitefishes
+590010,Loligo,Common squids
+590014,Crassostrea,Cupped oysters
+590046,Haliotis,Abalones
+590065,Chionoecetes,"Tanner, snow crabs"
+590093,Pandalus,Seabed shrimps
+590112,Ostrea,Flat oysters
+590158,Strongylocentrotus,Sickle-arched sea urchins
+590269,Tresus,Gaper clams
+600107,Katsuwonus pelamis,Skipjack tuna
+600117,Scomber japonicus,Chub mackerel
+600239,Oncorhynchus mykiss,Rainbow trout
+600240,Oncorhynchus gorbuscha,Pink salmon
+600241,Oncorhynchus keta,Chum salmon
+600243,Oncorhynchus nerka,Sockeye salmon
+600244,Oncorhynchus tshawytscha,Chinook salmon
+600245,Oncorhynchus kisutch,Coho salmon
+600252,Mallotus villosus,Capelin
+600255,Hypomesus pretiosus,Surf smelt
+600256,Thaleichthys pacificus,Eulachon
+600303,Cololabis saira,Pacific saury
+600308,Gadus macrocephalus,Pacific cod
+600318,Theragra chalcogramma,Alaska pollock
+600368,Trachurus symmetricus,Pacific jack mackerel
+600502,Sebastes entomelas,Widow rockfish
+600503,Sebastes flavidus,Yellowtail rockfish
+600504,Sebastes alutus,Pacific ocean perch
+600509,Ophiodon elongatus,Lingcod
+600512,Anoplopoma fimbria,Sablefish
+600514,Hippoglossus stenolepis,Pacific halibut
+600516,Reinhardtius hippoglossoides,Greenland halibut
+600517,Atheresthes stomias,Arrowtooth flounder
+600518,Atheresthes evermanni,Kamchatka flounder
+600519,Hippoglossoides elassodon,Flathead sole
+600520,Limanda aspera,Yellowfin sole
+600752,Isurus oxyrinchus,Shortfin mako
+600898,Prionace glauca,Blue shark
+601477,Sardinops sagax,Pacific sardine
+601520,Clupea pallasii pallasii,Pacific herring
+601584,Alosa sapidissima,American shad
+601664,Engraulis mordax,Californian anchovy
+601732,Mola mola,Ocean sunfish
+601879,Microgadus proximus,Pacific tomcod
+602535,Alopias vulpinus,Thresher
+602544,Somniosus pacificus,Pacific sleeper shark
+602570,Raja stellulata,Starry skate
+602589,Hydrolagus colliei,Spotted ratfish
+602676,Coregonus pidschian,Humpback whitefish
+602678,Coregonus sardinella,Sardine cisco
+602691,Salvelinus malma malma,Dolly varden
+603578,Atractoscion nobilis,White weakfish
+603962,Sebastes crameri,Darkblotched rockfish
+603971,Sebastes goodei,Chilipepper rockfish
+603979,Sebastes melanops,Black rockfish
+603987,Sebastes paucispinis,Bocaccio rockfish
+603989,Sebastes pinniger,Canary rockfish
+604009,Sebastolobus alascanus,Shortspine thornyhead
+604037,Pleurogrammus monopterygius,Atka mackerel
+604140,Scorpaenichthys marmoratus,Cabezon
+604215,Citharichthys sordidus,Pacific sanddab
+604237,Eopsetta jordani,Petrale sole
+604238,Glyptocephalus zachirus,Rex sole
+604247,Microstomus pacificus,Dover sole
+604248,Parophrys vetulus,English sole
+604249,Platichthys stellatus,Starry flounder
+604250,Pleuronectes quadrituberculatus,Alaska plaice
+604252,Pleuronichthys decurrens,Curlfin sole
+604255,Psettichthys melanostictus,Pacific sand sole
+604642,Galeorhinus galeus,Tope shark
+604796,Sarda chiliensis lineolata,Pacific bonito
+614290,Thunnus orientalis,Pacific bluefin tuna
+624237,Lepidopsetta bilineata,Rock sole
+690064,Saxidomus gigantea,Butter clam
+690115,Metacarcinus magister,Dungeness crab
+690283,Crassostrea gigas,Pacific cupped oyster
+690284,Panopea abrupta,Pacific geoduck
+690285,Leukoma staminea,Pacific littleneck clam
+690286,Siliqua patula,Pacific razor clam
+690287,Cancer productus,Pacific rock crab
+690337,Mya arenaria,Sand gaper
+690429,Patinopecten caurinus,Weathervane scallop
+690608,Erimacrus isenbeckii,Hair Crab
+690621,Paralithodes camtschaticus,Red king crab
+690651,Clinocardium nuttallii,Nuttall cockle
+690658,Doryteuthis opalescens,California market squid
+690660,Pandalus jordani,Ocean shrimp
+690665,Upogebia pugettensis,Blue mud shrimp
+690891,Enteroctopus dofleini,North Pacific giant octopus
