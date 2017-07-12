@@ -1,4 +1,67 @@
-stock_id,stock_name,param,year,value,sciname,dfo_area_id,areaname
+stock_id,stock_name,param,year,value,sciname,ram_area_id,ram_area_name
+ALBANPAC,Albacore tuna North Pacific,Catch,1950,68200,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1951,48100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1952,94200,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1953,76800,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1954,61500,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1955,54500,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1956,76500,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1957,92300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1958,55700,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1959,51300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1960,63400,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1961,52600,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1962,47300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1963,68900,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1964,62400,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1965,73e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1966,66100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1967,83100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1968,69500,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1969,75e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1970,68e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1971,91200,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1972,107e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1973,107e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1974,115e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1975,96800,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1976,127e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1977,62500,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1978,99600,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1979,70700,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1980,74900,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1981,70600,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1982,73e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1983,55e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1984,72600,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1985,59100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1986,46100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1987,49100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1988,45300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1989,44100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1990,53700,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1991,37300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1992,54800,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1993,54100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1994,73300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1995,67900,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1996,86200,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1997,107e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1998,98200,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,1999,126e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2000,85100,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2001,90200,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2002,105e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2003,92900,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2004,90600,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2005,63300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2006,66400,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2007,92700,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2008,68600,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2009,78e3,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2010,68600,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2011,80300,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,Catch,2012,80200,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
 BIGSKA3CD,Big skate West Coast Vancouver Island,Catch,1954,11.9,Raja binoculata,Canada-DFO-WCVANI,West Coast of Vancouver Island
 BIGSKA3CD,Big skate West Coast Vancouver Island,Catch,1955,10.2,Raja binoculata,Canada-DFO-WCVANI,West Coast of Vancouver Island
 BIGSKA3CD,Big skate West Coast Vancouver Island,Catch,1956,9.09,Raja binoculata,Canada-DFO-WCVANI,West Coast of Vancouver Island
@@ -1525,6 +1588,133 @@ PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,Catch,2009,512,Se
 PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,Catch,2010,419,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
 PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,Catch,2011,581,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
 PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,Catch,2012,382,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
+PHALNPAC,Pacific halibut North Pacific,Catch,1888,667,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1889,585,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1890,621,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1891,966,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1892,1260,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1893,1460,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1894,1710,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1895,1930,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1896,2460,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1897,2990,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1898,3520,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1899,4060,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1900,6080,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1901,8110,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1902,10100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1903,11400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1904,12700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1905,9980,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1906,16300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1907,22700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1908,23e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1909,23200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1910,23500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1911,25800,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1912,27400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1913,30200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1914,30600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1915,31100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1916,22600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1917,22e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1918,17100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1919,18200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1920,21100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1921,23800,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1922,19300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1923,23300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1924,24100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1925,23e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1926,23800,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1927,24900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1928,24600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1929,25800,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1930,22500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1931,20100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1932,20200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1933,21300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1934,20300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1935,21500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1936,22200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1937,22500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1938,22500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1939,23100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1940,24200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1941,23700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1942,22900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1943,24400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1944,24200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1945,24200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1946,27300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1947,25300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1948,25200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1949,25e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1950,26e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1951,25400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1952,28200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1953,27100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1954,32e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1955,26100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1956,30200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1957,27600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1958,29300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1959,32300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1960,32500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1961,31400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1962,34e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1963,32300,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1964,27100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1965,28700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1966,28100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1967,25e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1968,22e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1969,26400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1970,24900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1971,21200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1972,19500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1973,14400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1974,9670,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1975,12500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1976,12500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1977,9920,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1978,9980,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1979,10200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1980,9920,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1981,11700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1982,13200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1983,17400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1984,20400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1985,25400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1986,31600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1987,31500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1988,33700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1989,30400,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1990,27900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1991,25900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1992,27200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1993,26900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1994,24800,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1995,19900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1996,21500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1997,29600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1998,31600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,1999,33700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2000,31e3,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2001,32100,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2002,33900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2003,33200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2004,33200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2005,32600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2006,30800,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2007,28500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2008,26600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2009,23600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2010,22600,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2011,17900,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2012,14500,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2013,13200,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
+PHALNPAC,Pacific halibut North Pacific,Catch,2014,10700,Hippoglossus stenolepis,multinational-IPHC-NPAC,North Pacific
 QROCKPCOASTIN,Quillback rockfish Pacific Coast of Canada (Inside),Catch,1918,29.2,Sebastes maliger,Canada-DFO-PCOASTIN,Pacific Coast of Canada (Inside)
 QROCKPCOASTIN,Quillback rockfish Pacific Coast of Canada (Inside),Catch,1919,72.5,Sebastes maliger,Canada-DFO-PCOASTIN,Pacific Coast of Canada (Inside)
 QROCKPCOASTIN,Quillback rockfish Pacific Coast of Canada (Inside),Catch,1920,36.3,Sebastes maliger,Canada-DFO-PCOASTIN,Pacific Coast of Canada (Inside)

@@ -102,10 +102,15 @@ bc_stocks <- metadata %>%
 
 rgn_keep <- c('^North ', 'Northeast ', 'Eastern', '^Pacific', 'Central Western')
   ### NOTE: Central Western includes Pacific from US southern border northward...
+
+stocks_exclude <- c('BIGEYE', 'BTUNA', 'MARLIN', 'SWORD', 'YFIN', 'SKJ')
+  ### These get picked up from multinational managed stocks
+
 bc_stocks <- bc_stocks %>%
   ### further refine georegions for multinationals:
-  filter(str_detect(areaid, 'Canada') | str_detect(areaname, paste(rgn_keep, collapse = '|')))
-
+  filter(str_detect(areaid, 'Canada') | str_detect(areaname, paste(rgn_keep, collapse = '|'))) %>%
+  filter(!str_detect(stockid, paste(stocks_exclude, collapse = '|')))
+  
 write_csv(bc_stocks, file.path(dir_goal, 'ram/1_bc_stocks_all_ram.csv'))
 ```
 
@@ -300,7 +305,8 @@ span_plot <- ggplot(span_df2, aes(x = stock_name_mod)) +
   coord_flip() +
   labs(x = 'RAM Stock',
        y = 'Year',
-       color = 'Parameter')
+       color = 'Parameter') +
+  guides(colour = guide_legend(override.aes = list(size = 3)))
 # span_plot
 
 ggsave(file.path(dir_goal, 'Figs', 'ram_stock_id_spans.png'), width = 6, height = 6)

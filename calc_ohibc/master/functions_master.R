@@ -61,6 +61,8 @@ calc_trend <- function(scenario_df, years = NULL) {
     arrange(region_id, year) %>%
     mutate(status_1 = first(status))
 
+  print(head(scenario_df))
+
   trend <- scenario_df %>%
     group_by(region_id, status_1) %>%
     do(mdl = lm(status ~ year, data = . )) %>%
@@ -91,12 +93,16 @@ get_data_year <- function(goal, status_yr, layers) {
 
 }
 
-complete_years <- function(score_df, year_span, method = c('carry', 'zero')[1]) {
+complete_years <- function(score_df, year_span,
+                           method = c('carry', 'zero', 'none')[1],
+                           dir = c('forward', 'back', 'both')[3]) {
+  ### This function
   if('rgn_id' %in% names(score_df)) {
     message('The complete_years() function automagically renames "rgn_id" to "region_id" for your convenience.')
     score_df <- score_df %>%
       rename(region_id = rgn_id)
   }
+
   data_range <- range(score_df$year, na.rm = TRUE)
   if(min(year_span) > data_range[1] | max(year_span) < data_range[2]) {
     min_yr <- min(min(year_span), data_range[1])
@@ -114,25 +120,32 @@ complete_years <- function(score_df, year_span, method = c('carry', 'zero')[1]) 
     arrange(year) %>%
     ungroup()
 
-  if(method == 'carry') {
-    score_df <- score_df %>%
-      group_by(region_id) %>%
-      fill(-year, -region_id, .direction = 'down') %>%
-      fill(-year, -region_id, .direction = 'up') %>%
-      ungroup()
-  } else {
-    ### method == 'zero': zero out numerics, carry text fields
+  if(method == 'none') return(score_df)
+
+  if(method == 'zero') {
+    ### zero out numerics, though text fields will be carried
+    ### in the next step
     score_df <- score_df %>%
       lapply(FUN = function(x) {
-          if(!class(x) %in% c('character', 'factor')) x[is.na(x)] <- 0
-          return(x)
-        }) %>%
-      data.frame() %>%
+        if(!class(x) %in% c('character', 'factor')) x[is.na(x)] <- 0
+        return(x)
+      }) %>%
+      data.frame()
+  }
+
+  if(dir %in% c('forward', 'both')) {
+    score_df <- score_df %>%
       group_by(region_id) %>%
       fill(-year, -region_id, .direction = 'down') %>%
-      fill(-year, -region_id, .direction = 'up') %>%
       ungroup()
   }
+  if(dir %in% c('back', 'both')) {
+    score_df <- score_df %>%
+      group_by(region_id) %>%
+      fill(-year, -region_id, .direction = 'up') %>%
+    ungroup()
+  }
+
   return(score_df)
 }
 
@@ -154,12 +167,8 @@ FIS <- function(layers) {
     select(year, stock_id, f_fmsy = value)
   ram_catch         <- layers$data[['fis_ram_catch']] %>%
     select(year, stock_id, catch = value)
-  rgn_stock_wt_dfo  <- layers$data[['fis_stock_wt_dfo']] %>%
-    select(region_id = rgn_id, stock_id = ram_stock_id, dfo_wt = catch_wt)
-  rgn_stock_wt_saup <- layers$data[['fis_stock_wt_saup']] %>%
-    select(region_id = rgn_id, stock_id = ram_stockid, saup_wt = catch_wt)
-  stock_wt_src      <- layers$data[['fis_stock_wt_src']] %>%
-    select(stock_id = ram_stock_id, priority)
+  rgn_stock_area  <- layers$data[['fis_stock_area']] %>%
+    select(region_id = rgn_id, stock_id = stockid, a_prop)
 
   ### These parameters are based on conversation with Ian Perry, Karen Hunter,
   ### and Karin Bodtker on May 24 2017.
@@ -167,6 +176,15 @@ FIS <- function(layers) {
   b_bmsy_underexploit_thresh  <- 3.00
   f_fmsy_underfishing_penalty <- 0.25
   f_fmsy_overfishing_thresh   <- 2.00
+
+  ### Apply rolling mean to F/Fmsy
+  ram_f_fmsy <- ram_f_fmsy %>%
+    mutate(f_fmsy_raw = f_fmsy) %>%
+    arrange(stock_id, year) %>%
+    group_by(stock_id) %>%
+    # filter(!is.na(f_fmsy)) %>%
+    mutate(f_fmsy = zoo::rollmean(f_fmsy_raw, k = 4, align = 'right', fill = NA)) %>%
+    ungroup()
 
   stock_status_layers <- ram_b_bmsy %>%
     full_join(ram_f_fmsy, by = c('year', 'stock_id'))
@@ -176,15 +194,6 @@ FIS <- function(layers) {
   ########################################################.
   ### * ram_b_bmsy, ram_f_fmsy
 
-  ### Apply rolling mean to F/Fmsy
-  ram_f_fmsy <- ram_f_fmsy %>%
-    mutate(f_fmsy_raw = f_fmsy) %>%
-    arrange(stock_id, year) %>%
-    group_by(stock_id) %>%
-    filter(!is.na(f_fmsy)) %>%
-    mutate(f_fmsy = zoo::rollmean(f_fmsy_raw, k = 4, align = 'right', fill = NA)) %>%
-    ungroup() %>%
-    select(-f_fmsy_raw)
 
   ### Function for converting B/Bmsy values into a 0 - 1 score
   rescale_bprime_crit <- function(fish_stat_df,
@@ -196,9 +205,9 @@ FIS <- function(layers) {
     underfished_th <- 1.5
 
     bmax_adj <- (bmax - underfished_th) / (1 - bmax_val) + underfished_th
-      ### this is used to create a "virtual" B/Bmsy max where score drops
-      ### to zero.  If bmax_val == 0, this is bmax; if bmax_val > 0, bmax_adj
-      ### extends beyond bmax, to create a gradient where bmax_val occurs at bmax.
+    ### this is used to create a "virtual" B/Bmsy max where score drops
+    ### to zero.  If bmax_val == 0, this is bmax; if bmax_val > 0, bmax_adj
+    ### extends beyond bmax, to create a gradient where bmax_val occurs at bmax.
 
     fish_stat_df <- fish_stat_df %>%
       # group_by(stock) %>% ### grouping by stock will set b_max by max per stock, instead of max overall
@@ -239,7 +248,7 @@ FIS <- function(layers) {
     underfishing_th <- 0.8; overfishing_th  <- 1.2
 
     bcritslope = 1 / (overfished_th - Bcrit)
-      ### connecting from (Bcrit, 0) to (overfished_th, 1)
+    ### connecting from (Bcrit, 0) to (overfished_th, 1)
 
     fish_stat_df <- fish_stat_df %>%
       mutate(fPrime = ifelse(b_bmsy < overfished_th & f_fmsy < fmax,
@@ -256,7 +265,8 @@ FIS <- function(layers) {
                                         fmax = fmax,
                                         fmin_val = fmin_val),
                              fPrime),
-             fPrime = ifelse(is.na(fPrime), 0, fPrime)
+             fPrime = ifelse(is.na(fPrime), 0, fPrime), ### fill zeros everywhere unscored
+             fPrime = ifelse(is.na(f_fmsy), NA, fPrime) ### but if no f_fmsy, reset to NA
       )
     return(fish_stat_df)
   }
@@ -266,51 +276,47 @@ FIS <- function(layers) {
                         bmax_val = b_bmsy_underexploit_penalty) %>%
     rescale_fprime_crit(fmax     = f_fmsy_overfishing_thresh,
                         fmin_val = f_fmsy_underfishing_penalty) %>%
-    mutate(x_prod = (fPrime * bPrime)) %>%
+    mutate(x_prod = ifelse(!is.na(fPrime), (fPrime * bPrime), bPrime),
+           basis  = ifelse(!is.na(fPrime), 'F/Fmsy, B/Bmsy', 'B/Bmsy only')) %>%
     dplyr::select(year, stock_id,
                   score = x_prod,
+                  basis,
+                  bPrime, fPrime,
                   b_bmsy, f_fmsy)  %>%
     group_by(stock_id) %>%
     complete(year = year_span) %>%
     arrange(year) %>%
-    fill(score, .direction = 'down') %>%
+    fill(score, basis, .direction = 'down') %>%
     ungroup()
 
   ##############################################################.
   ##### calculate distribution of fishery catch to regions #####
   ##############################################################.
-  ### * ram_catch, rgn_stock_wt_*
-
-  stock_wt_df <- rgn_stock_wt_dfo %>%
-    full_join(rgn_stock_wt_saup, by = c('stock_id', 'region_id')) %>%
-    left_join(stock_wt_src, by = 'stock_id') %>%
-    gather(key = src, value = catch_wt, dfo_wt:saup_wt) %>%
-    filter(str_detect(src, priority) & !is.na(catch_wt)) %>%
-    select(region_id, stock_id, catch_wt) %>%
-    filter(catch_wt > 0)
 
   ### calculate weights within each region by regional catch
   catch_df <- ram_catch %>%
-    left_join(stock_wt_df, by = 'stock_id') %>%
+    left_join(rgn_stock_area, by = 'stock_id') %>%
     group_by(region_id, stock_id) %>%
     complete(year = year_span) %>%
     arrange(year) %>%
-    fill(catch, catch_wt, .direction = 'down') %>%
+    fill(catch, a_prop, .direction = 'down') %>%
     ungroup() %>%
-    mutate(rgn_catch = catch * catch_wt,
+    mutate(rgn_catch = catch * a_prop,
            rgn_catch = ifelse(is.na(rgn_catch), 0, rgn_catch))
 
   stock_score_df <- stock_status_df %>%
+    filter(!is.na(score)) %>%
     group_by(stock_id) %>%
     arrange(stock_id, year) %>%
     fill(score, .direction = c('down')) %>%
     fill(score, .direction = c('up')) %>%
     ungroup() %>%
     full_join(catch_df, by = c('stock_id', 'year')) %>%
-    select(region_id, year, stock_id, score, rgn_catch) %>%
+    select(region_id, year, stock_id, score, rgn_catch, basis) %>%
     filter(year %in% year_span & !is.na(region_id))
 
   if(data_year == max(year_span)) {
+    ### note, this contains all years, but only write it once
     write_csv(stock_score_df, '~/github/ohibc/prep/fis/v2017/summary/fis_from_functions.csv')
   }
 
@@ -321,7 +327,7 @@ FIS <- function(layers) {
   #          rgn_catch_pct = rgn_catch / total_catch,
   #          total_score = sum(score * rgn_catch) / total_catch) %>%
   #   ungroup() %>%
-  #   left_join(get_rgn_names(), by = 'region_id')
+  #   left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
   #
   # for(rgn in 1:8) {
   #   # rgn <- 1
@@ -337,6 +343,7 @@ FIS <- function(layers) {
 
   score_df <- stock_score_df %>%
     group_by(region_id, year) %>%
+    filter(!is.na(score)) %>%
     mutate(stock_catch = sprintf('%s: %.2f', stock_id, rgn_catch)) %>%
     summarize(total_catch = sum(rgn_catch),
               total_score = sum(score * rgn_catch) / total_catch,
@@ -365,6 +372,8 @@ FIS <- function(layers) {
     filter(!is.na(region_id)) %>%
     bind_rows(fis_trend) %>%
     select(goal, dimension, region_id, score)
+
+  message('returning from FIS')
 
   return(fis_scores)
 
@@ -499,9 +508,9 @@ FP <- function(layers, scores) {
   # return(rbind(scores, s))
   return(rbind(scores,
                data.frame(goal = 'FP',
-                    region_id = rep(c(1:8), 2),
-                    dimension = c(rep('status', 8), rep('trend', 8)),
-                    score = rep(NA, 16))))
+                          region_id = rep(c(1:8), 2),
+                          dimension = c(rep('status', 8), rep('trend', 8)),
+                          score = rep(NA, 16))))
 }
 
 AO <- function(layers) {
@@ -590,10 +599,10 @@ AO <- function(layers) {
       left_join(ao_status, by = c('year', 'region_id'))
 
     write_csv(ao_status_components, '~/github/ohibc/prep/ao/v2017/summary/ao_from_functions.csv')
-  # ggplot(ao_status_components, aes(x = year, y = status, group = component, color = component)) +
-  #   geom_line(aes(y = score), color = 'grey40', size = 1.5, alpha = .8) +
-  #   geom_line(size = 1, alpha = .8) +
-  #   facet_wrap( ~ rgn_name)
+    # ggplot(ao_status_components, aes(x = year, y = status, group = component, color = component)) +
+    #   geom_line(aes(y = score), color = 'grey40', size = 1.5, alpha = .8) +
+    #   geom_line(size = 1, alpha = .8) +
+    #   facet_wrap( ~ rgn_name)
   }
 
   ## reference points
@@ -859,7 +868,7 @@ LIV <- function(layers) {
     arrange(region_id, year) %>%
     mutate(empl_rate = 1 - unemployment_rate,
            ref_pt = zoo::rollmean(empl_rate, k = 5, fill = NA, align = 'right')) %>%
-  ### reference point is mean of past five years (incl current)
+    ### reference point is mean of past five years (incl current)
     ungroup()
 
   income_df <- layers$data[['liv_income']] %>%

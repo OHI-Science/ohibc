@@ -171,7 +171,8 @@ for(goalname in scores$goal %>% unique() %>% sort) {
     scale_x_continuous(breaks = scores_tmp$year %>% unique() %>% sort) +
     scale_y_continuous(limits = c(0, 100)) +
     theme(axis.text.x = element_text(angle = 30)) +
-    labs(color = goalname)
+    labs(color = goalname) +
+    guides(colour = guide_legend(override.aes = list(size = 3)))
 
   print(status_plot)
 }
@@ -179,39 +180,6 @@ for(goalname in scores$goal %>% unique() %>% sort) {
 
 ```
 
-## Fisheries breakdown
-
-``` {r plot_fis}
-
-  ## plotting fishery catch weighting by region
-  stock_plot_df <- read_csv(file.path(dir_ohibc, 'prep/fis/v2017/summary/fis_from_functions.csv')) %>%
-    group_by(region_id, year) %>%
-    mutate(total_catch = sum(rgn_catch),
-           rgn_catch_pct = rgn_catch / total_catch,
-           total_score = sum(score * rgn_catch) / total_catch) %>%
-    ungroup() %>%
-    left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
-
-  for(rgn in 1:8) {
-    rgn_plot_df <- stock_plot_df %>%
-      filter(region_id == rgn)
-    status_plot <- ggplot(rgn_plot_df, aes(x = year, y = score)) +
-      geom_line(aes(group = stock_id, color = stock_id,
-                    size = rgn_catch_pct),
-                lineend = 'round', alpha = .5) +
-      scale_size_continuous(guide = FALSE) +
-      geom_line(data = rgn_plot_df %>%
-                  select(year, total_score) %>%
-                  distinct(),
-                aes(x = year, y = total_score),
-                size = 1.5, color = 'grey30')  +
-      labs(title = first(rgn_plot_df$rgn_name),
-           color = 'Stock ID',
-           y     = 'Stock Score')
-    print(status_plot)
-  }
-
-```
 
 ``` {r prov_footer, results = 'asis'}
 # prov_wrapup(commit_outputs = FALSE)

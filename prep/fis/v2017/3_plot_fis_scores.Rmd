@@ -1,0 +1,125 @@
+---
+title: 'OHIBC: plot FIS scores by stock and region'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+
+
+### goal specific folders and info
+goal      <- 'fis'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_spatial  <- file.path(dir_git, 'prep/_spatial')
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### support scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### raster plotting and analyzing scripts
+
+### set up proj4string options: BC Albers and WGS84
+p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+
+```
+
+# Summary
+
+This script takes the output from `functions.R` FIS model and plots individual stock scores by year and relative contribution to score.
+
+## Stock scores and overall scores by region
+
+``` {r assemble_dataframe}
+
+## plotting fishery catch weighting by region
+stock_plot_df <- read_csv(file.path(dir_goal, 'summary/fis_from_functions.csv')) %>%
+  filter(!is.na(score)) %>%
+  group_by(region_id, year) %>%
+  mutate(total_catch = sum(rgn_catch),
+         rgn_catch_pct = rgn_catch / total_catch,
+         total_score = sum(score * rgn_catch) / total_catch) %>%
+  ungroup() %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')) %>%
+  filter(rgn_catch > 0)
+
+```
+
+``` {r plot_fis_scores}
+
+for(rgn in 1:8) {
+  # rgn <- 1
+  rgn_plot_df <- stock_plot_df %>%
+    filter(region_id == rgn)
+  status_plot <- ggplot(rgn_plot_df, aes(x = year, y = score)) +
+    ggtheme_plot() +
+    geom_line(aes(group = stock_id, color = stock_id,
+                  size = rgn_catch_pct),
+              lineend = 'round', alpha = .5) +
+    # scale_size_continuous(guide = FALSE) +
+    geom_point(data = rgn_plot_df %>%
+                 filter(!str_detect(basis, 'F/Fmsy')),
+               color = 'grey30', size = 1) +
+    geom_line(data = rgn_plot_df %>%
+                select(year, total_score) %>%
+                distinct(),
+              aes(x = year, y = total_score),
+              size = 1.5, color = 'grey30')  +
+    labs(title = first(rgn_plot_df$rgn_name),
+         color = 'Stock ID',
+         y     = 'Stock Score') +
+    guides(colour = guide_legend(override.aes = list(size = 3)),
+           size = 'none')
+  print(status_plot)
+}
+
+```
+
+## Catch by stock and region
+
+``` {r plot_catch}
+
+for(rgn in 1:8) {
+  rgn_plot_df <- stock_plot_df %>%
+    filter(region_id == rgn) 
+  status_plot <- ggplot(rgn_plot_df, aes(x = year, y = rgn_catch)) +
+    ggtheme_plot() +
+    geom_line(aes(group = stock_id, color = stock_id),
+              alpha = .5, size = 2) +
+    labs(title = first(rgn_plot_df$rgn_name),
+         color = 'Stock ID',
+         y     = 'Stock reported catch') +
+    guides(colour = guide_legend(override.aes = list(size = 3)),
+           size = 'none')
+  print(status_plot)
+}
+
+```
+
+-----
+
+``` {r provenance, results = 'asis'}
+prov_wrapup(commit_outputs = FALSE)
+```
