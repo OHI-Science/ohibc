@@ -171,3 +171,23 @@ gdal_rast2 <- function(src, rast_base, dst = NULL, value = NULL, override_p4s = 
   return(invisible(rast))
 }
 
+animate_rast <- function(rast_stack, gif_file, scale_lim = NULL) {
+  library(animation)
+
+  if(is.null(scale_lim)) {
+    scale_lim <- c(min(minValue(rast_stack)), max(maxValue(rast_stack)))
+  }
+  colorscale = colorRampPalette(brewer.pal(9, 'Spectral'))(255) # rainbow color scheme
+
+  capture.output({
+    saveGIF({
+      for(i in 1:nlayers(rast_stack)) {
+        # don't forget to fix the zlimits
+        plot(rast_stack[[i]], zlim = scale_lim,
+             axes = FALSE,
+             col  = colorscale,
+             main = names(rast_stack[[i]]))
+      }
+    }, movie.name = gif_file)
+  })
+}

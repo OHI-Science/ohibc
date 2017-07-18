@@ -116,7 +116,7 @@ scores_all <- data.frame() ### initialize scores
 
 for (status_year in status_years) {
   
-  # if(!exists('status_year')) status_year <- status_years[1]
+  if(!exists('status_year')) status_year <- status_years[1]
 
   message('Calculating scores for ', status_year)
 

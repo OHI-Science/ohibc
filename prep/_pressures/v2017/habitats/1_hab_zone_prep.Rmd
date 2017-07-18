@@ -1,0 +1,575 @@
+---
+title: "OHIBC Pressures habitat layer preparation"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+library(sp)        # the classes and methods that make up spatial ops in R
+library(rgdal)
+library(maptools)
+library(raster)
+library(DT)
+
+dir_git <- '~/github/ohibc'
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+  
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+
+### goal specific folders and info
+scenario <- 'v2016'
+dir_hab  <- file.path(dir_git, 'prep/pressures', scenario, 'habitats')
+dir_anx  <- file.path(dir_M, 'git-annex/bcprep')
+#dir_rast <- file.path(dir_anx, 'pressures', scenario, 'habitats')
+dir_rast <- file.path(dir_hab, 'raster')
+
+### provenance tracking
+# source('~/github/ohibc/src/R/prov.R')
+#   ### Provenance tracking functions: must source at start to initialize prov_track
+# dir_prov <- file.path(dir_hab, 'prov')
+#   ### set a provenance folder for this script
+# this_script_file <- file.path(dir_hab, 'layer_prep_pressures_habs.Rmd')
+#   ### can't recognize the current script name on its own :(
+# prov_run_tag <- 'standard run'
+
+### goal-specific source scripts
+source(file.path(dir_hab, 'hab_fxns.R'))
+# git_prov(file.path(dir_spp, 'R/spp_fxn.R'), type = 'sourced_script')
+
+### set up CRS for BC Albers based on proj4string.
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+
+```
+
+Assemble a habitat map for OHIBC pressures calculations.
+
+Projection: BC Albers
+
+Raster: 
+* 500 m cell size - able to resolve 1 km features (e.g. intertidal buffer)
+
+``` {r load_habitat_layers_list, echo = FALSE}
+
+hab_lyrs <- read_csv(file.path(dir_hab, 'pressures_hab_layers.csv'))
+
+# hab_dirs <- read_csv(file.path(dir_hab, 'bcmca_shps_all.csv'))
+# 
+# hab_lyrs <- hab_lyrs %>%
+#   mutate(layer_name = paste(layer_name, '.shp', sep = '')) %>%
+#   left_join(hab_dirs %>%
+#               select(dir, layer_name = shp),
+#             by = 'layer_name')
+# 
+# write_csv(hab_lyrs, file.path(dir_hab, 'pressures_hab_layers.csv'))
+
+DT::datatable(hab_lyrs)
+
+```
+
+# Read and process ETOPO bathymetry
+
+``` {r read_and_process_bathymetry, echo = FALSE}
+
+### Set up ETOPO raster for seafloor depths.  Note that the native resolution
+### is 2 arc-minutes, which will be a couple of kilometers more or less.
+
+# To install rhdf5 package: 
+#   source("https://bioconductor.org/biocLite.R")
+#     # try "http://" if you get "https:// URLs are not supported"
+#   biocLite("rhdf5")
+# 
+# To view documentation for the version of this package installed in your system, start R and enter:
+#   browseVignettes("rhdf5")
+
+#   library(rhdf5)
+#   library(gdalUtils)
+# 
+#   etopo_hdf <- file.path(dir_anx, 'data/ETOPO2v2_bathymetry/ETOPO2v2c.hdf')
+#   etopo_tif <- file.path(dir_anx, 'data/ETOPO2v2_bathymetry/ETOPO2v2c.tif')
+# 
+#   use get_subsets or whatever - 
+#   etopo_sds <- sprintf('HDF5:"%s"://dataset0', etopo_hdf)
+#   gdal_translate(etopo_sds, dst_dataset = etopo_tif)
+#   
+#   etopo_rast <- raster(etopo_tif)
+#   # Coverage of ETOPO2v2c is -90deg to +90deg in Latitude, and -180deg to +180deg in 
+#   # Longitude, whereas ETOPO2 covered +90deg to -89deg58' in Latitude and -180Wdeg 
+#   # to +189deg58' in Longitude. The new ETOPO2v2c, with cell centered-registration, 
+#   # eliminates the ETOPO2 North Pole redundancies but has the same number of cells: 
+#   # 5,400 rows of data (180 x 30), each with 10,800 columns of data(360x30).
+#   etopo_rast <- setExtent(etopo_rast, extent(-180, 180, -90, 90))
+#   crs(etopo_rast) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+#   
+#   bbox_bc <- extent(-150, -120, 45, 75)
+#   etopo_bc <- crop(etopo_rast, bbox_bc)
+#   rast_base <- raster(file.path(dir_rgn,  'ohibc_base_raster_500m.tif'))
+#   etopo_bcalb <- projectRaster(etopo_bc, rast_base)
+
+rast_bath_raw_file <- file.path(dir_rast, 'rast_bath_raw.tif')
+
+if(!file.exists(rast_bath_raw_file)) {
+
+  etopo_tif <- file.path(dir_anx, 'data/bathymetry/etopo1_bedrock.tif')
+
+  etopo_rast <- raster(etopo_tif)
+
+  rast_base <- raster(file.path(dir_rgn,  'ohibc_base_raster_500m.tif'))
+  rast_bath_raw <- projectRaster(etopo_rast, rast_base)
+  
+  values(rast_bath_raw)[values(rast_bath_raw) > 0] <- NA
+  
+  message('Writing raw bathymetry raster to: ', rast_bath_raw_file)
+  writeRaster(rast_bath_raw, rast_bath_raw_file, overwrite = TRUE)
+  
+  remove(rast_bath_raw)
+
+} else {
+  message('Raw bathymetry raster already exists at: ', rast_bath_raw_file)
+  
+}
+
+
+rast_bath_file <- file.path(dir_rast, 'rast_bath.tif')
+if(!file.exists(rast_bath_file)) {
+
+  rast_bath <- raster(rast_bath_raw_file)
+  
+  x <- values(rast_bath)
+  values(rast_bath)[x >=    -2 & x <=    0] <-    -2
+  values(rast_bath)[x >=   -20 & x <    -2] <-   -20
+  values(rast_bath)[x >=   -60 & x <   -20] <-   -60
+  values(rast_bath)[x >=  -200 & x <   -60] <-  -200
+  values(rast_bath)[x >= -1000 & x <  -200] <- -1000
+  values(rast_bath)[x >= -2000 & x < -1000] <- -2000
+  values(rast_bath)[x >= -3000 & x < -2000] <- -3000
+  values(rast_bath)[x <  -3000] <- -4000
+
+  message('Writing zoned bathymetry raster to: ', rast_bath_file)
+  writeRaster(rast_bath, rast_bath_file, overwrite = TRUE)
+
+  remove(rast_bath)
+
+} else {
+  message('Zoned bathymetry raster already exists at: ', rast_bath_file)
+}
+
+# plot_raster(etopo_bcalb, scale_limits = c(min(values(etopo_bcalb), na.rm = TRUE), 0))
+# plot_raster(rast_bath, scale_limits = c(min(values(etopo_bcalb), na.rm = TRUE), 0))
+
+
+```
+
+
+# Set up zone rasters
+
+coastal intertidal, shallow, shelf, slope, deep
+
+Define shelf/slope/deep not by 60m/200m/2000m (per CHI 2015) but by:
+
+* "deep" is bottom of continental slope - outline defined by shoremost boundary of Pacific Offshore region
+* "shelf" is top of continental slope - all area less than 200 m, outside of Pacific Offshore region
+* "slope" is region between shelf and slope
+
+The steps:
+
+* Create raster of benthic class layer.  This will support depth cutoffs and substrate types.
+
+``` {r rasterize_benthic_class, echo = FALSE}
+### Benthic Class is a commonly used layer for habitats - depth and substrate in particular.
+rast_base <- raster(file.path(dir_rgn,  'ohibc_base_raster_500m.tif'))
+rast_benthic_class_file <- file.path(dir_rast, 'rast_benthic_class.tif')
+
+if(!file.exists(rast_benthic_class_file)) {
+  message('Creating benthic_class raster: ', rast_benthic_class_file)
+  
+  ### figure out source file location for polygon
+  zone_lyrs <- hab_lyrs %>% filter(str_detect(layer_name, 'BenthicClass'))
+  zone_shp  <- file.path(dir_anx, 'data', zone_lyrs[1, ]$dir, 
+                         paste(zone_lyrs[1, ]$layer_name, '.shp', sep = ''))
+  
+  ### rasterize the beast
+  base_te <- c(rast_base@extent[1], rast_base@extent[3], rast_base@extent[2], rast_base@extent[4])
+  library(gdalUtils)
+  
+  ### process the raster to tmp, then save using writeRaster to shrink file
+  rast_benthic_tmp_file <- file.path(dirname(rast_benthic_class_file), 
+                                     'tmp', 
+                                     basename(rast_benthic_class_file))
+  rast_benthic_class <- gdalUtils::gdal_rasterize(
+                          src_datasource = path.expand(zone_shp), 
+                          dst_filename   = path.expand(rast_benthic_tmp_file),
+                          a = 'Marxan_ID', # attribute to burn
+                          a_nodata = NA,
+                          # at = TRUE,
+                          te = base_te,
+                          tr = raster::res(rast_base),
+                          output_Raster = TRUE)
+  ### this saves an 80+ MB file; But raster::rasterize is really slow.
+  ### Re-read using raster, then writeRaster to write a compressed version?
+
+  writeRaster(rast_benthic_class, rast_benthic_class_file, overwrite = TRUE)
+  
+} else {
+  message(sprintf('Benthic_class raster already exists at: %s', rast_benthic_class_file))
+}
+
+  # writeRaster(rast_benthic_class, rast_benthic_class_file, overwrite = TRUE)
+
+```
+
+
+``` {r create_benth_type_raster, echo = FALSE}
+
+rast_benth_type_file <- file.path(dir_rast, 'rast_benth_type.tif')
+
+if(!file.exists(rast_benth_type_file)) {
+  ### Create a raster with substrate type based on benthic_class codes
+  
+  # * `benthic_class` will be divided to depth, substrate, and formation according to the rule for field `ID`:
+  #     * 1000's = depth              * 10's = substrate          * 1's = BPI
+  #         * 1000 <- 0 - 20 m            * 10 <- mud                 * 1 <- ridge
+  #         * 2000 <- 20 - 50 m           * 20 <- sand                * 2 <- depression
+  #         * 3000 <- 50 - 200 m          * 30 <- hard                * 3 <- flat
+  #         * 4000 <- 200 m +             * 90 <- unknown             * 4 <- slope
+  
+  rast_benthic_class <- raster(rast_benthic_class_file)
+  rast_benth_type <- rast_benthic_class - round(rast_benthic_class, -3)
+  rast_benth_type <- floor(rast_benth_type/10) 
+  
+  writeRaster(rast_benth_type, rast_benth_type_file, overwrite = TRUE)
+
+  remove(rast_benth_type, rast_benthic_class) # clean up memory
+
+} else {
+  message('Benthic type raster already exists:', rast_benth_type_file)
+}
+
+```
+
+
+Setting up zone rasters.  Cells will be identified with values according to zone:
+
+* 1 = intertidal
+* 2 = coastal
+* 3 = shelf
+* 4 = slope
+* 5 = deep/abyssal plane
+* 6 = offshore
+* NA = not in a zone
+
+* Create raster of intertidal zone
+    * create a 1 km buffer around land (intertidal proxy)
+    * rasterize land polygon and 1 km buffer polygon
+    * subtract land from 1 km buffer to create intertidal buffer
+    * ??? add in cells less than 5 m deep from ETOPO?
+
+``` {r create_intertidal_zone_raster, echo = FALSE}
+
+rast_base <- raster(file.path(dir_rgn,  'ohibc_base_raster_500m.tif'))
+rast_zone_intertidal_file <- file.path(dir_rast, 'rast_zone_intertidal.tif')
+
+if(!file.exists(rast_zone_intertidal_file)) {
+  message(sprintf('Missing intertidal zone raster; creating new: %s', 
+                  rast_zone_intertidal_file))
+
+  poly_intertidal_file <- file.path(dir_rgn, 'ohibc_offshore_1km')
+  if(!file.exists(paste(poly_intertidal_file, '.shp', sep = ''))) {
+    ### create a polygon for 1 km offshore regions.
+    poly_land <- readOGR(dsn = path.expand(dir_rgn), 
+                         layer = 'ohibc_land', 
+                         stringsAsFactors = FALSE) %>%
+      createSPComment(which = NULL, overwrite = TRUE)
+	
+    poly_buffer <- raster::buffer(poly_land, width = 1000)
+
+    poly_bc_rgn <- readOGR(dsn = path.expand(dir_rgn), 
+                           layer = 'ohibc_rgn', 
+                           stringsAsFactors = FALSE)
+    poly_intertidal <- raster::intersect(poly_buffer, poly_bc_rgn)
+    
+    writePolyShape(poly_intertidal, poly_intertidal_file)
+                                            
+  } else {
+    poly_intertidal <- readShapePoly(poly_intertidal_file,
+                                     proj4string = CRS(p4s_bcalb))
+  }
+  
+  ### Now we have an intertidal buffer layer.  Rasterize it!
+  system.time({
+    base_te <- c(rast_base@extent[1], rast_base@extent[3], rast_base@extent[2], rast_base@extent[4])
+    library(gdalUtils)
+    rast_zone_intertidal <- gdal_rasterize(
+      src_datasource = path.expand(paste(poly_intertidal_file, '.shp', sep = '')), 
+      dst_filename   = path.expand(rast_zone_intertidal_file),
+      a = 'rgn_id', # attribute to burn
+      a_nodata = NA,
+      # at = TRUE,
+      te = base_te,
+      tr = raster::res(rast_base),
+      output_Raster = TRUE
+    )
+  })
+  
+  ### code layers to be uniform zone ID
+  values(rast_zone_intertidal)[!is.na(values(rast_zone_intertidal))] <- 1
+
+  ### add in cells with depths between 0 and -2 m or so? catch those mudflats e.g.
+  if(!exists('rast_bath_raw'))
+    rast_bath_raw <- raster(rast_bath_raw_file)
+  
+  values(rast_zone_intertidal)[(values(rast_bath_raw)) >= -2] <- 1
+  
+  
+  writeRaster(rast_zone_intertidal, rast_zone_intertidal_file, overwrite = TRUE)
+  
+  remove(rast_zone_intertidal) # clean up memory
+
+} else {
+  message(sprintf('Intertidal zone raster already exists: %s', 
+          rast_zone_intertidal_file))
+}
+
+```
+
+* create raster of deep/abyssal zone
+    * use Pacific Offshore region - inland boundary is base of slope
+    * rasterize PO polygon
+
+``` {r create_deep_zone_raster, echo = FALSE}
+
+rast_zone_deep_file <- file.path(dir_rast, 'rast_zone_deep.tif')
+
+if(!file.exists(rast_zone_deep_file)) {
+  message('Missing deep zone raster; creating new file: ', rast_zone_deep_file)
+  poly_bc_rgn     <- readShapePoly(file.path(dir_rgn, 'ohibc_rgn'),
+                                   proj4string = CRS(p4s_bcalb))
+  ### for deep zone, filter out all but the PO region
+  poly_deep <- poly_bc_rgn[poly_bc_rgn@data$rgn_code == 'PO', ]
+  
+  dir_tmp <- file.path(dir_rast, 'tmp')
+  dir.create(dir_tmp, showWarnings = FALSE)
+  poly_deep_file <- file.path(dir_tmp, 'poly_deep')
+  writePolyShape(poly_deep, poly_deep_file)
+  
+  system.time({
+    base_te <- c(rast_base@extent[1], rast_base@extent[3], rast_base@extent[2], rast_base@extent[4])
+    library(gdalUtils)
+    rast_zone_deep <- gdal_rasterize(
+      src_datasource = path.expand(paste(poly_deep_file, '.shp', sep = '')), 
+      dst_filename   = path.expand(rast_zone_deep_file),
+      a = 'rgn_id', # attribute to burn
+      a_nodata = NA,
+      at = TRUE,
+      te = base_te,
+      tr = raster::res(rast_base),
+      output_Raster = TRUE
+    )
+  })
+  
+  ### code layers to be uniform zone ID
+  values(rast_zone_deep)[!is.na(values(rast_zone_deep))] <- 5
+
+  writeRaster(rast_zone_deep, rast_zone_deep_file, overwrite = TRUE)
+  
+  remove(rast_zone_deep) # clean up memory
+
+} else {
+  message(sprintf('Deep zone raster already exists at: %s', 
+          rast_zone_deep_file))
+}
+
+```
+
+``` {r create_depth_rasters, echo = FALSE}
+
+rast_zone_coastal_file <- file.path(dir_rast, 'rast_zone_coastal.tif')
+rast_zone_shelf_file <- file.path(dir_rast, 'rast_zone_shelf.tif')
+rast_zone_slope_file <- file.path(dir_rast, 'rast_zone_slope.tif')
+rast_zone_offshore_file <- file.path(dir_rast, 'rast_zone_offshore.tif')
+
+if(any(!file.exists(c(rast_zone_coastal_file, 
+                      rast_zone_shelf_file, 
+                      rast_zone_slope_file, 
+                      rast_zone_offshore_file)))) {
+  ### Create each of these rasters based on benthic_class codes, and masking from
+  ### deep and intertidal rasters created above.
+  
+  # * `benthic_class` will be divided to depth, substrate, and formation according to the rule for field `ID`:
+  #     * 1000's = depth              * 10's = substrate          * 1's = BPI
+  #         * 1000 <- 0 - 20 m            * 10 <- mud                 * 1 <- ridge
+  #         * 2000 <- 20 - 50 m           * 20 <- sand                * 2 <- depression
+  #         * 3000 <- 50 - 200 m          * 30 <- hard                * 3 <- flat
+  #         * 4000 <- 200 m +             * 90 <- unknown             * 4 <- slope
+  
+  rast_bath_raw        <- raster(rast_bath_raw_file)
+  rast_benthic_class   <- raster(rast_benthic_class_file)
+  rast_depthzone       <- floor(rast_benthic_class/1000) 
+  rast_zone_intertidal <- raster(rast_zone_intertidal_file)
+  rast_zone_deep       <- raster(rast_zone_deep_file)
+
+  ### initialize zonal rasters to base_raster
+  rast_zone_coastal <- rast_zone_shelf <- rast_zone_slope <- rast_zone_offshore <- rast_base
+  
+  ### rast_zone_coastal includes cells 60 m or shallower, excluding intertidal.
+  ### capture BCMCA less than 50 m:
+  values(rast_zone_coastal)[values(rast_depthzone) %in% c(1, 2)]  <- 2
+  ### capture ETOPO shallower than 60 m:
+  values(rast_zone_coastal)[values(rast_bath_raw) >= -60]         <- 2
+  ### exclude intertidal:
+  values(rast_zone_coastal)[!is.na(values(rast_zone_intertidal))] <- NA
+  
+  ### rast_zone_shelf includes cells between 60 and 200 m, excluding
+  ### Pacific Offshore (deep) (and intertidal)
+  values(rast_zone_shelf)[values(rast_bath_raw) < -60 & 
+                          values(rast_bath_raw) >= -200]        <- 3
+  values(rast_zone_shelf)[!is.na(values(rast_zone_deep))]       <- NA
+  values(rast_zone_shelf)[!is.na(values(rast_zone_intertidal))] <- NA
+  
+  ### rast_zone_slope includes cells deeper than 200 m, excluding the 
+  ### Pacific Offshore region (abyssal plain) 
+  values(rast_zone_slope)[values(rast_bath_raw) < -200]         <- 4
+  values(rast_zone_slope)[!is.na(values(rast_zone_deep))]       <- NA
+  values(rast_zone_slope)[!is.na(values(rast_zone_intertidal))] <- NA
+
+  ### rast_zone_offshore is *all* deeper than 60 m
+  values(rast_zone_offshore)[values(rast_bath_raw) <= -60]         <- 6
+  values(rast_zone_offshore)[!is.na(values(rast_zone_intertidal))] <- NA
+
+  writeRaster(rast_zone_coastal,  rast_zone_coastal_file,  overwrite = TRUE)
+  writeRaster(rast_zone_shelf,    rast_zone_shelf_file,    overwrite = TRUE)
+  writeRaster(rast_zone_slope,    rast_zone_slope_file,    overwrite = TRUE)
+  writeRaster(rast_zone_offshore, rast_zone_offshore_file, overwrite = TRUE)
+
+  ### Remove rasters loaded and created
+  remove(rast_zone_intertidal, rast_bath_raw, rast_depthzone, 
+         rast_benthic_class, rast_zone_deep)
+  remove(rast_zone_coastal, rast_zone_shelf, 
+         rast_zone_slope, rast_zone_offshore) # clean up memory
+
+} else {
+  message('Coastal, shelf, slope, and offshore zone rasters already exist:')
+  message(sprintf('  %s \n  %s \n  %s \n  %s', 
+          rast_zone_coastal_file, rast_zone_shelf_file, rast_zone_slope_file, rast_zone_offshore_file))
+#   rast_zone_coastal  <- raster(rast_zone_coastal_file)
+#   rast_zone_shelf    <- raster(rast_zone_shelf_file)
+#   rast_zone_slope    <- raster(rast_zone_slope_file)
+#   rast_zone_offshore <- raster(rast_zone_offshore_file)
+}
+
+```
+
+* Create raster of all coastal classes
+    * buffer by 1000 m
+    * rasterize
+    * clip to intertidal zone (to remove inland cells)
+    * reclassify cell values to indicate coastal class type (1-34)
+    
+
+``` {r rasterize_coastal_class, echo = FALSE}
+
+### Set up coastal_classes raster:
+### * buffer the lines - add extra width to avoid holes
+### * rasterize, then mask with intertidal zone
+### * translate codes to coastal class only, and save
+
+rast_coastal_class_file <- file.path(dir_rast, 'rast_coastal_class.tif')
+
+if(!file.exists(rast_coastal_class_file)) {
+  message('No coastal class raster found at: ', rast_coastal_class_file)
+  
+  dir_tmp <- file.path(dir_rast, 'tmp')
+  dir.create(dir_tmp, showWarnings = FALSE)
+  poly_coastal_class_file <- file.path(dir_tmp, 'poly_coastal_class')
+  if(!file.exists(paste(poly_coastal_class_file, '.shp', sep = ''))) {
+    message('No buffered coastal class polygon found. Reading coastal class shapefile.')
+    coastal_lyrs <- hab_lyrs %>% filter(str_detect(layer_name, 'CoastalClass'))
+    coastal_shp_file <- file.path(dir_anx, 'data', coastal_lyrs[1, ]$dir, 
+                                  paste(coastal_lyrs[1, ]$layer_name, '.shp', sep = ''))
+    line_coastal <- readShapeLines(coastal_shp_file, proj4string = CRS(p4s_bcalb))
+    
+    message('...Breaking down coastal class codes...')
+    # * `coastalclasses` will be determined according to the rule from field `ID`:
+    #     * Initial digit (2) is unused?; delete
+    #     * Next two digits (0 - 34) denote the coastal class according to
+    #         http://alaskafisheries.noaa.gov/mapping/DataDictionary/Common/ShoreType.htm
+    #     * final one or two digits represents geographic region; delete
+    
+    ### First, ditch trailing digit for five-digit values (two-digit regions)
+    ### Then, ditch trailing digit for all values
+    ### Then, subtract 200 to ditch the leading value
+    line_coastal@data <- line_coastal@data %>%
+      mutate(ID = ifelse(ID > 10000, floor(ID/10), ID),
+             ID = floor(ID/10) - 200)
+    
+    system.time({
+      line_coastal_union <- rgeos::gLineMerge(line_coastal, id = line_coastal@data$ID)
+      line_df <- SpatialLinesDataFrame(line_coastal_union,
+                                       data = data.frame('coastal_class' = unique(line_coastal@data$ID)),
+                                       match.ID = 'coastal_class')
+    })
+    
+    message('... Buffering coastal class lines...')
+    system.time({
+      poly_coastal <- rgeos::gBuffer(line_df, 
+                              byid = TRUE,
+                              width = 2000,
+                              capStyle = 'FLAT')
+    }) # 609 seconds for full shapefile; 69 sec for the unioned shapefile!
+    
+    message('... Writing buffered polygons to: ', poly_coastal_class_file)
+    writePolyShape(poly_coastal, poly_coastal_class_file)
+  } else {
+    poly_coastal <- readShapePoly(poly_coastal_class_file, 
+                                  proj4string = CRS(p4s_bcalb))
+  }
+  
+  ### Now to create the raster... 
+  
+  message('... Creating raster from buffered coastal class polygon.')
+  system.time({
+    base_te <- c(rast_base@extent[1], rast_base@extent[3], rast_base@extent[2], rast_base@extent[4])
+    library(gdalUtils)
+    rast_coastal_class <- gdal_rasterize(
+      src_datasource = path.expand(paste(poly_coastal_class_file, '.shp', sep = '')), 
+      dst_filename   = path.expand(rast_coastal_class_file),
+      a = 'ID', # attribute to burn
+      a_nodata = NA,
+      # at = TRUE,
+      te = base_te,
+      tr = raster::res(rast_base),
+      output_Raster = TRUE
+    )
+  })
+
+  ### now clip coastal zone raster to only intertidal
+  message('... Clipping buffered coastal class raster to intertidal raster')
+  rast_zone_intertidal <- raster(rast_zone_intertidal_file)
+  values(rast_coastal_class)[is.na(values(rast_zone_intertidal))] <- NA
+
+  message('... Writing raster of buffered coastal class')
+
+  writeRaster(rast_coastal_class, rast_coastal_class_file, overwrite = TRUE)
+  
+  remove(rast_coastal_class) # clean up memory
+
+} else {
+  message('Coastal class raster already exists: ', rast_coastal_class_file)
+}
+
+```
+
+``` {r child = '2_hab_layer_prep.Rmd'}
+```
+
+``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd'), eval = FALSE}
+```
+

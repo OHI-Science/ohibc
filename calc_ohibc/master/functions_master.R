@@ -1,153 +1,3 @@
-Setup <- function(){
-  ref_pt_file <- file.path(layers$data$dir_calc, 'reference_pts.csv')
-  unlink(ref_pt_file)
-
-  ref_pts <- data.frame(year   = as.integer(),
-                        goal   = as.character(),
-                        method = as.character(),
-                        reference_point = as.character())
-  write_csv(ref_pts, ref_pt_file)
-}
-
-### functions to support functions.R
-write_ref_pts <- function(goal, method, ref_pt) {
-
-  ref_pt_file <- file.path(layers$data$dir_calc, 'reference_pts.csv')
-
-  if(!file.exists(ref_pt_file)) {
-    warning('Reference point file does not exist! \n  ', ref_pt_file)
-    return()
-  }
-  ref_pts <- read_csv(ref_pt_file)  %>%
-    rbind(data.frame(year   = layers$data$status_year,
-                     goal   = goal,
-                     method = method,
-                     reference_point = ref_pt))
-  write_csv(ref_pts, ref_pt_file)
-
-}
-
-calc_trend <- function(scenario_df, years = NULL) {
-  ### provide a dataframe of status by region by year; this will
-  ### calculate the linear trend across the entire span, and then
-  ### divide by the first value to get a proportional change. If
-  ### a vector of years is provided, will calculate based on those
-
-  if('score' %in% names(scenario_df) & !'status' %in% names(scenario_df)) {
-    scenario_df <- scenario_df %>%
-      rename(status = score)
-  }
-
-  if(!all(c('year', 'region_id', 'status') %in% names(scenario_df))) {
-    stop('calc_trend() requires fields named "year", "region_id", and "status" or "score" - fix it!')
-  }
-
-  if(!is.null(years)) scenario_df <- scenario_df %>%
-      filter(year %in% years)
-
-  if(any(is.na(scenario_df$year))) {
-    stop('calc_trend(): NA values for year not allowed')
-  }
-
-  max_year <- max(scenario_df$year)
-
-  goalname <- scenario_df$goal[1]
-  if(is.null(goalname)) goalname <- NA
-
-  message('Calculating trend for goal ', goalname, ' for years ',
-          paste(scenario_df$year %>% range(), collapse = ' - '))
-
-  scenario_df <- scenario_df %>%
-    arrange(region_id, year) %>%
-    mutate(status_1 = first(status))
-
-  print(head(scenario_df))
-
-  trend <- scenario_df %>%
-    group_by(region_id, status_1) %>%
-    do(mdl = lm(status ~ year, data = . )) %>%
-    summarize(
-      region_id = region_id,
-      score = 5 * coef(mdl)['year'] / status_1,
-      score = ifelse(is.nan(score), NA, score),
-      score = min(max(score, -1), 1)) %>% # set boundaries so trend does not go below -1 or above 1
-    ungroup() %>%
-    mutate(year  = max_year,
-           goal  = goalname,
-           dimension = 'trend',
-           score = round(score, 5))
-
-  trend <- trend %>%
-    filter(!is.na(region_id))
-
-  return(trend)
-
-}
-
-get_data_year <- function(goal, status_yr, layers) {
-  data_year <- layers$data$stat_yr_matrix %>%
-    filter(goal_name == goal & status_year == status_yr) %>%
-    .$data_year
-
-  return(data_year)
-
-}
-
-complete_years <- function(score_df, year_span,
-                           method = c('carry', 'zero', 'none')[1],
-                           dir = c('forward', 'back', 'both')[3]) {
-  ### This function
-  if('rgn_id' %in% names(score_df)) {
-    message('The complete_years() function automagically renames "rgn_id" to "region_id" for your convenience.')
-    score_df <- score_df %>%
-      rename(region_id = rgn_id)
-  }
-
-  data_range <- range(score_df$year, na.rm = TRUE)
-  if(min(year_span) > data_range[1] | max(year_span) < data_range[2]) {
-    min_yr <- min(min(year_span), data_range[1])
-    max_yr <- max(max(year_span), data_range[2])
-    message('Data year span (', data_range[1], ':', data_range[2],
-            ') exceeds assigned year span (',
-            min(year_span), ':', max(year_span),
-            '); completing data sequence from ', min_yr, ' to ', max_yr, '.')
-    year_span <- min_yr : max_yr
-  }
-
-  score_df <- score_df %>%
-    group_by(region_id) %>%
-    complete(year = year_span) %>%
-    arrange(year) %>%
-    ungroup()
-
-  if(method == 'none') return(score_df)
-
-  if(method == 'zero') {
-    ### zero out numerics, though text fields will be carried
-    ### in the next step
-    score_df <- score_df %>%
-      lapply(FUN = function(x) {
-        if(!class(x) %in% c('character', 'factor')) x[is.na(x)] <- 0
-        return(x)
-      }) %>%
-      data.frame()
-  }
-
-  if(dir %in% c('forward', 'both')) {
-    score_df <- score_df %>%
-      group_by(region_id) %>%
-      fill(-year, -region_id, .direction = 'down') %>%
-      ungroup()
-  }
-  if(dir %in% c('back', 'both')) {
-    score_df <- score_df %>%
-      group_by(region_id) %>%
-      fill(-year, -region_id, .direction = 'up') %>%
-    ungroup()
-  }
-
-  return(score_df)
-}
 
 FIS <- function(layers) {
 
@@ -162,13 +12,15 @@ FIS <- function(layers) {
   year_span <- layers$data$year_span
 
   ram_b_bmsy        <- layers$data[['fis_ram_b_bmsy']] %>%
-    select(year, stock_id, b_bmsy = value)
+    rename(b_bmsy = value) %>%
+    group_by(stockid) %>%
+    complete(year)
   ram_f_fmsy        <- layers$data[['fis_ram_f_fmsy']] %>%
-    select(year, stock_id, f_fmsy = value)
+    rename(f_fmsy = value)
   ram_catch         <- layers$data[['fis_ram_catch']] %>%
-    select(year, stock_id, catch = value)
+    rename(catch = value)
   rgn_stock_area  <- layers$data[['fis_stock_area']] %>%
-    select(region_id = rgn_id, stock_id = stockid, a_prop)
+    rename(region_id = rgn_id, stock_id = stockid)
 
   ### These parameters are based on conversation with Ian Perry, Karen Hunter,
   ### and Karin Bodtker on May 24 2017.
@@ -356,11 +208,6 @@ FIS <- function(layers) {
     mutate(score     = 100 * score,
            goal      = 'FIS',
            dimension = 'status')
-
-  ## reference points
-  write_ref_pts(goal   = "FIS",
-                method = "XXXXXXXX",
-                ref_pt = NA)
 
   ### prepare scores (status and trend) for current status year
 

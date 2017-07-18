@@ -162,13 +162,13 @@ FIS <- function(layers) {
   year_span <- layers$data$year_span
 
   ram_b_bmsy        <- layers$data[['fis_ram_b_bmsy']] %>%
-    select(year, stock_id, b_bmsy = value)
+    rename(b_bmsy = value)
   ram_f_fmsy        <- layers$data[['fis_ram_f_fmsy']] %>%
-    select(year, stock_id, f_fmsy = value)
+    rename(f_fmsy = value)
   ram_catch         <- layers$data[['fis_ram_catch']] %>%
-    select(year, stock_id, catch = value)
+    rename(catch = value)
   rgn_stock_area  <- layers$data[['fis_stock_area']] %>%
-    select(region_id = rgn_id, stock_id = stockid, a_prop)
+    rename(region_id = rgn_id, stock_id = stockid)
 
   ### These parameters are based on conversation with Ian Perry, Karen Hunter,
   ### and Karin Bodtker on May 24 2017.
@@ -356,11 +356,6 @@ FIS <- function(layers) {
     mutate(score     = 100 * score,
            goal      = 'FIS',
            dimension = 'status')
-
-  ## reference points
-  write_ref_pts(goal   = "FIS",
-                method = "XXXXXXXX",
-                ref_pt = NA)
 
   ### prepare scores (status and trend) for current status year
 

@@ -1,11 +1,5 @@
 year,goal,method,reference_point
-ohibc2016,FIS,XXXXXXXX,NA
-ohibc2016,MAR,XXXXXXXX,NA
-ohibc2016,AO,XXXXXXXX,NA
-ohibc2016,CS,XXXXXXXX,NA
-ohibc2016,CP,XXXXXXXX,NA
-ohibc2016,ICO,scaled IUCN risk categories,NA
-ohibc2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region's eez and 1 km inland
-ohibc2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
-ohibc2016,HAB,XXXXXXXX,NA
-ohibc2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+ohibc2005,MAR,XXXXXXXX,NA
+ohibc2005,AO,XXXXXXXX,NA
+ohibc2005,CS,XXXXXXXX,NA
+ohibc2005,CP,XXXXXXXX,NA
