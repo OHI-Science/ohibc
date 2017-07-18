@@ -492,7 +492,7 @@ library(tmap)
 
 ohibc_rgn_bcalb <- readOGR(dir_spatial, 'ohibc_rgn_simple')
 
-gf_rast <- raster(file.path(dir_goal, 'oa_rasts', sprintf('6_prs_oa_bc_gapfill.tif', rast_yr))) %>%
+gf_rast <- raster(file.path(dir_goal, 'oa_rasts', '6_prs_oa_bc_gapfill.tif')) %>%
   projectRaster(crs = crs(ohibc_rgn_bcalb))
 
 gf_plot <- tm_shape(gf_rast) + 
