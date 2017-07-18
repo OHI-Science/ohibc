@@ -293,7 +293,8 @@ for(rast_file in arag_resc_files) {
   
   writeRaster(rast_interp, file.path(rast_file %>%
                                        str_replace('/2_', '/3_') %>%
-                                       str_replace('rescaled', 'resc_interp')))
+                                       str_replace('rescaled', 'resc_interp')),
+              overwrite = TRUE)
 }
 
 ```
@@ -339,7 +340,7 @@ tmp <- sapply(arag_resc_interp_files, oaResample)
 ```{r}
 
 oa_prs_animation_file <- file.path(dir_goal, 'Figs', 'oa_mean_arag_animation.gif')
-reload <- TRUE
+reload <- FALSE
 
 if(!file.exists(oa_prs_animation_file) | reload) {
   prs_rasts <- list.files(file.path(dir_goal, 'oa_rasts'), pattern = 'prs_oa_bc_[0-9]{4}', full.names = TRUE)
@@ -481,7 +482,7 @@ rast_gapfill_masked <- rast_resampled %>%
   mask(ocean_rast)
 
 writeRaster(rast_gapfill_masked,
-            filename = file.path(dir_goal, 'oa_rasts', sprintf('6_prs_oa_bc_gapfill.tif', rast_yr)),
+            filename = file.path(dir_goal, 'oa_rasts', '6_prs_oa_bc_gapfill.tif'),
             overwrite = TRUE)
 ```
 
