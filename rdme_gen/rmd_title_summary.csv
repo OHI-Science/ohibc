@@ -7,38 +7,7 @@ home,dir,level,readme,html,rmd,rmd_path,rmd_title,rmd_summary
 ~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2016/conf,3,NA,NA,goals.Rmd,/home/ohara/github/ohibc/calc_ohibc/region2016/conf/goals.Rmd,NA,NA
 ~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2017/conf,3,NA,NA,goals.Rmd,/home/ohara/github/ohibc/calc_ohibc/region2017/conf/goals.Rmd,NA,NA
 ~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,README.md,ao_closures_prep.html,ao_closures_prep.rmd,/home/ohara/github/ohibc/prep/ao/v2017/ao_closures_prep.rmd,OHIBC: Shellfish contamination closures prep,This data is incorporated into the OHI British Columbia Clean Waters (CW) goal and the Artisanal Opportunities (AO) goal.
-~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,README.md,ao_goal_est.html,ao_goal_est.Rmd,/home/ohara/github/ohibc/prep/ao/v2017/ao_goal_est.Rmd,OHIBC: AO goal prep,"Estimate the goal components for AO goal for OHIBC
-
-
-
-``` {r}
-
-year_span <- c(1990:2017)
-
-complete_years <- function(score_df, year_span) {
-  if('rgn_id' %in% names(score_df)) {
-    message('The complete_years() function automagically renames ""rgn_id"" to ""region_id"" for your convenience.')
-    score_df <- score_df %>%
-      rename(region_id = rgn_id)
-  }
-  data_range <- range(score_df$year, na.rm = TRUE)
-  if(min(year_span) > data_range[1] | max(year_span) < data_range[2]) {
-    min_yr <- min(min(year_span), data_range[1])
-    max_yr <- max(max(year_span), data_range[2])
-    message('Data year span (', data_range[1], ':', data_range[2],
-            ') exceeds assigned year span (',
-            min(year_span), ':', max(year_span),
-            '); completing data sequence from ', min_yr, ' to ', max_yr, '.')
-    year_span <- min_yr : max_yr
-  }
-  score_df <- score_df %>%
-    group_by(region_id) %>%
-    complete(year = year_span) %>%
-    fill(-year, -region_id, .direction = 'down') %>% fill(-year, -region_id, .direction = 'up') %>%
-    ungroup()
-
-  return(score_df)
-}"
+~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,README.md,ao_goal_est.html,ao_goal_est.Rmd,/home/ohara/github/ohibc/prep/ao/v2017/ao_goal_est.Rmd,OHIBC: AO goal prep,Estimate the goal components for AO goal for OHIBC
 ~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,README.md,ao_herringspawn_prep.html,ao_herringspawn_prep.rmd,/home/ohara/github/ohibc/prep/ao/v2017/ao_herringspawn_prep.rmd,OHIBC: herring spawn index prep,This data is incorporated into the OHI British Columbia First Nations Resource Access and Opportunities (AO) goal.
 ~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,README.md,ao_licenses_prep.html,ao_licenses_prep.rmd,/home/ohara/github/ohibc/prep/ao/v2017/ao_licenses_prep.rmd,OHIBC: Fishing licenses prep,This data is incorporated into the OHI British Columbia First Nations Resource Access and Opportunities (AO) goal.
 ~/github/ohibc,/home/ohara/github/ohibc/prep/cw/v2017,3,NA,cw_chem_prep.html,cw_chem_prep.rmd,/home/ohara/github/ohibc/prep/cw/v2017/cw_chem_prep.rmd,OHIBC: CW chemical layers prep,"These data were prepared for the global 2016 assessment.  For each layer, we are simply reprojecting the data to the BC EEZ and rescaling to the local 99.99th percentile.
@@ -277,24 +246,7 @@ This process is completed entirely within this script."
     * Clip results to 1 km offshore region, and determine average SLR pressure per region.
     
 This process is completed entirely within this script."
-~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico,2,README.md,iucn_to_ns.html,iucn_to_ns.Rmd,/home/ohara/github/ohibc/prep/spp_ico/iucn_to_ns.Rmd,IUCN vs NatureServe conservation status ranks,"Comparing global Natureserve assessment to IUCN assessment:
-
-``` {r compare Natureserve to IUCN1, echo = FALSE, message = FALSE, warning = FALSE}
-spp_global_file <- file.path(dir_anx_global, 'v2016/intermediate/spp_all.csv')
-spp_all <- read_csv(spp_global_file)
-git_prov(spp_global_file)
-
-spp_all <- spp_append_bcsee(spp_all)
-
-spp_natureserve <- spp_all %>%
-  filter(!is.na(status_gl_score) | !is.na(status_pr_score)) %>%
-  filter(!str_detect(spatial_source, 'subpop')) %>%
-  filter(!str_detect(spatial_source, 'alias')) %>%
-  select(sciname, am_sid, iucn_sid, spatial_source, popn_category, 
-         category_score, status_gl_score, status_pr_score, status_gl, status_pr)
-```
-
-``` {r compare Natureserve to IUCN2, echo = FALSE, message = FALSE, warning = FALSE, fig.align = 'center', fig.width = 6, fig.height = 4}
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico,2,README.md,iucn_to_ns.html,iucn_to_ns.Rmd,/home/ohara/github/ohibc/prep/spp_ico/iucn_to_ns.Rmd,IUCN vs NatureServe conservation status ranks,"{r compare Natureserve to IUCN2, echo = FALSE, message = FALSE, warning = FALSE, fig.align = 'center', fig.width = 6, fig.height = 4}
 
 mdl <- lm(status_gl_score ~ category_score, data = spp_natureserve)
 
@@ -311,9 +263,7 @@ ns_v_iucn <- ggplot(data = spp_natureserve, aes(x = category_score, y = status_g
 print(ns_v_iucn)
 
 knitr::kable(summary(mdl)$coef, digits = 4,
-             caption = ' of IUCN vs global Natureserve')
-```
-R^2^ = `r summary(mdl)$r.squared`"
+             caption = ' of IUCN vs global Natureserve')"
 ~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/api_testing,3,NA,NA,api_scripts.Rmd,/home/ohara/github/ohibc/prep/spp_ico/api_testing/api_scripts.Rmd,OHIBC goal prep: Species (Biodiversity subgoal),NA
 ~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/v2017,3,NA,data_prep_ico.html,data_prep_ico.Rmd,/home/ohara/github/ohibc/prep/spp_ico/v2017/data_prep_ico.Rmd,OHIBC data prep: Iconic Species,"OHIBC Iconic Species
 
@@ -383,22 +333,7 @@ where:
 * SPP trend is calculated by examining the linear trend of mean extinction risk category, based upon the time series of risk categories from the IUCN Red List.  This calculation is performed in functions.R."
 ~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/v2017,3,NA,ico_custom_spp_info.html,ico_custom_spp_info.Rmd,/home/ohara/github/ohibc/prep/spp_ico/v2017/ico_custom_spp_info.Rmd,OHIBC: ICO custom species info,"Get species info, time series assessment, and spatial distribution for custom species for OHIBC ICO.
 
-These custom species are considered iconic, yet are not considered marine, so their info is not readily available from the global SPP analysis.
-
-``` {r get_custom_spp_info}
-
-custom_spp_id <- 22679935
-
-custom_info <- read_csv(file.path(dir_goal_anx_global, 'int', 'spp_info_from_api.csv')) %>%
-  filter(iucn_sid %in% custom_spp_id)
-
-```
-
-
-``` {r setup_API_functions}
-
-library(parallel)
-library(jsonlite)"
+These custom species are considered iconic, yet are not considered marine, so their info is not readily available from the global SPP analysis."
 ~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/vHS,3,NA,goal_prep_ico_howesound.html,goal_prep_ico_howesound.Rmd,/home/ohara/github/ohibc/prep/spp_ico/vHS/goal_prep_ico_howesound.Rmd,OHIBC Howe Sound goal prep: Iconic Species,"OHIBC Howe Sound Species and Iconic Species
 
 This script prepares scores (status and trend) for species richness in 

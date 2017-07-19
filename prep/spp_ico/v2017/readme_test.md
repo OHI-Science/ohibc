@@ -1,12 +1,14 @@
-## Ocean Health Index British Columbia: /prep/spp_ico/v2017
+# Ocean Health Index British Columbia: /prep/spp_ico/v2017
 
-This folder describes the methods used to prepare data for _GOALNAME_ for the OHIBC assessment.
+<!--This folder describes the methods used to prepare data for _GOALNAME_ for the OHIBC assessment.
 
 More information about this goal is available [here](http://ohi-science.org/goals/#artisanal-fishing-opportunities).
 
-The folders in this file include the metadata, R scripts, and data for each assessement year (i.e., the year the assessment was conducted).  The most current year represents the best available data and methods, and previous years are maintained for archival purposes.
+-->
 
-## OHIBC data prep: Iconic Species:
+This directory includes R/Rmd scripts and .html files, as well as subdirectories that include metadata, intermediate data, figures, and output layers for the indicated assessement year (i.e., the year the assessment was conducted).  The most current year represents the best available data and methods, and previous years are maintained for archival purposes.
+
+## OHIBC data prep: Iconic Species
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/data_prep_ico.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/data_prep_ico.html
@@ -45,7 +47,7 @@ where:
 
 -----
 
-## OHIBC goal prep: Species (Biodiversity subgoal):
+## OHIBC goal prep: Species (Biodiversity subgoal)
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/data_prep_spp.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/data_prep_spp.html
@@ -92,7 +94,7 @@ where:
 
 -----
 
-## OHIBC: ICO custom species info:
+## OHIBC: ICO custom species info
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/ico_custom_spp_info.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/ico_custom_spp_info.html
@@ -102,21 +104,6 @@ where:
 Get species info, time series assessment, and spatial distribution for custom species for OHIBC ICO.
 
 These custom species are considered iconic, yet are not considered marine, so their info is not readily available from the global SPP analysis.
-
-``` {r get_custom_spp_info}
-
-custom_spp_id <- 22679935
-
-custom_info <- read_csv(file.path(dir_goal_anx_global, 'int', 'spp_info_from_api.csv')) %>%
-  filter(iucn_sid %in% custom_spp_id)
-
-```
-
-
-``` {r setup_API_functions}
-
-library(parallel)
-library(jsonlite)
 
 -----
 

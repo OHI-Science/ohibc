@@ -101,10 +101,10 @@ get_rmd_info <- function(rmd_file) {
   rmd_text <- readr::read_file(rmd_file)
 
   rmd_sum <- rmd_text %>% 
-    str_split('#+') %>%
+    str_split('#+|```') %>%
     as.data.frame() %>%
     setNames('text') %>%
-    filter(str_detect(tolower(text), 'summary')) %>%
+    filter(str_detect(text, 'Summary')) %>%
     mutate(text_clean = str_replace_all(text, 'Summary[:]?', ''),
              ### remove "summary" title
            text_clean = str_replace_all(text_clean, '\\*{3,}|-{3,}', ''), 
@@ -150,9 +150,10 @@ rmd_sum_df <- read_csv('rmd_title_summary.csv')
 dir_sum_df <- read_csv('dir_html_github.csv') %>%
   left_join(rmd_sum_df)
 
-### collapse all in one folder
+### collapse all by directory
 rmd_test <- dir_sum_df %>%
-  filter(str_detect(dir, 'spp_ico/v2017')) %>%
+  filter(str_detect(dir, '/prep/')) %>%
+  # filter(str_detect(dir, 'spp_ico/v2017')) %>%
   mutate(github_url = str_replace(dir, path.expand(dir_git), 
                                   'https://github.com/OHI-Science/ohibc/blob/master'),
          rawgit_url = str_replace(dir, path.expand(dir_git), 
@@ -161,7 +162,7 @@ rmd_test <- dir_sum_df %>%
                                   !is.na(rmd)       ~ rmd,
                                   !is.na(html)      ~ html,
                                   TRUE ~ str_replace(dir, path.expand(dir_git), ''))) %>%
-  mutate(text_block = sprintf('## %s:\n\n* __Rmd file:__ %s \n* __HTML file:__ %s\n\n### Summary:\n\n%s',
+  mutate(text_block = sprintf('## %s\n\n* __Rmd file:__ %s \n* __HTML file:__ %s\n\n### Summary:\n\n%s',
                               readme_title, 
                               file.path(github_url, rmd), 
                               file.path(rawgit_url, html),
@@ -169,7 +170,7 @@ rmd_test <- dir_sum_df %>%
   group_by(dir) %>%
   summarize(text_block_all = paste(text_block, collapse = '\n\n-----\n\n')) %>%
   ungroup() %>%
-  mutate(dir_short = str_replace(dir[1], path.expand(dir_git), ''))
+  mutate(dir_short = str_replace(dir, path.expand(dir_git), ''))
 
 ### Check whether prep, year, or generic
 rmd_dir <- rmd_test$dir

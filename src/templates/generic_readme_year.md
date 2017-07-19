@@ -1,17 +1,19 @@
-## Ocean Health Index: [NAME OF GOAL/DATA LAYER/SCENARIO YEAR]
+# Ocean Health Index British Columbia: _DIRNAME_
 
-[Example: https://github.com/OHI-Science/ohiprep/tree/master/globalprep/prs_oa/v2016]
+<!--This folder describes the methods used to prepare data for _GOALNAME_ for the OHIBC assessment.
 
-See full data prep details [here](LINK TO HTML FILE).
+More information about this goal is available [here](http://ohi-science.org/goals/#artisanal-fishing-opportunities).
 
-If using these data, please see our [citation policy](http://ohi-science.org/citation-policy/).
+-->
 
-[alternatively, if you want a specific citation for this resource, you can add that here....]
+This directory includes R/Rmd scripts and .html files, as well as subdirectories that include metadata, intermediate data, figures, and output layers for the indicated assessement year (i.e., the year the assessment was conducted).  The most current year represents the best available data and methods, and previous years are maintained for archival purposes.
 
+_SUMMARYINFO_
 
-### Additional information
+-----
 
-[If relevant: description of workflow, description of files, etc.]
+Our [data managment SOP](https://rawgit.com/OHI-Science/ohiprep/master/src/dataOrganization_SOP.html) describes how we manage OHI global data, including a description of the file structure.
 
+Please see our [citation policy](http://ohi-science.org/citation-policy/) if you use OHI data or methods.
 
-  
+Thank you!
