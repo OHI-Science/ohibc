@@ -6,9 +6,11 @@ More information about this goal is available [here](http://ohi-science.org/goal
 
 The folders in this file include the metadata, R scripts, and data for each assessement year (i.e., the year the assessment was conducted).  The most current year represents the best available data and methods, and previous years are maintained for archival purposes.
 
-### OHIBC data prep: Iconic Species:
+## OHIBC data prep: Iconic Species:
 
-* __Summary:__ OHIBC Iconic Species
+### Summary:
+
+OHIBC Iconic Species
 
 This script prepares layers (species presence and species health) for Iconic Species subgoal in 
 British Columbia's coastal regions.  Spatial data from IUCN and Aquamaps is
@@ -36,11 +38,16 @@ where:
 * $bar{R}$ is mean extinction risk for identified species within OHIBC (different subsets for ICO and SPP)
 * *Risk* is scaled value for species extinction risk category, based on: 
     * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
-* ICO trend is calculated as the linear trend of the average extinction risk categories over time. * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/data_prep_ico.Rmd * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/data_prep_ico.html
+* ICO trend is calculated as the linear trend of the average extinction risk categories over time. 
 
-### OHIBC goal prep: Species (Biodiversity subgoal):
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/data_prep_ico.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/data_prep_ico.html
 
-* __Summary:__ OHIBC Species Subgoal (Biodiversity)
+## OHIBC goal prep: Species (Biodiversity subgoal):
+
+### Summary:
+
+OHIBC Species Subgoal (Biodiversity)
 
 This script prepares scores (status and trend) for species richness in 
 British Columbia's coastal regions.  Spatial data from IUCN and Aquamaps is
@@ -76,11 +83,16 @@ where:
 * $pA_{cell-rgn}$ is percent of cell area included in region
 * *Risk* is scaled value for species extinction risk category, based on: 
     * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
-* SPP trend is calculated by examining the linear trend of mean extinction risk category, based upon the time series of risk categories from the IUCN Red List.  This calculation is performed in functions.R. * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/data_prep_spp.Rmd * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/data_prep_spp.html
+* SPP trend is calculated by examining the linear trend of mean extinction risk category, based upon the time series of risk categories from the IUCN Red List.  This calculation is performed in functions.R. 
 
-### OHIBC: ICO custom species info:
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/data_prep_spp.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/data_prep_spp.html
 
-* __Summary:__ Get species info, time series assessment, and spatial distribution for custom species for OHIBC ICO.
+## OHIBC: ICO custom species info:
+
+### Summary:
+
+Get species info, time series assessment, and spatial distribution for custom species for OHIBC ICO.
 
 These custom species are considered iconic, yet are not considered marine, so their info is not readily available from the global SPP analysis.
 
@@ -97,7 +109,10 @@ custom_info <- read_csv(file.path(dir_goal_anx_global, 'int', 'spp_info_from_api
 ``` {r setup_API_functions}
 
 library(parallel)
-library(jsonlite) * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/ico_custom_spp_info.Rmd * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/ico_custom_spp_info.html
+library(jsonlite) 
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/ico_custom_spp_info.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/ico_custom_spp_info.html
 
 -----
 

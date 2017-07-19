@@ -161,7 +161,7 @@ rmd_test <- dir_sum_df %>%
                                   !is.na(rmd)       ~ rmd,
                                   !is.na(html)      ~ html,
                                   TRUE ~ str_replace(dir, path.expand(dir_git), ''))) %>%
-  mutate(text_block = sprintf('### %s:\n\n* __Summary:__ %s * __Rmd file:__ %s * __HTML file:__ %s',
+  mutate(text_block = sprintf('## %s:\n\n### Summary:\n\n%s \n\n* __Rmd file:__ %s \n* __HTML file:__ %s',
                               readme_title, rmd_summary, 
                               file.path(github_url, rmd), 
                               file.path(rawgit_url, html))) %>%
@@ -173,15 +173,18 @@ rmd_test <- dir_sum_df %>%
 ### Check whether prep, year, or generic
 rmd_dir <- rmd_test$dir
 
-readme_type <- case_when(str_detect(basename(rmd_dir), 'v[0-9]{4}') ~ 'generic_readme_year.md',
+readme_type <- case_when(str_detect(basename(rmd_dir), 'v[0-9]{4}') ~ 'generic_readme_prep.md',
                          str_detect(rmd_dir, '/prep/[a-zA-Z]{2}')   ~ 'generic_readme_prep.md',
                          TRUE ~ 'generic_readme.md')
 
-readme_text <- read_file(file.path(dir_git, 'src/templates', readme_type))
+readme_text <- read_file(file.path(dir_git, 'src/templates', readme_type)) %>%
+  str_replace('_DIRNAME_', rmd_test$dir_short) %>%
+  str_replace('_SUMMARYINFO_', rmd_test$text_block_all)
 
-readme_text <- readme_text %>%
-  str_replace('_DIRNAME_', )
+readr::write_file(readme_text, file.path(rmd_test$dir, 'readme_test.md'))
+
 ```
+
 
 ``` {r check_git-annex}
 
