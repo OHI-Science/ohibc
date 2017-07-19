@@ -67,7 +67,7 @@ Process individual habitat scores for each of the habitats in HAB subgoal.  Comb
 ## OHIBC: land use raster prep
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/hab_cs_cp/v2017/data_prep_landuse_rasters.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/hab_cs_cp/v2017/NA
+* __HTML file:__ no HTML present
 
 ### Summary:
 

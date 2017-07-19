@@ -82,7 +82,7 @@ This process is completed entirely within this script.
 ## OHIBC: Sea Level Rise Pressure layers prep
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_slr_prep2.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/NA
+* __HTML file:__ no HTML present
 
 ### Summary:
 

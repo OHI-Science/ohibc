@@ -161,11 +161,13 @@ readme_test <- dir_sum_df %>%
          readme_title = case_when(!is.na(rmd_title) ~ rmd_title,
                                   !is.na(rmd)       ~ rmd,
                                   !is.na(html)      ~ html,
-                                  TRUE ~ str_replace(dir, path.expand(dir_git), ''))) %>%
+                                  TRUE ~ str_replace(dir, path.expand(dir_git), '')),
+         readme_rmd = ifelse(is.na(rmd), 'no Rmd present', file.path(github_url, rmd)),
+         readme_html = ifelse(is.na(html), 'no HTML present', file.path(rawgit_url, html))) %>%
   mutate(text_block = sprintf('## %s\n\n* __Rmd file:__ %s \n* __HTML file:__ %s\n\n### Summary:\n\n%s',
                               readme_title, 
-                              file.path(github_url, rmd), 
-                              file.path(rawgit_url, html),
+                              readme_rmd,
+                              readme_html,
                               rmd_summary)) %>%
   group_by(dir) %>%
   summarize(text_block_all = paste(text_block, collapse = '\n\n-----\n\n')) %>%

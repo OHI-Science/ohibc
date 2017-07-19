@@ -20,8 +20,8 @@ The directories in this goal directory include metadata, R/Rmd scripts, intermed
 
 ## /prep/le
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/le/NA 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/le/NA
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
 
 ### Summary:
 

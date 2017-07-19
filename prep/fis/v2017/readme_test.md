@@ -68,7 +68,7 @@ Processing BC DFO fisheries spatial data, to help determine allocation of total 
 
 ## data_prep_fis_ram_modeled.html
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/v2017/NA 
+* __Rmd file:__ no Rmd present 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/v2017/data_prep_fis_ram_modeled.html
 
 ### Summary:
@@ -79,7 +79,7 @@ NA
 
 ## data_prep_fis_saup.html
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/v2017/NA 
+* __Rmd file:__ no Rmd present 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/v2017/data_prep_fis_saup.html
 
 ### Summary:
@@ -117,7 +117,7 @@ NA
 ## OHIBC: data prep for wild-capture fisheries: spatializing RAM and SAUP stocks
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/v2017/data_prep_fis_spatial_old.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/v2017/NA
+* __HTML file:__ no HTML present
 
 ### Summary:
 
