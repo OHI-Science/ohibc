@@ -8,6 +8,9 @@ The folders in this file include the metadata, R scripts, and data for each asse
 
 ## OHIBC data prep: Iconic Species:
 
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/data_prep_ico.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/data_prep_ico.html
+
 ### Summary:
 
 OHIBC Iconic Species
@@ -38,12 +41,14 @@ where:
 * $bar{R}$ is mean extinction risk for identified species within OHIBC (different subsets for ICO and SPP)
 * *Risk* is scaled value for species extinction risk category, based on: 
     * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
-* ICO trend is calculated as the linear trend of the average extinction risk categories over time. 
+* ICO trend is calculated as the linear trend of the average extinction risk categories over time.
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/data_prep_ico.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/data_prep_ico.html
+-----
 
 ## OHIBC goal prep: Species (Biodiversity subgoal):
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/data_prep_spp.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/data_prep_spp.html
 
 ### Summary:
 
@@ -83,12 +88,14 @@ where:
 * $pA_{cell-rgn}$ is percent of cell area included in region
 * *Risk* is scaled value for species extinction risk category, based on: 
     * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
-* SPP trend is calculated by examining the linear trend of mean extinction risk category, based upon the time series of risk categories from the IUCN Red List.  This calculation is performed in functions.R. 
+* SPP trend is calculated by examining the linear trend of mean extinction risk category, based upon the time series of risk categories from the IUCN Red List.  This calculation is performed in functions.R.
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/data_prep_spp.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/data_prep_spp.html
+-----
 
 ## OHIBC: ICO custom species info:
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/ico_custom_spp_info.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/ico_custom_spp_info.html
 
 ### Summary:
 
@@ -109,10 +116,7 @@ custom_info <- read_csv(file.path(dir_goal_anx_global, 'int', 'spp_info_from_api
 ``` {r setup_API_functions}
 
 library(parallel)
-library(jsonlite) 
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/ico_custom_spp_info.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/ico_custom_spp_info.html
+library(jsonlite)
 
 -----
 

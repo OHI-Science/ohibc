@@ -161,12 +161,13 @@ rmd_test <- dir_sum_df %>%
                                   !is.na(rmd)       ~ rmd,
                                   !is.na(html)      ~ html,
                                   TRUE ~ str_replace(dir, path.expand(dir_git), ''))) %>%
-  mutate(text_block = sprintf('## %s:\n\n### Summary:\n\n%s \n\n* __Rmd file:__ %s \n* __HTML file:__ %s',
-                              readme_title, rmd_summary, 
+  mutate(text_block = sprintf('## %s:\n\n* __Rmd file:__ %s \n* __HTML file:__ %s\n\n### Summary:\n\n%s',
+                              readme_title, 
                               file.path(github_url, rmd), 
-                              file.path(rawgit_url, html))) %>%
+                              file.path(rawgit_url, html),
+                              rmd_summary)) %>%
   group_by(dir) %>%
-  summarize(text_block_all = paste(text_block, collapse = '\n\n')) %>%
+  summarize(text_block_all = paste(text_block, collapse = '\n\n-----\n\n')) %>%
   ungroup() %>%
   mutate(dir_short = str_replace(dir[1], path.expand(dir_git), ''))
 
