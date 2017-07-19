@@ -115,6 +115,7 @@ if(!file.exists(file.path(dir_spatial, 'ohibc_rgn_mol.shp'))) {
                                override_p4s = TRUE)
 
 } else {
+  git_prov(file.path(dir_spatial, 'ohibc_rgn.shp'), filetype = 'input')
   git_prov(file.path(dir_spatial, 'ohibc_rgn_mol.shp'), filetype = 'output')
   git_prov(file.path(dir_goal, 'int/ohibc_rgn_mol_rast_934m.tif'), filetype = 'output')
 }
@@ -142,17 +143,26 @@ ohibc_rgn_mol <- raster(rast_ohibc)
 rasts_raw <- list.files(file.path(oa_dir, 'v2017/int/annual_avg_moll'), 
                         pattern = 'tif$', recursive = TRUE, full.names = TRUE)
 
-oa_stack_raw <- raster::stack(rasts_raw)
-
-oa_stack_bc <- oa_stack_raw %>%
-  crop(ohibc_rgn_mol)
-
-bc_stack_filenames <- names(oa_stack_bc) %>%
+bc_stack_filenames <- basename(rasts_raw) %>%
   str_replace('global', '1_rast_bc') %>%
   file.path(dir_goal_anx, 'oa_rasts', .)
 
-writeRaster(oa_stack_bc, bylayer = TRUE, filename = paste0(bc_stack_filenames, '.tif'), overwrite = TRUE)
+reload <- FALSE
 
+if(any(!file.exists(bc_stack_filenames)) | reload) {
+  oa_stack_raw <- raster::stack(rasts_raw)
+  
+  oa_stack_bc <- oa_stack_raw %>%
+    crop(ohibc_rgn_mol)
+  
+  writeRaster(oa_stack_bc, bylayer = TRUE, filename = paste0(bc_stack_filenames, '.tif'), overwrite = TRUE)
+
+} else {
+  message('BC clipped annual average aragonite layers already exist')
+  git_prov(rasts_raw,          filetype = 'input')
+  git_prov(bc_stack_filenames, filetype = 'output')
+  
+}
 ```
 
 ### Animate OA mean aragonite sat state rasters
@@ -166,18 +176,21 @@ if(!file.exists(arag_animation_file) | reload) {
   ohibc_rgn_rast <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif')) %>%
     crop(extent(c(xmin = 154000, xmax = 1.3e06, ymin = 168000, ymax = 1.2e6)))
   
-  prs_stack <- stack(paste0(bc_stack_filenames, '.tif')) %>%
-               projectRaster(ohibc_rgn_rast)
+  arag_stack <- stack(bc_stack_filenames) %>%
+    projectRaster(ohibc_rgn_rast, method = 'ngb')
   
-  names(prs_stack) <- paste0("OA_mean_arag_", str_extract(names(prs_stack), '[0-9]{4}'))
+  names(arag_stack) <- paste0("OA_mean_arag_", str_extract(names(arag_stack), '[0-9]{4}'))
   
-  animate_rast(prs_stack, 
+  animate_rast(arag_stack, 
                gif_file = arag_animation_file)
 }
+
+git_prov(arag_animation_file, filetype = 'plot')
 
 ```
 
 ![](Figs/oa_mean_arag_animation.gif)
+
 
 -----
 
@@ -205,7 +218,44 @@ plot(hist, main = 'Mean Ωaragonite 1880-1889',
 
 ### Rescale values at original resolution
 
-``` {r rescale_2005_2010}
+``` {r rescale_values}
+
+oaRescale <- function(rast_file, reload = FALSE) {
+  ### rast_file <- arag_05_10_files[1]
+  rast_yr <- str_extract(basename(rast_file), '[0-9]{4}')
+    
+  rescaled_rast_file <- file.path(dir_goal_anx, sprintf('oa_rasts/2_rast_bc_arag_rescaled_%s.tif', rast_yr))
+  
+  if(!file.exists(rescaled_rast_file) | reload) {
+    ### get seasonal mean aragonite raster for given year:
+    rast_mean <- raster(rast_file) %>%
+      crop(ohibc_rgn_mol)                 
+    
+    message('Rescaling raster ', rast_file)
+    
+    rast_diff <- (arag_hist_rast - rast_mean) / (arag_hist_rast - 1)
+      ### create raster of the rescaled difference
+    
+    rast_rescale <- rast_mean
+    
+    values(rast_rescale)[values(rast_rescale) <= 1] <- 1   
+      ### all values at or less than 1 are given a value of 1
+    
+    values(rast_rescale)[!is.na(values(rast_rescale)) & 
+                           values(rast_rescale) > 1]  <- values(rast_diff)[!is.na(values(rast_mean)) & 
+                                                                             values(rast_mean) > 1] 
+      ### all cells with values greater than 1 are swapped out with their amount of change scaled to how close to 1 
+    
+    values(rast_rescale)[values(rast_rescale) < 0] <- 0    
+      ### all values less than 0 (indicating a decrease in acidity) are capped at 0
+  
+    writeRaster(rast_rescale, rescaled_rast_file, overwrite = TRUE)
+  } else {
+    message('File ', rescaled_rast_file, ' already exists; using existing layer')
+    git_prov(rast_file,          filetype = 'input')
+    git_prov(rescaled_rast_file, filetype = 'output')
+  }
+}
 
 ohibc_rgn_mol <- raster(rast_ohibc)
 
@@ -220,37 +270,7 @@ arag_raw_files <- list.files(file.path(dir_goal_anx, 'oa_rasts'),
 
 #for each layer, all values <=1 are assigned a 1, otherwise old-new/(old-1)
 
-oaRescale <- function(rast_file, reload = FALSE) {
-  ### rast_file <- arag_05_10_files[1]
-  rast_yr <- str_extract(basename(rast_file), '[0-9]{4}')
-    
-  rescaled_rast_file <- file.path(dir_goal_anx, sprintf('oa_rasts/2_rast_bc_arag_rescaled_%s.tif', rast_yr))
-  
-  ### get seasonal mean aragonite raster for given year:
-  rast_mean <- raster(rast_file) %>%
-    crop(ohibc_rgn_mol)                 
-  
-  message('Rescaling raster ', rast_file)
-  
-  rast_diff <- (arag_hist_rast - rast_mean) / (arag_hist_rast - 1)
-    ### create raster of the rescaled difference
-  
-  rast_rescale <- rast_mean
-  
-  values(rast_rescale)[values(rast_rescale) <= 1] <- 1   
-    ### all values at or less than 1 are given a value of 1
-  
-  values(rast_rescale)[!is.na(values(rast_rescale)) & values(rast_rescale) > 1]  <- values(rast_diff)[!is.na(values(rast_mean)) & values(rast_mean) > 1] 
-    ### all cells with values greater than 1 are swapped out with their amount of change scaled to how close to 1 
-  
-  values(rast_rescale)[values(rast_rescale) < 0] <- 0    
-    ### all values less than 0 (indicating a decrease in acidity) are capped at 0
-
-  writeRaster(rast_rescale, rescaled_rast_file, overwrite = TRUE)
-    
-}
-
-tmp <- sapply(arag_raw_files, oaRescale)
+for(rast_file in arag_raw_files) oaRescale(rast_file, reload = FALSE)
 
 ```
 
@@ -266,35 +286,44 @@ library(gstat)
 arag_resc_files <- list.files(file.path(dir_goal_anx, 'oa_rasts'), 
                               pattern = 'arag_rescaled', full.names = TRUE)
 
+reload <- FALSE
+
 for(rast_file in arag_resc_files) {
   ### rast_file <- arag_resc_files[1]
   rast  <- raster(rast_file)
   
   message('Interpolating raster ', basename(rast_file))
   
-  xy <- data.frame(xyFromCell(rast, 1:ncell(rast)))                         
-    ### get xy coords into dataframe
+  output_file <- file.path(rast_file %>%
+                             str_replace('/2_', '/3_') %>%
+                             str_replace('rescaled', 'resc_interp'))
   
-  v  <- getValues(rast)                                                  
-    ### get cell values 
-  
-  tmpdf <- cbind(xy, v) %>% 
-    filter(!is.na(v))                           
-    ### create dataframe of x,y, and values. remove NAs (throws error since these are cells we are interpolating over)
-  
-  ### define multivariate gstat model. power function = 2, this is default for idw models.
-  mg <- gstat(id = "v", formula = v ~ 1, locations = ~ x + y, 
-              data = tmpdf,
-              nmax = 7, 
-              set  = list(idp = 2)) 
-  
-  rast_interp <- interpolate(rast, mg)
-    ### interpolate across NA cells
-  
-  writeRaster(rast_interp, file.path(rast_file %>%
-                                       str_replace('/2_', '/3_') %>%
-                                       str_replace('rescaled', 'resc_interp')),
-              overwrite = TRUE)
+  if(!file.exists(output_file) | reload) {
+    xy <- data.frame(xyFromCell(rast, 1:ncell(rast)))                         
+      ### get xy coords into dataframe
+    
+    v  <- getValues(rast)                                                  
+      ### get cell values 
+    
+    tmpdf <- cbind(xy, v) %>% 
+      filter(!is.na(v))                           
+      ### create dataframe of x,y, and values. remove NAs (throws error since these are cells we are interpolating over)
+    
+    ### define multivariate gstat model. power function = 2, this is default for idw models.
+    mg <- gstat(id = "v", formula = v ~ 1, locations = ~ x + y, 
+                data = tmpdf,
+                nmax = 7, 
+                set  = list(idp = 2)) 
+    
+    rast_interp <- interpolate(rast, mg)
+      ### interpolate across NA cells
+    
+    writeRaster(rast_interp, output_file,
+                overwrite = TRUE)
+  } else {
+    message('File ', output_file, ' already exists; skipping it')
+    git_prov(output_file, filetype = 'output')
+  }
 }
 
 ```
@@ -311,27 +340,33 @@ ocean_rast <- raster(file.path(oa_dir, 'v2016/int/ocean.tif')) %>%
   crop(ohibc_rgn_mol)
 
 
-oaResample <- function(rast_file) {
+oaResample <- function(rast_file, reload = FALSE) {
   ### rast_file <- arag_resc_interp_files[1]
   rast_yr <- str_extract(basename(rast_file), '[0-9]{4}')
   out_rast_file <- file.path(dir_goal, 'oa_rasts', sprintf('4_prs_oa_bc_%s.tif', rast_yr))
   
-  message('Resampling layer ', basename(rast_file))
-  
-  rast_resampled <- raster(rast_file) %>% 
-    raster::resample(ocean_rast, method = 'ngb')
-  
-  rast_masked <- rast_resampled %>%
-    mask(ocean_rast)
-  
-  writeRaster(rast_masked,
-              filename = out_rast_file,
-              overwrite = TRUE)
+  if(!file.exists(out_rast_file) | reload) {
+    message('Resampling layer ', basename(rast_file))
+    
+    rast_resampled <- raster(rast_file) %>% 
+      raster::resample(ocean_rast, method = 'ngb')
+    
+    rast_masked <- rast_resampled %>%
+      mask(ocean_rast)
+    
+    writeRaster(rast_masked,
+                filename = out_rast_file,
+                overwrite = TRUE)
+  } else {
+    message('File ', out_rast_file, ' already exists; skipping')
+    git_prov(rast_file,     filetype = 'input')
+    git_prov(out_rast_file, filetype = 'output')
+  }
 }
 
 arag_resc_interp_files <- list.files(file.path(dir_goal_anx, 'oa_rasts'), pattern = 'resc_interp', full.names = TRUE)
 
-tmp <- sapply(arag_resc_interp_files, oaResample)
+for(rast_file in arag_resc_interp_files) oaResample(rast_file, reload = FALSE)
 
 ```
 
@@ -339,7 +374,7 @@ tmp <- sapply(arag_resc_interp_files, oaResample)
 
 ```{r}
 
-oa_prs_animation_file <- file.path(dir_goal, 'Figs', 'oa_mean_arag_animation.gif')
+oa_prs_animation_file <- file.path(dir_goal, 'Figs', 'oa_pressure_animation.gif')
 reload <- FALSE
 
 if(!file.exists(oa_prs_animation_file) | reload) {
@@ -349,13 +384,17 @@ if(!file.exists(oa_prs_animation_file) | reload) {
     crop(extent(c(xmin = 154000, xmax = 1.3e06, ymin = 168000, ymax = 1.2e6)))
   
   prs_stack <- stack(prs_rasts) %>%
-               projectRaster(ohibc_rgn_rast)
+    projectRaster(ohibc_rgn_rast, method = 'ngb')
   
   names(prs_stack) <- paste0("OA_pressure_", str_extract(names(prs_stack), '[0-9]{4}'))
   
   animate_rast(prs_stack, 
-               gif_file = oa_prs_animation_file)
+               gif_file = oa_prs_animation_file,
+               # scale_lim = c(0, .5),
+               rev_scale = TRUE)
 }
+
+git_prov(oa_prs_animation_file, filetype = 'plot')
 
 ```
 
@@ -407,16 +446,24 @@ oa_local_rasts_12_15 <- list.files(file.path(dir_goal, 'oa_rasts'),
   .[str_detect(., '2012|2015')]
 
 gl_2012 <- raster(out_rasts[[1]])
-# gl_2015 <- raster(out_rasts[[2]])
+gl_2015 <- raster(out_rasts[[2]])
 loc_2012 <- raster(oa_local_rasts_12_15[[1]])
-# loc_2015 <- raster(oa_local_rasts_12_15[[2]])
+loc_2015 <- raster(oa_local_rasts_12_15[[2]])
 
 x2012 <- (loc_2012 - gl_2012) / loc_2012
 
-plot(x2012)
+plot(x2012, main = 'Diff between global and local calcs 2012')
 
 hist(x2012, 
-     main = 'Cell difference % (local - global / local)',
+     main = 'Cell difference % (local - global / local) 2012',
+     xlab = 'percent difference', ylab = 'number of cells')
+
+x2015 <- (loc_2015 - gl_2015) / loc_2015
+
+plot(x2015, main = 'Diff between global and local calcs 2015')
+
+hist(x2015, 
+     main = 'Cell difference % (local - global / local) 2015',
      xlab = 'percent difference', ylab = 'number of cells')
 
 # mean(values(x2012), na.rm = TRUE) # -0.0004717973
@@ -446,9 +493,29 @@ prs_df <- raster::zonal(prs_rasts, rgn_rast, fun = 'mean') %>%
   gather(year, pressure, -rgn_id) %>%
   mutate(year = str_extract(year, '[0-9]{4}') %>% as.integer())
 
-write_csv(prs_df, file.path(dir_goal, 'output', 'prs_oa_ohibc.csv'))
+write_csv(prs_df, file.path(dir_goal, 'output', 'prs_oa_layer.csv'), nogit = TRUE)
+
+message('wrote the file')
+git_prov(file.path(dir_goal, 'output', 'prs_oa_layer.csv'), filetype = 'output')
 
 DT::datatable(prs_df)
+```
+
+``` {r plot_pressures}
+
+prs_df <- read_csv(file.path(dir_goal, 'output', 'prs_oa_layer.csv')) %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
+
+prs_plot <- ggplot(prs_df, aes(x = year, y = pressure, color = rgn_name, group = rgn_name)) +
+  ggtheme_plot() +
+  geom_line(show.legend = FALSE) +
+  scale_color_brewer(palette = 'Dark2') +
+  ylim(0, NA) +
+  facet_wrap( ~ rgn_name) +
+  labs(title = 'Ocean Acidification pressure',
+       x = 'Year',
+       y = 'Rescaled pressure score')
+
 ```
 
 -----
@@ -488,25 +555,34 @@ writeRaster(rast_gapfill_masked,
 
 ``` {r plot_gapfill}
 
-library(tmap)
+gf_map_file <- file.path(dir_goal, 'Figs', 'oa_gapfill_map.png')
+reload <- FALSE
+if(!file.exists(gf_map_file) | reload) {
+  
+  library(tmap)
+  
+  ohibc_rgn_bcalb <- readOGR(dir_spatial, 'ohibc_rgn_simple')
+  
+  gf_rast <- raster(file.path(dir_goal, 'oa_rasts', '6_prs_oa_bc_gapfill.tif')) %>%
+    projectRaster(crs = crs(ohibc_rgn_bcalb), method = 'ngb')
+  
+  gf_plot <- tm_shape(gf_rast) + 
+    tm_raster(palette = 'Spectral') +
+    tm_shape(ohibc_rgn_bcalb) +
+    tm_borders(col = 'grey30') +
+    tm_layout(title = 'Gapfills: +1 = data, -1 = gap')
+  
+  save_tmap(gf_plot, gf_map_file, width = 6)
 
-ohibc_rgn_bcalb <- readOGR(dir_spatial, 'ohibc_rgn_simple')
+}
 
-gf_rast <- raster(file.path(dir_goal, 'oa_rasts', '6_prs_oa_bc_gapfill.tif')) %>%
-  projectRaster(crs = crs(ohibc_rgn_bcalb))
-
-gf_plot <- tm_shape(gf_rast) + 
-  tm_raster(palette = 'Spectral') +
-  tm_shape(ohibc_rgn_bcalb) +
-  tm_borders(col = 'grey30')
-
-print(gf_plot)
+git_prov(gf_map_file, filetype = 'plot')
 
 ```
 
 ``` {r calc_gapfills}
 
-gf_rast <- raster(file.path(dir_goal, 'oa_rasts', sprintf('6_prs_oa_bc_gapfill.tif', rast_yr)))
+gf_rast <- raster(file.path(dir_goal, 'oa_rasts', '6_prs_oa_bc_gapfill.tif'))
 
 rgn_rast <- raster(file.path(dir_goal, 'int/ohibc_rgn_mol_rast_934m.tif'))
 
@@ -518,7 +594,7 @@ gf_df <- raster::zonal(gf_rast, rgn_rast, fun = 'mean') %>%
 
 write_csv(gf_df, file.path(dir_goal, 'output', 'prs_oa_gapfill.csv'))
 
-DT::datatable
+DT::datatable(gf_df)
 
 ```
 

@@ -171,13 +171,15 @@ gdal_rast2 <- function(src, rast_base, dst = NULL, value = NULL, override_p4s = 
   return(invisible(rast))
 }
 
-animate_rast <- function(rast_stack, gif_file, scale_lim = NULL) {
+animate_rast <- function(rast_stack, gif_file, scale_lim = NULL, rev_scale = FALSE) {
   library(animation)
 
   if(is.null(scale_lim)) {
     scale_lim <- c(min(minValue(rast_stack)), max(maxValue(rast_stack)))
   }
-  colorscale = colorRampPalette(brewer.pal(9, 'Spectral'))(255) # rainbow color scheme
+
+  colorscale <- colorRampPalette(brewer.pal(9, 'Spectral'))(255) # rainbow color scheme
+  if(rev_scale) colorscale <- rev(colorscale)
 
   capture.output({
     saveGIF({

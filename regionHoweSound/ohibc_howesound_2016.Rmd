@@ -1,5 +1,5 @@
 ---
-title: 'OHIBC: Howe Sound summary'
+title: 'OHIBC: Howe Sound report'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
