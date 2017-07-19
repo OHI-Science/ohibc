@@ -150,9 +150,9 @@ rmd_sum_df <- read_csv('rmd_title_summary.csv')
 dir_sum_df <- read_csv('dir_html_github.csv') %>%
   left_join(rmd_sum_df)
 
-### collapse all by directory
-rmd_test <- dir_sum_df %>%
-  filter(str_detect(dir, '/prep/')) %>%
+### collapse all by directory; modify only prep folders (excluding spatial) for now
+readme_test <- dir_sum_df %>%
+  filter(str_detect(dir, '/prep/') & !str_detect(dir, '/_spatial')) %>%
   # filter(str_detect(dir, 'spp_ico/v2017')) %>%
   mutate(github_url = str_replace(dir, path.expand(dir_git), 
                                   'https://github.com/OHI-Science/ohibc/blob/master'),
@@ -172,19 +172,28 @@ rmd_test <- dir_sum_df %>%
   ungroup() %>%
   mutate(dir_short = str_replace(dir, path.expand(dir_git), ''))
 
-### Check whether prep, year, or generic
-rmd_dir <- rmd_test$dir
+for(i in seq_along(readme_test$dir)) {
+  ### Check whether prep, year, or generic
+  # i <- 33
 
-readme_type <- case_when(str_detect(basename(rmd_dir), 'v[0-9]{4}') ~ 'generic_readme_prep.md',
-                         str_detect(rmd_dir, '/prep/[a-zA-Z]{2}')   ~ 'generic_readme_prep.md',
-                         TRUE ~ 'generic_readme.md')
+  prep_dir <- readme_test$dir[i]
+  
+  message('Creating readme_test.md for ', prep_dir)
+  
+  readme_type <- case_when(str_detect(basename(prep_dir), 'v[0-9]{4}') ~ 'generic_readme_year.md',
+                           str_detect(prep_dir, '/prep/[a-zA-Z]{2}')   ~ 'generic_readme_prep.md',
+                           TRUE ~ 'generic_readme.md')
+  
+  readme_text <- read_file(file.path(dir_git, 'src/templates', readme_type)) %>%
+    str_replace('_DIRNAME_', readme_test$dir_short[i]) %>%
+    str_replace('_SUMMARYINFO_', readme_test$text_block_all[i])
+  
+  readr::write_file(readme_text, file.path(readme_test$dir[i], 'readme_test.md'))
+  
+}
 
-readme_text <- read_file(file.path(dir_git, 'src/templates', readme_type)) %>%
-  str_replace('_DIRNAME_', rmd_test$dir_short) %>%
-  str_replace('_SUMMARYINFO_', rmd_test$text_block_all)
-
-readr::write_file(readme_text, file.path(rmd_test$dir, 'readme_test.md'))
-
+# x <- list.files(dir_git, recursive = TRUE, pattern = 'readme_test.md', full.names = TRUE)
+# unlink(x)
 ```
 
 
