@@ -62,7 +62,7 @@ The OA data layers for OHI Global are located on Mazu:
 
 ``` {r set_pressure_layer_dir}
 
-oa_dir <- file.path(dir_M,'git-annex/globalprep/prs_oa/v2017')
+oa_dir <- file.path(dir_M,'git-annex/globalprep/prs_oa')
 
 oa_rasts <- list.files(oa_dir, pattern = '[0-9]{4}.tif$', recursive = TRUE, full.names = TRUE) %>%
   .[str_detect(., 'output')]
@@ -71,6 +71,7 @@ oa_rasts
 
 ```
 
+**NOTE**: The 2005-2014 layers from v2015 are using the old reference point method (any change is same pressure regardless of how close to 1).  The v2016 and v2017 layers use the new reference point (reductions in arag sat state closer to one are penalized more heavily).  So 2005-2010 layers will need to be redone in this script using the new reference point; we will just do all the layers from scratch (starting with OHI mean aragonite saturation state calculations) for consistency.
 
 ## Data Source for global OA layer:
 
@@ -122,28 +123,31 @@ if(!file.exists(file.path(dir_spatial, 'ohibc_rgn_mol.shp'))) {
   git_prov(file.path(dir_goal, 'int/ohibc_rgn_mol_rast_934m.tif'), filetype = 'output')
 }
 
+rast_ohibc <- file.path(dir_goal, 'int/ohibc_rgn_mol_rast_934m.tif')
 
 ```
 
 
-## Collect and crop OA pressures for BC
+## Recreate OA pressures for BC using nonlinear rescaling
 
-Each global raster is cropped to the same extents as the BC Mollweide raster and saved to git-annex/bcprep.  This is done for all rasters 1958-2020.  From this, a subset will be copied to GitHub for use in the actual calculations.
+To recreate the BC layers using the current reference point, we load from OHI global these rasters:
 
-Note also that the interpolated cells raster is in this same location and will also be copied to GitHub.
+* the historic reference point raster
+* the annual mean rasters for the study years.
+
+The calculation is performed using the same method as the global layers.  First step is to clip the global rasters to the extents of OHIBC, maintaining the original projection (Mollweide) and resolution to avoid coloring the underlying data any more than necessary.
 
 ``` {r clip_rasts_to_bc_extents}
 
-rast_ohibc <- file.path(dir_goal, 'int/ohibc_rgn_mol_rast_934m.tif')
+oa_dir <- file.path(dir_M, 'git-annex/globalprep/prs_oa')
+
 ohibc_rgn_mol <- raster(rast_ohibc)
 
-oa_dir <- file.path(dir_M, 'git-annex/globalprep/prs_oa/v2017')
-
-rasts_raw <- list.files(file.path(oa_dir, 'output'), 
+rasts_raw <- list.files(file.path(oa_dir, 'v2017/int/annual_avg_moll'), 
                         pattern = 'tif$', recursive = TRUE, full.names = TRUE)
 
 bc_stack_filenames <- basename(rasts_raw) %>%
-  str_replace('oa_', '1_bc_oa_') %>%
+  str_replace('global', '1_rast_bc') %>%
   file.path(dir_goal_anx, 'oa_rasts', .)
 
 reload <- FALSE
@@ -157,42 +161,38 @@ if(any(!file.exists(bc_stack_filenames)) | reload) {
   writeRaster(oa_stack_bc, bylayer = TRUE, filename = paste0(bc_stack_filenames, '.tif'), overwrite = TRUE)
 
 } else {
-  message('BC OA rescaled pressure layers already exist')
+  message('BC clipped annual average aragonite layers already exist')
   git_prov(rasts_raw,          filetype = 'input')
   git_prov(bc_stack_filenames, filetype = 'output')
+  
 }
 ```
 
-### Animate OA pressure rasters
+### Animate OA mean aragonite sat state rasters
 
 ```{r animate_mean_arag_state}
 reload <- FALSE
 
-oa_animation_file <- file.path(dir_goal, 'Figs', 'oa_pressure_animation.gif')
+arag_animation_file <- file.path(dir_goal, 'Figs', 'oa_mean_arag_animation.gif')
 
-animation_stack_files <- list.files(file.path(dir_goal_anx, 'oa_rasts'),
-                                    pattern = 'bc_oa_prs', full.names = TRUE)
-
-if(!file.exists(oa_animation_file) | reload) {
+if(!file.exists(arag_animation_file) | reload) {
   ohibc_rgn_rast <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif')) %>%
     crop(extent(c(xmin = 154000, xmax = 1.3e06, ymin = 168000, ymax = 1.2e6)))
   
-  oa_stack <- stack(animation_stack_files) %>%
+  arag_stack <- stack(bc_stack_filenames) %>%
     projectRaster(ohibc_rgn_rast, method = 'ngb')
   
-  names(oa_stack) <- paste0("OA_pressure_", str_extract(names(oa_stack), '[0-9]{4}'))
+  names(arag_stack) <- paste0("OA_mean_arag_", str_extract(names(arag_stack), '[0-9]{4}'))
   
-  animate_rast(oa_stack, 
-               gif_file = oa_animation_file)
-} else {
-  git_prov(animation_stack_files, filetype = 'input')
+  animate_rast(arag_stack, 
+               gif_file = arag_animation_file)
 }
 
-git_prov(oa_animation_file, filetype = 'plot')
+git_prov(arag_animation_file, filetype = 'plot')
 
 ```
 
-![](Figs/oa_pressure_animation.gif)
+![](Figs/oa_mean_arag_animation.gif)
 
 
 -----

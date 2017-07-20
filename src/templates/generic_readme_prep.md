@@ -1,10 +1,8 @@
 # Ocean Health Index British Columbia: _DIRNAME_
 
-<!--This folder describes the methods used to prepare data for _GOALNAME_ for the OHIBC assessment.
+This folder describes the methods used to prepare data for _GOALNAME_ for the OHIBC assessment.
 
-More information about this goal is available [here](http://ohi-science.org/goals/#artisanal-fishing-opportunities).
-
--->
+More information about this goal is available [here](_GOALURL_).
 
 ## Data management and citation info
 
@@ -18,4 +16,6 @@ Thank you!
 
 The directories in this goal directory include metadata, R/Rmd scripts, intermediate data processing, and layer outputs for each assessement year (i.e., the year the assessment was conducted, for OHIBC currently only 2017) or scenario (e.g. Howe Sound OHIBC assessment).  The most current year represents the best available data and methods, and previous years are maintained for archival purposes.
 
-_SUMMARYINFO_
+### Rmd and HTML files included in this directory:
+
+_FILEPATHINFO_

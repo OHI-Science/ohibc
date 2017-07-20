@@ -383,6 +383,8 @@ prs_plot <- ggplot(prs_df, aes(x = year, y = pressure, color = rgn_name, group =
        x = 'Year',
        y = 'Rescaled pressure score')
 
+print(prs_plot)
+
 ```
 
 -----

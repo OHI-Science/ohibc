@@ -151,9 +151,7 @@ dir_sum_df <- read_csv('dir_html_github.csv') %>%
   left_join(rmd_sum_df)
 
 ### collapse all by directory; modify only prep folders (excluding spatial) for now
-readme_test <- dir_sum_df %>%
-  filter(str_detect(dir, '/prep/') & !str_detect(dir, '/_spatial')) %>%
-  # filter(str_detect(dir, 'spp_ico/v2017')) %>%
+readme_df <- dir_sum_df %>%
   mutate(github_url = str_replace(dir, path.expand(dir_git), 
                                   'https://github.com/OHI-Science/ohibc/blob/master'),
          rawgit_url = str_replace(dir, path.expand(dir_git), 
@@ -174,23 +172,68 @@ readme_test <- dir_sum_df %>%
   ungroup() %>%
   mutate(dir_short = str_replace(dir, path.expand(dir_git), ''))
 
-for(i in seq_along(readme_test$dir)) {
-  ### Check whether prep, year, or generic
-  # i <- 33
+### add an internal files field for display at the 'prep' level.  Note this
+### still includes provenance files
+readme_df <- readme_df %>%
+  rowwise() %>%
+  mutate(internal_files = paste(list.files(dir, pattern = 'rmd$|htm[l]?$', 
+                                           ignore.case  = TRUE,
+                                           recursive    = TRUE,
+                                           full.names   = TRUE), collapse = '\n'),
+         internal_files = str_replace_all(internal_files, paste0(dir, '/'), '* ')) %>%
+  mutate(goal_dir = str_extract(dir, '(?<=prep/).+'),
+         goal_dir = str_split(goal_dir, '/')[[1]][1]) %>%
+  ungroup() %>%
+  left_join(read_csv('goal_dir_lookup.csv'), by = 'goal_dir')
 
-  prep_dir <- readme_test$dir[i]
+write_csv(readme_df, 'readme_df.csv')
+
+```
+
+``` {r loop over directories}
+
+readme_df <- read_csv('readme_df.csv') %>%
+  filter(str_detect(dir, '/prep/') & !str_detect(dir, '/_spatial'))
+  # filter(str_detect(dir, 'spp_ico/v2017')) %>%
+
+
+for(i in seq_along(readme_df$dir)) {
+  ### Check whether prep, year, or generic
+  # i <- 1
+
+  prep_dir <- readme_df$dir[i]
   
   message('Creating readme_test.md for ', prep_dir)
   
-  readme_type <- case_when(str_detect(basename(prep_dir), 'v[0-9]{4}') ~ 'generic_readme_year.md',
-                           str_detect(prep_dir, '/prep/[a-zA-Z]{2}')   ~ 'generic_readme_prep.md',
+  readme_type <- case_when(str_detect(basename(prep_dir), 'v[0-9]{4}|vHS') ~ 'generic_readme_year.md',
+                           str_detect(prep_dir, '/prep/[_]?[a-zA-Z]{2}')   ~ 'generic_readme_prep.md',
                            TRUE ~ 'generic_readme.md')
   
-  readme_text <- read_file(file.path(dir_git, 'src/templates', readme_type)) %>%
-    str_replace('_DIRNAME_', readme_test$dir_short[i]) %>%
-    str_replace('_SUMMARYINFO_', readme_test$text_block_all[i])
+  if(readme_type == 'generic_readme_year.md') {
+    
+    readme_text <- read_file(file.path(dir_git, 'src/templates', readme_type)) %>%
+      str_replace('_DIRNAME_', readme_df$dir_short[i]) %>%
+      str_replace('_GOALNAME_', readme_df$goal_name[i]) %>%
+      str_replace('_GOALURL_', readme_df$goal_url[i]) %>%
+      str_replace('_SUMMARYINFO_', readme_df$text_block_all[i])
+    
+  } else if(readme_type == 'generic_readme_prep.md') {
+    
+    readme_text <- read_file(file.path(dir_git, 'src/templates', readme_type)) %>%
+      str_replace('_DIRNAME_', readme_df$dir_short[i]) %>%
+      str_replace('_GOALNAME_', readme_df$goal_name[i]) %>%
+      str_replace('_GOALURL_', readme_df$goal_url[i]) %>%
+      str_replace('_FILEPATHINFO_', readme_df$internal_files[i])
+    
+  } else { ### go with generic
+    
+    readme_text <- read_file(file.path(dir_git, 'src/templates', readme_type)) %>%
+      str_replace('_DIRNAME_', readme_df$dir_short[i]) %>%
+      str_replace('_FILEPATHINFO_', readme_df$internal_files[i])
+    
+  }
   
-  readr::write_file(readme_text, file.path(readme_test$dir[i], 'readme_test.md'))
+  readr::write_file(readme_text, file.path(readme_df$dir[i], 'README_test.md'))
   
 }
 

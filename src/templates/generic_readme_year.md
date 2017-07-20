@@ -1,10 +1,8 @@
 # Ocean Health Index British Columbia: _DIRNAME_
 
-<!--This folder describes the methods used to prepare data for _GOALNAME_ for the OHIBC assessment.
+This folder describes the methods used to prepare data for _GOALNAME_ for the OHIBC assessment.
 
-More information about this goal is available [here](http://ohi-science.org/goals/#artisanal-fishing-opportunities).
-
--->
+More information about this goal is available [here](_GOALURL_).
 
 ## Data management and citation info
 

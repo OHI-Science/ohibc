@@ -175,7 +175,7 @@ animate_rast <- function(rast_stack, gif_file, scale_lim = NULL, rev_scale = FAL
   library(animation)
 
   if(is.null(scale_lim)) {
-    scale_lim <- c(min(minValue(rast_stack)), max(maxValue(rast_stack)))
+    scale_lim <- c(min(minValue(rast_stack), na.rm = TRUE), max(maxValue(rast_stack), na.rm = TRUE))
   }
 
   colorscale <- colorRampPalette(brewer.pal(9, 'Spectral'))(255) # rainbow color scheme
