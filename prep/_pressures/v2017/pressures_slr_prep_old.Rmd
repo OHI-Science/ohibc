@@ -1,0 +1,240 @@
+---
+title: 'OHIBC: Sea Level Rise Pressure layers prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(sp)        # the classes and methods that make up spatial ops in R
+library(rgdal)
+library(raster)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))
+  ### an OHIBC specific version of common.R
+dir_anx <- file.path(dir_neptune_data, 'git-annex/bcprep')
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+
+### goal specific folders and info
+goal      <- 'pressures'
+scenario  <- 'v2016'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+source('~/github/ohibc/src/R/prov.R')      
+  ### Provenance tracking functions: must source at start to initialize prov_track
+dir_prov <- file.path(dir_goal, 'prov') 
+  ### set a provenance folder for this script
+this_script_file <- file.path(dir_goal, 'pressures_slr_prep.Rmd') 
+  ### can't recognize the current script name on its own :(
+prov_run_tag <- 'standard run'
+
+### goal-specific source scripts
+source(file.path(dir_goal, 'pressures_lyr_fxns.R'))
+
+### other support functions
+source(file.path(dir_git, 'src/R/rast_tools.R'))
+
+### set up proj4string options: BC Albers and WGS84
+p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+
+reload = FALSE
+```
+
+# Summary
+
+There are two parts to creating this layer:
+
+1. Data prep to get raw data into the correct format:
+    * Read sea level rise data as raster
+    * Clip rasters to extents of OHIBC region, and reproject into BC Albers projection.
+2. Creating the pressure layers for OHIBC:
+    * All negative values, indicating decreases in sea level, were set to zero
+    * Data was resampled from the native cell resolution (0.25 degrees) to ~ 1km
+    * The reference point was set as the 99.99th quantile of the data distribution to rescale all values from 0 to 1
+    * All NA cells were filled in through nearest neighbor interpolation
+    
+This process is completed entirely within this script.
+
+# Data
+
+Reference: The altimeter products were produced and distributed by Aviso (http://www.aviso.altimetry.fr/), as part of the Ssalto ground processing segment. AVISO
+
+* Downloaded: January 12, 2015
+* Description: Annual rate of sea level rise in mm
+* Native data resolution: 0.25 degree grid cells
+* Time range: January 1993 - June 2014
+* Format: NetCDF
+
+# Methods
+
+## Data Prep
+
+### Read raw data
+
+What is really the format here?  velocity? only single year?  use as a trend, or get multi-year data from same source?
+
+``` {r read_slr_data}
+
+library(ncdf4)
+
+dir_data_slr <- file.path('~/github/ohiprep/globalprep',
+                          'Pressures_SeaLevelRise/v2015')
+  
+rast_slr_raw <- raster(file.path(dir_data_slr, 'raw/MSL_Map_MERGED_Global_IB_RWT_NoGIA_Adjust.nc'))
+
+range_slr <- range(values(rast_slr_raw), na.rm = TRUE)
+```
+
+Range of SLR velocity for global dataset: `r paste(range_slr, collapse = ' - ')` mm yr^-1^.
+
+
+### Convert raw global data to OHIBC region data
+
+The raw data, in WGS84 coordinate ref system, is rasterized, clipped down to a bounding box around the OHIBC region, and reprojected into BC Albers projection.  This data is then resampled to 1 km resolution using nearest neighbor method.
+
+The resulting raster layers include mean SLR velocity for each coarse cell (approx .25 degree, from original resolution)
+
+``` {r load_rgn, echo = FALSE}
+
+rgn_lyr <- 'ohibc_rgn'
+
+message(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
+rgn_poly <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
+                       verbose = FALSE, stringsAsFactors = FALSE)
+
+rgn_poly_wgs84 <- readOGR(dsn = path.expand(dir_rgn), 
+                         layer = paste(rgn_lyr, '_wgs84', sep = ''),
+                         verbose = FALSE, stringsAsFactors = FALSE)
+
+### In case we need to resample to 1 km... use base raster from 
+### regions folder (note: 500m base raster available too).  Used later in
+### finding zonal statistics anyway.
+rast_rgn <- raster(file.path(dir_rgn, 'ohibc_rgn_raster_1000m.tif'))
+
+```
+
+``` {r create_slr_rasts, echo = FALSE}
+### clip rasters to extents of region (in WGS 84 CRS)
+### then: reproject to BC Albers projection
+bc_slr_file <- file.path(dir_goal, 'int/slr/rast_slr_raw.tif')
+
+
+if(!file.exists(bc_slr_file) | reload) {
+  rast_slr_raw <- rotate(rast_slr_raw) ### b/c error: extents do not overlap
+  message('Cropping raster layers from raw data')
+  bc_slr <- raster::crop(rast_slr_raw, rgn_poly_wgs84, snap = 'out') %>%
+    raster::projectRaster(crs = p4s_bcalb)
+
+  message('Resampling rasters to new resolution')
+  bc_slr_resamp <- raster::resample(bc_slr, rast_rgn,
+                               method   = 'ngb',
+                               progress = 'text',
+                               filename = bc_slr_file,
+                               overwrite = TRUE)
+  git_prov(bc_slr_file, type = 'output')
+} else {
+  message('Reading raster bricks from files')
+  bc_slr_resamp <- raster(bc_slr_file)
+}
+
+plot_rast(bc_slr_resamp, 
+          title = 'SLR velocity', 
+          scale_label = 'mm/yr',
+          rev_scale = TRUE)
+
+```
+
+
+## Rescale values as pressures
+
+Values below zero (lowering sea level) are set to zero.
+
+Then rescaled from zero (no positive sea level rise) to 1 (at 99.99%ile of velocity).
+
+``` {r interpolate_slr_anomalies}
+
+### because original data appear to be on different grids, interpolate
+### each to create a more even surface - more sensible for subtraction.
+### use these to parameterize the tps_models
+subset_n <- 2000 ### how many sample cells to use to create tps model
+
+xy <- data.frame(xyFromCell(bc_slr_resamp, 1:ncell(bc_slr_resamp)))
+tmpdf <- cbind(xy, getValues(bc_slr_resamp)) %>%
+  sample_n(min(subset_n, nrow(xy)))
+xy1 <- tmpdf[ , 1:2]
+v1  <- tmpdf[ , 3]
+tps_model <- fields::Tps(xy1, v1)
+message('interpolating slr velocity values')
+bc_slr_int <- interpolate(bc_slr_resamp, tps_model)
+
+### mask to regions
+values(bc_slr_int)[is.na(values(rast_rgn))] <- NA
+
+plot_rast(bc_slr_int, 
+          title = 'SLR velocity smoothed', 
+          scale_label = 'mm/yr',
+          rev_scale = TRUE)
+
+```
+
+``` {r rescale_slr_pressures}
+
+### If SLR velocity is negative, set to zero
+bc_slr_pos <- bc_slr_int
+values(bc_slr_pos)[values(bc_slr_pos) < 0] <- 0
+
+plot_rast(bc_slr_pos, 
+          title = 'SLR pos velocity', 
+          scale_label = 'mm/yr',
+          rev_scale = TRUE)
+
+ref_pt = quantile(bc_slr_pos, prob=0.9999)
+
+bc_slr_resc <- calc(bc_slr_pos, fun = function(x) ifelse(x > ref_pt, 1, x/ref_pt))
+plot_rast(bc_slr_resc, 
+          title = 'rescaled SLR velocity', 
+          scale_label = 'scaled pressure',
+          rev_scale = TRUE)
+
+writeRaster(bc_slr_resc, file.path(dir_goal, 'output/slr/slr_rescaled.tif'), 
+            overwrite = TRUE)
+
+```
+
+
+## Calculate mean pressure by region by year
+
+Using 1000 m region ID raster to run zonal statistics on the pressures layers, calculate the regional average pressures for the study period, and save as a .csv.
+
+``` {r calc_mean_slr_pressures_by_year}
+
+slr_rgn_mean <- zonal(bc_slr_resc, rast_rgn, fun = 'mean') %>%
+  as.data.frame() %>%
+  rename(pressure = mean, rgn_id = zone) %>%
+  left_join(rgn_poly@data %>% select(rgn_id, rgn_name), by = 'rgn_id')
+
+knitr::kable(slr_rgn_mean)
+
+write_csv(slr_rgn_mean, file.path(dir_goal, 'output/slr/slr_rgn_pressures.csv'))
+
+```
+
+-----
+
+``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
+```

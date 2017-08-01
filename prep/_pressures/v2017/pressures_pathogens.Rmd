@@ -1,0 +1,108 @@
+---
+title: 'OHIBC: Pathogens Pressure layers prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(sf)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))
+
+dir_spatial <- path.expand(file.path(dir_git, 'prep/_spatial'))
+
+### goal specific folders and info
+goal      <- '_pressures'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_M, 'git-annex/bcprep', goal, scenario)
+
+library(provRmd); prov_setup()
+
+### goal-specific source scripts
+source(file.path(dir_goal, 'pressures_lyr_fxns.R'))
+
+### other support functions
+source(file.path(dir_git, 'src/R/rast_tools.R'))
+
+reload <- FALSE
+
+```
+
+# Summary
+
+This pressure layer uses shellfish closures to determine pathogen presence in BC fishery management areas.  Closures for sanitary reasons (excluding chemicals and biotoxins) are counted and spatially assigned to regions similar to the process in the First Nations Resource Access Opportunity goal.  Closure days are area-weighted by region and then compared to a scale from 0 - 365 days to generate a score of 0-1.
+
+$$X_{pathogens} = \frac{\sum (days_{closed}*A_{PFMA})}{\sum A_{PFMA}}$$
+    
+
+# Data
+
+This layer relies on data used and pre-processed in the FNRAO goal.  These data were provided by Karen Hunter from the Canada DFO.
+
+# Methods
+
+Read in closure data by year and type; filter to just sanitary closures; then bind with region-to-PFMSA area lookup.  Determine score based on the area-weighted mean closure days relative to the total region area.
+
+``` {r read_data_from_ao_prep}
+
+closures <- read_csv(file.path(dir_goal, '../../ao/v2017/int/closures_by_year_and_type.csv')) %>%
+  filter(str_detect(closure_type, 'sanitary')) %>%
+  mutate(pfmsa_id = paste(area, subarea, sep = '-'))
+
+rgns <- read_csv(file.path(dir_goal, '../../ao/v2017/int/closure_pfmsa_to_rgn.csv'))
+
+closures_rgns <- closures %>%
+  left_join(rgns, by = 'pfmsa_id') %>%
+  group_by(rgn_id, year) %>%
+  summarize(mean_days_area = sum(total_days_closed * area_km2) / first(a_tot_km2),
+            pressure       = mean_days_area / 365) %>%
+  ungroup() %>%
+  filter(!is.na(rgn_id))
+
+write_csv(closures_rgns, file.path(dir_goal, 'output/prs_pathogens_layer.csv'))
+
+```
+
+``` {r plot_pressures}
+
+prs_df <- closures_rgns %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
+
+prs_plot <- ggplot(prs_df, aes(x = year, y = pressure, color = rgn_name, group = rgn_name)) +
+  ggtheme_plot() +
+  geom_line(show.legend = FALSE) +
+  scale_color_brewer(palette = 'Dark2') +
+  ylim(0, NA) +
+  facet_wrap( ~ rgn_name) +
+  labs(title = 'Pathogens pressure',
+       x = 'Year',
+       y = 'Rescaled pressure score')
+
+print(prs_plot)
+
+```
+
+-----
+
+``` {r results = 'asis'}
+
+prov_wrapup(commit_outputs = FALSE)
+
+```

@@ -1,0 +1,165 @@
+---
+title: 'OHIBC: Pressures overview'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R;
+  ### includes library(tidyverse); library(stringr)
+
+dir_git     <- '~/github/ohibc'
+dir_spatial <- file.path(dir_git, 'prep/spatial') 
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal      <- 'GOALNAME'
+scenario  <- 'v2016'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### support scripts
+source(file.path(dir_git, 'src/R/map_scores.R'))
+  ### score plotting scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+  ### raster plotting and analyzing scripts
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+```
+
+## Pressures table
+
+| Pressure Category   | Stressor Type                                   |
+| :------------------ | :---------------------------------------------- |
+| Fishing             | Commercial high bycatch (e.g., trawl fishing)   | 
+|                     | Commercial low bycatch (e.g., purse seine)      | 
+|                     | Artisanal low bycatch (e.g., hook and line)     |
+|                     | Artisanal high bycatch (e.g., dynamite fishing) |
+|                     | Targeted harvest                                |
+| Habitat destruction | Marine subtidal soft bottom                     |
+|                     | Marine subtidal hard bottom                     |
+|                     | Intertidal                                      |
+| Climate change      | Sea surface temperature anomalies               |
+|                     | UV radiation                                    |
+|                     | Ocean acidification                             |
+|                     | Sea level rise                                  |
+| Water pollution     | Nutrients                                       |
+|                     | Chemicals                                       |
+|                     | Human pathogens                                 |
+|                     | Marine debris                                   |
+| Species pollution   | Invasive species                                |
+|                     | Genetic escapes                                 |
+
+## Fishing pressures
+
+### Commercial fishing: high bycatch
+
+From OHI Global 2012: 
+> This Pressure represents fish caught using high bycatch gear, which includes demersal destructive (e.g. trawl), demersal non-destructive high bycatch (e.g. pots, traps) and pelagic high bycatch (e.g. long-lines) gear. The species-gear associations are from Watson et al.79. Catch data come from 2006 and were spatialized by the Sea Around Us Project into 1⁄2 degree cell resolution 31. We then summed these values into our EEZ reporting units. When cells spanned EEZ borders, we divided catch proportionally based on amount of area in each EEZ. Full details on the data that comprise this layer are provided in Halpern et al.3.
+
+### Commercial fishing: low bycatch
+
+From OHI Global 2012: 
+> This Pressure represents fish caught using low bycatch gear, which includes demersal non-destructive low bycatch (e.g. hook and line) and pelagic low bycatch (e.g. purse seines) gear. The species-gear associations are from Watson et al. 79. Catch data come from 2006 and were spatialized by the Sea Around Us Project into 1⁄2 degree cell resolution 31. We then summed these values into our EEZ reporting units. When cells spanned EEZ borders, we divided catch proportionally based on amount of area in each EEZ. Full details on the data that comprise this layer are provided in Halpern et al.3.
+
+### Artisanal fishing: high bycatch
+
+From OHI Global 2012: 
+> Reefs at Risk Revisited77 recorded the presence of destructive artisanal blast and poison (cyanide) fishing in a country based on survey observations and expert opinion. Because these data are categorical, we used a binary system for scoring regions for this stressor. Where destructive artisanal fishing practices were recorded as either "moderate" or "severe," we categorized the value as maximum (score = 1). "Unclassified" areas are considered under low threat from blast and poison fishing by Reefs at Risk Revisited and were categorized as having no artisanal high bycatch fishing (score = 0).
+
+> A notable limitation of using these data as a proxy for high bycatch artisanal fishing is that they only cover coral reef habitats. High bycatch artisanal fishing likely exists in every coastal country on the planet, but we have no way of knowing the type or extent (for every country). For all non-habitat destructive (but still potentially high bycatch) fishing we use FAO catch data (described below in Artisanal Fishing: Low Bycatch).
+
+### Artisanal fishing: low bycatch
+
+From OHI Global 2012: 
+> FAO reports statistics on this type of catch for many but not all countries; we used data for 59 countries reported in 2006 and modeled the values for the remaining countries. There is no information on the gear type used for this catch; we make the assumption that little of it is done with habitat- destructive gear (e.g., blast fishing) or high bycatch gear (e.g., seine nets) but recognize that high bycatch gear in particular is common. However, we used a separate dataset for destructive artisanal fishing practices (see "Artisanal Fishing: High Bycatch" above). Full details on this data layer are provided in Halpern et al.3.
+
+### Targeted harvest
+
+From OHI Global 2012: 
+> This data layer compiles data from FAO 82 on catch of cetaceans and marine turtles. We searched and extracted all catch titles that could include cetaceans or marine turtles and aggregated to create a total reported catch count for cetaceans and tonnes caught for marine turtles for each country. Reported catch for 2009 was used for most countries unless data were unavailable for 2009 and there was a reported catch for 2008. In those cases, 2008 data were used. For both cetaceans and marine turtles the summed catch was rescaled from 0-1, with 1 = 110% the maximum value across all countries. The two scores were then averaged to create a single "targeted harvest" score.
+
+## Habitat destruction pressures
+
+### Subtidal hard bottom
+
+From OHI Global 2012: 
+> Reefs at Risk Revisited77 recorded the presence of destructive artisanal blast and poison (cyanide) fishing in a country based on survey observations and expert opinion. Because these data are categorical, we used a binary system for scoring regions for this stressor. Where destructive artisanal fishing practices were recorded as either "moderate" or "severe," we categorized the value as maximum (score = 1). "Unclassified" areas are considered under low threat from blast and poison fishing by Reefs at Risk Revisited and were categorized as having no artisanal high bycatch fishing (score = 0).
+> A notable limitation of using these data as a proxy for high bycatch artisanal fishing is that they only cover coral reef habitats. High bycatch artisanal fishing likely exists in every coastal country on the planet, but we have no way of knowing the type or extent (for every country). For all non-habitat destructive (but still potentially high bycatch) fishing we use FAO catch data (described below in Artisanal Fishing: Low Bycatch).
+
+Is there hard bottom habitat destructive fishing in BC?
+
+### Subtidal soft bottom
+
+From OHI Global 2012: 
+> Spatially distributed half-degree global commercial catch data developed by Sea Around Us Project31, based on FAO and other source data, were assigned to fishing gear types using global taxon-gear associations79,84. These data were used to calculate catch (tonnes per year) from trawling for each year from 1950-2006. Trawling gears were defined as dredges, hand dredges, bottom trawls, and shrimp trawls (mid-water trawls were excluded). These catches were assumed to be uniform within each half- degree cell. "Trawlable habitat" within an EEZ was defined as shallow subtidal (0-60m) and outer shelf (60-200m) soft bottom habitat from Halpern et al.3. The total trawled catch within each EEZ was then divided by the total area of soft-bottom habitat to produce a measure of trawl intensity per unit area. Because these data were extremely skewed, we log(X+1) transformed them and then rescaled to the maximum value from all year-country possibilities. Status was then calculated as one minus the rescaled catch density in the most recent year (2006). This status value was then rescaled to the median intensity-density value across all years, i.e. any value greater than the median was set = 1.0. The Pressure score was then one minus this median-rescaled value; the inverse of this rescaled value was used for the Habitat sub-goal of the Biodiversity goal.
+
+Should this be identical to the HAB soft bottom layer, since that is a model based on trawling pressures?
+
+### Intertidal
+
+From OHI Global 2012: 
+> The intertidal habitat destruction proxy measures the coastal population density within 10 km of the coast based on the assumption that the potential for intertidal habitat destruction is proportional to the density of human population living along the coast.  We extracted population density for the most recent year, 2000 (see human coastal population layer; (CIESIN), resampled our 10 km buffer raster to match the GPWv3 resolution (2.5 arc-min). We marked the coastline edge pixels for the population data, log- rescaled the value to the global maximum within the edge pixels plus 10%, and then calculated the zonal mean population density score for each region.
+
+From OHI CC 2014:
+> To estimate the impact of direct human trampling we used a model developed by Halpern et al. (2009) that utilized California actual beach attendance data to develop a predictive model of beach visitation across all regions included in the U.S. west coast. Predicted beach visitation values were used to score this pressure using 110% of the maximum visitation value recorded as the maximum pressure score, and zero visitations as the minimum. These values were then averaged across our sub-regions.
+
+___Use park attendance values from TR goal?  do all regions have parks?  or use GPW v4?___
+
+
+## Climate change pressures
+
+All climate pressures are extracted from pressures layers used in the global assessment.  
+
+## Water pollution pressures
+
+### Chemicals, Nutrients, Marine debris
+
+These pressure layers are identical to the layers used in the OHIBC Clean Waters goal.
+
+### Human pathogens
+
+From OHI Global 2012: 
+> The percentage of the population with access to improved sanitation facilities (World Health Organization and United Nations Children's Fund, Joint Monitoring Programme, 2011) was used in combination with measurements of population density64 as a proxy for pathogens in coastal waters. Access to improved sanitation facilities is defined as the percentage of the population within a country with at least adequate access to excreta disposal facilities that can effectively prevent human, animal, and insect contact with excreta. These data are a country-wide average (not specific to the coastal region) and the most recent year available is 2008. Percentages (0-100) for each country were rescaled to 0-1 based on a maximum target of 100% of the population with access to improved sanitation, and a minimum value of 0.
+
+___Shellfish closures for sanitation?___
+
+## Species pollution pressures
+
+### Invasive species
+
+From OHI Global 2012: 
+> These data come from the global invasive species database75. The database reports number and type of alien species in each marine ecoregion76, with species types categorized as invasive and harmful invasive species. For our purposes, total count of all invasive species was used. We intersected the ecoregion data with our reporting units to determine the proportion of each ecoregion that falls within each reporting unit and then assigned this percentage of invasive species from the ecoregion to the reporting unit. The sum of all invasive species within each reporting unit was then rescaled to the maximum global value.
+> Predicting the full potential impact of alien species depends in large part on having high-resolution spatial information on where they exist, how far they have spread and exactly which components of the food web they affect. The data from Molnar et al. 75 approximate these impacts but at ecoregional scales. In addition, the impacts of alien species will vary depending on the goal under consideration. This implies that harmful effects would need to be assessed separately for each goal. Such an endeavor may be possible when applying this framework to a smaller case-study where this type of information can be acquired.
+
+___BC invasives layer?  most are freshwater instances___
+
+The invasive species pressures layer was created using the 2008 Molnar dataset and the methods from OHI Global and CC.
+
+### Genetic escapes
+
+From OHI Global 2012: 
+> This layer represents the potential for harmful genetic escapement based on whether the species being cultured is native or introduced. Data come from the Mariculture Sustainability Index (MSI) 34. In the MSI analysis native species receive the highest score (10), while foreign and introduced species receive the lowest (1) on the premise of potential impacts to local biodiversity if these species were to escape. Use of native but non-local species were scored intermediately based on the assumption that potentially negative alterations to genetic biodiversity occur from non-local sources as well, but to a lower degree. Genetic "pollution" can arise when larvae, spats or seeds escape from poorly managed hatcheries, making native species vulnerable to out- breeding depressions and/or genetic bottlenecks 34. The MSI reports data for 359 country-species combinations (with 53 countries represented). Where multiple scores exist for a country the weighted average of all scores (0-10) is used. All country scores were then rescaled from 0 to 1, using the maximum raw score of 10 and minimum of 1. Countries that were not analyzed by Trujillo34 did not receive a score and this pressure layer falls out of their analyses.
+
+ 

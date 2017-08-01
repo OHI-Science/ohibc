@@ -1,0 +1,167 @@
+---
+title: 'OHIBC: Alien Species Pressure layers prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(sf)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))
+
+dir_spatial <- path.expand(file.path(dir_git, 'prep/_spatial'))
+
+### goal specific folders and info
+goal      <- '_pressures'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_M, 'git-annex/bcprep', goal, scenario)
+
+library(provRmd); prov_setup()
+
+### goal-specific source scripts
+source(file.path(dir_goal, 'pressures_lyr_fxns.R'))
+
+### other support functions
+source(file.path(dir_git, 'src/R/rast_tools.R'))
+
+reload <- FALSE
+
+```
+
+# Summary
+
+This pressure layer evaluates invasive species pressure on BC regions using the same method as OHI Global and California Current.  From Molnar (2008) data, we have data on the number of invasive species (and number of harmful invasives) found within each Marine Ecoregion of the World (MEOW) region.  Score is determined based on the proportion of invasives relative to the global maximum.  Scores for each ecoregion are allocated spatially by the proportion $A_i$ of each OHIBC region falling within each MEOW region (n = 3 ecoregions).  The data has no time scale.
+
+$$X_{invasive} = \frac{\sum_{i=1}^{n}(n_{spp} * A_i)}{(\sum_{i=1}^nA_i)}$$
+
+# Data
+
+This layer relies on the same invasive spp database as the global assessment, i.e. Molnar 2008.
+
+## Data Source for global OA layer:
+
+- **Reference**: [Molnar et al.(2008)](http://onlinelibrary.wiley.com/doi/10.1890/070064/abstract)
+- **Downloaded**: July 31, 2017 from https://www.conservationgateway.org/ConservationPractices/Marine/Pages/marineinvasives.aspx
+- **Description**:  Number of alien spp per ecoregion, and number of harmful invasives
+- **Native data resolution**: Ecoregion
+- **Format**:  .mdb
+
+# Methods
+
+``` {r read_mdb}
+
+# library(RODBC)
+# 
+# library(Hmisc)
+# x <- Hmisc::mdb.get(file.path(dir_M, 'git-annex/bcprep/_raw_data',
+#                             'invasives/TNC_MarineInvasionsDb_18feb08.mdb'))
+# 
+# odbcConnect(dsn = file.path(dir_M, 'git-annex/bcprep/_raw_data',
+#                             'invasives/TNC_MarineInvasionsDb_18feb08.mdb'))
+
+```
+
+Read in MEOW regions and intersect with OHIBC regions; calculate area of each OHIBC region that falls within each MEOW region.
+
+``` {r calc_areas_of_meows}
+
+bc_rgn <- read_sf(dir_spatial, 'ohibc_rgn')
+
+meow_rgn <- read_sf(file.path(dir_M, 'git-annex/bcprep/_raw_data/meow'),
+                        'meow_ecos') %>%
+  st_transform(st_crs(bc_rgn))
+
+meow_in_bc <- st_intersection(bc_rgn, meow_rgn) %>%
+  setNames(tolower(names(.))) %>%
+  select(rgn_id, ecoregion)
+
+meow_in_bc$area_km2 <- st_area(meow_in_bc) / 1e6
+
+bc_meow_df <- meow_in_bc %>%
+  as.data.frame() %>%
+  group_by(rgn_id) %>%
+  mutate(tot_area = sum(area_km2),
+         eco_area = area_km2 / tot_area) %>%
+  select(-geometry, -area_km2, -tot_area) %>%
+  ungroup()
+  
+write_csv(bc_meow_df, file.path(dir_goal, 'int/invspp_bc_meow.csv'))
+
+ggplot(meow_in_bc) +
+  geom_sf(aes(fill = ecoregion), size = .25) +
+  scale_fill_brewer(palette = 'Dark2')
+
+```
+
+For each ecoregion, calculate the proportion of invasive species (overall) relative to the global maximum; combine this result with the ecoregion area dataframe.  For each OHIBC region, calculate the area-weighted mean of invasive species.
+
+``` {r read_basic_invasives_data}
+
+invspp <- read_csv(file.path(dir_M, 'git-annex/bcprep/_raw_data/invasives/molnar2008_byname.csv')) %>%
+  mutate(ecoregion   = tolower(ecoregion))
+
+n_ref <- max(invspp$n)
+n_harmful_ref <- max(invspp$n_harmful)
+
+bc_meow_df <- read_csv(file.path(dir_goal, 'int/invspp_bc_meow.csv')) %>%
+  mutate(ecoregion = tolower(ecoregion))
+
+invspp_bc <- left_join(bc_meow_df, invspp, by = 'ecoregion') 
+
+prs_invspp_bc <- invspp_bc %>%
+  group_by(rgn_id) %>%
+  summarize(n_spp     = sum(n * eco_area),
+            n_harmful = sum(n_harmful * eco_area),
+            pressure  = n_spp / n_ref)
+  
+write_csv(prs_invspp_bc, file.path(dir_goal, 'output', 'prs_inv_spp.csv'))
+
+DT::datatable(prs_invspp_bc %>% 
+                mutate(pressure  = round(pressure, 4),
+                       n_spp     = round(n_spp, 2),
+                       n_harmful = round(n_harmful, 2)))
+```
+
+``` {r plot_pressures}
+
+prs_df <- prs_invspp_bc %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
+
+prs_plot <- ggplot(prs_df, aes(x = rgn_code, y = pressure)) +
+  ggtheme_plot() +
+  geom_bar(stat = 'identity', show.legend = FALSE) +
+  scale_color_brewer(palette = 'Dark2') +
+  ylim(0, NA) +
+  labs(title = 'Invasive species pressure',
+       x = 'region',
+       y = 'Rescaled pressure score')
+
+print(prs_plot)
+
+```
+
+
+-----
+
+``` {r results = 'asis'}
+
+prov_wrapup(commit_outputs = FALSE)
+
+```

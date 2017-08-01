@@ -1,0 +1,257 @@
+---
+title: 'OHIBC: readme.md generator'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R;
+  ### includes library(tidyverse); library(stringr)
+
+dir_git     <- '~/github/ohibc'
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+```
+
+# Summary
+
+Walks through file structure of OHIBC and checks to see whether folders have a readme.  Eventually, will generate a readme for each folder based on a template.
+
+# Check folders for Readme.md files
+
+Identify all folders that *should* have readme files.
+
+* For those that do, do a quick check on the quality: file size, difference from template, etc.
+* For those that don't, flag them for next steps.
+
+``` {r check github}
+
+check_folders <- c(# 'calc_ohibc', 
+                   # 'regionHoweSound', 
+                   'prep')
+
+git_dirs <- data.frame(home = dir_git,
+                       dir  = list.dirs(dir_git),
+                       stringsAsFactors = FALSE)  %>%
+  filter(!str_detect(dir, '/\\.'))
+
+dir_check <- git_dirs %>%
+  mutate(level = str_count(dir, '/') - str_count(path.expand(dir_git), '/')) %>%
+  filter(level <= 3) %>%
+  rowwise() %>%
+  mutate(readme = list.files(dir, pattern = 'readme', ignore.case = TRUE) %>%
+           paste(collapse = ', ')) %>%
+  ungroup()
+  
+html_check <- dir_check %>%
+  rowwise() %>%
+  mutate(html = list(list.files(dir, pattern = 'htm[l]?$', ignore.case = TRUE))) %>%
+  ungroup() %>%
+  unnest(html) %>%
+  select(dir, html) %>%
+  mutate(file_base = str_replace(tolower(html), '.htm[l]?$', ''))
+
+rmd_check <- dir_check %>%
+  rowwise() %>%
+  mutate(rmd = list(list.files(dir, pattern = 'rmd$', ignore.case = TRUE))) %>%
+  ungroup() %>%
+  unnest(rmd) %>%
+  select(dir, rmd) %>%
+  mutate(file_base = str_replace(tolower(rmd), '.rmd$', '')) 
+
+check_join <- html_check %>%
+  full_join(rmd_check, by = c('dir', 'file_base')) %>%
+  select(-file_base)
+
+dir_html <- dir_check %>%
+  left_join(check_join, by = 'dir')
+
+write_csv(dir_html, 'dir_html_github.csv')
+
+```
+
+## Scan for Rmd summaries
+
+``` {r scan_for_rmd_summary}
+
+dir_html <- read_csv('dir_html_github.csv')
+
+rmd_sum_df <- dir_html %>% 
+  filter(!is.na(rmd)) %>%
+  mutate(rmd_path = file.path(dir, rmd))
+
+get_rmd_info <- function(rmd_file) {
+  ### rmd_file <- rmd_sum_df$rmd_path[11]
+  rmd_text <- readr::read_file(rmd_file)
+
+  rmd_sum <- rmd_text %>% 
+    str_split('#+|```') %>%
+    as.data.frame() %>%
+    setNames('text') %>%
+    filter(str_detect(text, 'Summary')) %>%
+    mutate(text_clean = str_replace_all(text, 'Summary[:]?', ''),
+             ### remove "summary" title
+           text_clean = str_replace_all(text_clean, '\\*{3,}|-{3,}', ''), 
+             ### remove horizontal rule markers (*** or ---); note this could
+             ### also affect bold-italics e.g. ***bold italics*** but whatevs
+           text_clean = str_trim(text_clean))
+             ### remove line breaks
+  
+  rmd_title <- rmd_text %>% 
+    str_split('#+') %>%
+    as.data.frame() %>%
+    setNames('text') %>%
+    filter(str_detect(tolower(text), 'title')) %>%
+    mutate(text_clean = str_extract(text, '(?<=(title:)).+'),
+           text_clean = str_replace_all(text_clean, '"', ''),
+           text_clean = str_replace_all(text_clean, "'", ''),
+           text_clean = str_trim(text_clean))
+
+  rmd_info_df <- data.frame(rmd_path    = rmd_file,
+                            rmd_title   = rmd_title$text_clean[1],
+                            rmd_summary = rmd_sum$text_clean[1],
+                            stringsAsFactors = FALSE)
+}
+
+rmd_info_df <- rmd_sum_df$rmd_path %>%
+  lapply(get_rmd_info) %>%
+  bind_rows()
+
+rmd_sum_df <- rmd_sum_df %>%
+  left_join(rmd_info_df, by = 'rmd_path')
+
+write_csv(rmd_sum_df, 'rmd_title_summary.csv')
+
+```
+
+## Assemble readme
+
+From a template, replace the summary/rmd/html info with info from the dataframe.  Write as tmp README_tmp.md to each dir.
+
+``` {r assemble_readme}
+
+rmd_sum_df <- read_csv('rmd_title_summary.csv')
+dir_sum_df <- read_csv('dir_html_github.csv') %>%
+  left_join(rmd_sum_df)
+
+### collapse all by directory; modify only prep folders (excluding spatial) for now
+readme_df <- dir_sum_df %>%
+  mutate(github_url = str_replace(dir, path.expand(dir_git), 
+                                  'https://github.com/OHI-Science/ohibc/blob/master'),
+         rawgit_url = str_replace(dir, path.expand(dir_git), 
+                                  'https://rawgit.com/OHI-Science/ohibc/master'),
+         readme_title = case_when(!is.na(rmd_title) ~ rmd_title,
+                                  !is.na(rmd)       ~ rmd,
+                                  !is.na(html)      ~ html,
+                                  TRUE ~ str_replace(dir, path.expand(dir_git), '')),
+         readme_rmd = ifelse(is.na(rmd), 'no Rmd present', file.path(github_url, rmd)),
+         readme_html = ifelse(is.na(html), 'no HTML present', file.path(rawgit_url, html))) %>%
+  mutate(text_block = sprintf('## %s\n\n* __Rmd file:__ %s \n* __HTML file:__ %s\n\n### Summary:\n\n%s',
+                              readme_title, 
+                              readme_rmd,
+                              readme_html,
+                              rmd_summary)) %>%
+  group_by(dir) %>%
+  summarize(text_block_all = paste(text_block, collapse = '\n\n-----\n\n')) %>%
+  ungroup() %>%
+  mutate(dir_short = str_replace(dir, path.expand(dir_git), ''))
+
+### add an internal files field for display at the 'prep' level.  Note this
+### still includes provenance files
+readme_df <- readme_df %>%
+  rowwise() %>%
+  mutate(internal_files = paste(list.files(dir, pattern = 'rmd$|htm[l]?$', 
+                                           ignore.case  = TRUE,
+                                           recursive    = TRUE,
+                                           full.names   = TRUE), collapse = '\n'),
+         internal_files = str_replace_all(internal_files, paste0(dir, '/'), '* ')) %>%
+  mutate(goal_dir = str_extract(dir, '(?<=prep/).+'),
+         goal_dir = str_split(goal_dir, '/')[[1]][1]) %>%
+  ungroup() %>%
+  left_join(read_csv('goal_dir_lookup.csv'), by = 'goal_dir')
+
+write_csv(readme_df, 'readme_df.csv')
+
+```
+
+``` {r loop over directories}
+
+readme_df <- read_csv('readme_df.csv') %>%
+  filter(str_detect(dir, '/prep/') & !str_detect(dir, '/_spatial'))
+  # filter(str_detect(dir, 'spp_ico/v2017')) %>%
+
+
+for(i in seq_along(readme_df$dir)) {
+  ### Check whether prep, year, or generic
+  # i <- 1
+
+  prep_dir <- readme_df$dir[i]
+  
+  message('Creating readme_test.md for ', prep_dir)
+  
+  readme_type <- case_when(str_detect(basename(prep_dir), 'v[0-9]{4}|vHS') ~ 'generic_readme_year.md',
+                           str_detect(prep_dir, '/prep/[_]?[a-zA-Z]{2}')   ~ 'generic_readme_prep.md',
+                           TRUE ~ 'generic_readme.md')
+  
+  if(readme_type == 'generic_readme_year.md') {
+    
+    readme_text <- read_file(file.path(dir_git, 'src/templates', readme_type)) %>%
+      str_replace('_DIRNAME_', readme_df$dir_short[i]) %>%
+      str_replace('_GOALNAME_', readme_df$goal_name[i]) %>%
+      str_replace('_GOALURL_', readme_df$goal_url[i]) %>%
+      str_replace('_SUMMARYINFO_', readme_df$text_block_all[i])
+    
+  } else if(readme_type == 'generic_readme_prep.md') {
+    
+    readme_text <- read_file(file.path(dir_git, 'src/templates', readme_type)) %>%
+      str_replace('_DIRNAME_', readme_df$dir_short[i]) %>%
+      str_replace('_GOALNAME_', readme_df$goal_name[i]) %>%
+      str_replace('_GOALURL_', readme_df$goal_url[i]) %>%
+      str_replace('_FILEPATHINFO_', readme_df$internal_files[i])
+    
+  } else { ### go with generic
+    
+    readme_text <- read_file(file.path(dir_git, 'src/templates', readme_type)) %>%
+      str_replace('_DIRNAME_', readme_df$dir_short[i]) %>%
+      str_replace('_FILEPATHINFO_', readme_df$internal_files[i])
+    
+  }
+  
+  readr::write_file(readme_text, file.path(readme_df$dir[i], 'README_test.md'))
+  
+}
+
+# x <- list.files(dir_git, recursive = TRUE, pattern = 'readme_test.md', full.names = TRUE, ignore.case = TRUE)
+# unlink(x)
+```
+
+
+``` {r check_git-annex}
+
+anx_dirs <-  data.frame(home = dir_anx,
+                        dir  = list.dirs(dir_anx),
+                        stringsAsFactors = FALSE) 
+
+dir_check <- anx_dirs %>%
+  mutate(dir = str_replace(dir, path.expand(dir_anx), ''),
+         level = str_count(dir, '/')) %>%
+  filter(level > 0 & level <= 3) %>%
+  mutate(readme = list.files())
+
+```

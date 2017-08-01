@@ -1,0 +1,118 @@
+home,dir,level,readme,html,rmd
+~/github/ohibc,/home/ohara/github/ohibc,0,README.md,sf_vs_sp.html,sf_vs_sp.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/aquamaps_testing,1,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/bcmca,1,,bcmca_filenames.html,NA
+~/github/ohibc,/home/ohara/github/ohibc/bcmca,1,,NA,1_bcmca_filenames.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/bcmca,1,,NA,2_bcmca_shp_fixes.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/bcmca,1,,NA,3_bcmca_rasterize.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/bcmca/mod_layers,2,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/bcmca/prov,2,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc,1,,calc_scores_ohibc.html,calc_scores_ohibc.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/conf,2,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/Figs,2,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/gapfill,2,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/layers,2,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/master,2,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/master/dummy_layers,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/prov,2,,calc_scores_ohibc.Rmd_workflow.html,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/prov/calc_scores_ohibc.Rmd_workflow_files,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2016,2,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2016/conf,3,,NA,goals.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2016/layers,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2016/reports,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2016/spatial,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2016/temp,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2016/tmp,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2017,2,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2017/conf,3,,NA,goals.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2017/layers,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2017/reports,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2017/spatial,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2017/temp,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2017/tmp,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/spatial,2,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/Figs,1,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep,1,README.md,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/ao,2,readme_test.md,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,"README.md, readme_test.md",ao_closures_prep.html,ao_closures_prep.rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,"README.md, readme_test.md",ao_goal_est.html,ao_goal_est.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,"README.md, readme_test.md",ao_herringspawn_prep.html,ao_herringspawn_prep.rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,"README.md, readme_test.md",ao_licenses_prep.html,ao_licenses_prep.rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/cw,2,"README.md, readme_test.md",NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/cw/v2017,3,readme_test.md,cw_chem_prep.html,cw_chem_prep.rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/cw/v2017,3,readme_test.md,cw_goal_est.html,cw_goal_est.rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/cw/v2017,3,readme_test.md,cw_nutrient_prep.html,cw_nutrient_prep.rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/cw/v2017,3,readme_test.md,cw_trash_prep.html,cw_trash_prep.rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis,2,"README.md, readme_test.md",NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/kobe,3,readme_test.md,kobe.html,kobe.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/kobe_shiny,3,readme_test.md,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,1_data_prep_fis_ram.html,1_data_prep_fis_ram.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,2_data_prep_fis_ram_spatial.html,2_data_prep_fis_ram_spatial.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,3_plot_fis_scores.html,3_plot_fis_scores.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,data_prep_fis_dfo.html,data_prep_fis_dfo.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,data_prep_fis_ram_modeled.html,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,data_prep_fis_saup.html,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,x_data_prep_fis_saup.html,x_data_prep_fis_saup.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,x_plot_saup.html,x_plot_saup.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,NA,data_prep_fis_spatial_old.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/vHS,3,readme_test.md,data_prep_fis_hs.html,data_prep_fis_hs.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp,2,"README.md, readme_test.md",NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,3,readme_test.md,data_prep_hab_ebsa_sb.html,data_prep_hab_ebsa_sb.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,3,readme_test.md,data_prep_hab_sm_cf.html,data_prep_hab_sm_cf.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,3,readme_test.md,goal_model_cp_cs.html,goal_model_cp_cs.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,3,readme_test.md,goal_model_hab.html,goal_model_hab.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,3,readme_test.md,NA,data_prep_landuse_rasters.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS,3,readme_test.md,data_prep_hab_cp_cs_hs.html,data_prep_hab_cp_cs_hs.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS,3,readme_test.md,data_prep_hab_sponge_sb_hs.html,data_prep_hab_sponge_sb_hs.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS,3,readme_test.md,goal_prep_cp_cs_hs.html,goal_prep_cp_cs_hs.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS,3,readme_test.md,goal_prep_hab_hs.html,goal_prep_hab_hs.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/le,2,"README.md, readme_test.md",NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/le/v2017,3,readme_test.md,data_prep_liv.html,data_prep_liv.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/lsp,2,"readme.md, readme_test.md",NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/lsp/v2017,3,readme_test.md,data_prep_lsp.html,data_prep_lsp.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/lsp/vHS,3,readme_test.md,goal_prep_lsp.html,goal_prep_lsp.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/mar,2,"README.md, readme_test.md",NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/mar/v2017,3,readme_test.md,data_explore_mar.html,data_explore_mar.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/mar/v2017,3,readme_test.md,data_prep_mar.html,data_prep_mar.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures,2,"README.md, readme_test.md",NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures/v2017,3,"README.md, readme_test.md",pressures_oa_prep.html,pressures_oa_prep.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures/v2017,3,"README.md, readme_test.md",pressures_slr_prep.html,pressures_slr_prep.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures/v2017,3,"README.md, readme_test.md",pressures_uv_prep.html,pressures_uv_prep.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures/v2017,3,"README.md, readme_test.md",NA,pressures_slr_prep2.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/_resilience,2,"README.md, readme_test.md",NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/_spatial,2,README.md,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/_spatial/howe_sound,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/_spatial/_img,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/_spatial/raster,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/_spatial/simple,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/_spatial/watershed,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico,2,"README.md, readme_test.md",iucn_to_ns.html,iucn_to_ns.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/api_testing,3,readme_test.md,NA,api_scripts.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/Figs,3,readme_test.md,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/R,3,readme_test.md,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/v2017,3,readme_test.md,data_prep_ico.html,data_prep_ico.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/v2017,3,readme_test.md,data_prep_spp.html,data_prep_spp.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/v2017,3,readme_test.md,ico_custom_spp_info.html,ico_custom_spp_info.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/vHS,3,readme_test.md,goal_prep_ico_howesound.html,goal_prep_ico_howesound.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/vHS,3,readme_test.md,goal_prep_spp_howesound.html,goal_prep_spp_howesound.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/prep/tr,2,"README.md, readme_test.md",NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/prep/tr/v2017,3,readme_test.md,data_prep_tr.html,data_prep_tr.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/rdme_gen,1,,test.htm,NA
+~/github/ohibc,/home/ohara/github/ohibc/rdme_gen,1,,NA,CopyOftest.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/rdme_gen,1,,NA,rdme_generator.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/refs,1,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/refs/pressures,2,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/regionHoweSound,1,,ohibc_howesound_2016.html,ohibc_howesound_2016.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/regionHoweSound/Figs,2,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/regionHoweSound/misc,2,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/regionHoweSound/prov,2,,ohibc_howesound_2016.Rmd_workflow.html,NA
+~/github/ohibc,/home/ohara/github/ohibc/regionHoweSound/prov/ohibc_howesound_2016.Rmd_workflow_files,3,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/sf_sp_testing,1,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/src,1,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/src/image_work,2,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/src/R,2,,NA,NA
+~/github/ohibc,/home/ohara/github/ohibc/src/templates,2,"generic_raw_data_README.md, generic_readme.md, generic_readme_prep.md, generic_readme_year.md",ohibc_hdr1.html,NA
+~/github/ohibc,/home/ohara/github/ohibc/src/templates,2,"generic_raw_data_README.md, generic_readme.md, generic_readme_prep.md, generic_readme_year.md",ohibc_hdr2.html,NA
+~/github/ohibc,/home/ohara/github/ohibc/src/templates,2,"generic_raw_data_README.md, generic_readme.md, generic_readme_prep.md, generic_readme_year.md",NA,ohibc_hdr.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/src/templates,2,"generic_raw_data_README.md, generic_readme.md, generic_readme_prep.md, generic_readme_year.md",NA,template_for_rmd.Rmd
+~/github/ohibc,/home/ohara/github/ohibc/src/templates/imgs,3,,NA,NA
