@@ -65,20 +65,127 @@ This layer relies on the same invasive spp database as the global assessment, i.
 
 # Methods
 
+## Determine invasive-potential-weighted species counts in each ecoregion
+
+Cracking open the .mdb MS Access file reveals 32 dataframes in the relational database.  Many of these relate to pathways which are not relevant to the scope of this pressure layer.  We will use layers that indicate species presence in ecoregions, combined with invasive threat level of each species.
+
 ``` {r read_mdb}
 
 # library(RODBC)
 # 
 # library(Hmisc)
-# x <- Hmisc::mdb.get(file.path(dir_M, 'git-annex/bcprep/_raw_data',
-#                             'invasives/TNC_MarineInvasionsDb_18feb08.mdb'))
-# 
-# odbcConnect(dsn = file.path(dir_M, 'git-annex/bcprep/_raw_data',
-#                             'invasives/TNC_MarineInvasionsDb_18feb08.mdb'))
+molnar08 <- Hmisc::mdb.get(file.path(dir_M, 'git-annex/bcprep/_raw_data',
+                            'invasives/TNC_MarineInvasionsDb_18feb08.mdb'))
+### returns a list of dataframes; here are the names of the dataframes:
+# sapply(x, nrow)
+#           _A_SPECIES_MARINE        A_Geo_Habitat-Marine        A_Occurrences-Marine   A_Species_Pathways-Marine             B_Pathways_List 
+#                         338                         338                        2187                         728                          59 
+# B_References_Marine (Jan08)         list_db_terminology         list_distr_in_range      list_document pathways          list_documentation 
+#                         354                          11                           5                           3                           5 
+#               list_FW TR MR           list_introduction               list_pathway2               list_pathways             list_references 
+#                           8                           5                          57                          58                         355 
+#                 list_scores              list_scores_id                  list_taxon                    list_Y-N                 list_Y-N-UK 
+#                           5                          25                          27                           2                           3 
+#         Tbl_mr meow list-er       Tbl_mr meow list-prov      Tbl_mr meow list-realm      T-Q_path-er1-summ_Swbd      T-Q_path-er2-summ_Swbd 
+#                         196                          57                          12                         452                         796 
+#      T-Q_path-er3-summ_Swbd      T-Q_path-er4-summ_Swbd      T-Q_path-er5-summ_Swbd      A_Threat_scores-Marine      B_MEOWv2_draft_08mar07 
+#                         481                         279                         337                         338                         232 
+#                list_habitat           list_scores_id-EI 
+#                          42                           6 
+
+### 
+### 
+
+write_csv(molnar08[['A_Occurrences-Marine']], file.path(dir_goal, 'int/invspp_occurrences_raw.csv'))
+write_csv(molnar08[['A_Threat_scores-Marine']], file.path(dir_goal, 'int/invspp_threat_raw.csv'))
 
 ```
 
-Read in MEOW regions and intersect with OHIBC regions; calculate area of each OHIBC region that falls within each MEOW region.
+* `A_Occurrences-Marine` represents the occurrences of each species in each ecoregion.
+* `A_Threat_scores-Marine` represents the threat scores of each species (regardless of ecoregion).  This includes a text description justifying each of the four categories of threat scores for that species.
+
+### Calculate mean threat score
+
+Using `A_Threat_scores-Marine` (saved as `_pressures/v2017/int/invspp_threat_raw.csv`), we calculate a weighted threat score for each species using a geometric mean (dropping NAs).  This weighted threat score divided by 4 to rescale the highest value to 1.0 - note this means low-threat species still get a minimum score of 0.25.
+
+``` {r calc_threat}
+
+spp_threat_all <- read_csv(file.path(dir_goal, 'int/invspp_threat_raw.csv')) %>%
+  setNames(tolower(names(.)) %>% str_replace_all('[^a-z]', '_')) 
+
+spp_threat <- spp_threat_all %>%
+  select(species_id, contains('score')) %>%
+  gather(threat, score, -species_id) %>%
+  filter(threat != 'scope_score') %>%
+  mutate(score = as.integer(score),
+         threat = str_replace(threat, '_score', ''),
+         threat_txt = sprintf('%s = %s', threat, score)) %>%
+  group_by(species_id) %>%
+  summarize(threat_txt = paste(threat_txt, collapse = '; '),
+            score_prod = prod(score, na.rm = TRUE),
+            pressure   = score_prod ^ (1 / sum(!is.na(score))) / 4) %>%
+  ungroup() %>%
+  select(species_id, threat_txt, pressure)
+
+write_csv(spp_threat, file.path(dir_goal, 'int/invspp_threat_scored.csv'))
+
+spp_names <- molnar08[['_A_SPECIES_MARINE']] %>%
+  setNames(tolower(names(.)) %>% str_replace('[^a-z]', '_')) %>%
+  select(species_id, species_name, higher_taxa, common_name)
+
+DT::datatable(spp_names %>% 
+                left_join(spp_threat, by = 'species_id') %>%
+                mutate(pressure = round(pressure, 3)))
+```
+
+### Assign species threat levels to ecoregions
+
+Using `A_Occurrences-Marine`, saved as `int/invspp_occurrences_raw.csv`, join the species threat levels to species occurrences in each ecoregion.  Find total threat-weighted sum of species in each ecoregion.
+
+``` {r assign_spp_to_ecoregions}
+
+spp_threat <- read_csv(file.path(dir_goal, 'int/invspp_threat_scored.csv'))
+spp_ecorgn_raw <- read_csv(file.path(dir_goal, 'int/invspp_occurrences_raw.csv')) %>%
+  clean_df_names() 
+
+meow_list <- molnar08[['B_MEOWv2_draft_08mar07']] %>%
+  clean_df_names() %>%
+  select(ecoregion_code = eco_code,
+         # eco_code = eco_code_x,
+         ecoregion)
+
+spp_ecorgn <- spp_ecorgn_raw %>%
+  left_join(spp_threat, by = 'species_id') %>%
+  select(ecoregion_code, species_id, pressure) %>%
+  group_by(ecoregion_code) %>%
+  summarize(n_spp = n(),
+            pressure_sum = sum(pressure)) %>%
+  ungroup() %>%
+  left_join(meow_list, by = 'ecoregion_code')
+
+mdl_fit <- lm(pressure_sum ~ n_spp, data = spp_ecorgn)
+
+r_sq <- mdl_fit %>% summary() %>% .$r.squared %>% round(4)
+
+ggplot(spp_ecorgn, aes(x = n_spp, y = pressure_sum)) +
+  geom_point() +
+  geom_smooth(method = 'lm')
+
+write_csv(spp_ecorgn, file.path(dir_goal, 'int/invspp_meow_sums.csv'))
+
+```
+
+Comparing the pressure-weighted sums to the total species count in each region (which was the metric used in OHI Global 2012-2017 and CC), the linear trend indicates that scores shouldn't be too greatly affected using this new method.  
+
+Linear model: intercept = `r mdl_fit$coefficients[1]`, slope = `r mdl_fit$coefficients[2]`, R^2 = `r r_sq`.
+
+## Spatializing invasives to BC regions
+
+Using spatial data for MEOW regions, we can spatialize the invasive species pressures to OHIBC regions.
+
+### Intersect MEOW with OHIBC
+
+Read in MEOW regions shapefile and intersect with OHIBC regions; calculate area of each OHIBC region that falls within each MEOW region.
 
 ``` {r calc_areas_of_meows}
 
@@ -102,7 +209,7 @@ bc_meow_df <- meow_in_bc %>%
   select(-geometry, -area_km2, -tot_area) %>%
   ungroup()
   
-write_csv(bc_meow_df, file.path(dir_goal, 'int/invspp_bc_meow.csv'))
+write_csv(bc_meow_df, file.path(dir_goal, 'int/invspp_meow_pressures.csv'))
 
 ggplot(meow_in_bc) +
   geom_sf(aes(fill = ecoregion), size = .25) +
@@ -110,45 +217,49 @@ ggplot(meow_in_bc) +
 
 ```
 
-For each ecoregion, calculate the proportion of invasive species (overall) relative to the global maximum; combine this result with the ecoregion area dataframe.  For each OHIBC region, calculate the area-weighted mean of invasive species.
+### Assign invasives pressures 
+
+For each ecoregion, calculate the proportional invasive species pressure relative to the global maximum; combine this result with the ecoregion area dataframe.  For each OHIBC region, calculate the area-weighted mean of invasive species pressures.
 
 ``` {r read_basic_invasives_data}
 
-invspp <- read_csv(file.path(dir_M, 'git-annex/bcprep/_raw_data/invasives/molnar2008_byname.csv')) %>%
+invspp_prs <- read_csv(file.path(dir_goal, 'int/invspp_meow_pressures.csv')) %>%
   mutate(ecoregion   = tolower(ecoregion))
 
-n_ref <- max(invspp$n)
-n_harmful_ref <- max(invspp$n_harmful)
+n_ref <- max(invspp_prs$n_spp)
+prs_ref <- max(invspp_prs$pressure_sum)
 
-bc_meow_df <- read_csv(file.path(dir_goal, 'int/invspp_bc_meow.csv')) %>%
+bc_meow_df <- read_csv(file.path(dir_goal, 'int/invspp_bc_meow_rgns.csv')) %>%
   mutate(ecoregion = tolower(ecoregion))
 
-invspp_bc <- left_join(bc_meow_df, invspp, by = 'ecoregion') 
+invspp_bc <- left_join(bc_meow_df, invspp_prs, by = 'ecoregion') 
 
 prs_invspp_bc <- invspp_bc %>%
   group_by(rgn_id) %>%
-  summarize(n_spp     = sum(n * eco_area),
-            n_harmful = sum(n_harmful * eco_area),
-            pressure  = n_spp / n_ref)
+  summarize(n_spp = sum(n_spp * eco_area),
+            pressure = sum(pressure_sum * eco_area) / prs_ref) %>%
+  ungroup()
   
 write_csv(prs_invspp_bc, file.path(dir_goal, 'output', 'prs_inv_spp.csv'))
 
 DT::datatable(prs_invspp_bc %>% 
                 mutate(pressure  = round(pressure, 4),
-                       n_spp     = round(n_spp, 2),
-                       n_harmful = round(n_harmful, 2)))
+                       n_spp     = round(n_spp, 2)))
 ```
 
 ``` {r plot_pressures}
 
+prs_invspp_bc <- read_csv(file.path(dir_goal, 'output', 'prs_inv_spp.csv'))
+
 prs_df <- prs_invspp_bc %>%
   left_join(get_rgn_names(), by = 'rgn_id')
 
-prs_plot <- ggplot(prs_df, aes(x = rgn_code, y = pressure)) +
+prs_plot <- ggplot(prs_df, aes(x = rgn_name, y = pressure)) +
   ggtheme_plot() +
   geom_bar(stat = 'identity', show.legend = FALSE) +
   scale_color_brewer(palette = 'Dark2') +
   ylim(0, NA) +
+  theme(axis.text.x = element_text(angle = 22.5, hjust = .75)) +
   labs(title = 'Invasive species pressure',
        x = 'region',
        y = 'Rescaled pressure score')

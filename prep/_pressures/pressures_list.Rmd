@@ -132,6 +132,7 @@ ___Use park attendance values from TR goal?  do all regions have parks?  or use 
 
 All climate pressures are extracted from pressures layers used in the global assessment.  
 
+
 ## Water pollution pressures
 
 ### Chemicals, Nutrients, Marine debris
@@ -144,6 +145,7 @@ From OHI Global 2012:
 > The percentage of the population with access to improved sanitation facilities (World Health Organization and United Nations Children's Fund, Joint Monitoring Programme, 2011) was used in combination with measurements of population density64 as a proxy for pathogens in coastal waters. Access to improved sanitation facilities is defined as the percentage of the population within a country with at least adequate access to excreta disposal facilities that can effectively prevent human, animal, and insect contact with excreta. These data are a country-wide average (not specific to the coastal region) and the most recent year available is 2008. Percentages (0-100) for each country were rescaled to 0-1 based on a maximum target of 100% of the population with access to improved sanitation, and a minimum value of 0.
 
 ___Shellfish closures for sanitation?___
+
 
 ## Species pollution pressures
 
@@ -162,4 +164,4 @@ The invasive species pressures layer was created using the 2008 Molnar dataset a
 From OHI Global 2012: 
 > This layer represents the potential for harmful genetic escapement based on whether the species being cultured is native or introduced. Data come from the Mariculture Sustainability Index (MSI) 34. In the MSI analysis native species receive the highest score (10), while foreign and introduced species receive the lowest (1) on the premise of potential impacts to local biodiversity if these species were to escape. Use of native but non-local species were scored intermediately based on the assumption that potentially negative alterations to genetic biodiversity occur from non-local sources as well, but to a lower degree. Genetic "pollution" can arise when larvae, spats or seeds escape from poorly managed hatcheries, making native species vulnerable to out- breeding depressions and/or genetic bottlenecks 34. The MSI reports data for 359 country-species combinations (with 53 countries represented). Where multiple scores exist for a country the weighted average of all scores (0-10) is used. All country scores were then rescaled from 0 to 1, using the maximum raw score of 10 and minimum of 1. Countries that were not analyzed by Trujillo34 did not receive a score and this pressure layer falls out of their analyses.
 
- 
+Use the genetic_escapees data for scores and combine with mariculture harvests from FAO for harvest-weighted mean

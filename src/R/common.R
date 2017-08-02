@@ -53,3 +53,11 @@ get_rgn_names <- function() {
                          rgn_name = 'British Columbia',
                          rgn_code = 'BC'))
 }
+
+clean_df_names <- function(df) {
+  df <- df %>%
+    setNames(tolower(names(.)) %>%
+               str_replace_all('[^a-z]', '_') %>%
+               str_replace_all('^_+|_+$', ''))
+  return(df)
+}
