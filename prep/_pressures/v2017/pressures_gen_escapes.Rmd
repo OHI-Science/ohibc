@@ -50,8 +50,7 @@ reload <- FALSE
 
 This pressure layer calculates the pressure due to genetic escapes from aquaculture.  The Mariculture Sustatinability Index ranks aquaculture species in different regions with a score from 1-10 for potential for genetic pollution.  For OHIBC we will follow a similar method as OHI Global and CC, rescaling genetic escape pressure from 0-1 for each species and calculating a harvest-weighted average of genetic escape pressure for each region.
 
-
-$$pressure_{spp} = P_{spp} = \frac{\prod_{T=1}^N(threat_T)^{1/N}}{4}$$
+$$pressure_{gen.escapes} = \frac{\sum_{spp=1}^N (MSI_{spp} * harvest_{spp})}{\sum_{spp=1}^N harvest_{spp}}$$
 
 The genetic escapes scores are not time-dependent, but harvest data is reported annually.
 
@@ -68,6 +67,7 @@ Mariculture Sustainability Index:
 * __Format__:  .xlsx
 
 FAO Aquaculture Harvest:
+
 * __Reference__:
 * __Downloaded__: 8/2/17 from http://www.fao.org/fishery/statistics/global-aquaculture-production/en (as .zip)
 * __Description__: Aquaculture production by country, across several .csv files
@@ -206,7 +206,7 @@ fao_not_msi_match <- bc_fao_harvest %>%
 # [1] "chinook_spring_king_salmon" "japanese_carpet_shell"      "scallops_nei"    
 ```
 
-`r paste(fao_not_msi_match, collapse = '; ')'
+`r paste(fao_not_msi_match, collapse = '; ')`
 
 #### Create manual lookup of species to MSI scores
 
@@ -299,7 +299,8 @@ spatial_alloc <- dfo_aq %>%
   ungroup() %>%
   select(-rgn_harvest)
 
-fao_msi <- read_csv(file.path(dir_goal, 'raw/genesc_bc_msi_clean.csv'))
+fao_msi <- read_csv(file.path(dir_goal, 'raw/genesc_bc_msi_clean.csv')) %>%
+  mutate(species = ifelse(species == 'atlantic_salmon_pac', 'atlantic_salmon', species))
          
 fao_msi_rgn <- bc_fao_harvest %>%
   left_join(spatial_alloc, by = c('species' = 'fao_name')) %>%
@@ -312,6 +313,7 @@ fao_msi_rgn <- bc_fao_harvest %>%
 write_csv(fao_msi_rgn, file.path(dir_goal, 'int/genesc_harvest_msi_rgn.csv'))
 
 DT::datatable(fao_msi_rgn)
+
 ```
 
 ## Calculate layer
@@ -335,7 +337,11 @@ ggplot(genesc_layer %>%
          left_join(get_rgn_names()), 
        aes(x = year, y = pressure)) +
   ggtheme_plot() +
-  geom_line(aes(color = rgn_name, group = rgn_name))
+  geom_line(aes(color = rgn_name, group = rgn_name), 
+            size = 2, alpha = .6,
+            show.legend = FALSE) +
+  scale_color_brewer(palette = 'Dark2') +
+  facet_wrap( ~ rgn_name)
 
 DT::datatable(genesc_layer)
 ```
