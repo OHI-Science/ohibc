@@ -1234,15 +1234,15 @@ year,species,rgn_id,tot_harvest,rgn_harvest,genetic_escapees,whence
 2012,scallops_nei,4,198,24.6708,0.55,genus average from global assessment
 2012,scallops_nei,5,198,0.2772,0.55,genus average from global assessment
 2012,scallops_nei,6,198,169.9434,0.55,genus average from global assessment
-2013,atlantic_salmon,3,74673,5212.1754,0.1,species in MSI
-2013,atlantic_salmon,4,74673,42302.2545,0.1,species in MSI
-2013,atlantic_salmon,5,74673,22409.367299999998,0.1,species in MSI
-2013,atlantic_salmon,6,74673,4734.2681999999995,0.1,species in MSI
-2013,atlantic_salmon,8,74673,14.934600000000001,0.1,species in MSI
-2013,blue_mussel,2,291,0,1,species in MSI
-2013,blue_mussel,4,291,199.6551,1,species in MSI
-2013,blue_mussel,5,291,0,1,species in MSI
-2013,blue_mussel,6,291,91.34490000000001,1,species in MSI
+2013,atlantic_salmon,3,72176,5037.8848,0.1,species in MSI
+2013,atlantic_salmon,4,72176,40887.704,0.1,species in MSI
+2013,atlantic_salmon,5,72176,21660.0176,0.1,species in MSI
+2013,atlantic_salmon,6,72176,4575.9583999999995,0.1,species in MSI
+2013,atlantic_salmon,8,72176,14.4352,0.1,species in MSI
+2013,blue_mussel,2,352,0,1,species in MSI
+2013,blue_mussel,4,352,241.5072,1,species in MSI
+2013,blue_mussel,5,352,0,1,species in MSI
+2013,blue_mussel,6,352,110.4928,1,species in MSI
 2013,chinook_spring_king_salmon,3,0,0,1,high risk analogous to native coho/silver salmon
 2013,chinook_spring_king_salmon,4,0,0,1,high risk analogous to native coho/silver salmon
 2013,chinook_spring_king_salmon,5,0,0,1,high risk analogous to native coho/silver salmon
@@ -1253,32 +1253,32 @@ year,species,rgn_id,tot_harvest,rgn_harvest,genetic_escapees,whence
 2013,coho_silver_salmon,5,0,0,1,species in MSI
 2013,coho_silver_salmon,6,0,0,1,species in MSI
 2013,coho_silver_salmon,8,0,0,1,species in MSI
-2013,japanese_carpet_shell,2,2476,0,0.925,genus average from global assessment
-2013,japanese_carpet_shell,4,2476,26.7408,0.925,genus average from global assessment
-2013,japanese_carpet_shell,5,2476,26.9884,0.925,genus average from global assessment
-2013,japanese_carpet_shell,6,2476,2422.2708,0.925,genus average from global assessment
-2013,pacific_cupped_oyster,2,5592,0,0.1,species in MSI
-2013,pacific_cupped_oyster,4,5592,410.4528,0.1,species in MSI
-2013,pacific_cupped_oyster,5,5592,101.7744,0.1,species in MSI
-2013,pacific_cupped_oyster,6,5592,5079.7728,0.1,species in MSI
+2013,japanese_carpet_shell,2,1470,0,0.925,genus average from global assessment
+2013,japanese_carpet_shell,4,1470,15.876000000000001,0.925,genus average from global assessment
+2013,japanese_carpet_shell,5,1470,16.023,0.925,genus average from global assessment
+2013,japanese_carpet_shell,6,1470,1438.1009999999999,0.925,genus average from global assessment
+2013,pacific_cupped_oyster,2,6452,0,0.1,species in MSI
+2013,pacific_cupped_oyster,4,6452,473.57680000000005,0.1,species in MSI
+2013,pacific_cupped_oyster,5,6452,117.4264,0.1,species in MSI
+2013,pacific_cupped_oyster,6,6452,5860.9968,0.1,species in MSI
 2013,rainbow_trout,3,0,0,1,high risk analogous to native coho/silver salmon
 2013,rainbow_trout,4,0,0,1,high risk analogous to native coho/silver salmon
 2013,rainbow_trout,5,0,0,1,high risk analogous to native coho/silver salmon
 2013,rainbow_trout,6,0,0,1,high risk analogous to native coho/silver salmon
 2013,rainbow_trout,8,0,0,1,high risk analogous to native coho/silver salmon
-2013,scallops_nei,2,91,1.4286999999999999,0.55,genus average from global assessment
-2013,scallops_nei,4,91,11.3386,0.55,genus average from global assessment
-2013,scallops_nei,5,91,0.12739999999999999,0.55,genus average from global assessment
-2013,scallops_nei,6,91,78.1053,0.55,genus average from global assessment
-2014,atlantic_salmon,3,54971,3836.9758,0.1,species in MSI
-2014,atlantic_salmon,4,54971,31141.071500000002,0.1,species in MSI
-2014,atlantic_salmon,5,54971,16496.7971,0.1,species in MSI
-2014,atlantic_salmon,6,54971,3485.1614,0.1,species in MSI
-2014,atlantic_salmon,8,54971,10.994200000000001,0.1,species in MSI
-2014,blue_mussel,2,592,0,1,species in MSI
-2014,blue_mussel,4,592,406.1712,1,species in MSI
-2014,blue_mussel,5,592,0,1,species in MSI
-2014,blue_mussel,6,592,185.8288,1,species in MSI
+2013,scallops_nei,2,89,1.3973,0.55,genus average from global assessment
+2013,scallops_nei,4,89,11.0894,0.55,genus average from global assessment
+2013,scallops_nei,5,89,0.1246,0.55,genus average from global assessment
+2013,scallops_nei,6,89,76.3887,0.55,genus average from global assessment
+2014,atlantic_salmon,3,62475,4360.755,0.1,species in MSI
+2014,atlantic_salmon,4,62475,35392.0875,0.1,species in MSI
+2014,atlantic_salmon,5,62475,18748.747499999998,0.1,species in MSI
+2014,atlantic_salmon,6,62475,3960.915,0.1,species in MSI
+2014,atlantic_salmon,8,62475,12.495000000000001,0.1,species in MSI
+2014,blue_mussel,2,596,0,1,species in MSI
+2014,blue_mussel,4,596,408.91560000000004,1,species in MSI
+2014,blue_mussel,5,596,0,1,species in MSI
+2014,blue_mussel,6,596,187.08440000000002,1,species in MSI
 2014,chinook_spring_king_salmon,3,0,0,1,high risk analogous to native coho/silver salmon
 2014,chinook_spring_king_salmon,4,0,0,1,high risk analogous to native coho/silver salmon
 2014,chinook_spring_king_salmon,5,0,0,1,high risk analogous to native coho/silver salmon
@@ -1289,20 +1289,56 @@ year,species,rgn_id,tot_harvest,rgn_harvest,genetic_escapees,whence
 2014,coho_silver_salmon,5,0,0,1,species in MSI
 2014,coho_silver_salmon,6,0,0,1,species in MSI
 2014,coho_silver_salmon,8,0,0,1,species in MSI
-2014,japanese_carpet_shell,2,1327,0,0.925,genus average from global assessment
-2014,japanese_carpet_shell,4,1327,14.3316,0.925,genus average from global assessment
-2014,japanese_carpet_shell,5,1327,14.4643,0.925,genus average from global assessment
-2014,japanese_carpet_shell,6,1327,1298.2041,0.925,genus average from global assessment
-2014,pacific_cupped_oyster,2,8108,0,0.1,species in MSI
-2014,pacific_cupped_oyster,4,8108,595.1272,0.1,species in MSI
-2014,pacific_cupped_oyster,5,8108,147.56560000000002,0.1,species in MSI
-2014,pacific_cupped_oyster,6,8108,7365.3072,0.1,species in MSI
+2014,japanese_carpet_shell,2,1443,0,0.925,genus average from global assessment
+2014,japanese_carpet_shell,4,1443,15.5844,0.925,genus average from global assessment
+2014,japanese_carpet_shell,5,1443,15.7287,0.925,genus average from global assessment
+2014,japanese_carpet_shell,6,1443,1411.6869,0.925,genus average from global assessment
+2014,pacific_cupped_oyster,2,6184,0,0.1,species in MSI
+2014,pacific_cupped_oyster,4,6184,453.90560000000005,0.1,species in MSI
+2014,pacific_cupped_oyster,5,6184,112.5488,0.1,species in MSI
+2014,pacific_cupped_oyster,6,6184,5617.5455999999995,0.1,species in MSI
 2014,rainbow_trout,3,0,0,1,high risk analogous to native coho/silver salmon
 2014,rainbow_trout,4,0,0,1,high risk analogous to native coho/silver salmon
 2014,rainbow_trout,5,0,0,1,high risk analogous to native coho/silver salmon
 2014,rainbow_trout,6,0,0,1,high risk analogous to native coho/silver salmon
 2014,rainbow_trout,8,0,0,1,high risk analogous to native coho/silver salmon
-2014,scallops_nei,2,100,1.5699999999999998,0.55,genus average from global assessment
-2014,scallops_nei,4,100,12.46,0.55,genus average from global assessment
-2014,scallops_nei,5,100,0.13999999999999999,0.55,genus average from global assessment
-2014,scallops_nei,6,100,85.83,0.55,genus average from global assessment
+2014,scallops_nei,2,90,1.4129999999999998,0.55,genus average from global assessment
+2014,scallops_nei,4,90,11.214,0.55,genus average from global assessment
+2014,scallops_nei,5,90,0.126,0.55,genus average from global assessment
+2014,scallops_nei,6,90,77.247,0.55,genus average from global assessment
+2015,atlantic_salmon,3,92926,6486.2348,0.1,species in MSI
+2015,atlantic_salmon,4,92926,52642.579,0.1,species in MSI
+2015,atlantic_salmon,5,92926,27887.092599999996,0.1,species in MSI
+2015,atlantic_salmon,6,92926,5891.5084,0.1,species in MSI
+2015,atlantic_salmon,8,92926,18.5852,0.1,species in MSI
+2015,blue_mussel,2,668,0,1,species in MSI
+2015,blue_mussel,4,668,458.31480000000005,1,species in MSI
+2015,blue_mussel,5,668,0,1,species in MSI
+2015,blue_mussel,6,668,209.6852,1,species in MSI
+2015,chinook_spring_king_salmon,3,0,0,1,high risk analogous to native coho/silver salmon
+2015,chinook_spring_king_salmon,4,0,0,1,high risk analogous to native coho/silver salmon
+2015,chinook_spring_king_salmon,5,0,0,1,high risk analogous to native coho/silver salmon
+2015,chinook_spring_king_salmon,6,0,0,1,high risk analogous to native coho/silver salmon
+2015,chinook_spring_king_salmon,8,0,0,1,high risk analogous to native coho/silver salmon
+2015,coho_silver_salmon,3,0,0,1,species in MSI
+2015,coho_silver_salmon,4,0,0,1,species in MSI
+2015,coho_silver_salmon,5,0,0,1,species in MSI
+2015,coho_silver_salmon,6,0,0,1,species in MSI
+2015,coho_silver_salmon,8,0,0,1,species in MSI
+2015,japanese_carpet_shell,2,1260,0,0.925,genus average from global assessment
+2015,japanese_carpet_shell,4,1260,13.608,0.925,genus average from global assessment
+2015,japanese_carpet_shell,5,1260,13.734,0.925,genus average from global assessment
+2015,japanese_carpet_shell,6,1260,1232.658,0.925,genus average from global assessment
+2015,pacific_cupped_oyster,2,6587,0,0.1,species in MSI
+2015,pacific_cupped_oyster,4,6587,483.48580000000004,0.1,species in MSI
+2015,pacific_cupped_oyster,5,6587,119.88340000000001,0.1,species in MSI
+2015,pacific_cupped_oyster,6,6587,5983.6308,0.1,species in MSI
+2015,rainbow_trout,3,0,0,1,high risk analogous to native coho/silver salmon
+2015,rainbow_trout,4,0,0,1,high risk analogous to native coho/silver salmon
+2015,rainbow_trout,5,0,0,1,high risk analogous to native coho/silver salmon
+2015,rainbow_trout,6,0,0,1,high risk analogous to native coho/silver salmon
+2015,rainbow_trout,8,0,0,1,high risk analogous to native coho/silver salmon
+2015,scallops_nei,2,20,0.31399999999999995,0.55,genus average from global assessment
+2015,scallops_nei,4,20,2.492,0.55,genus average from global assessment
+2015,scallops_nei,5,20,0.028,0.55,genus average from global assessment
+2015,scallops_nei,6,20,17.166,0.55,genus average from global assessment

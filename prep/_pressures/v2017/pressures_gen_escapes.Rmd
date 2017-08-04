@@ -82,8 +82,12 @@ From downloaded FAO data, identify fish stocks in mariculture production in Cana
 
 ``` {r read_global_mar_data}
 
+# mar_gl <- read_csv(file.path(dir_M, 'git-annex/globalprep/_raw_data/FAO_mariculture', 
+#                           'd2016/GlobalAquacultureProduction_Quantity_1950_2014.csv')) %>%
+#   clean_df_names() %>%
+#   setNames(str_replace_all(names(.), '_.+', '')) 
 mar_gl <- read_csv(file.path(dir_M, 'git-annex/globalprep/_raw_data/FAO_mariculture', 
-                          'd2016/GlobalAquacultureProduction_Quantity_1950_2014.csv')) %>%
+                          'd2017/FAO_GlobalAquacultureProduction_Quantity_1950_2015.csv')) %>%
   clean_df_names() %>%
   setNames(str_replace_all(names(.), '_.+', '')) 
 
@@ -114,9 +118,9 @@ Fill in missing years after first harvest with 0 values.  Also filter out any sp
 
 ``` {r gapfill_mariculture_harvests}
 
-mar_bc_raw <- read_csv(file.path(dir_goal, 'int/genesc_harvest_raw.csv'))
+mar_bc_clean <- read_csv(file.path(dir_goal, 'int/genesc_harvest_raw.csv'))
 
-mar_bc_gf <- mar_bc_raw %>%
+mar_bc_gf <- mar_bc_clean %>%
   mutate(species = str_replace_all(tolower(species), '[^a-z]+', '_'),
          species = str_replace_all(species, '_$', '')) %>%
   group_by(species) %>%

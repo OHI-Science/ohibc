@@ -58,7 +58,7 @@ p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 |                     | Artisanal high bycatch (e.g., dynamite fishing) |
 |                     | Targeted harvest                                |
 | Habitat destruction | Marine subtidal soft bottom                     |
-|                     | Marine subtidal hard bottom                     |
+|                     | Marine EBSAs                                    |
 |                     | Intertidal                                      |
 | Climate change      | Sea surface temperature anomalies               |
 |                     | UV radiation                                    |
@@ -102,20 +102,15 @@ From OHI Global 2012:
 
 ## Habitat destruction pressures
 
-### Subtidal hard bottom
+NOTE: Hard bottom habitat destructive fishing is excluded from BC assessment.
 
-From OHI Global 2012: 
-> Reefs at Risk Revisited77 recorded the presence of destructive artisanal blast and poison (cyanide) fishing in a country based on survey observations and expert opinion. Because these data are categorical, we used a binary system for scoring regions for this stressor. Where destructive artisanal fishing practices were recorded as either "moderate" or "severe," we categorized the value as maximum (score = 1). "Unclassified" areas are considered under low threat from blast and poison fishing by Reefs at Risk Revisited and were categorized as having no artisanal high bycatch fishing (score = 0).
-> A notable limitation of using these data as a proxy for high bycatch artisanal fishing is that they only cover coral reef habitats. High bycatch artisanal fishing likely exists in every coastal country on the planet, but we have no way of knowing the type or extent (for every country). For all non-habitat destructive (but still potentially high bycatch) fishing we use FAO catch data (described below in Artisanal Fishing: Low Bycatch).
+### EBSA
 
-Is there hard bottom habitat destructive fishing in BC?
+This layer will be identical to the HAB EBSA pressure layer (1 - status).  This is based on presence of trawling, based on data from DFO trawl fisheries, on habitat identified as corals, sponges, seamounts, and hydrothermal vents.
 
 ### Subtidal soft bottom
 
-From OHI Global 2012: 
-> Spatially distributed half-degree global commercial catch data developed by Sea Around Us Project31, based on FAO and other source data, were assigned to fishing gear types using global taxon-gear associations79,84. These data were used to calculate catch (tonnes per year) from trawling for each year from 1950-2006. Trawling gears were defined as dredges, hand dredges, bottom trawls, and shrimp trawls (mid-water trawls were excluded). These catches were assumed to be uniform within each half- degree cell. "Trawlable habitat" within an EEZ was defined as shallow subtidal (0-60m) and outer shelf (60-200m) soft bottom habitat from Halpern et al.3. The total trawled catch within each EEZ was then divided by the total area of soft-bottom habitat to produce a measure of trawl intensity per unit area. Because these data were extremely skewed, we log(X+1) transformed them and then rescaled to the maximum value from all year-country possibilities. Status was then calculated as one minus the rescaled catch density in the most recent year (2006). This status value was then rescaled to the median intensity-density value across all years, i.e. any value greater than the median was set = 1.0. The Pressure score was then one minus this median-rescaled value; the inverse of this rescaled value was used for the Habitat sub-goal of the Biodiversity goal.
-
-Should this be identical to the HAB soft bottom layer, since that is a model based on trawling pressures?
+This layer will be identical to the HAB soft bottom pressure layer (1 - status).  This is based on trawl effort in hours, from DFO trawl fisheries, on habitat identified as sand or mud based on BCMCA data.
 
 ### Intertidal
 
@@ -127,10 +122,9 @@ From OHI CC 2014:
 
 ___Use park attendance values from TR goal?  do all regions have parks?  or use GPW v4?___
 
-
 ## Climate change pressures
 
-All climate pressures are extracted from pressures layers used in the global assessment.  
+All climate pressures are extracted from pressures layers used in the global assessment.  UV and SST reference points are set at 50% of weeks being anomalous (> mean + 1 sd).  OA reference point is aragonite sat state of 1, with changes closer to 1 being scored more highly.  SLR reference point will be based on a local maximum.
 
 
 ## Water pollution pressures
@@ -159,4 +153,4 @@ The invasive species pressures layer was created using the 2008 Molnar dataset u
 From OHI Global 2012: 
 > This layer represents the potential for harmful genetic escapement based on whether the species being cultured is native or introduced. Data come from the Mariculture Sustainability Index (MSI) 34. In the MSI analysis native species receive the highest score (10), while foreign and introduced species receive the lowest (1) on the premise of potential impacts to local biodiversity if these species were to escape. Use of native but non-local species were scored intermediately based on the assumption that potentially negative alterations to genetic biodiversity occur from non-local sources as well, but to a lower degree. Genetic "pollution" can arise when larvae, spats or seeds escape from poorly managed hatcheries, making native species vulnerable to out- breeding depressions and/or genetic bottlenecks 34. The MSI reports data for 359 country-species combinations (with 53 countries represented). Where multiple scores exist for a country the weighted average of all scores (0-10) is used. All country scores were then rescaled from 0 to 1, using the maximum raw score of 10 and minimum of 1. Countries that were not analyzed by Trujillo34 did not receive a score and this pressure layer falls out of their analyses.
 
-Use the genetic_escapees data for scores and combine with mariculture harvests from FAO for harvest-weighted mean
+Similar to the OHI Global and California Current assessments, we use the Trujillo 2008 MSI genetic_escapees scores (divided by 10 to be 0-1) and combine with mariculture harvests from FAO, using Canada Pacific reported harvests.  Species with no MSI score are scored according to analogous species in the MSI dataset (i.e. Chinook salmon and Rainbow trout receive same score as Coho salmon, as native salmonids; scallops nei and Manila clams are scored with genus-average value).  FAO total harvests are spatially allocated using the mean values of DFO-reported harvests used in the OHIBC MAR goal.  Species with no spatial allocation in the DFO data are allocated in same proportions as analogous species (i.e. "Rainbow trout" is spatially allocated in the same proportions as the mean of Coho and Chinook).
