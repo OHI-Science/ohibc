@@ -57,7 +57,7 @@ get_rgn_names <- function() {
 clean_df_names <- function(df) {
   df <- df %>%
     setNames(tolower(names(.)) %>%
-               str_replace_all('[^a-z]', '_') %>%
+               str_replace_all('[^a-z0-9]+', '_') %>%
                str_replace_all('^_+|_+$', ''))
   return(df)
 }

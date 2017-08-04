@@ -1,0 +1,349 @@
+---
+title: 'OHIBC: Genetic Escapes Pressure layers prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(sf)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))
+
+dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+dir_spatial <- path.expand(file.path(dir_git, 'prep/_spatial'))
+
+### goal specific folders and info
+goal      <- '_pressures'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_M, 'git-annex/bcprep', goal, scenario)
+
+library(provRmd); prov_setup()
+
+### goal-specific source scripts
+source(file.path(dir_goal, 'pressures_lyr_fxns.R'))
+
+### other support functions
+source(file.path(dir_git, 'src/R/rast_tools.R'))
+
+reload <- FALSE
+
+```
+
+# Summary
+
+This pressure layer calculates the pressure due to genetic escapes from aquaculture.  The Mariculture Sustatinability Index ranks aquaculture species in different regions with a score from 1-10 for potential for genetic pollution.  For OHIBC we will follow a similar method as OHI Global and CC, rescaling genetic escape pressure from 0-1 for each species and calculating a harvest-weighted average of genetic escape pressure for each region.
+
+
+$$pressure_{spp} = P_{spp} = \frac{\prod_{T=1}^N(threat_T)^{1/N}}{4}$$
+
+The genetic escapes scores are not time-dependent, but harvest data is reported annually.
+
+# Data
+
+This layer relies on the same MSI data as the global assessment for indicator scores, and the FAO mariculture data from the global assessment.
+
+Mariculture Sustainability Index:
+
+* __Reference__: [Trujillo et al. (200?)](http://onlinelibrary.wiley.com/doi/10.1890/070064/abstract)
+* __Downloaded__: Aug 26, 2013 NOTE this appears to be a heavily modified .xlsx spreadsheet, rather than the raw data.  So be it.
+* __Description__:  Aquaculture species by country (and by ocean basin e.g. Atlantic Salmon in Atlantic vs Pacific)
+* __Native data resolution__: Country
+* __Format__:  .xlsx
+
+FAO Aquaculture Harvest:
+* __Reference__:
+* __Downloaded__: 8/2/17 from http://www.fao.org/fishery/statistics/global-aquaculture-production/en (as .zip)
+* __Description__: Aquaculture production by country, across several .csv files
+* __Native data resolution__: country
+* __Format__: multiple .csvs
+
+# Methods
+
+## Determine FAO aquaculture stocks in BC
+
+From downloaded FAO data, identify fish stocks in mariculture production in Canada, Pacific region.  Process harvest values to tonnes per year.
+
+``` {r read_global_mar_data}
+
+mar_gl <- read_csv(file.path(dir_M, 'git-annex/globalprep/_raw_data/FAO_mariculture', 
+                          'd2016/GlobalAquacultureProduction_Quantity_1950_2014.csv')) %>%
+  clean_df_names() %>%
+  setNames(str_replace_all(names(.), '_.+', '')) 
+
+mar_bc <- mar_gl %>%
+  filter(country == 'Canada' & str_detect(aquaculture, 'Pacific') & environment == 'Marine') %>%
+  select(-country, -aquaculture, -environment, -unit) %>%
+  gather(year, tonnes, -species)
+  
+mar_bc_clean <- mar_bc %>%
+  mutate(raw_val = tonnes,
+         tonnes = str_replace(tonnes, 'F', ''),
+           ### F denotes estimated value
+         tonnes = ifelse(str_detect(tonnes, '-'), 0, tonnes),
+           ### - denotes true zero
+         tonnes = as.numeric(tonnes)) ### coerces any values with non-numerics to NA
+
+knitr::kable(mar_bc_clean %>% select(species) %>% distinct())
+
+write_csv(mar_bc_clean, file.path(dir_goal, 'int/genesc_harvest_raw.csv'))
+
+```
+
+For Global assessment, additional steps include checking for (and excluding) non-food species.  By visual inspection of species names, there are no non-food species in BC. (Japanese carpet shells are Manila clams...)
+
+### Gapfilling
+
+Fill in missing years after first harvest with 0 values.  Also filter out any species with fewer than five years of non-zero harvests.  Note this cuts out only "marine molluscs nei," which have non-zero harvests in 1986-1987 and 2009-2010.  That does not appear to be a valid established mariculture operation...
+
+``` {r gapfill_mariculture_harvests}
+
+mar_bc_raw <- read_csv(file.path(dir_goal, 'int/genesc_harvest_raw.csv'))
+
+mar_bc_gf <- mar_bc_raw %>%
+  mutate(species = str_replace_all(tolower(species), '[^a-z]+', '_'),
+         species = str_replace_all(species, '_$', '')) %>%
+  group_by(species) %>%
+  mutate(tonnes = ifelse(is.na(tonnes), 0, tonnes),
+         tonnes = ifelse(is.na(tonnes) & cumsum(tonnes) > 0, 0, tonnes),
+         gapfill = ifelse(tonnes == 0 & cumsum(tonnes) > 0, 'zero_fill', NA)) %>%
+  filter(!(tonnes == 0 & cumsum(tonnes) == 0)) %>%
+  ungroup()
+
+mar_bc_established <- mar_bc_gf %>%
+  group_by(species) %>%
+  mutate(x = sum(tonnes > 0)) %>%
+  filter(sum(tonnes > 0) >= 5) %>%
+  ungroup()
+
+write_csv(mar_bc_established, file.path(dir_goal, 'int/genesc_harvest_cleaned.csv'))
+
+```
+
+
+## Assign genetic escape pressure to stocks
+
+Using MSI scores from Trujillo, determine genetic escape pressure for the aquaculture stocks found in BC.  Stocks not assigned to Canada in the MSI dataset will be filled with matching species from other countries with similar characteristics.  Stocks without species-specific scores will be assigned an average score at a higher taxonomic grouping.
+
+``` {r align_msi_to_stocks}
+
+bc_fao_harvest <- read_csv(file.path(dir_goal, 'int/genesc_harvest_cleaned.csv'))
+# bc_fao_harvest$species %>% unique()
+# [1] "pacific_cupped_oyster"      "rainbow_trout"              "chinook_spring_king_salmon"
+# [4] "coho_silver_salmon"         "japanese_carpet_shell"      "atlantic_salmon"           
+# [7] "scallops_nei"               "blue_mussel"
+
+truj_file <- file.path(dir_anx, '_raw_data/genetic_escapes/Gen escapees_Truj_gapfill.xlsx')
+truj_sheets <- readxl::excel_sheets(truj_file)
+msi_raw <- readxl::read_excel(truj_file, sheet = "Tb 1 Original") %>%
+  clean_df_names() %>%
+  rename(species = sp) %>%
+  mutate(species = str_replace_all(tolower(species), '[^a-z]+', '_'),
+         species = str_replace_all(species, '_$', ''))
+
+
+```
+
+#### MSI Canada species
+
+Species in the MSI dataset listed as occurring in Canada (both Atlantic and Pacific oceans)
+
+``` {r}
+
+canada_spp <- msi_raw %>% 
+  filter(str_detect(country, 'Canada')) %>% 
+  select(species, genetic_escapees) %>% 
+  distinct()
+
+knitr::kable(canada_spp)
+# species                    genetic_escapees
+# atlantic_bluefin_tuna	           1.0
+# atlantic_cod	                   1.0
+# blue_mussel	                     1.0
+# coho_silver_salmon	             1.0
+# pacific_cupped_oyster	           0.1
+# atlantic_salmon_atl	             1.0
+# atlantic_salmon_pac	             0.1
+```
+
+#### Species in MSI that match BC FAO stocks
+
+Species in the MSI dataset that match names with FAO stocks listed for BC; species in the prior list are excluded
+
+``` {r}
+fao_msi_spp <- msi_raw %>% 
+  filter(str_detect(species, paste(bc_fao_harvest$species %>% unique(), collapse = '|'))) %>%
+  select(country, species, genetic_escapees) %>% 
+  filter(!species %in% canada_spp$species) %>%
+  distinct()
+knitr::kable(fao_msi_spp, caption = 'BC-listed FAO aquaculture species not listed in Canada MSI')
+```
+
+#### Species in BC FAO stocks without direct entry in MSI
+
+These species are listed in FAO for BC, but don't directly name-match species in the MSI list.
+
+``` {r} 
+fao_not_msi_match <- bc_fao_harvest %>% 
+  filter(!species %in% c(canada_spp$species, fao_msi_spp$species)) %>%
+  .$species %>% unique()
+# [1] "chinook_spring_king_salmon" "japanese_carpet_shell"      "scallops_nei"    
+```
+
+`r paste(fao_not_msi_match, collapse = '; ')'
+
+#### Create manual lookup of species to MSI scores
+
+Write out the prior tables to a raw file, then manually nip and tuck to find scores for all FAO aquaculture species listed for BC.  The raw file will be saved to `_pressures/v2017/raw/genesc_bc_msi_raw.csv`; the manually adjusted file will be in the same location but named `genesc_bc_msi_clean.csv`.
+
+``` {r}
+
+msi_raw <- readxl::read_excel(truj_file, sheet = "Tb 1 Original") %>%
+  clean_df_names() %>%
+  rename(species = sp) %>%
+  mutate(species = str_replace_all(tolower(species), '[^a-z]+', '_'),
+         species = str_replace_all(species, '_$', ''))
+
+canada_spp <- msi_raw %>% 
+  filter(str_detect(country, 'Canada')) %>% 
+  select(country, species, genetic_escapees) %>% 
+  distinct()
+
+fao_msi_spp <- msi_raw %>% 
+  filter(str_detect(species, paste(bc_fao_harvest$species %>% unique(), collapse = '|'))) %>%
+  select(country, species, genetic_escapees) %>% 
+  filter(!species %in% canada_spp$species) %>%
+  distinct()
+
+fao_not_msi <- bc_fao_harvest %>% 
+  filter(!species %in% c(canada_spp$species, fao_msi_spp$species)) %>%
+  select(species) %>%
+  distinct()
+
+bc_msi_raw <- bind_rows(canada_spp, fao_msi_spp, fao_not_msi)
+
+write_csv(bc_msi_raw, file.path(dir_goal, 'raw/genesc_bc_msi_raw.csv'))
+
+# msi_spp_avg <- readxl::read_excel(truj_file, sheet = "Tb 2 Sp_avg") %>%
+#   clean_df_names()
+```
+
+``` {r hand_clean_msi_scores}
+### just to register for provenance...
+git_prov(file.path(dir_goal, 'raw/genesc_bc_msi_raw.csv'), 'input')
+git_prov(file.path(dir_goal, 'raw/genesc_bc_msi_clean.csv'), 'output')
+
+knitr::kable(read_csv(file.path(dir_goal, 'raw/genesc_bc_msi_clean.csv'), nogit = TRUE))
+```
+
+## Spatialize genetic escapee risk
+
+To spatialize the genetic risk scores, we will use a harvest-weighted mean.  
+
+* For species with harvest values listed in OHIBC Mariculture goal, we will use proportions from that goal to spatially distribute total harvests from FAO.
+* For Rainbow trout, with no harvest listed in the DFO data, we will spatially distribute FAO harvest using an average between Coho and Chinook salmon DFO allocations. 
+* Result is a dataframe with annual harvests of each MSI-scored species, with MSI score, spatially distributed to OHIBC regions.
+
+``` {r mar_harvests_ohibc}
+
+dfo_aq <- read_csv(file.path(dir_git, 'prep/mar/v2017/int/dfo_aq_harvest_ohibc.csv'))
+
+# dfo_aq$species %>% unique()
+#  [1] "atlantic_salmon_salmo_salar_"             "chinook_salmon_oncorhynchus_tshawytscha_"
+#  [3] "clams_spp_varnish_littleneck_geoduck_"    "coho_salmon_oncorhynchus_kisutch_"       
+#  [5] "manila_clam"                              "mussels"                                 
+#  [7] "pacific_oyster"                           "sablefish_anaplopoma_fimbria_"           
+#  [9] "scallops"                                 "sea_cucumber" 
+
+bc_fao_harvest <- read_csv(file.path(dir_goal, 'int/genesc_harvest_cleaned.csv'))
+
+# bc_fao_harvest$species %>% unique()
+# [1] "pacific_cupped_oyster"      "rainbow_trout"              "chinook_spring_king_salmon"
+# [4] "coho_silver_salmon"         "japanese_carpet_shell"      "atlantic_salmon"           
+# [7] "scallops_nei"               "blue_mussel"
+
+dfo_fao <- c('pacific_cupped_oyster'      = 'pacific_oyster',
+             'chinook_spring_king_salmon' = 'chinook_salmon_oncorhynchus_tshawytscha_',
+             'coho_silver_salmon'         = 'coho_salmon_oncorhynchus_kisutch_',
+             'japanese_carpet_shell'      = 'manila_clam',
+             'atlantic_salmon'            = 'atlantic_salmon_salmo_salar_',
+             'scallops_nei'               = 'scallops',
+             'blue_mussel'                = 'mussels',
+             'rainbow_trout'              = 'chinook_salmon_oncorhynchus_tshawytscha_',
+             'rainbow_trout'              = 'coho_salmon_oncorhynchus_kisutch_')
+dfo_fao_lookup <- data.frame(fao_name = names(dfo_fao),
+                             dfo_name = dfo_fao,
+                             stringsAsFactors = FALSE)
+spatial_alloc <- dfo_aq %>%
+  inner_join(dfo_fao_lookup, by = c('species' = 'dfo_name')) %>%
+  group_by(fao_name, rgn_id) %>%
+  summarize(rgn_harvest  = sum(harvest)) %>%
+  group_by(fao_name) %>%
+  mutate(prop_harvest = round(rgn_harvest/sum(rgn_harvest), 4)) %>%
+  ungroup() %>%
+  select(-rgn_harvest)
+
+fao_msi <- read_csv(file.path(dir_goal, 'raw/genesc_bc_msi_clean.csv'))
+         
+fao_msi_rgn <- bc_fao_harvest %>%
+  left_join(spatial_alloc, by = c('species' = 'fao_name')) %>%
+  group_by(species, year, rgn_id) %>%
+  mutate(rgn_harvest = tonnes * prop_harvest) %>%
+  ungroup() %>%
+  select(year, species, rgn_id, tot_harvest = tonnes, rgn_harvest) %>%
+  left_join(fao_msi, by = 'species')
+  
+write_csv(fao_msi_rgn, file.path(dir_goal, 'int/genesc_harvest_msi_rgn.csv'))
+
+DT::datatable(fao_msi_rgn)
+```
+
+## Calculate layer
+
+Finally, for each region for each year, the genetic escapees pressure will be calculated as a harvest-weighted mean MSI score across all species harvested that year.
+
+``` {r calc_layer}
+
+fao_msi_rgn <- read_csv(file.path(dir_goal, 'int/genesc_harvest_msi_rgn.csv'))
+
+genesc_layer <- fao_msi_rgn %>%
+  group_by(rgn_id, year) %>%
+  summarize(pressure = sum(genetic_escapees * rgn_harvest, na.rm = TRUE) / sum(rgn_harvest, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(pressure = ifelse(is.nan(pressure), 0, pressure)) %>%
+  filter(year >= 1990)
+
+write_csv(genesc_layer, file.path(dir_goal, 'output/prs_genesc.csv'))
+
+ggplot(genesc_layer %>%
+         left_join(get_rgn_names()), 
+       aes(x = year, y = pressure)) +
+  ggtheme_plot() +
+  geom_line(aes(color = rgn_name, group = rgn_name))
+
+DT::datatable(genesc_layer)
+```
+
+-----
+
+``` {r results = 'asis'}
+
+prov_wrapup(commit_outputs = FALSE)
+
+```

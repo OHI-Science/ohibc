@@ -1,0 +1,34 @@
+country,species,genetic_escapees
+Canada,atlantic_bluefin_tuna,1
+Canada,atlantic_cod,1
+Canada,blue_mussel,1
+Canada,coho_silver_salmon,1
+Canada,pacific_cupped_oyster,0.1
+Canada,atlantic_salmon_atl,1
+Canada,atlantic_salmon_pac,0.1
+Australia,atlantic_salmon,0.1
+Australia,pacific_cupped_oyster_br,0.1
+Chile,atlantic_salmon,0.1
+Denmark,atlantic_salmon,1
+Faroe Islands,atlantic_salmon,1
+Finland,atlantic_salmon,1
+France,atlantic_salmon,1
+France,pacific_cupped_oyster_med,0.1
+Iceland,atlantic_salmon,0.1
+Iceland,atlantic_salmon_br,0.1
+Iceland,rainbow_trout,1
+Ireland,atlantic_salmon,1
+Mexico,pacific_cupped_oyster_atl,0.1
+Norway,atlantic_salmon,1
+Portugal,atlantic_salmon,0.1
+Russian Federation,atlantic_salmon,0.1
+Spain,atlantic_salmon,1
+Sweden,atlantic_salmon,1
+Sweden,rainbow_trout,0.1
+Taiwan Province of China,pacific_cupped_oyster_br,0.1
+Turkey,atlantic_salmon,0.1
+United Kingdom of Great Britain and Northern Ireland,atlantic_salmon,1
+United States of America,atlantic_salmon,1
+NA,chinook_spring_king_salmon,NA
+NA,japanese_carpet_shell,NA
+NA,scallops_nei,NA

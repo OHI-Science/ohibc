@@ -1,0 +1,340 @@
+Species.ID,SPECIES.NAME,Higher.taxa,Genus,Species,Common.name,System.FTM,System.FrLandMar,Entry.info,Database.source,Database.scope,Ecos.services,Ag.pest
+963,Dasya baillouviana,Algae,Dasya,Baillouviana,"Macroalgae, Red algae (Rhodophyta)",MR,Marine,RG (08/25/07),Ref218,Invasive,No,
+964,Aglaothamnion halliae,Algae,Aglaothamnion,halliae,"Red alga, Rhodophyta",MR,Marine,RG (08/25/07),Ref218,Invasive,No,
+965,Chattonella aff verruculosa,Algae,Chattonella,verruculosa,(aka Verrucophora fascima),MR,Marine,RG (08/25/07,Ref218,Invasive Native,No,
+966,Crepidula onyx,Invertebrate - Mollusc,Crepidula,onyx,slipper limpet,MR,Marine,RG (08/26/07),Ref567,Invasive,No,
+967,Didemnum vexillum,Ascidian,Didemnum,vexillum,"sea squirt, tunicate",MR,Marine,RG (08/27/07),Ref073,Invasive,No,No
+968,Ammothea hilgendorfi,Invertebrate - Arthropod - Other,Ammothea,hilgendorfi,sea spider,MR,Marine,RG (08/28/07),Ref572,Invasive,No,
+969,Caulerpa racemosa var. cylindracea,Plant,Caulerpa,recemosa var cylindracea,"Sea-grape, green algae",MR,Marine,RG (08/10/07),Ref509,Invasive,No,
+970,Siganus rivulatus,Vertebrate - fish,Siganus,rivulatus,"rabbitfish, Marbled spinefoot",MR,Marine,RG (08/10/07),Ref509,Invasive,No,
+971,Brachidontes pharaonis,Invertebrate - Mollusc,Brachidontes,pharaonis,Pharaonic mussel,MR,Marine,RG (08/10/07),Ref509,Invasive,No,
+972,Cellana rota,Invertebrate - Mollusc,Cellana,rota,"Erythrean limpet, Wheel limpet",MR,Marine,RG (08/10/07),Ref509,Invasive,No,
+973,Upeneus moluccensis,Vertebrate - fish,Upeneus,moluccensis,Goldband goatfish,MR,Marine,RG (08/10/07),Ref509,Invasive,No,
+974,Aphanius dispar dispar,Vertebrate - fish,Aphanius,dispar dispar,"Erythrean killifish, Toothcarp","FW, MR","Marine, Freshwater",RG (08/10/07,Ref509,Invasive,No,No
+975,Anadara demiri,Invertebrate - Mollusc,Anadara,demiri,arcid clam,MR,Marine,RG (08/10/07),Ref516,Alien,No,No
+976,Amathina tricarinata,Invertebrate - Mollusc,Amathina,tricarinata,pyramidellacean limpet,MR,Marine,RG (08/10/07),Ref517,Alien,No,Yes
+977,Cardites akabana,Invertebrate - Mollusc,Cardites,akabana,,MR,Marine,RG (08/10/07),Ref517,Alien,No,No
+978,Scomberomorus commerson,Vertebrate - fish,Scomberomorus,commerson,"Narrow-barred Spanish mackerel, barred Spanish mackerel",MR,Marine,RG (08/10/07),Ref509,Invasive,No,No
+979,Callionymus filamentosus,Vertebrate - fish,Callionymus,filamentosus,Blotchfin dragonet,MR,Marine,RG (08/10/07),Ref509,Invasive,No,No
+980,Hydroides ezoensis,Invertebrate - Annelid,Hydroides,ezoensis,a tubeworm,MR,Marine,RG (08/28/07),Ref012,Non-Native,No,No
+981,Pileolaria berkeleyana,Invertebrate - Annelid,Pileolaria,rosepigmentata,a tubeworm (aka P. berkeleyana),MR,Marine,RG (08/28/07),Ref012,Non-Native,No,No
+982,Limaria orientalis,Invertebrate - Mollusc,Limaria,orientalis,a file shell,MR,Marine,RG (09/02/07),Ref585,Invasive,No,No
+983,Botryllus violaceus,Tunicate,Botryllus,violaceus,Golden Star tunicate,MR,Marine,RG (09/02/07),Ref588,Invasive,No,No
+984,Macrocystis integrifolia,Algae,Macrocystis,integrifolia,"Giant Sea Kelp, brown algae",MR,Marine,RG (09/02/07),Ref229,Non-Indigenous,Yes,No
+985,Trochammina hadai,Protozoa,Trochammina,hadai,Foraminiferan,MR,Marine,RG (09/02/07),Ref229,Non-Indigenous,No,No
+986,Jassa marmorata,Invertebrate - Arthropod - Crustacean,Jassa,marmorata,Tube dwelling amphipod,MR,Marine,RG (09/02/07),Ref229,Non-Indigenous,No,No
+987,Heteromastus filiformis,Invertebrate - Annelid,Heteromastus,filiformis,Capitellid worm,MR,Marine,RG (09/02/07),Ref229,Non-Indigenous,No,No
+988,Microspongium globosum,Algae,Microspongium,globosum,"Brown Alga, Phaeophyta",MR,Marine,RG (09/02/07),Ref229,Non-Indigenous,No,No
+989,Busycotypus canaliculatus,Invertebrate - Mollusc,Busycotypus,canaliculatus,Channeled whelk,MR,Marine,RG (09/02/07),Ref073,Exotic/Alien,No,Yes
+990,Codium webbiana,Algae,Codium,webbiana,Caulerpa sp.,MR,Marine,RG (09/02/07),Ref593,Non-Indigenous,No,No
+991,Clavelina oblonga,Ascidian,Clavelina,oblonga,Ascidian,MR,Marine,RG (09/03/07),Ref593,Non-Indigenous,No,No
+992,Distaplia corolla,Ascidian,Distaplia,corolla,Ascidian,MR,Marine,RG (09/03/07),Ref593,Non-Indigenous,No,No
+993,Spirorbis marioni,Invertebrate - Annelid,Spirorbis,marioni,fouling serpulid worm,MR,Marine,RG (09/03/07),Ref593,Non-Indigenous,No,No
+994,Saurida undosquamis,Vertebrate - fish,Saurida,undosquamis,"Brushtooth lizardfish, Grey saury (aka S. grandisquamis - FishBase); En - Brushtooth lizardfish, Fr - Anoli à grandes écailles, Sp - Lagarto escamoso",MR,Marine,RG (09/15/07),Ref509,Invasive,No,No
+995,Herbstia condyliata,Invertebrate - Arthropod - Crustacean,Herbstia,condyliata,decapod spider crab,MR,Marine,RG (08/10/07),Ref509,Invasive,No,No
+996,Acrothamnion preissii,Plant,Acrothamnion,preissii,"Rhodophyta, red algae",MR,Marine,RG (08/11/07),Ref519,Invasive,No,Yes
+997,Antithamnion nipponicum,Plant,Antithamnion,nipponicum,"Rhodophyta, a red algae",MR,Marine,RG (08/11/07),Ref519,Invasive,No,No
+3,Myriophyllum spicatum L.,Plant,Myriophyllum,spicatum L.,Eurasian Watermilfoil - spiked water-milfoil; myriophylle en épi,"FW, MR","Marine, Freshwater",RG (12/8/05),Ref001,Invasive,,No
+10,Asterias amurensis,Invertebrate - Echinoderms,Asterias,amurensis,"Flatbottom seastar, Japanese Seastar, Japanese starfish, Nordpazifischer Seestern (German), North Pacific seastar, northern Pacific seastar, Purple-orange seastar",MR,Marine,JM (4/29/05),Ref002,Invasive,,
+27,Perna viridis,Invertebrate - Mollusc,Perna,viridis,"Asian Green Mussel, Green mussel, Green lipped mussel, Philippine green mussel, sea mussel",MR,Marine,AP (7/5/05),Ref006,Introduced,,
+28,Alitta succinea,Invertebrate - Annelid,Alitta,succinea,"Pileworm, nereidid worm, ragworm",MR,Marine,"AP (7/5/05), RG(10/22/07)",Ref006,Introduced,No,
+29,Ascidiella aspersa,Tunicate,Ascidiella,aspersa,Solitary Ascidian,MR,Marine,"AP (7/5/05), RG (11/03/07)",Ref006,Introduced,No,
+30,Boccardia proboscidea,Invertebrate - Annelid,Boccardia,proboscidea,Californian Polydorid,MR,Marine,"AP (7/5/05), RG (10/21/07)",Ref006,Introduced,No,
+31,Codium fragile ssp tomentosoides,Algae,Codium,fragile ssp tomentosoides,"Dead man's fingers, green fleece, green sea fingers, oyster thief, Sputnik weed",MR,Marine,"AP (7/5/05), RG (10/20/07)",Ref006,Introduced,No,
+32,Monocorophium acherusicum,Invertebrate - Arthropod - Other,Monocorophium,acherusicum,Mediterranean corophiid,MR,Marine,"AP (7/5/05),  (6/29/05)",Ref006,Introduced,,
+33,Musculista senhousia,Invertebrate - Mollusc,Musculista,senhousia,"Bag mussel, Green bagmussel, Green mussel, Senouse's mussel, Japanese mussel, Asian date mussel",MR,Marine,"AP (7/5/05), RG (10/20/07)",Ref006,Introduced,No,
+34,Polysiphonia brodiei,Algae,Polysiphonia,brodiei,Red macroalga,MR,Marine,"AP (7/5/05), RG (11/03/07)",Ref006,Introduced,No,
+35,Godiva quadricolor,Invertebrate - Mollusc,Godiva,quadricolor,"Sea Slug, Aolid Nudibranch",MR,Marine,"AP (7/7/05), RG (11/03/07)",Ref006,Introduced,No,
+36,Styela clava,Tunicate,Styela,clava,"Leathery Sea Squirt, Club sea squirt, Club tunicate, Asian tunicate, Rough sea squirt",MR,Marine,"AP (7/7/05), RG (10/20/07)",Ref006,Introduced,No,
+37,Undaria pinnatifida,Plant,Undaria,pinnatifida,Wakame (Japanese),MR,Marine,"AP (7/7/05), RG (10/16/07)",Ref006,Introduced,Yes,
+38,Mytilopsis sallei,Invertebrate - Mollusc,Mytilopsis,sallei,"Black striped Mussel (English), caliche (Spanish-Venezuela), Caribbean black-striped false mussel (English-Australia), Caribbean black-striped mussel (English-Australia), false mussel (English), Santo Domingo false mussel (English)",MR,Marine,"AP (7/7/05), RG (11/04/07)",Ref006,Introduced,No,Yes
+107,Hygrophila costata,Plant,Hygrophila,costata,Glush Weed,MR,Marine,AP (7/21/05),Ref007,Weed,,No
+147,Gracilaria salicornia,Algae,Gracilaria,salicornia,"Red Algae, canot-canot (Arabic)",MR,Marine,"AP (8/25/05), RG (11/4/07)",Ref009,Invasive,No,No
+148,Hypnea musciformis,Algae,Hypnea,musciformis,Red Algae,MR,Marine,AP (8/25/05),Ref009,Invasive,,No
+149,Kappaphycus alvarezii,Algae,Kappaphycus,alvarezii,Red Algae,MR,Marine,"AP (8/25/05), (9/6/05), RG (11/04/07)",Ref009,Invasive,Yes,No
+150,Gracilaria tikvahiae,Algae,Gracilaria,tikvahiae,Red Algae,MR,Marine,AP (8/25/05),Ref009,Invasive,,No
+151,Avrainvillea amadelpha,Algae,Avrainvillea,amadelpha,"Green Algae, leather mudweed",MR,Marine,"AP (8/25/05), RG (11/04/07)",Ref009,Invasive,No,No
+152,Bryopsis pennata,Algae,Bryopsis,pennata,"Green Algae, Sea Fern",MR,Marine,AP (8/29/05),Ref009,Invasive Native,,No
+159,Gonodactylaceus falcatus,Invertebrate - Arthropod - Crustacean,Gonodactylaceus,falcatus,Philippine mantis shrimp,MR,Marine,AP (9/7/05) RG (02/25/06),Ref009,Introduced,,No
+160,Ligia exotica,Invertebrate - Arthropod - Crustacean,Ligia,exotica,"Wharf Roach, sea roach","TR, MR","Marine, Land",AP (9/7/05) RG (02/25/06),Ref009,Introduced,,No
+161,Pachygrapsus fakaravensis,Invertebrate - Arthropod - Crustacean,Pachygrapsus,fakaravensis,Polynesian grapsid crab,MR,Marine,AP (9/7/05) RG (02/25/06),Ref009,Introduced,,No
+184,Juncus acutus,Plant,Juncus,acutus,"Spiny Rush, Sharp Rush","TR, MR","Marine, Land",AP (8/8/05),Ref007,Noxious weed,,No
+254,Mnemiopsis leidyi,Invertebrate - Ctenophore,Mnemiopsis,leidyi,"American comb jelly, comb jelly, comb jellyfish (English), Rippenqualle (German), sea gooseberry, sea walnut (English), Venus' girdle, warty comb jelly","FW, MR","Marine, Freshwater",AP (8/24/05) RG (03/18/06),Ref011,Invasive,,No
+255,Cercopagis pengoi,Invertebrate - Arthropod - Crustacean,Cercopagis,pengoi,"Fish-hook waterflea (English), Kaspischer Wasserfloh (German)","FW, MR","Marine, Freshwater",AP (8/24/05) RG (03/18/06),Ref011,Invasive,,No
+257,Gmelinoides fasciatus,Invertebrate - Arthropod - Other,Gmelinoides,fasciatus,Baikalian amphipod,"FW, MR","Marine, Freshwater",AP (8/24/05) RG (03/17/06),Ref011,Invasive,,No
+258,Marenzelleria viridis,Invertebrate - Annelid,Marenzelleria,viridis,North-American polychaete,MR,Marine,RG (03/02/06),Ref012,Non-Native,,No
+259,Acanthophora spicifera,Algae,Acanthophora,spicifera,Red Algae,MR,Marine,AP (8/25/05),Ref009,Invasive,,No
+260,Cladophora sericea,Algae,Cladophora,sericea,Green Algae,MR,Marine,AP (8/29/05),Ref009,Invasive Native,,No
+261,Caulerpa taxifolia,Plant,Caulerpa,taxifolia,"Green Algae, caulerpa (English), killer alga (English), lukay-lukay (Philippines), Schlauchalge (German), sea weed (English)",MR,Marine,AP (8/29/05) RG (03/18/06),Ref009,Invasive Native,,No
+262,Dictyosphaeria cavernosa,Algae,Dictyosphaeria,cavernosa,Green Algae,MR,Marine,AP (9/6/05),Ref009,Invasive Native,,No
+263,Ulva fasciata,Algae,Ulva,fasciata,"Green Algae, Sea Lettuce",MR,Marine,AP (9/6/05),Ref009,Invasive Native,,No
+265,Haliclona (Sigmadocia) caerulea,Invertebrate - Porifera (Sponges),Haliclona (Sigmadocia),caerulea,Blue Caribbean Sponge,MR,Marine,AP (9/6/05),Ref009,Introduced,,No
+266,Gelliodes fibrosa,Invertebrate - Porifera (Sponges),Gelliodes,fibrosa,Gray Encrusting Sponge,MR,Marine,AP (9/6/05),Ref009,Introduced,,No
+267,Suberites zeteki,Invertebrate - Porifera (Sponges),Suberites,zeteki,Lobate sponge,MR,Marine,AP (9/6/05),Ref009,Introduced,,No
+268,Mycale (Zygomycale) parishii,Invertebrate - Porifera (Sponges),Mycale (Zygomycale),parishii,Red-brown Branching Sponge,MR,Marine,AP (9/6/05) RG (02/23/06),Ref009,Introduced,,No
+282,Alexandrium minutum,Algae,Alexandrium,minutum,"Toxic Dinoflagellate, red tide dinoflagellate, red tide phytoplankton",MR,Marine,"AP (6/28/05), RG (11/03/07)",Ref006,Introduced,No,
+283,Botryllus schlosseri,Tunicate,Botryllus,schlosseri,"Star ascidian, Star Sea Squirt, Golden Star Tunicate",MR,Marine,"AP (6/28/05), RG (11/03/07)",Ref006,Introduced,No,
+284,Bugula neritina,Bryozoan,Bugula,neritina,Brown bryozoan,MR,Marine,"AP (6/28/05), AP (9/7/05) RG (02/26/06)","Ref006, Ref009",Introduced,,No
+285,Carcinus maenas,Invertebrate - Arthropod - Crustacean,Carcinus,maenas,"European Shore Crab (English), green crab (English), strandkrabbe (German)",MR,Marine,"AP (6/28/05), RG (11/14/07)",Ref006,Introduced,No,
+286,Ciona intestinalis,Tunicate,Ciona,intestinalis,Solitary Ascidian,MR,Marine,AP (6/28/05),Ref006,Introduced,No,No
+287,Corbula gibba,Invertebrate - Mollusc,Corbula,gibba,"European Clam, Basket Shell",MR,Marine,"AP (6/29/05), RG (10/13/07)",Ref006,Introduced,,
+288,Cordylophora caspia,Invertebrate - Cnidarian,Cordylophora,caspia,Hydroid,"FW, MR","Marine, Freshwater","AP (6/29/05), RG (10/14/07)",Ref006,Introduced,Unknown,
+289,Crassostrea gigas,Invertebrate - Mollusc,Crassostrea,gigas,"Pacific Oyster, Portuguese oyster, Giant Pacific oyster ,  Giant oyster ,  Immigrant oyster ,  Japanese Oyster ,  Miyagi oyster ,  Pacific cupped oyster; FRENCH: Gigas, Huitre géante du Pacifique . 
+SPANISH : Ostión ,  Ostión japonés",MR,Marine,"AP (6/29/05), RG (11/04/07)",Ref006,Introduced,Yes,
+290,Cryptosula pallasiana,Bryozoan,Cryptosula,pallasiana,Bryozoan,MR,Marine,"AP (6/29/05), RG (11/03/07)",Ref006,Introduced,No,
+291,Ectopleura crocea,Invertebrate - Cnidarian,Ectopleura,crocea,Hydroid,MR,Marine,AP (6/29/05),Ref006,Introduced,,
+292,Euchone limnicola,Invertebrate - Annelid,Euchone,limnicola,Fanworm,MR,Marine,"AP (6/29/05), RG (10/21/07)",Ref006,Introduced,No,
+293,Gymnodinium catenatum,Algae,Gymnodinium,catenatum,"Toxic Dinoflagellate, chain-forming dinoflagellate (English), estuarine dinoflagellate (English), naked dinoflagellate (English)",MR,Marine,"AP (6/29/05), RG (11/3/07)",Ref006,Introduced,No,
+294,Hydroides elegans,Invertebrate - Echinoderms,Hydroides,elegans,Fouling Serpulid,MR,Marine,"AP (6/29/05), RG (11/3/07)",Ref006,Introduced,No,
+295,Laticorophium baconi,Invertebrate - Arthropod - Other,Laticorophium,baconi,North American Pacific corophiid,MR,Marine,"AP (6/29/05), RG (11/3/07)",Ref006,Introduced,No,
+297,Maoricolpus roseus,Invertebrate - Mollusc,Maoricolpus,roseus,New Zealand Screw Shell,MR,Marine,"AP (6/29/05), RG (10/23/07)",Ref006,Introduced,No,
+298,Monocorophium insidiosum,Invertebrate - Arthropod - Crustacean,Monocorophium,insidiosum,English corophiid,MR,Marine,"AP (6/29/05), RG (10/20/07)",Ref006,Introduced,No,
+299,Monocorophium sextonae,Invertebrate - Arthropod - Other,Monocorophium,sextonae,Corophiid amphipod,MR,Marine,"AP (6/29/05), RG (10/23/07)",Ref006,Introduced,No,
+300,Polydora ciliata,Invertebrate - Annelid,Polydora,ciliata,"Bristleworm (aka, Leucodore ciliata; aka P. ciliata limicola), English polydora",MR,Marine,"AP (6/29/05), RG (10/23/07)",Ref006,Introduced,No,
+301,Pseudopolydora paucibranchiata,Invertebrate - Annelid,Pseudopolydora,paucibranchiata,Japanese Polydorid,MR,Marine,"AP (6/29/05), RG (10/20/07)",Ref006,Introduced,No,
+302,Sabella spallanzanii,Invertebrate - Annelid,Sabella,spallanzanii,"European Fan worm, giant fan worm, Mediterranean fan worm, sabellid fan worm",MR,Marine,"AP (7/5/05), RG (10/27/07)",Ref006,Introduced,No,
+303,Sphaeroma walkeri,Invertebrate - Arthropod - Other,Sphaeroma,walkeri,"Marine Pill Bug, an isopod",MR,Marine,"AP (7/5/05), RG (10/20/07)",Ref006,Introduced,No,
+304,Styela plicata,Tunicate,Styela,plicata,"Solitary Ascidian, Leathery tunicate, pleated sea squirt, sea squirt",MR,Marine,"AP (7/5/05), RG (10/27/07)",Ref006,Introduced,No,Yes
+305,Teredo navalis,Invertebrate - Mollusc,Teredo,navalis,"Naval Ship Worm, Great Shipworm",MR,Marine,"AP (7/5/05), RG (10/20/07)",Ref006,Introduced,No,
+306,Theora lubrica,Invertebrate - Mollusc,Theora,lubrica,"East Asian bivalve, Western Pacific semelid bivalve, Window shell",MR,Marine,"AP (7/5/05), RG (10/27/07)",Ref006,Introduced,No,
+307,Watersipora arcuata,Ectoprocta,Watersipora,arcuata,Lace Coral,MR,Marine,"AP (7/5/05), RG (10/14/07)",Ref006,Introduced,,
+313,Scylla serrata,Invertebrate - Arthropod - Crustacean,Scylla,serrata,"Serrated swimming crab, Edible Mud crab, Mangrove crab, Indo-West Pacific Samoan crab; Philippine names: Alimango (Tagalog), Alama (Pangasinan), Rasa (Illocano), Lumayagan or Suga-suga (Cebuano), Kangrejo (Chavacano), Malakaon Mulaka (Ilongo), Mangilaud",MR,Marine,AP (9/7/05) RG (02/25/06),Ref009,Introduced,,No
+314,Schizoporella cf. errata,Bryozoan,Schizoporella,cf. errata,Branching bryozoan,MR,Marine,AP (9/7/05) RG (02/26/06),Ref009,Introduced,,No
+355,Mycale armata,Invertebrate - Porifera (Sponges),Mycale,armata,Orange Sponge,MR,Marine,AP (9/6/05) RG (02/23/06),Ref009,Introduced,,No
+356,Phyllorhiza punctata,Invertebrate - Cnidarian,Phyllorhiza,punctata,White-spotted Jellyfish,MR,Marine,AP (9/6/05) (RG )2/23/06),Ref009,Introduced,,No
+371,Cassiopea andromeda,Invertebrate - Cnidarian,Cassiopea,andromeda,Upside-down jellyfish. Reported unter two separate names: C. medusa & C. mertensii,MR,Marine,AP (9/6/05) RG (02/23/06),Ref009,Introduced,,No
+372,Pennaria disticha,Invertebrate - Cnidarian,Pennaria,disticha,Christmas Tree hydroid,MR,Marine,AP (9/6/05) RG (02/23/06),Ref009,Introduced,,No
+373,Carijoa riisei,Invertebrate - Cnidarian,Carijoa,riisei,Snowflake Coral,MR,Marine,AP (9/6/05) RG (2/23/06),Ref009,Introduced,,No
+374,Diadumene lineata,Invertebrate - Cnidarian,Diadumene,lineata,"Orange-striped sea anemone, orange-striped green anomone. Other names in literature: Diadumene luciae, Haliplanella luciae, Haliplanella lineata, Aiptasiomorpha luciae, Sagartia luciae",MR,Marine,AP (9/6/05) RG (02/23/06),Ref009,Introduced,,No
+375,Chaetopterus sp.,Invertebrate - Annelid,Chaetopterus,sp.,Parchment Worm,MR,Marine,AP (9/6/05),Ref009,Introduced,,No
+376,Sabellastarte spectabilis,Invertebrate - Annelid,Sabellastarte,spectabilis,"Featherduster worm, Fan worm",MR,Marine,AP (9/6/05) RG (02/23/06),Ref009,Introduced,,No
+377,Salmacina dysteri,Invertebrate - Annelid,Salmacina,dysteri,Serpulid worm,MR,Marine,AP (9/6/05) RG (02/23/06),Ref009,Introduced,,No
+378,Anomia nobilis,Invertebrate - Mollusc,Anomia,nobilis,"Jingle shell, Saddle oyster",MR,Marine,AP (9/7/05) RG (02/25/06),Ref009,Introduced,,No
+379,Crassostrea virginica,Invertebrate - Mollusc,Crassostrea,virginica,"American Oyster, Virginia Oyster, Atlantic Oyster, Eastern Oyster, Common Oyster",MR,Marine,AP (9/7/05) RG (02/25/06),Ref009,Introduced,,No
+380,Chama macerophylla,Invertebrate - Mollusc,Chama,macerophylla,Rock Oyster,MR,Marine,AP (9/7/05) RG (02/25/06),Ref009,Introduced,,No
+381,Crucibulum spinosum,Invertebrate - Mollusc (Snail),Crucibulum,spinosum,Spiny cup-and-saucer shell,MR,Marine,AP (9/7/05) RG (02/25/06),Ref009,Introduced,,No
+382,Balanus amphitrite,Invertebrate - Arthropod - Crustacean,Balanus,amphitrite,Striped barnacle,MR,Marine,AP (9/7/05) RG (02/25/06),Ref009,Introduced,,No
+383,Balanus eburneus,Invertebrate - Arthropod - Crustacean,Balanus,eburneus,Ivory Barnacle,MR,Marine,AP (9/7/05) RG (02/25/06),Ref009,Introduced,,No
+384,Chthamalus proteus,Invertebrate - Arthropod - Crustacean,Chthamalus,proteus,Caribbean Barnacle,MR,Marine,AP (9/7/05) RG (02/25/06),Ref009,Introduced,,No
+385,Amathia distans,Bryozoan,Amathia,distans,Bushy bryozoan,MR,Marine,AP (9/7/05) RG (02/26/06),Ref009,Introduced,,No
+395,Ascidia sydneiensis,Ascidian,Ascidia,sydneiensis,Gray sea squirt,MR,Marine,AP (9/7/05) RG (02/26/06),Ref009,Introduced,,No
+396,Phallusia nigra,Ascidian,Phallusia,nigra,Black sea squirt,MR,Marine,AP (9/7/05) RG (02/26/06),Ref009,Introduced,,No
+397,Didemnum candidum,Ascidian,Didemnum,candidum,White didemnid,MR,Marine,AP (9/7/05) RG (02/26/06),Ref009,Introduced,,No
+472,Neogobius melanostomus,Vertebrate - fish,Neogobius,melanostomus,"babca neagrâ (Romanian), babka bycha (Polish), babka okragla (Polish), black spotted goby (English), bychok kruglyak (Russian), chornorotyj bychok (Russian), gobie â taches noires (French), gobio pintato (Spanish), grundel (German), guvid (Romanian), Krug","FW, MR","Marine, Freshwater",RG (12/20/05),Ref016,Introduced,,No
+473,Pterois volitans,Vertebrate - fish,Pterois,volitans,Lionfish,MR,Marine,RG (12/21/05),Ref016,Introduced,,No
+474,Salmo salar,Vertebrate - fish,Salmo,salar,Atlantic Salmon,MR,Marine,RG(12/21/05),Ref016,Introduced,,No
+486,Dreissena polymorpha,Invertebrate - Mollusc,Dreissena,polymorpha,Zebra mussel,"FW, MR","Marine, Freshwater",RG (12/26/05),Ref016,Introduced,,No
+487,Littorina saxatilis,Invertebrate - Mollusc (Snail),Littorina,saxatilis,Rough Periwinkle,MR,Marine,RG (12/26/05),Ref016,Introduced,,No
+498,Charybdis hellerii,Invertebrate - Arthropod - Crustacean,Charybdis,hellerii,Portunid crab,MR,Marine,RG (01/10/06),Ref019,Non-Native,,No
+501,Perna perna,Invertebrate - Mollusc,Perna,perna,"Brown mussel, edible brown mussel, Mexilhao mussel",MR,Marine,RG (01/26/06),Ref019,Non-Native,,No
+515,Eriocheir sinensis,Invertebrate - Arthropod - Crustacean,Eriocheir,sinensis,"Chinese mitten crab, Chinese freshwater edible crab","FW, MR","Marine, Freshwater",RG (01/03/06),Ref024,Exotic/Alien,,No
+518,Bubulcus ibis,Vertebrate - bird,Bubulcus,ibis,"Cattle egret, Garcilla bueyera","FW, TR, MR","Marine, Freshwater, Land",RG (01/05/06),Ref019,Non-Native,,No
+522,Balanus trigonus,Invertebrate - Arthropod - Crustacean,Balanus,trigonus,Barnacle,MR,Marine,RG (01/10/06),Ref019,Non-Native,,No
+523,Macrobrachium olfersii,Invertebrate - Arthropod - Crustacean,Macrobrachium,olfersii,Bristled river shrimp,"FW, MR","Marine, Freshwater",RG (01/10/06),Ref019,Non-Native,,No
+524,Penaeus monodon,Invertebrate - Arthropod - Crustacean,Penaeus,monodon,"Jumbo tiger prawn, Giant tiger prawn, Blue tiger prawn, Leader prawn, Panda prawn (Australia), Jar-Pazun (Burma), Bangkear (Cambodia), Ghost prawn (Hong Kong), Jinga (India, Bombay region), Udang windu (Indonesia), Ushi-ebi (Japan), Kamba ndogo (Kenya),","FW, MR","Marine, Freshwater",RG (01/10/06),Ref019,Non-Native,,No
+525,Litopenaeus vannamei,Invertebrate - Arthropod - Crustacean,Litopenaeus,vannamei,"Penaeus vannamei (Boone, 1931); Pacific white shrimp, West Coast white shrimp, camaron blanco, langostino, whiteleg shrimp, crevette pattes blanches, camaron patiblanco",MR,Marine,RG (01/12/06),Ref019,Non-Native,,No
+528,Sarotherodon melanotheron,Vertebrate - fish,Sarotherodon,melanotheron,Black Chin Tilapia,"FW, MR","Marine, Freshwater",RG (01/12/06),Ref019,Non-Native,,No
+529,Oreochromis aureus,Vertebrate - fish,Oreochromis,aureus,Blue tilapia,"FW, MR","Marine, Freshwater",RG (01/14/06),Ref019,Non-Native,,No
+540,Cichlasoma urophthalmus,Vertebrate - fish,Cichlasoma,urophthalmus,"Mayan Cichlid, orange tiger, castarrica","FW, MR","Marine, Freshwater",RG (01/16/06),Ref019,Non-Native,,No
+542,Oreochromis mossambicus,Vertebrate - fish,Oreochromis,mossambicus,"aka Sarotherodon mossambicus. Oriental weatherfish, dojo, weather loach, Japanese weatherfish, Amur weatherfish, Mozambiqua tilapia, Mozambique mouthbrooder, Java tilapia, largemouth kurper","FW, MR","Marine, Freshwater",RG (01/16/06),Ref019,Non-Native,,No
+545,Belonesox belizanus,Vertebrate - fish,Belonesox,belizanus,"Pike killifish, pike top live bearer, pike topminnow, picudito, pike livebearer, ulumina gaspara, pepesca gaspar","FW, MR","Marine, Freshwater",RG (01/17/06),Ref019,Non-Native,,No
+548,Tilapia zilli,Vertebrate - fish,Tilapia,zilli,"Redbelly tilapia, striped tilapia, Zilli's cichlid","FW, MR","Marine, Freshwater",RG (01/17/06),Ref019,Non-Native,,No
+560,Anguillicola crassus,Nematode,Anguillicola,crassus,Eel parasite,"FW, MR","Marine, Freshwater",RG (01/24/06),Ref019,Non-Native,,No
+569,Moerisia lyonsi,Invertebrate - Cnidarian,Moerisia,lyonsi,Moerisia,MR,Marine,RG (02/12/06),Ref005,Non-Indigenous,,No
+579,Penaeus monodon-type Baculovirus,Virus,Penaeus monodon-type Baculovirus,,"PmSNPV, Penaeus monodon-type baculovirus (MBV), MBV disease",MR,Marine,RG (01/29/06),Ref019,Non-Native,,Yes
+584,Virus: WSBV,Virus,NA,NA,"White Spot Syndrome Baculovirus Complex (WSBV), White Spot syndrome,  ""China Virus""(WSS)",MR,Marine,RG (02/02/06),Ref019,Non-Native,,Yes
+602,Polyandrocarpa zorritensis,Tunicate,Polyandrocarpa,zorritensis,tunicate,MR,Marine,RG (02/11/06),Ref005,Non-Indigenous,,No
+604,Membranipora membranacea,Bryozoan,Membranipora,membranacea,bryozoan,MR,Marine,RG (02/12/06),Ref005,Non-Indigenous,,No
+606,Gonionemus vertens,Invertebrate - Cnidarian,Gonionemus,vertens,clinging jellyfish,MR,Marine,RG (02/12/06),Ref005,Non-Indigenous,,No
+607,Maeotias inexspectata,Invertebrate - Cnidarian,Maeotias,inexspectata,"Balck Sea jellyfish, Frequently misspelled M. inexpectata (Mills and Sommer 1995).",MR,Marine,RG (02/12/06),Ref005,Non-Indigenous,,No
+608,Drymonema dalmatinum,Invertebrate - Cnidarian,Drymonema,dalmatinum,"Drymonema victoria Haeckel, 1881; Drymonema gorgo Muller 1883; Drymonema cordelio Antipa, 1892; Drymonema dalmatinum Mayer, 1910; Drymonema dalmatinum Stiasny, 1940, Purple sea mane, Stinging cauliflower, pink meanie",MR,Marine,RG (02/16/06),Ref005,Non-Indigenous,,No
+611,Polydora cornuta,Invertebrate - Annelid,Polydora,cornuta,"aka Polydora ligni, mud worm",MR,Marine,RG (02/16/06),Ref005,Non-Indigenous,,No
+613,Mytella charruana,Invertebrate - Mollusc,Mytella,charruana,Charru mussel,MR,Marine,RG (02/17/06),Ref005,,,
+614,Ostrea edulis,Invertebrate - Mollusc,Ostrea,edulis,edible oyster,MR,Marine,RG (02/17/06),Ref005,Non-Indigenous,,No
+616,Teredo bartschi,Invertebrate - Mollusc,Teredo,bartschi,Bartsch shipworm,MR,Marine,RG (02/17/06),Ref005,Non-Indigenous,,No
+619,Littorina littorea,Invertebrate - Mollusc (Snail),Littorina,littorea,common periwinkle,MR,Marine,RG (02/18/06),Ref005,Non-Indigenous,,No
+621,Rapana venosa,Invertebrate - Mollusc (Snail),Rapana,venosa,Asian rapa whelk,MR,Marine,RG (02/18/06),Ref005,Non-Indigenous,,No
+623,Tenellia adspersa,Invertebrate - Mollusc,Tenellia,adspersa,"miniature aeolis, Embletonia pallida, lagood sea slug",MR,Marine,RG (02/18/06),Ref005,Non-Indigenous,,No
+624,Tritonia plebeia,Invertebrate - Mollusc,Tritonia,plebeia,European nudibranch,MR,Marine,RG (02/18/06),Ref005,Non-Indigenous,,No
+629,Callinectes bocourti,Invertebrate - Arthropod - Crustacean,Callinectes,bocourti,"Bocourt swimming crab, red-blue crab",MR,Marine,RG (02/19/06),Ref005,Non-Indigenous,,No
+630,Hemigrapsus sanguineus,Invertebrate - Arthropod - Crustacean,Hemigrapsus,sanguineus,"Asian shore crab, Japanese shore crab, Pacific crab",MR,Marine,RG (02/19/06),Ref005,Non-Indigenous,,Yes
+631,Rhithropanopeus harrisii,Invertebrate - Arthropod - Crustacean,Rhithropanopeus,harrisii,"estuarine mud crab, Harris mud crab, Pilumnus harrisii","FW, MR","Marine, Freshwater",RG (02/19/06),Ref005,Non-Indigenous,,No
+635,Synidotea laevidorsalis,Invertebrate - Arthropod - Crustacean,Synidotea,laevidorsalis,an isopod,MR,Marine,RG (02/20/06),Ref005,Non-Indigenous,,No
+677,Zizania latifolia,Plant,Zizania,latifolia,"coba, jiao-bai, kuw-sun, kwo-bai, makomo, makomo dake, Manchurian water-rice, Manchurian wild rice, Manchurian wildrice, Manchurian zizania, ricegrass, Wasserbambus, water-bamboo, wild rice stem","FW, TR, MR","Marine, Freshwater, Land","RG 04/08/06, 11/04/07",Ref002,Invasive,No,Yes
+683,Cyclope neritea,Invertebrate - Mollusc (Snail),Cyclope,neritea,,MR,Marine,RG (11/08/06),Ref286,Invasive,,No
+685,Strombus persicus,Invertebrate - Mollusc,Strombus,persicus,conch,MR,Marine,RG (11/09/06),Ref038,Exotic/Alien,,No
+686,Rhopilema nomadica,Invertebrate - Cnidarian,Rhopilema,nomadica,Tropical jelllfish,MR,Marine,RG (11/09/06),Ref038,Exotic/Alien,,No
+687,Acartia tonsa,Invertebrate - Arthropod - Crustacean,Acartia,tonsa,"akartia, akartsia","FW, MR","Marine, Freshwater",RG (11/09/06),Ref012,Invasive,,No
+688,Hydroides sanctaecrucis,Invertebrate - Annelid,Hydroides,sanctaecrucis,tubeworm,MR,Marine,RG (11/09/06),Ref273,Introduced,,No
+689,Ocinebrellus inornatus,Invertebrate - Mollusc (Snail),Ocinebrellus,inornatus,Asian drill,MR,Marine,RG (11/09/06),Ref038,Invasive,,Yes
+690,Pseudodiaptomus inopinus,Invertebrate - Arthropod - Crustacean,Pseudodiaptomus,inopinus,"Asian copepod, holoplanktonic cladoceran","FW, MR","Marine, Freshwater",RG (11/09/06),Ref038,Invasive,,No
+691,Eurytemora americana,Invertebrate - Arthropod - Crustacean,Eurytemora,americana,Calenoid copepod,MR,Marine,RG (11/09/06),Ref275,Introduced,,No
+693,Victorella pavida,Bryozoan,Victorella,pavida,Trembing sea mat,MR,Marine,RG (11/15/06),Ref025,Alien,,No
+694,Tubificoides pseudogaster,Invertebrate - Annelid,Tubificoides,pseudogaster,,MR,Marine,RG (11/15/06),Ref025,Alien,,No
+695,Stenocuma graciloides,Invertebrate - Arthropod - Crustacean,Stenocuma,graciloides,(aka Psuedocuma graciloides) benthic cumacean,MR,Marine,RG (11/15/06),Ref025,Alien,,No
+698,Callinectes sapidus,Invertebrate - Arthropod - Crustacean,Callinectes,sapidus,Blue crab,"FW, MR","Marine, Freshwater",RG (11/15/06),Ref025,Invasive,,Yes
+699,Pontogammarus robustoides,Invertebrate - Arthropod - Crustacean,Pontogammarus,robustoides,Ponto-Caspian amphipod,"FW, MR","Marine, Freshwater",RG (11/16/06),Ref025,Alien,,No
+701,Paranais frici,Invertebrate - Annelid,Paranais,frici,(aka Wapsa mobilis),"FW, MR","Marine, Freshwater",RG (11/16/06),Ref025,Alien,,No
+705,Acanthogobius flavimanus,Vertebrate - fish,Acanthogobius,flavimanus,"Cá Bong (Viet Nam), Cá Bong hoa (Viet Nam), Japanese river goby, Mahaze (Japan), Oriental Goby, Spotted goby (Viet Nam), Yaponskii rechnoi bychok (Russian Federation), yellowfin goby, Zheltoperyi bychok (Russian Federation)","FW, MR","Marine, Freshwater",RG (05/07/06),Ref002,Invasive,,No
+706,Balanus improvisus,Invertebrate - Arthropod - Crustacean,Balanus,improvisus,"Bay barnacle, acorn barnacle",MR,Marine,RG (05/07/06),Ref025,Alien,,Yes
+707,Banus reticulatus,Invertebrate - Arthropod - Crustacean,Banus,reticulatus,a barnacle,MR,Marine,RG (05/07/06),Ref009,Introduced,,No
+708,Clavopsella navis,Invertebrate - Cnidarian,Clavopsella,navis,a brackish hydroid,MR,Marine,RG (05/07/06),Ref012,Non-Native,,No
+709,Corbula amurensis,Invertebrate - Mollusc,Corbula,amurensis,"(aka Potamocorbula amurensis), Amur river clam (English), Amur river corbula (English), Asian bivalve (English), Asian clam (English), brackish-water corbula (English), Chinese clam (English), marine clam (English), Nordpazifik-Venusmuschel (German), Numa",MR,Marine,RG (05/09/06),Ref002,Invasive,,Yes
+710,Crepidula fornicata,Invertebrate - Mollusc,Crepidula,fornicata,"American limpet (Great Britain), common Atlantic slippersnail (USA), crépidule (France), oyster-pest (Great Britian), Pantoffelsnecke (Germany), slipper limpet (USA), Toffelsneg (Sweden)",MR,Marine,RG (05/09/06),Ref002,Invasive,,Yes
+711,Goniadella gracilis,Invertebrate - Annelid,Goniadella,gracilis,,MR,Marine,RG (05/09/06),Ref012,Non-Native,,No
+712,Mytilopsis leucophaeata,Invertebrate - Mollusc,Mytilopsis,leucophaeata,"brackish water mussel, Conrad's false mussel, dark false mussel","FW, MR","Marine, Freshwater",RG (05/09/06),Ref002,Invasive,,Yes
+713,Mytilus galloprovincialis,Invertebrate - Mollusc,Mytilus,galloprovincialis,"bay mussel (English), blue mussel (English), Mediterranean mussel (English), Mittelmeer-Miesmuschel (German)",MR,Marine,RG (05/09/06),Ref002,Invasive,,Yes
+714,Pseudopolydora kempi,Invertebrate - Annelid,Pseudopolydora,kempi,a spionid worm,MR,Marine,RG (05/10/06),Ref005,Non-Indigenous,,No
+715,Sargassum muticum,Algae,Sargassum,muticum,"Butblæret sargassotang (Danish), Japanischer Beerentang (German), Japans bessenwier (Dutch), Japansk drivtang, Japweed, sargasse (French), sargasso (Spanish), sargassosnärje (Swedish), strangle weed, Tama-hahaki-moku (Japanese), Wireweed",MR,Marine,RG (05/10/06),Ref002,Invasive,,Yes
+716,Spartina alterniflora,Plant,Spartina,alterniflora,"Atlantic cordgrass, salt-water cordgrass, saltmarsh cordgrass, smooth cordgrass","FW, TR, MR","Marine, Freshwater, Land",RG (05/10/06),Ref002,Invasive,,No
+717,Spartina anglica,Plant,Spartina,anglica,"common cord grass (English), Englisches Schlickgras (German), rice grass (English), townsends grass (English)","FW, TR, MR","Marine, Freshwater, Land",RG (05/10/06),Ref002,Invasive,,No
+718,Zostera japonica,Plant,Zostera,japonica,dwarf eelgrass,MR,Marine,RG (05/11/06),Ref002,Invasive,,No
+719,Odontella sinensis,Algae,Odontella,sinensis,Marine centric diatom,MR,Marine,RG (08/28/07),Ref012,Non-Native,No,No
+720,Orchestia cavimana,Invertebrate - Arthropod - Crustacean,Orchestia,cavimana,taltrid amphipod,"FW, TR, MR","Marine, Freshwater, Land",RG (11/21/06),Ref025,Alien,,No
+724,Marenzelleria neglecta,Invertebrate - Annelid,Marenzelleria,neglecta,red-gilled mud worm (GB),MR,Marine,RG (11/22/06),Ref025,Alien,,No
+725,Maeotias marginata,Invertebrate - Cnidarian,Maeotias,marginata,"Hydromedusa, Black Sea jellyfish","FW, MR","Marine, Freshwater",RG (11/24/06),Ref025,Alien,,No
+726,Lithoglyphus naticoides,Invertebrate - Mollusc (Snail),Lithoglyphus,naticoides,Gravel snail,"FW, MR","Marine, Freshwater",RG (11/24/06),Ref025,Alien,,No
+730,Huso huso,Vertebrate - fish,Huso,huso,Beluga sturgeon,"FW, MR","Marine, Freshwater",RG (11/29/06),Ref025,Alien,,No
+731,Hemimysis anomala,Invertebrate - Arthropod - Crustacean,Hemimysis,anomala,mysid crustacean,"FW, MR","Marine, Freshwater",RG (11/29/06),Ref025,Alien,,No
+733,Garveia Franciscana,Invertebrate - Cnidarian,Garveia,Franciscana,"(aka Bimeria franciscana), ""Pelo de Oso"", hydroid",MR,Marine,RG (11/29/06),Ref025,Alien,,No
+734,Gammarus tigrinus,Invertebrate - Arthropod - Crustacean,Gammarus,tigrinus,amphipod,"FW, MR","Marine, Freshwater",RG (12/01/06),Ref025,Alien,,No
+735,Fucus evanescens,Algae,Fucus,evanescens,"brown algae, rockweed, bladder wrack, sea wrack, langfrutet klortang (Danish)",MR,Marine,RG (12/02/06),Ref025,Alien,,No
+736,Ficopomatus enigmaticus,Invertebrate - Annelid,Ficopomatus,enigmaticus,"(aka Mercierella enigmatica) a tubeworm, Australian reef-building tube worm","FW, MR","Marine, Freshwater",RG (12/02/06),Ref025,Alien,,No
+737,Ensis americanus,Invertebrate - Mollusc,Ensis,americanus,"(called E. directus in certain literature) American jack knife clam, American razor clam",MR,Marine,RG (12/04/06),Ref025,Alien,,No
+738,Elodea canadensis,Plant,Elodea,canadensis,"(aka Anacharis canadensis, Udora canadensis) Canadian waterweed, common elodea, anacharis, Rocky Mountain waterweed, common waterweed, Canadian pondweed, American elodea, oxygen weed, elodea, vesirutto","FW, MR","Marine, Freshwater",RG (12/04/06),Ref025,Alien,,No
+741,Coscinodiscus wailesii,Phytoplankton - diatom,Coscinodiscus,wailesii,A centric diatom,MR,Marine,RG  (12/05/06),Ref025,Alien,,No
+742,Colpomenia peregrina,Algae,Colpomenia,peregrina,Oyster thief,MR,Marine,RG (12/06/06),Ref025,Alien,,Yes
+744,Chara connivens,Algae,Chara,connivens,convergent stonewort,"FW, MR","Marine, Freshwater",RG (12/06/06),Ref025,Alien,,No
+746,Branta canadensis,Vertebrate - bird,Branta,canadensis,Canadian Goose,"FW, TR, MR","Marine, Freshwater, Land",RG 12/06/06,Ref025,Alien,,No
+747,Bonnemaisonia hamifera,Algae,Bonnemaisonia,hamifera,"(aka Asparagopsis hamifera, Trailliella intricata) Japanese red alga, pink cotton wool",MR,Marine,RG (12/06/06),Ref025,Invasive,,No
+748,Acipenser stellatus,Vertebrate - fish,Acipenser,stellatus,"English: starred (stellate) sturgeon, Russian: sevruga, Kazakh: shokyr, Turkmenian: tirana, Azerbaijani: uzun-burun, ag-balyg, Iranian: ozoon-boroon,","FW, MR","Marine, Freshwater",RG (12/07/06),Ref025,Alien,,No
+751,Astrostole scaber,Invertebrate - Echinoderms,Astrostole,scaber,Rough seastar,MR,Marine,RG (12/08/06),Ref006,,,
+752,Patiriella regularis,Invertebrate - Echinoderms,Patiriella,regularis,"New Zealand seastar, cushion star",MR,Marine,RG (12/08/06),Ref030,Introduced,,No
+754,Alpheus audouini,Invertebrate - Arthropod - Crustacean,Alpheus,audouini,snapping shrimp,"FW, MR","Marine, Freshwater",RG (12/08/06),Ref037,Non-Indigenous,,No
+756,Acar plicata,Invertebrate - Mollusc,Acar,plicata,"(aka Barbatia plicata and Arca divaricata), arc clam",MR,Marine,RG (12/12/06),Ref037,Non-Indigenous,,No
+757,Sphaeroma terebrans,Invertebrate - Arthropod - Crustacean,Sphaeroma,terebrans,"(probably synonymous with S. destructor) An isopod, warty pillbug, mangrove isopod","FW, TR, MR","Marine, Freshwater, Land",RG (12/19/06),Ref033,Invasive,,No
+758,Schizoporella unicornis,Bryozoan,Schizoporella,unicornis,Single-horn Bryozoan,MR,Marine,RG (12/19/06),Ref034,Introduced,,No
+759,Thecacera pennigera,Invertebrate - Mollusc,Thecacera,pennigera,"sea slug, nudibranch, Winged Thecacaera",MR,Marine,RG (12/19/06),Ref033,Invasive,,No
+760,Cuthona perca,Invertebrate - Mollusc,Cuthona,perca,Lake Merritt cuthona,MR,Marine,RG (12/21/06),Ref033,Exotic/Alien,,No
+761,Lyrodus medilobatus,Invertebrate - Mollusc,Lyrodus,medilobatus,Indo-Pacific shipworm,MR,Marine,RG (12/21/06),Ref033,Exotic/Alien,,No
+762,Myosotella myosotis,Invertebrate - Mollusc (Snail),Myosotella,myosotis,"(aka Ovatella myosotis), Mouse-ear ovatella, mouse-ear marsh snail, marsh snail, Salt Marsh Snail, European Ovatella","FW, TR, MR","Marine, Freshwater, Land",RG (12/22/06),Ref033,Exotic/Alien,,No
+763,Pinctada margaritifera,Invertebrate - Mollusc,Pinctada,margaritifera,Black-lip pearl oyster,MR,Marine,RG (12/22/06),Ref033,Exotic/Alien,,No
+764,Boccardiella ligerica,Invertebrate - Annelid,Boccardiella,ligerica,siponid worm,"FW, MR","Marine, Freshwater",RG (12/23/06),Ref033,Exotic/Alien,,No
+765,Tubastraea coccinea,Invertebrate - Cnidarian,Tubastraea,coccinea,"Orange cup coral, Daisy cup coral",MR,Marine,RG (12/26/06),Ref033,Exotic/Alien,,No
+766,Spartina densiflora,Plant,Spartina,densiflora,"dense-flowered cordgrass, Chilean cordgrass","FW, MR","Marine, Freshwater",RG (12/26/06),Ref035,Invasive,,Yes
+767,Spartina patens,Plant,Spartina,patens,"Saltmeadow cordgrass, Saltmeadow Hay, Marsh Grass","FW, MR","Marine, Freshwater",RG (12/26/06),Ref035,Invasive,,No
+772,Molgula manhattensis,Ascidian,Molgula,manhattensis,"Ascidian, common sea grape",MR,Marine,RG (12/28/06),Ref035,Invasive,,Yes
+773,Sphaeroma quoyanum,Invertebrate - Arthropod - Crustacean,Sphaeroma,quoyanum,"New Zealand Isopod, Australian Isopod","TR, MR","Marine, Land",RG (12/28/06),Ref035,Invasive,,No
+775,Alosa sapidissima,Vertebrate - fish,Alosa,sapidissima,"American Shad, Atlantic Shad, White Shad, Connecticut River Shad","FW, MR","Marine, Freshwater",RG (12/28/06),Ref035,Invasive,,No
+782,Morone saxatilis,Vertebrate - fish,Morone,saxatilis,Striped Bass,"FW, MR","Marine, Freshwater",RG (01/03/07),Ref035,Invasive,,No
+787,Cephalopholis argus,Vertebrate - fish,Cephalopholis,argus,"Peacock Hind, Blue Spotted Grouper, Argus Hind",MR,Marine,RG (01/05/07),Ref033,Exotic/Alien,,No
+788,Zebrasoma veliferum,Vertebrate - fish,Zebrasoma,veliferum,Sailfin tang,MR,Marine,RG (01/07/07),Ref033,Exotic/Alien,,No
+789,Haliplanella lineata,Invertebrate - Cnidarian,Haliplanella,lineata,Orange-striped sea anemone,MR,Marine,RG (01/07/07),Ref012,Non-Native,,No
+790,Hydroides dianthus,Invertebrate - Annelid,Hydroides,dianthus,"(aka Eupomatus dianthus), A Tubeworm",MR,Marine,RG (01/07/07),Ref012,Non-Native,,No
+791,Pleurosigma simonsenii,Phytoplankton - diatom,Pleurosigma,simonsenii,A pennate diatom,MR,Marine,RG (01/08/07),Ref012,Non-Native,,No
+792,Didemnum cf. lahillei,Ascidian,Didemnum,cf. lahillei,Didemnum sp.,MR,Marine,RG (01/08/07),Ref012,Non-Native,,No
+793,Antithamnionella spirographidis,Algae,Antithamnionella,spirographidis,"Red algae, a rhodophyta",MR,Marine,RG (01/09/07),Ref012,Non-Native,,No
+794,Antithamnionella ternifolia,Algae,Antithamnionella,ternifolia,"(aka A. sarniensis, Antithamnion sarniensis), Red algae, a rhodophyta",MR,Marine,RG (01/09/07),Ref012,Non-Native,,No
+795,Polysiphonia harveyi,Algae,Polysiphonia,harveyi,"(aka P. insidiosa, Neosiphonia harveyi) Red algae, a rhodophyta",MR,Marine,RG (01/09/07),Ref012,Non-Native,,No
+796,Janua brasiliensis,Invertebrate - Annelid,Janua,brasiliensis,"(aka Neodexiospira brasiliensis, Dexiospira brasiliensis) A tubeworm",MR,Marine,RG (01/09/07),Ref012,Non-Native,,No
+797,Elminius modestus,Invertebrate - Arthropod - Crustacean,Elminius,modestus,"Modest barnacle, an acorn barnacle",MR,Marine,RG (01/09/07),Ref012,Non-Native,,No
+798,Mercenaria mercenaria,Invertebrate - Mollusc,Mercenaria,mercenaria,"(aka Venus mercenaria) American hard-shelled clam, little-neck clam, quahog, cherry stone clam",MR,Marine,RG (01/09/07),Ref012,Non-Native,,No
+799,Petricola pholadiformis,Invertebrate - Mollusc,Petricola,pholadiformis,"(aka Petricolaria pholadiformis) False angel wing, American piddock",MR,Marine,RG (01/09/07),Ref012,Non-Native,,No
+803,Hypania invalida,Invertebrate - Annelid,Hypania,invalida,(Polychaeta Sedentaria),"FW, MR","Marine, Freshwater",RG (01/11/07),Ref036,Invasive,,No
+810,Percnon gibbesi,Invertebrate - Arthropod - Crustacean,Percnon,gibbesi,"Nimble Spray Crab, Urchin crab, Rock crab",MR,Marine,RG (01/16/07),Ref037,Exotic/Alien,,No
+811,Dyspanopeus sayi,Invertebrate - Arthropod - Crustacean,Dyspanopeus,sayi,Say crab,MR,Marine,RG (01/16/07),Ref037,Exotic/Alien,,Yes
+813,Beroe ovata,Invertebrate - Ctenophore,Beroe,ovata,"Comb jellyfish, American jellyfish","FW, MR","Marine, Freshwater",RG (01/24/07),Ref011,Invasive,,No
+815,Himantura uarnak,Vertebrate - fish,Himantura,uarnak,leopard stingray,"FW, MR","Marine, Freshwater",RG (01/26/07),Ref037,Exotic/Alien,,No
+816,Anadara inaequivalvis,Invertebrate - Mollusc,Anadara,inaequivalvis,(aka Scapharca inaequivalcis),"FW, MR","Marine, Freshwater",RG (01/29/07),Ref031,Introduced,,No
+817,Evadne anonyx,Invertebrate - Arthropod - Crustacean,Evadne,anonyx,Predatory cladoceran,"FW, MR","Marine, Freshwater",RG (01/24/07),Ref011,Invasive,,No
+818,Palaemon elegans,Invertebrate - Arthropod - Crustacean,Palaemon,elegans,Glass prawn,"FW, MR","Marine, Freshwater",RG (01/25/06),Ref011,Invasive,,No
+819,Alpheus migrans,Invertebrate - Arthropod - Crustacean,Alpheus,migrans,snapping shrimp,MR,Marine,RG (01/20/07),Ref037,Exotic/Alien,,No
+820,Marsupenaeus japonicus,Invertebrate - Arthropod - Crustacean,Marsupenaeus,japonicus,"(aka Penaeus japonicus) Kuruma shrimp, Kuruma prawn, Japanese tiger shrimp (English) Hardback prawn, Southern rough prawn (Australia), Saru ebi (Japan)",MR,Marine,RG (01/20/07),Ref037,Exotic/Alien,,No
+821,Prorocentrum minimum,Phytoplankton - diatom,Prorocentrum,minimum,Dinoflagellate,MR,Marine,RG (01/25/07),Ref011,Invasive,,No
+822,Siganus luridus,Vertebrate - fish,Siganus,luridus,"Rabbitfish, Spinefoot",MR,Marine,RG (01/21/07),Ref037,Exotic/Alien,,No
+823,Thalamita poissonii,Invertebrate - Arthropod - Crustacean,Thalamita poissonii,poissonii,Swimming crab,MR,Marine,RG (01/17/07),Ref037,Exotic/Alien,,No
+824,Melicertus hathor,Invertebrate - Arthropod - Crustacean,Melicertus,hathor,Penaeid shrimp,MR,Marine,RG (01/20/07),Ref037,Exotic/Alien,,No
+825,Metapenaeus stebbingi,Invertebrate - Arthropod - Crustacean,Metapenaeus,stebbingi,"(aka Penaeopsis stebbing), Peregrine shrimp",MR,Marine,RG (01/20/07),Ref037,Exotic/Alien,,No
+826,Metapenaeopsis aegyptia,Invertebrate - Arthropod - Crustacean,Metapenaeopsis,aegyptia,"Erythrean prawn, Penaeid prawn",MR,Marine,RG (01/21/07),Ref037,Exotic/Alien,,No
+827,Thalamita gloriensis,Invertebrate - Arthropod - Crustacean,Thalamita,gloriensis,Swimming crab,MR,Marine,RG (01/17/07),Ref037,Exotic/Alien,,No
+828,Portunus pelagicus,Invertebrate - Arthropod - Crustacean,Portunus,pelagicus,"(aka Cancer pelagicus, Neptunus pelagicus) Blue swimming crab (English), Etrille bleue (French), Jaiba azul (Spanish)",MR,Marine,RG (01/17/07),Ref037,Exotic/Alien,,No
+829,Charybdis longicollis,Invertebrate - Arthropod - Crustacean,Charybdis,longicollis,Swimming crab,MR,Marine,RG (01/17/07),Ref037,Exotic/Alien,,Yes
+830,Myra subgranulata,Invertebrate - Arthropod - Crustacean,Myra,subgranulata,Pebble crab,MR,Marine,RG (01/17/07),Ref037,Exotic/Alien,,No
+831,Caprella mutica,Invertebrate - Arthropod - Crustacean,Caprella,mutica,"Japanese skeleton shrimp, a caprellid amphipod",MR,Marine,RG (01/24/07),Ref011,Invasive,,Yes
+832,Hemigrapsus takanoi,Invertebrate - Arthropod - Crustacean,Hemigrapsus,takanoi,"brush-clawed shore crab (English), penseelkrab (Netherlands)",MR,Marine,RG (01/25/07),Ref347,Introduced,,No
+833,Hemigrapsus penicillatus,Invertebrate - Arthropod - Crustacean,Hemigrapsus,penicillatus,Japanese shore crab,MR,Marine,RG (01/25/07),Ref011,Invasive,,No
+834,Paralithodes camtschaticus,Invertebrate - Arthropod - Crustacean,Paralithodes,camtschaticus,"Red king crab,",MR,Marine,RG (01/25/07),Ref011,Invasive,,No
+850,Gammarellus angulosus,Invertebrate - Arthropod - Crustacean,Gammarellus,angulosus,,"FW, MR","Marine, Freshwater",RG (12/09/07),Ref438,Introduced,No,No
+851,Gammaropsis togoensis,Invertebrate - Arthropod - Crustacean,Gammaropsis,togoensis,an amphipod,"FW, MR","Marine, Freshwater",RG (12/09/07),Ref558,Alien,No,No
+852,Gammarus daiberi,Invertebrate - Arthropod - Crustacean,Gammarus,daiberi,an amphipod,"FW, MR","Marine, Freshwater",RG (12/11/07),Ref005,Non-Indigenous,No,No
+853,Grandidierella japonica,Invertebrate - Arthropod - Crustacean,Grandidierella,japonica,an amphipod,"FW, MR","Marine, Freshwater",RG (12/13/07),Ref005,Non-Indigenous,No,No
+858,Lagocephalus sceleratus,Vertebrate - fish,Lagocephalus,sceleratus,Indo Pacific Silverstripe blaasop,"FW, MR","Marine, Freshwater",RG,Ref443,,,
+882,Osmerus mordax,Vertebrate - fish,Osmerus,mordax,"Rainbow Smelt, frostfish, American smelt, freshwater smelt, ice fish, lee fish, and smelt","FW, MR","Marine, Freshwater",RG (12/29/07),Ref024,Exotic/Alien,No,No
+885,Petroscirtes breviceps,Vertebrate - fish,Petroscirtes,breviceps,Striped poison-fang blenny mimic,"FW, MR","Marine, Freshwater",RG (12/29/07),Ref039,Introduced,No,No
+892,Potamothrix bavaricus,Invertebrate - Annelid,Potamothrix,bavaricus,a tubificid worm,"FW, MR","Marine, Freshwater",RG (12/01/07),Ref005,Introduced,Yes,No
+902,Sphaeroma quoianum,Invertebrate - Arthropod - Crustacean,Sphaeroma,quoianum,an isopod or pillbug,"TR, MR","Marine, Land",RG (12/30/07),Ref005,Non-Indigenous,No,No
+915,Lagocephalus suezensis,Vertebrate - fish,Lagocephalus,suezensis,Red Sea pufferfish,MR,Marine,RG (08/13/07),Ref519,Invasive,No,
+916,Spondylus spinosus,Invertebrate - Mollusc,Spondylus,spinosus,"Indo-Pacific rock oyster, Erythrean Spiny oyster",MR,Marine,RG (08/14/07),Ref519,Invasive,No,
+917,Pyura stolonifera praeputialis,Ascidian,Pyura,stolonifera praeputialis,"tunicate, Australian ascidian",MR,Marine,RG (08/14/07),Ref537,Invasive,Yes,
+918,Alexandrium taylori,Algae,Alexandrium,taylori,Dinoflagelatte,MR,Marine,RG (08/14/07),Ref519,Invasive,No,
+919,Alexandrium peruvianum,Algae,Alexandrium,peruvianum,Dinoflagellate,MR,Marine,RG (08/14/07),Ref519,Invasive,No,
+920,Alexandrium ostenfeldii,Algae,Alexandrium,ostenfeldii,Dinoflagellate,MR,Marine,RG (08/15/07),Ref539,Invasive,No,
+921,Alexandrium affine,Algae,Alexandrium,affine,dinoflagellate,MR,Marine,RG (08/15/07),Ref541,Invasive,No,
+922,Coolia monotis,Algae,Coolia,monotis,a diatom,MR,Marine,RG (08/15/07),Ref519,Invasive,No,
+923,Ostreopsis ovata,Algae,Ostreopsis,ovata,dinoflagellate,MR,Marine,RG (08/15/07),Ref519,Invasive,No,
+924,Alepes djedaba,Vertebrate - fish,Alepes,djedaba,"carangid Erythrean jack (aka Caranx djedaba)m, Shrimp scad",MR,Marine,RG (08/15/07),Ref519,Invasive,Yes,
+925,Pempheris vanicolensis,Vertebrate - fish,Pempheris,vanicolensis,Vanikoro sweeper,MR,Marine,RG (08/18/07),Ref519,Invasive,No,
+926,Plotosus lineatus,Vertebrate - fish,Plotosus,lineatus,"Striped eel catfish (aka P. anguillaris, P. arab)","FW, MR","Marine, Freshwater",RG (08/18/07),Ref519,Invasive,No,
+927,Sargocentron rubrum,Vertebrate - fish,Sargocentron,rubrum,"Redcoat, Redcoat squirrelfish",MR,Marine,RG (08/18/07),Ref519,Invasive,No,
+928,Geukensia demissa,Invertebrate - Mollusc,Geukensia,demissa,"Ribbed mussel, Ribbed horsemessel",MR,Marine,RG (08/18/07),Ref073,Exotic/Alien,No,No
+929,Seriola fasciata,Vertebrate - fish,Seriola,fasciata,Lesser amberjack,MR,Marine,RG (08/18/07),Ref519,Invasive,No,No
+930,Sphoeroides pachygaster,Vertebrate - fish,Sphoeroides,pachygaster,Blunthead Puffer,MR,Marine,RG (08/18/07),Ref519,Invasive,No,No
+931,Sphyraena chrysotaenia,Vertebrate - fish,Sphyraena,chrysotaenia,Yellowstripe barracuda,MR,Marine,RG (08/18/07),Ref519,Invasive,No,No
+932,Bursatella leachi,Invertebrate - Mollusc,Bursatella,leachi,Ragged sea hare,MR,Marine,RG (08/19/07),Ref519,Invasive,No,No
+933,Chama pacifica,Invertebrate - Mollusc,Chama,pacifica,Large Pacific Chama,MR,Marine,RG (08/19/07),Ref519,Invasive,No,No
+934,Cerithium scabridum,Invertebrate - Mollusc,Cerithium,scabridum,A gastropod,MR,Marine,RG (08/19/07),Ref519,Invasive,No,No
+935,Mya arenaria,Invertebrate - Mollusc,Mya,arenaria,"soft-shelled clam, eastern soft-shell clam, long-necked clam, steamer clam, sand gaper",MR,Marine,RG (08/19/07),Ref519,Invasive,No,No
+936,Ruditapes philippinarum,Invertebrate - Mollusc,Ruditapes,philippinarum,"Manila clam, Japanese carpetshell",MR,Marine,RG (08/19/07),Ref519,Invasive,No,No
+937,Xenostrobus securis,Invertebrate - Mollusc,Xenostrobus,securis,"Little Brown Mussel, Black-pygmy mussell (aka Limnoperna fortunei kikuchii)",MR,Marine,RG (08/19/07),Ref519,Invasive,No,No
+938,Pyromaia tuberculata,Invertebrate - Arthropod - Crustacean,Pyromaia,tuberculata,a spider crab,MR,Marine,RG (08/28/07),Ref572,Invasive,No,No
+939,Cliona thoosina,Invertebrate - Porifera (Sponges),Cliona,thoosina,"Boring Sponge, sulfur sponge",MR,Marine,RG (08/29/07),Ref485,Invasive,No,No
+940,Fucus cottoni,Algae,Fucus,cottoni,Rockweed,MR,Marine,RG (08/29/07),Ref578,Non-Indigenous,No,No
+942,Batillaria attramentaria,Invertebrate - Mollusc,Batillaria,attramentaria,"Asian estaurine mudsnail, Asian hornsnail, Japanese false cerith, Japanese mud snail, Japanese snail","FW, MR","Marine, Freshwater",RG (08/30/07),Ref002,Invasive,Yes,No
+943,Boonea bisuturalis,Invertebrate - Mollusc,Boonea,bisuturalis,two-grooved odostome,MR,Marine,RG (08/30/07),Ref002,Invasive,No,
+944,Ceratostoma inornatum,Invertebrate - Mollusc,Ceratostoma,inornatum,"Asian drill, Asian oyster drill, Japanese oyster drill",MR,Marine,RG (08/30/07),Ref002,Invasive,No,
+945,Charybdis japonica,Invertebrate - Arthropod - Crustacean,Charybdis,japonica,"Asian crab, Asian paddle crab, blue crab, paddle crab, swimming crab",MR,Marine,RG (08/30/07),Ref002,Invasive,No,
+946,Gemma gemma,Invertebrate - Mollusc,Gemma,gemma,"Amethyst gem clam, Gem clam","FW, MR","Marine, Freshwater",RG (08/31/07),Ref002,Invasive,No,No
+947,Lutjanus kasmira,Vertebrate - fish,Lutjanus,kasmira,"blouband snapper (Afrikaans-South Africa), blue-banded hussar (English), bluebanded snapper (English-South Africa), blueline snapper (English), blue-lined sea perch (English-French Polynesia), bluelined snapper (English-Guam, Micronesia (Federated States ",MR,Marine,RG (08/31/07),Ref002,Invasive,No,No
+948,Tridentiger trigonocephalus,Vertebrate - fish,Tridentiger,trigonocephalus,"Chameleon goby (English), Japanese goby (English), Oriental goby (English), polosatyi trekhzubyi bychok (Russian-Russian Federation), shimahaze (Japanese-Japan), shimahaze (Japanese), striped goby (English), striped tripletooth goby (English-Russian Feder","FW, MR","Marine, Freshwater",RG (08/31/07),Ref002,Invasive,No,No
+949,Varanus indicus,Vertebrate - reptile,Varanus,indicus,"ambon lizard (English), erebachi (Marovo), flower lizard (English), George's island monitor, Indian monitor (English), Indian monitor lizard (English), kalabeck monitor, mangrove monitor (English), Pacific monitor (English), Pazifikwaran (German), regu (R","FW, TR, MR","Marine, Freshwater, Land",RG (08/31/07),Ref002,Invasive,No,Yes
+950,Urosalpinx cinerea,Invertebrate - Mollusc,Urosalpinx,cinerea,"American oyster drill, American tingle, American whelk tingle",MR,Marine,RG (09/01/07),Ref012,Non-Native,No,Yes
+951,Pikea californica,Algae,Pikea,californica,Captain Pike's weed,MR,Marine,RG (09/01/07),Ref012,Non-Native,No,No
+952,Clymenella torquata,Invertebrate - Annelid,Clymenella,torquata,"Bamboo worm, tube worm",MR,Marine,RG (09/01/07),Ref012,Non-Native,No,No
+953,Eusarsiella zostericola,Invertebrate - Arthropod - Crustacean,Eusarsiella,zostericola,an ostracod (aka Sarsiella zostericola),MR,Marine,RG (09/01/07),Ref012,Non-Native,No,No
+954,Hydroides dirampha,Invertebrate - Annelid,Hydroides,diramphra,"Tube worm, serpulid worm",MR,Marine,RG (08/19/07),Ref519,Invasive,No,
+955,Hydroides operculatus,Invertebrate - Annelid,Hydroides,operculatus,Serpulid worm,MR,Marine,RG (08/19/07,Ref519,Invasive,No,
+956,Erugosquilla massavensis,Invertebrate - Arthropod - Crustacean,Erugosquilla,massavensis,mantis shrimp,MR,Marine,RG (08/20/07),Ref519,Invasive,No,
+957,Elasmopus pectenicrus,Invertebrate - Arthropod - Crustacean,Elasmopus,pectenicrus,an amphipod,MR,Marine,RG (08/22/07),Ref519,Invasive,No,
+958,Mytilicola orientalis,Invertebrate - Annelid,Mytilicola,orientalis,"Mytilicola disease, Red worm, parasitic copapod",MR,Marine,RG (08/22/07),Ref519,Invasive,No,
+959,Penaeus semisulcatus,Invertebrate - Arthropod - Crustacean,Penaeus,semisulcatus,"Penaid shrimp, Green tiger prawn (En), Crevette tigree verte (Fr), Camaron tigre Verde (Sp), flower shrimp, grooved tiger prawn",MR,Marine,RG (08/22/07),Ref519,Invasive,Yes,
+960,Tricellaria inopinata,Bryozoan,Tricellaria,inopinata,cellularine bryozoan,MR,Marine,RG (08/22/07),Ref519,Invasive,No,
+961,Oncorhynchus kisutch,Vertebrate - fish,Oncorhynchus,kisutch,Coho salmon. Silver salmon. Blueback. Grilse. Hooknose. Hoopid salmon,"FW, MR","Marine, Freshwater",RG (08/23/07),Ref039,Invasive,No,No
+962,Pseudobacciger harengulae,Invertebrate - Annelid,Pseudobacciger,harengulae,"Herring parasite, tube worm","FW, MR","Marine, Freshwater",RG (08/25/07),Ref281,Invasive,No,No
+998,Asparagopsis armata,Plant,Asparagopsis,armata,Harpoon Weed (aka Falkenbergia rufolanosa),MR,Marine,RG (08/11/07),Ref519,Invasive,No,No
+999,Asparagopsis taxiformis,Plant,Asparagopsis,taxiformis,"Rhodophyta, red algae",MR,Marine,RG (08/11/07,Ref519,Invasive,No,No
+1000,Desmarestia viridis,Algae,Desmarestia,viridis,Brown algae,MR,Marine,RG (08/12/07),Ref519,Invasive,No,No
+1001,Grateloupia turuturu,Algae,Grateloupia,turuturu,Red algae,MR,Marine,RG (08/12/07),Ref519,Invasive,No,No
+1002,Halophila stipulacea,Plant,Halophila,stipulacea,A seagrass,MR,Marine,RG (08/12/07),Ref519,Invasive,No,No
+1003,Heterosiphonia japonica,Algae,Heterosiphonia,japonica,"Rhodophyta, Red Algae",MR,Marine,RG (08/12/07),Ref519,Invasive,No,No
+1004,Lophocladia lallemandii,Algae,Lophocladia,lallemandii,"Rhodophyta, red algae",MR,Marine,RG (08/12/07),Ref519,Invasive,No,No
+1005,Polysiphonia morrowii,Algae,Polysiphonia,morrowii,"Rhodophyta, red algae",MR,Marine,RG (08/12/07),Ref519,Invasive,No,Yes
+1006,Stypopodium schimperi,Algae,Stypopodium,schimperi,Brown algae,MR,Marine,RG (08/12/07),Ref519,Invasive,No,No
+1007,Womersleyella setacea,Algae,Womersleyella,setacea,"Red alga, Red seaweed",MR,Marine,RG (08/12/07),Ref519,Invasive,No,No
+1008,Alexandrium catenella,Algae,Alexandrium,catenella,dinoflagellate,MR,Marine,RG (08/13/07),Ref519,Invasive,No,Yes
+1009,Asterina burtoni,Invertebrate - Echinoderms,Asterina,burtoni,Sea star,MR,Marine,RG (08/13/07,Ref509,Invasive,No,No
+1010,Fistularia commersonii,Vertebrate - fish,Fistularia,commersonii,Bluespotted cornetfish,MR,Marine,RG (08/13/07),Ref509,Invasive,No,No
+1011,Sphyraena flavicauda,Vertebrate - fish,Sphyraena,flavicauda,Yellowtail barracuda,MR,Marine,RG (08/13/07),Ref519,Invasive,No,No
+1012,Grateloupia filicina var. luxurians,Algae,Grateloupia,filicina var. luxurians,Rhodophyta,MR,Marine,RG (09/01/07),Ref012,Non-Native,No,No
+1013,Solieria chordalis,Algae,Solieria,chordalis,"Rhodophyta, Red algae",MR,Marine,RG (09/01/07),Ref012,Non-Native,No,No
+1016,Alexandrium tamarense,Algae,Alexandrium,tamarense,"an armoured, marine, planktonic dinoflagellate","FW, MR","Marine, Freshwater",RG (01/06/08),Ref544,Invasive,No,No
+1017,Aeromonas salmonicida,Bacterium,Aeromonas,salmonicida,"a bacteria, Furunkulose, byllesyke (NO), Furunkulos (SE)","FW, MR","Marine, Freshwater",RG (10/16/08),Ref767,Non-Indigenous,No,No

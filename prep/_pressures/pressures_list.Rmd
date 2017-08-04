@@ -151,13 +151,8 @@ ___Shellfish closures for sanitation?___
 
 ### Invasive species
 
-From OHI Global 2012: 
-> These data come from the global invasive species database75. The database reports number and type of alien species in each marine ecoregion76, with species types categorized as invasive and harmful invasive species. For our purposes, total count of all invasive species was used. We intersected the ecoregion data with our reporting units to determine the proportion of each ecoregion that falls within each reporting unit and then assigned this percentage of invasive species from the ecoregion to the reporting unit. The sum of all invasive species within each reporting unit was then rescaled to the maximum global value.
-> Predicting the full potential impact of alien species depends in large part on having high-resolution spatial information on where they exist, how far they have spread and exactly which components of the food web they affect. The data from Molnar et al. 75 approximate these impacts but at ecoregional scales. In addition, the impacts of alien species will vary depending on the goal under consideration. This implies that harmful effects would need to be assessed separately for each goal. Such an endeavor may be possible when applying this framework to a smaller case-study where this type of information can be acquired.
+The invasive species pressures layer was created using the 2008 Molnar dataset used in OHI Global and CC, but with a different method to better capture the ecological pressure of each invasive species.  Each species was given an invasive pressure score based on geometric mean of _invasive potential_, _ecological impact_, and _management difficulty_ (each rated 1-4, 4 being high).  For each Marine Ecoregion, we calculated the sum of the invasive pressures of all species in the region; then rescaled based on the highest total invasive pressure score across all ecoregions.
 
-___BC invasives layer?  most are freshwater instances___
-
-The invasive species pressures layer was created using the 2008 Molnar dataset and the methods from OHI Global and CC.
 
 ### Genetic escapes
 

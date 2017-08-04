@@ -1,0 +1,10 @@
+species,genetic_escapees,whence
+blue_mussel,1,species in MSI
+coho_silver_salmon,1,species in MSI
+pacific_cupped_oyster,0.1,species in MSI
+atlantic_salmon_pac,0.1,species in MSI
+chinook_spring_king_salmon,1,high risk analogous to native coho/silver salmon
+japanese_carpet_shell,0.925, genus average from global assessment
+scallops_nei,0.55,genus average from global assessment
+rainbow_trout,1,high risk analogous to native coho/silver salmon
+

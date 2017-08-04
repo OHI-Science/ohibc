@@ -47,19 +47,25 @@ reload <- FALSE
 
 # Summary
 
-This pressure layer evaluates invasive species pressure on BC regions using the same method as OHI Global and California Current.  From Molnar (2008) data, we have data on the number of invasive species (and number of harmful invasives) found within each Marine Ecoregion of the World (MEOW) region.  Score is determined based on the proportion of invasives relative to the global maximum.  Scores for each ecoregion are allocated spatially by the proportion $A_i$ of each OHIBC region falling within each MEOW region (n = 3 ecoregions).  The data has no time scale.
+This pressure layer evaluates invasive species pressure on BC regions using the same method as OHI Global and California Current.  From Molnar (2008) data, we have data on the number of invasive species (and number of harmful invasives) found within each Marine Ecoregion of the World (MEOW) region.  For the global assessment and California Current, score is determined based on the proportion of invasives relative to the global maximum.  For OHIBC, we will instead use a species-by-species pressure based on three criteria: _invasive potential_, _ecological impact_, and _management difficulty_.  In Molnar 2008, each of these (as well as _scope_) is ranked on a 1 to 4 scale, with 1 being minimal and 4 being intense.  Invasive pressure of a species is a geometric mean (rescaled to max = 1) of these threat criteria:
 
-$$X_{invasive} = \frac{\sum_{i=1}^{n}(n_{spp} * A_i)}{(\sum_{i=1}^nA_i)}$$
+$$pressure_{spp} = P_{spp} = \frac{\prod_{T=1}^N(threat_T)^{1/N}}{4}$$
+where T is a threat criterion, N is number of threat criteria scores for that species (excluding NAs).
+
+Scores for each OHIBC region are the area-weighted total species pressure from each ecoregion present.  This assumes that invasive species are uniformly distributed throughout the ecoregion.
+
+$$X_{invasive} = \frac{\sum_{ecorgn=1}^{N}((\sum_{spp=1}^M P_{spp})  * A_{ecorgn})}{\sum_{ecorgn=1}^N A_{ecorgn}}$$
+where $N$ is the number of ecoregions falling within an OHIBC region; $M$ is the number of species found within that ecoregion; $P_{spp}$ is the pressure score for each species in the ecoregion; and $A_{rgn}$ is the area of the OHIBC region allocated to that ecoregion (so $\sum_{rgn=1}^NA_{ecorgn}$ becomes the total OHIBC region area).
+
+The data has no time scale.
 
 # Data
 
 This layer relies on the same invasive spp database as the global assessment, i.e. Molnar 2008.
 
-## Data Source for global OA layer:
-
-- **Reference**: [Molnar et al.(2008)](http://onlinelibrary.wiley.com/doi/10.1890/070064/abstract)
+- **Reference**: [Molnar et al. (2008)](http://onlinelibrary.wiley.com/doi/10.1890/070064/abstract)
 - **Downloaded**: July 31, 2017 from https://www.conservationgateway.org/ConservationPractices/Marine/Pages/marineinvasives.aspx
-- **Description**:  Number of alien spp per ecoregion, and number of harmful invasives
+- **Description**:  Number of alien spp per ecoregion, and threat scores for each species based on several invasive threat criteria.  Many other dataframes are included in the database; however most are not directly relevant for this assessment.
 - **Native data resolution**: Ecoregion
 - **Format**:  .mdb
 
@@ -98,11 +104,17 @@ molnar08 <- Hmisc::mdb.get(file.path(dir_M, 'git-annex/bcprep/_raw_data',
 
 write_csv(molnar08[['A_Occurrences-Marine']], file.path(dir_goal, 'int/invspp_occurrences_raw.csv'))
 write_csv(molnar08[['A_Threat_scores-Marine']], file.path(dir_goal, 'int/invspp_threat_raw.csv'))
+write_csv(molnar08[['B_MEOWv2_draft_08mar07']], file.path(dir_goal, 'int/invspp_meow_ids.csv'))
+write_csv(molnar08[['_A_SPECIES_MARINE']], file.path(dir_goal, 'int/invspp_spp_names.csv'))
 
 ```
 
 * `A_Occurrences-Marine` represents the occurrences of each species in each ecoregion.
 * `A_Threat_scores-Marine` represents the threat scores of each species (regardless of ecoregion).  This includes a text description justifying each of the four categories of threat scores for that species.
+
+### Threat score descriptions
+
+`r knitr::kable(molnar08[['list_scores_id']][2:25, ])`
 
 ### Calculate mean threat score
 
@@ -129,7 +141,7 @@ spp_threat <- spp_threat_all %>%
 
 write_csv(spp_threat, file.path(dir_goal, 'int/invspp_threat_scored.csv'))
 
-spp_names <- molnar08[['_A_SPECIES_MARINE']] %>%
+spp_names <- read_csv(file.path(dir_goal, 'int/invspp_spp_names.csv')) %>%
   setNames(tolower(names(.)) %>% str_replace('[^a-z]', '_')) %>%
   select(species_id, species_name, higher_taxa, common_name)
 
@@ -148,7 +160,7 @@ spp_threat <- read_csv(file.path(dir_goal, 'int/invspp_threat_scored.csv'))
 spp_ecorgn_raw <- read_csv(file.path(dir_goal, 'int/invspp_occurrences_raw.csv')) %>%
   clean_df_names() 
 
-meow_list <- molnar08[['B_MEOWv2_draft_08mar07']] %>%
+meow_list <- read_csv(file.path(dir_goal, 'int/invspp_meow_ids.csv')) %>%
   clean_df_names() %>%
   select(ecoregion_code = eco_code,
          # eco_code = eco_code_x,
@@ -171,7 +183,7 @@ ggplot(spp_ecorgn, aes(x = n_spp, y = pressure_sum)) +
   geom_point() +
   geom_smooth(method = 'lm')
 
-write_csv(spp_ecorgn, file.path(dir_goal, 'int/invspp_meow_sums.csv'))
+write_csv(spp_ecorgn, file.path(dir_goal, 'int/invspp_meow_pressures.csv'))
 
 ```
 
@@ -209,7 +221,7 @@ bc_meow_df <- meow_in_bc %>%
   select(-geometry, -area_km2, -tot_area) %>%
   ungroup()
   
-write_csv(bc_meow_df, file.path(dir_goal, 'int/invspp_meow_pressures.csv'))
+write_csv(bc_meow_df, file.path(dir_goal, 'int/invspp_bc_meow_rgns.csv'))
 
 ggplot(meow_in_bc) +
   geom_sf(aes(fill = ecoregion), size = .25) +
@@ -217,7 +229,46 @@ ggplot(meow_in_bc) +
 
 ```
 
-### Assign invasives pressures 
+### Which species are included as invasive in BC?
+
+``` {r determine_BC_invasives}
+
+spp_threat <- read_csv(file.path(dir_goal, 'int/invspp_threat_scored.csv'))
+spp_ecorgn_raw <- read_csv(file.path(dir_goal, 'int/invspp_occurrences_raw.csv')) %>%
+  clean_df_names() 
+
+meow_list <- read_csv(file.path(dir_goal, 'int/invspp_meow_ids.csv')) %>%
+  clean_df_names() %>%
+  select(ecoregion_code = eco_code,
+         # eco_code = eco_code_x,
+         ecoregion)
+
+bc_meow_df <- read_csv(file.path(dir_goal, 'int/invspp_bc_meow_rgns.csv'))
+
+spp_names <- read_csv(file.path(dir_goal, 'int/invspp_spp_names.csv')) %>%
+  setNames(tolower(names(.)) %>% str_replace('[^a-z]', '_')) %>%
+  select(species_id, species_name, higher_taxa, common_name)
+
+spp_bc <- spp_ecorgn_raw %>%
+  left_join(meow_list, by = 'ecoregion_code') %>%
+  filter(ecoregion %in% bc_meow_df$ecoregion) %>%
+  select(species_id, ecoregion) %>%
+  group_by(species_id) %>%
+  summarize(ecorgns = paste(ecoregion, collapse = '; ')) %>%
+  ungroup() %>%
+  left_join(spp_names, by = 'species_id') %>%
+  left_join(spp_threat, by = 'species_id') %>%
+  select(species_name, common_name, higher_taxa, 
+         ecorgns, threat_txt, pressure) %>%
+  arrange(desc(pressure))
+
+write_csv(spp_bc, file.path(dir_goal, 'int/invspp_bc_spp_list.csv'))
+
+DT::datatable(spp_bc)
+```
+
+
+### Assign invasives pressures to OHIBC rgns
 
 For each ecoregion, calculate the proportional invasive species pressure relative to the global maximum; combine this result with the ecoregion area dataframe.  For each OHIBC region, calculate the area-weighted mean of invasive species pressures.
 
