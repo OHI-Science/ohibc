@@ -63,11 +63,11 @@ The data has no time scale.
 
 This layer relies on the same invasive spp database as the global assessment, i.e. Molnar 2008.
 
-- **Reference**: [Molnar et al. (2008)](http://onlinelibrary.wiley.com/doi/10.1890/070064/abstract)
-- **Downloaded**: July 31, 2017 from https://www.conservationgateway.org/ConservationPractices/Marine/Pages/marineinvasives.aspx
-- **Description**:  Number of alien spp per ecoregion, and threat scores for each species based on several invasive threat criteria.  Many other dataframes are included in the database; however most are not directly relevant for this assessment.
-- **Native data resolution**: Ecoregion
-- **Format**:  .mdb
+* __Reference__: [Molnar et al. (2008)](http://onlinelibrary.wiley.com/doi/10.1890/070064/abstract)
+* __Downloaded__: July 31, 2017 from https://www.conservationgateway.org/ConservationPractices/Marine/Pages/marineinvasives.aspx
+* __Description__:  Number of alien spp per ecoregion, and threat scores for each species based on several invasive threat criteria.  Many other dataframes are included in the database; however most are not directly relevant for this assessment.
+* __Native data resolution__: Ecoregion
+* __Format__:  .mdb
 
 # Methods
 
