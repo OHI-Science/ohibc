@@ -78,22 +78,20 @@ This script pulls together data from the four components of Clean Waters and out
         * coord. ref. : `+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs` 
         * values      : 0.2782703, 1  (min, max)
 
-* pathogens, processed TBD.
+* pathogens, from population density without improved wastewater treatment
+    * processed by `cw_pathogens.Rmd`
+    * assessed by OHIBC region, population density in watersheds defined by OHIBC inland regions
+    * details:
+        * years      : 2001 - 2016
+        * resolution : OHIBC region
+        * coord. ref : NA
+        * values     : 2.319416e-06 to 0.126338567
 
 This script pulls in finalized raster layers for each component, determines a score for each component by OHIBC region, then determines the overall score using a geometric mean calculation.
 
-***
+-----
 
-# Data Source -- REMOVE from here? if adjusting the other preps to be children of this, each has its own data source section...
 
-* **Reference**: 
-* **Downloaded**: 
-* **Native Data Resolution**:   
-* **Values**: 
-* **Time Range**: 
-* **Format**: 
-
-***
 
 # Methods
 
@@ -331,16 +329,16 @@ trash_map <- plot_rast_map(trash_rast,
 ## Calculate geometric mean of all scores.
 
 ``` {r calc_geom_means}
+
 nutr_score_df  <- read_csv(file.path(dir_goal, 'output', 'po_nutrient_3nm.csv'))
 chem_score_df  <- read_csv(file.path(dir_goal, 'output', 'po_chemical_3nm.csv'))
 trash_score_df <- read_csv(file.path(dir_goal, 'output', 'po_trash.csv')) %>%
-  left_join(nutr_score_df %>% select(rgn_id, year),
-            by = 'rgn_id')
-path_score_df <- read_csv(file.path(dir_git, 'prep/ao/v2017/output', 'ao_closures.csv')) %>%
-    mutate(days_in_year = ifelse(lubridate::leap_year(year), 366, 365)) %>%
-    group_by(rgn_id, year) %>%
-    summarize(path_pressure = (sum(days_avg) / first(days_in_year))) %>%
-    ungroup()
+  group_by(rgn_id) %>%
+  mutate(year = NA) %>%
+  complete(year = unique(nutr_score_df$year), nesting(trash_pressure)) %>%
+  ungroup()
+path_score_df <- read_csv(file.path(dir_goal, 'output', 'po_pathogens.csv')) %>%
+  rename(path_pressure = pressure)
 
 cw_score_df <- nutr_score_df %>%
   full_join(chem_score_df,  by = c('year', 'rgn_id')) %>%
@@ -350,22 +348,30 @@ cw_score_df <- nutr_score_df %>%
   filter(!is.na(value)) %>%
   mutate(component_score = 1 - value)
 
+write_csv(cw_score_df, file.path(dir_goal, 'int/cw_component_scores.csv'))
+
 cw_score_summary <- cw_score_df %>%
   group_by(rgn_id, year) %>%
   summarize(n_sources = n(), 
             prod = prod(component_score), 
             score = prod^(1/n_sources), ### this finishes our geometric mean
-            sources = paste(type, collapse = ', '),
+            sources = paste(type, collapse = ', ') %>% str_replace_all('_pressure', ''),
             values  = paste(round(value, 4), collapse = ', ')) %>%
   ungroup()
   
 write_csv(cw_score_summary, file.path(dir_goal, 'output', 'cw_score_summary.csv'))
 
-DT::datatable(cw_score_summary)
+DT::datatable(cw_score_summary %>% 
+                mutate(prod = round(prod, 4), 
+                       score = round(score, 4))
+              )
 
 ```
 
 ``` {r plot them}
+
+cw_score_df      <- read_csv(file.path(dir_goal, 'int/cw_component_scores.csv'))
+cw_score_summary <- read_csv(file.path(dir_goal, 'output', 'cw_score_summary.csv'))
 
 cw_status_components <- cw_score_summary %>%
   select(rgn_id, year, score) %>%
@@ -375,10 +381,15 @@ cw_status_components <- cw_score_summary %>%
 
 
 cw_status_plot <- ggplot(cw_status_components %>% filter(type != 'total'), 
-                           aes(x = year, y = score, color = type, group = type)) +
+                           aes(x = year, y = score)) +
   ggtheme_plot() +
-  geom_line(size = 1, alpha = .8) +
+  geom_line(data = cw_status_components %>% 
+              filter(type == 'total'),
+            aes(group = type),
+            color = 'grey30', alpha = .8, size = 1, linetype = 'dotted') +
+  geom_line(aes(color = type, group = type), size = 1, alpha = .8) +
   scale_colour_brewer(palette = 'BrBG') +
+  ylim(0, 1) +
   labs(x = 'year',
        y = 'Clean Waters status',
        title = 'Clean Waters status',
@@ -391,7 +402,7 @@ print(cw_status_plot)
 ```
 
 
-***
+-----
 
 ``` {r prov_footer, results = 'asis'}
 prov_wrapup()
