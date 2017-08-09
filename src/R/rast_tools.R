@@ -35,14 +35,14 @@ plot_rast_map <- function(rast,
   # if(!exists('World')) data(World)
 
   if(!exists('.poly_bc_continent')) {
-    bc_cont <- rgdal::readOGR(path.expand('~/github/ohibc/prep/spatial'), 'ohibc_continent')
+    message('reading ohibc continent shapefile')
+    bc_cont <- rgdal::readOGR(path.expand('~/github/ohibc/prep/_spatial'), 'ohibc_continent')
     assign('.poly_bc_continent', bc_cont, envir = .GlobalEnv)
     ### assign to global and hide it...
   }
 
-  if(is.null(scale_limits))
-    scale_limits <- c(min(values(rast), na.rm = TRUE),
-                      max(values(rast), na.rm = TRUE))
+  if(is.null(scale_limits)) scale_limits <- c(min(values(rast), na.rm = TRUE),
+                                              max(values(rast), na.rm = TRUE))
 
   rast_pal <- ifelse(rev_scale, '-RdYlBu', 'RdYlBu')
 
@@ -58,9 +58,11 @@ plot_rast_map <- function(rast,
     tm_shape(.poly_bc_continent) +
       tm_polygons(col = 'grey45', border.col = 'grey40', lwd = .25)
 
-  if(!is.null(rgn_poly)) rast_map <- rast_map +
-    tm_shape(rgn_poly) +
-      tm_borders(col = 'blue', lwd = .5, alpha = .3)
+  if(!is.null(rgn_poly)) {
+    rast_map <- rast_map +
+      tm_shape(rgn_poly) +
+        tm_borders(col = 'blue', lwd = .5, alpha = .3)
+  }
 
   rast_map <- rast_map +
     tm_layout(title = title, title.size = .75,

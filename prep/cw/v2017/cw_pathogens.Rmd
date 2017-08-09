@@ -275,7 +275,8 @@ pop_rgn_yr_plot <- ggplot(pop_rgn_yr %>%
        aes(x = year, y = pop)) +
   ggtheme_plot() +
   geom_line(aes(group = rgn_name, color = rgn_name),
-            size = 2, alpha = .8) +
+            size = 2, alpha = .8,
+            show.legend = FALSE) +
   scale_color_brewer(palette = 'Dark2') +
   ylim(c(0, NA)) +
   theme(axis.text.x = element_text(angle = 30)) +
@@ -348,7 +349,7 @@ pop_cat_rgn_yr_plot <- ggplot(pop_cat_rgn_yr_sum %>%
   scale_color_manual(values = c('darkgreen', brewer.pal(9, 'Blues')[4:9])) +
   ylim(c(0, NA)) +
   theme(axis.text.x = element_text(angle = 30)) +
-  labs(x = 'year', y = 'Population in size category', color = 'municipal\nsize category') +
+  labs(x = 'year', y = 'Pop in size category', color = 'municipal\nsize category') +
   facet_wrap( ~ rgn_name, scales = 'free_y')
 
 print(pop_cat_rgn_yr_plot)
@@ -557,19 +558,9 @@ ohibc_sum_sewer <- read_csv(file.path(dir_goal, 'output', 'po_pathogens.csv'))
 prs_df <- ohibc_sum_sewer %>%
   left_join(get_rgn_names(), by = 'rgn_id')
 
-# prs_plot <- ggplot(prs_df, aes(x = year, y = pressure, color = rgn_name, group = rgn_name)) +
-#   ggtheme_plot() +
-#   geom_line(show.legend = FALSE) +
-#   scale_color_brewer(palette = 'Dark2') +
-#   ylim(0, NA) +
-#   facet_wrap( ~ rgn_name) +
-#   labs(title = 'Pathogens pressure',
-#        x = 'Year',
-#        y = 'Rescaled pressure score')
-
 prs_plot <- ggplot(prs_df, aes(x = year, y = path_pressure, color = rgn_name)) +
   ggtheme_plot() +
-  geom_line(aes(group = rgn_name), size = 2, alpha = .8) +
+  geom_line(aes(group = rgn_name), size = 2, alpha = .8, show.legend = FALSE) +
   scale_color_brewer(palette = 'Dark2') +
   theme(axis.text.x = element_text(angle = 22.5)) +
   labs(title = 'Pathogens pressure',

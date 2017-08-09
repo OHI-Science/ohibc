@@ -26,7 +26,7 @@ library(raster)
 source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
 
 dir_git     <- '~/github/ohibc'
-dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_spatial <- file.path(dir_git, 'prep/_spatial')  ### github: general buffer region shapefiles
 dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
 
 ### goal specific folders and info
@@ -128,12 +128,10 @@ rgn_extract <- function(rast, rgn_poly) {
 ### nutrient: rescaled fertilizers from 2002-2013
 
 ### 1. load regions
-if(!exists('bc_rgn_poly')) 
-  bc_rgn_poly <- readOGR(dsn = path.expand(dir_spatial),
-                         layer = 'ohibc_rgn')
-if(!exists('bc_3nm_poly')) 
-  bc_3nm_poly <- readOGR(dsn = path.expand(dir_spatial),
-                         layer = 'ohibc_offshore_3nm')
+if(!exists('bc_rgn_poly')) bc_rgn_poly <- readOGR(dsn = path.expand(dir_spatial),
+                                                  layer = 'ohibc_rgn')
+if(!exists('bc_3nm_poly')) bc_3nm_poly <- readOGR(dsn = path.expand(dir_spatial),
+                                                  layer = 'ohibc_offshore_3nm')
 ### 2. load layers
 nutr_layer_files <- list.files(file.path(dir_goal_anx, 'rescaled_layers'),
                                pattern = 'fert',
@@ -323,7 +321,11 @@ trash_map <- plot_rast_map(trash_rast,
 
 ```
 
-### pathogens: still TBD
+### Calculate pathogens scores
+
+All calcs done in the `cw_pathogens.Rmd` script.  
+
+`r DT::datatable(read_csv(file.path(dir_goal, 'output', 'po_pathogens.csv')))`
 
 
 ## Calculate geometric mean of all scores.
@@ -337,8 +339,7 @@ trash_score_df <- read_csv(file.path(dir_goal, 'output', 'po_trash.csv')) %>%
   mutate(year = NA) %>%
   complete(year = unique(nutr_score_df$year), nesting(trash_pressure)) %>%
   ungroup()
-path_score_df <- read_csv(file.path(dir_goal, 'output', 'po_pathogens.csv')) %>%
-  rename(path_pressure = pressure)
+path_score_df <- read_csv(file.path(dir_goal, 'output', 'po_pathogens.csv'))
 
 cw_score_df <- nutr_score_df %>%
   full_join(chem_score_df,  by = c('year', 'rgn_id')) %>%
