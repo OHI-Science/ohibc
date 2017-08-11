@@ -13,7 +13,7 @@ prep_scenario_dirs <- function(dir_calc,          ### destination location for s
   subdirs_scen <- file.path(dir_calc, c('layers', 'conf', 'spatial', 'gapfill'))
   for (subdir in subdirs_scen) {
     if(purge) {
-      unlink(subdir)
+      unlink(subdir, recursive = TRUE)
     }
     message('...Creating subdirectory: ', subdir)
     dir.create(subdir, showWarnings = FALSE)
@@ -21,7 +21,7 @@ prep_scenario_dirs <- function(dir_calc,          ### destination location for s
 
   ### copy configuration files from masters to scenario folder
   files_to <- file.path(dir_calc, 'conf',
-                        c('functions.R', 'config.R', 'goals.csv', 'status_year_matrix.csv',
+                        c('functions.R', 'config.R', 'goals.csv', 'scenario_data_years.csv',
                         'pressures_matrix.csv', 'resilience_matrix.csv',
                         'resilience_categories.csv', 'pressure_categories.csv'))
   files_from <- file.path(dir_master,

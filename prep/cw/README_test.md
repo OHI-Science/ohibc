@@ -24,9 +24,12 @@ The directories in this goal directory include metadata, R/Rmd scripts, intermed
 * v2017/cw_goal_est.rmd
 * v2017/cw_nutrient_prep.html
 * v2017/cw_nutrient_prep.rmd
+* v2017/cw_pathogens.html
+* v2017/cw_pathogens.Rmd
 * v2017/cw_trash_prep.html
 * v2017/cw_trash_prep.rmd
 * v2017/prov/cw_closures_prep.rmd_workflow.html
 * v2017/prov/cw_goal_est.rmd_workflow.html
 * v2017/prov/cw_goal_prep.rmd_workflow.html
+* v2017/prov/cw_pathogens.Rmd_workflow.html
 * v2017/prov/cw_trash_prep.rmd_workflow.html

@@ -21,7 +21,7 @@ output:
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
                       echo = TRUE, message = FALSE, warning = FALSE)
 
-library(ohicore) ### devtools::install_github('ohi-science/ohicore')
+library(ohicore) ### devtools::install_github('ohi-science/ohicore@dev')
 
 source('~/github/ohibc/src/R/common.R')
 
@@ -84,7 +84,6 @@ capture.output( ### the function prints a lot crap to screen - let's change thos
   file = 'delete_this.txt')
 unlink('delete_this.txt')
 
-
 ```
 
 
@@ -96,17 +95,14 @@ unlink('delete_this.txt')
 
 ``` {r configure_toolbox}
 
-status_years <- read_csv(file.path(dir_calc, 'master/status_year_matrix_master.csv')) %>%
-  .$status_year %>%
-  unique()
-
 conf   <- Conf(file.path(dir_calc, 'conf'))
 layers <- Layers(layers.csv = file.path(dir_calc, 'layers.csv'),
                  layers.dir = file.path(dir_calc, 'layers'))
 
 layers$data$dir_calc   <- dir_calc
-layers$data$stat_yr_matrix <- read_csv(file.path(dir_calc, 'conf/status_year_matrix.csv'))
-layers$data$year_span <- 1990:2016
+layers$data$data_yr_matrix <- read_csv(file.path(dir_calc, 'conf/scenario_data_years.csv'))
+layers$data$year_span <- layers$data$data_yr_matrix %>%
+  .$scenario_year %>% unique() %>% sort()
 
 ```
 

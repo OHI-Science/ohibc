@@ -18,20 +18,27 @@ The directories in this goal directory include metadata, R/Rmd scripts, intermed
 
 ### Rmd and HTML files included in this directory:
 
+* pressures_list.Rmd
 * v2017/habitats/1_hab_zone_prep.Rmd
 * v2017/habitats/2_hab_layer_prep.Rmd
 * v2017/habitats/3_hab_layer_assemble.Rmd
 * v2017/habitats/bc_pres_hab.html
 * v2017/habitats/layer_prep_pressures_habs.html
-* v2017/pressures_oa_prep_old.html
-* v2017/pressures_oa_prep_old.Rmd
+* v2017/pressures_alien_spp.html
+* v2017/pressures_alien_spp.Rmd
+* v2017/pressures_gen_escapes.html
+* v2017/pressures_gen_escapes.Rmd
+* v2017/pressures_oa_prep.html
 * v2017/pressures_oa_prep.Rmd
-* v2017/pressures_slr_prep2.Rmd
 * v2017/pressures_slr_prep.html
 * v2017/pressures_slr_prep.Rmd
 * v2017/pressures_sst_prep.html
 * v2017/pressures_sst_prep.Rmd
 * v2017/pressures_uv_prep.html
 * v2017/pressures_uv_prep.Rmd
+* v2017/prov/pressures_alien_spp.Rmd_workflow.html
+* v2017/prov/pressures_gen_escapes.Rmd_workflow.html
 * v2017/prov/pressures_oa_prep.Rmd_workflow.html
+* v2017/prov/pressures_pathogens.Rmd_workflow.html
+* v2017/prov/pressures_slr_prep.Rmd_workflow.html
 * v2017/prov/pressures_sst_prep.Rmd_workflow.html

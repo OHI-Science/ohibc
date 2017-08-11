@@ -13,7 +13,7 @@ FIS <- function(layers) {
 
   ram_b_bmsy        <- layers$data[['fis_ram_b_bmsy']] %>%
     rename(b_bmsy = value) %>%
-    group_by(stockid) %>%
+    group_by(stock_id) %>%
     complete(year)
   ram_f_fmsy        <- layers$data[['fis_ram_f_fmsy']] %>%
     rename(f_fmsy = value)
@@ -937,24 +937,7 @@ CW <- function(layers) {
   data_year <- get_data_year('CW', status_year, layers)
   year_span <- layers$data$year_span
 
-  # # layers
-  # lyrs <- c('po_pathogens', 'po_nutrients_3nm', 'po_chemicals_3nm', 'po_trash',
-  #           'cw_chemical_trend', 'cw_nutrient_trend', 'cw_trash_trend', 'cw_pathogen_trend')
-  #
-  # d <-  SelectLayersData(layers, layers=lyrs)  %>%
-  #   select(region_id = id_num, layer, value = val_num)
-  #
-  # ### function to calculate geometric mean:
-  # geometric.mean2 <- function (x, na.rm = TRUE) {
-  #   if (is.null(nrow(x))) {
-  #     exp(mean(log(x), na.rm = TRUE))
-  #   }
-  #   else {
-  #     exp(apply(log(x), 2, mean, na.rm = na.rm))
-  #   }
-  # }
-  #
-  #
+
   nutr_prs <- layers$data[['po_nutrient_3nm']] %>%
     complete_years(year_span) %>%
     rename(pressure = nutr_pressure)
@@ -968,14 +951,9 @@ CW <- function(layers) {
     complete_years(year_span) %>%
     rename(pressure = trash_pressure)
 
-  patho_prs <- layers$data[['po_pathogens_closures']] %>%
-    # filter(closure_type %in% c('biotoxins', 'sanitary closure')) %>%
-    mutate(days_in_year = ifelse(lubridate::leap_year(year), 366, 365)) %>%
-    group_by(rgn_id, year) %>%
-    summarize(pressure = (sum(days_avg) / first(days_in_year)),
-              layer = 'po_pathogens_closures') %>%
-    ungroup() %>%
-    complete_years(year_span)
+  patho_prs <- layers$data[['po_pathogens']] %>%
+    complete_years(year_span) %>%
+    rename(pressure = path_pressure)
 
 
   cw_pressure_df <- bind_rows(chem_prs, nutr_prs, trash_prs, patho_prs) %>%

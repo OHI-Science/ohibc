@@ -1,21 +1,23 @@
-home,dir,level,readme,html,rmd,rmd_path,rmd_title,rmd_summary
-~/github/ohibc,/home/ohara/github/ohibc,0,README.md,sf_vs_sp.html,sf_vs_sp.Rmd,/home/ohara/github/ohibc/sf_vs_sp.Rmd,sf vs sp spatial packages,NA
-~/github/ohibc,/home/ohara/github/ohibc/bcmca,1,NA,NA,1_bcmca_filenames.Rmd,/home/ohara/github/ohibc/bcmca/1_bcmca_filenames.Rmd,"BCMCA datasets: import, raster, display",NA
-~/github/ohibc,/home/ohara/github/ohibc/bcmca,1,NA,NA,2_bcmca_shp_fixes.Rmd,/home/ohara/github/ohibc/bcmca/2_bcmca_shp_fixes.Rmd,"BCMCA datasets: import, raster, display",NA
-~/github/ohibc,/home/ohara/github/ohibc/bcmca,1,NA,NA,3_bcmca_rasterize.Rmd,/home/ohara/github/ohibc/bcmca/3_bcmca_rasterize.Rmd,"BCMCA datasets: import, raster, display",NA
-~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc,1,NA,calc_scores_ohibc.html,calc_scores_ohibc.Rmd,/home/ohara/github/ohibc/calc_ohibc/calc_scores_ohibc.Rmd,OHIBC: Calculate All Scores,NA
-~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2016/conf,3,NA,NA,goals.Rmd,/home/ohara/github/ohibc/calc_ohibc/region2016/conf/goals.Rmd,NA,NA
-~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2017/conf,3,NA,NA,goals.Rmd,/home/ohara/github/ohibc/calc_ohibc/region2017/conf/goals.Rmd,NA,NA
-~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,"README.md, readme_test.md",ao_closures_prep.html,ao_closures_prep.rmd,/home/ohara/github/ohibc/prep/ao/v2017/ao_closures_prep.rmd,OHIBC: Shellfish contamination closures prep,This data is incorporated into the OHI British Columbia Clean Waters (CW) goal and the Artisanal Opportunities (AO) goal.
-~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,"README.md, readme_test.md",ao_goal_est.html,ao_goal_est.Rmd,/home/ohara/github/ohibc/prep/ao/v2017/ao_goal_est.Rmd,OHIBC: AO goal prep,Estimate the goal components for AO goal for OHIBC
-~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,"README.md, readme_test.md",ao_herringspawn_prep.html,ao_herringspawn_prep.rmd,/home/ohara/github/ohibc/prep/ao/v2017/ao_herringspawn_prep.rmd,OHIBC: herring spawn index prep,This data is incorporated into the OHI British Columbia First Nations Resource Access and Opportunities (AO) goal.
-~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,"README.md, readme_test.md",ao_licenses_prep.html,ao_licenses_prep.rmd,/home/ohara/github/ohibc/prep/ao/v2017/ao_licenses_prep.rmd,OHIBC: Fishing licenses prep,This data is incorporated into the OHI British Columbia First Nations Resource Access and Opportunities (AO) goal.
-~/github/ohibc,/home/ohara/github/ohibc/prep/cw/v2017,3,readme_test.md,cw_chem_prep.html,cw_chem_prep.rmd,/home/ohara/github/ohibc/prep/cw/v2017/cw_chem_prep.rmd,OHIBC: CW chemical layers prep,"These data were prepared for the global 2016 assessment.  For each layer, we are simply reprojecting the data to the BC EEZ and rescaling to the local 99.99th percentile.
+repo,dir,level,readme,html,rmd,rmd_path,rmd_title,rmd_summary,rmd_summary_length,rmd_summary_issue
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc,1,NA,calc_scores_ohibc.html,calc_scores_ohibc.Rmd,/home/ohara/github/ohibc/calc_ohibc/calc_scores_ohibc.Rmd,OHIBC: Calculate All Scores,"NA",NA,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc,1,NA,NA,plot_scores_ohibc.Rmd,/home/ohara/github/ohibc/calc_ohibc/plot_scores_ohibc.Rmd,OHIBC: Plot Scores,"NA",NA,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2016/conf,3,NA,NA,goals.Rmd,/home/ohara/github/ohibc/calc_ohibc/region2016/conf/goals.Rmd,NA,"NA",NA,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/calc_ohibc/region2017/conf,3,NA,NA,goals.Rmd,/home/ohara/github/ohibc/calc_ohibc/region2017/conf/goals.Rmd,NA,"NA",NA,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/miscR,1,NA,sf_vs_sp.html,sf_vs_sp.Rmd,/home/ohara/github/ohibc/miscR/sf_vs_sp.Rmd,sf vs sp spatial packages,"NA",NA,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/miscR/bcmca,2,NA,NA,1_bcmca_filenames.Rmd,/home/ohara/github/ohibc/miscR/bcmca/1_bcmca_filenames.Rmd,"BCMCA datasets: import, raster, display","NA",NA,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/miscR/bcmca,2,NA,NA,2_bcmca_shp_fixes.Rmd,/home/ohara/github/ohibc/miscR/bcmca/2_bcmca_shp_fixes.Rmd,"BCMCA datasets: import, raster, display","NA",NA,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/miscR/bcmca,2,NA,NA,3_bcmca_rasterize.Rmd,/home/ohara/github/ohibc/miscR/bcmca/3_bcmca_rasterize.Rmd,"BCMCA datasets: import, raster, display","NA",NA,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/miscR/rdme_gen,2,readme_df.csv,rdme_generator.html,rdme_generator.Rmd,/home/ohara/github/ohibc/miscR/rdme_gen/rdme_generator.Rmd,OHIBC: readme.md generator,"Walks through file structure of OHIBC and checks to see whether folders have a readme.  Eventually, will generate a readme for each folder based on a template.",159,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,"README.md, README_test.md",ao_closures_prep.html,ao_closures_prep.rmd,/home/ohara/github/ohibc/prep/ao/v2017/ao_closures_prep.rmd,OHIBC: Shellfish contamination closures prep,This data is incorporated into the OHI British Columbia Clean Waters (CW) goal and the Artisanal Opportunities (AO) goal.,121,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,"README.md, README_test.md",ao_goal_est.html,ao_goal_est.Rmd,/home/ohara/github/ohibc/prep/ao/v2017/ao_goal_est.Rmd,OHIBC: AO goal prep,Estimate the goal components for AO goal for OHIBC,50,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,"README.md, README_test.md",ao_herringspawn_prep.html,ao_herringspawn_prep.rmd,/home/ohara/github/ohibc/prep/ao/v2017/ao_herringspawn_prep.rmd,OHIBC: herring spawn index prep,This data is incorporated into the OHI British Columbia First Nations Resource Access and Opportunities (AO) goal.,114,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/ao/v2017,3,"README.md, README_test.md",ao_licenses_prep.html,ao_licenses_prep.rmd,/home/ohara/github/ohibc/prep/ao/v2017/ao_licenses_prep.rmd,OHIBC: Fishing licenses prep,This data is incorporated into the OHI British Columbia First Nations Resource Access and Opportunities (AO) goal.,114,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/cw/v2017,3,README_test.md,cw_chem_prep.html,cw_chem_prep.rmd,/home/ohara/github/ohibc/prep/cw/v2017/cw_chem_prep.rmd,OHIBC: CW chemical layers prep,"These data were prepared for the global 2016 assessment.  For each layer, we are simply reprojecting the data to the BC EEZ and rescaling to the local 99.99th percentile.
 
 The Status of chemical pollution was measured via four global datasets: land-based organic from agricultural pesticide use (reported to FAO), inorganic pollution from runoff from impervious surfaces, and ocean-based pollution from commercial shipping and ports.
 
-The shipping, ports and harbors, and inorganic pollution have not changed over time.  However, the organic (pesticide) pollution is updated yearly, with the most recent data from 2013.  The raw shipping, ports and harbors, and inorganic pollution data are located [here](https://knb.ecoinformatics.org/"
-~/github/ohibc,/home/ohara/github/ohibc/prep/cw/v2017,3,readme_test.md,cw_goal_est.html,cw_goal_est.rmd,/home/ohara/github/ohibc/prep/cw/v2017/cw_goal_est.rmd,OHIBC: Clean Waters goal prep,"This script pulls together data from the four components of Clean Waters and outputs layers for toolbox:
+The shipping, ports and harbors, and inorganic pollution have not changed over time.  However, the organic (pesticide) pollution is updated yearly, with the most recent data from 2013.  The raw shipping, ports and harbors, and inorganic pollution data are located [here](https://knb.ecoinformatics.org/",737,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/cw/v2017,3,README_test.md,cw_goal_est.html,cw_goal_est.rmd,/home/ohara/github/ohibc/prep/cw/v2017/cw_goal_est.rmd,OHIBC: Clean Waters goal prep,"This script pulls together data from the four components of Clean Waters and outputs layers for toolbox:
 
 * chemical pollution, which includes land-based organic chemicals (pesticides), land-based inorganic chemicals (impervious surface runoff), and ocean-based pollution from shipping and harbors.
     * processed by `cw_chem_prep.Rmd`; log-transformed and normalized by 99.99%tile within EEZ.
@@ -42,27 +44,44 @@ The shipping, ports and harbors, and inorganic pollution have not changed over t
         * coord. ref. : `+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs` 
         * values      : 0.2782703, 1  (min, max)
 
-* pathogens, processed TBD.
+* pathogens, from population density without improved wastewater treatment
+    * processed by `cw_pathogens.Rmd`
+    * assessed by OHIBC region, population density in watersheds defined by OHIBC inland regions
+    * details:
+        * years      : 2001 - 2016
+        * resolution : OHIBC region
+        * coord. ref : NA
+        * values     : 2.319416e-06 to 0.126338567
 
-This script pulls in finalized raster layers for each component, determines a score for each component by OHIBC region, then determines the overall score using a geometric mean calculation."
-~/github/ohibc,/home/ohara/github/ohibc/prep/cw/v2017,3,readme_test.md,cw_nutrient_prep.html,cw_nutrient_prep.rmd,/home/ohara/github/ohibc/prep/cw/v2017/cw_nutrient_prep.rmd,OHIBC: CW nutrient/fertilizer layers prep,This data was used in the Clean Waters goal in OHI 2015
-~/github/ohibc,/home/ohara/github/ohibc/prep/cw/v2017,3,readme_test.md,cw_trash_prep.html,cw_trash_prep.rmd,/home/ohara/github/ohibc/prep/cw/v2017/cw_trash_prep.rmd,OHIBC: CW trash layers prep,This data is incorporated into the OHI British Columbia Clean Waters (CW) goal.
-~/github/ohibc,/home/ohara/github/ohibc/prep/fis/kobe,3,readme_test.md,kobe.html,kobe.Rmd,/home/ohara/github/ohibc/prep/fis/kobe/kobe.Rmd,OHIBC: Fisheries modified Kobe plots,NA
-~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,1_data_prep_fis_ram.html,1_data_prep_fis_ram.Rmd,/home/ohara/github/ohibc/prep/fis/v2017/1_data_prep_fis_ram.Rmd,OHIBC: data prep for wild-capture fisheries: RAM Database,"Process RAM database for British Columbia fisheries stock status and harvest levels.  Each RAM stock will be filtered to the RAM stock ID and RAM area (to separate region-specific stocks), and then the stock status parameters B/Bmsy and F/Fmsy for that stock for each year reported.
+This script pulls in finalized raster layers for each component, determines a score for each component by OHIBC region, then determines the overall score using a geometric mean calculation.",2501,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/cw/v2017,3,README_test.md,cw_nutrient_prep.html,cw_nutrient_prep.rmd,/home/ohara/github/ohibc/prep/cw/v2017/cw_nutrient_prep.rmd,OHIBC: CW nutrient/fertilizer layers prep,This data was used in the Clean Waters goal in OHI 2015,55,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/prep/cw/v2017,3,README_test.md,cw_pathogens.html,cw_pathogens.Rmd,/home/ohara/github/ohibc/prep/cw/v2017/cw_pathogens.Rmd,OHIBC: Pathogens Pressure layers prep,"This pressure layer determines potential for human pathogen contamination using census district populations, statistics on percent of population with improved sanitation (by province and by municipality size), and modeled population density.  The model compares the population density of higher-risk wastewater systems (e.g. septic, storage/haulage) to a reference point of the highest density region being entirely on higher-risk systems.
 
-Total catch data for each stock for each year will be used to determine final weightings.  Since the distribution of catch data is not differentiated within the reporting region, we will use SAUP and/or DFO spatial catch data to determine the distribution and allocate the total catch proportionally."
-~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,2_data_prep_fis_ram_spatial.html,2_data_prep_fis_ram_spatial.Rmd,/home/ohara/github/ohibc/prep/fis/v2017/2_data_prep_fis_ram_spatial.Rmd,OHIBC: data prep for wild-capture fisheries: spatializing RAM stocks,"This script collects spatial boundaries for RAM stocks, using stock IDs from the RAM prep script and the boundaries created by Chris Free: https://marine.rutgers.edu/~cfree/ram-legacy-stock-boundary-database/
+$$X_{pathogens} = \frac{\delta_{at-risk,rgn}}{\delta_{all,max}}$$
+where $\delta_{at-risk,rgn}$ represents a region's population on systems, divided by the region area:  
 
-From this, we generate for each stock a region-by-region proportional area to apportion RAM catch to OHIBC regions."
-~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,3_plot_fis_scores.html,3_plot_fis_scores.Rmd,/home/ohara/github/ohibc/prep/fis/v2017/3_plot_fis_scores.Rmd,OHIBC: plot FIS scores by stock and region,This script takes the output from `functions.R` FIS model and plots individual stock scores by year and relative contribution to score.
-~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,data_prep_fis_dfo.html,data_prep_fis_dfo.Rmd,/home/ohara/github/ohibc/prep/fis/v2017/data_prep_fis_dfo.Rmd,OHIBC: data prep for wild-capture fisheries: DFO fisheries datasets,"Processing BC DFO fisheries spatial data, to help determine allocation of total catch (from RAM catch values) to each OHIBC region."
-~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,x_data_prep_fis_saup.html,x_data_prep_fis_saup.Rmd,/home/ohara/github/ohibc/prep/fis/v2017/x_data_prep_fis_saup.Rmd,OHIBC: data prep for wild-capture fisheries: Sea Around Us data,"Process Sea Around Us data for British Columbia, to determine spatial distribution of catch for each species in BC.  The catch levels are used to weight the scores for fisheries stock status scores.  Stock status will be determined using RAM data for B/Bmsy and F/Fmsy.
+$$\delta_{at-risk,rgn} = Population_{at-risk,rgn} / A_{rgn}$$ 
+
+and $\delta_{all,max}$ represents the max overall population density of any OHIBC region.
+
+$$\delta_{all,max} = (Population_{all} / A_{rgn})_{max}$$",824,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/cw/v2017,3,README_test.md,cw_trash_prep.html,cw_trash_prep.rmd,/home/ohara/github/ohibc/prep/cw/v2017/cw_trash_prep.rmd,OHIBC: CW trash layers prep,This data is incorporated into the OHI British Columbia Clean Waters (CW) goal.,79,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/kobe,3,README_test.md,kobe.html,kobe.Rmd,/home/ohara/github/ohibc/prep/fis/kobe/kobe.Rmd,OHIBC: Fisheries modified Kobe plots,"NA",NA,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,README_test.md,1_data_prep_fis_ram.html,1_data_prep_fis_ram.Rmd,/home/ohara/github/ohibc/prep/fis/v2017/1_data_prep_fis_ram.Rmd,OHIBC: data prep for wild-capture fisheries: RAM Database,"Process RAM database for British Columbia fisheries stock status and harvest levels.  Each RAM stock will be filtered to the RAM stock ID and RAM area (to separate region-specific stocks), and then the stock status parameters B/Bmsy and F/Fmsy for that stock for each year reported.
+
+Total catch data for each stock for each year will be used to determine final weightings.  Since the distribution of catch data is not differentiated within the reporting region, we will use SAUP and/or DFO spatial catch data to determine the distribution and allocate the total catch proportionally.",584,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,README_test.md,2_data_prep_fis_ram_spatial.html,2_data_prep_fis_ram_spatial.Rmd,/home/ohara/github/ohibc/prep/fis/v2017/2_data_prep_fis_ram_spatial.Rmd,OHIBC: data prep for wild-capture fisheries: spatializing RAM stocks,"This script collects spatial boundaries for RAM stocks, using stock IDs from the RAM prep script and the boundaries created by Chris Free: https://marine.rutgers.edu/~cfree/ram-legacy-stock-boundary-database/
+
+From this, we generate for each stock a region-by-region proportional area to apportion RAM catch to OHIBC regions.",325,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,README_test.md,3_plot_fis_scores.html,3_plot_fis_scores.Rmd,/home/ohara/github/ohibc/prep/fis/v2017/3_plot_fis_scores.Rmd,OHIBC: plot FIS scores by stock and region,This script takes the output from `functions.R` FIS model and plots individual stock scores by year and relative contribution to score.,135,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,README_test.md,data_prep_fis_dfo.html,data_prep_fis_dfo.Rmd,/home/ohara/github/ohibc/prep/fis/v2017/data_prep_fis_dfo.Rmd,OHIBC: data prep for wild-capture fisheries: DFO fisheries datasets,"Processing BC DFO fisheries spatial data, to help determine allocation of total catch (from RAM catch values) to each OHIBC region.",131,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,README_test.md,x_data_prep_fis_saup.html,x_data_prep_fis_saup.Rmd,/home/ohara/github/ohibc/prep/fis/v2017/x_data_prep_fis_saup.Rmd,OHIBC: data prep for wild-capture fisheries: Sea Around Us data,"Process Sea Around Us data for British Columbia, to determine spatial distribution of catch for each species in BC.  The catch levels are used to weight the scores for fisheries stock status scores.  Stock status will be determined using RAM data for B/Bmsy and F/Fmsy.
 
 This script will identify OHIBC-relevant stocks included in SAUP and extracting cell-by-cell values of catch for these fisheries.  Further spatialization (in `3_data_prep_fis_spatial.Rmd`) will allocate SAUP catch to RAM stocks and OHIBC regions.
 
-Within this script we will also create a SAUP cell to OHIBC region lookup table with area-weighted allocations of cells to regions."
-~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,x_plot_saup.html,x_plot_saup.Rmd,/home/ohara/github/ohibc/prep/fis/v2017/x_plot_saup.Rmd,OHIBC: data explore for wild-capture fisheries: Sea Around Us data,NA
-~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,readme_test.md,NA,data_prep_fis_spatial_old.Rmd,/home/ohara/github/ohibc/prep/fis/v2017/data_prep_fis_spatial_old.Rmd,OHIBC: data prep for wild-capture fisheries: spatializing RAM and SAUP stocks,"This script collects spatial boundaries for RAM stocks, using stock IDs from the RAM prep script and the boundaries created by Chris Free: https://marine.rutgers.edu/~cfree/ram-legacy-stock-boundary-database/
+Within this script we will also create a SAUP cell to OHIBC region lookup table with area-weighted allocations of cells to regions.",650,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,README_test.md,x_plot_saup.html,x_plot_saup.Rmd,/home/ohara/github/ohibc/prep/fis/v2017/x_plot_saup.Rmd,OHIBC: data explore for wild-capture fisheries: Sea Around Us data,"NA",NA,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/v2017,3,README_test.md,NA,data_prep_fis_spatial_old.Rmd,/home/ohara/github/ohibc/prep/fis/v2017/data_prep_fis_spatial_old.Rmd,OHIBC: data prep for wild-capture fisheries: spatializing RAM and SAUP stocks,"This script collects spatial boundaries for RAM stocks, using stock IDs from the RAM prep script and the boundaries created by Chris Free: https://marine.rutgers.edu/~cfree/ram-legacy-stock-boundary-database/
 
 The basic idea is to attribute each SAUP cell to an OHIBC region (or proportionally divide it across OHIBC regions) and to RAM stock regions. For each RAM-identified stock, we assign a SAUP surrogate stock by species or by closest taxon.
 
@@ -71,24 +90,24 @@ The basic idea is to attribute each SAUP cell to an OHIBC region (or proportiona
     * other SAUP herring cells are assigned to other RAM herring stocks accordingly.
 * Once the stock-specific cells are identified, those cells are then assigned to OHIBC regions proportionally.
 
-The final layer is a dataframe containing: year, OHIBC region, RAM area, SAUP info (taxonkey,sector,catch_type,reported), RAM stock ID, and then the total SAUP-reported catch for those parameters."
-~/github/ohibc,/home/ohara/github/ohibc/prep/fis/vHS,3,readme_test.md,data_prep_fis_hs.html,data_prep_fis_hs.Rmd,/home/ohara/github/ohibc/prep/fis/vHS/data_prep_fis_hs.Rmd,OHIBC Howe Sound: Wild capture fisheries,"The Fisheries goal for Howe Sound will be calculated based on only important local shrimp fishery.  The OHIBC scores will be calculated in the same manner as for the OHI California Current assessment (Halpern et al., 2014), based upon rescaled fishing pressure (F') and biomass condition (B')."
-~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,3,readme_test.md,data_prep_hab_ebsa_sb.html,data_prep_hab_ebsa_sb.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017/data_prep_hab_ebsa_sb.Rmd,OHIBC: Habitat goal - EBSA layer prep,Create habitat info layer for EBSAs - ecologically and biologically significant areas.  The goal will be calculated based upon trawl pressure in the EBSAs.
-~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,3,readme_test.md,data_prep_hab_sm_cf.html,data_prep_hab_sm_cf.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017/data_prep_hab_sm_cf.Rmd,OHIBC: Habitat goals - saltmarsh and coastal forest layers prep,"Prepare existing habitat layers (salt marsh and forest raster land use raster) for HAB, CP, CS goals for OHIBC assessment.  For CP, calculate values based on exposure, elevation, and protective potential weighting as required for different protective habitats.  For CS, calculate values based on carbon storage potential.
+The final layer is a dataframe containing: year, OHIBC region, RAM area, SAUP info (taxonkey,sector,catch_type,reported), RAM stock ID, and then the total SAUP-reported catch for those parameters.",1132,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/fis/vHS,3,README_test.md,data_prep_fis_hs.html,data_prep_fis_hs.Rmd,/home/ohara/github/ohibc/prep/fis/vHS/data_prep_fis_hs.Rmd,OHIBC Howe Sound: Wild capture fisheries,"The Fisheries goal for Howe Sound will be calculated based on only important local shrimp fishery.  The OHIBC scores will be calculated in the same manner as for the OHI California Current assessment (Halpern et al., 2014), based upon rescaled fishing pressure (F') and biomass condition (B').",293,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,3,README_test.md,data_prep_hab_ebsa_sb.html,data_prep_hab_ebsa_sb.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017/data_prep_hab_ebsa_sb.Rmd,OHIBC: Habitat goal - EBSA layer prep,Create habitat info layer for EBSAs - ecologically and biologically significant areas.  The goal will be calculated based upon trawl pressure in the EBSAs.,155,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,3,README_test.md,data_prep_hab_sm_cf.html,data_prep_hab_sm_cf.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017/data_prep_hab_sm_cf.Rmd,OHIBC: Habitat goals - saltmarsh and coastal forest layers prep,"Prepare existing habitat layers (salt marsh and forest raster land use raster) for HAB, CP, CS goals for OHIBC assessment.  For CP, calculate values based on exposure, elevation, and protective potential weighting as required for different protective habitats.  For CS, calculate values based on carbon storage potential.
 
-Assessment areas for both habitats will be limited to the coastal watersheds, i.e. BC subwatersheds that intersect a 1 km buffer from the coastline.  For coastal protection, these will further be limited by an exposure band only 2 km wide."
-~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,3,readme_test.md,goal_model_cp_cs.html,goal_model_cp_cs.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017/goal_model_cp_cs.Rmd,OHIBC: Carbon Storage and Coastal Protection goals,"Pull data layers for Salt Marsh and Coastal Forests to calculate Howe Sound goals: Coastal Protection, Carbon Storage"
-~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,3,readme_test.md,goal_model_hab.html,goal_model_hab.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017/goal_model_hab.Rmd,OHIBC: Habitats goal prep,Process individual habitat scores for each of the habitats in HAB subgoal.  Combine scores to determine overall status and trend for HAB subgoal.
-~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,3,readme_test.md,NA,data_prep_landuse_rasters.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017/data_prep_landuse_rasters.Rmd,OHIBC: land use raster prep,"Merge landuse rasters, convert to BC Albers projection, and crop to BC extents"
-~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS,3,readme_test.md,data_prep_hab_cp_cs_hs.html,data_prep_hab_cp_cs_hs.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS/data_prep_hab_cp_cs_hs.Rmd,"OHIBC Howe Sound: Habitat goal (CP, CS, HAB) layers prep","Clip existing habitat layers (salt marsh/forest raster, salt marsh and seagrass polygons) for HAB, CP, CS goals for Howe Sound assessment.  For CP, calculate values based on exposure, elevation, and protective potential weighting as required for different protective habitats.  For CS, calculate values based on carbon storage potential.
+Assessment areas for both habitats will be limited to the coastal watersheds, i.e. BC subwatersheds that intersect a 1 km buffer from the coastline.  For coastal protection, these will further be limited by an exposure band only 2 km wide.",562,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,3,README_test.md,goal_model_cp_cs.html,goal_model_cp_cs.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017/goal_model_cp_cs.Rmd,OHIBC: Carbon Storage and Coastal Protection goals,"Pull data layers for Salt Marsh and Coastal Forests to calculate Howe Sound goals: Coastal Protection, Carbon Storage",117,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,3,README_test.md,goal_model_hab.html,goal_model_hab.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017/goal_model_hab.Rmd,OHIBC: Habitats goal prep,Process individual habitat scores for each of the habitats in HAB subgoal.  Combine scores to determine overall status and trend for HAB subgoal.,145,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,3,README_test.md,NA,data_prep_landuse_rasters.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/v2017/data_prep_landuse_rasters.Rmd,OHIBC: land use raster prep,"Merge landuse rasters, convert to BC Albers projection, and crop to BC extents",78,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS,3,README_test.md,data_prep_hab_cp_cs_hs.html,data_prep_hab_cp_cs_hs.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS/data_prep_hab_cp_cs_hs.Rmd,"OHIBC Howe Sound: Habitat goal (CP, CS, HAB) layers prep","Clip existing habitat layers (salt marsh/forest raster, salt marsh and seagrass polygons) for HAB, CP, CS goals for Howe Sound assessment.  For CP, calculate values based on exposure, elevation, and protective potential weighting as required for different protective habitats.  For CS, calculate values based on carbon storage potential.
 
 questions to be answered: 
 
 * CP coastal forests: buffer, elevation, etc? 
-* CS coastal forests: full watershed or buffer?"
-~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS,3,readme_test.md,data_prep_hab_sponge_sb_hs.html,data_prep_hab_sponge_sb_hs.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS/data_prep_hab_sponge_sb_hs.Rmd,OHIBC Howe Sound: sponge and soft-bottom data prep,"create sponge and soft-bottom layers for HAB goals for Howe Sound specifically.  Sponge layers will be at a finer resolution than the overall BC layer, in order to better capture fine-scale sponge reef habitats. From these layers, calculate trawl pressures for each habitat type. We also calculate the area of sponge reefs protected by fishing exclusion areas as an alternate method."
-~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS,3,readme_test.md,goal_prep_cp_cs_hs.html,goal_prep_cp_cs_hs.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS/goal_prep_cp_cs_hs.Rmd,OHIBC Howe Sound: Carbon Storage and Coastal Protection goals,"Pull data layers to calculate Howe Sound goals: Coastal Protection, Carbon Storage, and Habitats"
-~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS,3,readme_test.md,goal_prep_hab_hs.html,goal_prep_hab_hs.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS/goal_prep_hab_hs.Rmd,OHIBC Howe Sound: Habitat goal score,"Pull data layers to calculate Howe Sound Habitats goal
+* CS coastal forests: full watershed or buffer?",461,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS,3,README_test.md,data_prep_hab_sponge_sb_hs.html,data_prep_hab_sponge_sb_hs.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS/data_prep_hab_sponge_sb_hs.Rmd,OHIBC Howe Sound: sponge and soft-bottom data prep,"create sponge and soft-bottom layers for HAB goals for Howe Sound specifically.  Sponge layers will be at a finer resolution than the overall BC layer, in order to better capture fine-scale sponge reef habitats. From these layers, calculate trawl pressures for each habitat type. We also calculate the area of sponge reefs protected by fishing exclusion areas as an alternate method.",383,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS,3,README_test.md,goal_prep_cp_cs_hs.html,goal_prep_cp_cs_hs.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS/goal_prep_cp_cs_hs.Rmd,OHIBC Howe Sound: Carbon Storage and Coastal Protection goals,"Pull data layers to calculate Howe Sound goals: Coastal Protection, Carbon Storage, and Habitats",96,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS,3,README_test.md,goal_prep_hab_hs.html,goal_prep_hab_hs.Rmd,/home/ohara/github/ohibc/prep/hab_cs_cp/vHS/goal_prep_hab_hs.Rmd,OHIBC Howe Sound: Habitat goal score,"Pull data layers to calculate Howe Sound Habitats goal
 
 - Seagrass
     - excluded from analysis: nutrient pressure insignificant; no model yet for log booms/development/sedimentation pressure
@@ -102,8 +121,8 @@ questions to be answered:
     - excluded from analysis: none present in Howe Sound
 - Howe Sound-specific sponges
     - protection by closures, reference point 100% protected
-    - alternative model based on trawl pressure"
-~/github/ohibc,/home/ohara/github/ohibc/prep/le/v2017,3,readme_test.md,data_prep_liv.html,data_prep_liv.Rmd,/home/ohara/github/ohibc/prep/le/v2017/data_prep_liv.Rmd,OHIBC data prep: Livelihoods,"OHIBC Livelihoods
+    - alternative model based on trawl pressure",560,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/le/v2017,3,README_test.md,data_prep_liv.html,data_prep_liv.Rmd,/home/ohara/github/ohibc/prep/le/v2017/data_prep_liv.Rmd,OHIBC data prep: Livelihoods,"OHIBC Livelihoods
 
 This script prepares layers (employment rates and median income) for Livelihoods goal in 
 British Columbia's coastal regions.  
@@ -122,8 +141,8 @@ where M is each region’s employment rate (1 - unemployment) as a percent at cu
 
 $g' = \frac{g_c / g_{ref}}{W_c / W_{ref}}$
 
-where W is each State’s average annual per capita wage at current (c) and reference (ref) time periods."
-~/github/ohibc,/home/ohara/github/ohibc/prep/lsp/v2017,3,readme_test.md,data_prep_lsp.html,data_prep_lsp.Rmd,/home/ohara/github/ohibc/prep/lsp/v2017/data_prep_lsp.Rmd,OHIBC goal prep: Lasting Special Places,"OHIBC Lasting Special Places subgoal (Sense of Place)
+where W is each State’s average annual per capita wage at current (c) and reference (ref) time periods.",1045,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/lsp/v2017,3,README_test.md,data_prep_lsp.html,data_prep_lsp.Rmd,/home/ohara/github/ohibc/prep/lsp/v2017/data_prep_lsp.Rmd,OHIBC goal prep: Lasting Special Places,"OHIBC Lasting Special Places subgoal (Sense of Place)
 
 The Lasting Special Places goal model is similar to the OHI Global model: a region's status is based upon percent of protected area within a certain amount inland and percent of protected area within 3 nautical mile offshore buffer, compared to a reference point of 30% protected area.  The major difference is that the inland zone for OHIBC will represent the coastal sub-watersheds, i.e. the sub-watersheds that intersect a 1 km inland buffer.
 
@@ -131,8 +150,8 @@ $$X_{LSP} = \frac{\frac{pA_{CMPA}}{pA_{refCMPA}} + \frac{pA_{CP}}{pA_{refCP}}}{2
 
 *pA* = percent of area within the inland or offshore buffer; *CMPA* = coastal marine protected area (3nm offshore); *CP* = coastline protected (coastal watersheds inland); and *refCMPA* = *refCP* = 30% reference point for both measures.
 
-Future changes may incorporate other data sets and MaPP planning zones."
-~/github/ohibc,/home/ohara/github/ohibc/prep/lsp/vHS,3,readme_test.md,goal_prep_lsp.html,goal_prep_lsp.Rmd,/home/ohara/github/ohibc/prep/lsp/vHS/goal_prep_lsp.Rmd,OHIBC Howe Sound: Lasting Special Places,"OHIBC Lasting Special Places subgoal (Sense of Place)
+Future changes may incorporate other data sets and MaPP planning zones.",896,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/lsp/vHS,3,README_test.md,goal_prep_lsp.html,goal_prep_lsp.Rmd,/home/ohara/github/ohibc/prep/lsp/vHS/goal_prep_lsp.Rmd,OHIBC Howe Sound: Lasting Special Places,"OHIBC Lasting Special Places subgoal (Sense of Place)
 
 The Lasting Special Places goal model for Howe Sound is similar to the OHI Global model: a region's status is based upon percent of protected area within 1 km inland buffer and percent of protected area within 3 nautical mile offshore buffer, compared to a reference point of 30% protected area.
 
@@ -142,8 +161,8 @@ $$X_{LSP} = \frac{\frac{pA_{CMPA}}{pA_{refCMPA}} + \frac{pA_{CP}}{pA_{refCP}}}{2
 
 For Howe Sound, based upon conversations with Andrew Day and Karin Bodtker, the weighting between onshore and offshore protected area will be area-weighted rather than a simple 50/50 weighting as in the OHI Global.
 
-An alternative will also examine protected areas within the entire watershed that feeds Howe Sound, rather than simply a 1 km inland buffer."
-~/github/ohibc,/home/ohara/github/ohibc/prep/mar/v2017,3,readme_test.md,data_explore_mar.html,data_explore_mar.Rmd,/home/ohara/github/ohibc/prep/mar/v2017/data_explore_mar.Rmd,OHIBC data exploration: Mariculture,"OHIBC Mariculture
+An alternative will also examine protected areas within the entire watershed that feeds Howe Sound, rather than simply a 1 km inland buffer.",1016,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/mar/v2017,3,README_test.md,data_explore_mar.html,data_explore_mar.Rmd,/home/ohara/github/ohibc/prep/mar/v2017/data_explore_mar.Rmd,OHIBC data exploration: Mariculture,"OHIBC Mariculture
 
 This script prepares layers (employment rates and median income) for Livelihoods goal in 
 British Columbia's coastal regions.  
@@ -162,8 +181,8 @@ where M is each region’s employment rate (1 - unemployment) as a percent at cu
 
 $g' = \frac{g_c / g_{ref}}{W_c / W_{ref}}$
 
-where W is each State’s average annual per capita wage at current (c) and reference (ref) time periods."
-~/github/ohibc,/home/ohara/github/ohibc/prep/mar/v2017,3,readme_test.md,data_prep_mar.html,data_prep_mar.Rmd,/home/ohara/github/ohibc/prep/mar/v2017/data_prep_mar.Rmd,OHIBC data prep: Mariculture,"OHIBC Mariculture
+where W is each State’s average annual per capita wage at current (c) and reference (ref) time periods.",1045,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/mar/v2017,3,README_test.md,data_prep_mar.html,data_prep_mar.Rmd,/home/ohara/github/ohibc/prep/mar/v2017/data_prep_mar.Rmd,OHIBC data prep: Mariculture,"OHIBC Mariculture
 
 This script prepares layers (production potential, area targets, harvest values) for Mariculture sub-goal in British Columbia's coastal regions.  
 
@@ -197,25 +216,55 @@ Mariculture score $x_c$ for harvest $H_c$, calculated separately for each aquacu
 
 The Mariculture score will be the harvest-weighted average of $x_{finfish}$ and $x_{shellfish}$.
 
-$$x_{MAR} = \frac{x_{finfish} * H_{finfish} + x_{shellfish} * H_{shellfish}}{H_{finfish} + H_{shellfish}}$$"
-~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures/v2017,3,"README.md, readme_test.md",pressures_oa_prep.html,pressures_oa_prep.Rmd,/home/ohara/github/ohibc/prep/_pressures/v2017/pressures_oa_prep.Rmd,OHIBC: Ocean Acidification Pressure layers prep,"This layer will determine ocean acidification values from the global rate of change layers; these layers already scale OA pressures appropriately.  The rescaling is based on the changes in aragonite saturation state according to:
+$$x_{MAR} = \frac{x_{finfish} * H_{finfish} + x_{shellfish} * H_{shellfish}}{H_{finfish} + H_{shellfish}}$$",3236,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures,2,"README.md, README_test.md",NA,pressures_list.Rmd,/home/ohara/github/ohibc/prep/_pressures/pressures_list.Rmd,OHIBC: Pressures overview,"NA",NA,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures/v2017,3,"README.md, README_test.md",pressures_alien_spp.html,pressures_alien_spp.Rmd,/home/ohara/github/ohibc/prep/_pressures/v2017/pressures_alien_spp.Rmd,OHIBC: Alien Species Pressure layers prep,"This pressure layer evaluates invasive species pressure on BC regions using the same method as OHI Global and California Current.  From Molnar (2008) data, we have data on the number of invasive species (and number of harmful invasives) found within each Marine Ecoregion of the World (MEOW) region.  For the global assessment and California Current, score is determined based on the proportion of invasives relative to the global maximum.  For OHIBC, we will instead use a species-by-species pressure based on three criteria: _invasive potential_, _ecological impact_, and _management difficulty_.  In Molnar 2008, each of these (as well as _scope_) is ranked on a 1 to 4 scale, with 1 being minimal and 4 being intense.  Invasive pressure of a species is a geometric mean (rescaled to max = 1) of these threat criteria:
+
+$$pressure_{spp} = P_{spp} = \frac{\prod_{T=1}^N(threat_T)^{1/N}}{4}$$
+where T is a threat criterion, N is number of threat criteria scores for that species (excluding NAs).
+
+Scores for each OHIBC region are the area-weighted total species pressure from each ecoregion present.  This assumes that invasive species are uniformly distributed throughout the ecoregion.
+
+$$X_{invasive} = \frac{\sum_{ecorgn=1}^{N}((\sum_{spp=1}^M P_{spp})  * A_{ecorgn})}{\sum_{ecorgn=1}^N A_{ecorgn}}$$
+where $N$ is the number of ecoregions falling within an OHIBC region; $M$ is the number of species found within that ecoregion; $P_{spp}$ is the pressure score for each species in the ecoregion; and $A_{rgn}$ is the area of the OHIBC region allocated to that ecoregion (so $\sum_{rgn=1}^NA_{ecorgn}$ becomes the total OHIBC region area).
+
+The data has no time scale.",1672,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures/v2017,3,"README.md, README_test.md",pressures_gen_escapes.html,pressures_gen_escapes.Rmd,/home/ohara/github/ohibc/prep/_pressures/v2017/pressures_gen_escapes.Rmd,OHIBC: Genetic Escapes Pressure layers prep,"This pressure layer calculates the pressure due to genetic escapes from aquaculture.  The Mariculture Sustatinability Index ranks aquaculture species in different regions with a score from 1-10 for potential for genetic pollution.  For OHIBC we will follow a similar method as OHI Global and CC, rescaling genetic escape pressure from 0-1 for each species and calculating a harvest-weighted average of genetic escape pressure for each region.
+
+$$pressure_{gen.escapes} = \frac{\sum_{spp=1}^N (MSI_{spp} * harvest_{spp})}{\sum_{spp=1}^N harvest_{spp}}$$
+
+The genetic escapes scores are not time-dependent, but harvest data is reported annually.",643,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures/v2017,3,"README.md, README_test.md",pressures_oa_prep.html,pressures_oa_prep.Rmd,/home/ohara/github/ohibc/prep/_pressures/v2017/pressures_oa_prep.Rmd,OHIBC: Ocean Acidification Pressure layers prep,"This layer will determine ocean acidification values from the global rate of change layers; these layers already scale OA pressures appropriately.  The rescaling is based on the changes in aragonite saturation state according to:
 
 $$\Delta \Omega_{year} = \frac{(\Omega_{base} - \Omega_{year})}{(\Omega_{base} - 1)}$$
     
-In the global analysis, pressures for 2011-2016 are available with this rescaling; however, for this OHIBC analysis, we will begin with the global rasters for annual mean aragonite saturation state values, crop to BC, interpolate using inverse distance weighting, and then reproject to approx 1 km resolution (from CHI)."
-~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures/v2017,3,"README.md, readme_test.md",pressures_slr_prep.html,pressures_slr_prep.Rmd,/home/ohara/github/ohibc/prep/_pressures/v2017/pressures_slr_prep.Rmd,OHIBC: Sea Level Rise Pressure layers prep,"There are two parts to creating this layer:
+In the global analysis, pressures for 2011-2016 are available with this rescaling; however, for this OHIBC analysis, we will begin with the global rasters for annual mean aragonite saturation state values, crop to BC, interpolate using inverse distance weighting, and then reproject to approx 1 km resolution (from CHI).",643,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures/v2017,3,"README.md, README_test.md",pressures_slr_prep.html,pressures_slr_prep.Rmd,/home/ohara/github/ohibc/prep/_pressures/v2017/pressures_slr_prep.Rmd,OHIBC: Sea Level Rise Pressure layers prep,"There are two parts to creating this layer:
+  
+  1. Data prep to get raw data into the correct format:
+  
+    * If necessary, read .nc.gz files from aviso: ftp://ftp.aviso.altimetry.fr/global/delayed-time/grids/climatology/monthly_mean/
+    * unzip .gz files and then delete .gz 
+    * Read monthly mean sea level data as rasters
 
-1. Data prep to get raw data into the correct format:
-    * Read sea level rise data as raster
-    * Clip rasters to extents of OHIBC region, and reproject into BC Albers projection.
-2. Creating the pressure layers for OHIBC:
-    * All negative values, indicating decreases in sea level, were set to zero
-    * Data was resampled from the native cell resolution (0.25 degrees) to ~ 1km
-    * The reference point was set as the 99.99th quantile of the data distribution to rescale all values from 0 to 1
-    * All NA cells were filled in through nearest neighbor interpolation
-    
-This process is completed entirely within this script."
-~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures/v2017,3,"README.md, readme_test.md",pressures_uv_prep.html,pressures_uv_prep.Rmd,/home/ohara/github/ohibc/prep/_pressures/v2017/pressures_uv_prep.Rmd,OHIBC: Ultraviolet Anomalies Pressure layers prep,"There are two parts to creating this layer:
+  2. Creating the pressure layers for OHI Global:  
+  
+    * Clip all monthly rasters to the coast using a 3 nautical mile offshore buffer
+    * Calculate annual mean sea level anomaly rasters from monthly data
+    * Determine a reference point as the 99.99th quantile of the data across all years (1993 - 2015)
+    * Rescale values from 0 to 1 using the reference point
+    * Set to zero all negative values, indicating decreases in mean sea level
+    * Resample raster to ~ 1km2 and reproject to Molleweide
+
+This process is completed within the Global OHI 2017 prep script.
+
+For OHIBC these pressure layers are read in and cropped to BC extents for pressure calculations.",1004,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures/v2017,3,"README.md, README_test.md",pressures_sst_prep.html,pressures_sst_prep.Rmd,/home/ohara/github/ohibc/prep/_pressures/v2017/pressures_sst_prep.Rmd,OHIBC: Sea Surface Temperature Pressure layers prep,"For OHI Global Assessments, we calculated a climatology from 1982-2012 per cell using weekly data from CorTAD. We then calculated the number of times a given cell's weekly SST was greater than the climatological mean for that week (an anomalous week: mean temp greater than historical mean + one standard deviation) and summed the number of anomalous weeks in a single year. The maximum value a cell could have is 52 which would mean that cell had anomalous SST temperatures for each week of the year.
+
+To account for annual variation, we look at Sea Surface Temperature anomalous weeks in 5 year periods, so the maximum value possible per cell is 260 anomalous weeks. To rescale the values from 0 to 1 we set a reference point. Previously, the reference point for SST has just been the maximum difference in anomalous weeks between the most recent time period and a historical reference period (1985-1989).
+
+This time we have decided to use a reference point that represents a regime shift. Once a given cell is anomalous for more than 50% of a five-year period, it has shifted into a new regime. All cells that have a value greater than 130 weeks (51% of a 5 year time period) are assigned a 1. The rest of the cells are scaled to this reference point by dividing by 130.",1273,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures/v2017,3,"README.md, README_test.md",pressures_uv_prep.html,pressures_uv_prep.Rmd,/home/ohara/github/ohibc/prep/_pressures/v2017/pressures_uv_prep.Rmd,OHIBC: Ultraviolet Anomalies Pressure layers prep,"There are two parts to creating this layer:
 
 1. Data prep to get raw data into the correct format:
     * Read anomalies data as raster for 1997-2001 and 2010-2014.
@@ -228,25 +277,8 @@ This process is completed entirely within this script."
     * Interpolate to coastline at 1 km resolution.
     * Rescale zero to 1, where 1 is 99.99%ile
     
-This process is completed entirely within this script."
-~/github/ohibc,/home/ohara/github/ohibc/prep/_pressures/v2017,3,"README.md, readme_test.md",NA,pressures_slr_prep2.Rmd,/home/ohara/github/ohibc/prep/_pressures/v2017/pressures_slr_prep2.Rmd,OHIBC: Sea Level Rise Pressure layers prep,"There are two parts to creating this layer:
-
-1. Data prep to get raw data into the correct format:
-    * If necessary, read .nc.gz files from aviso: ftp://ftp.aviso.altimetry.fr/global/delayed-time/grids/climatology/monthly_mean/
-        * unzip .gz files and then delete .gz 
-    * Read monthly mean sea level data as rasters; aggregate to annual means
-    * Clip rasters to extents of OHIBC region, and reproject into BC Albers projection.
-2. Creating the pressure layers for OHIBC:
-    * Determine baseline using five-year average from 1993-1997.
-    * For each study year (2000 - 2015) calculate difference between study year and baseline
-    * Set to zero all negative values, indicating decreases in mean sea level
-    * Resample data from the native cell resolution (0.25 degrees) to ~ 1km
-    * Set reference point as the 99.99th quantile of the data distribution to rescale all values from 0 to 1
-    * Use thin plate spline interpolation to fill in NA values
-    * Clip results to 1 km offshore region, and determine average SLR pressure per region.
-    
-This process is completed entirely within this script."
-~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico,2,"README.md, readme_test.md",iucn_to_ns.html,iucn_to_ns.Rmd,/home/ohara/github/ohibc/prep/spp_ico/iucn_to_ns.Rmd,IUCN vs NatureServe conservation status ranks,"{r compare Natureserve to IUCN2, echo = FALSE, message = FALSE, warning = FALSE, fig.align = 'center', fig.width = 6, fig.height = 4}
+This process is completed entirely within this script.",622,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico,2,"README.md, README_test.md",iucn_to_ns.html,iucn_to_ns.Rmd,/home/ohara/github/ohibc/prep/spp_ico/iucn_to_ns.Rmd,IUCN vs NatureServe conservation status ranks,"{r compare Natureserve to IUCN2, echo = FALSE, message = FALSE, warning = FALSE, fig.align = 'center', fig.width = 6, fig.height = 4}
 
 mdl <- lm(status_gl_score ~ category_score, data = spp_natureserve)
 
@@ -263,9 +295,9 @@ ns_v_iucn <- ggplot(data = spp_natureserve, aes(x = category_score, y = status_g
 print(ns_v_iucn)
 
 knitr::kable(summary(mdl)$coef, digits = 4,
-             caption = ' of IUCN vs global Natureserve')"
-~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/api_testing,3,readme_test.md,NA,api_scripts.Rmd,/home/ohara/github/ohibc/prep/spp_ico/api_testing/api_scripts.Rmd,OHIBC goal prep: Species (Biodiversity subgoal),NA
-~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/v2017,3,readme_test.md,data_prep_ico.html,data_prep_ico.Rmd,/home/ohara/github/ohibc/prep/spp_ico/v2017/data_prep_ico.Rmd,OHIBC data prep: Iconic Species,"OHIBC Iconic Species
+             caption = ' of IUCN vs global Natureserve')",890,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/api_testing,3,README_test.md,NA,api_scripts.Rmd,/home/ohara/github/ohibc/prep/spp_ico/api_testing/api_scripts.Rmd,OHIBC goal prep: Species (Biodiversity subgoal),"NA",NA,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/v2017,3,README_test.md,data_prep_ico.html,data_prep_ico.Rmd,/home/ohara/github/ohibc/prep/spp_ico/v2017/data_prep_ico.Rmd,OHIBC data prep: Iconic Species,"OHIBC Iconic Species
 
 This script prepares layers (species presence and species health) for Iconic Species subgoal in 
 British Columbia's coastal regions.  Spatial data from IUCN and Aquamaps is
@@ -293,8 +325,8 @@ where:
 * $\bar{R}$ is mean extinction risk for identified species within OHIBC (different subsets for ICO and SPP)
 * *Risk* is scaled value for species extinction risk category, based on: 
     * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
-* ICO trend is calculated as the linear trend of the average extinction risk categories over time."
-~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/v2017,3,readme_test.md,data_prep_spp.html,data_prep_spp.Rmd,/home/ohara/github/ohibc/prep/spp_ico/v2017/data_prep_spp.Rmd,OHIBC goal prep: Species (Biodiversity subgoal),"OHIBC Species Subgoal (Biodiversity)
+* ICO trend is calculated as the linear trend of the average extinction risk categories over time.",1259,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/v2017,3,README_test.md,data_prep_spp.html,data_prep_spp.Rmd,/home/ohara/github/ohibc/prep/spp_ico/v2017/data_prep_spp.Rmd,OHIBC goal prep: Species (Biodiversity subgoal),"OHIBC Species Subgoal (Biodiversity)
 
 This script prepares scores (status and trend) for species richness in 
 British Columbia's coastal regions.  Spatial data from IUCN and Aquamaps is
@@ -330,11 +362,11 @@ where:
 * $pA_{cell-rgn}$ is percent of cell area included in region
 * *Risk* is scaled value for species extinction risk category, based on: 
     * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
-* SPP trend is calculated by examining the linear trend of mean extinction risk category, based upon the time series of risk categories from the IUCN Red List.  This calculation is performed in functions.R."
-~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/v2017,3,readme_test.md,ico_custom_spp_info.html,ico_custom_spp_info.Rmd,/home/ohara/github/ohibc/prep/spp_ico/v2017/ico_custom_spp_info.Rmd,OHIBC: ICO custom species info,"Get species info, time series assessment, and spatial distribution for custom species for OHIBC ICO.
+* SPP trend is calculated by examining the linear trend of mean extinction risk category, based upon the time series of risk categories from the IUCN Red List.  This calculation is performed in functions.R.",2297,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/v2017,3,README_test.md,ico_custom_spp_info.html,ico_custom_spp_info.Rmd,/home/ohara/github/ohibc/prep/spp_ico/v2017/ico_custom_spp_info.Rmd,OHIBC: ICO custom species info,"Get species info, time series assessment, and spatial distribution for custom species for OHIBC ICO.
 
-These custom species are considered iconic, yet are not considered marine, so their info is not readily available from the global SPP analysis."
-~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/vHS,3,readme_test.md,goal_prep_ico_howesound.html,goal_prep_ico_howesound.Rmd,/home/ohara/github/ohibc/prep/spp_ico/vHS/goal_prep_ico_howesound.Rmd,OHIBC Howe Sound goal prep: Iconic Species,"OHIBC Howe Sound Species and Iconic Species
+These custom species are considered iconic, yet are not considered marine, so their info is not readily available from the global SPP analysis.",245,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/vHS,3,README_test.md,goal_prep_ico_howesound.html,goal_prep_ico_howesound.Rmd,/home/ohara/github/ohibc/prep/spp_ico/vHS/goal_prep_ico_howesound.Rmd,OHIBC Howe Sound goal prep: Iconic Species,"OHIBC Howe Sound Species and Iconic Species
 
 This script prepares scores (status and trend) for species richness in 
 British Columbia's Howe Sound region.  Spatial data from IUCN and Aquamaps is
@@ -362,8 +394,8 @@ where:
 * $\bar{R}$ is mean extinction risk for identified species within Howe Sound (different subsets for ICO and SPP)
 * *Risk* is scaled value for species extinction risk category, based on: 
     * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
-* ICO trend is calculated as the linear trend of the average extinction risk categories over time."
-~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/vHS,3,readme_test.md,goal_prep_spp_howesound.html,goal_prep_spp_howesound.Rmd,/home/ohara/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd,OHIBC Howe Sound goal prep: Species,"OHIBC Howe Sound Species
+* ICO trend is calculated as the linear trend of the average extinction risk categories over time.",1629,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/spp_ico/vHS,3,README_test.md,goal_prep_spp_howesound.html,goal_prep_spp_howesound.Rmd,/home/ohara/github/ohibc/prep/spp_ico/vHS/goal_prep_spp_howesound.Rmd,OHIBC Howe Sound goal prep: Species,"OHIBC Howe Sound Species
 
 This script prepares scores (status and trend) for species richness in 
 British Columbia's Howe Sound region.  Spatial data from IUCN and Aquamaps is
@@ -391,8 +423,8 @@ where:
 * $\bar{R}$ is mean extinction risk for identified species within Howe Sound (different subsets for ICO and SPP)
 * *Risk* is scaled value for species extinction risk category, based on: 
     * 'LC' = 0.0, 'NT' = 0.2, 'VU' = 0.4, 'EN' = 0.6, 'CR' = 0.8, 'EX' = 1.0
-* SPP trend is calculated as the linear trend of the average extinction risk categories over time."
-~/github/ohibc,/home/ohara/github/ohibc/prep/tr/v2017,3,readme_test.md,data_prep_tr.html,data_prep_tr.Rmd,/home/ohara/github/ohibc/prep/tr/v2017/data_prep_tr.Rmd,OHIBC data prep: Tourism and Recreation,"OHIBC Tourism and Recreation
+* SPP trend is calculated as the linear trend of the average extinction risk categories over time.",1633,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/prep/tr/v2017,3,README_test.md,data_prep_tr.html,data_prep_tr.Rmd,/home/ohara/github/ohibc/prep/tr/v2017/data_prep_tr.Rmd,OHIBC data prep: Tourism and Recreation,"OHIBC Tourism and Recreation
 
 This script prepares layers (Visitors to parks and visitors centers) for Tourism and Recreation goal in 
 British Columbia's coastal regions.  
@@ -407,9 +439,7 @@ where P is total visitation to tourism centers found within each BC coastal regi
 
 $V' = \frac{V_c / V_{ref}}$
 
-where V is total visitation to parks found within each coastal region, compared to a reference period over the prior five years."
-~/github/ohibc,/home/ohara/github/ohibc/rdme_gen,1,NA,NA,CopyOftest.Rmd,/home/ohara/github/ohibc/rdme_gen/CopyOftest.Rmd,NA,NA
-~/github/ohibc,/home/ohara/github/ohibc/rdme_gen,1,NA,NA,rdme_generator.Rmd,/home/ohara/github/ohibc/rdme_gen/rdme_generator.Rmd,OHIBC: readme.md generator,"Walks through file structure of OHIBC and checks to see whether folders have a readme.  Eventually, will generate a readme for each folder based on a template."
-~/github/ohibc,/home/ohara/github/ohibc/regionHoweSound,1,NA,ohibc_howesound_2016.html,ohibc_howesound_2016.Rmd,/home/ohara/github/ohibc/regionHoweSound/ohibc_howesound_2016.Rmd,OHIBC: Howe Sound report,Gather results from OHI Howe Sound goals into a single report; create visuals for each goal
-~/github/ohibc,/home/ohara/github/ohibc/src/templates,2,"generic_raw_data_README.md, generic_readme.md, generic_readme_prep.md, generic_readme_year.md",NA,ohibc_hdr.Rmd,/home/ohara/github/ohibc/src/templates/ohibc_hdr.Rmd,NA,NA
-~/github/ohibc,/home/ohara/github/ohibc/src/templates,2,"generic_raw_data_README.md, generic_readme.md, generic_readme_prep.md, generic_readme_year.md",NA,template_for_rmd.Rmd,/home/ohara/github/ohibc/src/templates/template_for_rmd.Rmd,OHIBC: data_prep_spp.Rmd,"[general description: What data are being generated? Why (what project, etc.)? Upstream/downstream processing information that might be helpful?  Other information?]"
+where V is total visitation to parks found within each coastal region, compared to a reference period over the prior five years.",590,FALSE
+~/github/ohibc,/home/ohara/github/ohibc/regionHoweSound,1,NA,ohibc_howesound_2016.html,ohibc_howesound_2016.Rmd,/home/ohara/github/ohibc/regionHoweSound/ohibc_howesound_2016.Rmd,OHIBC: Howe Sound report,Gather results from OHI Howe Sound goals into a single report; create visuals for each goal,91,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/src/templates,2,"generic_raw_data_README.md, generic_readme.md, generic_readme_prep.md, generic_readme_year.md",NA,ohibc_hdr.Rmd,/home/ohara/github/ohibc/src/templates/ohibc_hdr.Rmd,NA,"NA",NA,TRUE
+~/github/ohibc,/home/ohara/github/ohibc/src/templates,2,"generic_raw_data_README.md, generic_readme.md, generic_readme_prep.md, generic_readme_year.md",NA,template_for_rmd.Rmd,/home/ohara/github/ohibc/src/templates/template_for_rmd.Rmd,OHIBC: data_prep_spp.Rmd,"[general description: What data are being generated? Why (what project, etc.)? Upstream/downstream processing information that might be helpful?  Other information?]",165,FALSE

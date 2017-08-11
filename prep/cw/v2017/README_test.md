@@ -65,7 +65,14 @@ This script pulls together data from the four components of Clean Waters and out
         * coord. ref. : `+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs` 
         * values      : 0.2782703, 1  (min, max)
 
-* pathogens, processed TBD.
+* pathogens, from population density without improved wastewater treatment
+    * processed by `cw_pathogens.Rmd`
+    * assessed by OHIBC region, population density in watersheds defined by OHIBC inland regions
+    * details:
+        * years      : 2001 - 2016
+        * resolution : OHIBC region
+        * coord. ref : NA
+        * values     : 2.319416e-06 to 0.126338567
 
 This script pulls in finalized raster layers for each component, determines a score for each component by OHIBC region, then determines the overall score using a geometric mean calculation.
 
@@ -79,6 +86,26 @@ This script pulls in finalized raster layers for each component, determines a sc
 ### Summary:
 
 This data was used in the Clean Waters goal in OHI 2015
+
+-----
+
+## OHIBC: Pathogens Pressure layers prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_pathogens.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_pathogens.html
+
+### Summary:
+
+This pressure layer determines potential for human pathogen contamination using census district populations, statistics on percent of population with improved sanitation (by province and by municipality size), and modeled population density.  The model compares the population density of higher-risk wastewater systems (e.g. septic, storage/haulage) to a reference point of the highest density region being entirely on higher-risk systems.
+
+$$X_{pathogens} = frac{delta_{at-risk,rgn}}{delta_{all,max}}$$
+where $delta_{at-risk,rgn}$ represents a region's population on systems, divided by the region area:  
+
+$$delta_{at-risk,rgn} = Population_{at-risk,rgn} / A_{rgn}$$ 
+
+and $delta_{all,max}$ represents the max overall population density of any OHIBC region.
+
+$$delta_{all,max} = (Population_{all} / A_{rgn})_{max}$$
 
 -----
 

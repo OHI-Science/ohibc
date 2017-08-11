@@ -1,20 +1,25 @@
 dir,text_block_all,dir_short,internal_files,goal_dir,goal_name,goal_url
-/home/ohara/github/ohibc,"## sf vs sp spatial packages
+/home/ohara/github/ohibc,"## 
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/sf_vs_sp.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/sf_vs_sp.html
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
 
 ### Summary:
 
-NA",,"* bcmca/1_bcmca_filenames.Rmd
-* bcmca/2_bcmca_shp_fixes.Rmd
-* bcmca/3_bcmca_rasterize.Rmd
-* bcmca/bcmca_filenames.html
-* calc_ohibc/calc_scores_ohibc.html
+NA",,"* calc_ohibc/calc_scores_ohibc.html
 * calc_ohibc/calc_scores_ohibc.Rmd
+* calc_ohibc/plot_scores_ohibc.Rmd
 * calc_ohibc/prov/calc_scores_ohibc.Rmd_workflow.html
 * calc_ohibc/region2016/conf/goals.Rmd
 * calc_ohibc/region2017/conf/goals.Rmd
+* miscR/bcmca/1_bcmca_filenames.Rmd
+* miscR/bcmca/2_bcmca_shp_fixes.Rmd
+* miscR/bcmca/3_bcmca_rasterize.Rmd
+* miscR/bcmca/bcmca_filenames.html
+* miscR/rdme_gen/rdme_generator.html
+* miscR/rdme_gen/rdme_generator.Rmd
+* miscR/sf_vs_sp.html
+* miscR/sf_vs_sp.Rmd
 * prep/ao/v2017/ao_closures_prep.html
 * prep/ao/v2017/ao_closures_prep.rmd
 * prep/ao/v2017/ao_goal_est.html
@@ -32,11 +37,14 @@ NA",,"* bcmca/1_bcmca_filenames.Rmd
 * prep/cw/v2017/cw_goal_est.rmd
 * prep/cw/v2017/cw_nutrient_prep.html
 * prep/cw/v2017/cw_nutrient_prep.rmd
+* prep/cw/v2017/cw_pathogens.html
+* prep/cw/v2017/cw_pathogens.Rmd
 * prep/cw/v2017/cw_trash_prep.html
 * prep/cw/v2017/cw_trash_prep.rmd
 * prep/cw/v2017/prov/cw_closures_prep.rmd_workflow.html
 * prep/cw/v2017/prov/cw_goal_est.rmd_workflow.html
 * prep/cw/v2017/prov/cw_goal_prep.rmd_workflow.html
+* prep/cw/v2017/prov/cw_pathogens.Rmd_workflow.html
 * prep/cw/v2017/prov/cw_trash_prep.rmd_workflow.html
 * prep/fis/kobe/kobe.html
 * prep/fis/kobe/kobe.Rmd
@@ -113,22 +121,29 @@ NA",,"* bcmca/1_bcmca_filenames.Rmd
 * prep/mar/v2017/data_prep_mar.html
 * prep/mar/v2017/data_prep_mar.Rmd
 * prep/mar/v2017/prov/data_prep_mar.Rmd_workflow.html
+* prep/_pressures/pressures_list.Rmd
 * prep/_pressures/v2017/habitats/1_hab_zone_prep.Rmd
 * prep/_pressures/v2017/habitats/2_hab_layer_prep.Rmd
 * prep/_pressures/v2017/habitats/3_hab_layer_assemble.Rmd
 * prep/_pressures/v2017/habitats/bc_pres_hab.html
 * prep/_pressures/v2017/habitats/layer_prep_pressures_habs.html
-* prep/_pressures/v2017/pressures_oa_prep_old.html
-* prep/_pressures/v2017/pressures_oa_prep_old.Rmd
+* prep/_pressures/v2017/pressures_alien_spp.html
+* prep/_pressures/v2017/pressures_alien_spp.Rmd
+* prep/_pressures/v2017/pressures_gen_escapes.html
+* prep/_pressures/v2017/pressures_gen_escapes.Rmd
+* prep/_pressures/v2017/pressures_oa_prep.html
 * prep/_pressures/v2017/pressures_oa_prep.Rmd
-* prep/_pressures/v2017/pressures_slr_prep2.Rmd
 * prep/_pressures/v2017/pressures_slr_prep.html
 * prep/_pressures/v2017/pressures_slr_prep.Rmd
 * prep/_pressures/v2017/pressures_sst_prep.html
 * prep/_pressures/v2017/pressures_sst_prep.Rmd
 * prep/_pressures/v2017/pressures_uv_prep.html
 * prep/_pressures/v2017/pressures_uv_prep.Rmd
+* prep/_pressures/v2017/prov/pressures_alien_spp.Rmd_workflow.html
+* prep/_pressures/v2017/prov/pressures_gen_escapes.Rmd_workflow.html
 * prep/_pressures/v2017/prov/pressures_oa_prep.Rmd_workflow.html
+* prep/_pressures/v2017/prov/pressures_pathogens.Rmd_workflow.html
+* prep/_pressures/v2017/prov/pressures_slr_prep.Rmd_workflow.html
 * prep/_pressures/v2017/prov/pressures_sst_prep.Rmd_workflow.html
 * prep/spp_ico/api_testing/api_scripts.Rmd
 * prep/spp_ico/iucn_to_ns.html
@@ -153,86 +168,13 @@ NA",,"* bcmca/1_bcmca_filenames.Rmd
 * prep/tr/v2017/data_prep_tr.html
 * prep/tr/v2017/data_prep_tr.Rmd
 * prep/tr/v2017/prov/data_prep_tr.Rmd_workflow.html
-* rdme_gen/CopyOftest.Rmd
-* rdme_gen/rdme_generator.Rmd
-* rdme_gen/test.htm
 * regionHoweSound/ohibc_howesound_2016.html
 * regionHoweSound/ohibc_howesound_2016.Rmd
 * regionHoweSound/prov/ohibc_howesound_2016.Rmd_workflow.html
-* sf_vs_sp.html
-* sf_vs_sp.Rmd
 * src/templates/ohibc_hdr1.html
 * src/templates/ohibc_hdr2.html
 * src/templates/ohibc_hdr.Rmd
 * src/templates/template_for_rmd.Rmd",NA,NA,NA
-/home/ohara/github/ohibc/aquamaps_testing,"## /aquamaps_testing
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/aquamaps_testing,,NA,NA,NA
-/home/ohara/github/ohibc/bcmca,"## bcmca_filenames.html
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/bcmca/bcmca_filenames.html
-
-### Summary:
-
-NA
-
------
-
-## BCMCA datasets: import, raster, display
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/bcmca/1_bcmca_filenames.Rmd 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA
-
------
-
-## BCMCA datasets: import, raster, display
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/bcmca/2_bcmca_shp_fixes.Rmd 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA
-
------
-
-## BCMCA datasets: import, raster, display
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/bcmca/3_bcmca_rasterize.Rmd 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/bcmca,"* 1_bcmca_filenames.Rmd
-* 2_bcmca_shp_fixes.Rmd
-* 3_bcmca_rasterize.Rmd
-* bcmca_filenames.html",NA,NA,NA
-/home/ohara/github/ohibc/bcmca/mod_layers,"## /bcmca/mod_layers
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/bcmca/mod_layers,,NA,NA,NA
-/home/ohara/github/ohibc/bcmca/prov,"## /bcmca/prov
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/bcmca/prov,,NA,NA,NA
 /home/ohara/github/ohibc/calc_ohibc,"## OHIBC: Calculate All Scores
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/calc_ohibc/calc_scores_ohibc.Rmd 
@@ -240,8 +182,20 @@ NA",/bcmca/prov,,NA,NA,NA
 
 ### Summary:
 
+NA
+
+-----
+
+## OHIBC: Plot Scores
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/calc_ohibc/plot_scores_ohibc.Rmd 
+* __HTML file:__ no HTML present
+
+### Summary:
+
 NA",/calc_ohibc,"* calc_scores_ohibc.html
 * calc_scores_ohibc.Rmd
+* plot_scores_ohibc.Rmd
 * prov/calc_scores_ohibc.Rmd_workflow.html
 * region2016/conf/goals.Rmd
 * region2017/conf/goals.Rmd",NA,NA,NA
@@ -437,6 +391,106 @@ NA",/calc_ohibc/spatial,,NA,NA,NA
 ### Summary:
 
 NA",/Figs,,NA,NA,NA
+/home/ohara/github/ohibc/miscR,"## sf vs sp spatial packages
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/miscR/sf_vs_sp.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/miscR/sf_vs_sp.html
+
+### Summary:
+
+NA",/miscR,"* bcmca/1_bcmca_filenames.Rmd
+* bcmca/2_bcmca_shp_fixes.Rmd
+* bcmca/3_bcmca_rasterize.Rmd
+* bcmca/bcmca_filenames.html
+* rdme_gen/rdme_generator.html
+* rdme_gen/rdme_generator.Rmd
+* sf_vs_sp.html
+* sf_vs_sp.Rmd",NA,NA,NA
+/home/ohara/github/ohibc/miscR/aquamaps_testing,"## /miscR/aquamaps_testing
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/miscR/aquamaps_testing,,NA,NA,NA
+/home/ohara/github/ohibc/miscR/bcmca,"## bcmca_filenames.html
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/miscR/bcmca/bcmca_filenames.html
+
+### Summary:
+
+NA
+
+-----
+
+## BCMCA datasets: import, raster, display
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/miscR/bcmca/1_bcmca_filenames.Rmd 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA
+
+-----
+
+## BCMCA datasets: import, raster, display
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/miscR/bcmca/2_bcmca_shp_fixes.Rmd 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA
+
+-----
+
+## BCMCA datasets: import, raster, display
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/miscR/bcmca/3_bcmca_rasterize.Rmd 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/miscR/bcmca,"* 1_bcmca_filenames.Rmd
+* 2_bcmca_shp_fixes.Rmd
+* 3_bcmca_rasterize.Rmd
+* bcmca_filenames.html",NA,NA,NA
+/home/ohara/github/ohibc/miscR/bcmca/mod_layers,"## /miscR/bcmca/mod_layers
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/miscR/bcmca/mod_layers,,NA,NA,NA
+/home/ohara/github/ohibc/miscR/bcmca/prov,"## /miscR/bcmca/prov
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/miscR/bcmca/prov,,NA,NA,NA
+/home/ohara/github/ohibc/miscR/rdme_gen,"## OHIBC: readme.md generator
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/miscR/rdme_gen/rdme_generator.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/miscR/rdme_gen/rdme_generator.html
+
+### Summary:
+
+Walks through file structure of OHIBC and checks to see whether folders have a readme.  Eventually, will generate a readme for each folder based on a template.",/miscR/rdme_gen,"* rdme_generator.html
+* rdme_generator.Rmd",NA,NA,NA
+/home/ohara/github/ohibc/miscR/sf_sp_testing,"## /miscR/sf_sp_testing
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/miscR/sf_sp_testing,,NA,NA,NA
 /home/ohara/github/ohibc/prep,"## /prep
 
 * __Rmd file:__ no Rmd present 
@@ -461,11 +515,14 @@ NA",/prep,"* ao/v2017/ao_closures_prep.html
 * cw/v2017/cw_goal_est.rmd
 * cw/v2017/cw_nutrient_prep.html
 * cw/v2017/cw_nutrient_prep.rmd
+* cw/v2017/cw_pathogens.html
+* cw/v2017/cw_pathogens.Rmd
 * cw/v2017/cw_trash_prep.html
 * cw/v2017/cw_trash_prep.rmd
 * cw/v2017/prov/cw_closures_prep.rmd_workflow.html
 * cw/v2017/prov/cw_goal_est.rmd_workflow.html
 * cw/v2017/prov/cw_goal_prep.rmd_workflow.html
+* cw/v2017/prov/cw_pathogens.Rmd_workflow.html
 * cw/v2017/prov/cw_trash_prep.rmd_workflow.html
 * fis/kobe/kobe.html
 * fis/kobe/kobe.Rmd
@@ -542,22 +599,29 @@ NA",/prep,"* ao/v2017/ao_closures_prep.html
 * mar/v2017/data_prep_mar.html
 * mar/v2017/data_prep_mar.Rmd
 * mar/v2017/prov/data_prep_mar.Rmd_workflow.html
+* _pressures/pressures_list.Rmd
 * _pressures/v2017/habitats/1_hab_zone_prep.Rmd
 * _pressures/v2017/habitats/2_hab_layer_prep.Rmd
 * _pressures/v2017/habitats/3_hab_layer_assemble.Rmd
 * _pressures/v2017/habitats/bc_pres_hab.html
 * _pressures/v2017/habitats/layer_prep_pressures_habs.html
-* _pressures/v2017/pressures_oa_prep_old.html
-* _pressures/v2017/pressures_oa_prep_old.Rmd
+* _pressures/v2017/pressures_alien_spp.html
+* _pressures/v2017/pressures_alien_spp.Rmd
+* _pressures/v2017/pressures_gen_escapes.html
+* _pressures/v2017/pressures_gen_escapes.Rmd
+* _pressures/v2017/pressures_oa_prep.html
 * _pressures/v2017/pressures_oa_prep.Rmd
-* _pressures/v2017/pressures_slr_prep2.Rmd
 * _pressures/v2017/pressures_slr_prep.html
 * _pressures/v2017/pressures_slr_prep.Rmd
 * _pressures/v2017/pressures_sst_prep.html
 * _pressures/v2017/pressures_sst_prep.Rmd
 * _pressures/v2017/pressures_uv_prep.html
 * _pressures/v2017/pressures_uv_prep.Rmd
+* _pressures/v2017/prov/pressures_alien_spp.Rmd_workflow.html
+* _pressures/v2017/prov/pressures_gen_escapes.Rmd_workflow.html
 * _pressures/v2017/prov/pressures_oa_prep.Rmd_workflow.html
+* _pressures/v2017/prov/pressures_pathogens.Rmd_workflow.html
+* _pressures/v2017/prov/pressures_slr_prep.Rmd_workflow.html
 * _pressures/v2017/prov/pressures_sst_prep.Rmd_workflow.html
 * spp_ico/api_testing/api_scripts.Rmd
 * spp_ico/iucn_to_ns.html
@@ -664,11 +728,14 @@ NA",/prep/cw,"* v2017/cw_chem_prep.html
 * v2017/cw_goal_est.rmd
 * v2017/cw_nutrient_prep.html
 * v2017/cw_nutrient_prep.rmd
+* v2017/cw_pathogens.html
+* v2017/cw_pathogens.Rmd
 * v2017/cw_trash_prep.html
 * v2017/cw_trash_prep.rmd
 * v2017/prov/cw_closures_prep.rmd_workflow.html
 * v2017/prov/cw_goal_est.rmd_workflow.html
 * v2017/prov/cw_goal_prep.rmd_workflow.html
+* v2017/prov/cw_pathogens.Rmd_workflow.html
 * v2017/prov/cw_trash_prep.rmd_workflow.html",cw,Clean Waters,http://ohi-science.org/goals/#clean-waters
 /home/ohara/github/ohibc/prep/cw/v2017,"## OHIBC: CW chemical layers prep
 
@@ -719,7 +786,14 @@ This script pulls together data from the four components of Clean Waters and out
         * coord. ref. : `+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs` 
         * values      : 0.2782703, 1  (min, max)
 
-* pathogens, processed TBD.
+* pathogens, from population density without improved wastewater treatment
+    * processed by `cw_pathogens.Rmd`
+    * assessed by OHIBC region, population density in watersheds defined by OHIBC inland regions
+    * details:
+        * years      : 2001 - 2016
+        * resolution : OHIBC region
+        * coord. ref : NA
+        * values     : 2.319416e-06 to 0.126338567
 
 This script pulls in finalized raster layers for each component, determines a score for each component by OHIBC region, then determines the overall score using a geometric mean calculation.
 
@@ -736,6 +810,26 @@ This data was used in the Clean Waters goal in OHI 2015
 
 -----
 
+## OHIBC: Pathogens Pressure layers prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_pathogens.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_pathogens.html
+
+### Summary:
+
+This pressure layer determines potential for human pathogen contamination using census district populations, statistics on percent of population with improved sanitation (by province and by municipality size), and modeled population density.  The model compares the population density of higher-risk wastewater systems (e.g. septic, storage/haulage) to a reference point of the highest density region being entirely on higher-risk systems.
+
+$$X_{pathogens} = \frac{\delta_{at-risk,rgn}}{\delta_{all,max}}$$
+where $\delta_{at-risk,rgn}$ represents a region's population on systems, divided by the region area:  
+
+$$\delta_{at-risk,rgn} = Population_{at-risk,rgn} / A_{rgn}$$ 
+
+and $\delta_{all,max}$ represents the max overall population density of any OHIBC region.
+
+$$\delta_{all,max} = (Population_{all} / A_{rgn})_{max}$$
+
+-----
+
 ## OHIBC: CW trash layers prep
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_trash_prep.rmd 
@@ -749,11 +843,14 @@ This data is incorporated into the OHI British Columbia Clean Waters (CW) goal."
 * cw_goal_est.rmd
 * cw_nutrient_prep.html
 * cw_nutrient_prep.rmd
+* cw_pathogens.html
+* cw_pathogens.Rmd
 * cw_trash_prep.html
 * cw_trash_prep.rmd
 * prov/cw_closures_prep.rmd_workflow.html
 * prov/cw_goal_est.rmd_workflow.html
 * prov/cw_goal_prep.rmd_workflow.html
+* prov/cw_pathogens.Rmd_workflow.html
 * prov/cw_trash_prep.rmd_workflow.html",cw,Clean Waters,http://ohi-science.org/goals/#clean-waters
 /home/ohara/github/ohibc/prep/fis,"## /prep/fis
 
@@ -1315,31 +1412,74 @@ $$x_{MAR} = \frac{x_{finfish} * H_{finfish} + x_{shellfish} * H_{shellfish}}{H_{
 * data_prep_mar.html
 * data_prep_mar.Rmd
 * prov/data_prep_mar.Rmd_workflow.html",mar,Mariculture,http://ohi-science.org/goals/#food-provision
-/home/ohara/github/ohibc/prep/_pressures,"## /prep/_pressures
+/home/ohara/github/ohibc/prep/_pressures,"## OHIBC: Pressures overview
 
-* __Rmd file:__ no Rmd present 
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/pressures_list.Rmd 
 * __HTML file:__ no HTML present
 
 ### Summary:
 
-NA",/prep/_pressures,"* v2017/habitats/1_hab_zone_prep.Rmd
+NA",/prep/_pressures,"* pressures_list.Rmd
+* v2017/habitats/1_hab_zone_prep.Rmd
 * v2017/habitats/2_hab_layer_prep.Rmd
 * v2017/habitats/3_hab_layer_assemble.Rmd
 * v2017/habitats/bc_pres_hab.html
 * v2017/habitats/layer_prep_pressures_habs.html
-* v2017/pressures_oa_prep_old.html
-* v2017/pressures_oa_prep_old.Rmd
+* v2017/pressures_alien_spp.html
+* v2017/pressures_alien_spp.Rmd
+* v2017/pressures_gen_escapes.html
+* v2017/pressures_gen_escapes.Rmd
+* v2017/pressures_oa_prep.html
 * v2017/pressures_oa_prep.Rmd
-* v2017/pressures_slr_prep2.Rmd
 * v2017/pressures_slr_prep.html
 * v2017/pressures_slr_prep.Rmd
 * v2017/pressures_sst_prep.html
 * v2017/pressures_sst_prep.Rmd
 * v2017/pressures_uv_prep.html
 * v2017/pressures_uv_prep.Rmd
+* v2017/prov/pressures_alien_spp.Rmd_workflow.html
+* v2017/prov/pressures_gen_escapes.Rmd_workflow.html
 * v2017/prov/pressures_oa_prep.Rmd_workflow.html
+* v2017/prov/pressures_pathogens.Rmd_workflow.html
+* v2017/prov/pressures_slr_prep.Rmd_workflow.html
 * v2017/prov/pressures_sst_prep.Rmd_workflow.html",_pressures,Pressures,http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/_pressures/v2017,"## OHIBC: Ocean Acidification Pressure layers prep
+/home/ohara/github/ohibc/prep/_pressures/v2017,"## OHIBC: Alien Species Pressure layers prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_alien_spp.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_alien_spp.html
+
+### Summary:
+
+This pressure layer evaluates invasive species pressure on BC regions using the same method as OHI Global and California Current.  From Molnar (2008) data, we have data on the number of invasive species (and number of harmful invasives) found within each Marine Ecoregion of the World (MEOW) region.  For the global assessment and California Current, score is determined based on the proportion of invasives relative to the global maximum.  For OHIBC, we will instead use a species-by-species pressure based on three criteria: _invasive potential_, _ecological impact_, and _management difficulty_.  In Molnar 2008, each of these (as well as _scope_) is ranked on a 1 to 4 scale, with 1 being minimal and 4 being intense.  Invasive pressure of a species is a geometric mean (rescaled to max = 1) of these threat criteria:
+
+$$pressure_{spp} = P_{spp} = \frac{\prod_{T=1}^N(threat_T)^{1/N}}{4}$$
+where T is a threat criterion, N is number of threat criteria scores for that species (excluding NAs).
+
+Scores for each OHIBC region are the area-weighted total species pressure from each ecoregion present.  This assumes that invasive species are uniformly distributed throughout the ecoregion.
+
+$$X_{invasive} = \frac{\sum_{ecorgn=1}^{N}((\sum_{spp=1}^M P_{spp})  * A_{ecorgn})}{\sum_{ecorgn=1}^N A_{ecorgn}}$$
+where $N$ is the number of ecoregions falling within an OHIBC region; $M$ is the number of species found within that ecoregion; $P_{spp}$ is the pressure score for each species in the ecoregion; and $A_{rgn}$ is the area of the OHIBC region allocated to that ecoregion (so $\sum_{rgn=1}^NA_{ecorgn}$ becomes the total OHIBC region area).
+
+The data has no time scale.
+
+-----
+
+## OHIBC: Genetic Escapes Pressure layers prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_gen_escapes.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_gen_escapes.html
+
+### Summary:
+
+This pressure layer calculates the pressure due to genetic escapes from aquaculture.  The Mariculture Sustatinability Index ranks aquaculture species in different regions with a score from 1-10 for potential for genetic pollution.  For OHIBC we will follow a similar method as OHI Global and CC, rescaling genetic escape pressure from 0-1 for each species and calculating a harvest-weighted average of genetic escape pressure for each region.
+
+$$pressure_{gen.escapes} = \frac{\sum_{spp=1}^N (MSI_{spp} * harvest_{spp})}{\sum_{spp=1}^N harvest_{spp}}$$
+
+The genetic escapes scores are not time-dependent, but harvest data is reported annually.
+
+-----
+
+## OHIBC: Ocean Acidification Pressure layers prep
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_oa_prep.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_oa_prep.html
@@ -1362,17 +1502,40 @@ In the global analysis, pressures for 2011-2016 are available with this rescalin
 ### Summary:
 
 There are two parts to creating this layer:
+  
+  1. Data prep to get raw data into the correct format:
+  
+    * If necessary, read .nc.gz files from aviso: ftp://ftp.aviso.altimetry.fr/global/delayed-time/grids/climatology/monthly_mean/
+    * unzip .gz files and then delete .gz 
+    * Read monthly mean sea level data as rasters
 
-1. Data prep to get raw data into the correct format:
-    * Read sea level rise data as raster
-    * Clip rasters to extents of OHIBC region, and reproject into BC Albers projection.
-2. Creating the pressure layers for OHIBC:
-    * All negative values, indicating decreases in sea level, were set to zero
-    * Data was resampled from the native cell resolution (0.25 degrees) to ~ 1km
-    * The reference point was set as the 99.99th quantile of the data distribution to rescale all values from 0 to 1
-    * All NA cells were filled in through nearest neighbor interpolation
-    
-This process is completed entirely within this script.
+  2. Creating the pressure layers for OHI Global:  
+  
+    * Clip all monthly rasters to the coast using a 3 nautical mile offshore buffer
+    * Calculate annual mean sea level anomaly rasters from monthly data
+    * Determine a reference point as the 99.99th quantile of the data across all years (1993 - 2015)
+    * Rescale values from 0 to 1 using the reference point
+    * Set to zero all negative values, indicating decreases in mean sea level
+    * Resample raster to ~ 1km2 and reproject to Molleweide
+
+This process is completed within the Global OHI 2017 prep script.
+
+For OHIBC these pressure layers are read in and cropped to BC extents for pressure calculations.
+
+-----
+
+## OHIBC: Sea Surface Temperature Pressure layers prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_sst_prep.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_sst_prep.html
+
+### Summary:
+
+For OHI Global Assessments, we calculated a climatology from 1982-2012 per cell using weekly data from CorTAD. We then calculated the number of times a given cell's weekly SST was greater than the climatological mean for that week (an anomalous week: mean temp greater than historical mean + one standard deviation) and summed the number of anomalous weeks in a single year. The maximum value a cell could have is 52 which would mean that cell had anomalous SST temperatures for each week of the year.
+
+To account for annual variation, we look at Sea Surface Temperature anomalous weeks in 5 year periods, so the maximum value possible per cell is 260 anomalous weeks. To rescale the values from 0 to 1 we set a reference point. Previously, the reference point for SST has just been the maximum difference in anomalous weeks between the most recent time period and a historical reference period (1985-1989).
+
+This time we have decided to use a reference point that represents a regime shift. Once a given cell is anomalous for more than 50% of a five-year period, it has shifted into a new regime. All cells that have a value greater than 130 weeks (51% of a 5 year time period) are assigned a 1. The rest of the cells are scaled to this reference point by dividing by 130.
 
 -----
 
@@ -1396,49 +1559,28 @@ There are two parts to creating this layer:
     * Interpolate to coastline at 1 km resolution.
     * Rescale zero to 1, where 1 is 99.99%ile
     
-This process is completed entirely within this script.
-
------
-
-## OHIBC: Sea Level Rise Pressure layers prep
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_slr_prep2.Rmd 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-There are two parts to creating this layer:
-
-1. Data prep to get raw data into the correct format:
-    * If necessary, read .nc.gz files from aviso: ftp://ftp.aviso.altimetry.fr/global/delayed-time/grids/climatology/monthly_mean/
-        * unzip .gz files and then delete .gz 
-    * Read monthly mean sea level data as rasters; aggregate to annual means
-    * Clip rasters to extents of OHIBC region, and reproject into BC Albers projection.
-2. Creating the pressure layers for OHIBC:
-    * Determine baseline using five-year average from 1993-1997.
-    * For each study year (2000 - 2015) calculate difference between study year and baseline
-    * Set to zero all negative values, indicating decreases in mean sea level
-    * Resample data from the native cell resolution (0.25 degrees) to ~ 1km
-    * Set reference point as the 99.99th quantile of the data distribution to rescale all values from 0 to 1
-    * Use thin plate spline interpolation to fill in NA values
-    * Clip results to 1 km offshore region, and determine average SLR pressure per region.
-    
 This process is completed entirely within this script.",/prep/_pressures/v2017,"* habitats/1_hab_zone_prep.Rmd
 * habitats/2_hab_layer_prep.Rmd
 * habitats/3_hab_layer_assemble.Rmd
 * habitats/bc_pres_hab.html
 * habitats/layer_prep_pressures_habs.html
-* pressures_oa_prep_old.html
-* pressures_oa_prep_old.Rmd
+* pressures_alien_spp.html
+* pressures_alien_spp.Rmd
+* pressures_gen_escapes.html
+* pressures_gen_escapes.Rmd
+* pressures_oa_prep.html
 * pressures_oa_prep.Rmd
-* pressures_slr_prep2.Rmd
 * pressures_slr_prep.html
 * pressures_slr_prep.Rmd
 * pressures_sst_prep.html
 * pressures_sst_prep.Rmd
 * pressures_uv_prep.html
 * pressures_uv_prep.Rmd
+* prov/pressures_alien_spp.Rmd_workflow.html
+* prov/pressures_gen_escapes.Rmd_workflow.html
 * prov/pressures_oa_prep.Rmd_workflow.html
+* prov/pressures_pathogens.Rmd_workflow.html
+* prov/pressures_slr_prep.Rmd_workflow.html
 * prov/pressures_sst_prep.Rmd_workflow.html",_pressures,Pressures,http://ohi-science.org/goals
 /home/ohara/github/ohibc/prep/_resilience,"## /prep/_resilience
 
@@ -1785,38 +1927,6 @@ $V' = \frac{V_c / V_{ref}}$
 where V is total visitation to parks found within each coastal region, compared to a reference period over the prior five years.",/prep/tr/v2017,"* data_prep_tr.html
 * data_prep_tr.Rmd
 * prov/data_prep_tr.Rmd_workflow.html",tr,Tourism and Recreation,http://ohi-science.org/goals/#tourism-and-recreation
-/home/ohara/github/ohibc/rdme_gen,"## test.htm
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/rdme_gen/test.htm
-
-### Summary:
-
-NA
-
------
-
-## CopyOftest.Rmd
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/rdme_gen/CopyOftest.Rmd 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA
-
------
-
-## OHIBC: readme.md generator
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/rdme_gen/rdme_generator.Rmd 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-Walks through file structure of OHIBC and checks to see whether folders have a readme.  Eventually, will generate a readme for each folder based on a template.",/rdme_gen,"* CopyOftest.Rmd
-* rdme_generator.Rmd
-* test.htm",NA,NA,NA
 /home/ohara/github/ohibc/refs,"## /refs
 
 * __Rmd file:__ no Rmd present 
@@ -1875,14 +1985,6 @@ NA",/regionHoweSound/prov,* ohibc_howesound_2016.Rmd_workflow.html,NA,NA,NA
 ### Summary:
 
 NA",/regionHoweSound/prov/ohibc_howesound_2016.Rmd_workflow_files,,NA,NA,NA
-/home/ohara/github/ohibc/sf_sp_testing,"## /sf_sp_testing
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/sf_sp_testing,,NA,NA,NA
 /home/ohara/github/ohibc/src,"## /src
 
 * __Rmd file:__ no Rmd present 
