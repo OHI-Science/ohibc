@@ -147,8 +147,6 @@ calc_trend <- function(scenario_df, years = NULL) {
     arrange(region_id, year) %>%
     mutate(status_1 = first(status))
 
-  print(head(scenario_df))
-
   trend <- scenario_df %>%
     group_by(region_id, status_1) %>%
     do(mdl = lm(status ~ year, data = . )) %>%
@@ -170,24 +168,35 @@ calc_trend <- function(scenario_df, years = NULL) {
 
 }
 
-get_data_year <- function(goal, status_yr, layers) {
-  data_year <- layers$data$stat_yr_matrix %>%
-    filter(goal_name == goal & status_year == status_yr) %>%
-    .$data_year
-
-  return(data_year)
-
-}
+### Since for OHIBC all data will be lined up with status years, this is irrelevant
+# get_data_year <- function(layernames, status_yr, layers) {
+#
+#   ### Returns a named vector of data years, name = layer name
+#   data_year_df <- layers$data$scenario_data_years %>%
+#     filter(layer %in% layernames & scenario_year == status_yr)
+#
+#   data_year <- data_year_df$data_year %>%
+#     setNames(data_year_df$layer)
+#
+#   return(data_year)
+#
+# }
 
 complete_years <- function(score_df, year_span,
                            method = c('carry',   'zero', 'none')[1],
                            dir    = c('forward', 'back', 'both')[3],
+                           pad    = 5, ### pad the early part of the dataset by 5 years?
                            report_gaps = FALSE) {
-  ### This function
+
   if('rgn_id' %in% names(score_df)) {
     message('The complete_years() function automagically renames "rgn_id" to "region_id" for your convenience.')
     score_df <- score_df %>%
       rename(region_id = rgn_id)
+  }
+
+  if(pad > 0) {
+    message('Padding the year span by adding an additional ', pad, ' to the early part.')
+    year_span <- (min(year_span) - pad) : (max(year_span))
   }
 
   data_range <- range(score_df$year, na.rm = TRUE)
@@ -226,15 +235,15 @@ complete_years <- function(score_df, year_span,
 
   if(dir %in% c('forward', 'both')) {
     score_df <- score_df %>%
-      group_by(region_id) %>%
-      fill(-year, -region_id, .direction = 'down') %>%
-      ungroup()
+      # group_by(region_id) %>%
+      fill(-year, -region_id, .direction = 'down') # %>%
+      # ungroup()
   }
   if(dir %in% c('back', 'both')) {
     score_df <- score_df %>%
-      group_by(region_id) %>%
-      fill(-year, -region_id, .direction = 'up') %>%
-      ungroup()
+      # group_by(region_id) %>%
+      fill(-year, -region_id, .direction = 'up') # %>%
+      # ungroup()
   }
 
   if(report_gaps == FALSE) {

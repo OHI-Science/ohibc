@@ -3,9 +3,9 @@ ao_closures,ohibc:prep/ao/v2017/output,ao_closures.csv,TRUE,days_avg,AO,Shellfis
 ao_licenses,ohibc:prep/ao/v2017/output,ao_licenses.csv,TRUE,n_fn,AO,Commercial fishing licenses total and proportion allocated to First Nations as a measure of access to commercial fisheries,,
 ao_salmon,ohibc:prep/ao/v2017/output,ao_salmon.csv,TRUE,days_avg,AO,Salmon stock health as a proxy for access to salmon for FSC purposes,,
 ao_spawn_hab_index,ohibc:prep/ao/v2017/output,ao_spawn_hab_index.csv,TRUE,shi_tot,AO,Herring spawn habitat index as a proxy for opportunity to collect herring spawn,,
-cc_acid,ohibc:calc_ohibc/master/dummy_layers,cc_acid_gl2016.csv,TRUE,pressure_score,pressure,Ocean acidification,scaled 0-1,Ocean acidification pressure scaled using biological thresholds
-cc_slr,ohibc:calc_ohibc/master/dummy_layers,cc_slr_gl2016.csv,TRUE,pressure_score,pressure,Sea level rise,scaled 0-1,Sea level rise pressure
-cc_sst,ohibc:calc_ohibc/master/dummy_layers,cc_sst_gl2016.csv,TRUE,pressure_score,pressure,Sea surface temperature anomolies,scaled 0-1,Sea surface temperature anomolies
+cc_acid,ohibc:prep/_pressures/v2017/output,prs_oa_layer.csv,TRUE,pressure,pressure,Ocean acidification,scaled 0-1,Ocean acidification pressure scaled using biological thresholds
+cc_slr,ohibc:prep/_pressures/v2017/output,prs_slr_layer.csv,TRUE,pressure,pressure,Sea level rise,scaled 0-1,Sea level rise pressure
+cc_sst,ohibc:prep/_pressures/v2017/output,prs_sst_layer.csv,TRUE,pressure,pressure,Sea surface temperature anomolies,scaled 0-1,Sea surface temperature anomolies
 cc_uv,ohibc:calc_ohibc/master/dummy_layers,cc_uv_gl2016.csv,TRUE,pressure_score,pressure,UV radiation pressure,scaled 0-1,Modeled UV radiation based on Erythemal UV Irradiance data provided by GES DISC.
 cp_cf_health,ohibc:prep/hab_cs_cp/v2017/output,cp_cf_exposure.csv,TRUE,cf_expos_area_tot,CP,Exposure-weighted coastal forest habitat condition,proportion,Current condition of coastal forest habitat relative to historical condition weighted by exposure
 cp_sm_health,ohibc:prep/hab_cs_cp/v2017/output,cp_sm_exposure.csv,TRUE,sm_expos_area_tot,CP,Exposure-weighted salt marsh habitat condition,proportion,Current condition of salt marsh habitat relative to historical condition weighted by exposure
@@ -65,15 +65,15 @@ po_chemical,ohibc:prep/cw/v2017/output,po_chemical.csv,TRUE,chem_pressure,pressu
 po_chemical_3nm,ohibc:prep/cw/v2017/output,po_chemical_3nm.csv,TRUE,chem_pressure,CW pressure,Coastal chemical pollution,scaled 0-1,"Modeled chemical pollution from commercial shipping traffic, ports and harbors, land-based pesticide use (organic pollution), and urban runoff (inorganic pollution)"
 po_nutrient,prep/cw/v2017/output,po_nutrient.csv,TRUE,nutr_pressure,pressure,Nutrient pollution,scaled 0-1,Modeled data based on fertilizer consumption from the Food and Agricultural Organization
 po_nutrient_3nm,ohibc:prep/cw/v2017/output,po_nutrient_3nm.csv,TRUE,nutr_pressure,CW pressure,Coastal nutrient pollution,scaled 0-1,Modeled data based on fertilizer consumption from the Food and Agricultural Organization
-po_pathogens_closures,ohibc:prep/ao/v2017/output,ao_closures.csv,TRUE,days_avg,CW pressure,Pathogen pollution,scaled 0-1,Area-weighted closure days due to all causes (biotoxins chemical sanitation)
+po_pathogens,ohibc:prep/cw/v2017/output,po_pathogens.csv,TRUE,path_pressure,CW pressure,Pathogen pollution,scaled 0-1,population density without access to improved sanitation
 po_trash,ohibc:prep/cw/v2017/output,po_trash.csv,TRUE,trash_pressure,CW pressure,Marine plastics,scaled 0-1,Global marine plastics
 po_water,ohibc:calc_ohibc/master/dummy_layers,po_water_gl2016.csv,TRUE,resilience_score,pressure,Management and regulations to control water pollution to preserve biodiversity,scaled 0-1,Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: tourism related questions
 res_spi,ohibc:calc_ohibc/master/dummy_layers,res_spi_gl2016.csv,FALSE,resilience_score,resilience,Social Progress Index,scaled 0-1,Social Progress Index scores
 rgn_area,ohibc:calc_ohibc/master/dummy_layers,rgn_area.csv,TRUE,area_km2,spatial,Region areas based on EEZ boundaries,km2,Area of Ocean Health Index regions modified from exclusive economic zones
 rgn_labels,ohibc:calc_ohibc/master/dummy_layers,rgn_labels.csv,TRUE,label,spatial,Regions,label,"Regions by type (eez, subocean, unclaimed)"
-sp_alien,ohibc:calc_ohibc/master/dummy_layers,sp_alien_gl2016.csv,TRUE,pressure_score,pressure,Nonindigenous species,scaled 0-1,Measure of harmful invasive species
+sp_alien,ohibc:prep/_pressures/v2017/output,prs_inv_spp.csv,TRUE,pressure,pressure,Nonindigenous species,scaled 0-1,Measure of harmful invasive species
 sp_alien_species,ohibc:calc_ohibc/master/dummy_layers,sp_alien_species_gl2016.csv,TRUE,resilience_score,resilience,Management of nonindigenous species,scaled 0-1,Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: invasive species related questions
-sp_genetic,ohibc:calc_ohibc/master/dummy_layers,sp_genetic_gl2016.csv,TRUE,pressure_score,pressure,Genetic escapes,scaled 0-1,Introduced mariculture species (Mariculture Sustainability Index) as a proxy for genetic escapes
+sp_genetic,ohibc:prep/_pressures/v2017/output,prs_genesc.csv,TRUE,pressure,pressure,Genetic escapes,scaled 0-1,Introduced mariculture species (Mariculture Sustainability Index) as a proxy for genetic escapes
 species_diversity_3nm,ohibc:prep/spp_ico/v2017/output,spp_status_3nm.csv,TRUE,status,resilience,Measure of coastal ecological integrity,scaled 0-1,Marine species condition (same calculation and data as the species subgoal status score)  calculated within 3 nm of shoreline as a proxy for ecological integrity
 spp_risk_scores,ohibc:prep/spp_ico/v2017/output,spp_risk_by_year.csv,TRUE,risk_score,SPP,Species risk category score,rescaled category score,Species risk score based on IUCN Red List extinction risk category
 spp_pop_trends,ohibc:prep/spp_ico/v2017/output,spp_trend_by_id.csv,TRUE,iucn_pop_trend,SPP,Species population trend,'stable' 'increasing' or 'decreasing',Species population trend based on most recent IUCN Red List assessment

@@ -37,7 +37,134 @@ source(file.path(dir_calc, 'calc_scores_fxns.R'))
 ```
 
 
-### Figure: Past "likely future status" compared to current "status"
+## Status plots
+
+``` {r plot_all_scores}
+
+scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(dimension %in% c('status', 'trend')) %>%
+  spread(dimension, score) %>%
+  filter(!is.na(status)) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
+
+for(goalname in scores$goal %>% unique() %>% sort) {
+  # goalname <- scores$goal[1]
+  scores_tmp <- scores %>%
+    filter(goal == goalname)
+  status_plot <- ggplot(scores_tmp %>% 
+                          filter(region_id != 0), 
+                      aes(x = year, y = status, color = rgn_name)) +
+    ggtheme_plot() +
+    geom_line(data = scores_tmp %>% 
+                filter(region_id == 0), 
+              aes(x = year, y = status), size = 1.5, color = 'grey20', alpha = .8) +
+    geom_line(aes(group = region_id)) +
+    scale_x_continuous(breaks = scores_tmp$year %>% unique() %>% sort) +
+    scale_y_continuous(limits = c(0, 100)) +
+    theme(axis.text.x = element_text(angle = 30)) +
+    labs(color = goalname) +
+    guides(colour = guide_legend(override.aes = list(size = 3)))
+
+  print(status_plot)
+}
+
+
+```
+
+
+## Trend plots
+
+``` {r plot_all_trends}
+
+scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(dimension %in% c('trend')) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
+
+for(goalname in scores$goal %>% unique() %>% sort) {
+  # goalname <- scores$goal[1]
+  scores_tmp <- scores %>%
+    filter(goal == goalname)
+  trend_plot <- ggplot(scores_tmp %>% 
+                          filter(region_id != 0), 
+                      aes(x = year, y = score, color = rgn_name)) +
+    ggtheme_plot() +
+    geom_line(aes(group = region_id)) +
+    scale_x_continuous(breaks = scores_tmp$year %>% unique() %>% sort) +
+    scale_y_continuous(limits = c(-1, 1)) +
+    theme(axis.text.x = element_text(angle = 30)) +
+    labs(color = goalname) +
+    guides(colour = guide_legend(override.aes = list(size = 3)))
+
+  print(trend_plot)
+}
+
+```
+
+## Pressure plots
+
+``` {r plot_all_pressures}
+
+prs_scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(dimension %in% c('pressures')) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
+
+for(goalname in prs_scores$goal %>% unique() %>% sort) {
+  # goalname <- scores$goal[1]
+  scores_tmp <- prs_scores %>%
+    filter(goal == goalname)
+  prs_plot <- ggplot(scores_tmp %>% 
+                          filter(region_id != 0), 
+                      aes(x = year, y = score, color = rgn_name)) +
+    ggtheme_plot() +
+    geom_line(aes(group = region_id)) +
+    scale_x_continuous(breaks = scores_tmp$year %>% unique() %>% sort) +
+    # scale_y_continuous(limits = c(-1, 1)) +
+    theme(axis.text.x = element_text(angle = 30)) +
+    labs(color = goalname) +
+    guides(colour = guide_legend(override.aes = list(size = 3)))
+
+  print(prs_plot)
+}
+
+```
+
+## Flower plots, overall, by year
+
+``` {r plot_flowers_overall}
+
+source('~/github/ohibc/src/R/plot_flower.R')
+index_scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id == 0) %>%
+  filter(dimension %in% c('score')) %>%
+  filter(goal != 'Index')
+
+plot_wts <- read_csv(file.path(dir_calc, 'conf/goals.csv')) %>%
+  select(order = order_hierarchy,
+         goal, parent, goal_label = name_flower, 
+         weight)
+
+index_scores <- index_scores %>%
+  left_join(plot_wts, by = 'goal') %>%
+  arrange(order) %>%
+  filter(!goal %in% plot_wts$parent)
+
+for(yr in index_scores$year %>% unique() %>% sort()) {
+  # yr <- 2016
+  
+  scores_tmp <- index_scores %>%
+    filter(year == yr)
+  
+  index_flower <- plot_flower(scores_tmp, show_plot = FALSE) +
+    labs(title = paste0('OHIBC ', yr))
+
+  print(index_flower)
+  
+}
+
+```
+
+
+## Figure: Past "likely future status" compared to current "status"
 
 ``` {r}
 
@@ -54,6 +181,31 @@ score_compare_plot <- ggplot(scores_all, aes(x = pred_future_status, y = status,
   geom_point(size = 2)
 
 plotly::ggplotly(score_compare_plot)
+```
+
+``` {r}
+
+scores_all <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id == 0) %>%
+  filter(goal != 'Index') %>%
+  filter(dimension %in% c('status', 'future')) %>%
+  mutate(dimension = str_replace(dimension, 'status', 'obs_status'),
+         dimension = str_replace(dimension, 'future', 'pred_status'),
+         year = ifelse(dimension == 'pred_status', year + 5, year))
+
+for(gl in (scores_all$goal %>% unique())) { ### gl = 'AO'
+  
+  scores_goal <- scores_all %>% 
+    filter(goal == gl)
+  
+  score_compare_plot <- ggplot(scores_goal, aes(x = dimension, y = score, label = year)) +
+    ggtheme_plot() +
+    geom_point(size = 2) +
+    geom_line(size = 1, alpha = .5, aes(group = year)) +
+    labs(y = gl)
+  
+  print(score_compare_plot)
+}
 ```
 
 ``` {r prov_footer, results = 'asis'}

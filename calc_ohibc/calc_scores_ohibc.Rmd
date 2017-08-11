@@ -100,9 +100,15 @@ layers <- Layers(layers.csv = file.path(dir_calc, 'layers.csv'),
                  layers.dir = file.path(dir_calc, 'layers'))
 
 layers$data$dir_calc   <- dir_calc
-layers$data$data_yr_matrix <- read_csv(file.path(dir_calc, 'conf/scenario_data_years.csv'))
-layers$data$year_span <- layers$data$data_yr_matrix %>%
+layers$data$scenario_data_years <- read_csv(file.path(dir_calc, 'conf/scenario_data_years.csv'))
+layers$data$status_year_span <- layers$data$scenario_data_years %>%
   .$scenario_year %>% unique() %>% sort()
+
+status_years <- layers$data$status_year_span
+
+### for testing:
+status_year <- median(status_years)
+layers$data$status_year <- status_year
 
 ```
 
@@ -112,6 +118,7 @@ scores_all <- data.frame() ### initialize scores
 
 for (status_year in status_years) {
   
+  ### for testing...
   if(!exists('status_year')) status_year <- status_years[1]
 
   message('Calculating scores for ', status_year)
@@ -142,39 +149,6 @@ x <- scores_all %>%
 
 ```
 
-## Status plots
-
-``` {r plot_all_scores}
-
-scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
-  filter(dimension %in% c('status', 'trend')) %>%
-  spread(dimension, score) %>%
-  filter(!is.na(status)) %>%
-  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
-
-for(goalname in scores$goal %>% unique() %>% sort) {
-  # goalname <- scores$goal[1]
-  scores_tmp <- scores %>%
-    filter(goal == goalname)
-  status_plot <- ggplot(scores_tmp %>% 
-                          filter(region_id != 0), 
-                      aes(x = year, y = status, color = rgn_name)) +
-    ggtheme_plot() +
-    geom_line(data = scores_tmp %>% 
-                filter(region_id == 0), 
-              aes(x = year, y = status), size = 1.5, color = 'grey20', alpha = .8) +
-    geom_line(aes(group = region_id)) +
-    scale_x_continuous(breaks = scores_tmp$year %>% unique() %>% sort) +
-    scale_y_continuous(limits = c(0, 100)) +
-    theme(axis.text.x = element_text(angle = 30)) +
-    labs(color = goalname) +
-    guides(colour = guide_legend(override.aes = list(size = 3)))
-
-  print(status_plot)
-}
-
-
-```
 
 
 ``` {r prov_footer, results = 'asis'}
