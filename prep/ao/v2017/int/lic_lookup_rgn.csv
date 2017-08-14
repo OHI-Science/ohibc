@@ -8,8 +8,8 @@ clam area c,"sunshine coast - areas 15 (excluding intertidal zones surrounding c
 clam area d,upper strait of georgia - area 14 and subareas 16-19 and 16-20.,14,6
 clam area e,"lower strait of georgia - areas 17, 18, 19, 20 and subareas 29-4 and 29-5.",17,6
 clam area e,"lower strait of georgia - areas 17, 18, 19, 20 and subareas 29-4 and 29-5.",18,6
-clam area e,"lower strait of georgia - areas 17, 18, 19, 20 and subareas 29-4 and 29-5.",19,6
 clam area e,"lower strait of georgia - areas 17, 18, 19, 20 and subareas 29-4 and 29-5.",19,5
+clam area e,"lower strait of georgia - areas 17, 18, 19, 20 and subareas 29-4 and 29-5.",19,6
 clam area e,"lower strait of georgia - areas 17, 18, 19, 20 and subareas 29-4 and 29-5.",20,5
 clam area f27,west coast of vancouver island - area 27.,27,4
 clam area g,queen charlotte sound - areas 11 and 12.,11,4
@@ -33,8 +33,8 @@ food and bait herring north,"areas 3, 4 and 5.",3,1
 food and bait herring north,"areas 3, 4 and 5.",4,1
 food and bait herring north,"areas 3, 4 and 5.",5,1
 geoduck area g,"areas 12 through 19, and 29.",12,4
-geoduck area g,"areas 12 through 19, and 29.",19,6
 geoduck area g,"areas 12 through 19, and 29.",19,5
+geoduck area g,"areas 12 through 19, and 29.",19,6
 geoduck area g,"areas 12 through 19, and 29.",29,6
 geoduck area n,areas 1 through 10 and related offshore areas.,1,2
 geoduck area n,areas 1 through 10 and related offshore areas.,10,3
@@ -66,32 +66,32 @@ north coast dfo,"organizational area established in 2001; includes management ar
 north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",10,3
 north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",10,4
 north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",101,2
-north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",101,1
 north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",101,7
+north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",101,1
 north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",110,2
 north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",110,3
 north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",110,4
-north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",130,7
 north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",130,2
 north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",130,3
-north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",142,7
+north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",130,7
 north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",142,2
+north coast dfo,"organizational area established in 2001; includes management areas 1 through 10, 101 through 110, 130 and 142, and the watersheds which drain into these areas.",142,7
 red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",1,2
 red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",10,3
 red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",10,4
 red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",101,2
-red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",101,1
 red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",101,7
-red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",105,2
+red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",101,1
 red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",105,1
-red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",106,2
+red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",105,2
 red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",106,1
-red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",106,8
+red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",106,2
 red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",106,3
+red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",106,8
 red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",109,2
 red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",109,3
-red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",142,7
 red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",142,2
+red sea urchin area n,"areas 1 through 10, 101, 105, 106, 109 and 142.",142,7
 red sea urchin area s,areas 11 through 29 and 123.,11,4
 red sea urchin area s,areas 11 through 29 and 123.,29,6
 red sea urchin area s,areas 11 through 29 and 123.,123,5
@@ -117,11 +117,11 @@ sea cucumber area g,portions of areas 12 and 13.,13,6
 sea cucumber area w,portions of area 24.,24,5
 crab area a,"areas 1, 2, 101 to 110, 130 and 142.",1,2
 crab area a,"areas 1, 2, 101 to 110, 130 and 142.",2,2
-crab area a,"areas 1, 2, 101 to 110, 130 and 142.",130,7
 crab area a,"areas 1, 2, 101 to 110, 130 and 142.",130,2
 crab area a,"areas 1, 2, 101 to 110, 130 and 142.",130,3
-crab area a,"areas 1, 2, 101 to 110, 130 and 142.",142,7
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",130,7
 crab area a,"areas 1, 2, 101 to 110, 130 and 142.",142,2
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",142,7
 crab area e,"areas 20 to 27, 121 and 123 to 127.",121,5
 crab area h,"areas 14, 16 to 19 and subarea 29-5.",14,6
 crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",121,5
@@ -131,22 +131,22 @@ rockfish area inside,"areas 13 to 19, and 28 and 29, and subareas 12-1 to 12-13,
 rockfish area inside,"areas 13 to 19, and 28 and 29, and subareas 12-1 to 12-13, 12-15 to 12-48 and subareas 20-4 to 20-7",29,6
 rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",21,5
 rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",121,5
-rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",130,7
 rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",130,2
 rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",130,3
-rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",142,7
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",130,7
 rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",142,2
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",142,7
 roe herring gulf,"areas 12 to 19, 28 and 29.",28,6
 roe herring gulf,"areas 12 to 19, 28 and 29.",29,6
 salmon area b,areas 11 to 29 and 121.,121,5
 salmon area e,"areas 16 to 22, 28, 29 and 121.",28,6
 salmon area e,"areas 16 to 22, 28, 29 and 121.",29,6
 salmon area e,"areas 16 to 22, 28, 29 and 121.",121,5
-salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",130,7
 salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",130,2
 salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",130,3
-salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",142,7
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",130,7
 salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",142,2
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",142,7
 salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",11,4
 salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",111,3
 salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",111,4
