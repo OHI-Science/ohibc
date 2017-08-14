@@ -73,7 +73,7 @@ Read in DFO contamination closures from .xlsx files.
 
 ``` {r read_xlsx}
 
-dir_data <- file.path(dir_anx, '_raw_data/dfo_khunter/d2016/shellfish_closure_data')
+dir_data <- file.path(dir_anx, '_raw_data/dfo_khunter/shellfish_closure_data/d2016')
 
 xlsx_files <- list.files(dir_data, pattern = 'contaminated order log', full.names = TRUE)
 
@@ -274,7 +274,7 @@ From the closure text, separate out the areas and subareas into individual obser
 ``` {r get_all_area_subareas}
 
 area_subarea_list <- foreign::read.dbf(file.path(dir_anx, '_raw_data/dfo_khunter', 
-                                                 'd2016/management_boundaries',
+                                                 'management_boundaries/d2016',
                                                  'pac_fishery_mgmt_subareas',
                                                  'DFO_BC_PFMA_SUBAREAS_50K_V3_1.dbf')) %>%
   select(area = MGNT_AREA, subarea = SUBAREA_, label = LABEL) %>%
@@ -676,7 +676,8 @@ closures_rgn_yr <- closures_yr %>%
   group_by(rgn_id, year) %>%
   summarize(days_avg = sum(days * area_km2 / a_tot_km2)) %>%
   ungroup() %>%
-  filter(year %in% c(2009:2015))
+  filter(year %in% c(2009:2015)) %>%
+  filter(!is.na(rgn_id))
 
 write_csv(closures_rgn_yr, file.path(dir_goal, 'output/ao_closures.csv'))
 
@@ -696,7 +697,8 @@ closures_rgn_type_yr <- closures_type_yr %>%
   group_by(rgn_id, year, closure_type) %>%
   summarize(days_avg = sum(days * area_km2 / a_tot_km2)) %>%
   ungroup() %>%
-  filter(year %in% c(2009:2015))
+  filter(year %in% c(2009:2015)) %>%
+  filter(!is.na(rgn_id))
 
 write_csv(closures_rgn_type_yr, file.path(dir_goal, 'output/ao_closures_by_type.csv'))
 

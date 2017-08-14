@@ -32,6 +32,16 @@ prep_scenario_dirs <- function(dir_calc,          ### destination location for s
 
 }
 
+assemble_layers_csv <- function(dir_master) {
+
+  l_files <- read_csv(file.path(dir_master, 'layers_files_master.csv'))
+  l_meta  <- read_csv(file.path(dir_master, 'layers_meta_master.csv'))
+
+  l_df <- left_join(l_files, l_meta, by = 'layer')
+
+  return(l_df)
+}
+
 register_layers <- function(layers_log, dir_calc) {
 
   ### filter the data and determines whether the file is available,

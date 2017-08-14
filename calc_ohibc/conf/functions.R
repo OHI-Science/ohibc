@@ -7,7 +7,7 @@ FIS <- function(layers) {
   ### * rgn_stock_wt_uniform, _saup, _dfo
   ### * ram_dfo_saup_lookup.csv
 
-  status_year    <- layers$data$status_year
+  status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
@@ -228,7 +228,7 @@ FIS <- function(layers) {
 
 MAR <- function(layers) {
 
-  status_year    <- layers$data$status_year
+  status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
@@ -364,7 +364,7 @@ AO <- function(layers) {
 
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
 
-  status_year    <- layers$data$status_year
+  status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
@@ -476,7 +476,7 @@ CS <- function(layers) {
 
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
 
-  status_year    <- layers$data$status_year
+  status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
@@ -547,7 +547,7 @@ CS <- function(layers) {
 CP <- function(layers) {
 
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
-  status_year    <- layers$data$status_year
+  status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
@@ -613,7 +613,7 @@ TR <- function(layers) {
   ### summed per region and adjusted by changes in the province-wide
   ### visitors to cancel system-wide shifts in tourism (e.g. economics)
 
-  status_year    <- layers$data$status_year
+  status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
@@ -708,7 +708,7 @@ TR <- function(layers) {
 
 LIV <- function(layers) {
 
-  status_year    <- layers$data$status_year
+  status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
@@ -761,7 +761,7 @@ ICO <- function(layers) {
 
   ### in goals.csv, allow status year to be NULL, so it can be reassigned
   ### for each iteration through calculate loop
-  status_year <- layers$data$status_year
+  status_year <- layers$data$scenario_year
   data_year   <- status_year
 
   ico_risk_by_year <- layers$data[['ico_spp_risk_score']] %>%
@@ -862,7 +862,7 @@ ICO <- function(layers) {
 
 LSP <- function(layers, ref_pct_cmpa = 30, ref_pct_cp = 30) {
 
-  status_year <- layers$data$status_year
+  status_year <- layers$data$scenario_year
   data_year   <- status_year
 
   tot_area_rgn  <- layers$data[['lsp_tot_area_inland_ws']] %>%
@@ -937,15 +937,15 @@ SP <- function(scores) {
 
 CW <- function(layers) {
 
-  status_year    <- layers$data$status_year
+  status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
 
-  nutr_prs <- layers$data[['po_nutrient_3nm']] %>%
+  nutr_prs <- layers$data[['po_nutrients_3nm']] %>%
     complete_years(status_yr_span) %>%
     rename(pressure = nutr_pressure)
-  chem_prs <- layers$data[['po_chemical_3nm']] %>%
+  chem_prs <- layers$data[['po_chemicals_3nm']] %>%
     complete_years(status_yr_span) %>%
     rename(pressure = chem_pressure)
   trash_prs <- layers$data[['po_trash']] %>%
@@ -1004,7 +1004,7 @@ HAB <- function(layers) {
   ### EBSA, soft bottom habitats based on trawl pressures
   ### Coastal forests excluded
 
-  status_year    <- layers$data$status_year
+  status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
@@ -1028,16 +1028,6 @@ HAB <- function(layers) {
            status = sm_area_km2 / ref_pt,
            status = ifelse(status > 1, 1, status)) %>%
     complete_years(status_yr_span)
-
-  # cf_health   <- layers$data[['hab_cf_health']] %>%
-  #   group_by(rgn_id) %>%
-  #   arrange(rgn_id, year) %>%
-  #   mutate(hab    = 'coastal_forest',
-  #          ref_pt = first(cf_area_km2),
-  #          ref_yr = first(year),
-  #          status = cf_area_km2 / ref_pt,
-  #          status = ifelse(status > 1, 1, status)) %>%
-  #   complete_years(status_yr_span)
 
   hab_status <- bind_rows(ebsa_health, sb_health, sm_health) %>% # cf_health) %>%
     select(region_id, year, status, hab) %>%
@@ -1068,7 +1058,7 @@ HAB <- function(layers) {
 
 SPP <- function(layers) {
 
-  status_year <- layers$data$status_year
+  status_year <- layers$data$scenario_year
   data_year   <- status_year
 
   spp_range_by_rgn <- layers$data[['spp_range_areas']] %>%

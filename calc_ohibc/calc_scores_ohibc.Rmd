@@ -59,7 +59,7 @@ prep_scenario_dirs(dir_calc, dir_master, master_flag = '_master', purge = TRUE)
 ### copy layers from data sources to layers folder
 message('Copying all layers to ', file.path(dir_calc, 'layers'))
 
-layers_log <- read_csv(file.path(dir_master, 'layers_ohibc.csv')) %>%
+layers_log <- assemble_layers_csv(dir_master) %>%
   mutate(dir_prep = file.path(dir_ohibc, str_replace(dir_prep, 'ohibc:', '')))
 
 lyrs <- register_layers(layers_log, dir_calc)
@@ -68,7 +68,19 @@ verify_layers(lyrs)
 
 copy_layers_to_scenario(lyrs)
 
+lyrs_files <- list.files(file.path(dir_calc, 'layers'), full.names = TRUE)
+lyrs_yrs <- lapply(lyrs_files, read_csv) %>%
+  setNames(basename(lyrs_files %>% str_replace('.csv', ''))) %>%
+  bind_rows(.id = 'layer') %>%
+  select('layer', 'year') %>%
+  distinct() %>%
+  group_by(layer) %>%
+  summarize(yr_span = paste0(min(year, na.rm = TRUE), ':', max(year, na.rm = TRUE)),
+            yr_span = ifelse(sum(is.na(year)) == n(), 'NA', yr_span))
+
+
 write_csv(lyrs %>% 
+            left_join(lyrs_yrs, by = 'layer') %>%
             select(-path_in, -path_in_exists, -path_out),
           file.path(dir_calc, 'layers.csv'))
 
@@ -78,8 +90,8 @@ conf   <- Conf(file.path(dir_calc, 'conf'))
 capture.output( ### the function prints a lot crap to screen - let's change those to messages please!
   {
     CheckLayers(layers.csv = file.path(dir_calc, 'layers.csv'),
-              layers.dir = file.path(dir_calc, 'layers'),
-              flds_id    = conf$config$layers_id_fields)
+                layers.dir = file.path(dir_calc, 'layers'),
+                flds_id    = conf$config$layers_id_fields)
   },
   file = 'delete_this.txt')
 unlink('delete_this.txt')
@@ -108,7 +120,7 @@ status_years <- layers$data$status_year_span
 
 ### for testing:
 status_year <- median(status_years)
-layers$data$status_year <- status_year
+layers$data$scenario_year <- status_year
 
 ```
 
@@ -125,7 +137,7 @@ for (status_year in status_years) {
 
   ### For each run through loop, assign status_year inside
   ###   the layers object/env't so it is accessible to functions.R
-  layers$data$status_year <- status_year
+  layers$data$scenario_year <- status_year
 
   capture.output( ### the function prints crap to screen
     {

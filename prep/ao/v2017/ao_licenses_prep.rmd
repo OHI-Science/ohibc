@@ -21,14 +21,15 @@ output:
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
                       echo = TRUE, message = FALSE, warning = FALSE)
 
-library(ggmap)
+# library(ggmap)
 library(rgdal)
+library(sf)
 library(broom)
 
 source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
 
 dir_git     <- '~/github/ohibc'
-dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_spatial <- file.path(dir_git, 'prep/_spatial')  ### github: general buffer region shapefiles
 dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
 
 ### goal specific folders and info
@@ -49,23 +50,47 @@ p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 
 This data is incorporated into the OHI British Columbia First Nations Resource Access and Opportunities (AO) goal.
 
-***
+-----
 
-#Data Source
+# Data Source
 
-**Reference**: 
+__Fishing licenses__
 
-**Downloaded**: 
+* __Reference__: From Karen Hunter, DFO
+* __Downloaded__: Aug 7, 2017 from:
+    * http://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2016-eng.cfm (2016 census subdivisions)
+* __Description__:  Census subdivision administrative boundaries; choose "English", "ArcGIS", census subdivisions, cartographic boundary file option)
+* __Native data resolution__: Census subdivision
+* __Format__:  ESRI shapefile (or Arc e00 file for 2001)
 
-**Native Data Resolution**:   
+__Fishery Management Area boundaries__
 
-**Values**: 
+* __Reference__: From Karen Hunter, DFO
+* __Downloaded__: May 24, 2016
+* __Description__:  Pacific Fisheries Sub Management Areas
+* __Native data resolution__: PFMSA
+* __Format__:  ESRI shapefile
 
-**Time Range**: N/A
+__Census subdivision administrative boundaries__
 
-**Format**: CSV
+* __Reference__: [Copyright © 2017, Province of British Columbia](http://www2.gov.bc.ca/gov/content/home/copyright)
+* __Downloaded__: Aug 7, 2017 from:
+    * http://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2016-eng.cfm (2016 census subdivisions)
+* __Description__:  Census subdivision administrative boundaries; choose "English", "ArcGIS", census subdivisions, cartographic boundary file option)
+* __Native data resolution__: Census subdivision
+* __Format__:  ESRI shapefile
 
-***
+__2016 Census Total Population Results Census Subdivisions__
+
+* __Reference__: [Statistics Canada, Prepared by:  BC Stats, Ministry of Technology, Innovation and Citizens' Services]
+* __Downloaded__: Aug 7, 2017 from 
+    * http://www.bcstats.gov.bc.ca/StatisticsBySubject/Census/2016Census/PopulationHousing/CensusSubdivisions.aspx (2016)
+* __Description__:  Census subdivision populations for 2016
+* __Native data resolution__: Census subdivision (note boundaries are different each year, use proper shapefile)
+* __Format__:  .csv
+
+
+-----
 
 # Methods
 
@@ -321,7 +346,7 @@ lic_lookup_all <- lic_lookup_clean %>%
   distinct()
 
 ### attach OHIBC regions by PFMA
-pfma_lookup <- read_csv(file.path(dir_git, 'prep/fis/v2017/rgns/pfmsubareas_df.csv')) %>%
+pfma_lookup <- read_csv(file.path(dir_git, 'prep/fis/v2017/int/pfmsa_to_ohibc.csv')) %>%
   select(rgn_id, pfma_id, pfmsa_id) %>%
   filter(!is.na(pfma_id) & !is.na(rgn_id)) %>%
   distinct()
@@ -340,7 +365,7 @@ write_csv(lic_lookup_rgn, file.path(dir_goal, 'int/lic_lookup_rgn.csv'))
 
 ```
 
-#### Closure areas cleaned and expanded
+#### License areas cleaned and expanded
 
 `r DT::datatable(lic_lookup_all)`
 
@@ -446,6 +471,134 @@ ggsave(filename = file.path(dir_goal, 'int/ao_licenses_mapped.png'),
 
 -----
 
+## Reference point as % FN in rgn?
+
+One possible reference point is that the % of licenses apportioned to FN should be proportional to the % of population in region that is First Nations.
+
+* Use census data from 2011 or 2016, mapped using the inland regions (full watersheds).
+* Use population of First Nations communities vs total population.
+
+``` {r figure_out_csd}
+
+ohibc_rgn <- read_sf(dsn = dir_spatial,
+                     layer = 'ohibc_rgns_unclipped')
+
+csd_clean <- function(csd_sf, year) {
+  csd_sf2 <- csd_sf %>%
+    clean_df_names() %>%
+    select(csduid, csdname, csdtype, geometry) %>%
+    st_transform(st_crs(ohibc_rgn))
+  
+  csd_sf2$a_tot <- st_area(csd_sf)
+  
+  csd_sf_bc <- csd_sf2 %>%
+    st_buffer(dist = 0) %>%
+    st_intersection(ohibc_rgn) 
+  
+  csd_sf_bc$a_ohibc <- st_area(csd_sf_bc)
+  
+  csd_bc_df <- csd_sf_bc %>%
+    as.data.frame() %>%
+    clean_df_names()  %>%
+    mutate(prop_area = as.numeric(a_ohibc / a_tot),
+           area_total_km2 = as.numeric(a_tot / 1e6),
+           area_ohibc_km2 = as.numeric(a_ohibc / 1e6),
+           year = year) %>%
+    select(csduid, csdname, csdtype, rgn_id, 
+           area_total_km2, area_ohibc_km2, prop_area, year)
+  
+  return(csd_bc_df)
+}
+
+if(!file.exists(file.path(dir_goal, 'int/ao_licenses_csd_2016.csv'))) {
+  
+  csd_2016 <- read_sf(dsn = file.path(dir_anx, '_raw_data/bcstats/csd2016carto'),
+                      layer = 'lcsd000b16a_e') %>%
+    csd_clean(2016)
+  
+  write_csv(csd_2016, file.path(dir_goal, 'int/ao_licenses_csd_2016.csv'))
+
+}
+
+
+```
+
+
+``` {r read_pop_data_2001-2016}
+
+pop_2016 <- read_csv(file.path(dir_anx, '_raw_data/bcstats',
+                               '2016 Census - CSD_control_79d4a796-2ccd-4732-a01c-1a8fd26d254a_1.csv')) %>%
+  clean_df_names() %>%
+  select(sgc, name, type, 
+         pop = `2016_population`, 
+         prev_pop = `2011_population_2`)
+
+write_csv(pop_2016, file.path(dir_goal, 'int/ao_licenses_pop_2016.csv'))
+
+```
+
+``` {r census_pops_2001_2016}
+
+pop_df <- read_csv(file.path(dir_goal, 'int/ao_licenses_pop_2016.csv'))
+
+csd_df <- read_csv(file.path(dir_goal, 'int/ao_licenses_csd_2016.csv')) 
+
+pop_csd <- pop_df %>%
+  left_join(csd_df, by = c('sgc' = 'csduid')) %>%
+  filter(!is.na(rgn_id)) %>%
+  select(-type, -name, -prev_pop) %>%
+  group_by(rgn_id, csdtype) %>%
+  summarize(pop = sum(pop * prop_area, na.rm = TRUE))
+
+write_csv(pop_csd, file.path(dir_goal, 'int/ao_licenses_pop_csd_2016.csv'))
+
+```
+
+### Determine population of First Nations communities within OHIBC
+
+Develop a dataframe of municipalities by OHIBC region (inland, based on MaPP inland regions and watershed boundaries).  Census subdivisions will be allocated to OHIBC regions according to area-weighting.
+
+First Nations communities can be identified from the census data using the "type" codes: 
+
+|CSD type | Description |
+| :-----: | :---------- |
+|   CY    | City |
+|   DM    | District Municipality |
+|    T    | Town |
+|   VL    | Village |
+|   IM    | Island Municipality |
+|  IRI ✓  | Indian Reserve |
+|  RDA    | Regional District Electoral Area |
+|  IGD ✓  | Indian Governmental District |
+|  S-E ✓  | Indian Settlement |
+|   NL ✓  | Nisga'a Land |
+|  NVL ✓  | Nisga'a Village |
+
+Note, this does not catch First Nations members who are living separately from these communities, and assumes all members of the communities are First Nations members.
+
+``` {r ohibc_pop_by_municipality_size}
+
+pop_csd <- read_csv(file.path(dir_goal, 'int/ao_licenses_pop_csd_2016.csv'))
+
+fn_types <- c('IRI', 'IGD', 'S-E', 'NL', 'NVL') %>%
+  paste(collapse = '|')
+
+pop_cat_csd <- pop_csd %>%
+  group_by(rgn_id) %>%
+  mutate(fn_pop = str_detect(csdtype, fn_types)) %>%
+  summarize(fn_pop = sum(pop * fn_pop),
+            tot_pop = sum(pop),
+            pct_fn = round(fn_pop / tot_pop, 5))
+
+
+knitr::kable(pop_cat_csd, caption = 'First Nations communities as percent of total pop')
+
+write_csv(pop_cat_csd, file.path(dir_goal, 'int/ao_licenses_fn_pop.csv'))
+
+```
+
+-----
+
 ## Other questions
 
 ### licenses by length?
@@ -490,9 +643,11 @@ ggsave(file.path(dir_goal, 'int/ao_licenses_vessel_lengths.png'))
 
 ![](`r path.expand(file.path(dir_goal, 'int/ao_licenses_vessel_lengths.png'))`)
 
-***
+-----
 
-``` {r prov_footer, results = 'asis', eval = FALSE}
-prov_wrapup()
+``` {r prov_footer, results = 'asis', eval = TRUE}
+
+prov_wrapup(commit_outputs = FALSE)
+
 ```
 
