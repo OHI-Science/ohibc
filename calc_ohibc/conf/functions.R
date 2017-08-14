@@ -371,6 +371,7 @@ AO <- function(layers) {
   ### get the data:
   closures <- layers$data[['ao_closures']]
   licenses <- layers$data[['ao_licenses']]
+  licenses_ref <- layers$data[['ao_licenses_fn_pop']] ### consider FN pop % as ref point?
   shi      <- layers$data[['ao_spawn_hab_index']]
   salmon   <- layers$data[['ao_salmon']]
 
@@ -393,8 +394,10 @@ AO <- function(layers) {
   ### Licenses:
   ### * prop of licenses allocated to FNs, with some level (25%?) as target?
   ### * no net loss vs some rolling average?
-  license_ref_pt <- max(licenses$pct_fn, na.rm = TRUE)
+  ### * Reference point idea: % FN licenses is equal to FN pop, with some minimum
+  ###   threshold (say 10-15%) to account for high non-FN pops in SoG/WCVI regions
   license_status <- licenses %>%
+    left_join(licenses_ref) %>%
     complete_years(status_yr_span) %>%
     mutate(status = pct_fn / license_ref_pt,
            status = ifelse(status > 1, 1, status),

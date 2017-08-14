@@ -369,11 +369,11 @@ AO <- function(layers) {
   status_yr_span <- layers$data$status_year_span
 
   ### get the data:
-  closures <- layers$data[['ao_closures']]
-  licenses <- layers$data[['ao_licenses']]
-  # licenses_ref <- layers$data[['ao_licenses_fn_pop']] ### consider FN pop % as ref point?
-  shi      <- layers$data[['ao_spawn_hab_index']]
-  salmon   <- layers$data[['ao_salmon']]
+  closures <- layers$data[['ao_closures']] %>% select(-layer)
+  licenses <- layers$data[['ao_licenses']] %>% select(-layer)
+  licenses_ref <- layers$data[['ao_licenses_fn_pop']] %>% select(-layer)
+  shi      <- layers$data[['ao_spawn_hab_index']] %>% select(-layer)
+  salmon   <- layers$data[['ao_salmon']] %>% select(-layer)
 
   ### assign weights to each layer
   component_wts <- c('shellfish_closures' = 1,
@@ -396,14 +396,19 @@ AO <- function(layers) {
   ### * no net loss vs some rolling average?
   ### * Reference point idea: % FN licenses is equal to FN pop, with some minimum
   ###   threshold (say 10-15%) to account for high non-FN pops in SoG/WCVI regions
-  license_ref_pt <- max(licenses$pct_fn, na.rm = TRUE)
+
+  license_ref_min <- 0.15 ### set floor at 15% of licenses
+
   license_status <- licenses %>%
+    filter(rgn_id != 7) %>%
+    left_join(licenses_ref, by = 'rgn_id') %>%
     complete_years(status_yr_span) %>%
-    mutate(status = pct_fn / license_ref_pt,
+    mutate(ref_pt = ifelse(pct_fn_pop > license_ref_min, pct_fn_pop, license_ref_min),
+           status = pct_fn / ref_pt,
            status = ifelse(status > 1, 1, status),
            component = 'first_nations_licenses') %>%
     select(year, region_id, status, component)
-  # ggplot(licenses_target, aes(x = year, y = status, group = region_id, color = region_id)) + geom_line()
+  # ggplot(license_status, aes(x = year, y = status, group = region_id, color = region_id)) + geom_line()
 
   ### Spawn habitat index
   ### * SHI vs historical reference point of mean SHI from 1940-1960.

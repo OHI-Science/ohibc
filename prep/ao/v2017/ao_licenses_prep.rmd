@@ -415,7 +415,8 @@ plot_fn_by_rgn <- ggplot(sum_fn_by_rgn, aes(x = year, y = pct_fn, group = rgn_na
   ggtheme_plot() +
   geom_line(size = 1.5, alpha = 0.7) +
   labs(y = 'Percent of licenses to First Nations',
-       color = 'OHIBC Region')
+       color = 'OHIBC Region') +
+  scale_color_brewer(palette = 'Dark2')
 
 print(plot_fn_by_rgn)
 
@@ -477,6 +478,7 @@ One possible reference point is that the % of licenses apportioned to FN should 
 
 * Use census data from 2011 or 2016, mapped using the inland regions (full watersheds).
 * Use population of First Nations communities vs total population.
+* It may be desirable to set a lower limit to ensure some minimal representation of First Nations in a region's fishing population.
 
 ``` {r figure_out_csd}
 
@@ -524,7 +526,7 @@ if(!file.exists(file.path(dir_goal, 'int/ao_licenses_csd_2016.csv'))) {
 ```
 
 
-``` {r read_pop_data_2001-2016}
+``` {r read_pop_data}
 
 pop_2016 <- read_csv(file.path(dir_anx, '_raw_data/bcstats',
                                '2016 Census - CSD_control_79d4a796-2ccd-4732-a01c-1a8fd26d254a_1.csv')) %>%
@@ -537,7 +539,7 @@ write_csv(pop_2016, file.path(dir_goal, 'int/ao_licenses_pop_2016.csv'))
 
 ```
 
-``` {r census_pops_2001_2016}
+``` {r census_pops_2016}
 
 pop_df <- read_csv(file.path(dir_goal, 'int/ao_licenses_pop_2016.csv'))
 
@@ -574,27 +576,105 @@ First Nations communities can be identified from the census data using the "type
 |   NL ✓  | Nisga'a Land |
 |  NVL ✓  | Nisga'a Village |
 
-Note, this does not catch First Nations members who are living separately from these communities, and assumes all members of the communities are First Nations members.
+Note, this does not catch First Nations members who are living separately from these communities, and counts all members of the communities as First Nations members.
 
-``` {r ohibc_pop_by_municipality_size}
+``` {r ohibc_pop_fns}
 
 pop_csd <- read_csv(file.path(dir_goal, 'int/ao_licenses_pop_csd_2016.csv'))
 
 fn_types <- c('IRI', 'IGD', 'S-E', 'NL', 'NVL') %>%
   paste(collapse = '|')
 
-pop_cat_csd <- pop_csd %>%
+pop_fn_rgn <- pop_csd %>%
   group_by(rgn_id) %>%
   mutate(fn_pop = str_detect(csdtype, fn_types)) %>%
   summarize(fn_pop = sum(pop * fn_pop),
             tot_pop = sum(pop),
-            pct_fn = round(fn_pop / tot_pop, 5))
+            pct_fn_pop = round(fn_pop / tot_pop, 5))
 
 
-knitr::kable(pop_cat_csd, caption = 'First Nations communities as percent of total pop')
+knitr::kable(pop_fn_rgn, caption = 'First Nations communities as percent of total pop')
 
-write_csv(pop_cat_csd, file.path(dir_goal, 'int/ao_licenses_fn_pop.csv'))
+write_csv(pop_fn_rgn, file.path(dir_goal, 'output/ao_licenses_fn_pop.csv'))
 
+```
+
+``` {r plot_vs_pop_reference}
+
+license_ref_min <- 0.15 ### arbitrary lower limit of reference point
+
+license_status <- read_csv(file.path(dir_goal, 'output/ao_licenses.csv')) %>%
+  filter(rgn_id != 7) %>%
+  left_join(read_csv(file.path(dir_goal, 'output/ao_licenses_fn_pop.csv')), 
+            by = 'rgn_id') %>%
+  mutate(ref_pt = ifelse(pct_fn_pop > license_ref_min, pct_fn_pop, license_ref_min),
+         status = pct_fn / ref_pt,
+         status = ifelse(status > 1, 1, status),
+         component = 'first_nations_licenses') %>%
+  select(year, rgn_id, pct_fn, pct_fn_pop, ref_pt, status, component) %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
+
+
+plot_fn_by_rgn <- ggplot(license_status, aes(x = year, y = pct_fn, group = rgn_name, color = rgn_name)) +
+  ggtheme_plot() +
+  geom_hline(aes(yintercept = pct_fn_pop), color = 'grey', size = 1.5, alpha = .5) +
+  geom_hline(aes(yintercept = ref_pt), color = 'red', alpha = 1) +
+  geom_line(size = 1.5, alpha = 0.7) +
+  labs(y = 'Percent of licenses to First Nations',
+       color = 'OHIBC Region') +
+  scale_color_brewer(palette = 'Dark2') +
+  facet_wrap( ~ rgn_name)
+
+print(plot_fn_by_rgn)
+
+```
+
+Note: grey line indicates % of rgn population that are members of First Nations communities according to 2016 census subdivisions; red line indicates reference point as proportion of region population that is First Nations, with a minimum set at 15%.
+
+``` {r compare_fn_pcts_and_pop, eval = FALSE}
+
+pop_fn_rgn <- read_csv(file.path(dir_goal, 'int/ao_licenses_fn_pop.csv'))
+
+fn_by_rgn <- read_csv(file.path(dir_goal, 'output/ao_licenses.csv')) %>%
+  left_join(get_rgn_names(), by = 'rgn_id') %>%
+  left_join(pop_fn_rgn, by = 'rgn_id') %>%
+  filter(rgn_id != 7) %>%
+  rename(pct_fn_lic = pct_fn)
+
+fn_by_rgn_mean <- fn_by_rgn %>%
+  group_by(rgn_id, rgn_name, pct_fn_pop, fn_pop) %>%
+  summarize(pct_fn_lic = mean(pct_fn_lic, na.rm = TRUE),
+            n_fn = mean(n_fn, na.rm = TRUE)) %>%
+  ungroup()
+
+x <- ggplot(fn_by_rgn, aes(x = pct_fn_pop, y = pct_fn_lic)) +
+  geom_abline(slope = 1, intercept = 0, color = 'red') +
+  geom_point(aes(color = rgn_name), alpha = .3) +
+  geom_point(data = fn_by_rgn_mean, aes(color = rgn_name), size = 4) +
+  labs(title = 'FN % licenses vs % rgn pop')
+
+y_mdl <- lm(n_fn ~ fn_pop, data = fn_by_rgn)
+y_coef <- c('slope' = y_mdl$coefficients[['fn_pop']],
+            'intcp' = y_mdl$coefficients[['(Intercept)']],
+            'r2'    = y_mdl %>% summary() %>% .$r.squared)
+
+mean_ratio <-  fn_by_rgn %>%
+  group_by(rgn_id) %>%
+  summarize(mean_n = mean(n_fn),
+            mean_fn_pop = mean(fn_pop),
+            mean_ratio = mean(n_fn / fn_pop)) %>%
+  ungroup() %>%
+  filter(rgn_id != 8) %>%
+  mutate(unif_dist = sum(mean_n) / sum(mean_fn_pop))
+
+y <- ggplot(fn_by_rgn, aes(x = fn_pop, y = n_fn)) +
+  geom_smooth(method = 'lm', color = 'red') +
+  geom_point(aes(color = rgn_name), alpha = .3) +
+  geom_point(data = fn_by_rgn_mean, aes(color = rgn_name), size = 4) +
+  labs(title = 'FN licenses vs rgn pop')
+
+  
+print(x); print(y)
 ```
 
 -----

@@ -1,6 +1,7 @@
 layer,dir_prep,fn_data,ingest,name_data_fld
 ao_closures,ohibc:prep/ao/v2017/output,ao_closures.csv,TRUE,days_avg
-ao_licenses,ohibc:prep/ao/v2017/output,ao_licenses.csv,TRUE,n_fn
+ao_licenses,ohibc:prep/ao/v2017/output,ao_licenses.csv,TRUE,pct_fn
+ao_licenses_fn_pop,ohibc:prep/ao/v2017/output,ao_licenses_fn_pop.csv,TRUE,pct_fn_pop
 ao_salmon,ohibc:prep/ao/v2017/output,ao_salmon.csv,TRUE,days_avg
 ao_spawn_hab_index,ohibc:prep/ao/v2017/output,ao_spawn_hab_index.csv,TRUE,shi_tot
 cc_acid,ohibc:prep/_pressures/v2017/output,prs_oa_layer.csv,TRUE,pressure
