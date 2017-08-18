@@ -135,25 +135,33 @@ if(!all(file.exists(bc_dst_files)) | reload) {
 
 ## Calculate pressures from count of anomalous weeks
 
-Each cell will be rescaled to a 0-1 score based on the reference point of 50% of weeks being anomalous.  Note for 2016, we have to account for two missing weeks, so we multiply the proportion of anomalous weeks by 26/25.
+Each cell will be rescaled to a 0-1 score based on the reference point of 50% of weeks being anomalous.  Note for 2016, we have to account for two missing weeks, so we multiply the proportion of anomalous weeks by $\frac{26}{25}$.
 
 ``` {r rescale_uv_pressures}
 
 uv_anom_wks_files <- list.files(file.path(dir_goal, 'uv_rasts'),
                                 pattern = 'uv_anom_wks', 
                                 full.names = TRUE)
-
-uv_anom_wks_stack <- stack(uv_anom_wks_files)
-
-uv_prs_stack <- uv_anom_wks_stack / 26
-uv_prs_stack[['uv_anom_wks_2016']] <- uv_prs_stack[['uv_anom_wks_2016']] * 26/25
-  ### 2016 is missing two weeks; so values are based on 50 wks instead of 52.
-  ### Adjust accordingly.
-
 uv_prs_files <- uv_anom_wks_files %>%
   str_replace('uv_anom_wks', 'uv_prs')
-writeRaster(uv_prs_stack, uv_prs_files, bylayer = TRUE, overwrite = TRUE)
 
+if(!all(file.exists(uv_prs_files)) | reload) {
+  
+  uv_anom_wks_stack <- stack(uv_anom_wks_files)
+  
+  uv_prs_stack <- uv_anom_wks_stack / 26
+  uv_prs_stack[['uv_anom_wks_2016']] <- uv_prs_stack[['uv_anom_wks_2016']] * 26/25
+    ### 2016 is missing two weeks; so values are based on 50 wks instead of 52.
+    ### Adjust accordingly.
+  
+  writeRaster(uv_prs_stack, uv_prs_files, bylayer = TRUE, overwrite = TRUE)
+
+} else {
+  
+  git_prov(uv_anom_wks_files, filetype = 'input')
+  git_prov(uv_prs_files, filetype = 'output')
+  
+}
 
 ```
 
@@ -176,7 +184,12 @@ ohibc_rgn_uv <- zonal(uv_prs_stack, ohibc_rgn_rast, fun = 'mean', na.rm = TRUE) 
   group_by(rgn_id) %>%
   mutate(year = str_extract(year, '[0-9]{4}') %>%
            as.integer(),
-         pressure = zoo::rollmean(prs_raw, 5, align = 'right', fill = NA))
+         pressure = zoo::rollmean(prs_raw, 5, align = 'right', fill = NA)) %>%
+  ungroup() %>%
+  mutate(prs_raw  = ifelse(prs_raw  > 1, 1, prs_raw),
+         prs_raw  = ifelse(prs_raw  < 0, 0, prs_raw),
+         pressure = ifelse(pressure > 1, 1, pressure),
+         pressure = ifelse(pressure < 0, 0, pressure))
 
 write_csv(ohibc_rgn_uv, file.path(dir_goal, 'output/prs_uv_layer.csv'))
 
@@ -204,11 +217,14 @@ print(prs_plot)
 
 ```
 
+Heavy line is smoothed using a 5-year rolling mean.  Light line is score on year-to-year basis.
+
 -----
 
 # Citation information  
 
 Jari Hovila, Antii Arola, and Johanna Tamminen (Oct ), OMI/Aura Surface UVB Irradiance and Erythemal Dose Daily L3 Global 1.0x1.0 deg Grid, version 003, NASA Goddard Space Flight Center
+
 -----
 
 ``` {r provenance, results = 'asis'}
