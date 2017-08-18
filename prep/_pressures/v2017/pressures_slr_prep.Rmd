@@ -385,10 +385,7 @@ prs_df <- raster::zonal(prs_rasts, rgn_rast, fun = 'mean') %>%
   mutate(pressure = zoo::rollmean(prs_raw, 5, align = 'right', fill = NA)) %>%
   ungroup()
 
-write_csv(prs_df, file.path(dir_goal, 'output', 'prs_slr_layer.csv'), nogit = TRUE)
-
-message('wrote the file')
-git_prov(file.path(dir_goal, 'output', 'prs_slr_layer.csv'), filetype = 'output')
+write_csv(prs_df, file.path(dir_goal, 'output', 'prs_slr_layer.csv'))
 
 DT::datatable(prs_df)
 ```

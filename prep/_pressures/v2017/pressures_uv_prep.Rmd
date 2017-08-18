@@ -24,23 +24,19 @@ library(raster)
 dir_git <- '~/github/ohibc'
 source(file.path(dir_git, 'src/R/common.R'))
   ### an OHIBC specific version of common.R
-dir_anx <- file.path(dir_neptune_data, 'git-annex/bcprep')
-dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+dir_spatial <- file.path(dir_git, 'prep/_spatial')  ### github: general buffer region shapefiles
 
 ### goal specific folders and info
-goal      <- 'pressures'
-scenario  <- 'v2016'
+goal      <- '_pressures'
+scenario  <- 'v2017'
 dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
 dir_goal_anx <- file.path(dir_anx, goal, scenario)
 
 ### provenance tracking
-source('~/github/ohibc/src/R/prov.R')      
-  ### Provenance tracking functions: must source at start to initialize prov_track
-dir_prov <- file.path(dir_goal, 'prov') 
-  ### set a provenance folder for this script
-this_script_file <- file.path(dir_goal, 'pressures_uv_prep.Rmd') 
-  ### can't recognize the current script name on its own :(
-prov_run_tag <- 'standard run'
+library(provRmd)
+prov_setup()
 
 ### goal-specific source scripts
 source(file.path(dir_goal, 'pressures_lyr_fxns.R'))
@@ -48,231 +44,173 @@ source(file.path(dir_goal, 'pressures_lyr_fxns.R'))
 ### other support functions
 source(file.path(dir_git, 'src/R/rast_tools.R'))
 
-### set up proj4string options: BC Albers and WGS84
-p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
-p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+reload <- FALSE
 
-reload = FALSE
 ```
 
 # Summary
 
-There are two parts to creating this layer:
+For Global OHI 2017: 
 
-1. Data prep to get raw data into the correct format:
-    * Read anomalies data as raster for 1997-2001 and 2010-2014.
-    * Clip rasters to extents of OHIBC region, and reproject into BC Albers projection.
-2. Creating the pressure layers for OHIBC:
-    * Determine change in anomalies since baseline.
-    * Set negative values to zero (only interested in increases).
-    * Resample to 1 km.
-    * Log transform results.
-    * Interpolate to coastline at 1 km resolution.
-    * Rescale zero to 1, where 1 is 99.99%ile
-    
-This process is completed entirely within this script.
+>the Ultraviolet Radiation pressure layer is generated from daily data on Local Noon Erythemal UV Irradiance (mW/m2) derived from satellite observations. 
 
-# Updates
+>1. Average the data for each week/year/cell  
+>2. For each week/year/cell, calculate the mean and sd, so each cell would have ~624 (12*52) values (2004-2016)  
+>3. Determine which of these were anomalous, defined as greater than the mean plus 1 standard deviation  
+>4. Sum weekly anomalies for each year/cell (for a total of 52 possible anomalies per year/cell)  
+>5. Calculate the total number of anomalies in the reference period (in our case, 2004-2009, for a total of 52*5 anomalies per cell)  
+>6. Calculate the total number of anomalies in the most recent 5 year period (2011-2015)    
+>7. then for each cell, get the difference between current anomalies and reference anomolies    
+>8. Rescale the data to be between 0-1 by using the 99.99th quantile as a reference point
 
-Not applicable.
+For OHIBC, we will use the global prepared data from steps 1-4, then clip to BC regions, interpolate to fill gaps, resample to OHIBC, and determine the pressure based on a reference point of 50% of weeks being higher than the climatological norms (mean + 1 standard deviation).  This 50% reference point represents a threshold to a "new normal" or a regime shift.
 
-# Data
+-----
 
-The Ultraviolet Radiation pressures layer uses the Aura OMI GLobal Surface UVB Data Product.
+# Data Source
 
-* Native Data Resolution: 1 degree
-* Values: Level-3 OMI Surface UV Irradiance and Erythemal Dose- OMUVBd
-* Time Range: Daily data from 2004 - 2014
-* Format: HDF5
+* __Reference__: The Ultraviolet Radiation pressures layer uses the [Aura OMI GLobal Surface UVB Data Product](http://disc.sci.gsfc.nasa.gov/Aura/data-holdings/OMI/omuvbd_v003.shtml).  
+* __Native Data Resolution__: 1 degree  
+* __Values__: Level-3 OMI Surface UV Irradiance and Erythemal Dose- OMUVBd  
+* __Time Range__: Daily data from 2005 - 2016 
+* __Format__: HDF5  
 
-# Methods
+__Note__: The first two weeks of June are missing from the 2016 raw data. The code is written in a way to account for this, but it does mean that we are missing two weeks that could slightly influence the results of the most recent pressure layer if it were available.
 
-## Data Prep
+-----
+  
+# Methods  
 
-### Read raw data
+## Preparing the raw data
 
-Raw data is read in for 1997-2001 and 2010-2014 datasets.
+These steps are completed in the OHI Global 2017 UV pressures data prep script.  They are briefly outlined here for clarity.
 
-``` {r read_uv_layers}
+### Create rasters from HDF files
 
-dir_uv_data <- file.path(dir_neptune_data, 
-                         'git-annex/globalprep/Pressures_UV', 
-                         'data/uv_omi_aura_2013_2014/uv_baseline_anomaly')
+Calculate weekly means and standard deviations across all years
 
-gl_uv_curr <- raster(file.path(dir_uv_data, 
-                               'omi_aura_uv_anomaly_2010m01-2014m12_raw.tif'))
-gl_uv_past    <- raster(file.path(dir_uv_data, 
-                                  'toms_ep_uv_anomaly_1997m01-2001m12_raw.tif'))
-# data       = raster('uv_anomaly_difference_2010m01-2014m12_minus_1997m01-2001m12_raw.tif'))
+* List all files from raw data folder (`git-annex/globalprep/_raw_data/NASA_OMI_AURA_UV`)
+* For every week in each year in the time series, calculate the weekly mean and standard deviation.
+* Get weekly climatologies (mean and standard deviation of UV irradiance for each cell) across all years in the time series
 
-range_uvpast    <- range(values(gl_uv_past), na.rm = TRUE)
-range_uvcurr <- range(values(gl_uv_curr), na.rm = TRUE)
+### Compare mean UV irradiance to climatology
 
-```
+Compare each week in each year to the climatology for that week. The climatology is equal to the mean plus one standard deviation.  The result is a set of annual rasters of anomalous weeks for the year within that cell.
 
-Range of UV~1997-2001~ for global dataset: `r paste(range_uvpast, collapse = ' - ')`.
+* These files can be found in `github/ohiprep/globalprep/prs_uv/v2017/int', filenames 'annual_pos_anomalies_XXXX.tif` where `XXXX` is the year.
 
-Range of UV~2010-2014~ for global dataset: `r paste(range_uvcurr, collapse = ' - ')`.
+## Collect data and localize to BC
 
-### Convert raw global data to OHIBC region data
+Here we part ways with the global analysis.  Each layer is reprojected to BC Albers at 1000 m resolution (and cropped to BC extents).  These will be saved on Github.
 
-The raw data, in WGS84 coordinate ref system, is rasterized, clipped down to a bounding box around the OHIBC region, and reprojected into BC Albers projection.  This data is then resampled to 1 km resolution using nearest neighbor method.
+``` {r localize_global_uv_data}
 
-The resulting raster layers include total UV anomalies for each coarse cell (approx 1 degree, from original resolution) the two time periods.
+uv_global_data_dir <- '~/github/ohiprep/globalprep/prs_uv/v2017/int'
+uv_pos_anom_files <- list.files(uv_global_data_dir, pattern = 'pos_anomalies', full.names = TRUE)
 
-``` {r load_rgn, echo = FALSE}
+yrs <- str_extract(basename(uv_pos_anom_files), '[0-9]{4}')
 
-rgn_lyr <- 'ohibc_rgn'
+bc_dst_files <- file.path(dir_goal, 'uv_rasts', sprintf('uv_anom_wks_%s.tif', yrs))
 
-message(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
-rgn_poly <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
-                       verbose = FALSE, stringsAsFactors = FALSE)
+if(!all(file.exists(bc_dst_files)) | reload) {
 
-rgn_poly_wgs84 <- readOGR(dsn = path.expand(dir_rgn), 
-                         layer = paste(rgn_lyr, '_wgs84', sep = ''),
-                         verbose = FALSE, stringsAsFactors = FALSE)
-
-### In case we need to resample to 1 km... use base raster from 
-### regions folder (note: 500m base raster available too).  Used later in
-### finding zonal statistics anyway.
-rast_rgn <- raster(file.path(dir_rgn, 'ohibc_rgn_raster_1000m.tif'))
-
-```
-
-``` {r create_uv_rasts, echo = FALSE}
-### clip rasters to extents of region (in WGS 84 CRS)
-### then: reproject to BC Albers projection
-bc_uv_past_file <- file.path(dir_goal, 'int/uv/rast_uv_past_raw.tif')
-bc_uv_curr_file <- file.path(dir_goal, 'int/uv/rast_uv_curr_raw.tif')
-
-
-if(!file.exists(bc_uv_past_file) | reload) {
-  message('Cropping raster layers from raw data')
-  bc_uv_past <- raster::crop(gl_uv_past, rgn_poly_wgs84, snap = 'out') %>%
-    raster::projectRaster(crs = p4s_bcalb)
-  bc_uv_curr <- raster::crop(gl_uv_curr, rgn_poly_wgs84, snap = 'out') %>%
-    raster::projectRaster(crs = p4s_bcalb)
-
-  message('Resampling rasters to new resolution')
-  bc_uv_past_resamp <- raster::resample(bc_uv_past, rast_rgn,
-                               method   = 'ngb',
-                               progress = 'text',
-                               filename = bc_uv_past_file,
-                               overwrite = TRUE)
-  bc_uv_curr_resamp <- resample(bc_uv_curr, rast_rgn,
-                               method   = 'ngb',
-                               progress = 'text',
-                               filename = bc_uv_curr_file,
-                               overwrite = TRUE)
+  uv_anom_stack <- stack(uv_pos_anom_files)
+  
+  rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif'))
+  
+  bc_uv_stack <- uv_anom_stack %>%
+    projectRaster(rast_base, method = 'ngb')
+  
+  bc_uv_stack_masked <- bc_uv_stack %>%
+    mask(rast_base)
+  
+  writeRaster(bc_uv_stack_masked, bc_dst_files, bylayer = TRUE, overwrite = TRUE)
   
 } else {
-  message('Reading raster bricks from files')
-  bc_uv_past_resamp <- raster(bc_uv_past_file)
-  bc_uv_curr_resamp <- raster(bc_uv_curr_file)
+  git_prov(uv_pos_anom_files, filetype = 'input')
+  git_prov(bc_dst_files, filetype = 'output')
 }
 
-plot_rast(bc_uv_past_resamp, 
-          title = 'UV anomalies, 1997-2001', 
-          scale_label = 'count',
-          rev_scale = TRUE)
-
-plot_rast(bc_uv_curr_resamp, 
-          title = 'UV anomalies, 2010-2014', 
-          scale_label = 'count',
-          rev_scale = TRUE)
-
 ```
 
+## Calculate pressures from count of anomalous weeks
 
-## Rescale values as pressures
-
-Baseline UV anomaly frequency is based upon the count within 1997 to 2001.
-
-Change in UV anomaly frequency is determined by simple subtraction of the 1997-2001 raster from the 2010-2014 raster.  Because the raw rasters seem to be on different grids, differences at native resolution cell edges are very uneven; so we interpolate each layer using thin plate spline before subtracting.
-
-Values below zero (drop in UV anomaly frequency) are set to zero.
-
-This difference value is log+1 transformed, then rescaled from zero (no change in anomalies) to 1 (at 99.99%ile of anomalies).
-
-``` {r interpolate_uv_anomalies}
-
-### because original data appear to be on different grids, interpolate
-### each to create a more even surface - more sensible for subtraction.
-### Col 3 is values from past raster, col 4 is values from current;
-### use these to parameterize the tps_models
-subset_n <- 2000 ### how many sample cells to use to create tps model
-
-xy <- data.frame(xyFromCell(bc_uv_past_resamp, 1:ncell(bc_uv_past_resamp)))
-tmpdf <- cbind(xy, getValues(bc_uv_past_resamp), getValues(bc_uv_curr_resamp)) %>%
-  sample_n(min(subset_n, nrow(xy)))
-xy1 <- tmpdf[ , 1:2]
-v1  <- tmpdf[ , 3]
-v2  <- tmpdf[ , 4]
-tps_model1 <- fields::Tps(xy1, v1)
-tps_model2 <- fields::Tps(xy1, v2)
-message('interpolating uv past values')
-bc_uv_past_int <- interpolate(bc_uv_past_resamp, tps_model1)
-message('interpolating uv recent values')
-bc_uv_curr_int <- interpolate(bc_uv_curr_resamp, tps_model2)
-
-### mask to regions
-values(bc_uv_past_int)[is.na(values(rast_rgn))] <- NA
-values(bc_uv_curr_int)[is.na(values(rast_rgn))] <- NA
-
-```
+Each cell will be rescaled to a 0-1 score based on the reference point of 50% of weeks being anomalous.  Note for 2016, we have to account for two missing weeks, so we multiply the proportion of anomalous weeks by 26/25.
 
 ``` {r rescale_uv_pressures}
 
-### determine change in anomalies
-uv_delta <- bc_uv_curr_int - bc_uv_past_int
+uv_anom_wks_files <- list.files(file.path(dir_goal, 'uv_rasts'),
+                                pattern = 'uv_anom_wks', 
+                                full.names = TRUE)
 
-### If change in anomalies is negative, set to zero
-values(uv_delta)[values(uv_delta) < 0] <- 0
+uv_anom_wks_stack <- stack(uv_anom_wks_files)
 
-plot_rast(uv_delta, 
-          title = 'change in UV anomalies, 1997-2004 to 2010-2014', 
-          scale_label = 'count',
-          rev_scale = TRUE)
+uv_prs_stack <- uv_anom_wks_stack / 26
+uv_prs_stack[['uv_anom_wks_2016']] <- uv_prs_stack[['uv_anom_wks_2016']] * 26/25
+  ### 2016 is missing two weeks; so values are based on 50 wks instead of 52.
+  ### Adjust accordingly.
 
-uv_delta_ln <- calc(uv_delta, fun = function(x) log(x + 1))
+uv_prs_files <- uv_anom_wks_files %>%
+  str_replace('uv_anom_wks', 'uv_prs')
+writeRaster(uv_prs_stack, uv_prs_files, bylayer = TRUE, overwrite = TRUE)
 
-plot_rast(uv_delta_ln, 
-          title = 'log+1 change in UV anomalies, 1997-2004 to 2010-2014', 
-          scale_label = 'log(count+1)',
-          rev_scale = TRUE)
-
-ref_pt = quantile(uv_delta_ln, prob=0.9999)
-
-uv_delta_resc <- calc(uv_delta_ln, fun = function(x) ifelse(x > ref_pt, 1, x/ref_pt))
-plot_rast(uv_delta_resc, 
-          title = 'rescaled change in UV anomalies, 1997-2004 to 2010-2014', 
-          scale_label = 'scaled pressure',
-          rev_scale = TRUE)
-
-writeRaster(uv_delta_resc, file.path(dir_goal, 'output/uv/uv_rescaled_2010-2014.tif'), 
-            overwrite = TRUE)
 
 ```
 
+To calculate region scores, we run zonal statistics on each layer to calculate a mean proportion of anomalous weeks over the entire region.  At that point we can apply a rolling mean as well, though this reduces our data availability for the earlier portion of our time frame.
 
-## Calculate mean pressure by region by year
+``` {r calc_rgn_means}
 
-Using 1000 m region ID raster to run zonal statistics on the pressures layers, calculate the regional average pressures for the study period, and save as a .csv.
+uv_prs_files <- list.files(file.path(dir_goal, 'uv_rasts'),
+                                pattern = 'uv_prs', 
+                                full.names = TRUE)
 
-``` {r calc_mean_uv_pressures_by_year}
+uv_prs_stack <- stack(uv_prs_files)
 
-uv_rgn_mean <- zonal(uv_delta_resc, rast_rgn, fun = 'mean') %>%
+ohibc_rgn_rast <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif'))
+
+ohibc_rgn_uv <- zonal(uv_prs_stack, ohibc_rgn_rast, fun = 'mean', na.rm = TRUE) %>%
   as.data.frame() %>%
-  rename(pressure = mean, rgn_id = zone) %>%
-  left_join(rgn_poly@data %>% select(rgn_id, rgn_name), by = 'rgn_id')
+  rename(rgn_id = zone) %>%
+  gather(year, prs_raw, -rgn_id) %>%
+  group_by(rgn_id) %>%
+  mutate(year = str_extract(year, '[0-9]{4}') %>%
+           as.integer(),
+         pressure = zoo::rollmean(prs_raw, 5, align = 'right', fill = NA))
 
-knitr::kable(uv_rgn_mean)
+write_csv(ohibc_rgn_uv, file.path(dir_goal, 'output/prs_uv_layer.csv'))
 
-write_csv(uv_rgn_mean, file.path(dir_goal, 'output/uv/uv_rgn_pressures.csv'))
+DT::datatable(ohibc_rgn_uv)
+
+```
+
+``` {r plot_pressures}
+
+prs_df <- read_csv(file.path(dir_goal, 'output', 'prs_uv_layer.csv')) %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
+
+prs_plot <- ggplot(prs_df, aes(x = year, y = pressure, color = rgn_name, group = rgn_name)) +
+  ggtheme_plot() +
+  geom_line(show.legend = FALSE, size = 1.5) +
+  geom_line(show.legend = FALSE, aes(y = prs_raw), alpha = .4) +
+  scale_color_brewer(palette = 'Dark2') +
+  ylim(0, NA) +
+  facet_wrap( ~ rgn_name) +
+  labs(title = 'Ultraviolet Radiation pressure',
+       x = 'Year',
+       y = 'Rescaled pressure score')
+
+print(prs_plot)
 
 ```
 
 -----
 
-``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
+# Citation information  
+
+Jari Hovila, Antii Arola, and Johanna Tamminen (Oct ), OMI/Aura Surface UVB Irradiance and Erythemal Dose Daily L3 Global 1.0x1.0 deg Grid, version 003, NASA Goddard Space Flight Center
+-----
+
+``` {r provenance, results = 'asis'}
+prov_wrapup(commit_outputs = FALSE)
 ```
