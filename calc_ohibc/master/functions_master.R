@@ -1158,7 +1158,7 @@ BD <- function(scores) {
     filter(goal %in% c('HAB', 'SPP')) %>%
     filter(!(dimension %in% c('pressures', 'resilience'))) %>%
     group_by(region_id, dimension) %>%
-    summarize(score = mean(score, na.rm=TRUE)) %>%
+    summarize(score = mean(score, na.rm = TRUE)) %>%
     mutate(goal = 'BD') %>%
     data.frame() %>%
     select(region_id, goal, dimension, score)

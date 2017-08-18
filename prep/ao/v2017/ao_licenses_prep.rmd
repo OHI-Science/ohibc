@@ -18,13 +18,11 @@ output:
 
 ``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
 
-knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       echo = TRUE, message = FALSE, warning = FALSE)
 
 # library(ggmap)
-library(rgdal)
 library(sf)
-library(broom)
 
 source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
 
@@ -314,11 +312,12 @@ lic_lookup_to <- lic_lookup_clean %>%
   ### build vector of Sub-Area numerals, skipping areas
   mutate(tmp_area = ifelse(!is.na(from_num) & str_detect(from_num, '~') & str_detect(to_num, '~'),
                            str_extract(from_num, '[0-9]+(?=~)'), NA),
-         to_vec = ifelse(!is.na(from_num) & str_detect(from_num, '~') & str_detect(to_num, '~'),
+         to_vec_sub = ifelse(!is.na(from_num) & str_detect(from_num, '~') & str_detect(to_num, '~'),
                          paste(tmp_area, as.integer(str_extract(from_num, '(?<=~)[0-9]+')):as.integer(str_extract(to_num, '(?<=~)[0-9]+')), sep = '~', collapse = ', '),
                          '')) %>%
   ungroup() %>%
-  mutate(area_split2 = ifelse(!is.na(to_clause),
+  mutate(to_vec = ifelse(to_vec == '', to_vec_sub, to_vec),
+         area_split2 = ifelse(!is.na(to_clause),
                               str_replace(area_split, to_clause, to_vec),
                               area_split),
          area_split3 = str_replace_all(area_split2, '[^0-9~]+', ' '),
@@ -387,6 +386,7 @@ x <- lic_clean %>%
   mutate(year_1 = min(year, na.rm = TRUE),
             year_n = max(year, na.rm = TRUE)) %>%
   ungroup()
+
 y <- x %>%
   filter(!year <= 1995) %>%
   filter(!str_detect(area, 'yukon|stikine|taku')) %>%
@@ -422,45 +422,31 @@ print(plot_fn_by_rgn)
 
 ```
 
-``` {r use_ggmap, eval = FALSE}
+``` {r use_ggplot_and_sf}
 
-
-bc_poly_84 <- readOGR(dsn = dir_spatial %>% path.expand(),
-                          layer = 'ohibc_rgn') %>%
-  spTransform(CRS('+init=epsg:4326'))
-
-bbox <- bc_poly_84@bbox
-
-bc_bbox <- c(left  = bbox[1, 1]  - .2, bottom = bbox[2, 1] - .2, 
-             right = bbox[1, 2] + 1.7, top    = bbox[2, 2] + .2)
-
-bc_rgns <- bc_poly_84@data %>%
-  mutate(id = rownames(.),
-         rgn_id = as.integer(rgn_id))
+bc_poly_84 <- sf::read_sf(dsn = dir_spatial %>% path.expand(),
+                          layer = 'ohibc_rgn_simple') %>%
+  st_transform(4326) %>%
+  mutate(rgn_id = as.integer(rgn_id))
 
 sum_fn_by_rgn <- read_csv(file.path(dir_goal, 'output/ao_licenses.csv')) %>%
-  mutate(pct_fn = pct_fn * 100)
+  mutate(pct_fn = pct_fn * 100) %>%
+  filter(year %% 5 == 0)
 
-bc_poly_tidy <- broom::tidy(bc_poly_84) %>%
-  full_join(bc_rgns, by = 'id') %>%
+bc_poly_fn <- bc_poly_84 %>%
   full_join(sum_fn_by_rgn, by = 'rgn_id')
 
-basemap <- get_stamenmap(
-  bbox = bc_bbox,
-  zoom = 6,
-  maptype = "toner-lite")
+ao_max_pct <- bc_poly_fn$pct_fn %>% max()
 
-ao_max_pct <- bc_poly_tidy$pct_fn %>% max()
-
-bpMap <- ggmap(basemap) +
+bpMap <- ggplot(bc_poly_fn) +
   ggtheme_plot() +
   theme(axis.text = element_blank(),
         axis.title = element_blank()) +
-  geom_polygon(data = bc_poly_tidy %>% filter(year %in% seq(1995, 2015, 5)),
-               aes(x = long, y = lat, group = group, fill = pct_fn),
-               color = 'slateblue', size = .25, alpha = .4) +
+  geom_sf(aes(fill = pct_fn),
+          color = 'slateblue', size = .25, alpha = .4) +
   scale_fill_gradientn(colours = brewer.pal(7, 'RdYlBu'), limits = c(0, ao_max_pct)) +
-  labs(title="OHIBC AO") +
+  labs(title="OHIBC AO",
+       fill = '% licenses\nFirst Nation') +
   facet_wrap( ~ year)
   
 ggsave(filename = file.path(dir_goal, 'int/ao_licenses_mapped.png'),
@@ -601,7 +587,7 @@ write_csv(pop_fn_rgn, file.path(dir_goal, 'output/ao_licenses_fn_pop.csv'))
 
 ``` {r plot_vs_pop_reference}
 
-license_ref_min <- 0.15 ### arbitrary lower limit of reference point
+license_ref_min <- 0.20 ### arbitrary lower limit of reference point
 
 license_status <- read_csv(file.path(dir_goal, 'output/ao_licenses.csv')) %>%
   filter(rgn_id != 7) %>%
@@ -629,7 +615,7 @@ print(plot_fn_by_rgn)
 
 ```
 
-Note: grey line indicates % of rgn population that are members of First Nations communities according to 2016 census subdivisions; red line indicates reference point as proportion of region population that is First Nations, with a minimum set at 15%.
+Note: grey line indicates % of rgn population that are members of First Nations communities according to 2016 census subdivisions; red line indicates reference point as proportion of region population that is First Nations, with a minimum set at 20%.
 
 ``` {r compare_fn_pcts_and_pop, eval = FALSE}
 
@@ -722,6 +708,170 @@ ggsave(file.path(dir_goal, 'int/ao_licenses_vessel_lengths.png'))
 ```
 
 ![](`r path.expand(file.path(dir_goal, 'int/ao_licenses_vessel_lengths.png'))`)
+
+### licenses by area intensity and type
+
+``` {r examine_license_area_intensity}
+
+lic_lookup_rgn <- read_csv(file.path(dir_goal, 'int/lic_lookup_rgn.csv')) %>%
+  filter(!is.na(rgn_id))
+
+lic_clean <- read_csv(file.path(dir_goal_anx, 'int/licenses_clean.csv')) %>%
+  mutate(area = tolower(area))
+
+lic_by_pfma_all <- lic_clean %>%
+  inner_join(lic_lookup_rgn, by = c('area' = 'lic_area')) %>%
+  select(-rgn_id) %>%
+  distinct()
+
+### Total licenses by fishery group:
+# lic_by_pfma_all$fishery_group %>% table()
+#             CLAM                    CRAB  GEODUCK AND HORSE CLAM                 HERRING   HERRING - FOOD & BAIT HERRING - SPECIAL ISSUE 
+#           113384                   48600                    4024                      74                    4760                     348 
+# OYSTERS, PACIFIC              PROCESSING          RED SEA URCHIN                ROCKFISH    ROE HERRING GILL NET       ROE HERRING SEINE 
+#             1650                     283                   14776                  331645                   89560                   16515 
+#  SALMON GILL NET       SALMON HISTORICAL            SALMON SEINE            SALMON TROLL            SEA CUCUMBER 
+#           316457                      20                   97852                  208194                    6047
+
+### FN licenses by fishery group:
+# lic_by_pfma_all %>% filter(fn) %>% .$fishery_group %>% table()
+#              CLAM                   CRAB GEODUCK AND HORSE CLAM       OYSTERS, PACIFIC         RED SEA URCHIN               ROCKFISH   ROE HERRING GILL NET 
+#             24405                   1898                      9                    156                   1266                  12061                   3750 
+# ROE HERRING SEINE        SALMON GILL NET           SALMON SEINE           SALMON TROLL           SEA CUCUMBER 
+#               236                  75222                   4271                   6914                     10 
+
+### These have NO fn licenses:
+# lic_by_pfma_all %>% group_by(fishery_group) %>% filter(sum(fn) == 0) %>% .$fishery_group %>% table()
+# HERRING   HERRING - FOOD & BAIT HERRING - SPECIAL ISSUE              PROCESSING       SALMON HISTORICAL 
+#      74                    4760                     348                     283                      20 
+
+lic_by_pfma <- lic_by_pfma_all %>%
+  select(year, lic_tab, fn, fishery_group, desc, pfma) %>%
+  mutate(taxa = case_when(str_detect(fishery_group, 'CLAM|OYSTER') ~ 'bivalve',
+                          str_detect(fishery_group, 'SALMON')      ~ 'salmon',
+                          str_detect(fishery_group, 'HERRING')     ~ 'herring',
+                          str_detect(fishery_group, 'CRAB')        ~ 'crab',
+                          str_detect(fishery_group, 'URCH|CUCUM')  ~ 'echinoderm',
+                          str_detect(fishery_group, 'ROCKFISH')    ~ 'rockfish',
+                          str_detect(fishery_group, 'PROCESS')     ~ 'processing',
+                          TRUE                                     ~ 'other')) %>%
+  group_by(year, pfma, taxa, fn) %>%
+  summarize(n_lic = n()) %>%
+  ungroup()
+
+write_csv(lic_by_pfma, file.path(dir_goal, 'int/lic_by_pfma.csv'))
+
+lic_by_year <- lic_by_pfma %>%
+  group_by(year, taxa) %>%
+  summarize(fn_lic = sum(n_lic * fn),
+            tot_lic = sum(n_lic)) %>%
+  ungroup() %>%
+  filter(year >= 2000 & year <= 2016) %>%
+  filter(taxa != 'processing')
+
+plot_by_year <- ggplot(lic_by_year, aes(x = year)) +
+  ggtheme_plot() +
+  geom_line(aes(y = fn_lic, group = taxa), 
+            color = 'darkred', alpha = .7, size = 1) +
+  geom_line(aes(y = tot_lic, group = taxa), 
+            color = 'darkblue', alpha = .5, size = 1) +
+  scale_color_brewer(palette = 'Dark2') +
+  facet_wrap( ~ taxa, scales = 'free_y') +
+  ylim(c(0, NA))
+
+print(plot_by_year)
+
+ggsave(file.path(dir_goal, 'figs/licenses/lic_by_year_and_taxa.png'))
+
+```
+
+``` {r map_lic_by_pfma_and_year}
+
+lic_by_pfma_tot <- read_csv(file.path(dir_goal, 'int/lic_by_pfma.csv')) %>%
+  filter(year >= 2000 & year <= 2016) %>%
+  group_by(pfma, taxa) %>%
+  summarize(fn_lic = sum(n_lic * fn),
+            tot_lic = sum(n_lic)) %>%
+  ungroup()
+
+
+pfma_sf <- sf::read_sf(dsn = file.path(dir_anx, '_raw_data/dfo_khunter', 
+                                 'management_boundaries/d2016',
+                                 'pac_fishery_mgmt_areas'),
+                       layer = 'DFO_BC_PFMA_AREAS_50K_V3_1') %>%
+  select(pfma = STATAREA)
+
+bbx <- st_bbox(pfma_sf)[c(1, 3, 2, 4)] %>%
+  raster::extent()
+
+garbage <- capture.output({
+  continent_sf <- readOGR(dsn = path.expand(file.path(dir_spatial)),
+                          layer = 'ohibc_continent') %>%
+    raster::crop(bbx) %>%
+    sf::st_as_sf()
+})
+
+
+pfma_lic_sf <- pfma_sf %>%
+  left_join(lic_by_pfma_tot, by = 'pfma') %>%
+  filter(!is.na(taxa))
+
+for(taxa_sel in unique(pfma_lic_sf$taxa)) {
+  ### taxa_sel <- 'herring'
+  # cat(taxa_sel, '\n')
+  
+  tmp_df <- pfma_lic_sf %>%
+    filter(taxa == taxa_sel) %>%
+    mutate(tot_lic = ifelse(tot_lic == 0, NA, tot_lic),
+           fn_lic = ifelse(fn_lic == 0, NA, fn_lic))
+  
+  breaks <- c(1, 10, 100, 1000, 10000)
+  max_tot <- tmp_df$tot_lic %>% max(na.rm = TRUE)
+  breaks_tot <- breaks[breaks < max_tot * 10]
+  
+  tot_map <- ggplot(tmp_df %>% filter(!is.na(tot_lic))) +
+    ggtheme_plot() +
+    geom_sf(data = continent_sf, fill = '#bb9999', color = NA) +
+    geom_sf(data = pfma_sf, fill = 'grey96', 
+            color = 'black', size = .1) +
+    geom_sf(aes(fill = tot_lic), 
+            color = NA, alpha = .8) +
+    scale_fill_distiller(palette = 'Blues', 
+                         breaks = breaks_tot,
+                         limits = c(1, NA),
+                         trans = 'log', direction = 1) +
+    labs(title = taxa_sel,
+         fill  = 'Total licenses')
+  
+  print(tot_map)
+
+  ggsave(file.path(dir_goal, sprintf('figs/licenses/lic_map_pfma_%s_total.png', taxa_sel)))
+
+  tmp_df_fn <- tmp_df %>% filter(!is.na(fn_lic))
+  if(nrow(tmp_df_fn) > 0) {
+    max_fn  <- tmp_df$fn_lic  %>% max(na.rm = TRUE)
+    breaks_fn  <- breaks[breaks < max_fn  * 10]
+
+    fn_map <- ggplot(tmp_df_fn) +
+      ggtheme_plot() +
+      geom_sf(data = continent_sf, fill = '#bb9999', color = NA) +
+      geom_sf(data = pfma_sf, fill = 'grey96', 
+              color = 'black', size = .1) +
+      geom_sf(aes(fill = fn_lic), 
+              color = NA, alpha = .8) +
+      scale_fill_distiller(palette = 'Blues', 
+                           breaks = breaks_fn,
+                           limits = c(1, NA),
+                           trans = 'log', direction = 1) +
+      labs(title = taxa_sel,
+           fill  = 'FN licenses')
+  
+    print(fn_map)
+    ggsave(file.path(dir_goal, sprintf('figs/licenses/lic_map_pfma_%s_fn.png', taxa_sel)))
+  }
+}
+
+```
 
 -----
 

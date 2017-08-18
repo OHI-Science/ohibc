@@ -115,51 +115,655 @@ sea cucumber area g,portions of areas 12 and 13.,12,4
 sea cucumber area g,portions of areas 12 and 13.,13,4
 sea cucumber area g,portions of areas 12 and 13.,13,6
 sea cucumber area w,portions of area 24.,24,5
+bc coast wide,areas 1 to 142,1,2
+bc coast wide,areas 1 to 142,2,2
+bc coast wide,areas 1 to 142,3,1
+bc coast wide,areas 1 to 142,4,1
+bc coast wide,areas 1 to 142,5,1
+bc coast wide,areas 1 to 142,6,1
+bc coast wide,areas 1 to 142,6,8
+bc coast wide,areas 1 to 142,6,3
+bc coast wide,areas 1 to 142,7,3
+bc coast wide,areas 1 to 142,7,8
+bc coast wide,areas 1 to 142,8,3
+bc coast wide,areas 1 to 142,9,3
+bc coast wide,areas 1 to 142,10,3
+bc coast wide,areas 1 to 142,10,4
+bc coast wide,areas 1 to 142,11,4
+bc coast wide,areas 1 to 142,12,4
+bc coast wide,areas 1 to 142,13,4
+bc coast wide,areas 1 to 142,13,6
+bc coast wide,areas 1 to 142,14,6
+bc coast wide,areas 1 to 142,15,6
+bc coast wide,areas 1 to 142,16,6
+bc coast wide,areas 1 to 142,17,6
+bc coast wide,areas 1 to 142,18,6
+bc coast wide,areas 1 to 142,19,5
+bc coast wide,areas 1 to 142,19,6
+bc coast wide,areas 1 to 142,20,5
+bc coast wide,areas 1 to 142,21,5
+bc coast wide,areas 1 to 142,23,5
+bc coast wide,areas 1 to 142,24,5
+bc coast wide,areas 1 to 142,25,5
+bc coast wide,areas 1 to 142,26,5
+bc coast wide,areas 1 to 142,26,4
+bc coast wide,areas 1 to 142,27,4
+bc coast wide,areas 1 to 142,28,6
+bc coast wide,areas 1 to 142,29,6
+bc coast wide,areas 1 to 142,101,2
+bc coast wide,areas 1 to 142,101,7
+bc coast wide,areas 1 to 142,101,1
+bc coast wide,areas 1 to 142,102,2
+bc coast wide,areas 1 to 142,103,1
+bc coast wide,areas 1 to 142,103,2
+bc coast wide,areas 1 to 142,104,1
+bc coast wide,areas 1 to 142,104,2
+bc coast wide,areas 1 to 142,105,1
+bc coast wide,areas 1 to 142,105,2
+bc coast wide,areas 1 to 142,106,1
+bc coast wide,areas 1 to 142,106,2
+bc coast wide,areas 1 to 142,106,3
+bc coast wide,areas 1 to 142,106,8
+bc coast wide,areas 1 to 142,107,2
+bc coast wide,areas 1 to 142,107,3
+bc coast wide,areas 1 to 142,107,8
+bc coast wide,areas 1 to 142,108,2
+bc coast wide,areas 1 to 142,108,3
+bc coast wide,areas 1 to 142,109,2
+bc coast wide,areas 1 to 142,109,3
+bc coast wide,areas 1 to 142,110,2
+bc coast wide,areas 1 to 142,110,3
+bc coast wide,areas 1 to 142,110,4
+bc coast wide,areas 1 to 142,111,3
+bc coast wide,areas 1 to 142,111,4
+bc coast wide,areas 1 to 142,121,5
+bc coast wide,areas 1 to 142,123,5
+bc coast wide,areas 1 to 142,123,7
+bc coast wide,areas 1 to 142,124,5
+bc coast wide,areas 1 to 142,124,7
+bc coast wide,areas 1 to 142,125,5
+bc coast wide,areas 1 to 142,125,7
+bc coast wide,areas 1 to 142,126,5
+bc coast wide,areas 1 to 142,126,7
+bc coast wide,areas 1 to 142,126,4
+bc coast wide,areas 1 to 142,127,4
+bc coast wide,areas 1 to 142,127,5
+bc coast wide,areas 1 to 142,127,7
+bc coast wide,areas 1 to 142,127,3
+bc coast wide,areas 1 to 142,130,2
+bc coast wide,areas 1 to 142,130,3
+bc coast wide,areas 1 to 142,130,7
+bc coast wide,areas 1 to 142,142,2
+bc coast wide,areas 1 to 142,142,7
+bc coast wide all british columbia coastal areas.,areas 1 to 142,1,2
+bc coast wide all british columbia coastal areas.,areas 1 to 142,2,2
+bc coast wide all british columbia coastal areas.,areas 1 to 142,3,1
+bc coast wide all british columbia coastal areas.,areas 1 to 142,4,1
+bc coast wide all british columbia coastal areas.,areas 1 to 142,5,1
+bc coast wide all british columbia coastal areas.,areas 1 to 142,6,1
+bc coast wide all british columbia coastal areas.,areas 1 to 142,6,8
+bc coast wide all british columbia coastal areas.,areas 1 to 142,6,3
+bc coast wide all british columbia coastal areas.,areas 1 to 142,7,3
+bc coast wide all british columbia coastal areas.,areas 1 to 142,7,8
+bc coast wide all british columbia coastal areas.,areas 1 to 142,8,3
+bc coast wide all british columbia coastal areas.,areas 1 to 142,9,3
+bc coast wide all british columbia coastal areas.,areas 1 to 142,10,3
+bc coast wide all british columbia coastal areas.,areas 1 to 142,10,4
+bc coast wide all british columbia coastal areas.,areas 1 to 142,11,4
+bc coast wide all british columbia coastal areas.,areas 1 to 142,12,4
+bc coast wide all british columbia coastal areas.,areas 1 to 142,13,4
+bc coast wide all british columbia coastal areas.,areas 1 to 142,13,6
+bc coast wide all british columbia coastal areas.,areas 1 to 142,14,6
+bc coast wide all british columbia coastal areas.,areas 1 to 142,15,6
+bc coast wide all british columbia coastal areas.,areas 1 to 142,16,6
+bc coast wide all british columbia coastal areas.,areas 1 to 142,17,6
+bc coast wide all british columbia coastal areas.,areas 1 to 142,18,6
+bc coast wide all british columbia coastal areas.,areas 1 to 142,19,5
+bc coast wide all british columbia coastal areas.,areas 1 to 142,19,6
+bc coast wide all british columbia coastal areas.,areas 1 to 142,20,5
+bc coast wide all british columbia coastal areas.,areas 1 to 142,21,5
+bc coast wide all british columbia coastal areas.,areas 1 to 142,23,5
+bc coast wide all british columbia coastal areas.,areas 1 to 142,24,5
+bc coast wide all british columbia coastal areas.,areas 1 to 142,25,5
+bc coast wide all british columbia coastal areas.,areas 1 to 142,26,5
+bc coast wide all british columbia coastal areas.,areas 1 to 142,26,4
+bc coast wide all british columbia coastal areas.,areas 1 to 142,27,4
+bc coast wide all british columbia coastal areas.,areas 1 to 142,28,6
+bc coast wide all british columbia coastal areas.,areas 1 to 142,29,6
+bc coast wide all british columbia coastal areas.,areas 1 to 142,101,2
+bc coast wide all british columbia coastal areas.,areas 1 to 142,101,7
+bc coast wide all british columbia coastal areas.,areas 1 to 142,101,1
+bc coast wide all british columbia coastal areas.,areas 1 to 142,102,2
+bc coast wide all british columbia coastal areas.,areas 1 to 142,103,1
+bc coast wide all british columbia coastal areas.,areas 1 to 142,103,2
+bc coast wide all british columbia coastal areas.,areas 1 to 142,104,1
+bc coast wide all british columbia coastal areas.,areas 1 to 142,104,2
+bc coast wide all british columbia coastal areas.,areas 1 to 142,105,1
+bc coast wide all british columbia coastal areas.,areas 1 to 142,105,2
+bc coast wide all british columbia coastal areas.,areas 1 to 142,106,1
+bc coast wide all british columbia coastal areas.,areas 1 to 142,106,2
+bc coast wide all british columbia coastal areas.,areas 1 to 142,106,3
+bc coast wide all british columbia coastal areas.,areas 1 to 142,106,8
+bc coast wide all british columbia coastal areas.,areas 1 to 142,107,2
+bc coast wide all british columbia coastal areas.,areas 1 to 142,107,3
+bc coast wide all british columbia coastal areas.,areas 1 to 142,107,8
+bc coast wide all british columbia coastal areas.,areas 1 to 142,108,2
+bc coast wide all british columbia coastal areas.,areas 1 to 142,108,3
+bc coast wide all british columbia coastal areas.,areas 1 to 142,109,2
+bc coast wide all british columbia coastal areas.,areas 1 to 142,109,3
+bc coast wide all british columbia coastal areas.,areas 1 to 142,110,2
+bc coast wide all british columbia coastal areas.,areas 1 to 142,110,3
+bc coast wide all british columbia coastal areas.,areas 1 to 142,110,4
+bc coast wide all british columbia coastal areas.,areas 1 to 142,111,3
+bc coast wide all british columbia coastal areas.,areas 1 to 142,111,4
+bc coast wide all british columbia coastal areas.,areas 1 to 142,121,5
+bc coast wide all british columbia coastal areas.,areas 1 to 142,123,5
+bc coast wide all british columbia coastal areas.,areas 1 to 142,123,7
+bc coast wide all british columbia coastal areas.,areas 1 to 142,124,5
+bc coast wide all british columbia coastal areas.,areas 1 to 142,124,7
+bc coast wide all british columbia coastal areas.,areas 1 to 142,125,5
+bc coast wide all british columbia coastal areas.,areas 1 to 142,125,7
+bc coast wide all british columbia coastal areas.,areas 1 to 142,126,5
+bc coast wide all british columbia coastal areas.,areas 1 to 142,126,7
+bc coast wide all british columbia coastal areas.,areas 1 to 142,126,4
+bc coast wide all british columbia coastal areas.,areas 1 to 142,127,4
+bc coast wide all british columbia coastal areas.,areas 1 to 142,127,5
+bc coast wide all british columbia coastal areas.,areas 1 to 142,127,7
+bc coast wide all british columbia coastal areas.,areas 1 to 142,127,3
+bc coast wide all british columbia coastal areas.,areas 1 to 142,130,2
+bc coast wide all british columbia coastal areas.,areas 1 to 142,130,3
+bc coast wide all british columbia coastal areas.,areas 1 to 142,130,7
+bc coast wide all british columbia coastal areas.,areas 1 to 142,142,2
+bc coast wide all british columbia coastal areas.,areas 1 to 142,142,7
+clam area f,west coast of vancouver island - areas 23 to 27.,23,5
+clam area f,west coast of vancouver island - areas 23 to 27.,24,5
+clam area f,west coast of vancouver island - areas 23 to 27.,25,5
+clam area f,west coast of vancouver island - areas 23 to 27.,26,5
+clam area f,west coast of vancouver island - areas 23 to 27.,26,4
+clam area f,west coast of vancouver island - areas 23 to 27.,27,4
 crab area a,"areas 1, 2, 101 to 110, 130 and 142.",1,2
 crab area a,"areas 1, 2, 101 to 110, 130 and 142.",2,2
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",101,2
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",101,7
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",101,1
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",102,2
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",103,1
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",103,2
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",104,1
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",104,2
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",105,1
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",105,2
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",106,1
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",106,2
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",106,3
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",106,8
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",107,2
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",107,3
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",107,8
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",108,2
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",108,3
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",109,2
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",109,3
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",110,2
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",110,3
+crab area a,"areas 1, 2, 101 to 110, 130 and 142.",110,4
 crab area a,"areas 1, 2, 101 to 110, 130 and 142.",130,2
 crab area a,"areas 1, 2, 101 to 110, 130 and 142.",130,3
 crab area a,"areas 1, 2, 101 to 110, 130 and 142.",130,7
 crab area a,"areas 1, 2, 101 to 110, 130 and 142.",142,2
 crab area a,"areas 1, 2, 101 to 110, 130 and 142.",142,7
+crab area b,areas 3 to 10.,3,1
+crab area b,areas 3 to 10.,4,1
+crab area b,areas 3 to 10.,5,1
+crab area b,areas 3 to 10.,6,1
+crab area b,areas 3 to 10.,6,8
+crab area b,areas 3 to 10.,6,3
+crab area b,areas 3 to 10.,7,3
+crab area b,areas 3 to 10.,7,8
+crab area b,areas 3 to 10.,8,3
+crab area b,areas 3 to 10.,9,3
+crab area b,areas 3 to 10.,10,3
+crab area b,areas 3 to 10.,10,4
+crab area e,"areas 20 to 27, 121 and 123 to 127.",20,5
+crab area e,"areas 20 to 27, 121 and 123 to 127.",21,5
+crab area e,"areas 20 to 27, 121 and 123 to 127.",23,5
+crab area e,"areas 20 to 27, 121 and 123 to 127.",24,5
+crab area e,"areas 20 to 27, 121 and 123 to 127.",25,5
+crab area e,"areas 20 to 27, 121 and 123 to 127.",26,5
+crab area e,"areas 20 to 27, 121 and 123 to 127.",26,4
+crab area e,"areas 20 to 27, 121 and 123 to 127.",27,4
 crab area e,"areas 20 to 27, 121 and 123 to 127.",121,5
+crab area e,"areas 20 to 27, 121 and 123 to 127.",123,5
+crab area e,"areas 20 to 27, 121 and 123 to 127.",123,7
+crab area e,"areas 20 to 27, 121 and 123 to 127.",124,5
+crab area e,"areas 20 to 27, 121 and 123 to 127.",124,7
+crab area e,"areas 20 to 27, 121 and 123 to 127.",125,5
+crab area e,"areas 20 to 27, 121 and 123 to 127.",125,7
+crab area e,"areas 20 to 27, 121 and 123 to 127.",126,5
+crab area e,"areas 20 to 27, 121 and 123 to 127.",126,7
+crab area e,"areas 20 to 27, 121 and 123 to 127.",126,4
+crab area e,"areas 20 to 27, 121 and 123 to 127.",127,4
+crab area e,"areas 20 to 27, 121 and 123 to 127.",127,5
+crab area e,"areas 20 to 27, 121 and 123 to 127.",127,7
+crab area e,"areas 20 to 27, 121 and 123 to 127.",127,3
 crab area h,"areas 14, 16 to 19 and subarea 29-5.",14,6
+crab area h,"areas 14, 16 to 19 and subarea 29-5.",16,6
+crab area h,"areas 14, 16 to 19 and subarea 29-5.",17,6
+crab area h,"areas 14, 16 to 19 and subarea 29-5.",18,6
+crab area h,"areas 14, 16 to 19 and subarea 29-5.",19,5
+crab area h,"areas 14, 16 to 19 and subarea 29-5.",19,6
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",20,5
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",21,5
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",23,5
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",24,5
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",25,5
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",26,5
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",26,4
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",27,4
 crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",121,5
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",123,5
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",123,7
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",124,5
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",124,7
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",125,5
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",125,7
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",126,5
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",126,7
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",126,4
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",127,4
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",127,5
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",127,7
+crab area quatsino - e,"areas 20 to 27, 121 and 123 to 127.",127,3
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",20,5
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",21,5
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",23,5
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",24,5
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",25,5
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",26,5
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",26,4
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",27,4
 crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",121,5
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",123,5
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",123,7
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",124,5
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",124,7
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",125,5
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",125,7
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",126,5
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",126,7
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",126,4
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",127,4
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",127,5
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",127,7
+crab area sooke - e,"areas 20 to 27, 121 and 123 to 127.",127,3
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",20,5
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",21,5
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",23,5
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",24,5
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",25,5
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",26,5
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",26,4
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",27,4
 crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",121,5
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",123,5
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",123,7
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",124,5
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",124,7
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",125,5
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",125,7
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",126,5
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",126,7
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",126,4
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",127,4
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",127,5
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",127,7
+crab area tofino - e,"areas 20 to 27, 121 and 123 to 127.",127,3
+ecvi pfma 12 to 19,ecvi pfma 12 to 19,12,4
+ecvi pfma 12 to 19,ecvi pfma 12 to 19,13,4
+ecvi pfma 12 to 19,ecvi pfma 12 to 19,13,6
+ecvi pfma 12 to 19,ecvi pfma 12 to 19,14,6
+ecvi pfma 12 to 19,ecvi pfma 12 to 19,15,6
+ecvi pfma 12 to 19,ecvi pfma 12 to 19,16,6
+ecvi pfma 12 to 19,ecvi pfma 12 to 19,17,6
+ecvi pfma 12 to 19,ecvi pfma 12 to 19,18,6
+ecvi pfma 12 to 19,ecvi pfma 12 to 19,19,5
+ecvi pfma 12 to 19,ecvi pfma 12 to 19,19,6
+herring gill net gulf,areas 14 to 18.,14,6
+herring gill net gulf,areas 14 to 18.,15,6
+herring gill net gulf,areas 14 to 18.,16,6
+herring gill net gulf,areas 14 to 18.,17,6
+herring gill net gulf,areas 14 to 18.,18,6
+herring seine gulf,areas 14 to 18.,14,6
+herring seine gulf,areas 14 to 18.,15,6
+herring seine gulf,areas 14 to 18.,16,6
+herring seine gulf,areas 14 to 18.,17,6
+herring seine gulf,areas 14 to 18.,18,6
+rockfish area inside,"areas 13 to 19, and 28 and 29, and subareas 12-1 to 12-13, 12-15 to 12-48 and subareas 20-4 to 20-7",13,4
+rockfish area inside,"areas 13 to 19, and 28 and 29, and subareas 12-1 to 12-13, 12-15 to 12-48 and subareas 20-4 to 20-7",13,6
+rockfish area inside,"areas 13 to 19, and 28 and 29, and subareas 12-1 to 12-13, 12-15 to 12-48 and subareas 20-4 to 20-7",14,6
+rockfish area inside,"areas 13 to 19, and 28 and 29, and subareas 12-1 to 12-13, 12-15 to 12-48 and subareas 20-4 to 20-7",15,6
+rockfish area inside,"areas 13 to 19, and 28 and 29, and subareas 12-1 to 12-13, 12-15 to 12-48 and subareas 20-4 to 20-7",16,6
+rockfish area inside,"areas 13 to 19, and 28 and 29, and subareas 12-1 to 12-13, 12-15 to 12-48 and subareas 20-4 to 20-7",17,6
+rockfish area inside,"areas 13 to 19, and 28 and 29, and subareas 12-1 to 12-13, 12-15 to 12-48 and subareas 20-4 to 20-7",18,6
+rockfish area inside,"areas 13 to 19, and 28 and 29, and subareas 12-1 to 12-13, 12-15 to 12-48 and subareas 20-4 to 20-7",19,5
+rockfish area inside,"areas 13 to 19, and 28 and 29, and subareas 12-1 to 12-13, 12-15 to 12-48 and subareas 20-4 to 20-7",19,6
 rockfish area inside,"areas 13 to 19, and 28 and 29, and subareas 12-1 to 12-13, 12-15 to 12-48 and subareas 20-4 to 20-7",28,6
 rockfish area inside,"areas 13 to 19, and 28 and 29, and subareas 12-1 to 12-13, 12-15 to 12-48 and subareas 20-4 to 20-7",29,6
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",1,2
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",2,2
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",3,1
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",4,1
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",5,1
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",6,1
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",6,8
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",6,3
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",7,3
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",7,8
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",8,3
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",9,3
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",10,3
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",10,4
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",11,4
 rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",21,5
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",23,5
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",24,5
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",25,5
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",26,5
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",26,4
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",27,4
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",101,2
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",101,7
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",101,1
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",102,2
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",103,1
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",103,2
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",104,1
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",104,2
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",105,1
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",105,2
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",106,1
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",106,2
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",106,3
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",106,8
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",107,2
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",107,3
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",107,8
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",108,2
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",108,3
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",109,2
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",109,3
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",110,2
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",110,3
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",110,4
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",111,3
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",111,4
 rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",121,5
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",123,5
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",123,7
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",124,5
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",124,7
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",125,5
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",125,7
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",126,5
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",126,7
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",126,4
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",127,4
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",127,5
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",127,7
+rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",127,3
 rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",130,2
 rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",130,3
 rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",130,7
 rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",142,2
 rockfish area outside,"areas 1 to 11, 21, 23 to 27, 101 to 111, 121, 123 to 127, 130 and 142 and subareas 12-14, and 20-1 to 20-3",142,7
+roe herring central,areas 6 to 11.,6,1
+roe herring central,areas 6 to 11.,6,8
+roe herring central,areas 6 to 11.,6,3
+roe herring central,areas 6 to 11.,7,3
+roe herring central,areas 6 to 11.,7,8
+roe herring central,areas 6 to 11.,8,3
+roe herring central,areas 6 to 11.,9,3
+roe herring central,areas 6 to 11.,10,3
+roe herring central,areas 6 to 11.,10,4
+roe herring central,areas 6 to 11.,11,4
+roe herring (co) central,areas 6 to 8.,6,1
+roe herring (co) central,areas 6 to 8.,6,8
+roe herring (co) central,areas 6 to 8.,6,3
+roe herring (co) central,areas 6 to 8.,7,3
+roe herring (co) central,areas 6 to 8.,7,8
+roe herring (co) central,areas 6 to 8.,8,3
+roe herring (co) gulf,areas 14 to 18.,14,6
+roe herring (co) gulf,areas 14 to 18.,15,6
+roe herring (co) gulf,areas 14 to 18.,16,6
+roe herring (co) gulf,areas 14 to 18.,17,6
+roe herring (co) gulf,areas 14 to 18.,18,6
+roe herring gulf,"areas 12 to 19, 28 and 29.",12,4
+roe herring gulf,"areas 12 to 19, 28 and 29.",13,4
+roe herring gulf,"areas 12 to 19, 28 and 29.",13,6
+roe herring gulf,"areas 12 to 19, 28 and 29.",14,6
+roe herring gulf,"areas 12 to 19, 28 and 29.",15,6
+roe herring gulf,"areas 12 to 19, 28 and 29.",16,6
+roe herring gulf,"areas 12 to 19, 28 and 29.",17,6
+roe herring gulf,"areas 12 to 19, 28 and 29.",18,6
+roe herring gulf,"areas 12 to 19, 28 and 29.",19,5
+roe herring gulf,"areas 12 to 19, 28 and 29.",19,6
 roe herring gulf,"areas 12 to 19, 28 and 29.",28,6
 roe herring gulf,"areas 12 to 19, 28 and 29.",29,6
+roe herring wcvi,areas 23 to 27.,23,5
+roe herring wcvi,areas 23 to 27.,24,5
+roe herring wcvi,areas 23 to 27.,25,5
+roe herring wcvi,areas 23 to 27.,26,5
+roe herring wcvi,areas 23 to 27.,26,4
+roe herring wcvi,areas 23 to 27.,27,4
+salmon area a,"areas 1 to 10, subarea 101-7.",1,2
+salmon area a,"areas 1 to 10, subarea 101-7.",2,2
+salmon area a,"areas 1 to 10, subarea 101-7.",3,1
+salmon area a,"areas 1 to 10, subarea 101-7.",4,1
+salmon area a,"areas 1 to 10, subarea 101-7.",5,1
+salmon area a,"areas 1 to 10, subarea 101-7.",6,1
+salmon area a,"areas 1 to 10, subarea 101-7.",6,8
+salmon area a,"areas 1 to 10, subarea 101-7.",6,3
+salmon area a,"areas 1 to 10, subarea 101-7.",7,3
+salmon area a,"areas 1 to 10, subarea 101-7.",7,8
+salmon area a,"areas 1 to 10, subarea 101-7.",8,3
+salmon area a,"areas 1 to 10, subarea 101-7.",9,3
+salmon area a,"areas 1 to 10, subarea 101-7.",10,3
+salmon area a,"areas 1 to 10, subarea 101-7.",10,4
+salmon area b,areas 11 to 29 and 121.,11,4
+salmon area b,areas 11 to 29 and 121.,12,4
+salmon area b,areas 11 to 29 and 121.,13,4
+salmon area b,areas 11 to 29 and 121.,13,6
+salmon area b,areas 11 to 29 and 121.,14,6
+salmon area b,areas 11 to 29 and 121.,15,6
+salmon area b,areas 11 to 29 and 121.,16,6
+salmon area b,areas 11 to 29 and 121.,17,6
+salmon area b,areas 11 to 29 and 121.,18,6
+salmon area b,areas 11 to 29 and 121.,19,5
+salmon area b,areas 11 to 29 and 121.,19,6
+salmon area b,areas 11 to 29 and 121.,20,5
+salmon area b,areas 11 to 29 and 121.,21,5
+salmon area b,areas 11 to 29 and 121.,23,5
+salmon area b,areas 11 to 29 and 121.,24,5
+salmon area b,areas 11 to 29 and 121.,25,5
+salmon area b,areas 11 to 29 and 121.,26,5
+salmon area b,areas 11 to 29 and 121.,26,4
+salmon area b,areas 11 to 29 and 121.,27,4
+salmon area b,areas 11 to 29 and 121.,28,6
+salmon area b,areas 11 to 29 and 121.,29,6
 salmon area b,areas 11 to 29 and 121.,121,5
+salmon area c,"areas 1 to 10, subarea 101-7.",1,2
+salmon area c,"areas 1 to 10, subarea 101-7.",2,2
+salmon area c,"areas 1 to 10, subarea 101-7.",3,1
+salmon area c,"areas 1 to 10, subarea 101-7.",4,1
+salmon area c,"areas 1 to 10, subarea 101-7.",5,1
+salmon area c,"areas 1 to 10, subarea 101-7.",6,1
+salmon area c,"areas 1 to 10, subarea 101-7.",6,8
+salmon area c,"areas 1 to 10, subarea 101-7.",6,3
+salmon area c,"areas 1 to 10, subarea 101-7.",7,3
+salmon area c,"areas 1 to 10, subarea 101-7.",7,8
+salmon area c,"areas 1 to 10, subarea 101-7.",8,3
+salmon area c,"areas 1 to 10, subarea 101-7.",9,3
+salmon area c,"areas 1 to 10, subarea 101-7.",10,3
+salmon area c,"areas 1 to 10, subarea 101-7.",10,4
+salmon area d,areas 11 to 15 and 23 to 27.,11,4
+salmon area d,areas 11 to 15 and 23 to 27.,12,4
+salmon area d,areas 11 to 15 and 23 to 27.,13,4
+salmon area d,areas 11 to 15 and 23 to 27.,13,6
+salmon area d,areas 11 to 15 and 23 to 27.,14,6
+salmon area d,areas 11 to 15 and 23 to 27.,15,6
+salmon area d,areas 11 to 15 and 23 to 27.,23,5
+salmon area d,areas 11 to 15 and 23 to 27.,24,5
+salmon area d,areas 11 to 15 and 23 to 27.,25,5
+salmon area d,areas 11 to 15 and 23 to 27.,26,5
+salmon area d,areas 11 to 15 and 23 to 27.,26,4
+salmon area d,areas 11 to 15 and 23 to 27.,27,4
+salmon area e,"areas 16 to 22, 28, 29 and 121.",16,6
+salmon area e,"areas 16 to 22, 28, 29 and 121.",17,6
+salmon area e,"areas 16 to 22, 28, 29 and 121.",18,6
+salmon area e,"areas 16 to 22, 28, 29 and 121.",19,5
+salmon area e,"areas 16 to 22, 28, 29 and 121.",19,6
+salmon area e,"areas 16 to 22, 28, 29 and 121.",20,5
+salmon area e,"areas 16 to 22, 28, 29 and 121.",21,5
 salmon area e,"areas 16 to 22, 28, 29 and 121.",28,6
 salmon area e,"areas 16 to 22, 28, 29 and 121.",29,6
 salmon area e,"areas 16 to 22, 28, 29 and 121.",121,5
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",1,2
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",2,2
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",3,1
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",4,1
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",5,1
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",6,1
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",6,8
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",6,3
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",7,3
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",7,8
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",8,3
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",9,3
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",10,3
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",10,4
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",101,2
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",101,7
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",101,1
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",102,2
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",103,1
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",103,2
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",104,1
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",104,2
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",105,1
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",105,2
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",106,1
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",106,2
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",106,3
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",106,8
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",107,2
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",107,3
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",107,8
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",108,2
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",108,3
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",109,2
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",109,3
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",110,2
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",110,3
+salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",110,4
 salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",130,2
 salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",130,3
 salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",130,7
 salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",142,2
 salmon area f,"areas 1 to 10, 101 to 110, 130 and 142.",142,7
 salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",11,4
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",20,5
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",21,5
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",23,5
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",24,5
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",25,5
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",26,5
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",26,4
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",27,4
 salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",111,3
 salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",111,4
 salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",121,5
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",123,5
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",123,7
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",124,5
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",124,7
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",125,5
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",125,7
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",126,5
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",126,7
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",126,4
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",127,4
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",127,5
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",127,7
+salmon area g,"areas 11, 20 to 27, 111, 121, 123 to 127 and subareas 12-5 to 12-16.",127,3
+salmon area h,"areas 12 to 19, 28 and 29.",12,4
+salmon area h,"areas 12 to 19, 28 and 29.",13,4
+salmon area h,"areas 12 to 19, 28 and 29.",13,6
+salmon area h,"areas 12 to 19, 28 and 29.",14,6
+salmon area h,"areas 12 to 19, 28 and 29.",15,6
+salmon area h,"areas 12 to 19, 28 and 29.",16,6
+salmon area h,"areas 12 to 19, 28 and 29.",17,6
+salmon area h,"areas 12 to 19, 28 and 29.",18,6
+salmon area h,"areas 12 to 19, 28 and 29.",19,5
+salmon area h,"areas 12 to 19, 28 and 29.",19,6
 salmon area h,"areas 12 to 19, 28 and 29.",28,6
 salmon area h,"areas 12 to 19, 28 and 29.",29,6
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",6,1
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",6,8
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",6,3
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",7,3
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",7,8
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",8,3
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",9,3
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",10,3
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",10,4
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",11,4
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",12,4
 sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",20,5
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",23,5
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",24,5
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",25,5
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",26,5
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",26,4
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",27,4
 sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",121,5
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",123,5
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",123,7
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",124,5
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",124,7
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",125,5
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",125,7
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",126,5
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",126,7
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",126,4
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",127,4
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",127,5
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",127,7
+sardine seine area,"areas 6 to 12, 20, 23 to 27 and 121, 123 to 127.",127,3
 south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",11,4
 south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",27,4
 south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",111,3
 south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",111,4
 south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",121,5
+south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",123,5
+south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",123,7
+south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",124,5
+south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",124,7
+south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",125,5
+south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",125,7
+south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",126,5
+south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",126,7
+south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",126,4
+south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",127,4
+south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",127,5
+south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",127,7
+south coast,"dfo organizational area established in 2001; includes management areas 11 through 27, 111, 121, 123 to 127, and the watersheds which drain into these areas.",127,3
+wcvi pfma 21 to 27,wcvi pfma 21 to 27,21,5
+wcvi pfma 21 to 27,wcvi pfma 21 to 27,23,5
+wcvi pfma 21 to 27,wcvi pfma 21 to 27,24,5
+wcvi pfma 21 to 27,wcvi pfma 21 to 27,25,5
+wcvi pfma 21 to 27,wcvi pfma 21 to 27,26,5
+wcvi pfma 21 to 27,wcvi pfma 21 to 27,26,4
+wcvi pfma 21 to 27,wcvi pfma 21 to 27,27,4
 clam area a,north coast - subarea 1-5 and that portion of subarea 102-1 inside a line drawn from rose point south to fife point.,1,2
 clam area a,north coast - subarea 1-5 and that portion of subarea 102-1 inside a line drawn from rose point south to fife point.,102,2
 clam area b,johnstone strait - area 13 and all intertidal zones surrounding cortes island and twin islands in subareas 15-3 and 15-5.,15,6

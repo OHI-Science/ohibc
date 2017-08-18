@@ -169,7 +169,7 @@ if(any(!file.exists(bc_stack_filenames)) | reload) {
 
 reload <- FALSE
 
-oa_animation_file <- file.path(dir_goal, 'Figs', 'oa_pressure_animation.gif')
+oa_animation_file <- file.path(dir_goal, 'figs', 'oa_pressure_animation.gif')
 
 animation_stack_files <- list.files(file.path(dir_goal_anx, 'oa_rasts'),
                                     pattern = 'bc_oa_prs', full.names = TRUE)
@@ -193,7 +193,7 @@ git_prov(oa_animation_file, filetype = 'plot')
 
 ```
 
-![](Figs/oa_pressure_animation.gif)
+![](figs/oa_pressure_animation.gif)
 
 
 -----

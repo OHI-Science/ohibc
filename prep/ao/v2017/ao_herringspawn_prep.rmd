@@ -18,13 +18,15 @@ output:
 
 ``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
 
-knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       echo = TRUE, message = FALSE, warning = FALSE)
+
+library(sf)
 
 source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
 
 dir_git     <- '~/github/ohibc'
-dir_spatial <- file.path(dir_git, 'prep/spatial')  ### github: general buffer region shapefiles
+dir_spatial <- file.path(dir_git, 'prep/_spatial')  ### github: general buffer region shapefiles
 dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
 
 ### goal specific folders and info
@@ -45,23 +47,18 @@ p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 
 This data is incorporated into the OHI British Columbia First Nations Resource Access and Opportunities (AO) goal.
 
-***
+-----
 
-#Data Source
+# Data Source
 
-**Reference**: 
+* __Reference__: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+* __Downloaded__: [date downloaded or received]
+* __Description__:  [e.g., surface aragonite state]
+* __Native data resolution__: [e.g., 1 degree, 30 m, etc.]   
+* __Time range__: [e.g., 1880-1899, monthly data provided for each year] 
+* __Format__:  [e.g. NetCDF]
 
-**Downloaded**: 
-
-**Native Data Resolution**:   
-
-**Values**: 
-
-**Time Range**: N/A
-
-**Format**: CSV
-
-***
+-----
 
 # Methods
 
@@ -268,10 +265,10 @@ shi_df <- read_csv(file.path(dir_goal, 'int/shi_data.csv'))
 #   filter(str_detect(tolower(area), 'section')) %>%
 #   select(area, area_name) %>%
 #   distinct()
-# write_csv(shi_sec, file.path(dir_goal, 'herring_maps/shi_sections_raw.csv'))
+# write_csv(shi_sec, file.path(dir_goal, 'raw/herring_maps/shi_sections_raw.csv'))
 ### ADD rgn_id AND rgn_wgt FIELDS MANUALLY and rename without _raw
 
-shi_fix <- read_csv(file.path(dir_goal, 'herring_maps/shi_secs_67_135_136.csv'),
+shi_fix <- read_csv(file.path(dir_goal, 'raw/herring_maps/shi_secs_67_135_136.csv'),
                               col_types = 'iicnnnnccc') %>%
   group_by(section, pool, location) %>%
   mutate(layers = ifelse(is.na(layers), median(layers, na.rm = TRUE), layers),
@@ -307,13 +304,13 @@ Note that this method is more "repeatable" than the previous, using area-weighti
 
 ``` {r extract_herring_section_by_rgn}
 
-hsect_to_rgn_file <- file.path(dir_goal, 'herring_maps/sect_to_rgn_area_wt.csv')
+hsect_to_rgn_file <- file.path(dir_goal, 'raw/herring_maps/sect_to_rgn_area_wt.csv')
 
 if(!file.exists(hsect_to_rgn_file)) {
   
   # read the OGR; check the layers; get the herring layer
   
-  boundaries_gdb <- file.path(dir_anx, '_raw_data/dfo_khunter/d2017/boundaries.gdb')
+  boundaries_gdb <- file.path(dir_anx, '_raw_data/dfo_khunter/fisheries/d2017/boundaries.gdb')
   herring_lyr <- rgdal::ogrListLayers(boundaries_gdb) %>%
     .[str_detect(tolower(.), 'herring')]
   
@@ -356,12 +353,12 @@ Using the SHI-weighted method described above, we calculate the total SHI per re
 shi_df <- read_csv(file.path(dir_goal, 'int/shi_data.csv'))
 
 ### This part uses the area-weighting based on .gdb spatialization
-# shi_sec <- read_csv(file.path(dir_goal, 'herring_maps/sect_to_rgn_area_wt.csv')) %>%
+# shi_sec <- read_csv(file.path(dir_goal, 'raw/herring_maps/sect_to_rgn_area_wt.csv')) %>%
 #   group_by(section) %>%
 #   mutate(rgn_wgt = area_km2 / sum(area_km2))
 
 ### This part reads the manually adjusted lookup table 
-shi_sec <- read_csv(file.path(dir_goal, 'herring_maps/sect_to_rgn_shi_wt.csv')) %>%
+shi_sec <- read_csv(file.path(dir_goal, 'raw/herring_maps/sect_to_rgn_shi_wt.csv')) %>%
   select(-area_name) %>%
   distinct()
 
@@ -409,6 +406,9 @@ ggplot(shi_ohibc, aes(x = year, y = shi_tot, group = rgn_id)) +
 
 ```
 
+-----
+
+## Other explorations
 
 ### Herring spawn SSB by year
 
@@ -418,7 +418,7 @@ In the second plot, the grey line is the regression of SSB/SSB~max~ against SHI/
 
 ``` {r read_xlsx_from_dfo}
 
-data_file <- file.path(dir_anx, '_raw_data/dfo_khunter/d2016/fisheries', 
+data_file <- file.path(dir_anx, '_raw_data/dfo_khunter/fisheries/d2016', 
                          'Herring Spawn Index_SSBbysection_coastwide_2005to2015.xlsx')
 
 sheets <- readxl::excel_sheets(data_file)
@@ -446,7 +446,7 @@ hspawn_dfo_raw <- lapply(sheets, FUN = function(x) {
   bind_rows() %>%
   mutate(section = str_replace(section, '-', '') %>% as.integer())
 
-shi_sec <- read_csv(file.path(dir_goal, 'herring_maps/sect_to_rgn_shi_wt.csv')) %>%
+shi_sec <- read_csv(file.path(dir_goal, 'raw/herring_maps/sect_to_rgn_shi_wt.csv')) %>%
   select(-area_name) %>%
   mutate(section = str_replace(section, 'Section ', '') %>% as.integer())
 
@@ -494,8 +494,100 @@ ggplot(shi_ohibc_05_15, aes(x = ssb_rel, y = shi_rel)) +
 
 ```
 
+-----
 
-***
+### Herring spawn hot spots
+
+Find points of high historical herring spawn harvests.  Identify the herring areas by total harvest over time series and plot by quantiles.  Trying to basically replicate: 
+
+![](http://www.pac.dfo-mpo.gc.ca/science/species-especes/pelagic-pelagique/herring-hareng/herspawn/images/smr6sp.gif)
+
+``` {r map_spawn_hab_index_by_rgn}
+
+library(sf)
+
+shi_df <- read_csv(file.path(dir_goal, 'int/shi_data.csv'))
+
+# boundaries_gdb <- file.path(dir_anx, '_raw_data/dfo_khunter/fisheries/d2017/boundaries.gdb')
+# herring_lyr <- rgdal::ogrListLayers(boundaries_gdb) %>%
+#   .[str_detect(tolower(.), 'herring_section')]
+# tmp <- readOGR(dsn = boundaries_gdb,
+#                layer = 'Herring_Sections')
+# writeOGR(tmp, dsn = dirname(boundaries_gdb), layer = 'herring_sections', driver = 'ESRI Shapefile')
+
+hsects <- sf::read_sf(dsn = file.path(dir_anx, '_raw_data/dfo_khunter/fisheries/d2017'),
+                      layer = 'herring_sections') %>%
+  select(Section, geometry)
+
+cont_sf <- sf::read_sf(dsn = dir_spatial, layer = 'ohibc_continent')
+
+hsects$area_km2 <- sf::st_area(hsects) %>%
+  as.integer() / 1e6
+
+hsects_area_df <- hsects %>%
+  as.data.frame() %>%
+  select(section = Section, area_km2)
+
+shi_section <- shi_df %>%
+  filter(str_detect(tolower(area), 'section')) %>%
+  select(section = area, area_name, year, tot_records, spawn_hab_index) %>%
+  mutate(section = str_replace(section, 'Section ', '')) %>%
+  distinct() %>%
+  filter(tot_records > 0) %>% ### remove zero-records, presume unobserved rather than zero count?
+  group_by(section) %>%
+  summarize(shi_mean = mean(spawn_hab_index)) %>%
+  ungroup() %>%
+  left_join(hsects_area_df, by = 'section') %>%
+  mutate(section = str_extract(section, '[0-9]+'),
+         spawn_intensity = shi_mean / area_km2,
+         shi_quintile = ntile(shi_mean, 5),
+         sp_int_quintile = ntile(spawn_intensity, 5))
+
+# hsects_simple <- st_simplify(hsects, dTolerance = 1)
+# 
+# hsects_simple1 <- as(hsects_simple, 'Spatial')
+# writeOGR(hsects_simple1, dsn = dirname(boundaries_gdb), layer = 'herr_sects_simple', driver = 'ESRI Shapefile', overwrite_layer = TRUE)
+
+hsects_simple <- sf::read_sf(dsn = file.path(dir_anx, '_raw_data/dfo_khunter/fisheries/d2017'), layer = 'herr_sects_simple')
+
+shi_sf <- hsects_simple %>%
+  left_join(shi_section, by = c('Section' = 'section'))
+
+shi_mean_map <- ggplot(shi_sf %>% filter(!is.na(shi_mean))) +
+  ggtheme_plot() +
+  geom_sf(data = cont_sf, 
+          fill = 'grey80', color = 'grey30', size = .1) +
+  geom_sf(aes(fill = shi_mean, color = shi_mean), size = .25)
+
+print(shi_mean_map)
+
+shi_icosa_map <- ggplot(shi_sf %>%
+                          filter(!is.na(shi_quintile))) +
+  ggtheme_plot() +
+  geom_sf(data = cont_sf,
+          fill = 'grey80', color = 'grey30', size = .1) +
+  geom_sf(aes(fill = shi_quintile, color = shi_quintile),
+          size = .25)
+
+print(shi_icosa_map)
+
+hsect_centr <- st_centroid(hsects_simple) %>%
+  left_join(shi_section, by = c('Section' = 'section'))
+
+shi_centr_map <- ggplot(hsect_centr %>% 
+                          filter(!is.na(shi_quintile)) %>%
+                          filter(shi_quintile > 4)) +
+  ggtheme_plot() +
+  geom_sf(data = cont_sf, 
+          fill = 'grey80', color = 'grey30', size = .1) +
+  geom_sf(color = 'darkblue', fill = 'blue', size = 1)
+
+print(shi_centr_map)
+
+```
+
+
+-----
 
 ``` {r prov_footer, results = 'asis'}
 prov_wrapup(commit_outputs = FALSE)

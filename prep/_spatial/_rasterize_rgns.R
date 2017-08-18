@@ -7,28 +7,29 @@ source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common
 source('src/R/rast_tools.R')
 ### to use the gdal_rast2 function
 
-dir_spatial <- '~/github/ohibc/prep/spatial'
+dir_spatial <- '~/github/ohibc/prep/_spatial'
 ### file path for ohibc_rgn and ohibc_land
 
 ### set up region to be rasterized
 # rgn_shp_file  <- '~/github/ohibc/prep/spatial/ohibc_rgn.shp'
-rgn_shp_file  <- '~/github/ohibc/prep/spatial/ohibc_inland_1km.shp'
-# rgn_shp_file  <- '~/github/ohibc/prep/spatial/ohibc_offshore_3nm.shp'
+# rgn_shp_file  <- '~/github/ohibc/prep/spatial/ohibc_inland_1km.shp'
+rgn_shp_file  <- '~/github/ohibc/prep/_spatial/ohibc_offshore_3nm.shp'
 
 ### set up base raster
-rast_base_file  <- file.path(dir_spatial, 'raster/ohibc_inland_1km_raster_500m.tif')
+rast_base_file  <- file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif')
+# rast_base_file  <- file.path(dir_spatial, 'raster/ohibc_inland_1km_raster_500m.tif')
 # rast_base_file  <- file.path(dir_goal_anx, 'raster/land_cover_1990_30m_crop.tif')
 rast_base <- raster(rast_base_file)
 
 ### set destination file name
 # rgn_rast_file <- file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif')
-rgn_rast_file  <- file.path(dir_spatial, 'raster/ohibc_inland_2km_raster_500m.tif')
+dst_file  <- file.path(dir_spatial, 'raster/ohibc_offshore_3nm_raster_1000m.tif')
 # rgn_rast_file <- file.path(dir_goal_anx, 'raster/ohibc_inland_1km_30m.tif')
 
 ### output for rasters
 gdal_rast2(rgn_shp_file,
            rast_base,
-           dst = rgn_rast_file,
+           dst = dst_file,
            override_p4s = TRUE)
 
 rast_rgn <- raster(rgn_rast_file)

@@ -1,0 +1,299 @@
+---
+title: 'OHIBC: Resilience - Community Well Being Index prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(sf)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))
+
+dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+dir_spatial <- path.expand(file.path(dir_git, 'prep/_spatial'))
+
+### goal specific folders and info
+goal      <- '_resilience'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_M, 'git-annex/bcprep', goal, scenario)
+
+library(provRmd); prov_setup()
+
+```
+
+# Summary
+
+This pressure layer calculates the social resilience of communities based on the Community Well-Being Index.  Here we calculate resilience scores for each of the four components (income, education, housing, and labor force activity) as well as the composite CWB.  We calculate this for overall population (non-indigenous and First Nations combined) and First Nations, using an area-weighted mean of scores by census district. 
+
+$$resilience_{rgn} = \frac{\sum_{i=1}^N (CWB_{csd} * pop_{csd})}{\sum_{i=1}^N pop_{csd}}$$
+
+where $CWB_{csd}$ is the CWB score (component or total) for each of $N$ census subdivisions within the OHIBC region, and pop_{csd} is the portion of the population of that CSD within the OHIBC region.
+
+# Data
+
+This layer relies on Community Well-Being Index data from Indigenous and Northern Affairs Canada (AADNC)
+
+CWB Index:
+
+* __Reference__: 
+* __Downloaded__: Aug 15, 2017 from:
+    * https://www.aadnc-aandc.gc.ca/eng/1100100016579/1100100016580
+* __Description__:  
+    * CWB Index Database for 1981, 1991, 1996, 2001, 2006, 2011
+    * Also data dictionaries for each
+* __Native data resolution__: Census Subdivision
+* __Format__:  .csv
+
+# Methods
+
+## Determine CWB Index values for BC subdivisions
+
+``` {r read_in_cwb_data}
+
+cwb_files <- list.files(file.path(dir_anx, '_raw_data/aadnc_community_wellbeing',
+                                  'd2017'),
+                        pattern = '.csv$',
+                        full.names = TRUE)
+
+cwb_df_raw <- lapply(cwb_files, FUN = function(x) {
+  # x <- cwb_files[1]
+  ### read in all as character. Ugh.
+  hdr <- read_csv(x, locale = locale(encoding = "Latin1"), n_max = 1)
+  hdr_types <- paste0(rep('c', times = ncol(hdr)), collapse = '')
+  
+  y <- read_csv(x, locale = locale(encoding = "Latin1"), col_types = hdr_types)
+  names(y) <- names(y) %>%
+    str_replace(' / .+', '')
+  y <- y %>%
+    clean_df_names() %>%
+    setNames(names(.) %>% str_replace('2a_|census_', ''))
+      ### clean up 'population' prefixes
+}) %>%
+  setNames(basename(cwb_files) %>%
+             str_extract('[0-9]{4}')) %>%
+  bind_rows(.id = 'year')
+
+cwb_df <- cwb_df_raw %>%
+  rename(pop = population,
+         inc = income,
+         hsg = housing,
+         edu = education,
+         lab = labour_force_activity) %>%
+  mutate(year = as.integer(year),
+         csd_code = as.integer(csd_code),
+         pop  = as.integer(pop),
+         inc  = as.numeric(inc),
+         edu  = as.numeric(edu),
+         hsg  = as.numeric(hsg),
+         lab  = as.numeric(lab),
+         cwb  = as.numeric(cwb),
+         gnr  = as.numeric(gnr %>% str_replace('%', '')))
+
+write_csv(cwb_df, file.path(dir_goal, 'int/cwb_canada_raw.csv'))
+
+```
+
+``` {r print metadata}
+
+metadata_raw <- read_csv(file.path(dir_anx, '_raw_data/aadnc_community_wellbeing',
+                        'd2017/data_dictionaries',
+                        'cwb_2011_data_1452011157293_eng.csv'),
+              locale = locale(encoding = "Latin1"),
+              col_types = 'ccc')
+
+names(metadata_raw) <- names(metadata_raw) %>%
+  str_replace(' / .+', '') %>%
+  str_replace('ENGLISH ', '')
+
+metadata <- metadata_raw %>%
+  clean_df_names() %>%
+  mutate(field_name = str_replace(field_name, ' / .+', ''),
+         description = str_replace(description, ' 2011|2011 ', ''),
+         definition  = str_replace(definition,  ' for 2011| for 20011|2011 ', ''))
+
+knitr::kable(metadata, caption = 'metadata for Community Well-Being Index data')
+
+```
+
+Cut all-Canada CWB index down to just OHIBC census subdivisions.  For this we use the OHIBC-to-census lookup from Clean Waters:Pathogens data prep.  Note the CSD data only goes back to 2001; the CWB data only goes up to 2011.
+
+``` {r cwb_to_ohibc}
+
+csd_2001_2016 <- read_csv(file.path(dir_git, 'prep/cw/v2017/int/patho_csd_2001-2016.csv'))
+
+cwb_df_allcanada <- read_csv(file.path(dir_goal, 'int/cwb_canada_raw.csv'))
+
+### CSD data only goes back to 2001; CWB data only goes up to 2011.
+cwb_csd <- csd_2001_2016 %>%
+  inner_join(cwb_df_allcanada, by = c('csduid' = 'csd_code', 'year')) %>%
+  mutate(fn = (community_type == 'First Nations Communities')) %>%
+  select(year, rgn_id, csduid, prop_area, csdname, fn,
+         pop, inc, edu, hsg, lab, cwb)
+
+write_csv(cwb_csd, file.path(dir_goal, 'int/cwb_by_csd.csv'))
+
+```
+
+## Calculate layers
+
+For each region for each year, calculate a population-weighted value for each of the components and the overall index.  We will do this for both overall population and First Nations population.
+
+``` {r calc_layers}
+
+cwb_csd <- read_csv(file.path(dir_goal, 'int/cwb_by_csd.csv')) %>%
+  mutate(pop = round(pop * prop_area)) %>%
+  select(-prop_area)
+
+### Calc components separately from overall CWB - some rgns with CWB have no 
+### component scores (perhaps b/c insufficient sample to meet data quality 
+### standards at CSD level but gapfilled at larger district level?)
+components_rgn_year <- cwb_csd %>%
+  filter(!is.na(pop) & !is.na(inc)) %>%
+  group_by(rgn_id, year) %>%
+  summarize(inc     = sum(inc * pop) / sum(pop),
+            edu     = sum(edu * pop) / sum(pop),
+            hsg     = sum(hsg * pop) / sum(pop),
+            lab     = sum(lab * pop) / sum(pop)) %>%
+  ungroup()
+            
+cwb_rgn_year <- cwb_csd %>%
+  filter(!is.na(pop) & !is.na(cwb) & pop != 0) %>%
+  group_by(rgn_id, year) %>%
+  summarize(cwb     = sum(cwb * pop) / sum(pop)) %>%
+  ungroup()
+
+cwb_layer <- cwb_rgn_year %>%
+  left_join(components_rgn_year, by = c('rgn_id', 'year')) %>%
+  gather(cwb_comp, cwb_score, -rgn_id, -year) %>%
+  group_by(rgn_id, cwb_comp) %>%
+  complete(year = 2001:2016) %>%
+  mutate(cwb_score = approx(year, cwb_score, year)$y) %>%
+  fill(cwb_score, .direction = 'down') %>%
+  ungroup() %>%
+  mutate(cwb_score = cwb_score / 100)
+
+write_csv(cwb_layer, file.path(dir_goal, 'output/cwb_score_all.csv'))
+
+cwb_plot_df <- cwb_layer %>%
+  left_join(get_rgn_names()) %>%
+  mutate(cwb_comp = ifelse(cwb_comp == 'hsg', 'housing', cwb_comp),
+         cwb_comp = ifelse(cwb_comp == 'edu', 'education', cwb_comp),
+         cwb_comp = ifelse(cwb_comp == 'lab', 'labor force', cwb_comp),
+         cwb_comp = ifelse(cwb_comp == 'inc', 'income', cwb_comp),
+         cwb_score = round(cwb_score, 4))
+
+ggplot(cwb_plot_df %>%
+         filter(cwb_comp != 'cwb'), 
+       aes(x = year, y = cwb_score)) +
+  ggtheme_plot() +
+  geom_line(data = cwb_plot_df %>%
+              filter(cwb_comp == 'cwb'),
+            size = 1.5, linetype = '1111', 
+            alpha = .8, color = 'grey60') +
+  geom_line(aes(color = cwb_comp, group = cwb_comp), 
+            size = .5, alpha = .8) +
+  scale_color_brewer(palette = 'Dark2') +
+  scale_x_continuous(breaks = c(2001, 2006, 2011)) +
+  theme(axis.text.x = element_text(angle = 30)) +
+  ylim(c(.25, 1.00)) +
+  facet_wrap( ~ rgn_name) +
+  labs(y = 'Component Score',
+       title = 'Community Well-Being, all population',
+       color = 'component')
+
+DT::datatable(cwb_plot_df)
+
+```
+
+``` {r calc_layers_first_nations}
+
+fn_cwb_csd <- read_csv(file.path(dir_goal, 'int/cwb_by_csd.csv')) %>%
+  filter(fn == TRUE) %>%
+  mutate(pop = round(pop * prop_area)) %>%
+  select(-prop_area)
+
+### Calc components separately from overall CWB - some rgns with CWB have no 
+### component scores (perhaps b/c insufficient sample to meet data quality 
+### standards at CSD level but gapfilled at larger district level?)
+fn_components_rgn_year <- fn_cwb_csd %>%
+  filter(!is.na(pop) & !is.na(inc)) %>%
+  group_by(rgn_id, year) %>%
+  summarize(inc     = sum(inc * pop) / sum(pop),
+            edu     = sum(edu * pop) / sum(pop),
+            hsg     = sum(hsg * pop) / sum(pop),
+            lab     = sum(lab * pop) / sum(pop)) %>%
+  ungroup()
+            
+fn_cwb_rgn_year <- fn_cwb_csd %>%
+  filter(!is.na(pop) & !is.na(cwb) & pop != 0) %>%
+  group_by(rgn_id, year) %>%
+  summarize(cwb     = sum(cwb * pop) / sum(pop)) %>%
+  ungroup()
+
+fn_cwb_layer <- fn_cwb_rgn_year %>%
+  left_join(fn_components_rgn_year, by = c('rgn_id', 'year')) %>%
+  gather(cwb_comp, cwb_score, -rgn_id, -year) %>%
+  group_by(rgn_id, cwb_comp) %>%
+  complete(year = 2001:2016) %>%
+  mutate(cwb_score = approx(year, cwb_score, year)$y) %>%
+  fill(cwb_score, .direction = 'down') %>%
+  ungroup() %>%
+  mutate(cwb_score = cwb_score / 100) ### resilience between 0-1
+
+write_csv(fn_cwb_layer, file.path(dir_goal, 'output/cwb_score_fn.csv'))
+
+fn_cwb_plot_df <- fn_cwb_layer %>%
+  left_join(get_rgn_names()) %>%
+  mutate(cwb_comp = ifelse(cwb_comp == 'hsg', 'housing', cwb_comp),
+         cwb_comp = ifelse(cwb_comp == 'edu', 'education', cwb_comp),
+         cwb_comp = ifelse(cwb_comp == 'lab', 'labor force', cwb_comp),
+         cwb_comp = ifelse(cwb_comp == 'inc', 'income', cwb_comp),
+         cwb_score = round(cwb_score, 4))
+
+ggplot(fn_cwb_plot_df %>%
+         filter(cwb_comp != 'cwb'), 
+       aes(x = year, y = cwb_score)) +
+  ggtheme_plot() +
+  geom_line(data = fn_cwb_plot_df %>%
+              filter(cwb_comp == 'cwb'),
+            size = 1.5, linetype = '1111', 
+            alpha = .8, color = 'grey60') +
+  geom_line(aes(color = cwb_comp, group = cwb_comp), 
+            size = .5, alpha = .8) +
+  scale_color_brewer(palette = 'Dark2') +
+  scale_x_continuous(breaks = c(2001, 2006, 2011)) +
+  theme(axis.text.x = element_text(angle = 30)) +
+  ylim(c(.25, 1.00)) +
+  facet_wrap( ~ rgn_name) +
+  labs(y = 'Component Score',
+       title = 'Community Well-Being, First Nations',
+       color = 'component')
+
+DT::datatable(fn_cwb_plot_df)
+
+```
+
+-----
+
+``` {r results = 'asis'}
+
+prov_wrapup(commit_outputs = FALSE)
+
+```
