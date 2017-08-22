@@ -18,7 +18,7 @@ output:
 
 ``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
 
-knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       echo = TRUE, message = FALSE, warning = FALSE)
 
 library(sp)        # the classes and methods that make up spatial ops in R
@@ -27,11 +27,11 @@ library(maptools)  # tools for reading and manipulating spatial objects
 library(rgeos)
 library(rgdal)
 library(raster)
-library(sf)
 
 
 dir_git  <- '~/github/ohibc'         ### set wd to work in Github OHIBC location
 source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+library(sf)
 
 scenario <- 'v2017'
 
@@ -61,7 +61,9 @@ $$X_{LSP} = \frac{\frac{pA_{CMPA}}{pA_{refCMPA}} + \frac{pA_{CP}}{pA_{refCP}}}{2
 
 *pA* = percent of area within the inland or offshore buffer; *CMPA* = coastal marine protected area (3nm offshore); *CP* = coastline protected (coastal watersheds inland); and *refCMPA* = *refCP* = 30% reference point for both measures.
 
-Future changes may incorporate other data sets and MaPP planning zones.
+For BC, these calculations include additional layers: Tribal Parks layer from West Coast Vancouver Island and MaPP Special Management Zones allocated to cultural/historic/First Nations use.
+
+This data prep script also prepares resilience layers for MPA coverage as % of 3 nm coastal zone and entire EEZ, including WDPA, Tribal Parks, and all MaPP zones except energy and aquaculture.
 
 -----
 
@@ -75,7 +77,7 @@ Future changes may incorporate other data sets and MaPP planning zones.
 
 -----
 
-# Methods
+# Methods: LSP layers
 
 ## Read in BC WDPA-MPA shapefile
 
@@ -227,7 +229,7 @@ if(!file.exists(tribal_rast_file) | reload) {
 
 ### Rasterize MaPP zones
 
-For MaPP protected areas and SMZs, assign a value of 2015 (the year that the MaPP plans were finalized).  We will exclude aquaculture and alternative energy development Special Management Zones, and from the remaining PMZs and SMZs we will select areas protected for cultural value (i.e. 'traditional', 'cultural', 'First Nations', 'recreational')
+For MaPP protected areas and SMZs, assign a value of 2015 (the year that the MaPP plans were finalized).  We will exclude aquaculture and alternative energy development Special Management Zones for both MPA and LSP considertion; for LSP consideration, from the remaining PMZs and SMZs we will select areas protected for cultural value (i.e. 'traditional', 'cultural', 'First Nations', 'recreational').
 
 ``` {r aggregate_MaPP}
 
@@ -240,50 +242,67 @@ mapp_shp_files  <- list.files(file.path(dir_anx, '_raw_data/mapp',
                               full.names = TRUE)
 
 lsp_mapp_shp_file <- file.path(dir_goal_anx, 'shp/mapp_lsp_zones.shp')
+mpa_mapp_shp_file <- file.path(dir_goal_anx, 'shp/mapp_mpa_zones.shp')
 
 if(!file.exists(lsp_mapp_shp_file)) {
   mapps <- lapply(mapp_shp_files, 
                   FUN = function(x) {
-                    rgdal::readOGR(dsn = dirname(x),
-                                   layer = basename(x) %>% str_replace('.shp$', ''))
+                    sf::read_sf(dsn = dirname(x),
+                                layer = basename(x) %>% str_replace('.shp$', ''))
                   }) %>%
     setNames(basename(mapp_shp_files) %>% str_replace('_.+', ''))
   
   mapp_nc <- mapps[['NorthCoast']]
-  mapp_nc@data <- mapp_nc@data %>%
-    select(rgn = SubRegion, type = Type, mgmt = Management, 
-           obj = Objective, name = Name) 
-  mapp_nc <- mapp_nc[(is.na(mapp_nc@data$mgmt)) |
-                     !str_detect(tolower(mapp_nc@data$mgmt), 
-                                 'renewable|aquaculture|future planning'), ]
-  
-  mapp_hg <- mapps[['HaidaGwaii']]
-  mapp_hg@data <- mapp_hg@data %>%
+  mapp_nc <- mapp_nc %>%
     select(rgn = SubRegion, type = Type, mgmt = Management, 
            obj = Objective, name = Name)
-  mapp_hg <- mapp_hg[(is.na(mapp_hg@data$mgmt)) |
-                     !str_detect(tolower(mapp_hg@data$mgmt), 
-                                 'alt.energy|shellfish aq'), ]
+  mapp_nc <- mapp_nc %>%
+    filter(is.na(mgmt) | 
+             !str_detect(tolower(mgmt), 
+                         'renewable|aquaculture|future planning'))
+  
+  mapp_hg <- mapps[['HaidaGwaii']]
+  mapp_hg <- mapp_hg %>%
+    select(rgn = SubRegion, type = Type, mgmt = Management, 
+           obj = Objective, name = Name)
+  mapp_hg <- mapp_hg %>%
+    filter(is.na(mgmt) | 
+             !str_detect(tolower(mgmt), 
+                         'alt.energy|shellfish aq'))
   
   mapp_cc <- mapps[['CentralCoast']]
-  mapp_cc@data <- mapp_cc@data %>%
+  mapp_cc <- mapp_cc %>%
     select(rgn = SubRegion, type = Type, mgmt = ZoneType, 
            obj = AreaDecri, name = Group_)
-  mapp_cc <- mapp_cc[(is.na(mapp_cc@data$mgmt)) |
-                     !str_detect(tolower(mapp_cc@data$mgmt), 
-                                 'renewable|aquaculture'), ]
+  mapp_cc <- mapp_cc %>%
+    filter(is.na(mgmt) | 
+             !str_detect(tolower(mgmt), 
+                         'renewable|aquaculture'))
   
   mapp_nvi <- mapps[['NorthVancouverIsland']]
-  mapp_nvi@data <- mapp_nvi@data %>%
+  mapp_nvi <- mapp_nvi %>%
     select(rgn = SubRegion, type = Type, mgmt = Management, 
            obj = AreaDescri, name = Name)
-  mapp_nvi <- mapp_nvi[(is.na(mapp_nvi@data$mgmt)) |
-                     !str_detect(tolower(mapp_nvi@data$mgmt), 
-                                 'renewable|aquaculture'), ]
+  mapp_nvi <- mapp_nvi %>%
+    filter(is.na(mgmt) | 
+             !str_detect(tolower(mgmt), 
+                         'renewable|aquaculture'))
   
-  all_mapp <- rbind(mapp_nc, mapp_hg, mapp_cc, mapp_nvi)
   
-  # x <- all_mapp %>%
+  mapp_mpas <- rbind(mapp_nc, mapp_hg, mapp_cc, mapp_nvi) %>%
+    mutate(year = 2015)
+  
+  ### Convert to sp object for easier saving:
+  mapp_mpas_sp <- as(st_zm(mapp_mpas), 'Spatial')
+  ### st_zm() drops z and m dimensions
+  
+  rgdal::writeOGR(mapp_mpas_sp,
+               dsn   = path.expand(mpa_mapp_shp_file) %>% dirname(),
+               layer = basename(mpa_mapp_shp_file) %>% str_replace('.shp$', ''),
+               driver = 'ESRI Shapefile',
+               overwrite_layer = TRUE)  
+  
+  # x <- mapp_mpas %>%
   #   as.data.frame() %>%
   #   select(rgn, type, mgmt, obj) %>%
   #   distinct()
@@ -291,11 +310,18 @@ if(!file.exists(lsp_mapp_shp_file)) {
   
   lsp_keywords <- c('tradition', 'cultur', 'historic', 'first n', 'recreat', 'haida')
   
-  mapp_lsp <- all_mapp[str_detect(tolower(all_mapp@data$obj), paste(lsp_keywords, collapse = '|')), ]
-  mapp_lsp@data <- mapp_lsp@data %>%
+  mapp_lsp <- mapp_mpas %>%
+    filter(str_detect(tolower(obj), paste(lsp_keywords, collapse = '|')))
+  
+  mapp_lsp <- mapp_lsp %>%
     mutate(year = 2015)
   
-  rgdal::writeOGR(mapp_lsp,
+  ### Convert to sp object for easier saving:
+  mapp_lsp_sp <- as(st_zm(mapp_lsp), 'Spatial')
+    ### st_zm() drops z and m dimensions
+
+  
+  rgdal::writeOGR(mapp_lsp_sp,
                dsn   = path.expand(lsp_mapp_shp_file) %>% dirname(),
                layer = basename(lsp_mapp_shp_file) %>% str_replace('.shp$', ''),
                driver = 'ESRI Shapefile',
@@ -304,7 +330,7 @@ if(!file.exists(lsp_mapp_shp_file)) {
 
 ```
 
-``` {r rasterize_MaPP}
+``` {r rasterize_MaPP_lsp}
 
 rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif'))
 
@@ -401,7 +427,7 @@ ggplot() +
   scale_fill_brewer(palette = 'Blues') +
   theme(axis.title = element_blank())
 
-ggsave(file.path(dir_goal, 'Figs', 'protected_area_map.png'), height = 5)
+ggsave(file.path(dir_goal, 'figs', 'protected_area_map.png'), height = 5)
 
 ```
 
@@ -479,6 +505,9 @@ Finally we can calculate the status of a region for any given year by finding th
 
 ``` {r summarize_zonal_stats}
 
+zonal_3nm_file    <- file.path(dir_goal, 'int', 'zonal_stats_3nm.csv')
+zonal_inland_file <- file.path(dir_goal, 'int', 'zonal_stats_inland.csv')
+
 lsp_thresh <- 0.30
 
 rgn_names <- foreign::read.dbf(file.path(dir_spatial, 'ohibc_rgn.dbf'),
@@ -547,7 +576,7 @@ DT::datatable(prot_inland %>%
               caption = 'coastal watershed inland zone - area in km^2^')
 ```
 
-***
+-----
 
 ## Combine scores for inland and offshore, and writing output layers
 
@@ -692,6 +721,177 @@ trend_ts_plot <- ggplot(lsp_status_trend_summary %>%
        color = 'Region')
 
 print(trend_ts_plot)
+
+```
+
+-----
+
+# Methods: MPA Resilience layers
+
+## Rasterize protected areas
+
+For this calculation, we will use the same WDPA, PEP, and Tribal parks layers; but the MaPP layer will include all Protected Management Areas and Special Management Areas except for renewable energy and aquaculture zones.
+
+### Rasterize MaPP MPAs
+
+MaPP MPA shapefile was created along with the LSP shapefile, the primary difference being that LSP focuses on traditional/cultural/First Nations uses rather than all protections; here we rasterize the MPA file.
+
+``` {r rasterize_MaPP_mpas}
+
+rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif'))
+
+mpa_mapp_shp_file <- file.path(dir_goal_anx, 'shp/mapp_mpa_zones.shp')
+
+mpa_mapp_rast_file <- file.path(dir_rast, 'rast_mapp_mpa_500m.tif')
+
+reload <- TRUE
+
+if(!file.exists(mpa_mapp_rast_file) | reload) {
+  
+  rast_mapp  <- gdal_rast2(src = mpa_mapp_shp_file,
+                          rast_base = rast_base, 
+                          dst = mpa_mapp_rast_file, 
+                          value = 'year',
+                          override_p4s = TRUE)
+} else {
+  
+  git_prov(lsp_mapp_shp_file,  filetype = 'input')
+  git_prov(mapp_rast_file, filetype = 'output')
+  
+}
+
+```
+
+### Create protected area raster by combining all protected areas 
+
+Priorities will be given to WDPA-MPA polygons with years associated with each cell.  MaPP areas will be given a year of 2015 (year of finalizing the plans).  Other protected areas will be assumed to have been there since the start of our analysis.
+
+``` {r combine_MPA_rasters}
+
+rast_wdpa <- raster(file.path(dir_rast, 'rast_wdpa_bc_500m.tif'))
+mpa_rast_mapp <- raster(file.path(dir_rast, 'rast_mapp_mpa_500m.tif'))
+rast_tribal <- raster(file.path(dir_rast, 'rast_tribal_500m.tif'))
+rast_pep  <- raster(file.path(dir_rast, 'rast_pep_bc_500m.tif'))
+
+rast_mpa_file <- file.path(dir_rast, 'rast_mpa_500m.tif')
+
+if(!file.exists(rast_mpa_file) | reload) {
+  rast_mpa <- rast_wdpa
+  
+  ### The logic here: all rasters should line up.  An NA cell in the top-level
+  ### raster gets replaced by the matching cell in the next-level raster,
+  ### whether that's an NA or a new value.  And so on.
+  values(rast_mpa)[is.na(values(rast_mpa))] <- values(mpa_rast_mapp)[is.na(values(rast_mpa))]
+  values(rast_mpa)[is.na(values(rast_mpa))] <- values(rast_tribal)[is.na(values(rast_mpa))]
+  values(rast_mpa)[is.na(values(rast_mpa))] <- values(rast_pep)[is.na(values(rast_mpa))]
+  
+  writeRaster(rast_mpa, rast_mpa_file, 
+              overwrite = TRUE)
+} else {
+  git_prov(rast_mpa_file, filetype = 'output')
+}
+```
+
+-----
+
+## Calculate resilience layers
+
+``` {r mpa_zonal_stats}
+
+zonal_3nm_mpa_file <- file.path(dir_goal, 'int', 'zonal_stats_mpa_3nm.csv')
+zonal_eez_mpa_file <- file.path(dir_goal, 'int', 'zonal_stats_mpa_eez.csv')
+
+rast_3nm_file    <- file.path(dir_spatial, 'raster/ohibc_offshore_3nm_raster_500m.tif')
+rast_eez_file    <- file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif')
+rast_mpa_file   <- file.path(dir_rast, 'rast_mpa_500m.tif')
+
+rast_3nm <- raster(rast_3nm_file)
+rast_eez <- raster(rast_eez_file)
+rast_mpa <- raster(rast_mpa_file)
+
+
+### NOTE: The crosstab function returns this warning - does it affect the
+### outcomes, or does the function coerce the correct outcome?
+    # Warning message:
+    # In FUN(X[[i]], ...) : integer overflow - use sum(as.numeric(.))
+
+ptm <- proc.time()
+stats_3nm_mpa <- raster::crosstab(rast_mpa, rast_3nm, useNA = TRUE, progress = 'text') %>%
+  as.data.frame() %>%
+  setNames(c('year', 'rgn_id', 'n_cells')) %>%
+  mutate(year   = as.integer(as.character(year)),
+         rgn_id = as.integer(as.character(rgn_id))) %>%
+  arrange(rgn_id, year)
+
+stats_eez_mpa <- raster::crosstab(rast_mpa, rast_eez, useNA = TRUE, progress = 'text') %>%
+  as.data.frame() %>%
+  setNames(c('year', 'rgn_id', 'n_cells')) %>%
+  mutate(year   = as.integer(as.character(year)),
+         rgn_id = as.integer(as.character(rgn_id))) %>%
+  arrange(rgn_id, year)
+
+message('Elapsed: ', (proc.time() - ptm)[3], ' sec')
+
+write_csv(stats_3nm_mpa, zonal_3nm_mpa_file)
+write_csv(stats_eez_mpa, zonal_eez_mpa_file)
+
+```
+
+## Calculate protected area and total area by region
+
+Grouping by rgn_id, the total number of cells per region is determined by summing cell counts across ALL years, including cells with year == NA (unprotected cells).  We can then determine the protected area for each year by looking at the cumulative sum of cells up to any given year.  Note that this step will also trim the dataframe to only instances since 1980 (though protected area pre-1980 is still counted).
+
+Since the cells are 500 m on a side, we can easily calculate area by multiplying cell count * 0.25 km^2^ per cell.
+
+Finally we can calculate the status of a region for any given year by finding the ratio of protected:total and normalizing by the goal's target of 30% protected area.
+
+
+``` {r summarize_MPA_zonal_stats}
+
+rgn_names <- foreign::read.dbf(file.path(dir_spatial, 'ohibc_rgn.dbf'),
+                               as.is = TRUE) %>%
+  select(rgn_id, rgn_name)
+
+stats_3nm <- read_csv(zonal_3nm_mpa_file)
+stats_eez <- read_csv(zonal_eez_mpa_file)
+
+### Determine total cells per region (n_cells_tot) and then a cumulative
+### total of cells per region
+mpa_eez <- stats_eez %>%
+  group_by(rgn_id) %>%
+  arrange(rgn_id, year) %>%
+  mutate(n_cells_tot = sum(n_cells),
+         n_cells_cum = cumsum(n_cells),
+         a_tot_km2   = n_cells_tot / 4,
+         a_prot_km2  = n_cells_cum / 4) %>%
+  complete(year = full_seq(-1:2016, 1), nesting(rgn_id)) %>%
+  fill(-year, -rgn_id, -n_cells) %>%
+  filter(!is.na(rgn_id) & year >= 1980) %>%
+  ungroup() %>%
+  mutate(pct_prot = round(n_cells_cum / n_cells_tot, 4)) %>%
+  select(rgn_id, year, pct_prot) %>%
+  distinct()
+
+mpa_3nm <- stats_3nm %>%
+  group_by(rgn_id) %>%
+  arrange(rgn_id, year) %>%
+  mutate(n_cells_tot = sum(n_cells),
+         n_cells_cum = cumsum(n_cells),
+         a_tot_km2   = n_cells_tot / 4,
+         a_prot_km2  = n_cells_cum / 4) %>%
+  complete(year = full_seq(-1:2016, 1), nesting(rgn_id)) %>%
+  fill(-year, -rgn_id, -n_cells) %>%
+  filter(!is.na(rgn_id) & year >= 1980) %>%
+  ungroup() %>%
+  mutate(pct_prot = round(n_cells_cum / n_cells_tot, 4)) %>%
+  select(rgn_id, year, pct_prot) %>%
+  distinct()
+
+write_csv(mpa_3nm, file.path(dir_goal, 'output', 'mpa_pct_3nm.csv'))
+write_csv(mpa_eez, file.path(dir_goal, 'output', 'mpa_pct_eez.csv'))
+
+DT::datatable(mpa_3nm, caption = 'MPA coverage in 3nm coastal zone')
+DT::datatable(mpa_eez, caption = 'MPA coverage in exclusive economic zone')
 
 ```
 
