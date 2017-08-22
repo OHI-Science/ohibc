@@ -1,6 +1,7 @@
 layer,targets,name,units,description
-ao_closures,AO,Shellfish closure days area-weighted by region as a proxy for access to shellfish gardens,NA,NA
-ao_licenses,AO,Commercial fishing licenses total and proportion allocated to First Nations as a measure of access to commercial fisheries,NA,NA
+ao_closures,AO,Shellfish closure days,area-weighted closure days,Shellfish closure days area-weighted by region as a proxy for access to shellfish gardens
+ao_licenses,AO,FN Commercial fishing licenses,pct_fn,Commercial fishing licenses allocated to First Nations (as proportion of total licenses) as a measure of access to commercial fisheries
+ao_licenses_fn_pop,AO,FN Commercial fishing licenses,pct_fn,Commercial fishing licenses allocated to First Nations (proportion relative to FN percent population) as a measure of access to commercial fisheries
 ao_salmon,AO,Salmon stock health as a proxy for access to salmon for FSC purposes,NA,NA
 ao_spawn_hab_index,AO,Herring spawn habitat index as a proxy for opportunity to collect herring spawn,NA,NA
 cc_acid,pressure,Ocean acidification,scaled 0-1,Ocean acidification pressure scaled using biological thresholds
@@ -27,8 +28,8 @@ fp_com_lb,pressure,Low bycatch due to commercial fishing,scaled 0-1,Modeled dest
 fp_habitat,resilience,Management and protection of habitat to preserve biodiversity (fisheries),scaled 0-1,Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: habitat related questions
 fp_mora,resilience,Commercial fishing management,scaled 0-1,Regulations and management of commerical fishing
 fp_mora_artisanal,resilience,Artisanal fisheries management effectiveness and opportunity,scaled 0-1,The opportunity for artisanal and recreational fishing based on the quality of management of the small-scale fishing sector
-fp_mpa_coast,resilience,Coastal protected marine areas to protect fishery resources,scaled 0-1,Protected marine areas within 3nm of coastline (lasting special places goal calculated for coastal zone)
-fp_mpa_eez,resilience,EEZ protected marine areas to protect fishery resources,scaled 0-1,Protected marine areas within EEZ to protect fishery resource (lasting special places goal results)
+fp_mpa_coast,resilience,Coastal protected marine areas to protect fishery resources,scaled 0-1,Protected marine areas within 3nm of coastline
+fp_mpa_eez,resilience,EEZ protected marine areas to protect fishery resources,scaled 0-1,Protected marine areas within EEZ to protect fishery resource
 fp_targetharvest,pressure,Targeted harvest of cetaceans and marine turtles,scaled 0-1,Targeted harvest of cetaceans and marine turtles
 fp_wildcaught_weight,FP,Food provision weights,proportion,Proportion of wild caught fisheries to mariculture
 g_cites,resilience,CITES signatories,scaled 0-1,Convention on International Trade in Endangered Species of Wild Fauna and Flora (CITES) signatories
@@ -84,4 +85,5 @@ tr_vis_ctr_visits,TR,Number of visitors,count,Number of visitors to visitor cent
 tr_vis_ctr_visits_all,TR,Number of visitors,count,Number of visitors to visitor centers in all BC Province
 tr_park_visits,TR,Number of visitors,count,Number of visitors to provincial parks in OHIBC regions
 tr_park_visits_all,TR,Number of visitors,count,Number of visitors to provincial parks in all BC province
-wgi_all,resilience,Strength of governance,scaled 0-1,World Governance Indicators (WGI) six combined scores
+cwbi_all,resilience,Community Well-Being Index all, scaled 0-1,Community Well-Being Index across all OHIBC census subdivisions reporting on four components and overall index
+cwbi_fn,resilience,Community Well-Being Index First Nations, scaled 0-1,Community Well-Being Index across OHIBC First Nations census subdivisions reporting on four components and overall index

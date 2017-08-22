@@ -154,6 +154,7 @@ calc_trend <- function(scenario_df, years = NULL) {
           paste(scenario_df$year %>% range(), collapse = ' - '))
 
   scenario_df <- scenario_df %>%
+    filter(!is.na(region_id)) %>%
     arrange(region_id, year) %>%
     mutate(status_1 = first(status))
 
