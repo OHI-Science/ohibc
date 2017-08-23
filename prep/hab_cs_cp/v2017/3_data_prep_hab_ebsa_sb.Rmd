@@ -36,7 +36,7 @@ scenario  <- 'v2017'
 dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
 dir_goal_anx <- file.path(dir_anx, goal, scenario)
 
-dir_fis   <- file.path(dir_anx, '_raw_data/dfo_khunter/d2016/fisheries')
+dir_fis   <- file.path(dir_anx, '_raw_data/dfo_khunter/fisheries/d2016')
 dir_trawl <- file.path(dir_goal_anx, 'trawl')
 dir_habs  <- file.path(dir_goal_anx, 'habs')
 
@@ -63,22 +63,18 @@ Create habitat info layer for EBSAs - ecologically and biologically significant 
 
 # Updates from previous assessment
 
-***
+-----
 
-# Data Source [NOTE: can be copied from README.md in rawdata file]
-**Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+# Data Source
 
-**Downloaded**: [date downloaded or received]
+* __Reference__: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+* __Downloaded__: [date downloaded or received]
+* __Description__:  [e.g., surface aragonite state]
+* __Native data resolution__: [e.g., 1 degree, 30 m, etc.]   
+* __Time range__: [e.g., 1880-1899, monthly data provided for each year] 
+* __Format__:  [e.g. NetCDF]
 
-**Description**:  [e.g., surface aragonite state]
-
-**Native data resolution**: [e.g., 1 degree, 30 m, etc.]   
-
-**Time range**: [e.g., 1880-1899, monthly data provided for each year] 
-
-**Format**:  [e.g. NetCDF]
-
-***
+-----
   
 # Methods
 
@@ -88,7 +84,7 @@ Create habitat info layer for EBSAs - ecologically and biologically significant 
     
 ``` {r create_OHI_EBSA_shp}
 
-poly_ebsa <- readOGR(dsn = file.path(dir_anx, '_raw_data/dfo_khunter/d2016/management_boundaries/ebsa'), 
+poly_ebsa <- readOGR(dsn = file.path(dir_anx, '_raw_data/dfo_khunter/management_boundaries/d2016/ebsa'), 
                      layer = 'eco_bio_sig_areas', 
                      stringsAsFactors = FALSE)
 
@@ -110,8 +106,8 @@ poly_ebsa_trim <- poly_ebsa[poly_ebsa@data$hab == TRUE, ]
 
 # Note: Strait of Georgia sponge reefs not in main EBSA polygons; use
 # sponge reef closures layer to capture these.  
-poly_sg_sponges <- readOGR(dsn = file.path(dir_anx, '_raw_data/dfo_khunter/d2016',
-                                           'management_boundaries/mgmt_related_boundaries'), 
+poly_sg_sponges <- readOGR(dsn = file.path(dir_anx, '_raw_data/dfo_khunter',
+                                           'management_boundaries/d2016/mgmt_related_boundaries'), 
                      layer = 'Strait_of_Georgia_Sponge_Reef_Fishing_Closures', 
                      stringsAsFactors = FALSE)
 poly_sg_sponges@data <- poly_sg_sponges@data %>%
@@ -129,7 +125,7 @@ poly_sg_sponges@data <- poly_sg_sponges@data %>%
 ### Need to re-ID the polygons to prep for rbind...
 poly_ebsa_trim  <- poly_ebsa_trim %>% spChFIDs(as.character(1:nrow(poly_ebsa_trim)))
 poly_sg_sponges <- poly_sg_sponges %>% spChFIDs(as.character(1:nrow(poly_sg_sponges) + nrow(poly_ebsa_trim)))
-poly_ebsa_hab <- rbind(poly_ebsa_trim, poly_sg_sponges, makeUniqueIDs = TRUE)
+poly_ebsa_hab   <- rbind(poly_ebsa_trim, poly_sg_sponges, makeUniqueIDs = TRUE)
 
 ### save locally for next step: rasterization
 writeOGR(poly_ebsa_hab, dsn = path.expand(dir_habs),
@@ -150,7 +146,7 @@ rast_ebsa_hab <- gdal_rast2(src = file.path(dir_habs, 'ebsa_hab'),
            
 ```
 
-***
+-----
 
 OK, now to get all the trawl pressures layers
 
@@ -159,11 +155,11 @@ OK, now to get all the trawl pressures layers
     * 2007-2015
 * Scallop trawl
     * `Sum_tm_fsh` field - effort in trawl hours(?) across 4 km x 4 km cell (16 km^2)
-    * 2005-2015; ***2010 data seems corrupted so is dropped***
+    * 2005-2015; ___2010 data seems corrupted so is dropped___
 * Shrimp trawl
     * is this bottom trawl? http://thisfish.info/fishery/shrimp-bottom-trawl-british-columbia/
     * `sum_tow_ti` field - effort in total tow time? across 4 km x 4 km cell (16 km^2)
-    * 2005-2015; ***No shapefile for 2014?***
+    * 2005-2015; ___No shapefile for 2014?___
 
 ``` {r create_groundfish_trawl_effort_layers}
 
@@ -180,7 +176,7 @@ trawl_gf_rasts <- file.path(dir_trawl,
 ### [1] "Count_"     "Sum_CATCH_" "Sum_EFFORT" "Shape_Leng" "Shape_Le_1" "Shape_Area"
 
 
-rast_base <- raster(rast_base_file)
+rast_base <- raster::raster(rast_base_file)
 
 if(any(!file.exists(trawl_gf_rasts))) {
 
@@ -269,7 +265,7 @@ trawl_scallop_rasts <- file.path(dir_trawl,
                               str_replace('_legal_limfields', '') %>%
                               str_replace('.shp$', '.tif'))
 
-rast_base <- raster(rast_base_file)
+rast_base <- raster::raster(rast_base_file)
 
 if(any(!file.exists(trawl_scallop_rasts))) {
 
@@ -348,7 +344,7 @@ trawl_shrimp_rasts <- file.path(dir_trawl,
 ### Reasonably consistent: use Sum_tow_ti ("Sum tow time"?)
 ### NOTE: no 2014 data?
 
-rast_base <- raster(rast_base_file)
+rast_base <- raster::raster(rast_base_file)
 
 if(any(!file.exists(trawl_shrimp_rasts))) {
 
@@ -374,7 +370,7 @@ git_prov(trawl_shrimp_rasts, filetype = 'output')
 
 ```
 
-***
+-----
 
 ### sum trawl pressures rasters - assuming all effort in hours.
 
@@ -426,7 +422,7 @@ if(any(!file.exists(file.path(dir_trawl, paste0(trawl_layers, '.tif'))) | reload
 
 ```
 
-***
+-----
 
 ## Calculate trawl pressure on EBSAs (binary method)
 
@@ -469,7 +465,7 @@ if(!file.exists(ebsa_trawl_rgn_file) | reload) {
                          }, 
                        mc.cores = 12)
   
-  rgn_rast <- raster(rast_base_file) %>%
+  rgn_rast <- raster::raster(rast_base_file) %>%
     setNames('rgn_id')
   
   ebsa_trawl_rgn_list <- ebsa_trawl_rasts_bin %>%
@@ -510,7 +506,7 @@ if(!file.exists(ebsa_trawl_rgn_file) | reload) {
 
 ```
 
-*** 
+----- 
 
 ## Calculate trawl pressure on soft bottom (effort-weighted method)
 
@@ -526,7 +522,7 @@ if(!file.exists(soft_btm_rast_file)) {
                                   'bcmca_eco_set_physical_complete/FeatureData_Physical',
                                   'BCMCA_ECO_Physical_BenthicClasses_DATA.shp')
   
-  rast_base <- raster(rast_base_file)
+  rast_base <- raster::raster(rast_base_file)
 
   # rast_benthic_raw <- gdal_rast2(src = poly_benthic_bcmca_file,
   #                             rast_base = rast_base,
@@ -565,7 +561,7 @@ soft_btm_rast_file <- file.path(dir_habs, 'chi_soft_bottom.tif')
 
 if(!file.exists(soft_btm_rast_file)) {
   ### reproject soft bottom based on global soft bottom Mollweide raster
-  rast_base <- raster(rast_base_file)
+  rast_base <- raster::raster(rast_base_file)
 
   soft_btm_rast <- raster(file.path(dir_M, 'model/GL-NCEAS-Habitats_v2013a/data/soft_bottom_mol.tif'))
   soft_btm_rast_bcalb <- projectRaster(soft_btm_rast, rast_base, 
@@ -601,7 +597,7 @@ if(!file.exists(sb_trawl_rgn_file) | reload) {
                          mask(x, soft_btm_rast)}, 
                        mc.cores = 12)
   
-  rgn_rast <- raster(rast_base_file) %>%
+  rgn_rast <- raster::raster(rast_base_file) %>%
     setNames('rgn_id')
   
   sb_trawl_rgn_list <- sb_trawl_rasts %>%
@@ -644,7 +640,7 @@ if(!file.exists(sb_trawl_rgn_file) | reload) {
 ```
 
 
-*** 
+----- 
 
 With the trawl effort on soft-bottom habitats by region, determine scores based on log of trawl effort:  this amplifies the effects of small trawl effort relative to large trawl effort.  This suggests that damage due to each additional unit of effort does not have the same ecological impact as those first few hours of trawling effort.  Reference point (110% of max trawl effort in all soft-bottom habitat within EEZ)
 
@@ -674,7 +670,7 @@ write_csv(sb_trawl_rgn_sum, file.path(dir_goal, 'int', 'soft_btm_trawl_rgn_summa
 
 ```
 
-***
+-----
 
 ``` {r prov_footer, results = 'asis'}
 prov_wrapup()
