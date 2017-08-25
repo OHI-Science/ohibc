@@ -1,494 +1,477 @@
 year,region_id,status,component,rgn_name,rgn_code,score,goal,dimension
-2e3,1,0.8488921027459597,shellfish_closures,North Coast,NC,62.85724,AO,status
-2e3,2,0.8488921027459597,shellfish_closures,Haida Gwaii,HG,84.46409,AO,status
-2e3,3,0.8488921027459597,shellfish_closures,Central Coast,CC,64.84705,AO,status
-2e3,4,0.8488921027459597,shellfish_closures,North Vancouver Island,NV,77.87315,AO,status
-2e3,5,0.8488921027459597,shellfish_closures,West Vancouver Island,WV,73.16777,AO,status
-2e3,6,0.8488921027459597,shellfish_closures,Strait of Georgia,SG,80.1126,AO,status
-2e3,8,0.8488921027459597,shellfish_closures,Aristazabal Island,AZ,64.03698,AO,status
-2001,1,0.8484781085069075,shellfish_closures,North Coast,NC,63.21248,AO,status
-2001,2,0.8484781085069075,shellfish_closures,Haida Gwaii,HG,84.74611,AO,status
-2001,3,0.8484781085069075,shellfish_closures,Central Coast,CC,64.71937,AO,status
-2001,4,0.8484781085069075,shellfish_closures,North Vancouver Island,NV,72.52472,AO,status
-2001,5,0.8484781085069075,shellfish_closures,West Vancouver Island,WV,73.72141,AO,status
-2001,6,0.8484781085069075,shellfish_closures,Strait of Georgia,SG,80.38676,AO,status
-2001,8,0.8484781085069075,shellfish_closures,Aristazabal Island,AZ,63.53427,AO,status
-2002,1,0.8484781085069075,shellfish_closures,North Coast,NC,64.22388,AO,status
-2002,2,0.8484781085069075,shellfish_closures,Haida Gwaii,HG,85.08899,AO,status
-2002,3,0.8484781085069075,shellfish_closures,Central Coast,CC,64.98779,AO,status
-2002,4,0.8484781085069075,shellfish_closures,North Vancouver Island,NV,79.16453,AO,status
-2002,5,0.8484781085069075,shellfish_closures,West Vancouver Island,WV,73.59864,AO,status
-2002,6,0.8484781085069075,shellfish_closures,Strait of Georgia,SG,77.05942,AO,status
-2002,8,0.8484781085069075,shellfish_closures,Aristazabal Island,AZ,63.91794,AO,status
-2003,1,0.8484781085069075,shellfish_closures,North Coast,NC,63.18615,AO,status
-2003,2,0.8484781085069075,shellfish_closures,Haida Gwaii,HG,85.06486,AO,status
-2003,3,0.8484781085069075,shellfish_closures,Central Coast,CC,65.79317,AO,status
-2003,4,0.8484781085069075,shellfish_closures,North Vancouver Island,NV,81.52373,AO,status
-2003,5,0.8484781085069075,shellfish_closures,West Vancouver Island,WV,74.24343,AO,status
-2003,6,0.8484781085069075,shellfish_closures,Strait of Georgia,SG,82.55528,AO,status
-2003,8,0.8484781085069075,shellfish_closures,Aristazabal Island,AZ,64.82144,AO,status
-2004,1,0.8488921027459597,shellfish_closures,North Coast,NC,65.4414,AO,status
-2004,2,0.8488921027459597,shellfish_closures,Haida Gwaii,HG,85.21538,AO,status
-2004,3,0.8488921027459597,shellfish_closures,Central Coast,CC,65.61193,AO,status
-2004,4,0.8488921027459597,shellfish_closures,North Vancouver Island,NV,78.44502,AO,status
-2004,5,0.8488921027459597,shellfish_closures,West Vancouver Island,WV,74.45307,AO,status
-2004,6,0.8488921027459597,shellfish_closures,Strait of Georgia,SG,82.36949,AO,status
-2004,8,0.8488921027459597,shellfish_closures,Aristazabal Island,AZ,65.28685,AO,status
-2005,1,0.8484781085069075,shellfish_closures,North Coast,NC,65.33077,AO,status
-2005,2,0.8484781085069075,shellfish_closures,Haida Gwaii,HG,84.7813,AO,status
-2005,3,0.8484781085069075,shellfish_closures,Central Coast,CC,65.48258,AO,status
-2005,4,0.8484781085069075,shellfish_closures,North Vancouver Island,NV,77.13639,AO,status
-2005,5,0.8484781085069075,shellfish_closures,West Vancouver Island,WV,73.12593,AO,status
-2005,6,0.8484781085069075,shellfish_closures,Strait of Georgia,SG,82.05306,AO,status
-2005,8,0.8484781085069075,shellfish_closures,Aristazabal Island,AZ,64.87205,AO,status
-2006,1,0.8484781085069075,shellfish_closures,North Coast,NC,64.642,AO,status
-2006,2,0.8484781085069075,shellfish_closures,Haida Gwaii,HG,84.34592,AO,status
-2006,3,0.8484781085069075,shellfish_closures,Central Coast,CC,65.89641,AO,status
-2006,4,0.8484781085069075,shellfish_closures,North Vancouver Island,NV,76.68592,AO,status
-2006,5,0.8484781085069075,shellfish_closures,West Vancouver Island,WV,59.48296,AO,status
-2006,6,0.8484781085069075,shellfish_closures,Strait of Georgia,SG,73.99102,AO,status
-2006,8,0.8484781085069075,shellfish_closures,Aristazabal Island,AZ,63.2584,AO,status
-2007,1,0.8484781085069075,shellfish_closures,North Coast,NC,62.89153,AO,status
-2007,2,0.8484781085069075,shellfish_closures,Haida Gwaii,HG,85.18846,AO,status
-2007,3,0.8484781085069075,shellfish_closures,Central Coast,CC,66.46531,AO,status
-2007,4,0.8484781085069075,shellfish_closures,North Vancouver Island,NV,73.53351,AO,status
-2007,5,0.8484781085069075,shellfish_closures,West Vancouver Island,WV,64.71392,AO,status
-2007,6,0.8484781085069075,shellfish_closures,Strait of Georgia,SG,71.7965,AO,status
-2007,8,0.8484781085069075,shellfish_closures,Aristazabal Island,AZ,63.288,AO,status
-2008,1,0.8488921027459597,shellfish_closures,North Coast,NC,61.62974,AO,status
-2008,2,0.8488921027459597,shellfish_closures,Haida Gwaii,HG,84.34661,AO,status
-2008,3,0.8488921027459597,shellfish_closures,Central Coast,CC,67.00941,AO,status
-2008,4,0.8488921027459597,shellfish_closures,North Vancouver Island,NV,66.02327,AO,status
-2008,5,0.8488921027459597,shellfish_closures,West Vancouver Island,WV,55.3034,AO,status
-2008,6,0.8488921027459597,shellfish_closures,Strait of Georgia,SG,73.3058,AO,status
-2008,8,0.8488921027459597,shellfish_closures,Aristazabal Island,AZ,61.62974,AO,status
-2009,1,0.8484781085069075,shellfish_closures,North Coast,NC,65.31734,AO,status
-2009,2,0.45012149130774337,shellfish_closures,Haida Gwaii,HG,72.11006,AO,status
-2009,3,0.8487658517019971,shellfish_closures,Central Coast,CC,66.86843,AO,status
-2009,4,0.315111915550471,shellfish_closures,North Vancouver Island,NV,56.41711,AO,status
-2009,5,0.6293347055886318,shellfish_closures,West Vancouver Island,WV,64.68593,AO,status
-2009,6,0.26982877952697304,shellfish_closures,Strait of Georgia,SG,56.57698,AO,status
-2009,8,0.9489630742326749,shellfish_closures,Aristazabal Island,AZ,66.05081,AO,status
-2010,1,0.45921207473495973,shellfish_closures,North Coast,NC,52.68615,AO,status
-2010,2,0.5420624902638755,shellfish_closures,Haida Gwaii,HG,75.61277,AO,status
-2010,3,0.42264017710212387,shellfish_closures,Central Coast,CC,52.88682,AO,status
-2010,4,0.42841081055326746,shellfish_closures,North Vancouver Island,NV,58.4425,AO,status
-2010,5,0.46947683784737115,shellfish_closures,West Vancouver Island,WV,51.73139,AO,status
-2010,6,0.07031434246409951,shellfish_closures,Strait of Georgia,SG,50.35341,AO,status
-2010,8,0.8393844958111936,shellfish_closures,Aristazabal Island,AZ,63.5625,AO,status
-2011,1,0.11320480898084029,shellfish_closures,North Coast,NC,47.47547,AO,status
-2011,2,0.29139324006320133,shellfish_closures,Haida Gwaii,HG,70.47581,AO,status
-2011,3,0.3078640133814101,shellfish_closures,Central Coast,CC,51.95577,AO,status
-2011,4,0.3139645246573718,shellfish_closures,North Vancouver Island,NV,56.94437,AO,status
-2011,5,0.46642835437780494,shellfish_closures,West Vancouver Island,WV,66.3935,AO,status
-2011,6,0.15927930729000428,shellfish_closures,Strait of Georgia,SG,58.17935,AO,status
-2011,8,0.4650569094754463,shellfish_closures,Aristazabal Island,AZ,55.46376,AO,status
-2012,1,0.44591703883547273,shellfish_closures,North Coast,NC,62.58473,AO,status
-2012,2,0.28010238598529624,shellfish_closures,Haida Gwaii,HG,73.76347,AO,status
-2012,3,0.33908273455541493,shellfish_closures,Central Coast,CC,56.00983,AO,status
-2012,4,0.2757679505961341,shellfish_closures,North Vancouver Island,NV,59.69178,AO,status
-2012,5,0.46838903497791606,shellfish_closures,West Vancouver Island,WV,59.90021,AO,status
-2012,6,0.23063159406311384,shellfish_closures,Strait of Georgia,SG,55.75053,AO,status
-2012,8,0.5644774459737836,shellfish_closures,Aristazabal Island,AZ,69.51521,AO,status
-2013,1,0.49369531252035515,shellfish_closures,North Coast,NC,65.34902,AO,status
-2013,2,0.4164657855118187,shellfish_closures,Haida Gwaii,HG,78.47312,AO,status
-2013,3,0.22029437208355407,shellfish_closures,Central Coast,CC,53.19073,AO,status
-2013,4,0.4077046064019344,shellfish_closures,North Vancouver Island,NV,64.85063,AO,status
-2013,5,0.38996858980917193,shellfish_closures,West Vancouver Island,WV,64.43948,AO,status
-2013,6,0.07862415014082313,shellfish_closures,Strait of Georgia,SG,55.97323,AO,status
-2013,8,0.5656659865928301,shellfish_closures,Aristazabal Island,AZ,69.01648,AO,status
-2014,1,0.040026176168917016,shellfish_closures,North Coast,NC,55.91453,AO,status
-2014,2,0.3586554858436103,shellfish_closures,Haida Gwaii,HG,76.98139,AO,status
-2014,3,0.43659407129943206,shellfish_closures,Central Coast,CC,60.11584,AO,status
-2014,4,0.32205993265738053,shellfish_closures,North Vancouver Island,NV,59.88063,AO,status
-2014,5,0.46589314427157225,shellfish_closures,West Vancouver Island,WV,66.62982,AO,status
-2014,6,0.13115987688928799,shellfish_closures,Strait of Georgia,SG,55.17108,AO,status
-2014,8,0.2203371970495258,shellfish_closures,Aristazabal Island,AZ,57.91932,AO,status
-2015,1,0.26219158975499146,shellfish_closures,North Coast,NC,63.90819,AO,status
-2015,2,0.31008297636366555,shellfish_closures,Haida Gwaii,HG,77.00277,AO,status
-2015,3,0.4584115054153992,shellfish_closures,Central Coast,CC,64.56224,AO,status
-2015,4,0.29858238317506536,shellfish_closures,North Vancouver Island,NV,60.13007,AO,status
-2015,5,0.5470965042610665,shellfish_closures,West Vancouver Island,WV,69.67077,AO,status
-2015,6,0.135277679926482,shellfish_closures,Strait of Georgia,SG,51.3657,AO,status
-2015,8,0.5552660882302386,shellfish_closures,Aristazabal Island,AZ,69.80337,AO,status
-2016,1,0.5564812082077516,shellfish_closures,North Coast,NC,75.50436,AO,status
-2016,2,0.5564812082077516,shellfish_closures,Haida Gwaii,HG,79.14775,AO,status
-2016,3,0.5564812082077516,shellfish_closures,Central Coast,CC,66.74493,AO,status
-2016,4,0.5564812082077516,shellfish_closures,North Vancouver Island,NV,67.19144,AO,status
-2016,5,0.5564812082077516,shellfish_closures,West Vancouver Island,WV,69.80909,AO,status
-2016,6,0.5564812082077516,shellfish_closures,Strait of Georgia,SG,67.22399,AO,status
-2016,8,0.5564812082077516,shellfish_closures,Aristazabal Island,AZ,70.849,AO,status
-2e3,1,0.03682513998047979,first_nations_licenses,North Coast,NC,62.85724,AO,status
-2e3,2,0.6850304809212012,first_nations_licenses,Haida Gwaii,HG,84.46409,AO,status
-2e3,3,0.09651937014168657,first_nations_licenses,Central Coast,CC,64.84705,AO,status
-2e3,4,0.4873025372759381,first_nations_licenses,North Vancouver Island,NV,77.87315,AO,status
-2e3,5,0.3461409399751821,first_nations_licenses,West Vancouver Island,WV,73.16777,AO,status
-2e3,6,0.5544857591749588,first_nations_licenses,Strait of Georgia,SG,80.1126,AO,status
-2e3,7,0.1502823526328892,first_nations_licenses,Pacific Offshore,PO,15.02824,AO,status
-2e3,8,0.0722173951368164,first_nations_licenses,Aristazabal Island,AZ,64.03698,AO,status
-2001,1,0.047896440129449845,first_nations_licenses,North Coast,NC,63.21248,AO,status
-2001,2,0.6939050701186624,first_nations_licenses,Haida Gwaii,HG,84.74611,AO,status
-2001,3,0.09310294932469394,first_nations_licenses,Central Coast,CC,64.71937,AO,status
-2001,4,0.3272634179134813,first_nations_licenses,North Vancouver Island,NV,72.52472,AO,status
-2001,5,0.38597960878655097,first_nations_licenses,West Vancouver Island,WV,73.72141,AO,status
-2001,6,0.5631248127954454,first_nations_licenses,Strait of Georgia,SG,80.38676,AO,status
-2001,7,0.15213008647673618,first_nations_licenses,Pacific Offshore,PO,15.21301,AO,status
-2001,8,0.057549986202052136,first_nations_licenses,Aristazabal Island,AZ,63.53427,AO,status
-2002,1,0.07823833018803575,first_nations_licenses,North Coast,NC,64.22388,AO,status
-2002,2,0.7041917090460781,first_nations_licenses,Haida Gwaii,HG,85.08899,AO,status
-2002,3,0.10115569257197198,first_nations_licenses,Central Coast,CC,64.98779,AO,status
-2002,4,0.5264578665670899,first_nations_licenses,North Vancouver Island,NV,79.16453,AO,status
-2002,5,0.3594809934392891,first_nations_licenses,West Vancouver Island,WV,73.59864,AO,status
-2002,6,0.5793405920318871,first_nations_licenses,Strait of Georgia,SG,77.05942,AO,status
-2002,7,0.1355284664920538,first_nations_licenses,Pacific Offshore,PO,13.55285,AO,status
-2002,8,0.06905998344246256,first_nations_licenses,Aristazabal Island,AZ,63.91794,AO,status
-2003,1,0.04710627043188278,first_nations_licenses,North Coast,NC,63.18615,AO,status
-2003,2,0.7034677526877811,first_nations_licenses,Haida Gwaii,HG,85.06486,AO,status
-2003,3,0.1253169373584849,first_nations_licenses,Central Coast,CC,65.79317,AO,status
-2003,4,0.5972338232901232,first_nations_licenses,North Vancouver Island,NV,81.52373,AO,status
-2003,5,0.3788247550649466,first_nations_licenses,West Vancouver Island,WV,74.24343,AO,status
-2003,6,0.6281802340054768,first_nations_licenses,Strait of Georgia,SG,82.55528,AO,status
-2003,7,0.1574776895165245,first_nations_licenses,Pacific Offshore,PO,15.74777,AO,status
-2003,8,0.0961651323842581,first_nations_licenses,Aristazabal Island,AZ,64.82144,AO,status
-2004,1,0.11434991334222919,first_nations_licenses,North Coast,NC,65.4414,AO,status
-2004,2,0.7075691527686411,first_nations_licenses,Haida Gwaii,HG,85.21538,AO,status
-2004,3,0.11946583342632891,first_nations_licenses,Central Coast,CC,65.61193,AO,status
-2004,4,0.5044585426997548,first_nations_licenses,North Vancouver Island,NV,78.44502,AO,status
-2004,5,0.3847001308269642,first_nations_licenses,West Vancouver Island,WV,74.45307,AO,status
-2004,6,0.6221925220097042,first_nations_licenses,Strait of Georgia,SG,82.36949,AO,status
-2004,7,0.15684397648024068,first_nations_licenses,Pacific Offshore,PO,15.6844,AO,status
-2004,8,0.10971352049356736,first_nations_licenses,Aristazabal Island,AZ,65.28685,AO,status
-2005,1,0.11144495018572914,first_nations_licenses,North Coast,NC,65.33077,AO,status
-2005,2,0.6949609775097737,first_nations_licenses,Haida Gwaii,HG,84.7813,AO,status
-2005,3,0.11599919093851134,first_nations_licenses,Central Coast,CC,65.48258,AO,status
-2005,4,0.465613477216603,first_nations_licenses,North Vancouver Island,NV,77.13639,AO,status
-2005,5,0.3452999172123128,first_nations_licenses,West Vancouver Island,WV,73.12593,AO,status
-2005,6,0.6131138104014591,first_nations_licenses,Strait of Georgia,SG,82.05306,AO,status
-2005,7,0.14847896440129452,first_nations_licenses,Pacific Offshore,PO,14.8479,AO,status
-2005,8,0.09768352921137796,first_nations_licenses,Aristazabal Island,AZ,64.87205,AO,status
-2006,1,0.09078197551709584,first_nations_licenses,North Coast,NC,64.642,AO,status
-2006,2,0.6818994612425426,first_nations_licenses,Haida Gwaii,HG,84.34592,AO,status
-2006,3,0.12841423948220065,first_nations_licenses,Central Coast,CC,65.89641,AO,status
-2006,4,0.45209941083727495,first_nations_licenses,North Vancouver Island,NV,76.68592,AO,status
-2006,5,0.4039594789838133,first_nations_licenses,West Vancouver Island,WV,59.48296,AO,status
-2006,6,0.6172134937056153,first_nations_licenses,Strait of Georgia,SG,73.99102,AO,status
-2006,7,0.15202624341429471,first_nations_licenses,Pacific Offshore,PO,15.20262,AO,status
-2006,8,0.04927399261104906,first_nations_licenses,Aristazabal Island,AZ,63.2584,AO,status
-2007,1,0.03826777433023054,first_nations_licenses,North Coast,NC,62.89153,AO,status
-2007,2,0.70717579054080415,first_nations_licenses,Haida Gwaii,HG,85.18846,AO,status
-2007,3,0.1454811705832161,first_nations_licenses,Central Coast,CC,66.46531,AO,status
-2007,4,0.35752725139121905,first_nations_licenses,North Vancouver Island,NV,73.53351,AO,status
-2007,5,0.4061924531180195,first_nations_licenses,West Vancouver Island,WV,64.71392,AO,status
-2007,6,0.5521448959142722,first_nations_licenses,Strait of Georgia,SG,71.7965,AO,status
-2007,7,0.14919510088554513,first_nations_licenses,Pacific Offshore,PO,14.91951,AO,status
-2007,8,0.050161812297734636,first_nations_licenses,Aristazabal Island,AZ,63.288,AO,status
-2008,1,0,first_nations_licenses,North Coast,NC,61.62974,AO,status
-2008,2,0.681506157146649,first_nations_licenses,Haida Gwaii,HG,84.34661,AO,status
-2008,3,0.16139017869705924,first_nations_licenses,Central Coast,CC,67.00941,AO,status
-2008,4,0.42849634021850097,first_nations_licenses,North Vancouver Island,NV,66.02327,AO,status
-2008,5,0.4003423328335163,first_nations_licenses,West Vancouver Island,WV,55.3034,AO,status
-2008,6,0.5836239936314619,first_nations_licenses,Strait of Georgia,SG,73.3058,AO,status
-2008,7,0.1653849851004518,first_nations_licenses,Pacific Offshore,PO,16.5385,AO,status
-2008,8,0,first_nations_licenses,Aristazabal Island,AZ,61.62974,AO,status
-2009,1,0.11104196055652368,first_nations_licenses,North Coast,NC,65.31734,AO,status
-2009,2,0.7131802109552919,first_nations_licenses,Haida Gwaii,HG,72.11006,AO,status
-2009,3,0.15728703856069334,first_nations_licenses,Central Coast,CC,66.86843,AO,status
-2009,4,0.3774012674545439,first_nations_licenses,North Vancouver Island,NV,56.41711,AO,status
-2009,5,0.3587906321350161,first_nations_licenses,West Vancouver Island,WV,64.68593,AO,status
-2009,6,0.5114275440489033,first_nations_licenses,Strait of Georgia,SG,56.57698,AO,status
-2009,7,0.1770617974121059,first_nations_licenses,Pacific Offshore,PO,17.70618,AO,status
-2009,8,0.032561176403792656,first_nations_licenses,Aristazabal Island,AZ,66.05081,AO,status
-2010,1,0.12137245046427343,first_nations_licenses,North Coast,NC,52.68615,AO,status
-2010,2,0.7263205155155545,first_nations_licenses,Haida Gwaii,HG,75.61277,AO,status
-2010,3,0.16396450056584672,first_nations_licenses,Central Coast,CC,52.88682,AO,status
-2010,4,0.32486430518217235,first_nations_licenses,North Vancouver Island,NV,58.4425,AO,status
-2010,5,0.4234450686697452,first_nations_licenses,West Vancouver Island,WV,51.73139,AO,status
-2010,6,0.5547415182889693,first_nations_licenses,Strait of Georgia,SG,50.35341,AO,status
-2010,7,0.2023563398995496,first_nations_licenses,Pacific Offshore,PO,20.23563,AO,status
-2010,8,0.06749043836422478,first_nations_licenses,Aristazabal Island,AZ,63.5625,AO,status
-2011,1,0.3110592829636058,first_nations_licenses,North Coast,NC,47.47547,AO,status
-2011,2,0.822880992029828,first_nations_licenses,Haida Gwaii,HG,70.47581,AO,status
-2011,3,0.25080906148867316,first_nations_licenses,Central Coast,CC,51.95577,AO,status
-2011,4,0.39436643931286725,first_nations_licenses,North Vancouver Island,NV,56.94437,AO,status
-2011,5,0.5253765391627674,first_nations_licenses,West Vancouver Island,WV,66.3935,AO,status
-2011,6,0.5861011752682678,first_nations_licenses,Strait of Georgia,SG,58.17935,AO,status
-2011,7,0.28121015985093656,first_nations_licenses,Pacific Offshore,PO,28.12102,AO,status
-2011,8,0.19885575589459084,first_nations_licenses,Aristazabal Island,AZ,55.46376,AO,status
-2012,1,0.43162489651539104,first_nations_licenses,North Coast,NC,62.58473,AO,status
-2012,2,0.9328017841273036,first_nations_licenses,Haida Gwaii,HG,73.76347,AO,status
-2012,3,0.3412121048219164,first_nations_licenses,Central Coast,CC,56.00983,AO,status
-2012,4,0.5149854191116328,first_nations_licenses,North Vancouver Island,NV,59.69178,AO,status
-2012,5,0.5462064005753327,first_nations_licenses,West Vancouver Island,WV,59.90021,AO,status
-2012,6,0.6209120329508679,first_nations_licenses,Strait of Georgia,SG,55.75053,AO,status
-2012,7,0.39242707229111634,first_nations_licenses,Pacific Offshore,PO,39.24271,AO,status
-2012,8,0.5209788224606825,first_nations_licenses,Aristazabal Island,AZ,69.51521,AO,status
-2013,1,0.46677518748909946,first_nations_licenses,North Coast,NC,65.34902,AO,status
-2013,2,0.9377277253490846,first_nations_licenses,Haida Gwaii,HG,78.47312,AO,status
-2013,3,0.3754275809291991,first_nations_licenses,Central Coast,CC,53.19073,AO,status
-2013,4,0.5378144307149162,first_nations_licenses,North Vancouver Island,NV,64.85063,AO,status
-2013,5,0.5432157234193702,first_nations_licenses,West Vancouver Island,WV,64.43948,AO,status
-2013,6,0.6005728092255089,first_nations_licenses,Strait of Georgia,SG,55.97323,AO,status
-2013,7,0.42498451349207733,first_nations_licenses,Pacific Offshore,PO,42.49845,AO,status
-2013,8,0.5048284789644014,first_nations_licenses,Aristazabal Island,AZ,69.01648,AO,status
-2014,1,0.6374096956621229,first_nations_licenses,North Coast,NC,55.91453,AO,status
-2014,2,0.9507863509907456,first_nations_licenses,Haida Gwaii,HG,76.98139,AO,status
-2014,3,0.36688116203808235,first_nations_licenses,Central Coast,CC,60.11584,AO,status
-2014,4,0.47435897435897445,first_nations_licenses,North Vancouver Island,NV,59.88063,AO,status
-2014,5,0.5330014106713136,first_nations_licenses,West Vancouver Island,WV,66.62982,AO,status
-2014,6,0.5274026563575394,first_nations_licenses,Strait of Georgia,SG,55.17108,AO,status
-2014,7,0.4221197995163157,first_nations_licenses,Pacific Offshore,PO,42.21198,AO,status
-2014,8,0.5172422940209029,first_nations_licenses,Aristazabal Island,AZ,57.91932,AO,status
-2015,1,0.6550542547115935,first_nations_licenses,North Coast,NC,63.90819,AO,status
-2015,2,1,first_nations_licenses,Haida Gwaii,HG,77.00277,AO,status
-2015,3,0.478455586420602,first_nations_licenses,Central Coast,CC,64.56224,AO,status
-2015,4,0.5053196307550417,first_nations_licenses,North Vancouver Island,NV,60.13007,AO,status
-2015,5,0.5430265155742223,first_nations_licenses,West Vancouver Island,WV,69.67077,AO,status
-2015,6,0.5083942026873592,first_nations_licenses,Strait of Georgia,SG,51.3657,AO,status
-2015,7,0.5414654677200108,first_nations_licenses,Pacific Offshore,PO,54.14655,AO,status
-2015,8,0.5388349514563108,first_nations_licenses,Aristazabal Island,AZ,69.80337,AO,status
-2016,1,0.7086496028243602,first_nations_licenses,North Coast,NC,75.50436,AO,status
-2016,2,0.8179513445075981,first_nations_licenses,Haida Gwaii,HG,79.14775,AO,status
-2016,3,0.44586664418623173,first_nations_licenses,Central Coast,CC,66.74493,AO,status
-2016,4,0.4592621028994122,first_nations_licenses,North Vancouver Island,NV,67.19144,AO,status
-2016,5,0.5377914560286539,first_nations_licenses,West Vancouver Island,WV,69.80909,AO,status
-2016,6,0.5130946100616707,first_nations_licenses,Strait of Georgia,SG,67.22399,AO,status
-2016,7,0.4884176460568898,first_nations_licenses,Pacific Offshore,PO,48.84176,AO,status
-2016,8,0.5689887321947418,first_nations_licenses,Aristazabal Island,AZ,70.849,AO,status
-2e3,1,1,herring_spawn_hab_index,North Coast,NC,62.85724,AO,status
-2e3,2,1,herring_spawn_hab_index,Haida Gwaii,HG,84.46409,AO,status
-2e3,3,1,herring_spawn_hab_index,Central Coast,CC,64.84705,AO,status
-2e3,4,1,herring_spawn_hab_index,North Vancouver Island,NV,77.87315,AO,status
-2e3,5,1,herring_spawn_hab_index,West Vancouver Island,WV,73.16777,AO,status
-2e3,6,1,herring_spawn_hab_index,Strait of Georgia,SG,80.1126,AO,status
-2e3,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,64.03698,AO,status
-2001,1,1,herring_spawn_hab_index,North Coast,NC,63.21248,AO,status
-2001,2,1,herring_spawn_hab_index,Haida Gwaii,HG,84.74611,AO,status
-2001,3,1,herring_spawn_hab_index,Central Coast,CC,64.71937,AO,status
-2001,4,1,herring_spawn_hab_index,North Vancouver Island,NV,72.52472,AO,status
-2001,5,0.9771845632904134,herring_spawn_hab_index,West Vancouver Island,WV,73.72141,AO,status
-2001,6,1,herring_spawn_hab_index,Strait of Georgia,SG,80.38676,AO,status
-2001,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,63.53427,AO,status
-2002,1,1,herring_spawn_hab_index,North Coast,NC,64.22388,AO,status
-2002,2,1,herring_spawn_hab_index,Haida Gwaii,HG,85.08899,AO,status
-2002,3,1,herring_spawn_hab_index,Central Coast,CC,64.98779,AO,status
-2002,4,1,herring_spawn_hab_index,North Vancouver Island,NV,79.16453,AO,status
-2002,5,1,herring_spawn_hab_index,West Vancouver Island,WV,73.59864,AO,status
-2002,6,0.8839638997067886,herring_spawn_hab_index,Strait of Georgia,SG,77.05942,AO,status
-2002,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,63.91794,AO,status
-2003,1,1,herring_spawn_hab_index,North Coast,NC,63.18615,AO,status
-2003,2,1,herring_spawn_hab_index,Haida Gwaii,HG,85.06486,AO,status
-2003,3,1,herring_spawn_hab_index,Central Coast,CC,65.79317,AO,status
-2003,4,1,herring_spawn_hab_index,North Vancouver Island,NV,81.52373,AO,status
-2003,5,1,herring_spawn_hab_index,West Vancouver Island,WV,74.24343,AO,status
-2003,6,1,herring_spawn_hab_index,Strait of Georgia,SG,82.55528,AO,status
-2003,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,64.82144,AO,status
-2004,1,1,herring_spawn_hab_index,North Coast,NC,65.4414,AO,status
-2004,2,1,herring_spawn_hab_index,Haida Gwaii,HG,85.21538,AO,status
-2004,3,1,herring_spawn_hab_index,Central Coast,CC,65.61193,AO,status
-2004,4,1,herring_spawn_hab_index,North Vancouver Island,NV,78.44502,AO,status
-2004,5,1,herring_spawn_hab_index,West Vancouver Island,WV,74.45307,AO,status
-2004,6,1,herring_spawn_hab_index,Strait of Georgia,SG,82.36949,AO,status
-2004,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,65.28685,AO,status
-2005,1,1,herring_spawn_hab_index,North Coast,NC,65.33077,AO,status
-2005,2,1,herring_spawn_hab_index,Haida Gwaii,HG,84.7813,AO,status
-2005,3,1,herring_spawn_hab_index,Central Coast,CC,65.48258,AO,status
-2005,4,1,herring_spawn_hab_index,North Vancouver Island,NV,77.13639,AO,status
-2005,5,1,herring_spawn_hab_index,West Vancouver Island,WV,73.12593,AO,status
-2005,6,1,herring_spawn_hab_index,Strait of Georgia,SG,82.05306,AO,status
-2005,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,64.87205,AO,status
-2006,1,1,herring_spawn_hab_index,North Coast,NC,64.642,AO,status
-2006,2,1,herring_spawn_hab_index,Haida Gwaii,HG,84.34592,AO,status
-2006,3,1,herring_spawn_hab_index,Central Coast,CC,65.89641,AO,status
-2006,4,1,herring_spawn_hab_index,North Vancouver Island,NV,76.68592,AO,status
-2006,5,0.5320511016001537,herring_spawn_hab_index,West Vancouver Island,WV,59.48296,AO,status
-2006,6,0.7540391046632939,herring_spawn_hab_index,Strait of Georgia,SG,73.99102,AO,status
-2006,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,63.2584,AO,status
-2007,1,1,herring_spawn_hab_index,North Coast,NC,62.89153,AO,status
-2007,2,1,herring_spawn_hab_index,Haida Gwaii,HG,85.18846,AO,status
-2007,3,1,herring_spawn_hab_index,Central Coast,CC,66.46531,AO,status
-2007,4,1,herring_spawn_hab_index,North Vancouver Island,NV,73.53351,AO,status
-2007,5,0.6867471589521676,herring_spawn_hab_index,West Vancouver Island,WV,64.71392,AO,status
-2007,6,0.7532720236982892,herring_spawn_hab_index,Strait of Georgia,SG,71.7965,AO,status
-2007,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,63.288,AO,status
-2008,1,1,herring_spawn_hab_index,North Coast,NC,61.62974,AO,status
-2008,2,1,herring_spawn_hab_index,Haida Gwaii,HG,84.34661,AO,status
-2008,3,1,herring_spawn_hab_index,Central Coast,CC,67.00941,AO,status
-2008,4,0.7033095294203499,herring_spawn_hab_index,North Vancouver Island,NV,66.02327,AO,status
-2008,5,0.40986760422270113,herring_spawn_hab_index,West Vancouver Island,WV,55.3034,AO,status
-2008,6,0.7666578148355286,herring_spawn_hab_index,Strait of Georgia,SG,73.3058,AO,status
-2008,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,61.62974,AO,status
-2009,1,1,herring_spawn_hab_index,North Coast,NC,65.31734,AO,status
-2009,2,1,herring_spawn_hab_index,Haida Gwaii,HG,72.11006,AO,status
-2009,3,1,herring_spawn_hab_index,Central Coast,CC,66.86843,AO,status
-2009,4,1,herring_spawn_hab_index,North Vancouver Island,NV,56.41711,AO,status
-2009,5,0.952452615710251,herring_spawn_hab_index,West Vancouver Island,WV,64.68593,AO,status
-2009,6,0.9160532251115817,herring_spawn_hab_index,Strait of Georgia,SG,56.57698,AO,status
-2009,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,66.05081,AO,status
-2010,1,1,herring_spawn_hab_index,North Coast,NC,52.68615,AO,status
-2010,2,1,herring_spawn_hab_index,Haida Gwaii,HG,75.61277,AO,status
-2010,3,1,herring_spawn_hab_index,Central Coast,CC,52.88682,AO,status
-2010,4,1,herring_spawn_hab_index,North Vancouver Island,NV,58.4425,AO,status
-2010,5,0.6590199188075666,herring_spawn_hab_index,West Vancouver Island,WV,51.73139,AO,status
-2010,6,0.8855464607929235,herring_spawn_hab_index,Strait of Georgia,SG,50.35341,AO,status
-2010,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,63.5625,AO,status
-2011,1,1,herring_spawn_hab_index,North Coast,NC,47.47547,AO,status
-2011,2,1,herring_spawn_hab_index,Haida Gwaii,HG,70.47581,AO,status
-2011,3,1,herring_spawn_hab_index,Central Coast,CC,51.95577,AO,status
-2011,4,1,herring_spawn_hab_index,North Vancouver Island,NV,56.94437,AO,status
-2011,5,1,herring_spawn_hab_index,West Vancouver Island,WV,66.3935,AO,status
-2011,6,1,herring_spawn_hab_index,Strait of Georgia,SG,58.17935,AO,status
-2011,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,55.46376,AO,status
-2012,1,1,herring_spawn_hab_index,North Coast,NC,62.58473,AO,status
-2012,2,1,herring_spawn_hab_index,Haida Gwaii,HG,73.76347,AO,status
-2012,3,1,herring_spawn_hab_index,Central Coast,CC,56.00983,AO,status
-2012,4,1,herring_spawn_hab_index,North Vancouver Island,NV,59.69178,AO,status
-2012,5,0.7824109200277682,herring_spawn_hab_index,West Vancouver Island,WV,59.90021,AO,status
-2012,6,0.8209721697118035,herring_spawn_hab_index,Strait of Georgia,SG,55.75053,AO,status
-2012,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,69.51521,AO,status
-2013,1,1,herring_spawn_hab_index,North Coast,NC,65.34902,AO,status
-2013,2,1,herring_spawn_hab_index,Haida Gwaii,HG,78.47312,AO,status
-2013,3,1,herring_spawn_hab_index,Central Coast,CC,53.19073,AO,status
-2013,4,1,herring_spawn_hab_index,North Vancouver Island,NV,64.85063,AO,status
-2013,5,1,herring_spawn_hab_index,West Vancouver Island,WV,64.43948,AO,status
-2013,6,1,herring_spawn_hab_index,Strait of Georgia,SG,55.97323,AO,status
-2013,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,69.01648,AO,status
-2014,1,1,herring_spawn_hab_index,North Coast,NC,55.91453,AO,status
-2014,2,1,herring_spawn_hab_index,Haida Gwaii,HG,76.98139,AO,status
-2014,3,1,herring_spawn_hab_index,Central Coast,CC,60.11584,AO,status
-2014,4,1,herring_spawn_hab_index,North Vancouver Island,NV,59.88063,AO,status
-2014,5,1,herring_spawn_hab_index,West Vancouver Island,WV,66.62982,AO,status
-2014,6,0.9965699014330975,herring_spawn_hab_index,Strait of Georgia,SG,55.17108,AO,status
-2014,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,57.91932,AO,status
-2015,1,1,herring_spawn_hab_index,North Coast,NC,63.90819,AO,status
-2015,2,1,herring_spawn_hab_index,Haida Gwaii,HG,77.00277,AO,status
-2015,3,1,herring_spawn_hab_index,Central Coast,CC,64.56224,AO,status
-2015,4,1,herring_spawn_hab_index,North Vancouver Island,NV,60.13007,AO,status
-2015,5,1,herring_spawn_hab_index,West Vancouver Island,WV,69.67077,AO,status
-2015,6,0.8972990087088402,herring_spawn_hab_index,Strait of Georgia,SG,51.3657,AO,status
-2015,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,69.80337,AO,status
-2016,1,1,herring_spawn_hab_index,North Coast,NC,75.50436,AO,status
-2016,2,1,herring_spawn_hab_index,Haida Gwaii,HG,79.14775,AO,status
-2016,3,1,herring_spawn_hab_index,Central Coast,CC,66.74493,AO,status
-2016,4,1,herring_spawn_hab_index,North Vancouver Island,NV,67.19144,AO,status
-2016,5,1,herring_spawn_hab_index,West Vancouver Island,WV,69.80909,AO,status
-2016,6,0.9471438613254779,herring_spawn_hab_index,Strait of Georgia,SG,67.22399,AO,status
-2016,8,1,herring_spawn_hab_index,Aristazabal Island,AZ,70.849,AO,status
-2e3,1,0,salmon,North Coast,NC,62.85724,AO,status
-2e3,2,0,salmon,Haida Gwaii,HG,84.46409,AO,status
-2e3,3,0,salmon,Central Coast,CC,64.84705,AO,status
-2e3,4,0,salmon,North Vancouver Island,NV,77.87315,AO,status
-2e3,5,0,salmon,West Vancouver Island,WV,73.16777,AO,status
-2e3,6,0,salmon,Strait of Georgia,SG,80.1126,AO,status
-2e3,8,0,salmon,Aristazabal Island,AZ,64.03698,AO,status
-2001,1,0,salmon,North Coast,NC,63.21248,AO,status
-2001,2,0,salmon,Haida Gwaii,HG,84.74611,AO,status
-2001,3,0,salmon,Central Coast,CC,64.71937,AO,status
-2001,4,0,salmon,North Vancouver Island,NV,72.52472,AO,status
-2001,5,0,salmon,West Vancouver Island,WV,73.72141,AO,status
-2001,6,0,salmon,Strait of Georgia,SG,80.38676,AO,status
-2001,8,0,salmon,Aristazabal Island,AZ,63.53427,AO,status
-2002,1,0,salmon,North Coast,NC,64.22388,AO,status
-2002,2,0,salmon,Haida Gwaii,HG,85.08899,AO,status
-2002,3,0,salmon,Central Coast,CC,64.98779,AO,status
-2002,4,0,salmon,North Vancouver Island,NV,79.16453,AO,status
-2002,5,0,salmon,West Vancouver Island,WV,73.59864,AO,status
-2002,6,0,salmon,Strait of Georgia,SG,77.05942,AO,status
-2002,8,0,salmon,Aristazabal Island,AZ,63.91794,AO,status
-2003,1,0,salmon,North Coast,NC,63.18615,AO,status
-2003,2,0,salmon,Haida Gwaii,HG,85.06486,AO,status
-2003,3,0,salmon,Central Coast,CC,65.79317,AO,status
-2003,4,0,salmon,North Vancouver Island,NV,81.52373,AO,status
-2003,5,0,salmon,West Vancouver Island,WV,74.24343,AO,status
-2003,6,0,salmon,Strait of Georgia,SG,82.55528,AO,status
-2003,8,0,salmon,Aristazabal Island,AZ,64.82144,AO,status
-2004,1,0,salmon,North Coast,NC,65.4414,AO,status
-2004,2,0,salmon,Haida Gwaii,HG,85.21538,AO,status
-2004,3,0,salmon,Central Coast,CC,65.61193,AO,status
-2004,4,0,salmon,North Vancouver Island,NV,78.44502,AO,status
-2004,5,0,salmon,West Vancouver Island,WV,74.45307,AO,status
-2004,6,0,salmon,Strait of Georgia,SG,82.36949,AO,status
-2004,8,0,salmon,Aristazabal Island,AZ,65.28685,AO,status
-2005,1,0,salmon,North Coast,NC,65.33077,AO,status
-2005,2,0,salmon,Haida Gwaii,HG,84.7813,AO,status
-2005,3,0,salmon,Central Coast,CC,65.48258,AO,status
-2005,4,0,salmon,North Vancouver Island,NV,77.13639,AO,status
-2005,5,0,salmon,West Vancouver Island,WV,73.12593,AO,status
-2005,6,0,salmon,Strait of Georgia,SG,82.05306,AO,status
-2005,8,0,salmon,Aristazabal Island,AZ,64.87205,AO,status
-2006,1,0,salmon,North Coast,NC,64.642,AO,status
-2006,2,0,salmon,Haida Gwaii,HG,84.34592,AO,status
-2006,3,0,salmon,Central Coast,CC,65.89641,AO,status
-2006,4,0,salmon,North Vancouver Island,NV,76.68592,AO,status
-2006,5,0,salmon,West Vancouver Island,WV,59.48296,AO,status
-2006,6,0,salmon,Strait of Georgia,SG,73.99102,AO,status
-2006,8,0,salmon,Aristazabal Island,AZ,63.2584,AO,status
-2007,1,0,salmon,North Coast,NC,62.89153,AO,status
-2007,2,0,salmon,Haida Gwaii,HG,85.18846,AO,status
-2007,3,0,salmon,Central Coast,CC,66.46531,AO,status
-2007,4,0,salmon,North Vancouver Island,NV,73.53351,AO,status
-2007,5,0,salmon,West Vancouver Island,WV,64.71392,AO,status
-2007,6,0,salmon,Strait of Georgia,SG,71.7965,AO,status
-2007,8,0,salmon,Aristazabal Island,AZ,63.288,AO,status
-2008,1,0,salmon,North Coast,NC,61.62974,AO,status
-2008,2,0,salmon,Haida Gwaii,HG,84.34661,AO,status
-2008,3,0,salmon,Central Coast,CC,67.00941,AO,status
-2008,4,0,salmon,North Vancouver Island,NV,66.02327,AO,status
-2008,5,0,salmon,West Vancouver Island,WV,55.3034,AO,status
-2008,6,0,salmon,Strait of Georgia,SG,73.3058,AO,status
-2008,8,0,salmon,Aristazabal Island,AZ,61.62974,AO,status
-2009,1,0,salmon,North Coast,NC,65.31734,AO,status
-2009,2,0,salmon,Haida Gwaii,HG,72.11006,AO,status
-2009,3,0,salmon,Central Coast,CC,66.86843,AO,status
-2009,4,0,salmon,North Vancouver Island,NV,56.41711,AO,status
-2009,5,0,salmon,West Vancouver Island,WV,64.68593,AO,status
-2009,6,0,salmon,Strait of Georgia,SG,56.57698,AO,status
-2009,8,0,salmon,Aristazabal Island,AZ,66.05081,AO,status
-2010,1,0,salmon,North Coast,NC,52.68615,AO,status
-2010,2,0,salmon,Haida Gwaii,HG,75.61277,AO,status
-2010,3,0,salmon,Central Coast,CC,52.88682,AO,status
-2010,4,0,salmon,North Vancouver Island,NV,58.4425,AO,status
-2010,5,0,salmon,West Vancouver Island,WV,51.73139,AO,status
-2010,6,0,salmon,Strait of Georgia,SG,50.35341,AO,status
-2010,8,0,salmon,Aristazabal Island,AZ,63.5625,AO,status
-2011,1,0,salmon,North Coast,NC,47.47547,AO,status
-2011,2,0,salmon,Haida Gwaii,HG,70.47581,AO,status
-2011,3,0,salmon,Central Coast,CC,51.95577,AO,status
-2011,4,0,salmon,North Vancouver Island,NV,56.94437,AO,status
-2011,5,0,salmon,West Vancouver Island,WV,66.3935,AO,status
-2011,6,0,salmon,Strait of Georgia,SG,58.17935,AO,status
-2011,8,0,salmon,Aristazabal Island,AZ,55.46376,AO,status
-2012,1,0,salmon,North Coast,NC,62.58473,AO,status
-2012,2,0,salmon,Haida Gwaii,HG,73.76347,AO,status
-2012,3,0,salmon,Central Coast,CC,56.00983,AO,status
-2012,4,0,salmon,North Vancouver Island,NV,59.69178,AO,status
-2012,5,0,salmon,West Vancouver Island,WV,59.90021,AO,status
-2012,6,0,salmon,Strait of Georgia,SG,55.75053,AO,status
-2012,8,0,salmon,Aristazabal Island,AZ,69.51521,AO,status
-2013,1,0,salmon,North Coast,NC,65.34902,AO,status
-2013,2,0,salmon,Haida Gwaii,HG,78.47312,AO,status
-2013,3,0,salmon,Central Coast,CC,53.19073,AO,status
-2013,4,0,salmon,North Vancouver Island,NV,64.85063,AO,status
-2013,5,0,salmon,West Vancouver Island,WV,64.43948,AO,status
-2013,6,0,salmon,Strait of Georgia,SG,55.97323,AO,status
-2013,8,0,salmon,Aristazabal Island,AZ,69.01648,AO,status
-2014,1,0,salmon,North Coast,NC,55.91453,AO,status
-2014,2,0,salmon,Haida Gwaii,HG,76.98139,AO,status
-2014,3,0,salmon,Central Coast,CC,60.11584,AO,status
-2014,4,0,salmon,North Vancouver Island,NV,59.88063,AO,status
-2014,5,0,salmon,West Vancouver Island,WV,66.62982,AO,status
-2014,6,0,salmon,Strait of Georgia,SG,55.17108,AO,status
-2014,8,0,salmon,Aristazabal Island,AZ,57.91932,AO,status
-2015,1,0,salmon,North Coast,NC,63.90819,AO,status
-2015,2,0,salmon,Haida Gwaii,HG,77.00277,AO,status
-2015,3,0,salmon,Central Coast,CC,64.56224,AO,status
-2015,4,0,salmon,North Vancouver Island,NV,60.13007,AO,status
-2015,5,0,salmon,West Vancouver Island,WV,69.67077,AO,status
-2015,6,0,salmon,Strait of Georgia,SG,51.3657,AO,status
-2015,8,0,salmon,Aristazabal Island,AZ,69.80337,AO,status
-2016,1,0,salmon,North Coast,NC,75.50436,AO,status
-2016,2,0,salmon,Haida Gwaii,HG,79.14775,AO,status
-2016,3,0,salmon,Central Coast,CC,66.74493,AO,status
-2016,4,0,salmon,North Vancouver Island,NV,67.19144,AO,status
-2016,5,0,salmon,West Vancouver Island,WV,69.80909,AO,status
-2016,6,0,salmon,Strait of Georgia,SG,67.22399,AO,status
-2016,8,0,salmon,Aristazabal Island,AZ,70.849,AO,status
+2e3,1,0.8488921027459597,shellfish_closures,North Coast,NC,93.26554,AO,status
+2001,1,0.8484781085069075,shellfish_closures,North Coast,NC,94.67923,AO,status
+2002,1,0.8484781085069075,shellfish_closures,North Coast,NC,94.94927,AO,status
+2003,1,0.8484781085069075,shellfish_closures,North Coast,NC,94.94927,AO,status
+2004,1,0.8488921027459597,shellfish_closures,North Coast,NC,94.96307,AO,status
+2005,1,0.8484781085069075,shellfish_closures,North Coast,NC,94.94927,AO,status
+2006,1,0.8484781085069075,shellfish_closures,North Coast,NC,94.94927,AO,status
+2007,1,0.8484781085069075,shellfish_closures,North Coast,NC,94.94927,AO,status
+2008,1,0.8488921027459597,shellfish_closures,North Coast,NC,94.96307,AO,status
+2009,1,0.8484781085069075,shellfish_closures,North Coast,NC,94.94927,AO,status
+2010,1,0.45921207473495973,shellfish_closures,North Coast,NC,81.97374,AO,status
+2011,1,0.11320480898084029,shellfish_closures,North Coast,NC,70.44016,AO,status
+2012,1,0.44591703883547273,shellfish_closures,North Coast,NC,81.53057,AO,status
+2013,1,0.49369531252035515,shellfish_closures,North Coast,NC,83.12318,AO,status
+2014,1,0.040026176168917016,shellfish_closures,North Coast,NC,68.00087,AO,status
+2015,1,0.26219158975499146,shellfish_closures,North Coast,NC,75.40639,AO,status
+2016,1,0.2642074597283385,shellfish_closures,North Coast,NC,75.47358,AO,status
+2e3,2,0.4516238916047167,shellfish_closures,Haida Gwaii,HG,66.9363,AO,status
+2001,2,0.45012149130774337,shellfish_closures,Haida Gwaii,HG,67.12653,AO,status
+2002,2,0.45012149130774337,shellfish_closures,Haida Gwaii,HG,64.66563,AO,status
+2003,2,0.45012149130774337,shellfish_closures,Haida Gwaii,HG,64.74529,AO,status
+2004,2,0.4516238916047167,shellfish_closures,Haida Gwaii,HG,67.21146,AO,status
+2005,2,0.45012149130774337,shellfish_closures,Haida Gwaii,HG,67.15512,AO,status
+2006,2,0.45012149130774337,shellfish_closures,Haida Gwaii,HG,66.80144,AO,status
+2007,2,0.45012149130774337,shellfish_closures,Haida Gwaii,HG,67.48586,AO,status
+2008,2,0.4516238916047167,shellfish_closures,Haida Gwaii,HG,66.84088,AO,status
+2009,2,0.45012149130774337,shellfish_closures,Haida Gwaii,HG,67.64845,AO,status
+2010,2,0.5420624902638755,shellfish_closures,Haida Gwaii,HG,71.06895,AO,status
+2011,2,0.29139324006320133,shellfish_closures,Haida Gwaii,HG,65.32792,AO,status
+2012,2,0.28010238598529624,shellfish_closures,Haida Gwaii,HG,67.92792,AO,status
+2013,2,0.4164657855118187,shellfish_closures,Haida Gwaii,HG,72.60675,AO,status
+2014,2,0.3586554858436103,shellfish_closures,Haida Gwaii,HG,71.03333,AO,status
+2015,2,0.31008297636366555,shellfish_closures,Haida Gwaii,HG,70.74683,AO,status
+2016,2,0.31196799555392873,shellfish_closures,Haida Gwaii,HG,65.88026,AO,status
+2e3,3,0.8491790597574562,shellfish_closures,Central Coast,CC,69.12338,AO,status
+2001,3,0.8487658517019971,shellfish_closures,Central Coast,CC,69.18159,AO,status
+2002,3,0.8487658517019971,shellfish_closures,Central Coast,CC,69.55074,AO,status
+2003,3,0.8487658517019971,shellfish_closures,Central Coast,CC,69.8045,AO,status
+2004,3,0.8491790597574562,shellfish_closures,Central Coast,CC,69.80461,AO,status
+2005,3,0.8487658517019971,shellfish_closures,Central Coast,CC,69.55517,AO,status
+2006,3,0.8487658517019971,shellfish_closures,Central Coast,CC,69.78875,AO,status
+2007,3,0.8487658517019971,shellfish_closures,Central Coast,CC,70.32667,AO,status
+2008,3,0.8491790597574562,shellfish_closures,Central Coast,CC,63.51819,AO,status
+2009,3,0.8487658517019971,shellfish_closures,Central Coast,CC,67.79318,AO,status
+2010,3,0.42264017710212387,shellfish_closures,Central Coast,CC,56.45351,AO,status
+2011,3,0.3078640133814101,shellfish_closures,Central Coast,CC,54.06427,AO,status
+2012,3,0.33908273455541493,shellfish_closures,Central Coast,CC,56.61261,AO,status
+2013,3,0.22029437208355407,shellfish_closures,Central Coast,CC,52.82564,AO,status
+2014,3,0.43659407129943206,shellfish_closures,Central Coast,CC,60.22067,AO,status
+2015,3,0.4584115054153992,shellfish_closures,Central Coast,CC,61.67459,AO,status
+2016,3,0.45989125540060305,shellfish_closures,Central Coast,CC,59.36869,AO,status
+2e3,4,0.316983194469732,shellfish_closures,North Vancouver Island,NV,77.23277,AO,status
+2001,4,0.315111915550471,shellfish_closures,North Vancouver Island,NV,77.1704,AO,status
+2002,4,0.315111915550471,shellfish_closures,North Vancouver Island,NV,77.00763,AO,status
+2003,4,0.315111915550471,shellfish_closures,North Vancouver Island,NV,75.52394,AO,status
+2004,4,0.316983194469732,shellfish_closures,North Vancouver Island,NV,77.23277,AO,status
+2005,4,0.315111915550471,shellfish_closures,North Vancouver Island,NV,77.1704,AO,status
+2006,4,0.315111915550471,shellfish_closures,North Vancouver Island,NV,77.1704,AO,status
+2007,4,0.315111915550471,shellfish_closures,North Vancouver Island,NV,77.1704,AO,status
+2008,4,0.316983194469732,shellfish_closures,North Vancouver Island,NV,66.66643,AO,status
+2009,4,0.315111915550471,shellfish_closures,North Vancouver Island,NV,69.86069,AO,status
+2010,4,0.42841081055326746,shellfish_closures,North Vancouver Island,NV,72.01184,AO,status
+2011,4,0.3139645246573718,shellfish_closures,North Vancouver Island,NV,69.69698,AO,status
+2012,4,0.2757679505961341,shellfish_closures,North Vancouver Island,NV,67.67857,AO,status
+2013,4,0.4077046064019344,shellfish_closures,North Vancouver Island,NV,75.57204,AO,status
+2014,4,0.32205993265738053,shellfish_closures,North Vancouver Island,NV,76.07761,AO,status
+2015,4,0.29858238317506536,shellfish_closures,North Vancouver Island,NV,76.61941,AO,status
+2016,4,0.3004988247510897,shellfish_closures,North Vancouver Island,NV,76.68329,AO,status
+2e3,5,0.6303474522946738,shellfish_closures,West Vancouver Island,WV,87.67825,AO,status
+2001,5,0.6293347055886318,shellfish_closures,West Vancouver Island,WV,87.64449,AO,status
+2002,5,0.6293347055886318,shellfish_closures,West Vancouver Island,WV,87.64449,AO,status
+2003,5,0.6293347055886318,shellfish_closures,West Vancouver Island,WV,87.64449,AO,status
+2004,5,0.6303474522946738,shellfish_closures,West Vancouver Island,WV,87.67825,AO,status
+2005,5,0.6293347055886318,shellfish_closures,West Vancouver Island,WV,87.64449,AO,status
+2006,5,0.6293347055886318,shellfish_closures,West Vancouver Island,WV,84.71277,AO,status
+2007,5,0.6293347055886318,shellfish_closures,West Vancouver Island,WV,78.75794,AO,status
+2008,5,0.6303474522946738,shellfish_closures,West Vancouver Island,WV,75.1495,AO,status
+2009,5,0.6293347055886318,shellfish_closures,West Vancouver Island,WV,84.30583,AO,status
+2010,5,0.46947683784737115,shellfish_closures,West Vancouver Island,WV,76.25843,AO,status
+2011,5,0.46642835437780494,shellfish_closures,West Vancouver Island,WV,82.21428,AO,status
+2012,5,0.46838903497791606,shellfish_closures,West Vancouver Island,WV,76.15302,AO,status
+2013,5,0.38996858980917193,shellfish_closures,West Vancouver Island,WV,79.14928,AO,status
+2014,5,0.46589314427157225,shellfish_closures,West Vancouver Island,WV,78.63838,AO,status
+2015,5,0.5470965042610665,shellfish_closures,West Vancouver Island,WV,83.61798,AO,status
+2016,5,0.5483339455062548,shellfish_closures,West Vancouver Island,WV,84.94446,AO,status
+2e3,6,0.2718237828615988,shellfish_closures,Strait of Georgia,SG,65.51551,AO,status
+2001,6,0.26982877952697304,shellfish_closures,Strait of Georgia,SG,64.95443,AO,status
+2002,6,0.26982877952697304,shellfish_closures,Strait of Georgia,SG,65.93921,AO,status
+2003,6,0.26982877952697304,shellfish_closures,Strait of Georgia,SG,68.11115,AO,status
+2004,6,0.2718237828615988,shellfish_closures,Strait of Georgia,SG,67.7602,AO,status
+2005,6,0.26982877952697304,shellfish_closures,Strait of Georgia,SG,67.54771,AO,status
+2006,6,0.26982877952697304,shellfish_closures,Strait of Georgia,SG,66.5593,AO,status
+2007,6,0.26982877952697304,shellfish_closures,Strait of Georgia,SG,64.05981,AO,status
+2008,6,0.2718237828615988,shellfish_closures,Strait of Georgia,SG,65.71558,AO,status
+2009,6,0.26982877952697304,shellfish_closures,Strait of Georgia,SG,64.81539,AO,status
+2010,6,0.07031434246409951,shellfish_closures,Strait of Georgia,SG,61.53013,AO,status
+2011,6,0.15927930729000428,shellfish_closures,Strait of Georgia,SG,66.2765,AO,status
+2012,6,0.23063159406311384,shellfish_closures,Strait of Georgia,SG,70.71286,AO,status
+2013,6,0.07862415014082313,shellfish_closures,Strait of Georgia,SG,69.28747,AO,status
+2014,6,0.13115987688928799,shellfish_closures,Strait of Georgia,SG,71.03866,AO,status
+2015,6,0.135277679926482,shellfish_closures,Strait of Georgia,SG,71.17592,AO,status
+2016,6,0.13764030921630033,shellfish_closures,Strait of Georgia,SG,71.25468,AO,status
+2e3,8,0.9491025193850446,shellfish_closures,Aristazabal Island,AZ,73.75146,AO,status
+2001,8,0.9489630742326749,shellfish_closures,Aristazabal Island,AZ,73.56328,AO,status
+2002,8,0.9489630742326749,shellfish_closures,Aristazabal Island,AZ,74.29727,AO,status
+2003,8,0.9489630742326749,shellfish_closures,Aristazabal Island,AZ,74.67198,AO,status
+2004,8,0.9491025193850446,shellfish_closures,Aristazabal Island,AZ,77.97395,AO,status
+2005,8,0.9489630742326749,shellfish_closures,Aristazabal Island,AZ,76.02375,AO,status
+2006,8,0.9489630742326749,shellfish_closures,Aristazabal Island,AZ,74.50722,AO,status
+2007,8,0.9489630742326749,shellfish_closures,Aristazabal Island,AZ,70.07409,AO,status
+2008,8,0.9491025193850446,shellfish_closures,Aristazabal Island,AZ,69.3097,AO,status
+2009,8,0.9489630742326749,shellfish_closures,Aristazabal Island,AZ,70.85689,AO,status
+2010,8,0.8393844958111936,shellfish_closures,Aristazabal Island,AZ,67.84592,AO,status
+2011,8,0.4650569094754463,shellfish_closures,Aristazabal Island,AZ,56.31076,AO,status
+2012,8,0.5644774459737836,shellfish_closures,Aristazabal Island,AZ,59.91809,AO,status
+2013,8,0.5656659865928301,shellfish_closures,Aristazabal Island,AZ,62.07266,AO,status
+2014,8,0.2203371970495258,shellfish_closures,Aristazabal Island,AZ,52.35885,AO,status
+2015,8,0.5552660882302386,shellfish_closures,Aristazabal Island,AZ,63.61831,AO,status
+2016,8,0.5564812082077516,shellfish_closures,Aristazabal Island,AZ,63.76024,AO,status
+2e3,1,0.9490740740740741,fn_licenses,North Coast,NC,93.26554,AO,status
+2001,1,0.9918988342224857,fn_licenses,North Coast,NC,94.67923,AO,status
+2002,1,1,fn_licenses,North Coast,NC,94.94927,AO,status
+2003,1,1,fn_licenses,North Coast,NC,94.94927,AO,status
+2004,1,1,fn_licenses,North Coast,NC,94.96307,AO,status
+2005,1,1,fn_licenses,North Coast,NC,94.94927,AO,status
+2006,1,1,fn_licenses,North Coast,NC,94.94927,AO,status
+2007,1,1,fn_licenses,North Coast,NC,94.94927,AO,status
+2008,1,1,fn_licenses,North Coast,NC,94.96307,AO,status
+2009,1,1,fn_licenses,North Coast,NC,94.94927,AO,status
+2010,1,1,fn_licenses,North Coast,NC,81.97374,AO,status
+2011,1,1,fn_licenses,North Coast,NC,70.44016,AO,status
+2012,1,1,fn_licenses,North Coast,NC,81.53057,AO,status
+2013,1,1,fn_licenses,North Coast,NC,83.12318,AO,status
+2014,1,1,fn_licenses,North Coast,NC,68.00087,AO,status
+2015,1,1,fn_licenses,North Coast,NC,75.40639,AO,status
+2016,1,1,fn_licenses,North Coast,NC,75.47358,AO,status
+2e3,2,0.5564652530880881,fn_licenses,Haida Gwaii,HG,66.9363,AO,status
+2001,2,0.5636742761335694,fn_licenses,Haida Gwaii,HG,67.12653,AO,status
+2002,2,0.572030338080583,fn_licenses,Haida Gwaii,HG,64.66563,AO,status
+2003,2,0.5714422524853221,fn_licenses,Haida Gwaii,HG,64.74529,AO,status
+2004,2,0.5747739095393879,fn_licenses,Haida Gwaii,HG,67.21146,AO,status
+2005,2,0.5645320128182818,fn_licenses,Haida Gwaii,HG,67.15512,AO,status
+2006,2,0.5539218572736924,fn_licenses,Haida Gwaii,HG,66.80144,AO,status
+2007,2,0.5744543727920971,fn_licenses,Haida Gwaii,HG,67.48586,AO,status
+2008,2,0.5536023677482514,fn_licenses,Haida Gwaii,HG,66.84088,AO,status
+2009,2,0.5793318949150573,fn_licenses,Haida Gwaii,HG,67.64845,AO,status
+2010,2,0.5900060519145358,fn_licenses,Haida Gwaii,HG,71.06895,AO,status
+2011,2,0.6684442404307084,fn_licenses,Haida Gwaii,HG,65.32792,AO,status
+2012,2,0.7577353057157302,fn_licenses,Haida Gwaii,HG,67.92792,AO,status
+2013,2,0.7617367555855072,fn_licenses,Haida Gwaii,HG,72.60675,AO,status
+2014,2,0.7723445630116783,fn_licenses,Haida Gwaii,HG,71.03333,AO,status
+2015,2,0.8123218872535076,fn_licenses,Haida Gwaii,HG,70.74683,AO,status
+2016,2,0.664439779851956,fn_licenses,Haida Gwaii,HG,65.88026,AO,status
+2e3,3,0.22452224872931098,fn_licenses,Central Coast,CC,69.12338,AO,status
+2001,3,0.22668176450513408,fn_licenses,Central Coast,CC,69.18159,AO,status
+2002,3,0.23775620795444627,fn_licenses,Central Coast,CC,69.55074,AO,status
+2003,3,0.24536909808615806,fn_licenses,Central Coast,CC,69.8045,AO,status
+2004,3,0.24495934225389018,fn_licenses,Central Coast,CC,69.80461,AO,status
+2005,3,0.23788917946142613,fn_licenses,Central Coast,CC,69.55517,AO,status
+2006,3,0.24489664630491167,fn_licenses,Central Coast,CC,69.78875,AO,status
+2007,3,0.26103416021075015,fn_licenses,Central Coast,CC,70.32667,AO,status
+2008,3,0.25765463058095844,fn_licenses,Central Coast,CC,63.51819,AO,status
+2009,3,0.27083075399281914,fn_licenses,Central Coast,CC,67.79318,AO,status
+2010,3,0.2709650759887685,fn_licenses,Central Coast,CC,56.45351,AO,status
+2011,3,0.314064157411957,fn_licenses,Central Coast,CC,54.06427,AO,status
+2012,3,0.35929564101133005,fn_licenses,Central Coast,CC,56.61261,AO,status
+2013,3,0.3644749418237441,fn_licenses,Central Coast,CC,52.82564,AO,status
+2014,3,0.37002614381541826,fn_licenses,Central Coast,CC,60.22067,AO,status
+2015,3,0.39182613368361346,fn_licenses,Central Coast,CC,61.67459,AO,status
+2016,3,0.32116942937753934,fn_licenses,Central Coast,CC,59.36869,AO,status
+2e3,4,1,fn_licenses,North Vancouver Island,NV,77.23277,AO,status
+2001,4,1,fn_licenses,North Vancouver Island,NV,77.1704,AO,status
+2002,4,1,fn_licenses,North Vancouver Island,NV,77.00763,AO,status
+2003,4,1,fn_licenses,North Vancouver Island,NV,75.52394,AO,status
+2004,4,1,fn_licenses,North Vancouver Island,NV,77.23277,AO,status
+2005,4,1,fn_licenses,North Vancouver Island,NV,77.1704,AO,status
+2006,4,1,fn_licenses,North Vancouver Island,NV,77.1704,AO,status
+2007,4,1,fn_licenses,North Vancouver Island,NV,77.1704,AO,status
+2008,4,1,fn_licenses,North Vancouver Island,NV,66.66643,AO,status
+2009,4,1,fn_licenses,North Vancouver Island,NV,69.86069,AO,status
+2010,4,1,fn_licenses,North Vancouver Island,NV,72.01184,AO,status
+2011,4,1,fn_licenses,North Vancouver Island,NV,69.69698,AO,status
+2012,4,1,fn_licenses,North Vancouver Island,NV,67.67857,AO,status
+2013,4,1,fn_licenses,North Vancouver Island,NV,75.57204,AO,status
+2014,4,1,fn_licenses,North Vancouver Island,NV,76.07761,AO,status
+2015,4,1,fn_licenses,North Vancouver Island,NV,76.61941,AO,status
+2016,4,1,fn_licenses,North Vancouver Island,NV,76.68329,AO,status
+2e3,5,1,fn_licenses,West Vancouver Island,WV,87.67825,AO,status
+2001,5,1,fn_licenses,West Vancouver Island,WV,87.64449,AO,status
+2002,5,1,fn_licenses,West Vancouver Island,WV,87.64449,AO,status
+2003,5,1,fn_licenses,West Vancouver Island,WV,87.64449,AO,status
+2004,5,1,fn_licenses,West Vancouver Island,WV,87.67825,AO,status
+2005,5,1,fn_licenses,West Vancouver Island,WV,87.64449,AO,status
+2006,5,1,fn_licenses,West Vancouver Island,WV,84.71277,AO,status
+2007,5,1,fn_licenses,West Vancouver Island,WV,78.75794,AO,status
+2008,5,1,fn_licenses,West Vancouver Island,WV,75.1495,AO,status
+2009,5,1,fn_licenses,West Vancouver Island,WV,84.30583,AO,status
+2010,5,1,fn_licenses,West Vancouver Island,WV,76.25843,AO,status
+2011,5,1,fn_licenses,West Vancouver Island,WV,82.21428,AO,status
+2012,5,1,fn_licenses,West Vancouver Island,WV,76.15302,AO,status
+2013,5,1,fn_licenses,West Vancouver Island,WV,79.14928,AO,status
+2014,5,1,fn_licenses,West Vancouver Island,WV,78.63838,AO,status
+2015,5,1,fn_licenses,West Vancouver Island,WV,83.61798,AO,status
+2016,5,1,fn_licenses,West Vancouver Island,WV,84.94446,AO,status
+2e3,6,0.6936416184971099,fn_licenses,Strait of Georgia,SG,65.51551,AO,status
+2001,6,0.6788042256686896,fn_licenses,Strait of Georgia,SG,64.95443,AO,status
+2002,6,0.7083475686140531,fn_licenses,Strait of Georgia,SG,65.93921,AO,status
+2003,6,0.7735057275717365,fn_licenses,Strait of Georgia,SG,68.11115,AO,status
+2004,6,0.7609823590453131,fn_licenses,Strait of Georgia,SG,67.7602,AO,status
+2005,6,0.7566024268379729,fn_licenses,Strait of Georgia,SG,67.54771,AO,status
+2006,6,0.7269503546099292,fn_licenses,Strait of Georgia,SG,66.5593,AO,status
+2007,6,0.6519654841802494,fn_licenses,Strait of Georgia,SG,64.05981,AO,status
+2008,6,0.6996434937611409,fn_licenses,Strait of Georgia,SG,65.71558,AO,status
+2009,6,0.6746328105551407,fn_licenses,Strait of Georgia,SG,64.81539,AO,status
+2010,6,0.775589593970338,fn_licenses,Strait of Georgia,SG,61.53013,AO,status
+2011,6,0.8290155440414508,fn_licenses,Strait of Georgia,SG,66.2765,AO,status
+2012,6,0.8907543430103767,fn_licenses,Strait of Georgia,SG,70.71286,AO,status
+2013,6,1,fn_licenses,Strait of Georgia,SG,69.28747,AO,status
+2014,6,1,fn_licenses,Strait of Georgia,SG,71.03866,AO,status
+2015,6,1,fn_licenses,Strait of Georgia,SG,71.17592,AO,status
+2016,6,1,fn_licenses,Strait of Georgia,SG,71.25468,AO,status
+2e3,8,1,fn_licenses,Aristazabal Island,AZ,73.75146,AO,status
+2001,8,1,fn_licenses,Aristazabal Island,AZ,73.56328,AO,status
+2002,8,1,fn_licenses,Aristazabal Island,AZ,74.29727,AO,status
+2003,8,1,fn_licenses,Aristazabal Island,AZ,74.67198,AO,status
+2004,8,1,fn_licenses,Aristazabal Island,AZ,77.97395,AO,status
+2005,8,1,fn_licenses,Aristazabal Island,AZ,76.02375,AO,status
+2006,8,1,fn_licenses,Aristazabal Island,AZ,74.50722,AO,status
+2007,8,1,fn_licenses,Aristazabal Island,AZ,70.07409,AO,status
+2008,8,1,fn_licenses,Aristazabal Island,AZ,69.3097,AO,status
+2009,8,1,fn_licenses,Aristazabal Island,AZ,70.85689,AO,status
+2010,8,1,fn_licenses,Aristazabal Island,AZ,67.84592,AO,status
+2011,8,1,fn_licenses,Aristazabal Island,AZ,56.31076,AO,status
+2012,8,1,fn_licenses,Aristazabal Island,AZ,59.91809,AO,status
+2013,8,1,fn_licenses,Aristazabal Island,AZ,62.07266,AO,status
+2014,8,1,fn_licenses,Aristazabal Island,AZ,52.35885,AO,status
+2015,8,1,fn_licenses,Aristazabal Island,AZ,63.61831,AO,status
+2016,8,1,fn_licenses,Aristazabal Island,AZ,63.76024,AO,status
+2e3,1,1,herring_spawn,North Coast,NC,93.26554,AO,status
+2001,1,1,herring_spawn,North Coast,NC,94.67923,AO,status
+2002,1,1,herring_spawn,North Coast,NC,94.94927,AO,status
+2003,1,1,herring_spawn,North Coast,NC,94.94927,AO,status
+2004,1,1,herring_spawn,North Coast,NC,94.96307,AO,status
+2005,1,1,herring_spawn,North Coast,NC,94.94927,AO,status
+2006,1,1,herring_spawn,North Coast,NC,94.94927,AO,status
+2007,1,1,herring_spawn,North Coast,NC,94.94927,AO,status
+2008,1,1,herring_spawn,North Coast,NC,94.96307,AO,status
+2009,1,1,herring_spawn,North Coast,NC,94.94927,AO,status
+2010,1,1,herring_spawn,North Coast,NC,81.97374,AO,status
+2011,1,1,herring_spawn,North Coast,NC,70.44016,AO,status
+2012,1,1,herring_spawn,North Coast,NC,81.53057,AO,status
+2013,1,1,herring_spawn,North Coast,NC,83.12318,AO,status
+2014,1,1,herring_spawn,North Coast,NC,68.00087,AO,status
+2015,1,1,herring_spawn,North Coast,NC,75.40639,AO,status
+2016,1,1,herring_spawn,North Coast,NC,75.47358,AO,status
+2e3,2,1,herring_spawn,Haida Gwaii,HG,66.9363,AO,status
+2001,2,1,herring_spawn,Haida Gwaii,HG,67.12653,AO,status
+2002,2,0.9178170091700126,herring_spawn,Haida Gwaii,HG,64.66563,AO,status
+2003,2,0.9207950023272026,herring_spawn,Haida Gwaii,HG,64.74529,AO,status
+2004,2,0.989946003222201,herring_spawn,Haida Gwaii,HG,67.21146,AO,status
+2005,2,1,herring_spawn,Haida Gwaii,HG,67.15512,AO,status
+2006,2,1,herring_spawn,Haida Gwaii,HG,66.80144,AO,status
+2007,2,1,herring_spawn,Haida Gwaii,HG,67.48586,AO,status
+2008,2,1,herring_spawn,Haida Gwaii,HG,66.84088,AO,status
+2009,2,1,herring_spawn,Haida Gwaii,HG,67.64845,AO,status
+2010,2,1,herring_spawn,Haida Gwaii,HG,71.06895,AO,status
+2011,2,1,herring_spawn,Haida Gwaii,HG,65.32792,AO,status
+2012,2,1,herring_spawn,Haida Gwaii,HG,67.92792,AO,status
+2013,2,1,herring_spawn,Haida Gwaii,HG,72.60675,AO,status
+2014,2,1,herring_spawn,Haida Gwaii,HG,71.03333,AO,status
+2015,2,1,herring_spawn,Haida Gwaii,HG,70.74683,AO,status
+2016,2,1,herring_spawn,Haida Gwaii,HG,65.88026,AO,status
+2e3,3,1,herring_spawn,Central Coast,CC,69.12338,AO,status
+2001,3,1,herring_spawn,Central Coast,CC,69.18159,AO,status
+2002,3,1,herring_spawn,Central Coast,CC,69.55074,AO,status
+2003,3,1,herring_spawn,Central Coast,CC,69.8045,AO,status
+2004,3,1,herring_spawn,Central Coast,CC,69.80461,AO,status
+2005,3,1,herring_spawn,Central Coast,CC,69.55517,AO,status
+2006,3,1,herring_spawn,Central Coast,CC,69.78875,AO,status
+2007,3,1,herring_spawn,Central Coast,CC,70.32667,AO,status
+2008,3,0.7987119761974011,herring_spawn,Central Coast,CC,63.51819,AO,status
+2009,3,0.914198819383909,herring_spawn,Central Coast,CC,67.79318,AO,status
+2010,3,1,herring_spawn,Central Coast,CC,56.45351,AO,status
+2011,3,1,herring_spawn,Central Coast,CC,54.06427,AO,status
+2012,3,1,herring_spawn,Central Coast,CC,56.61261,AO,status
+2013,3,1,herring_spawn,Central Coast,CC,52.82564,AO,status
+2014,3,1,herring_spawn,Central Coast,CC,60.22067,AO,status
+2015,3,1,herring_spawn,Central Coast,CC,61.67459,AO,status
+2016,3,1,herring_spawn,Central Coast,CC,59.36869,AO,status
+2e3,4,1,herring_spawn,North Vancouver Island,NV,77.23277,AO,status
+2001,4,1,herring_spawn,North Vancouver Island,NV,77.1704,AO,status
+2002,4,0.9951170255959663,herring_spawn,North Vancouver Island,NV,77.00763,AO,status
+2003,4,0.9506062561817098,herring_spawn,North Vancouver Island,NV,75.52394,AO,status
+2004,4,1,herring_spawn,North Vancouver Island,NV,77.23277,AO,status
+2005,4,1,herring_spawn,North Vancouver Island,NV,77.1704,AO,status
+2006,4,1,herring_spawn,North Vancouver Island,NV,77.1704,AO,status
+2007,4,1,herring_spawn,North Vancouver Island,NV,77.1704,AO,status
+2008,4,0.6830097236078156,herring_spawn,North Vancouver Island,NV,66.66643,AO,status
+2009,4,0.7807087968296642,herring_spawn,North Vancouver Island,NV,69.86069,AO,status
+2010,4,0.7319443340853413,herring_spawn,North Vancouver Island,NV,72.01184,AO,status
+2011,4,0.7769447372642098,herring_spawn,North Vancouver Island,NV,69.69698,AO,status
+2012,4,0.754589283656439,herring_spawn,North Vancouver Island,NV,67.67857,AO,status
+2013,4,0.8594565951922066,herring_spawn,North Vancouver Island,NV,75.57204,AO,status
+2014,4,0.9602685150725759,herring_spawn,North Vancouver Island,NV,76.07761,AO,status
+2015,4,1,herring_spawn,North Vancouver Island,NV,76.61941,AO,status
+2016,4,1,herring_spawn,North Vancouver Island,NV,76.68329,AO,status
+2e3,5,1,herring_spawn,West Vancouver Island,WV,87.67825,AO,status
+2001,5,1,herring_spawn,West Vancouver Island,WV,87.64449,AO,status
+2002,5,1,herring_spawn,West Vancouver Island,WV,87.64449,AO,status
+2003,5,1,herring_spawn,West Vancouver Island,WV,87.64449,AO,status
+2004,5,1,herring_spawn,West Vancouver Island,WV,87.67825,AO,status
+2005,5,1,herring_spawn,West Vancouver Island,WV,87.64449,AO,status
+2006,5,0.9120483435752381,herring_spawn,West Vancouver Island,WV,84.71277,AO,status
+2007,5,0.7334035561301843,herring_spawn,West Vancouver Island,WV,78.75794,AO,status
+2008,5,0.6241374841415376,herring_spawn,West Vancouver Island,WV,75.1495,AO,status
+2009,5,0.8998401763631042,herring_spawn,West Vancouver Island,WV,84.30583,AO,status
+2010,5,0.8182760842991907,herring_spawn,West Vancouver Island,WV,76.25843,AO,status
+2011,5,1,herring_spawn,West Vancouver Island,WV,82.21428,AO,status
+2012,5,0.816201506205737,herring_spawn,West Vancouver Island,WV,76.15302,AO,status
+2013,5,0.9845098048436909,herring_spawn,West Vancouver Island,WV,79.14928,AO,status
+2014,5,0.8932581231322105,herring_spawn,West Vancouver Island,WV,78.63838,AO,status
+2015,5,0.9614428641350767,herring_spawn,West Vancouver Island,WV,83.61798,AO,status
+2016,5,1,herring_spawn,West Vancouver Island,WV,84.94446,AO,status
+2e3,6,1,herring_spawn,Strait of Georgia,SG,65.51551,AO,status
+2001,6,1,herring_spawn,Strait of Georgia,SG,64.95443,AO,status
+2002,6,1,herring_spawn,Strait of Georgia,SG,65.93921,AO,status
+2003,6,1,herring_spawn,Strait of Georgia,SG,68.11115,AO,status
+2004,6,1,herring_spawn,Strait of Georgia,SG,67.7602,AO,status
+2005,6,1,herring_spawn,Strait of Georgia,SG,67.54771,AO,status
+2006,6,1,herring_spawn,Strait of Georgia,SG,66.5593,AO,status
+2007,6,1,herring_spawn,Strait of Georgia,SG,64.05981,AO,status
+2008,6,1,herring_spawn,Strait of Georgia,SG,65.71558,AO,status
+2009,6,1,herring_spawn,Strait of Georgia,SG,64.81539,AO,status
+2010,6,1,herring_spawn,Strait of Georgia,SG,61.53013,AO,status
+2011,6,1,herring_spawn,Strait of Georgia,SG,66.2765,AO,status
+2012,6,1,herring_spawn,Strait of Georgia,SG,70.71286,AO,status
+2013,6,1,herring_spawn,Strait of Georgia,SG,69.28747,AO,status
+2014,6,1,herring_spawn,Strait of Georgia,SG,71.03866,AO,status
+2015,6,1,herring_spawn,Strait of Georgia,SG,71.17592,AO,status
+2016,6,1,herring_spawn,Strait of Georgia,SG,71.25468,AO,status
+2e3,8,0.26344126838107856,herring_spawn,Aristazabal Island,AZ,73.75146,AO,status
+2001,8,0.25793523576738536,herring_spawn,Aristazabal Island,AZ,73.56328,AO,status
+2002,8,0.2799550302830279,herring_spawn,Aristazabal Island,AZ,74.29727,AO,status
+2003,8,0.2911963337797144,herring_spawn,Aristazabal Island,AZ,74.67198,AO,status
+2004,8,0.3901158825955634,herring_spawn,Aristazabal Island,AZ,77.97395,AO,status
+2005,8,0.3317493484001204,herring_spawn,Aristazabal Island,AZ,76.02375,AO,status
+2006,8,0.2862534939029158,herring_spawn,Aristazabal Island,AZ,74.50722,AO,status
+2007,8,0.15325960791844498,herring_spawn,Aristazabal Island,AZ,70.07409,AO,status
+2008,8,0.130188511578477,herring_spawn,Aristazabal Island,AZ,69.3097,AO,status
+2009,8,0.17674349002135276,herring_spawn,Aristazabal Island,AZ,70.85689,AO,status
+2010,8,0.1959930334168214,herring_spawn,Aristazabal Island,AZ,67.84592,AO,status
+2011,8,0.22426581866307993,herring_spawn,Aristazabal Island,AZ,56.31076,AO,status
+2012,8,0.23306531298155903,herring_spawn,Aristazabal Island,AZ,59.91809,AO,status
+2013,8,0.2965139164560275,herring_spawn,Aristazabal Island,AZ,62.07266,AO,status
+2014,8,0.3504284434419586,herring_spawn,Aristazabal Island,AZ,52.35885,AO,status
+2015,8,0.3532832344808555,herring_spawn,Aristazabal Island,AZ,63.61831,AO,status
+2016,8,0.3563260832616333,herring_spawn,Aristazabal Island,AZ,63.76024,AO,status
+2e3,1,0,salmon,North Coast,NC,93.26554,AO,status
+2001,1,0,salmon,North Coast,NC,94.67923,AO,status
+2002,1,0,salmon,North Coast,NC,94.94927,AO,status
+2003,1,0,salmon,North Coast,NC,94.94927,AO,status
+2004,1,0,salmon,North Coast,NC,94.96307,AO,status
+2005,1,0,salmon,North Coast,NC,94.94927,AO,status
+2006,1,0,salmon,North Coast,NC,94.94927,AO,status
+2007,1,0,salmon,North Coast,NC,94.94927,AO,status
+2008,1,0,salmon,North Coast,NC,94.96307,AO,status
+2009,1,0,salmon,North Coast,NC,94.94927,AO,status
+2010,1,0,salmon,North Coast,NC,81.97374,AO,status
+2011,1,0,salmon,North Coast,NC,70.44016,AO,status
+2012,1,0,salmon,North Coast,NC,81.53057,AO,status
+2013,1,0,salmon,North Coast,NC,83.12318,AO,status
+2014,1,0,salmon,North Coast,NC,68.00087,AO,status
+2015,1,0,salmon,North Coast,NC,75.40639,AO,status
+2016,1,0,salmon,North Coast,NC,75.47358,AO,status
+2e3,2,0,salmon,Haida Gwaii,HG,66.9363,AO,status
+2001,2,0,salmon,Haida Gwaii,HG,67.12653,AO,status
+2002,2,0,salmon,Haida Gwaii,HG,64.66563,AO,status
+2003,2,0,salmon,Haida Gwaii,HG,64.74529,AO,status
+2004,2,0,salmon,Haida Gwaii,HG,67.21146,AO,status
+2005,2,0,salmon,Haida Gwaii,HG,67.15512,AO,status
+2006,2,0,salmon,Haida Gwaii,HG,66.80144,AO,status
+2007,2,0,salmon,Haida Gwaii,HG,67.48586,AO,status
+2008,2,0,salmon,Haida Gwaii,HG,66.84088,AO,status
+2009,2,0,salmon,Haida Gwaii,HG,67.64845,AO,status
+2010,2,0,salmon,Haida Gwaii,HG,71.06895,AO,status
+2011,2,0,salmon,Haida Gwaii,HG,65.32792,AO,status
+2012,2,0,salmon,Haida Gwaii,HG,67.92792,AO,status
+2013,2,0,salmon,Haida Gwaii,HG,72.60675,AO,status
+2014,2,0,salmon,Haida Gwaii,HG,71.03333,AO,status
+2015,2,0,salmon,Haida Gwaii,HG,70.74683,AO,status
+2016,2,0,salmon,Haida Gwaii,HG,65.88026,AO,status
+2e3,3,0,salmon,Central Coast,CC,69.12338,AO,status
+2001,3,0,salmon,Central Coast,CC,69.18159,AO,status
+2002,3,0,salmon,Central Coast,CC,69.55074,AO,status
+2003,3,0,salmon,Central Coast,CC,69.8045,AO,status
+2004,3,0,salmon,Central Coast,CC,69.80461,AO,status
+2005,3,0,salmon,Central Coast,CC,69.55517,AO,status
+2006,3,0,salmon,Central Coast,CC,69.78875,AO,status
+2007,3,0,salmon,Central Coast,CC,70.32667,AO,status
+2008,3,0,salmon,Central Coast,CC,63.51819,AO,status
+2009,3,0,salmon,Central Coast,CC,67.79318,AO,status
+2010,3,0,salmon,Central Coast,CC,56.45351,AO,status
+2011,3,0,salmon,Central Coast,CC,54.06427,AO,status
+2012,3,0,salmon,Central Coast,CC,56.61261,AO,status
+2013,3,0,salmon,Central Coast,CC,52.82564,AO,status
+2014,3,0,salmon,Central Coast,CC,60.22067,AO,status
+2015,3,0,salmon,Central Coast,CC,61.67459,AO,status
+2016,3,0,salmon,Central Coast,CC,59.36869,AO,status
+2e3,4,0,salmon,North Vancouver Island,NV,77.23277,AO,status
+2001,4,0,salmon,North Vancouver Island,NV,77.1704,AO,status
+2002,4,0,salmon,North Vancouver Island,NV,77.00763,AO,status
+2003,4,0,salmon,North Vancouver Island,NV,75.52394,AO,status
+2004,4,0,salmon,North Vancouver Island,NV,77.23277,AO,status
+2005,4,0,salmon,North Vancouver Island,NV,77.1704,AO,status
+2006,4,0,salmon,North Vancouver Island,NV,77.1704,AO,status
+2007,4,0,salmon,North Vancouver Island,NV,77.1704,AO,status
+2008,4,0,salmon,North Vancouver Island,NV,66.66643,AO,status
+2009,4,0,salmon,North Vancouver Island,NV,69.86069,AO,status
+2010,4,0,salmon,North Vancouver Island,NV,72.01184,AO,status
+2011,4,0,salmon,North Vancouver Island,NV,69.69698,AO,status
+2012,4,0,salmon,North Vancouver Island,NV,67.67857,AO,status
+2013,4,0,salmon,North Vancouver Island,NV,75.57204,AO,status
+2014,4,0,salmon,North Vancouver Island,NV,76.07761,AO,status
+2015,4,0,salmon,North Vancouver Island,NV,76.61941,AO,status
+2016,4,0,salmon,North Vancouver Island,NV,76.68329,AO,status
+2e3,5,0,salmon,West Vancouver Island,WV,87.67825,AO,status
+2001,5,0,salmon,West Vancouver Island,WV,87.64449,AO,status
+2002,5,0,salmon,West Vancouver Island,WV,87.64449,AO,status
+2003,5,0,salmon,West Vancouver Island,WV,87.64449,AO,status
+2004,5,0,salmon,West Vancouver Island,WV,87.67825,AO,status
+2005,5,0,salmon,West Vancouver Island,WV,87.64449,AO,status
+2006,5,0,salmon,West Vancouver Island,WV,84.71277,AO,status
+2007,5,0,salmon,West Vancouver Island,WV,78.75794,AO,status
+2008,5,0,salmon,West Vancouver Island,WV,75.1495,AO,status
+2009,5,0,salmon,West Vancouver Island,WV,84.30583,AO,status
+2010,5,0,salmon,West Vancouver Island,WV,76.25843,AO,status
+2011,5,0,salmon,West Vancouver Island,WV,82.21428,AO,status
+2012,5,0,salmon,West Vancouver Island,WV,76.15302,AO,status
+2013,5,0,salmon,West Vancouver Island,WV,79.14928,AO,status
+2014,5,0,salmon,West Vancouver Island,WV,78.63838,AO,status
+2015,5,0,salmon,West Vancouver Island,WV,83.61798,AO,status
+2016,5,0,salmon,West Vancouver Island,WV,84.94446,AO,status
+2e3,6,0,salmon,Strait of Georgia,SG,65.51551,AO,status
+2001,6,0,salmon,Strait of Georgia,SG,64.95443,AO,status
+2002,6,0,salmon,Strait of Georgia,SG,65.93921,AO,status
+2003,6,0,salmon,Strait of Georgia,SG,68.11115,AO,status
+2004,6,0,salmon,Strait of Georgia,SG,67.7602,AO,status
+2005,6,0,salmon,Strait of Georgia,SG,67.54771,AO,status
+2006,6,0,salmon,Strait of Georgia,SG,66.5593,AO,status
+2007,6,0,salmon,Strait of Georgia,SG,64.05981,AO,status
+2008,6,0,salmon,Strait of Georgia,SG,65.71558,AO,status
+2009,6,0,salmon,Strait of Georgia,SG,64.81539,AO,status
+2010,6,0,salmon,Strait of Georgia,SG,61.53013,AO,status
+2011,6,0,salmon,Strait of Georgia,SG,66.2765,AO,status
+2012,6,0,salmon,Strait of Georgia,SG,70.71286,AO,status
+2013,6,0,salmon,Strait of Georgia,SG,69.28747,AO,status
+2014,6,0,salmon,Strait of Georgia,SG,71.03866,AO,status
+2015,6,0,salmon,Strait of Georgia,SG,71.17592,AO,status
+2016,6,0,salmon,Strait of Georgia,SG,71.25468,AO,status
+2e3,8,0,salmon,Aristazabal Island,AZ,73.75146,AO,status
+2001,8,0,salmon,Aristazabal Island,AZ,73.56328,AO,status
+2002,8,0,salmon,Aristazabal Island,AZ,74.29727,AO,status
+2003,8,0,salmon,Aristazabal Island,AZ,74.67198,AO,status
+2004,8,0,salmon,Aristazabal Island,AZ,77.97395,AO,status
+2005,8,0,salmon,Aristazabal Island,AZ,76.02375,AO,status
+2006,8,0,salmon,Aristazabal Island,AZ,74.50722,AO,status
+2007,8,0,salmon,Aristazabal Island,AZ,70.07409,AO,status
+2008,8,0,salmon,Aristazabal Island,AZ,69.3097,AO,status
+2009,8,0,salmon,Aristazabal Island,AZ,70.85689,AO,status
+2010,8,0,salmon,Aristazabal Island,AZ,67.84592,AO,status
+2011,8,0,salmon,Aristazabal Island,AZ,56.31076,AO,status
+2012,8,0,salmon,Aristazabal Island,AZ,59.91809,AO,status
+2013,8,0,salmon,Aristazabal Island,AZ,62.07266,AO,status
+2014,8,0,salmon,Aristazabal Island,AZ,52.35885,AO,status
+2015,8,0,salmon,Aristazabal Island,AZ,63.61831,AO,status
+2016,8,0,salmon,Aristazabal Island,AZ,63.76024,AO,status

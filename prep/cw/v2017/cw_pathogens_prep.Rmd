@@ -1,0 +1,582 @@
+---
+title: 'OHIBC: Pathogens Pressure layers prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(sf)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))
+
+dir_spatial <- path.expand(file.path(dir_git, 'prep/_spatial'))
+
+### goal specific folders and info
+goal      <- 'cw'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_anx   <- file.path(dir_M, 'git-annex/bcprep')
+dir_goal_anx <- file.path(dir_M, 'git-annex/bcprep', goal, scenario)
+
+library(provRmd); prov_setup()
+
+### goal-specific source scripts
+# source(file.path(dir_goal, 'pressures_lyr_fxns.R'))
+
+### other support functions
+source(file.path(dir_git, 'src/R/rast_tools.R'))
+
+reload <- FALSE
+
+```
+
+# Summary
+
+This pressure layer determines potential for human pathogen contamination using census district populations, statistics on percent of population with improved sanitation (by province and by municipality size), and modeled population density.  The model compares the population density of higher-risk wastewater systems (e.g. septic, storage/haulage) to a reference point of the highest density region being entirely on higher-risk systems.
+
+$$X_{pathogens} = \frac{\delta_{at-risk,rgn}}{\delta_{all,max}}$$
+where $\delta_{at-risk,rgn}$ represents a region's population on systems, divided by the region area:  
+
+$$\delta_{at-risk,rgn} = Population_{at-risk,rgn} / A_{rgn}$$ 
+
+and $\delta_{all,max}$ represents the max overall population density of any OHIBC region.
+
+$$\delta_{all,max} = (Population_{all} / A_{rgn})_{max}$$ 
+
+# Data
+
+__Census subdivision administrative boundaries__
+
+* __Reference__: [Copyright © 2017, Province of British Columbia](http://www2.gov.bc.ca/gov/content/home/copyright)
+* __Downloaded__: Aug 7, 2017 from:
+    * http://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2016-eng.cfm (2016 census subdivisions)
+    * http://www2.gov.bc.ca/gov/content/data/geographic-data-services/land-use/administrative-boundaries (2011 census subdivisions)
+    * http://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2006-eng.cfm (2006 census subdivisions)
+    * http://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2001-eng.cfm (2001 census subdivisions)
+* __Description__:  Census subdivision administrative boundaries; choose "English", "ArcGIS" (or "ARC/INFO" for 2001), census subdivisions, cartographic boundary file option)
+* __Native data resolution__: Census subdivision
+* __Format__:  ESRI shapefile (or Arc e00 file for 2001)
+
+__2011 and 2016 Census Total Population Results Census Subdivisions__
+
+* __Reference__: [Statistics Canada, Prepared by:  BC Stats, Ministry of Technology, Innovation and Citizens' Services]
+* __Downloaded__: Aug 7, 2017 from 
+    * http://www.bcstats.gov.bc.ca/StatisticsBySubject/Census/2001Census/PopulationHousing/CensusSubdivisions.aspx (2001)
+    * http://www.bcstats.gov.bc.ca/StatisticsBySubject/Census/2006Census/PopulationHousing/CensusSubdivisions.aspx (2006)
+    * http://www.bcstats.gov.bc.ca/StatisticsBySubject/Census/2011Census/PopulationHousing/CensusSubdivisions.aspx (2011) 
+    * http://www.bcstats.gov.bc.ca/StatisticsBySubject/Census/2016Census/PopulationHousing/CensusSubdivisions.aspx (2016)
+* __Description__:  Census subdivision populations for 2001, 2006, 2011, 2016
+* __Native data resolution__: Census subdivision (note boundaries are different each year, use proper shapefile)
+* __Format__:  .csv
+
+__Municipal Water Use Report – Municipal Water Use Statistics__
+
+* __Reference__: [Copyright © 2017, Province of British Columbia](http://www2.gov.bc.ca/gov/content/home/copyright)
+* __Downloaded__: Aug 7, 2017 from:
+    * http://www.ec.gc.ca/doc/publications/eau-water/COM1454/survey8-eng.htm#table3_toc (2011, from 2009 data)
+    * http://publications.gc.ca/collections/collection_2010/ec/En11-2-2006-eng.pdf (2006 data)
+    * http://publications.gc.ca/collections/collection_2010/ec/En11-2-2004-eng.pdf (2004 data)
+* __Description__:  Percent populations served by sewers, by province and by municipality size
+* __Native data resolution__: Province and municipality size division
+* __Format__:  web page
+
+__National Assessment of First Nations Water and Wastewater Systems - National Roll-Up Report__
+
+* __Reference__: [Indigenous and Northern Affairs Canada](http://www.aadnc-aandc.gc.ca/eng/1100100010002/1100100010021)
+* __Downloaded__: Aug 7, 2017 from http://www.aadnc-aandc.gc.ca/eng/1313770257504/1313770328745#tab3_5
+* __Description__:  Summary of Overall Risk by Region – Wastewater 
+* __Native data resolution__: Province
+* __Format__:  web page
+
+
+# Methods
+
+## Determine populations on various levels of sewer service
+
+Based on the [2011 Municipal Water Use Report](http://www.ec.gc.ca/doc/publications/eau-water/COM1454/survey8-eng.htm#table3_toc) we can approximately determine the population of people in each municipality on various levels of sewer service  (sewer, septic, holding tanks).  Aggregating these up to OHIBC regions allows us to determine region-wide populations served by these methods.
+
+### Determine population trend over time
+
+The above calculations are all based on populations in 2011.  To create a time series, we will hold constant the proportion of population on each wastewater system; data for changes in systems over time are not available.
+
+Using census data from multiple years, we aggregate census district population data to rescale populations over time.
+
+``` {r fix_e00_for_2001_census, eval = FALSE}
+
+#load the RArcInfo library (for functions e00toavc, get.xxx)
+require(RArcInfo)
+
+#Convert the e00 to SpatialPolygons
+e00_file <- file.path(dir_anx, '_raw_data/bcstats', 
+                      'csd2001carto_e00/gcsd000b02a_e.e00')
+
+avc_dir <- file.path(dirname(e00_file), 'avc')
+
+e00toavc(e00_file, avcdir = avc_dir)
+
+csd_arc <- get.arcdata(dirname(avc_dir), "avc")
+csd_pal <- get.paldata(dirname(avc_dir), "avc")
+csd_tblnames <- get.tablenames(file.path(dirname(e00_file), "info"))
+csd_tbldata  <- get.tabledata(file.path(dirname(e00_file), "info"), 'AVC.PAT') %>%
+  as.data.frame() %>%
+  clean_df_names() %>%
+  .[2:nrow(.), ]
+
+require(maptools) #Needed for pal2SpatialPolygons
+csd_sp <- pal2SpatialPolygons(arc = csd_arc,
+                      	      pal = csd_pal,
+                      	      IDs = csd_pal[[1]]$PolygonId[-1],
+                      	      dropPoly1   = TRUE,
+                      	      proj4string = CRS("+init=epsg:4326"))
+
+csd_spdf <- SpatialPolygonsDataFrame(csd_sp, csd_tbldata, match.ID = TRUE)
+
+rgdal::writeOGR(csd_spdf, 
+                dsn = dirname(e00_file), layer = 'csd2001carto_from_e00', 
+                driver = 'ESRI Shapefile',
+                overwrite_layer = TRUE)
+
+```
+
+
+``` {r figure_out_csd_by_year}
+
+ohibc_rgn <- read_sf(dsn = dir_spatial,
+                     layer = 'ohibc_rgns_unclipped')
+
+csd_clean <- function(csd_sf, year) {
+  csd_sf2 <- csd_sf %>%
+    clean_df_names() %>%
+    select(csduid, csdname, csdtype, geometry) %>%
+    st_transform(st_crs(ohibc_rgn))
+  
+  csd_sf2$a_tot <- st_area(csd_sf)
+  
+  csd_sf_bc <- csd_sf2 %>%
+    st_buffer(dist = 0) %>%
+    st_intersection(ohibc_rgn) 
+  
+  csd_sf_bc$a_ohibc <- st_area(csd_sf_bc)
+  
+  csd_bc_df <- csd_sf_bc %>%
+    as.data.frame() %>%
+    clean_df_names()  %>%
+    mutate(prop_area = as.numeric(a_ohibc / a_tot),
+           area_total_km2 = as.numeric(a_tot / 1e6),
+           area_ohibc_km2 = as.numeric(a_ohibc / 1e6),
+           year = year) %>%
+    select(csduid, csdname, csdtype, rgn_id, 
+           area_total_km2, area_ohibc_km2, prop_area, year)
+  
+  return(csd_bc_df)
+}
+
+if(!file.exists(file.path(dir_goal, 'int/patho_csd_2001-2016.csv'))) {
+  
+  csd_2016 <- read_sf(dsn = file.path(dir_anx, '_raw_data/bcstats/csd2016carto'),
+                      layer = 'lcsd000b16a_e') %>%
+    csd_clean(2016)
+  
+  csd_2011 <- read_sf(dsn = file.path(dir_anx, '_raw_data/bcstats/csd2011carto'),
+                      layer = 'gcsd000b11a_e') %>%
+    csd_clean(2011)
+  
+  csd_2006 <- read_sf(dsn = file.path(dir_anx, '_raw_data/bcstats/csd2006carto'),
+                      layer = 'gcsd000b06a_e') %>%
+    csd_clean(2006)
+  
+  csd_2001 <- read_sf(dsn = file.path(dir_anx, '_raw_data/bcstats/csd2001carto_e00'),
+                      layer = 'csd2001carto_from_e00_dissolved') %>%
+    csd_clean(2001)
+
+  csd_2001_2016 <- bind_rows(csd_2001, csd_2006, csd_2011, csd_2016) %>%
+    distinct()
+  
+  write_csv(csd_2001_2016, file.path(dir_goal, 'int/patho_csd_2001-2016.csv'))
+
+}
+
+
+```
+
+
+``` {r read_pop_data_2001-2016}
+
+pop_2016 <- read_csv(file.path(dir_anx, '_raw_data/bcstats',
+                               '2016 Census - CSD_control_79d4a796-2ccd-4732-a01c-1a8fd26d254a_1.csv')) %>%
+  clean_df_names() %>%
+  select(sgc, name, type, 
+         pop = `2016_population`, 
+         prev_pop = `2011_population_2`) %>%
+  mutate(year = 2016)
+pop_2011 <- read_csv(file.path(dir_anx, '_raw_data/bcstats',
+                               'Census 2011 Table6_5cb2908c-3bb5-4d64-b47e-a667a478c81f_3.csv')) %>%
+  clean_df_names() %>%
+  select(sgc, name, type, 
+         pop = `2011_population`, 
+         prev_pop = `2006_population_2`) %>%
+  mutate(year = 2011)
+pop_2006 <- read_csv(file.path(dir_anx, '_raw_data/bcstats',
+                               'Census 2006 Table4 CSD by Geo_3974fc9d-a861-42a2-94df-39ef3aa9b641_1.csv')) %>%
+  clean_df_names() %>%
+  select(sgc, name, type, 
+         pop = `2006_population`, 
+         prev_pop = `2001_population`) %>%
+  mutate(year = 2006)
+pop_2001 <- read_csv(file.path(dir_anx, '_raw_data/bcstats',
+                               'Census 2001 Table 4 - CSD_80e3912f-a235-46df-8ff0-c8afd0017122_1.csv')) %>%
+  clean_df_names() %>%
+  select(sgc, name, type,
+         pop = `2001_population`,
+         prev_pop = `1996_population_2`) %>%
+  mutate(year = 2001)
+
+pop_01_16 <- bind_rows(pop_2001, pop_2006, pop_2011, pop_2016) %>%
+  distinct()
+  ### exclude 2001; methods and shapefiles are different
+
+write_csv(pop_01_16, file.path(dir_goal, 'int/patho_pop_2001-2016.csv'))
+
+```
+
+``` {r census_pops_2001_2016}
+
+pop_df <- read_csv(file.path(dir_goal, 'int/patho_pop_2001-2016.csv'))
+
+csd_df <- read_csv(file.path(dir_goal, 'int/patho_csd_2001-2016.csv')) 
+
+pop_csd <- pop_df %>%
+  left_join(csd_df, by = c('sgc' = 'csduid', 'year')) %>%
+  filter(!is.na(rgn_id)) %>%
+  select(-type, -name, -prev_pop)
+
+pop_rgn_yr <- pop_csd %>%
+  group_by(rgn_id, year) %>%
+  summarize(pop = sum(pop * prop_area, na.rm = TRUE))
+
+pop_rgn_yr_plot <- ggplot(pop_rgn_yr %>%
+         left_join(get_rgn_names(), by = 'rgn_id'), 
+       aes(x = year, y = pop)) +
+  ggtheme_plot() +
+  geom_line(aes(group = rgn_name, color = rgn_name),
+            size = 2, alpha = .8,
+            show.legend = FALSE) +
+  scale_color_brewer(palette = 'Dark2') +
+  ylim(c(0, NA)) +
+  theme(axis.text.x = element_text(angle = 30)) +
+  labs(x = 'year', y = 'region population', color = 'region') +
+  facet_wrap( ~ rgn_name, scales = 'free_y')
+
+print(pop_rgn_yr_plot)
+
+write_csv(pop_csd,    file.path(dir_goal, 'int/patho_pop_csd_yr.csv'))
+write_csv(pop_rgn_yr, file.path(dir_goal, 'int/patho_pop_rgn_yr.csv'))
+
+```
+
+### Determine population of municipalities within OHIBC
+
+Develop a dataframe of municipalities by OHIBC region (inland, based on MaPP inland regions and watershed boundaries).  Census subdivisions will be allocated to OHIBC regions according to area-weighting.
+
+Assign 2001/2006/2011/2016 population statistics to each census subdivision.  Result is a dataframe of OHIBC region, and population by municipality size category by year.
+
+The data from the Municipal Waste Water Survey exclude municipalities on federal lands and First Nations communities.  These can be identified from the census data using the "type" codes: 
+
+|CSD type | Description |
+| :-----: | :---------- |
+|   CY    | City |
+|   DM    | District Municipality |
+|    T    | Town |
+|   VL    | Village |
+|   IM    | Island Municipality |
+|  IRI ✓  | Indian Reserve |
+|  RDA    | Regional District Electoral Area |
+|  IGD ✓  | Indian Governmental District |
+|  S-E ✓  | Indian Settlement |
+|   NL ✓  | Nisga'a Land |
+|  NVL ✓  | Nisga'a Village |
+
+``` {r ohibc_pop_by_municipality_size}
+
+pop_csd_yr <- read_csv(file.path(dir_goal, 'int/patho_pop_csd_yr.csv'))
+
+fn_types <- c('IRI', 'IGD', 'S-E', 'NL', 'NVL') %>%
+  paste(collapse = '|')
+
+pop_cat_csd_yr <- pop_csd_yr %>%
+  mutate(pop = ifelse(is.na(pop), 0, pop),
+         pop_cat = case_when(str_detect(csdtype, fn_types) ~ 'First Nations',
+                             pop < 1000   ~ 'Under 1000',
+                             pop < 2000   ~ '1001–2000',
+                             pop < 5000   ~ '2001–5000',
+                             pop < 50000  ~ '5001–50 000',
+                             pop < 500000 ~ '50 001–500 000',
+                             TRUE              ~ 'More than 500 000'),
+         pop_in_ohibc = round(pop * prop_area))
+
+pop_cat_rgn_yr_sum <- pop_cat_csd_yr %>%
+  group_by(rgn_id, pop_cat, year) %>%
+  summarize(pop_in_pop_cat = sum(pop_in_ohibc)) %>%
+  ungroup() %>%
+  mutate(pop_cat = factor(pop_cat, levels = c('First Nations', 
+                                              'Under 1000', '1001–2000', 
+                                              '2001–5000', '5001–50 000', 
+                                              '50 001–500 000', 'More than 500 000'),
+                          ordered = TRUE))
+
+pop_cat_rgn_yr_plot <- ggplot(pop_cat_rgn_yr_sum %>%
+                                left_join(get_rgn_names(), by = 'rgn_id'), 
+                              aes(x = year, y = pop_in_pop_cat)) +
+  ggtheme_plot() +
+  geom_line(aes(group = pop_cat, color = pop_cat),
+            size = 2, alpha = .6) +
+  scale_color_manual(values = c('darkgreen', brewer.pal(9, 'Blues')[4:9])) +
+  ylim(c(0, NA)) +
+  theme(axis.text.x = element_text(angle = 30)) +
+  labs(x = 'year', y = 'Pop in size category', color = 'municipal\nsize category') +
+  facet_wrap( ~ rgn_name, scales = 'free_y')
+
+print(pop_cat_rgn_yr_plot)
+
+DT::datatable(pop_cat_rgn_yr_sum)
+
+write_csv(pop_cat_rgn_yr_sum, file.path(dir_goal, 'int/patho_pop_cat_rgn_yr.csv'))
+
+```
+
+### Assign sewer service levels to OHIBC regions
+
+Using the population categories, assign proportion of population serviced by sewers, and summarize to OHIBC regions. Unfortunately, only data from the 2011 report is readily available online; links to the MWWS publications page are broken.
+
+The data from the Municipal Waste Water Survey exclude municipalities on federal lands and First Nations communities.  For these municipalities, we have rough information on "high" "medium" and "low" risk systems from National Assessment of First Nations Water and Wastewater Systems report, [Table 3.5 – Summary of Overall Risk by Region – Wastewater](http://www.aadnc-aandc.gc.ca/eng/1313770257504/1313770328745#tab3_5), and a digitized map from [Figure 3.5 – Community Wastewater Systems By Risk](http://www.aadnc-aandc.gc.ca/eng/1313770257504/1313770328745#fig3_5) (note, digitized from the PDF which is at higher resolution than the website).
+
+#### Determine First Nations waste water risk by region
+
+Using the digitized map, determine spatial allocation of wastewater risk for First Nations to OHIBC regions.  Note, no FNs are present in region 8 according to the map, but also according to the census subdivisions.  This analysis creates a dataframe of mean pressure, indicating a proxy for proportion *not* connected to sewer.
+
+``` {r spatialize_fn_risk}
+
+fn_risk_sf <- read_sf(dsn = file.path(dir_goal, 'raw'),
+                      layer = 'patho_fn_wastewater_risk') %>%
+  mutate(risk = factor(risk, levels = c('high', 'med', 'low')))
+ohibc_rgn <- read_sf(dsn = dir_spatial,
+                     layer = 'ohibc_rgns_unclipped') %>%
+  mutate(rgn_name = factor(rgn_name,
+                           levels = .$rgn_name))
+
+ohibc_rgn_offshore <- read_sf(dsn = dir_spatial,
+                              layer = 'ohibc_rgn_simple')
+library(tmap)
+fn_risk_map <- tm_shape(ohibc_rgn) +
+    tm_polygons(col = 'grey60',
+                size = .2,
+                palette = 'BrBG',
+                border.col = 'grey70') +
+  tm_shape(ohibc_rgn_offshore) +
+    tm_polygons(col = '#ddeeff',
+                alpha = .8, size = .2,
+                border.col = 'grey70') +
+  tm_shape(fn_risk_sf) +
+    tm_bubbles(col = 'risk',
+               alpha = .7,
+               palette = 'RdYlGn',
+               border.col = 'grey30')
+
+print(fn_risk_map)
+
+fn_risk_df <- st_intersection(fn_risk_sf, ohibc_rgn) %>%
+  as.data.frame() %>%
+  select(id, risk, rgn_name, rgn_id) %>%
+  group_by(rgn_id, risk) %>%
+  summarize(n_systems = n()) %>%
+  group_by(rgn_id) %>%
+  mutate(risk_val = case_when(risk == 'high' ~ 1.0,
+                              risk == 'med'  ~ 0.5,
+                              risk == 'low'  ~ 0.0,
+                              TRUE           ~ -1)) %>%
+  summarize(system_ratings = paste(paste0(risk, ' = ', n_systems), collapse = '; '),
+            percent_high_risk = sum(risk_val * n_systems) / sum(n_systems)) %>%
+  ungroup()
+
+write_csv(fn_risk_df, file.path(dir_goal, 'int/patho_fn_risk_by_rgn.csv'))
+
+knitr::kable(fn_risk_df %>% mutate(percent_high_risk = round(percent_high_risk, 4)))
+
+```
+
+#### Combine with non-First Nations waste water services
+
+Calculate population served by sewers for non-First Nations (using population %ages from MWWS survey), then for First Nations (using mean of high/med/low risk values). MWWS survey values will be roughly assigned to years as:
+
+* 2001 will be assigned 2004 survey results.
+* 2006 will be assigned 2006 survey results.
+* 2011 and 2016 will be assigned 2009 survey results.
+
+``` {r pop_served_by_sewers}
+
+clean_sewer_data <- function(df, treatment_col) {
+  df1 <- df %>%
+    clean_df_names() %>%
+    select(grouping, pct_treated = contains(treatment_col)) %>%
+    filter(str_detect(grouping, '[0-9]')) %>%
+    mutate(pct_treated = str_replace_all(pct_treated, '[^0-9\\.]', ''),
+           pct_treated = as.numeric(pct_treated) / 100)
+}
+
+sewer_2004 <- read_csv(file.path(dir_goal, 'raw', 'patho_pop_served_by_sewers_2004.csv')) %>%
+  clean_sewer_data(treatment_col = 'treatment') %>%
+  mutate(year = 2001)
+sewer_2006 <- read_csv(file.path(dir_goal, 'raw', 'patho_pop_served_by_sewers_2006.csv')) %>%
+  clean_sewer_data(treatment_col = 'treatment') %>%
+  mutate(year = 2006)
+sewer_2009 <- read_csv(file.path(dir_goal, 'raw', 'patho_pop_served_by_sewers_2009.csv')) %>%
+  select(Grouping, contains('Percent')) %>%
+  clean_sewer_data(treatment_col = 'sewers') %>%
+  mutate(year = 2011)
+
+pop_sewer_yr <- bind_rows(sewer_2004,
+                          sewer_2006,
+                          sewer_2009,
+                          sewer_2009 %>%
+                            mutate(year = 2016)) %>%
+  mutate(grouping = factor(grouping, levels = c('Under 1000', '1001–2000', 
+                                                '2001–5000', '5001–50 000', 
+                                                '50 001–500 000', 'More than 500 000'),
+                           ordered = TRUE))
+
+
+write_csv(pop_sewer_yr, file.path(dir_goal, 'int/patho_pop_sewer_yr.csv'))
+
+pop_sewer_plot <- ggplot(pop_sewer_yr, aes(x = year, y = pct_treated)) +
+  ggtheme_plot() +
+  geom_line(aes(group = grouping, color = grouping), size = 2, alpha = .8) +
+  scale_color_manual(values = brewer.pal(7, 'Blues')[2:7]) +
+  ylim(c(0, 1)) +
+  labs(x = 'year', y = '% served by treated sewer', color = 'municipal\nsize category')
+
+
+print(pop_sewer_plot)
+
+```
+
+``` {r attach_percents_to_pops}
+
+pop_cat_rgn_yr <- read_csv(file.path(dir_goal, 'int/patho_pop_cat_rgn_yr.csv'))
+
+pop_sewer_yr <- read_csv(file.path(dir_goal, 'int/patho_pop_sewer_yr.csv'))
+
+ohibc_pop_sewer <- pop_cat_rgn_yr %>%
+  filter(pop_cat != 'First Nations') %>%
+  left_join(pop_sewer_yr, by = c('pop_cat' = 'grouping', 'year')) %>%
+  group_by(rgn_id, year, pop_cat, pct_treated) %>%
+  summarize(pop_in_cat = sum(pop_in_pop_cat),
+            pop_treated    = sum(pop_in_pop_cat * pct_treated)) %>%
+  ungroup()
+
+fn_risk <- pop_cat_rgn_yr %>%
+  filter(pop_cat == 'First Nations') %>%
+  left_join(read_csv(file.path(dir_goal, 'int/patho_fn_risk_by_rgn.csv')), by = 'rgn_id') %>%
+  mutate(pop_cat = 'First Nations',
+         pct_treated = 1 - percent_high_risk,
+         pop_treated = pop_in_pop_cat * pct_treated) %>%
+  select(rgn_id, year, pop_cat, pct_treated, pop_in_cat = pop_in_pop_cat, pop_treated)
+
+ohibc_all_sewer <- bind_rows(ohibc_pop_sewer, fn_risk)
+
+DT::datatable(ohibc_all_sewer)
+
+write_csv(ohibc_all_sewer, file.path(dir_goal, 'int/patho_ohibc_pop_sewer.csv'))
+
+
+```
+
+
+## Calculate pathogen pressures for OHIBC regions
+
+Our pressure model will be based on population density on high-risk wastewater systems: 
+
+* A pressure of zero means the entire population (regardless of density) is on sewer or low-risk systems.
+* As (Population density * percent at risk) climbs, pressure climbs.
+* Reference point is the population density of the most dense OHIBC region, as if that region were entirely on high-risk systems.
+
+``` {r calc_pressures}
+
+### Calc land area for population density
+### Note this comes from the district shapefiles, so some discrepancies... 
+### find the average over all four censuses
+ohibc_land_area <- read_csv(file.path(dir_goal, 'int/patho_csd_2001-2016.csv')) %>%
+  group_by(rgn_id, year) %>%
+  summarize(area_km2 = sum(area_ohibc_km2)) %>%
+  group_by(rgn_id) %>%
+  summarize(area_km2 = mean(area_km2))
+
+ohibc_all <- read_csv(file.path(dir_goal, 'int/patho_ohibc_pop_sewer.csv')) %>%
+  left_join(ohibc_land_area, by = 'rgn_id') %>%
+  group_by(rgn_id, year) %>%
+  summarize(pop_treated  = sum(pop_treated),
+            pop_total    = sum(pop_in_cat),
+            dens_untreated = (pop_total - pop_treated) / first(area_km2),
+            dens_total     = pop_total / first(area_km2)) %>%
+  ungroup()
+
+pop_dens_ref <- max(ohibc_all$dens_total)
+
+ohibc_sum_sewer <- ohibc_all %>%
+  group_by(rgn_id) %>%
+  complete(year = 2001:2016) %>%
+  mutate(dens_untreated = zoo::na.approx(dens_untreated)) %>%
+  ungroup() %>%
+  mutate(path_pressure = dens_untreated / pop_dens_ref) %>%
+  select(rgn_id, year, path_pressure)
+
+write_csv(ohibc_sum_sewer, file.path(dir_goal, 'output', 'po_pathogen.csv'))
+
+```
+
+-----
+
+``` {r plot_pressures}
+
+ohibc_sum_sewer <- read_csv(file.path(dir_goal, 'output', 'po_pathogen.csv'))
+
+prs_df <- ohibc_sum_sewer %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
+
+prs_plot <- ggplot(prs_df, aes(x = year, y = path_pressure, color = rgn_name)) +
+  ggtheme_plot() +
+  geom_line(aes(group = rgn_name), size = 2, alpha = .8, show.legend = FALSE) +
+  scale_color_brewer(palette = 'Dark2') +
+  theme(axis.text.x = element_text(angle = 22.5)) +
+  labs(title = 'Pathogens pressure',
+       x = 'Year',
+       y = 'Rescaled pressure score') +
+  ylim(c(0, NA)) +
+  facet_wrap( ~ rgn_name, scales = 'free_y')
+
+print(prs_plot)
+
+```
+
+-----
+
+``` {r results = 'asis'}
+
+prov_wrapup(commit_outputs = FALSE)
+
+```

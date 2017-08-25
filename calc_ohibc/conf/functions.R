@@ -13,12 +13,13 @@ FIS <- function(layers) {
 
   ram_b_bmsy        <- layers$data[['fis_ram_b_bmsy']] %>%
     rename(b_bmsy = value) %>%
-    group_by(stock_id) %>%
-    complete(year)
+    select(-param, -layer)
   ram_f_fmsy        <- layers$data[['fis_ram_f_fmsy']] %>%
-    rename(f_fmsy = value)
+    rename(f_fmsy = value) %>%
+    select(stock_id, year, f_fmsy)
   ram_catch         <- layers$data[['fis_ram_catch']] %>%
-    rename(catch = value)
+    rename(catch = value) %>%
+    select(stock_id, year, catch)
   rgn_stock_area  <- layers$data[['fis_stock_area']] %>%
     rename(region_id = rgn_id, stock_id = stockid)
 
@@ -129,16 +130,14 @@ FIS <- function(layers) {
     rescale_fprime_crit(fmax     = f_fmsy_overfishing_thresh,
                         fmin_val = f_fmsy_underfishing_penalty) %>%
     mutate(x_prod = ifelse(!is.na(fPrime), (fPrime * bPrime), bPrime),
-           basis  = ifelse(!is.na(fPrime), 'F/Fmsy, B/Bmsy', 'B/Bmsy only')) %>%
+           basis  = ifelse(!is.na(fPrime), 'F_Fmsy, B_Bmsy', 'B_Bmsy only')) %>%
     dplyr::select(year, stock_id,
                   score = x_prod,
                   basis,
                   bPrime, fPrime,
                   b_bmsy, f_fmsy)  %>%
     group_by(stock_id) %>%
-    complete(year = status_yr_span) %>%
-    arrange(year) %>%
-    fill(score, basis, .direction = 'down') %>%
+    complete_years(status_yr_span, method = 'carry', dir = 'forward') %>%
     ungroup()
 
   ##############################################################.
@@ -149,9 +148,7 @@ FIS <- function(layers) {
   catch_df <- ram_catch %>%
     left_join(rgn_stock_area, by = 'stock_id') %>%
     group_by(region_id, stock_id) %>%
-    complete(year = status_yr_span) %>%
-    arrange(year) %>%
-    fill(catch, a_prop, .direction = 'down') %>%
+    complete_rgn_years(status_yr_span, method = 'carry', dir = 'forward') %>%
     ungroup() %>%
     mutate(rgn_catch = catch * a_prop,
            rgn_catch = ifelse(is.na(rgn_catch), 0, rgn_catch))
@@ -165,7 +162,7 @@ FIS <- function(layers) {
     ungroup() %>%
     full_join(catch_df, by = c('stock_id', 'year')) %>%
     select(region_id, year, stock_id, score, rgn_catch, basis) %>%
-    filter(year %in% status_yr_span & !is.na(region_id))
+    filter(!is.na(region_id))
 
   if(data_year == max(status_yr_span)) {
     ### note, this contains all years, but only write it once
@@ -192,15 +189,18 @@ FIS <- function(layers) {
   #          y     = 'Proportion of catch')
   #   print(rgn_plot)
   # }
-
   score_df <- stock_score_df %>%
-    group_by(region_id, year) %>%
     filter(!is.na(score)) %>%
-    mutate(stock_catch = sprintf('%s: %.2f', stock_id, rgn_catch)) %>%
+    group_by(region_id, year) %>%
+  #   mutate(stock_catch = sprintf('%s: %.2f', stock_id, rgn_catch)) %>%
+  #   ungroup()
+  #
+  # score_df <- score_df %>%
+  #   group_by(region_id, year) %>%
     summarize(total_catch = sum(rgn_catch),
               total_score = sum(score * rgn_catch) / total_catch,
-              n_stocks    = sum(rgn_catch > 0),
-              stocks      = paste(tolower(stock_catch), collapse = '\n')) %>%
+              # stocks      = paste(tolower(stock_catch), collapse = ','),
+              n_stocks    = sum(rgn_catch > 0)) %>%
     ungroup()
 
   fis_status <- score_df %>%
@@ -258,7 +258,9 @@ MAR <- function(layers) {
            f_score = ifelse(harvest_tonnes > max_prod, 0, f_score)) %>%
     select(region_id, year, score = f_score, harvest_tonnes, aq_type) %>%
     filter(!is.na(score)) %>%
-    complete_years(status_yr_span, method = 'zero')
+    group_by(region_id) %>%
+    complete_rgn_years(status_yr_span, method = 'zero') %>%
+    ungroup()
 
 
   mar_b_df <- mar_all %>%
@@ -271,7 +273,9 @@ MAR <- function(layers) {
            b_score = ifelse(harvest_tonnes > lowR_prod, 1, b_score)) %>%
     select(region_id, year, score = b_score, harvest_tonnes, aq_type) %>%
     filter(!is.na(score)) %>%
-    complete_years(status_yr_span, method = 'zero')
+    group_by(region_id) %>%
+    complete_rgn_years(status_yr_span, method = 'zero') %>%
+    ungroup()
 
   mar_status <- bind_rows(mar_f_score, mar_b_score) %>%
     group_by(region_id, year) %>%
@@ -377,15 +381,17 @@ AO <- function(layers) {
 
   ### assign weights to each layer
   component_wts <- c('shellfish_closures' = 1,
-                     'first_nations_licenses' = 1,
-                     'herring_spawn_hab_index' = 1,
+                     'fn_licenses' = 1,
+                     'herring_spawn' = 1,
                      'salmon' = 0)
 
   ### Calculate status for each component
   ### Closures:
   ### * proportion of year open for access; 0 closures = 100%
   closure_status <- closures %>%
-    complete_years(status_yr_span) %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span) %>%
+    ungroup() %>%
     mutate(days_in_year = ifelse(lubridate::leap_year(year), 366, 365),
            status = 1 - (days_avg / days_in_year),
            component = 'shellfish_closures') %>%
@@ -402,35 +408,43 @@ AO <- function(layers) {
   license_status <- licenses %>%
     filter(rgn_id != 7) %>%
     left_join(licenses_ref, by = 'rgn_id') %>%
-    complete_years(status_yr_span) %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span) %>%
+    ungroup() %>%
     mutate(ref_pt = ifelse(pct_fn_pop > license_ref_min, pct_fn_pop, license_ref_min),
            status = pct_fn / ref_pt,
            status = ifelse(status > 1, 1, status),
-           component = 'first_nations_licenses') %>%
+           component = 'fn_licenses') %>%
     select(year, region_id, status, component)
   # ggplot(license_status, aes(x = year, y = status, group = region_id, color = region_id)) + geom_line()
 
   ### Spawn habitat index
   ### * SHI vs historical reference point of mean SHI from 1940-1960.
   shi_hist_ref <- shi %>%
-    complete_years(status_yr_span) %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span) %>%
+    ungroup() %>%
     filter(year %in% c(1940:1960)) %>%
     group_by(region_id) %>%
     summarize(shi_ref_pt = mean(shi_tot, na.rm = TRUE)) %>%
     ungroup()
   shi_status <- shi %>%
-    complete_years(status_yr_span) %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span) %>%
+    ungroup() %>%
     left_join(shi_hist_ref, by = 'region_id') %>%
     mutate(shi_3yr_mean = (shi_tot + lag(shi_tot, 1) + lag(shi_tot, 2)) / 3,
            status = shi_3yr_mean / shi_ref_pt,
            status = ifelse(status > 1, 1, status),
-           component = 'herring_spawn_hab_index') %>%
+           component = 'herring_spawn') %>%
     select(year, region_id, status, component)
 
   ### Salmon
   ### * dummy for now
   salmon_status <- salmon %>%
-    complete_years(status_yr_span) %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span) %>%
+    ungroup() %>%
     mutate(status = 0,
            component = 'salmon') %>%
     select(year, region_id, status, component)
@@ -446,13 +460,13 @@ AO <- function(layers) {
     mutate(goal      = 'AO',
            dimension = 'status')
 
-  if(data_year == max(status_yr_span)) {
-    ao_status_components <- bind_rows(closure_status, license_status, shi_status, salmon_status) %>%
-      filter(year %in% 2000:2017) %>%
-      filter(!is.na(region_id)) %>%
-      left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')) %>%
-      left_join(ao_status, by = c('year', 'region_id'))
+  ao_status_components <- bind_rows(closure_status, license_status, shi_status, salmon_status) %>%
+    filter(year %in% 2000:2017) %>%
+    filter(!is.na(region_id)) %>%
+    left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')) %>%
+    left_join(ao_status, by = c('year', 'region_id'))
 
+  if(data_year == max(status_yr_span)) {
     write_csv(ao_status_components, '~/github/ohibc/prep/ao/v2017/summary/ao_from_functions.csv')
     # ggplot(ao_status_components, aes(x = year, y = status, group = component, color = component)) +
     #   geom_line(aes(y = score), color = 'grey40', size = 1.5, alpha = .8) +
@@ -460,7 +474,15 @@ AO <- function(layers) {
     #   facet_wrap( ~ rgn_name)
   }
 
-  ## reference points
+  ### write element weights to layers object for pressures/resilience calculations
+  ao_weights <- ao_status_components %>%
+    filter(year == status_year) %>%
+    mutate(layer = "element_wts_ao_components") %>%
+    select(rgn_id = region_id, component, ao_comp_status = status, layer)
+
+  layers$data$element_wts_ao_components <- ao_weights
+
+  ### reference points
   write_ref_pts(goal   = "AO",
                 method = "XXXXXXXX",
                 ref_pt = NA)
@@ -472,7 +494,7 @@ AO <- function(layers) {
 
   ao_scores <- ao_status %>%
     filter(!is.na(region_id)) %>%
-    filter(year == data_year) %>%
+    filter(year == status_year) %>%
     bind_rows(ao_trend) %>%
     select(region_id, goal, dimension, score)
 
@@ -500,25 +522,28 @@ CS <- function(layers) {
   # improved understanding of the role of vegetated coastal habitats in
   # sequestering CO2. Frontiers in Ecology 9(10): 552-560, DOI
 
-  cs_values <- data.frame(hab = c('salt_marsh', 'coastal_forest', 'seagrass'),
+  cs_values <- data.frame(habitat = c('salt_marsh', 'coastal_forest', 'seagrass'),
                           cbr = c(       218.0,              4.6,     138.0))
 
   ### get the data:
   sm_health   <- layers$data[['hab_sm_health']] %>%
     select(year, region_id = rgn_id, area_hab = sm_area_km2) %>%
     arrange(region_id, year) %>%
-    mutate(hab = 'salt_marsh')
+    mutate(habitat = 'salt_marsh')
 
   cf_health   <- layers$data[['hab_cf_health']] %>%
     select(year, region_id = rgn_id, area_hab = cf_area_km2) %>%
     arrange(region_id, year) %>%
-    mutate(hab = 'coastal_forest')
+    mutate(habitat = 'coastal_forest')
 
-  cs_status <- bind_rows(sm_health, cf_health) %>%
-    left_join(cs_values, by = 'hab') %>%
-    group_by(region_id, hab) %>%
-    complete_years(status_yr_span) %>%
-    group_by(region_id, hab) %>%
+  cs_components <- bind_rows(sm_health, cf_health) %>%
+    left_join(cs_values, by = 'habitat') %>%
+    group_by(region_id, habitat) %>%
+    complete_rgn_years(status_yr_span) %>%
+    ungroup()
+
+  cs_status <- cs_components %>%
+    group_by(region_id, habitat) %>%
     mutate(aref = first(area_hab)) %>%
     group_by(region_id, year) %>%
     summarize(score = sum(area_hab * cbr) / sum(aref * cbr)) %>%
@@ -531,6 +556,15 @@ CS <- function(layers) {
   write_ref_pts(goal   = "CS",
                 method = "XXXXXXXX",
                 ref_pt = NA)
+
+  ### write element weights to layers object for pressures/resilience calculations
+  cs_weights <- cs_components %>%
+    filter(year == status_year) %>%
+    mutate(cs_km2_x_storage = area_hab * cbr,
+           layer = "element_wts_cs_km2_x_storage") %>%
+    select(rgn_id = region_id, habitat, cs_km2_x_storage, layer)
+
+  layers$data$element_wts_cs_km2_x_storage <- cs_weights
 
   ### prepare scores (status and trend) for current status year
 
@@ -570,34 +604,46 @@ CP <- function(layers) {
   #   | Prot. weight  |     4    |   3   |     2    |    1   |     0     |
 
 
-  cp_values <- data.frame(hab  = c('salt_marsh', 'coastal_forest', 'seagrass'),
-                          prot = c(      3,             4,              1    ))
+  cp_values <- data.frame(habitat  = c('salt_marsh', 'coastal_forest', 'seagrass'),
+                          prot     = c(      3,             4,              1    ))
 
   ### get the data:
   sm_prot <- layers$data[['cp_sm_health']] %>%
-    select(year, region_id = rgn_id, area_hab = sm_expos_area_tot) %>%
+    select(year, region_id = rgn_id, expos_area_tot = sm_expos_area_tot) %>%
     arrange(region_id, year) %>%
-    mutate(hab = 'salt_marsh')
+    mutate(habitat = 'salt_marsh')
 
   cf_prot <- layers$data[['cp_cf_health']] %>%
-    select(year, region_id = rgn_id, area_hab = cf_expos_area_tot) %>%
+    select(year, region_id = rgn_id, expos_area_tot = cf_expos_area_tot) %>%
     arrange(region_id, year) %>%
-    mutate(hab = 'coastal_forest')
+    mutate(habitat = 'coastal_forest')
 
-  cp_status <- bind_rows(sm_prot, cf_prot) %>%
-    left_join(cp_values, by = 'hab') %>%
-    group_by(region_id, hab) %>%
-    complete_years(status_yr_span) %>%
-    group_by(region_id, hab) %>%
-    mutate(aref = first(area_hab)) %>%
+  cp_components <- bind_rows(sm_prot, cf_prot) %>%
+    left_join(cp_values, by = 'habitat') %>%
+    group_by(region_id, habitat) %>%
+    complete_rgn_years(status_yr_span) %>%
+    ungroup()
+
+  cp_status <- cp_components %>%
+    group_by(region_id, habitat) %>%
+    mutate(a_ref = first(expos_area_tot)) %>%
     group_by(region_id, year) %>%
-    summarize(score = sum(area_hab * prot) / sum(aref * prot)) %>%
+    summarize(score = sum(expos_area_tot * prot) / sum(a_ref * prot)) %>%
     mutate(goal      = 'CP',
            dimension = 'status',
            score = ifelse(score > 1, 1, score) * 100) %>%
     ungroup()
 
-  ## reference points
+  ### write element weights to layers object for pressures/resilience calculations
+  cp_weights <- cp_components %>%
+    filter(year == status_year) %>%
+    mutate(cp_km2_x_exposure_x_protection = expos_area_tot * prot,
+           layer = "element_wts_cp_km2_x_exposure_x_protection") %>%
+    select(rgn_id = region_id, habitat, cp_km2_x_exposure_x_protection, layer)
+
+  layers$data$element_wts_cp_km2_x_exposure_x_protection <- cp_weights
+
+  ### reference points
   write_ref_pts(goal   = "CP",
                 method = "XXXXXXXX",
                 ref_pt = NA)
@@ -659,8 +705,8 @@ TR <- function(layers) {
   ### This also back- and forward-fills using LOCF (or FOCB) to complete
   ### year sequence, which affects reference points.
   vc_visits_ref <- vc_visits_adj %>%
-    complete_years(status_yr_span) %>%
-    group_by(region_id) %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span) %>%
     arrange(region_id, year) %>%
     mutate(ref_pt = zoo::rollmean(visits_adj, k = 5, fill = NA, align = 'right')) %>%
     ### reference point is mean of past five years (incl current)
@@ -668,8 +714,8 @@ TR <- function(layers) {
     ungroup()
 
   park_visits_ref <- park_visits_adj %>%
-    complete_years(status_yr_span) %>%
-    group_by(region_id) %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span) %>%
     arrange(region_id, year) %>%
     mutate(ref_pt = zoo::rollmean(visits_adj, k = 5, fill = NA, align = 'right')) %>%
     ### reference point is mean of past five years (incl current)
@@ -722,8 +768,8 @@ LIV <- function(layers) {
 
   unempl_df <- layers$data[['liv_unemployment']] %>%
     select(-layer) %>%
-    complete_years(status_yr_span) %>%
-    group_by(region_id) %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span) %>%
     arrange(region_id, year) %>%
     mutate(empl_rate = 1 - unemployment_rate,
            ref_pt = zoo::rollmean(empl_rate, k = 5, fill = NA, align = 'right')) %>%
@@ -732,7 +778,9 @@ LIV <- function(layers) {
 
   income_df <- layers$data[['liv_income']] %>%
     select(-layer) %>%
-    complete_years(status_yr_span) %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span) %>%
+    ungroup() %>%
     mutate(ref_pt = max(median_income, na.rm = TRUE))
   ### reference point is max value across regions and years; make sure
   ### income is listed in equivalent dollars
@@ -771,6 +819,7 @@ ICO <- function(layers) {
   ### for each iteration through calculate loop
   status_year <- layers$data$scenario_year
   data_year   <- status_year
+  status_yr_span <- layers$data$status_year_span
 
   ico_risk_by_year <- layers$data[['ico_spp_risk_score']] %>%
     select(-layer)
@@ -786,11 +835,8 @@ ICO <- function(layers) {
 
   ico_risk <- ico_risk_by_year %>%
     filter(!is.na(year)) %>%
-    complete(year = full_seq(year, 1), nesting(sciname, iucn_sid, am_sid, comname)) %>%
     group_by(sciname, iucn_sid, am_sid, comname) %>%
-    arrange(year) %>%
-    fill(risk_score, risk_source, .direction = 'up') %>%
-    fill(risk_score, risk_source, .direction = 'down') %>%
+    complete_years(status_yr_span) %>%
     ungroup()
 
   rgn_ico_spp <- ico_rgns %>%
@@ -950,21 +996,29 @@ CW <- function(layers) {
   status_yr_span <- layers$data$status_year_span
 
 
-  nutr_prs <- layers$data[['po_nutrients_3nm']] %>%
-    complete_years(status_yr_span) %>%
-    rename(pressure = nutr_pressure)
-  chem_prs <- layers$data[['po_chemicals_3nm']] %>%
-    complete_years(status_yr_span) %>%
-    rename(pressure = chem_pressure)
+  nutr_prs <- layers$data[['po_nutrient_3nm']] %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span) %>%
+    rename(pressure = nutr_pressure) %>%
+    ungroup()
+  chem_prs <- layers$data[['po_chemical_3nm']] %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span) %>%
+    rename(pressure = chem_pressure) %>%
+    ungroup()
   trash_prs <- layers$data[['po_trash']] %>%
     rename(region_id = rgn_id) %>%
     left_join(nutr_prs %>% select(region_id, year),
               by = 'region_id') %>%
-    complete_years(status_yr_span) %>%
-    rename(pressure = trash_pressure)
+    group_by(region_id) %>%
+    complete_rgn_years(status_yr_span) %>%
+    rename(pressure = trash_pressure) %>%
+    ungroup()
 
-  patho_prs <- layers$data[['po_pathogens']] %>%
-    complete_years(status_yr_span) %>%
+  patho_prs <- layers$data[['po_pathogen']] %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span) %>%
+    ungroup() %>%
     rename(pressure = path_pressure)
 
 
@@ -1018,27 +1072,34 @@ HAB <- function(layers) {
 
   ### get the data:
   ebsa_health <- layers$data[['hab_ebsa_health']] %>%
-    mutate(hab    = 'ebsa',
-           status = 1 - trawled_area / total_ebsa_area) %>%
-    complete_years(status_yr_span)
+    mutate(habitat = 'ebsa',
+           status  = 1 - trawled_area / total_ebsa_area) %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span) %>%
+    ungroup()
 
   sb_health   <- layers$data[['hab_sb_health']] %>%
-    mutate(hab    = 'soft_btm',
-           status = 1 - mean_hr_area / max_hr_area) %>%
-    complete_years(status_yr_span)
+    mutate(habitat = 'soft_bottom',
+           status  = 1 - mean_hr_area / max_hr_area) %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span) %>%
+    ungroup()
 
   sm_health   <- layers$data[['hab_sm_health']] %>%
-    group_by(rgn_id) %>%
     arrange(rgn_id, year) %>%
-    mutate(hab    = 'salt_marsh',
-           ref_pt = first(sm_area_km2),
-           ref_yr = first(year),
-           status = sm_area_km2 / ref_pt,
-           status = ifelse(status > 1, 1, status)) %>%
-    complete_years(status_yr_span)
+    mutate(habitat = 'salt_marsh',
+           ref_pt  = first(sm_area_km2),
+           ref_yr  = first(year),
+           status  = sm_area_km2 / ref_pt,
+           status  = ifelse(status > 1, 1, status)) %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span) %>%
+    ungroup()
 
-  hab_status <- bind_rows(ebsa_health, sb_health, sm_health) %>% # cf_health) %>%
-    select(region_id, year, status, hab) %>%
+  hab_components <- bind_rows(ebsa_health, sb_health, sm_health) %>%
+    select(region_id, year, status, habitat)
+
+  hab_status <- hab_components %>%
     group_by(region_id, year) %>%
     summarize(score = mean(status)) %>%
     ungroup() %>%
@@ -1046,10 +1107,22 @@ HAB <- function(layers) {
            dimension = 'status',
            score = ifelse(score > 1, 1, score) * 100)
 
-  ## reference points
+  ### reference points
   write_ref_pts(goal   = "HAB",
                 method = "XXXXXXXX",
                 ref_pt = NA)
+
+  ### write element weights to layers object for pressures/resilience calculations
+  hab_weights <- hab_components %>%
+    filter(year == status_year) %>%
+    group_by(region_id) %>%
+    complete(habitat = unique(hab_components$habitat)) %>%
+    ungroup() %>%
+    mutate(hab_presence = !is.na(status)) %>%
+    mutate(layer = "element_wts_hab_pres_abs") %>%
+    select(rgn_id = region_id, habitat, hab_presence, layer)
+
+  layers$data$element_wts_hab_pres_abs <- hab_weights
 
   ### prepare scores (status and trend) for current status year
   trend_years <- (data_year - 4) : data_year
@@ -1068,6 +1141,7 @@ SPP <- function(layers) {
 
   status_year <- layers$data$scenario_year
   data_year   <- status_year
+  status_yr_span <- layers$data$status_year_span
 
   spp_range_by_rgn <- layers$data[['spp_range_areas']] %>%
     select(region_id = rgn_id, spp_pct_area, iucn_sid, am_sid, spatial_source)
@@ -1103,10 +1177,7 @@ SPP <- function(layers) {
     filter(!is.na(risk_score)) %>%
     mutate(year = ifelse(is.na(year), data_year, year)) %>%
     group_by(iucn_sid, am_sid) %>%
-    complete(year = layers$data$status_year_span) %>%
-    arrange(year) %>%
-    fill(risk_score, risk_source, .direction = 'down') %>%
-    fill(risk_score, risk_source, .direction = 'up') %>%
+    complete_years(status_yr_span, method = 'carry', dir = 'forward') %>%
     ungroup()
 
   spp_df <- spp_risk_expanded %>%

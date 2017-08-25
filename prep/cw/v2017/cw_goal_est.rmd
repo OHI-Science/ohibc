@@ -39,8 +39,6 @@ dir_goal_anx <- file.path(dir_anx, goal, scenario)
 library(provRmd); prov_setup()
 
 ### support scripts
-source(file.path('~/github/ohibc/src/R/map_scores.R'))
-  ### score plotting scripts
 source(file.path(dir_git, 'src/R/rast_tools.R')) 
   ### raster plotting and analyzing scripts
 
@@ -87,7 +85,7 @@ This script pulls together data from the four components of Clean Waters and out
         * coord. ref : NA
         * values     : 2.319416e-06 to 0.126338567
 
-This script pulls in finalized raster layers for each component, determines a score for each component by OHIBC region, then determines the overall score using a geometric mean calculation.
+This script pulls in finalized raster layers for each component, determines a score for each component by OHIBC region, then estimates the overall score using a geometric mean calculation.
 
 -----
 
@@ -136,7 +134,7 @@ if(!exists('bc_3nm_poly')) bc_3nm_poly <- readOGR(dsn = path.expand(dir_spatial)
 nutr_layer_files <- list.files(file.path(dir_goal_anx, 'rescaled_layers'),
                                pattern = 'fert',
                                full.names = TRUE)
-nutr_stack <- stack(nutr_layer_files) %>%
+nutr_stack <- stack(nutr_layer_files, not_tracked = TRUE) %>%
   setNames(nutr_layer_files %>% basename %>% str_replace('.tif', '')) %>%
   raster::crop(bc_rgn_poly)
 
@@ -153,6 +151,7 @@ for (i in seq_along(rgns_list)) { # i <- 1
   po_filename <- file.path(dir_goal, 'output', paste0(names(rgns_list)[i], '.csv'))
   if(file.exists(po_filename) & reload == FALSE) {
     message('Pressure file exists: \n  ', po_filename)
+    git_prov(po_filename, filetype = 'output')
     next()
   }
   
@@ -203,7 +202,7 @@ bc_3nm_poly <- readOGR(dsn = path.expand(dir_spatial),
 chem_layer_files <- list.files(file.path(dir_goal_anx, 'rescaled_layers'),
                                pattern = 'chem_gmean',
                                full.names = TRUE)
-chem_stack <- stack(chem_layer_files) %>%
+chem_stack <- stack(chem_layer_files, not_tracked = TRUE) %>%
   setNames(chem_layer_files %>% 
              basename %>% 
              str_replace('\\.tif', '')) %>%
@@ -224,9 +223,12 @@ rgns_list <- list('po_chemical'     = bc_rgn_poly,
 reload <- FALSE
 
 for (i in seq_along(rgns_list)) { # i <- 1
+  
   po_filename <- file.path(dir_goal, 'output', paste0(names(rgns_list)[i], '.csv'))
+  
   if(file.exists(po_filename) & reload == FALSE) {
     message('Pressure file exists: \n  ', po_filename)
+    git_prov(po_filename, filetype = 'output')
     next()
   }
   
@@ -325,7 +327,7 @@ trash_map <- plot_rast_map(trash_rast,
 
 All calcs done in the `cw_pathogens.Rmd` script.  
 
-`r DT::datatable(read_csv(file.path(dir_goal, 'output', 'po_pathogens.csv')))`
+`r DT::datatable(read_csv(file.path(dir_goal, 'output', 'po_pathogen.csv')))`
 
 
 ## Calculate geometric mean of all scores.
@@ -339,7 +341,7 @@ trash_score_df <- read_csv(file.path(dir_goal, 'output', 'po_trash.csv')) %>%
   mutate(year = NA) %>%
   complete(year = unique(nutr_score_df$year), nesting(trash_pressure)) %>%
   ungroup()
-path_score_df <- read_csv(file.path(dir_goal, 'output', 'po_pathogens.csv'))
+path_score_df <- read_csv(file.path(dir_goal, 'output', 'po_pathogen.csv'))
 
 cw_score_df <- nutr_score_df %>%
   full_join(chem_score_df,  by = c('year', 'rgn_id')) %>%

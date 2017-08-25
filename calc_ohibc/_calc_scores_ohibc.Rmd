@@ -1,0 +1,169 @@
+---
+title: 'OHIBC: Calculate All Scores'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes:
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(ohicore) ### devtools::install_github('ohi-science/ohicore@dev')
+
+source('~/github/ohibc/src/R/common.R')
+
+dir_ohibc  <- '~/github/ohibc'
+dir_calc   <- file.path(dir_ohibc, 'calc_ohibc')
+dir_master <- file.path(dir_calc, 'master')
+
+source(file.path(dir_calc, 'calc_scores_fxns.R'))
+
+### provenance tracking
+# library(provRmd); prov_setup()
+
+```
+
+
+# Set up scenarios
+
+Set up scenarios by assigning years.  Each scenario (eg. 'region2015') will be tied to a specific data year, not floating as in global OHI.
+
+* Prepare scenario folders
+  * create scenario dirs and subdirs
+  * copy config files from master to scenarios
+* Copy layers from prep to layers folder #####
+  * Read in the layers.csv file with paths to the data files
+  * Register layers based on include == TRUE and identify file locations
+  * check that all data layers are available based on file paths
+  * copy layers into current layers folder
+* Check that all layers conform with details in config (`layers.csv`)
+
+``` {r set up scenario directories and files}
+
+prep_scenario_dirs(dir_calc, dir_master, master_flag = '_master', purge = TRUE)
+# prep_scenario_dirs(dir_calc2, dir_master, master_flag = '_master_scenario2', purge = TRUE)
+
+### copy layers from data sources to layers folder
+message('Copying all layers to ', file.path(dir_calc, 'layers'))
+
+layers_log <- assemble_layers_csv(dir_master) %>%
+  mutate(dir_prep = file.path(dir_ohibc, str_replace(dir_prep, 'ohibc:', '')))
+
+lyrs <- register_layers(layers_log, dir_calc)
+
+verify_layers(lyrs)
+
+copy_layers_to_scenario(lyrs)
+
+lyrs_files <- list.files(file.path(dir_calc, 'layers'), full.names = TRUE)
+lyrs_yrs <- lapply(lyrs_files, read_csv) %>%
+  setNames(basename(lyrs_files %>% str_replace('.csv', ''))) %>%
+  bind_rows(.id = 'layer') %>%
+  select('layer', 'year') %>%
+  distinct() %>%
+  group_by(layer) %>%
+  summarize(yr_span = paste0(min(year, na.rm = TRUE), ':', max(year, na.rm = TRUE)),
+            yr_span = ifelse(sum(is.na(year)) == n(), 'NA', yr_span))
+
+
+write_csv(lyrs %>% 
+            left_join(lyrs_yrs, by = 'layer') %>%
+            select(-path_in, -path_in_exists, -path_out),
+          file.path(dir_calc, 'layers.csv'))
+
+### confirm all layers conform to details of layers.csv
+conf   <- Conf(file.path(dir_calc, 'conf'))
+
+capture.output( ### the function prints a lot crap to screen - let's change those to messages please!
+  {
+    CheckLayers(layers.csv = file.path(dir_calc, 'layers.csv'),
+                layers.dir = file.path(dir_calc, 'layers'),
+                flds_id    = conf$config$layers_id_fields)
+  },
+  file = 'delete_this.txt')
+unlink('delete_this.txt')
+
+```
+
+
+# Iterate across scenario years
+
+* Initialize conf, layers; store working directory in `layers$data$dir_calc` so it can be accessed by `functions.R`
+* Initialize scores_all dataframe to hold scores for all years
+* Calculate scores for each scenario and append to scores_all
+
+``` {r configure_toolbox}
+
+conf   <- Conf(file.path(dir_calc, 'conf'))
+layers <- Layers(layers.csv = file.path(dir_calc, 'layers.csv'),
+                 layers.dir = file.path(dir_calc, 'layers'))
+
+layers$data$dir_calc   <- dir_calc
+layers$data$scenario_data_years <- read_csv(file.path(dir_calc, 'conf/scenario_data_years.csv'))
+layers$data$status_year_span <- layers$data$scenario_data_years %>%
+  .$scenario_year %>% unique() %>% sort()
+
+status_years <- layers$data$status_year_span
+
+### for testing:
+status_year <- 2003
+layers$data$scenario_year <- status_year
+
+```
+
+``` {r iterate_across_years}
+
+scores_all <- data.frame() ### initialize scores
+
+for (status_year in status_years) {
+  
+  ### for testing...
+  if(!exists('status_year')) status_year <- status_years[1]
+
+  message('Calculating scores for ', status_year)
+
+  ### For each run through loop, assign status_year inside
+  ###   the layers object/env't so it is accessible to functions.R
+  layers$data$scenario_year <- status_year
+
+  capture.output( ### the function prints crap to screen
+    {
+      scores <- CalculateAll(conf, layers) %>%
+        mutate(yr_text = status_year,
+               year    = as.integer(str_replace_all(status_year, '[^0-9]', '')))
+    },
+    file = 'delete_this.txt')
+  unlink('delete_this.txt')
+
+  scores_all <- scores_all %>%
+    bind_rows(scores)
+
+}
+
+write_csv(scores_all, file.path(dir_calc, 'scores_all.csv'))
+
+x <- scores_all %>%
+  filter(dimension %in% c('status', 'trend')) %>%
+  filter(!(score == 0 & dimension == 'status'))
+
+```
+
+
+
+``` {r prov_footer, results = 'asis'}
+# prov_wrapup(commit_outputs = FALSE)
+```
+

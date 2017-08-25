@@ -25,12 +25,12 @@ source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common
   ### includes library(tidyverse); library(stringr)
 
 dir_git     <- '~/github/ohibc'
-dir_spatial <- file.path(dir_git, 'prep/spatial') 
+dir_spatial <- file.path(dir_git, 'prep/_spatial') 
 dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
 
 ### goal specific folders and info
 goal      <- 'GOALNAME'
-scenario  <- 'v2016'
+scenario  <- 'v2017'
 dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
 dir_goal_anx <- file.path(dir_anx, goal, scenario)
 
@@ -38,8 +38,6 @@ dir_goal_anx <- file.path(dir_anx, goal, scenario)
 library(provRmd); prov_setup()
 
 ### support scripts
-source(file.path(dir_git, 'src/R/map_scores.R'))
-  ### score plotting scripts
 source(file.path(dir_git, 'src/R/rast_tools.R')) 
   ### raster plotting and analyzing scripts
 

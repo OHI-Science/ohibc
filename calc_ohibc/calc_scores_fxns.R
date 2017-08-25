@@ -193,16 +193,21 @@ calc_trend <- function(scenario_df, years = NULL) {
 #
 # }
 
-complete_years <- function(score_df, year_span,
+complete_rgn_years <- function(score_df, year_span,
                            method = c('carry',   'zero', 'none')[1],
                            dir    = c('forward', 'back', 'both')[3],
-                           pad    = 5, ### pad the early part of the dataset by 5 years?
-                           report_gaps = FALSE) {
+                           pad    = 5) {   ### pad the early part of the dataset by 5 years?
 
   if('rgn_id' %in% names(score_df)) {
-    message('The complete_years() function automagically renames "rgn_id" to "region_id" for your convenience.')
+    message('The complete_rgn_years() function automagically renames "rgn_id" to "region_id" for your convenience.')
     score_df <- score_df %>%
       rename(region_id = rgn_id)
+  }
+  if(!'region_id' %in% names(score_df)) {
+    warning('No region ID field found in this dataframe; should you be using complete_years() instead?')
+  }
+  if(!'region_id' %in% groups(score_df)) {
+    warning('No regional grouping in the dataframe; are you sure that is what you want?')
   }
 
   if(pad > 0) {
@@ -222,14 +227,10 @@ complete_years <- function(score_df, year_span,
   }
 
   score_df <- score_df %>%
-    mutate(gapfill = 0, gf_method = 'none') %>%
-    complete(year = year_span, nesting(region_id), fill = list(gapfill = 1, gf_method = method)) %>%
+    complete(year = year_span, nesting(region_id)) %>%
     arrange(year)
 
   if(method == 'none') {
-    if(report_gaps == FALSE) {
-      score_df <- score_df %>% select(-gapfill, -gf_method)
-    }
     return(score_df)
   }
 
@@ -257,8 +258,61 @@ complete_years <- function(score_df, year_span,
       # ungroup()
   }
 
-  if(report_gaps == FALSE) {
-    score_df <- score_df %>% select(-gapfill, -gf_method)
+  return(score_df)
+
+}
+
+complete_years <- function(score_df, year_span,
+                               method = c('carry',   'zero', 'none')[1],
+                               dir    = c('forward', 'back', 'both')[3],
+                               pad    = 5) {   ### pad the early part of the dataset by 5 years?
+
+  if('rgn_id' %in% names(score_df) | 'region_id' %in% names(score_df)) {
+    warning('Region ID field found in dataframe; should you be using complete_rgn_years()?')
+  }
+
+  if(pad > 0) {
+    message('Padding the year span by adding an additional ', pad, ' to the early part.')
+    year_span <- (min(year_span) - pad) : (max(year_span))
+  }
+
+  data_range <- range(score_df$year, na.rm = TRUE)
+  if(min(year_span) > data_range[1] | max(year_span) < data_range[2]) {
+    min_yr <- min(min(year_span), data_range[1])
+    max_yr <- max(max(year_span), data_range[2])
+    message('Data year span (', data_range[1], ':', data_range[2],
+            ') exceeds assigned year span (',
+            min(year_span), ':', max(year_span),
+            '); completing data sequence from ', min_yr, ' to ', max_yr, '.')
+    year_span <- min_yr : max_yr
+  }
+
+  score_df <- score_df %>%
+    complete(year = year_span) %>%
+    arrange(year)
+
+  if(method == 'none') {
+    return(score_df)
+  }
+
+  if(method == 'zero') {
+    ### zero out numerics, though text fields will be carried
+    ### in the next step
+    score_df <- score_df %>%
+      lapply(FUN = function(x) {
+        if(!class(x) %in% c('character', 'factor')) x[is.na(x)] <- 0
+        return(x)
+      }) %>%
+      data.frame()
+  }
+
+  if(dir %in% c('forward', 'both')) {
+    score_df <- score_df %>%
+      fill(-year, .direction = 'down')
+  }
+  if(dir %in% c('back', 'both')) {
+    score_df <- score_df %>%
+      fill(-year, .direction = 'up')
   }
 
   return(score_df)

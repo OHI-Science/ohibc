@@ -179,7 +179,7 @@ cwb_rgn_year <- cwb_csd %>%
   summarize(cwb     = sum(cwb * pop) / sum(pop)) %>%
   ungroup()
 
-cwb_layer <- cwb_rgn_year %>%
+cwb_all_components <- cwb_rgn_year %>%
   left_join(components_rgn_year, by = c('rgn_id', 'year')) %>%
   gather(cwb_comp, cwb_score, -rgn_id, -year) %>%
   group_by(rgn_id, cwb_comp) %>%
@@ -189,9 +189,25 @@ cwb_layer <- cwb_rgn_year %>%
   ungroup() %>%
   mutate(cwb_score = cwb_score / 100)
 
+write_csv(cwb_all_components, file.path(dir_goal, 'int/cwb_components_all.csv'))
+
+cwb_layer <- cwb_all_components %>%
+  filter(cwb_comp == 'cwb') %>%
+  select(-cwb_comp)
 write_csv(cwb_layer, file.path(dir_goal, 'output/cwb_score_all.csv'))
 
-cwb_plot_df <- cwb_layer %>%
+ss_cwb_layer <- cwb_layer %>%
+  mutate(ss_cwb_score = 1 - cwb_score) %>%
+  select(-cwb_score)
+write_csv(ss_cwb_layer, file.path(dir_goal, 'output/ss_cwb_score_all.csv'))
+  
+```
+
+``` {r plot_cwb_for_all_pop}
+
+cwb_comps <- read_csv(file.path(dir_goal, 'int/cwb_components_all.csv'))
+
+cwb_plot_df <- cwb_comps %>%
   left_join(get_rgn_names()) %>%
   mutate(cwb_comp = ifelse(cwb_comp == 'hsg', 'housing', cwb_comp),
          cwb_comp = ifelse(cwb_comp == 'edu', 'education', cwb_comp),
@@ -247,7 +263,7 @@ fn_cwb_rgn_year <- fn_cwb_csd %>%
   summarize(cwb     = sum(cwb * pop) / sum(pop)) %>%
   ungroup()
 
-fn_cwb_layer <- fn_cwb_rgn_year %>%
+fn_cwb_components <- fn_cwb_rgn_year %>%
   left_join(fn_components_rgn_year, by = c('rgn_id', 'year')) %>%
   gather(cwb_comp, cwb_score, -rgn_id, -year) %>%
   group_by(rgn_id, cwb_comp) %>%
@@ -257,9 +273,26 @@ fn_cwb_layer <- fn_cwb_rgn_year %>%
   ungroup() %>%
   mutate(cwb_score = cwb_score / 100) ### resilience between 0-1
 
+write_csv(fn_cwb_components, file.path(dir_goal, 'int/cwb_components_fn.csv'))
+
+fn_cwb_layer <- fn_cwb_components %>%
+  filter(cwb_comp == 'cwb') %>%
+  select(-cwb_comp)
+  
 write_csv(fn_cwb_layer, file.path(dir_goal, 'output/cwb_score_fn.csv'))
 
-fn_cwb_plot_df <- fn_cwb_layer %>%
+ss_fn_cwb_layer <- fn_cwb_layer %>%
+  mutate(ss_cwb_score = 1 - cwb_score) %>%
+  select(-cwb_score)
+write_csv(ss_fn_cwb_layer, file.path(dir_goal, 'output/ss_cwb_score_fn.csv'))
+
+```
+
+``` {r plot_cwb_for_fn_pop}
+
+fn_cwb_comps <- read_csv(file.path(dir_goal, 'int/cwb_components_fn.csv'))
+
+fn_cwb_plot_df <- fn_cwb_comps %>%
   left_join(get_rgn_names()) %>%
   mutate(cwb_comp = ifelse(cwb_comp == 'hsg', 'housing', cwb_comp),
          cwb_comp = ifelse(cwb_comp == 'edu', 'education', cwb_comp),

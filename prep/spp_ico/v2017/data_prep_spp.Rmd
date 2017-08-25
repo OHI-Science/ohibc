@@ -29,7 +29,7 @@ scenario <- 'v2017'
 goal     <- 'spp_ico'
 dir_git  <- '~/github/ohibc'
 dir_goal <- file.path(dir_git, 'prep', goal, scenario)
-dir_rgn  <- file.path(dir_git, 'prep/spatial')
+dir_spatial <- file.path(dir_git, 'prep/_spatial')
 
 dir_goal_anx        <- file.path(dir_M, 'git-annex/bcprep/spp_ico', scenario) 
 dir_goal_global     <- file.path('~/github/ohiprep/globalprep/spp_ico', scenario)
@@ -124,8 +124,8 @@ if(!file.exists(rgn2cell_file) | !file.exists(loiczid_rast_file)) {
   ### Read in OHIBC polygons, transform to WGS84 CRS
   rgn_lyr <- 'ohibc_rgn'
   
-  message(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_rgn, rgn_lyr))
-  poly_bc_rgn <- readOGR(dsn     = path.expand(dir_rgn), 
+  message(sprintf('Reading OHIBC regions shapefile...\n  %s/%s.shp', dir_spatial, rgn_lyr))
+  poly_bc_rgn <- readOGR(dsn     = path.expand(dir_spatial), 
                          layer   = rgn_lyr,
                          verbose = FALSE, 
                          stringsAsFactors = FALSE) %>%
@@ -310,9 +310,16 @@ if(!file.exists(spp_bc_file)) {
 
 }
 
-DT::datatable(read_csv(spp_bc_file, nogit = TRUE))
+
 
 ```
+
+<font size = 1>
+
+`r DT::datatable(read_csv(spp_bc_file, nogit = TRUE))`
+
+</font>
+
 
 -----
 
@@ -468,8 +475,13 @@ cosewic_status_trend_df <- cosewic_scores_df %>%
   
 write_csv(cosewic_status_trend_df, file.path(dir_goal, 'int/cosewic_st_tr_timeseries.csv'))
 
-DT::datatable(cosewic_status_trend_df)
 ```
+
+<font size = 1>
+
+`r DT::datatable(cosewic_status_trend_df)`
+
+</font>
 
 ### Create a complete score chart
 
@@ -590,7 +602,9 @@ write_csv(spp_risk_ts_layer, file.path(dir_goal, 'output', 'spp_risk_by_year.csv
 In this section we estimate the model calculations:
 
 * We calculate area-weighted mean extinction risk score across all species identified in each region, based on NatureServe province-level rankings where available, and IUCN category ranks elsewhere.
-* From the region-level summary of risk, we determine the SPP goal status based on the goal model equation.
+* From the region-level summary of risk, we estimate the SPP goal status based on the goal model equation.
+
+This layer is saved to be used as a resilience layer.
 
 ``` {r generate_means_per_rgn}
 
@@ -619,11 +633,18 @@ spp_risk_rgn_yr <- spp_risk_by_rgn %>%
          status = round(status, 5),
          mean_risk_score = round(mean_risk_score, 5))
 
-DT::datatable(spp_risk_rgn_yr)
+spp_status_eez <- spp_risk_rgn_yr %>%
+  select(rgn_id, year, status)
 
+write_csv(spp_status_eez, file.path(dir_goal, 'output/spp_status_eez.csv'))
 
 ```
 
+<font size = 1>
+
+`r DT::datatable(spp_risk_rgn_yr)`
+
+</font>
 
 -----
 
@@ -635,7 +656,7 @@ Create final outputs for 3nm zone for resilience calculations.  In this step, ra
 
 ### Read in OHIBC 3nm offshore polygons, in WGS84 CRS
 rgn_lyr <- 'ohibc_offshore_3nm'
-poly_bc_3nm <- readOGR(dsn = path.expand(dir_rgn), layer = rgn_lyr,
+poly_bc_3nm <- readOGR(dsn = path.expand(dir_spatial), layer = rgn_lyr,
                        verbose = FALSE, stringsAsFactors = FALSE) %>%
     spTransform(p4s_wgs84)
 poly_bc_3nm@data$rgn_id <- as.integer(poly_bc_3nm@data$rgn_id)
@@ -726,9 +747,15 @@ write_csv(spp_risk_3nm_yr %>%
             select(rgn_id, year, status), 
           file.path(dir_goal, 'output/spp_status_3nm.csv'))
 
-DT::datatable(spp_risk_3nm_yr)
+
 
 ```
+
+<font size = 1>
+
+`r DT::datatable(spp_risk_3nm_yr)`
+
+</font>
 
 ## Visualize data
 

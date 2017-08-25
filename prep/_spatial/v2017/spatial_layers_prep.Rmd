@@ -1,0 +1,95 @@
+---
+title: 'OHIBC: Prep spatial layers for toolbox'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R;
+  ### includes library(tidyverse); library(stringr)
+
+dir_git     <- '~/github/ohibc'
+dir_spatial <- file.path(dir_git, 'prep/_spatial') 
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal      <- '_spatial'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+```
+
+
+# Summary
+
+Prep rgn_labels and rgn_areas layers for toolbox
+
+-----
+
+# Data Source 
+
+* __Reference__: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+* __Downloaded__: [date downloaded or received]
+* __Description__:  [e.g., surface aragonite state]
+* __Native data resolution__: [e.g., 1 degree, 30 m, etc.]   
+* __Time range__: [e.g., 1880-1899, monthly data provided for each year] 
+* __Format__:  [e.g. NetCDF]
+
+-----
+  
+# Methods
+
+Generate labels and areas from OHIBC region shapefiles...
+
+``` {r labels_and_areas}
+
+rgns <- sf::read_sf(dir_spatial, 'ohibc_rgn')
+git_prov(file.path(dir_spatial, 'ohibc_rgn.shp'))
+
+rgn_labels <- rgns %>%
+  as.data.frame() %>%
+  select(rgn_id, rgn_name) %>%
+  arrange(rgn_id)
+
+write_csv(rgn_labels, file.path(dir_goal, 'output/rgn_labels.csv'))
+
+rgn_areas <- rgns %>%
+  mutate(area_m2 = sf::st_area(rgns)) %>%
+  as.data.frame() %>%
+  mutate(area_km2 = as.numeric(area_m2) / 1e6) %>%
+  select(rgn_id, area_km2) %>%
+  arrange(rgn_id)
+
+write_csv(rgn_areas, file.path(dir_goal, 'output/rgn_areas.csv'))
+
+```
+
+-----
+
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup(commit_outputs = FALSE)
+```
+

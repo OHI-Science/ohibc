@@ -1,7 +1,18 @@
 ### Create scenario_data_years matrix
+library(tidyverse)
+library(stringr)
+
+dir_calc <- '~/github/ohibc/calc_ohibc'
+
+lyrs_master <- read_csv(file.path(dir_calc, 'master/layers_files_master.csv')) %>%
+  mutate(file_path = file.path(dir_prep, fn_data),
+         file_path = str_replace(file_path, 'ohibc:', '~/github/ohibc/'))
+
+lyrs_files <- lyrs_master$file_path %>%
+  setNames(lyrs_master$layer)
 
 lyrs_yrs <- lapply(lyrs_files, read_csv) %>%
-  setNames(basename(lyrs_files %>% str_replace('.csv', ''))) %>%
+  setNames(names(lyrs_files)) %>%
   bind_rows(.id = 'layer_name') %>%
   select('layer_name', 'year') %>%
   distinct() %>%

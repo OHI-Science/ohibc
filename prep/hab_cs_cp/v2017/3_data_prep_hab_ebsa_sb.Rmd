@@ -61,8 +61,6 @@ rast_base_file <- file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif')
 
 Create habitat info layer for EBSAs - ecologically and biologically significant areas.  The goal will be calculated based upon trawl pressure in the EBSAs.
 
-# Updates from previous assessment
-
 -----
 
 # Data Source
@@ -86,7 +84,8 @@ Create habitat info layer for EBSAs - ecologically and biologically significant 
 
 poly_ebsa <- readOGR(dsn = file.path(dir_anx, '_raw_data/dfo_khunter/management_boundaries/d2016/ebsa'), 
                      layer = 'eco_bio_sig_areas', 
-                     stringsAsFactors = FALSE)
+                     stringsAsFactors = FALSE,
+                     not_tracked = TRUE)
 
 ebsa_sar_2012 <- read_csv(file.path(dir_goal, 'raw/ebsa_sar_2012.csv'))
 
@@ -109,7 +108,8 @@ poly_ebsa_trim <- poly_ebsa[poly_ebsa@data$hab == TRUE, ]
 poly_sg_sponges <- readOGR(dsn = file.path(dir_anx, '_raw_data/dfo_khunter',
                                            'management_boundaries/d2016/mgmt_related_boundaries'), 
                      layer = 'Strait_of_Georgia_Sponge_Reef_Fishing_Closures', 
-                     stringsAsFactors = FALSE)
+                     stringsAsFactors = FALSE,
+                     not_tracked = TRUE)
 poly_sg_sponges@data <- poly_sg_sponges@data %>%
   mutate(ebsa_id   = OBJECTID + 100,
          name = 'Sponge Reef',
@@ -130,7 +130,8 @@ poly_ebsa_hab   <- rbind(poly_ebsa_trim, poly_sg_sponges, makeUniqueIDs = TRUE)
 ### save locally for next step: rasterization
 writeOGR(poly_ebsa_hab, dsn = path.expand(dir_habs),
          layer = 'ebsa_hab', driver = 'ESRI Shapefile',
-         overwrite_layer = TRUE)
+         overwrite_layer = TRUE,
+         not_tracked = TRUE)
 
 ```
 
@@ -413,7 +414,8 @@ if(any(!file.exists(file.path(dir_trawl, paste0(trawl_layers, '.tif'))) | reload
   
   writeRaster(trawl_totals, bylayer = TRUE,
               filename  = file.path(dir_trawl, paste0(trawl_layers, '.tif')),
-              overwrite = TRUE)
+              overwrite = TRUE,
+              not_tracked = TRUE)
 } else {
   
   git_prov(file.path(dir_trawl, paste0(trawl_layers, '.tif')), filetype = 'output')
@@ -538,7 +540,8 @@ if(!file.exists(soft_btm_rast_file)) {
   #         * 4000 <- 200 m +             * 90 <- unknown             * 4 <- slope
   # NOTE THAT THE SUBSTRATE VALUES MISMATCH IN THE BCMCA METADATA... VALUES IN PARENS SEEM MORE LIKELY
   
-  rast_benthic_raw <- raster(file.path(dir_habs, 'benthic_raw_500m.tif'))
+  rast_benthic_raw <- raster(file.path(dir_habs, 'benthic_raw_500m.tif'),
+                     not_tracked = TRUE)
   rast_soft_btm <- rast_benthic_raw - round(rast_benthic_raw, -3)
   rast_soft_btm <- round(rast_soft_btm/10) 
         
@@ -548,10 +551,13 @@ if(!file.exists(soft_btm_rast_file)) {
   
   # rast_soft_btm <- (rast_soft_btm/rast_soft_btm) ### convert all soft-btm values to 1
 
-  writeRaster(rast_soft_btm, soft_btm_rast_file, overwrite = TRUE)
+  writeRaster(rast_soft_btm, soft_btm_rast_file, overwrite = TRUE,
+              not_tracked = TRUE)
     
 } else {
   message('Soft bottom raster already exists at: \n  ', soft_btm_rast_file)
+  git_prov(soft_btm_rast_file, filetype = 'output',
+           not_tracked = TRUE)
 }
 
 ```
@@ -566,7 +572,8 @@ if(!file.exists(soft_btm_rast_file)) {
   soft_btm_rast <- raster(file.path(dir_M, 'model/GL-NCEAS-Habitats_v2013a/data/soft_bottom_mol.tif'))
   soft_btm_rast_bcalb <- projectRaster(soft_btm_rast, rast_base, 
                            filename = soft_btm_rast_file,
-                           overwrite = TRUE)
+                           overwrite = TRUE,
+                           not_tracked = TRUE)
 }
 
 ```
@@ -633,7 +640,7 @@ if(!file.exists(sb_trawl_rgn_file) | reload) {
   
 } else {
   
-  git_prov(sb_trawl_rgn_file)
+  git_prov(sb_trawl_rgn_file, filetype = 'output')
   
 }
 
