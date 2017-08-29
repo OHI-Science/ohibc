@@ -143,3 +143,6 @@ extras <- c(output_csvs[!basename(output_csvs) %in% layers_full$filename],
 #### Extra output csvs not used as layers:
 
 `r paste0('\n* ', extras, collapse = '')`
+
+These may be orphaned layers from prior calculations, or they might be legit (e.g. gapfilling).
+

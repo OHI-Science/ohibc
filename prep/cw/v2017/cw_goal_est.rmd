@@ -300,8 +300,8 @@ trash_rast <- raster(trash_layer_file) %>%
   raster::crop(bc_rgn_poly)
 
 
-rgns_list <- list('po_trash'     = bc_rgn_poly,
-                  'po_trash_3nm' = bc_3nm_poly)
+rgns_list <- list('po_trash'     = bc_rgn_poly)
+                  # 'po_trash_3nm' = bc_3nm_poly)
 
 for (i in seq_along(rgns_list)) { # i <- 1
   
@@ -362,7 +362,7 @@ cw_score_summary <- cw_score_df %>%
             values  = paste(round(value, 4), collapse = ', ')) %>%
   ungroup()
   
-write_csv(cw_score_summary, file.path(dir_goal, 'output', 'cw_score_summary.csv'))
+write_csv(cw_score_summary, file.path(dir_goal, 'int', 'cw_score_summary.csv'))
 
 DT::datatable(cw_score_summary %>% 
                 mutate(prod = round(prod, 4), 
@@ -374,7 +374,7 @@ DT::datatable(cw_score_summary %>%
 ``` {r plot them}
 
 cw_score_df      <- read_csv(file.path(dir_goal, 'int/cw_component_scores.csv'))
-cw_score_summary <- read_csv(file.path(dir_goal, 'output', 'cw_score_summary.csv'))
+cw_score_summary <- read_csv(file.path(dir_goal, 'int', 'cw_score_summary.csv'))
 
 cw_status_components <- cw_score_summary %>%
   select(rgn_id, year, score) %>%
