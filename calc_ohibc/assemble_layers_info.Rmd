@@ -69,10 +69,17 @@ layers_elements$dimension <- list(c('pressure', 'resilience'))
 layers_elements <- layers_elements %>%
   unnest(dimension)
 
+### Manually fix "FP" wildcaught weighting layer
+layers_fp_wt <- layers_full %>%
+  filter(str_detect(layer, 'fp_wildcaught')) %>%
+  mutate(date = date(),
+         prep_script = 'wildcaught weighting layer is generated within functions.R',
+         target = 'FP',
+         dimension = 'status')
 
 layers_full <- layers_full %>%
-  filter(!str_detect(layer, '^element')) %>%
-  bind_rows(layers_elements) %>%
+  filter(!str_detect(layer, '^element|fp_wildcaught')) %>%
+  bind_rows(layers_elements, layers_fp_wt) %>%
   arrange(layer)
 
 ```
@@ -108,19 +115,28 @@ write_csv(missing, file.path(dir_calc, 'xxx_missing_layers.csv'))
 
 ## Identify "extra" layers
 
-Layers in 'output' folders that are not included in the layers master list might be orphans.
+Layers in 'output' or 'dummy' folders that are not included in the layers master list might be orphans.
 
 ``` {r identify_extra_layers}
 
 ### ID all .csv files in prep directories
-all_csvs <- list.files('~/github/ohibc/prep', 
+prep_csvs <- list.files('~/github/ohibc/prep', 
                     pattern = '.csv$',
                     recursive = TRUE, 
                     full.names = TRUE)
 ### narrow down to just those in output folders
-output_csvs <- all_csvs[str_detect(all_csvs, '/output/') & !str_detect(all_csvs, '/vHS/')]
+output_csvs <- prep_csvs[str_detect(prep_csvs, '/output/') & !str_detect(prep_csvs, '/vHS/')]
+
+### ID all .csv files in prep directories
+dummy_csvs <- list.files('~/github/ohibc/calc_ohibc/master/dummy_layers', 
+                    pattern = '.csv$',
+                    recursive = TRUE, 
+                    full.names = TRUE)
+
+
   
-extras <- output_csvs[!basename(output_csvs) %in% layers_full$filename]
+extras <- c(output_csvs[!basename(output_csvs) %in% layers_full$filename],
+            dummy_csvs[!basename(dummy_csvs) %in% layers_full$filename])
 
 ```
 

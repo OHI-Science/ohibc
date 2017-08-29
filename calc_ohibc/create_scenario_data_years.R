@@ -11,12 +11,14 @@ lyrs_master <- read_csv(file.path(dir_calc, 'master/layers_files_master.csv')) %
 lyrs_files <- lyrs_master$file_path %>%
   setNames(lyrs_master$layer)
 
-lyrs_yrs <- lapply(lyrs_files, read_csv) %>%
+lyrs_yrs_all <- lapply(lyrs_files, read_csv) %>%
   setNames(names(lyrs_files)) %>%
   bind_rows(.id = 'layer_name') %>%
   select('layer_name', 'year') %>%
   distinct() %>%
-  filter(!is.na(year)) %>%
+  filter(!is.na(year))
+
+lyrs_yrs <- lyrs_yrs_all %>%
   mutate(data_year = year,
          scenario_year = year) %>%
   filter(year <= 2016 & year >= 2000) %>%
@@ -29,3 +31,5 @@ lyrs_yrs <- lapply(lyrs_files, read_csv) %>%
          scenario_year = as.integer(scenario_year))
 
 write_csv(lyrs_yrs, file.path(dir_calc, 'master/scenario_data_years_master.csv'))
+
+write_csv(lyrs_yrs_all, file.path(dir_calc, 'master/all_data_years.csv'))

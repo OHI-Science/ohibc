@@ -1,0 +1,334 @@
+---
+title: 'OHIBC: Habitat Destruction Pressure layers prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(sf)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))
+
+dir_spatial <- path.expand(file.path(dir_git, 'prep/_spatial'))
+
+### goal specific folders and info
+goal      <- '_pressures'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_anx   <- file.path(dir_M, 'git-annex/bcprep')
+dir_goal_anx <- file.path(dir_M, 'git-annex/bcprep', goal, scenario)
+
+library(provRmd); prov_setup()
+
+### goal-specific source scripts
+# source(file.path(dir_goal, 'pressures_lyr_fxns.R'))
+
+### other support functions
+source(file.path(dir_git, 'src/R/rast_tools.R'))
+
+reload <- FALSE
+
+```
+
+# Summary
+
+This script calculates potential for intertidal habitat destruction from trampling.  As a proxy for trampling damage we use the population density (based on census subdivisions) of the coastal area within 10 km of the shore.
+
+$$pressure_{hd.intertidal} = \frac{Pop_{10km}}{Area_{10km}}$$
+
+Much of this analysis is similar to the calculations for population densities calculated in the Clean Waters/Pathogens component.  However, since the regional boundaries are different (10 km buffer rather than entire inland region) we will simply recalculate.
+
+As an added bonus, it also copies over the HAB Soft Bottom Trawl layer over as a soft-bottom trawl habitat destruction layer.
+
+# Data
+
+__Census subdivision administrative boundaries__
+
+* __Reference__: [Copyright © 2017, Province of British Columbia](http://www2.gov.bc.ca/gov/content/home/copyright)
+* __Downloaded__: Aug 7, 2017 from:
+    * http://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2016-eng.cfm (2016 census subdivisions)
+    * http://www2.gov.bc.ca/gov/content/data/geographic-data-services/land-use/administrative-boundaries (2011 census subdivisions)
+    * http://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2006-eng.cfm (2006 census subdivisions)
+    * http://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2001-eng.cfm (2001 census subdivisions)
+* __Description__:  Census subdivision administrative boundaries; choose "English", "ArcGIS" (or "ARC/INFO" for 2001), census subdivisions, cartographic boundary file option)
+* __Native data resolution__: Census subdivision
+* __Format__:  ESRI shapefile (or Arc e00 file for 2001)
+
+__2001 to 2016 Census Total Population Results Census Subdivisions__
+
+* __Reference__: [Statistics Canada, Prepared by:  BC Stats, Ministry of Technology, Innovation and Citizens' Services]
+* __Downloaded__: Aug 7, 2017 from 
+    * http://www.bcstats.gov.bc.ca/StatisticsBySubject/Census/2001Census/PopulationHousing/CensusSubdivisions.aspx (2001)
+    * http://www.bcstats.gov.bc.ca/StatisticsBySubject/Census/2006Census/PopulationHousing/CensusSubdivisions.aspx (2006)
+    * http://www.bcstats.gov.bc.ca/StatisticsBySubject/Census/2011Census/PopulationHousing/CensusSubdivisions.aspx (2011) 
+    * http://www.bcstats.gov.bc.ca/StatisticsBySubject/Census/2016Census/PopulationHousing/CensusSubdivisions.aspx (2016)
+* __Description__:  Census subdivision populations for 2001, 2006, 2011, 2016
+* __Native data resolution__: Census subdivision (note boundaries are different each year, use proper shapefile)
+* __Format__:  .csv
+
+
+# Methods
+
+## Determine populations within 10 km of coast
+
+Using census subdivisions from 2001-2016, intersect with buffer of 10km inland regions.  Determine total area (for CSD population density) and buffer area (to do area-weighted mean pop density).
+
+### Determine population over time
+
+Here we create a 10 km buffer inland, which we will intersect with the census subdivisions.  No need to subtract out the ocean regions since that will occur with the CSD intersection, and saves time and file space.
+
+``` {r create_10km_buffer}
+
+if(!file.exists(file.path(dir_goal, 'raw', 'ohibc_10km_buffer.shp'))) {
+  ohibc_rgn <- read_sf(dsn = dir_spatial,
+                       layer = 'ohibc_rgn') 
+  ohibc_rgns_inland <- read_sf(dsn = dir_spatial,
+                         layer = 'ohibc_rgns_unclipped') 
+  ohibc_10km_buffer <- ohibc_rgn %>%
+    st_buffer(10000) %>%
+    st_union()
+  
+  ohibc_rgn_plus_10km <- ohibc_rgns_inland %>%
+    st_intersection(ohibc_10km_buffer)
+  
+  # ggplot(ohibc_rgn_plus_10km) + geom_sf(fill = 'blue', alpha = .2)
+  
+  ohibc_10km_rgn_sp <- as(ohibc_rgn_plus_10km, 'Spatial')
+  writeOGR(ohibc_10km_rgn_sp, dsn = file.path(path.expand(dir_goal), 'raw'), 
+           layer = 'ohibc_10km_buffer', 
+           driver = 'ESRI Shapefile', overwrite = TRUE)
+}
+  
+```
+
+Intersect CSDs with 10 km buffer; determine proportional (and total) area for each CSD that falls within the buffer.
+
+``` {r process_csds}
+
+ohibc_10km_buffer <- read_sf(dsn = file.path(dir_goal, 'raw'),
+                             layer = 'ohibc_10km_buffer')
+
+csd_clean <- function(csd_sf, year) {
+  csd_sf2 <- csd_sf %>%
+    clean_df_names() %>%
+    select(csduid, csdname, csdtype, geometry) %>%
+    st_transform(st_crs(ohibc_10km_buffer))
+  
+  csd_sf2$a_tot <- st_area(csd_sf)
+  
+  csd_sf_bc <- csd_sf2 %>%
+    st_buffer(dist = 0) %>%
+    st_intersection(ohibc_10km_buffer) 
+  
+  csd_sf_bc$a_ohibc <- st_area(csd_sf_bc)
+  
+  csd_bc_df <- csd_sf_bc %>%
+    as.data.frame() %>%
+    clean_df_names()  %>%
+    mutate(prop_area = as.numeric(a_ohibc / a_tot),
+           area_total_km2 = as.numeric(a_tot / 1e6),
+           area_ohibc_km2 = as.numeric(a_ohibc / 1e6),
+           year = year) %>%
+    select(csduid, csdname, csdtype, rgn_id, 
+           area_total_km2, area_ohibc_km2, prop_area, year)
+  
+  return(csd_bc_df)
+}
+
+
+if(!file.exists(file.path(dir_goal, 'int/hd_inter_csd_2001-2016.csv'))) {
+  
+  csd_2016 <- read_sf(dsn = file.path(dir_anx, '_raw_data/bcstats/csd2016carto'),
+                      layer = 'lcsd000b16a_e') %>%
+    csd_clean(2016)
+  
+  csd_2011 <- read_sf(dsn = file.path(dir_anx, '_raw_data/bcstats/csd2011carto'),
+                      layer = 'gcsd000b11a_e') %>%
+    csd_clean(2011)
+  
+  csd_2006 <- read_sf(dsn = file.path(dir_anx, '_raw_data/bcstats/csd2006carto'),
+                      layer = 'gcsd000b06a_e') %>%
+    csd_clean(2006)
+  
+  csd_2001 <- read_sf(dsn = file.path(dir_anx, '_raw_data/bcstats/csd2001carto_e00'),
+                      layer = 'csd2001carto_from_e00_dissolved') %>%
+    csd_clean(2001)
+
+  csd_2001_2016 <- bind_rows(csd_2001, csd_2006, csd_2011, csd_2016) %>%
+    distinct()
+  
+  write_csv(csd_2001_2016, file.path(dir_goal, 'int/hd_inter_csd_2001-2016.csv'))
+
+}
+
+
+```
+
+Generate a dataframe of populations by CSD for each of the four census years (2001, 2006, 2011, 2016).
+
+``` {r read_pop_data_2001-2016}
+
+pop_2016 <- read_csv(file.path(dir_anx, '_raw_data/bcstats',
+                               '2016 Census - CSD_control_79d4a796-2ccd-4732-a01c-1a8fd26d254a_1.csv')) %>%
+  clean_df_names() %>%
+  select(sgc, name, type, 
+         pop = `2016_population`, 
+         prev_pop = `2011_population_2`) %>%
+  mutate(year = 2016)
+pop_2011 <- read_csv(file.path(dir_anx, '_raw_data/bcstats',
+                               'Census 2011 Table6_5cb2908c-3bb5-4d64-b47e-a667a478c81f_3.csv')) %>%
+  clean_df_names() %>%
+  select(sgc, name, type, 
+         pop = `2011_population`, 
+         prev_pop = `2006_population_2`) %>%
+  mutate(year = 2011)
+pop_2006 <- read_csv(file.path(dir_anx, '_raw_data/bcstats',
+                               'Census 2006 Table4 CSD by Geo_3974fc9d-a861-42a2-94df-39ef3aa9b641_1.csv')) %>%
+  clean_df_names() %>%
+  select(sgc, name, type, 
+         pop = `2006_population`, 
+         prev_pop = `2001_population`) %>%
+  mutate(year = 2006)
+pop_2001 <- read_csv(file.path(dir_anx, '_raw_data/bcstats',
+                               'Census 2001 Table 4 - CSD_80e3912f-a235-46df-8ff0-c8afd0017122_1.csv')) %>%
+  clean_df_names() %>%
+  select(sgc, name, type,
+         pop = `2001_population`,
+         prev_pop = `1996_population_2`) %>%
+  mutate(year = 2001)
+
+pop_01_16 <- bind_rows(pop_2001, pop_2006, pop_2011, pop_2016) %>%
+  distinct()
+
+write_csv(pop_01_16, file.path(dir_goal, 'int/hd_inter_pop_2001-2016.csv'))
+
+```
+
+Attach the populations to the CSD areas and calculate the overall population density of each region.  In addition, we will calculate a reference point which will be the population density of the most densely-populated CSD across all years.
+
+``` {r census_pops_2001_2016}
+
+pop_df <- read_csv(file.path(dir_goal, 'int/hd_inter_pop_2001-2016.csv'))
+
+csd_df <- read_csv(file.path(dir_goal, 'int/hd_inter_csd_2001-2016.csv')) 
+
+pop_csd <- pop_df %>%
+  left_join(csd_df, by = c('sgc' = 'csduid', 'year')) %>%
+  filter(!is.na(rgn_id)) %>%
+  select(-type, -name, -prev_pop) %>%
+  mutate(pop_10km_csd = pop * prop_area,
+         pop_dens_csd = pop_10km_csd / area_ohibc_km2,
+         ref_dens = max(pop_dens_csd, na.rm = TRUE))
+
+pop_rgn_yr <- pop_csd %>%
+  group_by(rgn_id, year) %>%
+  summarize(pop = sum(pop_10km_csd, na.rm = TRUE),
+            pop_dens = pop / sum(area_ohibc_km2),
+            ref_dens = first(ref_dens)) %>%
+  ungroup()
+
+pop_rgn_yr_plot <- ggplot(pop_rgn_yr %>%
+         left_join(get_rgn_names(), by = 'rgn_id'), 
+       aes(x = year, y = pop_dens)) +
+  ggtheme_plot() +
+  geom_line(aes(group = rgn_name, color = rgn_name),
+            size = 2, alpha = .8,
+            show.legend = FALSE) +
+  scale_color_brewer(palette = 'Dark2') +
+  ylim(c(0, NA)) +
+  theme(axis.text.x = element_text(angle = 30)) +
+  labs(x = 'year', y = 'region population', color = 'region') +
+  facet_wrap( ~ rgn_name, scales = 'free_y')
+
+print(pop_rgn_yr_plot)
+
+write_csv(pop_rgn_yr, file.path(dir_goal, 'int/hd_int_pop_rgn_yr.csv'))
+
+```
+
+## Calculate intertidal habitat destruction pressures
+
+To calculate the trampling pressure, we compare the coastal population density with the max coastal pop density found within any OHIBC census subdivision (Vancouver, 2016; 5438 people per km^2).  Intermediate years are linearly interpolated.
+
+``` {r calc_pressures}
+
+pop_rgn_yr <- read_csv(file.path(dir_goal, 'int/hd_int_pop_rgn_yr.csv'))
+
+prs_hd_intertidal <- pop_rgn_yr %>%
+  mutate(pressure = pop_dens / ref_dens) %>%
+  select(rgn_id, year, pressure) %>%
+  group_by(rgn_id) %>%
+  complete(year = full_seq(year, 1)) %>%
+  mutate(pressure = zoo::na.approx(pressure, year)) %>%
+  ungroup()
+
+write_csv(prs_hd_intertidal, file.path(dir_goal, 'output', 'prs_hd_intertidal.csv'))
+
+```
+
+-----
+
+``` {r plot_pressures}
+
+prs_hd_intertidal <- read_csv(file.path(dir_goal, 'output', 'prs_hd_intertidal.csv'))
+
+prs_df <- prs_hd_intertidal %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
+
+prs_plot <- ggplot(prs_df, aes(x = year, y = pressure, color = rgn_name)) +
+  ggtheme_plot() +
+  geom_line(aes(group = rgn_name), size = 2, alpha = .8, show.legend = FALSE) +
+  scale_color_brewer(palette = 'Dark2') +
+  theme(axis.text.x = element_text(angle = 22.5)) +
+  labs(title = 'Intertidal habitat destruction pressure',
+       x = 'Year',
+       y = 'Rescaled pressure score') +
+  ylim(c(0, NA)) +
+  facet_wrap( ~ rgn_name)
+
+print(prs_plot)
+
+```
+
+-----
+
+## Soft-Bottom Trawl habitat destruction layer
+
+This is identical to the HAB soft bottom trawl component layer.  For bookkeeping we will just copy it over to the _pressures/v2017/output folder.
+
+``` {r copy_soft_btm_trawl}
+
+orig <- file.path(dir_git, 'prep/hab_cs_cp/v2017/output/hab_soft_btm_trawl.csv')
+dst  <- file.path(dir_goal, 'output/prs_hd_soft_btm.csv')
+
+file.copy(orig, dst, overwrite = TRUE)
+
+git_prov(orig, filetype = 'input')
+git_prov(dst, filetype = 'output')
+
+
+```
+
+-----
+
+``` {r results = 'asis'}
+
+prov_wrapup(commit_outputs = FALSE)
+
+```

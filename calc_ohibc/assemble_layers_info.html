@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Compiled on Thu Aug 24 13:13:05 2017 by ohara" />
+<meta name="author" content="Compiled on Mon Aug 28 17:08:01 2017 by ohara" />
 
 
 <title>OHIBC: Layer check helper</title>
@@ -266,7 +266,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">OHIBC: Layer check helper</h1>
-<h4 class="author"><em><em>Compiled on Thu Aug 24 13:13:05 2017 by ohara</em></em></h4>
+<h4 class="author"><em><em>Compiled on Mon Aug 28 17:08:01 2017 by ohara</em></em></h4>
 
 </div>
 
@@ -308,10 +308,17 @@ layers_elements$dimension &lt;-<span class="st"> </span><span class="kw">list</s
 layers_elements &lt;-<span class="st"> </span>layers_elements %&gt;%
 <span class="st">  </span><span class="kw">unnest</span>(dimension)
 
+### Manually fix &quot;FP&quot; wildcaught weighting layer
+layers_fp_wt &lt;-<span class="st"> </span>layers_full %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(layer, <span class="st">'fp_wildcaught'</span>)) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">date</span>(),
+         <span class="dt">prep_script =</span> <span class="st">'wildcaught weighting layer is generated within functions.R'</span>,
+         <span class="dt">target =</span> <span class="st">'FP'</span>,
+         <span class="dt">dimension =</span> <span class="st">'status'</span>)
 
 layers_full &lt;-<span class="st"> </span>layers_full %&gt;%
-<span class="st">  </span><span class="kw">filter</span>(!<span class="kw">str_detect</span>(layer, <span class="st">'^element'</span>)) %&gt;%
-<span class="st">  </span><span class="kw">bind_rows</span>(layers_elements) %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(!<span class="kw">str_detect</span>(layer, <span class="st">'^element|fp_wildcaught'</span>)) %&gt;%
+<span class="st">  </span><span class="kw">bind_rows</span>(layers_elements, layers_fp_wt) %&gt;%
 <span class="st">  </span><span class="kw">arrange</span>(layer)</code></pre></div>
 <div id="identify-missing-layers" class="section level2">
 <h2><span class="header-section-number">1.1</span> Identify missing layers</h2>
@@ -332,33 +339,42 @@ layers_full &lt;-<span class="st"> </span>layers_full %&gt;%
 
 <span class="kw">write_csv</span>(missing, <span class="kw">file.path</span>(dir_calc, <span class="st">'xxx_missing_layers.csv'</span>))</code></pre></div>
 <p><font size="1"></p>
-<div id="htmlwidget-606711fe862d5e783e3d" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-606711fe862d5e783e3d">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22"],["ao_salmon","fp_art_hb","fp_art_lb","fp_com_hb","fp_com_lb","fp_habitat","fp_mora","fp_mora_artisanal","fp_targetharvest","fp_wildcaught_weight","g_cites","g_mariculture","g_msi_gov","g_tourism","hd_habitat","hd_intertidal","hd_logging","hd_mining","hd_subtidal_sb","po_water","sp_alien_species","sp_hatcheries"],["ohibc:prep/ao/v2017/output","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers",null,"ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers",null,null,"ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers",null],["ao_salmon.csv","fp_art_hb_gl2016placeholder.csv","fp_art_lb_gl2016.csv","fp_com_hb_gl2016.csv","fp_com_lb_gl2016.csv","fp_habitat_gl2016.csv","fp_mora_gl2016.csv","fp_mora_artisanal_gl2016.csv","fp_targetharvest_gl2016.csv",null,"g_cites_gl2016.csv","g_mariculture_gl2016.csv","g_msi_gov_gl2016.csv","g_tourism_gl2016.csv","hd_habitat_gl2016.csv","hd_intertidal_gl2016.csv",null,null,"hd_subtidal_sb_gl2016.csv","po_water_gl2016.csv","sp_alien_species_gl2016.csv",null],["Salmon stock health as a proxy for access to salmon for FSC purposes","High bycatch due to artisanal fishing","Low bycatch due to artisanal fishing","High bycatch due to commercial fishing","Low bycatch due to commercial fishing","Management and protection of habitat to preserve biodiversity (fisheries)","Commercial fishing management","Artisanal fisheries management effectiveness and opportunity","Targeted harvest of cetaceans and marine turtles","Food provision weights","CITES signatories","Management of mariculture practices to preserve biodiversity","Mariculture Sustainability Index","Management of tourism to preserve biodiversity","Management and protection of habitat to preserve biodiversity","Intertidal habitat destruction",null,null,"Subtidal softbottom habitat destruction","Management and regulations to control water pollution to preserve biodiversity","Management of nonindigenous species",null],[null,"The presence of destructive artisanal blast and poison (cyanide) fishing.","Extent of artisanal fishing (including: artisanal, subsistence, and recreational catch)","Modeled destructive commercial fishing practices by 5 gear types and scaled by Net Primary Productivity","Modeled destructive commercial fishing practices by 2 gear types and scaled by Net Primary Productivity","Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: habitat related questions","Regulations and management of commerical fishing","The opportunity for artisanal and recreational fishing based on the quality of management of the small-scale fishing sector","Targeted harvest of cetaceans and marine turtles","Proportion of wild caught fisheries to mariculture","Convention on International Trade in Endangered Species of Wild Fauna and Flora (CITES) signatories","Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: mariculture related questions","Mariculture practice assessment criteria from the Mariculture Sustainability Index (MSI)","Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: tourism related questions","Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: habitat related questions","Coastal population density (25 mi from shore)  as a proxy for intertidal habitat destruction",null,null,"Demersal destructive commercial fishing practices (i.e., trawling) in softbottom habitat as a proxy for soft bottom habitat destruction","Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: tourism related questions","Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: invasive species related questions",null],["status","pressure","pressure","pressure","pressure","resilience","resilience","resilience","pressure","status","resilience","resilience","resilience","resilience","resilience","pressure","pressure","pressure","pressure","resilience",null,"pressure"],["AO","AO, FIS, ICO, SPP","AO, FIS, HAB, SPP","AO, FIS, HAB, ICO, SPP","AO, FIS, HAB, SPP","AO, FIS, HAB, ICO, SPP","AO, FIS, HAB, ICO, SPP","FIS, ICO, SPP","ICO, SPP","FP","ICO, SPP","HAB, SPP, MAR","MAR","HAB, SPP","AO, CP, CS, FIS, HAB, ICO, SPP, LSP","AO, CP, CS, FIS, HAB, ICO, LSP, SPP","CP, CS, CW, HAB, LSP, TR","CP, CS, CW, HAB, LSP, TR","AO, FIS, HAB, SPP","CP, CS, CW, HAB, ICO, SPP, LSP, MAR, TR","NA","AO"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>layer<\/th>\n      <th>dir_prep<\/th>\n      <th>filename<\/th>\n      <th>name<\/th>\n      <th>description<\/th>\n      <th>dimension<\/th>\n      <th>target<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-de0f9de054fb254608ea" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-de0f9de054fb254608ea">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17"],["ao_salmon","fp_art_lb","fp_com_hb","fp_com_lb","fp_habitat","fp_mora","fp_mora_artisanal","g_cites","g_mariculture","g_msi_gov","hd_habitat","hd_logging","hd_mining","po_water","sal_stock_status","sp_alien_species","sp_hatcheries"],["ohibc:prep/ao/v2017/output","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers",null,null,"ohibc:calc_ohibc/master/dummy_layers","ohibc:prep/sal/v2017/output","ohibc:calc_ohibc/master/dummy_layers",null],["ao_salmon.csv","fp_art_lb_gl2016.csv","fp_com_hb_gl2016.csv","fp_com_lb_gl2016.csv","fp_habitat_gl2016.csv","fp_mora_gl2016.csv","fp_mora_artisanal_gl2016.csv","g_cites_gl2016.csv","g_mariculture_gl2016.csv","g_msi_gov_gl2016.csv","hd_habitat_gl2016.csv",null,null,"po_water_gl2016.csv","sal_stock_status.csv","sp_alien_species_gl2016.csv",null],["Salmon stock health","Low bycatch due to artisanal fishing","High bycatch due to commercial fishing","Low bycatch due to commercial fishing","Management and protection of habitat to preserve biodiversity (fisheries)","Commercial fishing management","Artisanal fisheries management effectiveness and opportunity","CITES signatories","Management of mariculture practices to preserve biodiversity","Mariculture Sustainability Index","Management and protection of habitat to preserve biodiversity",null,null,"Management and regulations to control water pollution to preserve biodiversity","Salmon stock health","Management of nonindigenous species",null],["Salmon stock health as a proxy for access to salmon for FSC purposes","Extent of artisanal fishing (including: artisanal, subsistence, and recreational catch)","Modeled destructive commercial fishing practices by 5 gear types and scaled by Net Primary Productivity","Modeled destructive commercial fishing practices by 2 gear types and scaled by Net Primary Productivity","Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: habitat related questions","Regulations and management of commerical fishing","The opportunity for artisanal and recreational fishing based on the quality of management of the small-scale fishing sector","Convention on International Trade in Endangered Species of Wild Fauna and Flora (CITES) signatories","Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: mariculture related questions","Mariculture practice assessment criteria from the Mariculture Sustainability Index (MSI)","Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: habitat related questions",null,null,"Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: tourism related questions","Salmon stock health as a proxy for access to salmon for commercial fishing purposes","Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: invasive species related questions",null],["status","pressure","pressure","pressure","resilience","resilience","resilience","resilience","resilience","resilience","resilience","pressure","pressure","resilience","status",null,"pressure"],["AO","AO, FIS, HAB, SAL, SPP","AO, FIS, HAB, ICO, SAL, SPP","AO, FIS, HAB, SAL, SPP","AO, FIS, HAB, ICO, SPP, SAL","AO, FIS, HAB, ICO, SPP, SAL","FIS, ICO, SPP, SAL","ICO, SPP","HAB, SPP, MAR","MAR","AO, CPP, CSS, FIS, HAB, ICO, SPP, LSP, SAL","CPP, CSS, CW, HAB, LSP, TR","CPP, CSS, CW, HAB, LSP, TR","CPP, CSS, CW, HAB, ICO, SPP, LSP, MAR, TR","SAL","NA","AO, SPP"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>layer<\/th>\n      <th>dir_prep<\/th>\n      <th>filename<\/th>\n      <th>name<\/th>\n      <th>description<\/th>\n      <th>dimension<\/th>\n      <th>target<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":[],"jsHooks":[]}</script>
 <p></font></p>
 </div>
 <div id="identify-extra-layers" class="section level2">
 <h2><span class="header-section-number">1.2</span> Identify “extra” layers</h2>
-<p>Layers in ‘output’ folders that are not included in the layers master list might be orphans.</p>
+<p>Layers in ‘output’ or ‘dummy’ folders that are not included in the layers master list might be orphans.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">### ID all .csv files in prep directories
-all_csvs &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="st">'~/github/ohibc/prep'</span>, 
+prep_csvs &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="st">'~/github/ohibc/prep'</span>, 
                     <span class="dt">pattern =</span> <span class="st">'.csv$'</span>,
                     <span class="dt">recursive =</span> <span class="ot">TRUE</span>, 
                     <span class="dt">full.names =</span> <span class="ot">TRUE</span>)
 ### narrow down to just those in output folders
-output_csvs &lt;-<span class="st"> </span>all_csvs[<span class="kw">str_detect</span>(all_csvs, <span class="st">'/output/'</span>) &amp;<span class="st"> </span>!<span class="kw">str_detect</span>(all_csvs, <span class="st">'/vHS/'</span>)]
+output_csvs &lt;-<span class="st"> </span>prep_csvs[<span class="kw">str_detect</span>(prep_csvs, <span class="st">'/output/'</span>) &amp;<span class="st"> </span>!<span class="kw">str_detect</span>(prep_csvs, <span class="st">'/vHS/'</span>)]
+
+### ID all .csv files in prep directories
+dummy_csvs &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="st">'~/github/ohibc/calc_ohibc/master/dummy_layers'</span>, 
+                    <span class="dt">pattern =</span> <span class="st">'.csv$'</span>,
+                    <span class="dt">recursive =</span> <span class="ot">TRUE</span>, 
+                    <span class="dt">full.names =</span> <span class="ot">TRUE</span>)
+
+
   
-extras &lt;-<span class="st"> </span>output_csvs[!<span class="kw">basename</span>(output_csvs) %in%<span class="st"> </span>layers_full$filename]</code></pre></div>
+extras &lt;-<span class="st"> </span><span class="kw">c</span>(output_csvs[!<span class="kw">basename</span>(output_csvs) %in%<span class="st"> </span>layers_full$filename],
+            dummy_csvs[!<span class="kw">basename</span>(dummy_csvs) %in%<span class="st"> </span>layers_full$filename])</code></pre></div>
 <div id="extra-output-csvs-not-used-as-layers" class="section level4">
 <h4><span class="header-section-number">1.2.0.1</span> Extra output csvs not used as layers:</h4>
 <ul>
 <li>/home/ohara/github/ohibc/prep/ao/v2017/output/ao_closures_by_type.csv</li>
 <li>/home/ohara/github/ohibc/prep/cw/v2017/output/cw_score_summary.csv</li>
 <li>/home/ohara/github/ohibc/prep/cw/v2017/output/po_trash_3nm.csv</li>
-<li>/home/ohara/github/ohibc/prep/hab_cs_cp/v2017/output/cs_cf_area.csv</li>
-<li>/home/ohara/github/ohibc/prep/hab_cs_cp/v2017/output/cs_sm_area.csv</li>
 <li>/home/ohara/github/ohibc/prep/lsp/v2017/output/lsp_status_trend.csv</li>
 <li>/home/ohara/github/ohibc/prep/_pressures/v2017/output/prs_oa_gapfill.csv</li>
 <li>/home/ohara/github/ohibc/prep/spp_ico/v2017/output/spp_info_by_id.csv</li>
+<li>/home/ohara/github/ohibc/calc_ohibc/master/dummy_layers/hd_intertidal_gl2016.csv</li>
+<li>/home/ohara/github/ohibc/calc_ohibc/master/dummy_layers/hd_subtidal_sb_gl2016.csv</li>
 </ul>
 </div>
 </div>

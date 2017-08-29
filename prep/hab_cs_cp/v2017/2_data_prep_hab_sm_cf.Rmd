@@ -524,11 +524,10 @@ if(any(!file.exists(cf_rast_files))) {
 
 ``` {r count_cf_cells_by_rgn}
 
-cf_hab_area_file <- file.path(dir_goal, 'output/hab_cf_area.csv')
 cf_cs_area_file <- file.path(dir_goal, 'output/cs_cf_area.csv')
 cf_exp_file  <- file.path(dir_goal, 'output/cp_cf_exposure.csv')
 
-if(any(!file.exists(c(cf_hab_area_file, cf_cs_area_file, cf_exp_file)))) {
+if(any(!file.exists(c(cf_cs_area_file, cf_exp_file)))) {
 
   rast_rgn_30m   <- raster(rast_rgn_file) %>%
     setNames('rgn_id')
@@ -609,32 +608,31 @@ if(any(!file.exists(c(cf_hab_area_file, cf_cs_area_file, cf_exp_file)))) {
            area_km2_tot      = round(area_km2_tot, 2),
            cf_expos_area_tot = round(cf_expos_area_tot, 2))
   
-  write_csv(cf_area_df3, cf_hab_area_file)
   write_csv(cf_area_df3, cf_cs_area_file)
   write_csv(cf_exp_df3,  cf_exp_file)
 
 } else {
   
   message('Coastal forest area files already exist: \n  ',
-          cf_hab_area_file, '\n  ', cf_cs_area_file, '\n  ', cf_exp_file)
+          cf_cs_area_file, '\n  ', cf_exp_file)
   git_prov(file.path(dir_goal_anx, sprintf('habs/ohibc_cf_%s_30m.tif', c(1990, 2000, 2010))), filetype = 'input')
   git_prov(c(expos_resc_file, topo_resc_file), filetype = 'input')
-  git_prov(c(cf_hab_area_file, cf_cs_area_file, cf_exp_file), filetype = 'output')
+  git_prov(c(cf_cs_area_file, cf_exp_file), filetype = 'output')
   
 }
 ```
 
 ## results
 
-### saltmarsh
+### saltmarsh (HAB, CS, CP)
 
 `r DT::datatable(read_csv(sm_hab_area_file, nogit = TRUE))`
 
 `r DT::datatable(read_csv(sm_exp_file, nogit = TRUE))`
 
-### coastal forests
+### coastal forests (CS, CP)
 
-`r DT::datatable(read_csv(cf_hab_area_file, nogit = TRUE))`
+`r DT::datatable(read_csv(cf_cs_area_file, nogit = TRUE))`
 
 `r DT::datatable(read_csv(cf_exp_file, nogit = TRUE))`
 

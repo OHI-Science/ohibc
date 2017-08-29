@@ -309,6 +309,60 @@ MAR <- function(layers) {
 
 }
 
+SAL <- function(layers) {
+
+  # # weights
+  # w <-  SelectLayersData(layers, layers='fp_wildcaught_weight', narrow = TRUE) %>%
+  #   select(region_id = id_num, w_FIS = val_num); head(w)
+  #
+  # # scores
+  # s <- scores %>%
+  #   filter(goal %in% c('FIS', 'MAR')) %>%
+  #   filter(!(dimension %in% c('pressures', 'resilience'))) %>%
+  #   left_join(w, by="region_id")  %>%
+  #   mutate(w_MAR = 1 - w_FIS) %>%
+  #   mutate(weight = ifelse(goal == "FIS", w_FIS, w_MAR))
+  #
+  #
+  # ## Some warning messages due to potential mismatches in data:
+  # # NA score but there is a weight
+  # tmp <- filter(s, goal=='FIS' & is.na(score) & (!is.na(w_FIS) & w_FIS!=0) & dimension == "score")
+  # if(dim(tmp)[1]>0){
+  #   warning(paste0("Check: these regions have a FIS weight but no score: ",
+  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
+  #
+  # tmp <- filter(s, goal=='MAR' & is.na(score) & (!is.na(w_MAR) & w_MAR!=0) & dimension == "score")
+  # if(dim(tmp)[1]>0){
+  #   warning(paste0("Check: these regions have a MAR weight but no score: ",
+  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
+  #
+  # # score, but the weight is NA or 0
+  # tmp <- filter(s, goal=='FIS' & (!is.na(score) & score > 0) & (is.na(w_FIS) | w_FIS==0) & dimension == "score" & region_id !=0)
+  # if(dim(tmp)[1]>0){
+  #   warning(paste0("Check: these regions have a FIS score but no weight: ",
+  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
+  #
+  # tmp <- filter(s, goal=='MAR' & (!is.na(score) & score > 0) & (is.na(w_MAR) | w_MAR==0) & dimension == "score" & region_id !=0)
+  # if(dim(tmp)[1]>0){
+  #   warning(paste0("Check: these regions have a MAR score but no weight: ",
+  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
+  #
+  # s <- s  %>%
+  #   group_by(region_id, dimension) %>%
+  #   summarize(score = weighted.mean(score, weight, na.rm=TRUE)) %>%
+  #   mutate(goal = "FP") %>%
+  #   ungroup() %>%
+  #   select(region_id, goal, dimension, score) %>%
+  #   data.frame()
+  #
+  # # return all scores
+  # return(rbind(scores, s))
+  return(data.frame(goal = 'SAL',
+                    region_id = rep(c(1:8), 2),
+                    dimension = c(rep('status', 8), rep('trend', 8)),
+                    score = rep(NA, 16)))
+}
+
 FP <- function(layers, scores) {
 
   # # weights
@@ -502,7 +556,7 @@ AO <- function(layers) {
 
 }
 
-CS <- function(layers) {
+CSS <- function(layers) {
 
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
 
@@ -526,12 +580,12 @@ CS <- function(layers) {
                           cbr = c(       218.0,              4.6,     138.0))
 
   ### get the data:
-  sm_health   <- layers$data[['hab_sm_health']] %>%
+  sm_health   <- layers$data[['cs_sm_health']] %>%
     select(year, region_id = rgn_id, area_hab = sm_area_km2) %>%
     arrange(region_id, year) %>%
     mutate(habitat = 'salt_marsh')
 
-  cf_health   <- layers$data[['hab_cf_health']] %>%
+  cf_health   <- layers$data[['cs_cf_health']] %>%
     select(year, region_id = rgn_id, area_hab = cf_area_km2) %>%
     arrange(region_id, year) %>%
     mutate(habitat = 'coastal_forest')
@@ -547,7 +601,7 @@ CS <- function(layers) {
     mutate(aref = first(area_hab)) %>%
     group_by(region_id, year) %>%
     summarize(score = sum(area_hab * cbr) / sum(aref * cbr)) %>%
-    mutate(goal      = 'CS',
+    mutate(goal      = 'CSS',
            dimension = 'status',
            score = ifelse(score > 1, 1, score) * 100) %>%
     ungroup()
@@ -586,7 +640,7 @@ CS <- function(layers) {
 
 }
 
-CP <- function(layers) {
+CPP <- function(layers) {
 
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
   status_year    <- layers$data$scenario_year
@@ -629,7 +683,7 @@ CP <- function(layers) {
     mutate(a_ref = first(expos_area_tot)) %>%
     group_by(region_id, year) %>%
     summarize(score = sum(expos_area_tot * prot) / sum(a_ref * prot)) %>%
-    mutate(goal      = 'CP',
+    mutate(goal      = 'CPP',
            dimension = 'status',
            score = ifelse(score > 1, 1, score) * 100) %>%
     ungroup()
@@ -659,6 +713,61 @@ CP <- function(layers) {
 
   return(cp_scores)
 
+}
+
+ES <- function(scores) {
+
+  # # weights
+  # w <-  SelectLayersData(layers, layers='fp_wildcaught_weight', narrow = TRUE) %>%
+  #   select(region_id = id_num, w_FIS = val_num); head(w)
+  #
+  # # scores
+  # s <- scores %>%
+  #   filter(goal %in% c('FIS', 'MAR')) %>%
+  #   filter(!(dimension %in% c('pressures', 'resilience'))) %>%
+  #   left_join(w, by="region_id")  %>%
+  #   mutate(w_MAR = 1 - w_FIS) %>%
+  #   mutate(weight = ifelse(goal == "FIS", w_FIS, w_MAR))
+  #
+  #
+  # ## Some warning messages due to potential mismatches in data:
+  # # NA score but there is a weight
+  # tmp <- filter(s, goal=='FIS' & is.na(score) & (!is.na(w_FIS) & w_FIS!=0) & dimension == "score")
+  # if(dim(tmp)[1]>0){
+  #   warning(paste0("Check: these regions have a FIS weight but no score: ",
+  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
+  #
+  # tmp <- filter(s, goal=='MAR' & is.na(score) & (!is.na(w_MAR) & w_MAR!=0) & dimension == "score")
+  # if(dim(tmp)[1]>0){
+  #   warning(paste0("Check: these regions have a MAR weight but no score: ",
+  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
+  #
+  # # score, but the weight is NA or 0
+  # tmp <- filter(s, goal=='FIS' & (!is.na(score) & score > 0) & (is.na(w_FIS) | w_FIS==0) & dimension == "score" & region_id !=0)
+  # if(dim(tmp)[1]>0){
+  #   warning(paste0("Check: these regions have a FIS score but no weight: ",
+  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
+  #
+  # tmp <- filter(s, goal=='MAR' & (!is.na(score) & score > 0) & (is.na(w_MAR) | w_MAR==0) & dimension == "score" & region_id !=0)
+  # if(dim(tmp)[1]>0){
+  #   warning(paste0("Check: these regions have a MAR score but no weight: ",
+  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
+  #
+  # s <- s  %>%
+  #   group_by(region_id, dimension) %>%
+  #   summarize(score = weighted.mean(score, weight, na.rm=TRUE)) %>%
+  #   mutate(goal = "FP") %>%
+  #   ungroup() %>%
+  #   select(region_id, goal, dimension, score) %>%
+  #   data.frame()
+  #
+  # # return all scores
+  # return(rbind(scores, s))
+  return(rbind(scores,
+               data.frame(goal = 'ES',
+                          region_id = rep(c(1:8), 2),
+                          dimension = c(rep('status', 8), rep('trend', 8)),
+                          score = rep(NA, 16))))
 }
 
 TR <- function(layers) {
@@ -760,13 +869,13 @@ TR <- function(layers) {
 
 }
 
-LIV <- function(layers) {
+LE <- function(layers) {
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
-  unempl_df <- layers$data[['liv_unemployment']] %>%
+  unempl_df <- layers$data[['le_unemployment']] %>%
     select(-layer) %>%
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
@@ -776,7 +885,7 @@ LIV <- function(layers) {
     ### reference point is mean of past five years (incl current)
     ungroup()
 
-  income_df <- layers$data[['liv_income']] %>%
+  income_df <- layers$data[['le_income']] %>%
     select(-layer) %>%
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
@@ -786,7 +895,7 @@ LIV <- function(layers) {
   ### income is listed in equivalent dollars
 
   ### combine wages and jobs scores; calculate overall score
-  liv_status <- unempl_df %>%
+  le_status <- unempl_df %>%
     mutate(jobs_score = empl_rate / ref_pt,
            jobs_score = ifelse(jobs_score > 1, 1, jobs_score)) %>%
     select(year, region_id, jobs_score) %>%
@@ -796,20 +905,20 @@ LIV <- function(layers) {
                 select(year, region_id, wages_score),
               by = c('year', 'region_id')) %>%
     mutate(score = 100 * (jobs_score + wages_score) / 2,
-           goal  = 'LIV',
+           goal  = 'LE',
            dimension = 'status') %>%
     select(year, region_id, score, goal, dimension)
 
 
   trend_years <- (data_year - 4) : data_year
-  liv_trend   <- calc_trend(liv_status, trend_years)
+  le_trend   <- calc_trend(le_status, trend_years)
 
-  liv_scores <- liv_status %>%
+  le_scores <- le_status %>%
     filter(year == data_year) %>%
-    bind_rows(liv_trend) %>%
+    bind_rows(le_trend) %>%
     select(region_id, goal, dimension, score)
 
-  return(liv_scores)
+  return(le_scores)
 
 }
 

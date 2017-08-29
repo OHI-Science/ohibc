@@ -671,13 +671,10 @@ lsp_status_trend_summary <- rgn_names %>%
   arrange(desc(year), rgn_id) %>%
   filter(year >= 1990)
 
-write_csv(lsp_status_trend_summary, file.path(dir_goal, 'output', 'lsp_status_trend.csv'))
+write_csv(lsp_status_trend_summary, file.path(dir_goal, 'summary', 'lsp_status_trend.csv'))
 
 ```
 
-Year-by-year status and trend estimates will be saved:
-
-* ``r file.path(dir_goal, 'output', 'lsp_status_trend.csv')``: estimate of status and trend by region since 1991
 
 ### Status and trend estimates:
 
@@ -694,7 +691,7 @@ To examine results, we plot the estimated status and trend over time.
 library(ggplot2)
 library(plotly)
 
-lsp_status_trend_summary <- read_csv(file.path(dir_goal, 'output', 'lsp_status_trend.csv'))
+lsp_status_trend_summary <- read_csv(file.path(dir_goal, 'summary', 'lsp_status_trend.csv'))
 
 status_ts_plot <- ggplot(lsp_status_trend_summary %>%
                            filter(!is.na(year)),
