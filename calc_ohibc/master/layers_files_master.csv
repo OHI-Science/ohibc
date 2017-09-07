@@ -4,6 +4,10 @@ ao_licenses,ohibc:prep/ao/v2017/output,ao_licenses.csv,TRUE,pct_fn
 ao_licenses_fn_pop,ohibc:prep/ao/v2017/output,ao_licenses_fn_pop.csv,TRUE,pct_fn_pop
 ao_salmon,ohibc:prep/ao/v2017/output,ao_salmon.csv,TRUE,stock_status
 ao_spawn_hab_index,ohibc:prep/ao/v2017/output,ao_spawn_hab_index.csv,TRUE,shi_tot
+aq_benthic,ohibc:prep/mar/v2017/output,prs_aq_benthic.csv,TRUE,prs_benthic
+aq_incidental,ohibc:prep/mar/v2017/output,prs_aq_incidental.csv,TRUE,prs_incidental
+aq_mammals,ohibc:prep/mar/v2017/output,prs_aq_mammals.csv,TRUE,prs_mammals
+aq_regulation,ohibc:prep/mar/v2017/output,res_aq_regulations.csv,TRUE,resilience_score
 cc_acid,ohibc:prep/_pressures/v2017/output,prs_oa_layer.csv,TRUE,pressure
 cc_slr,ohibc:prep/_pressures/v2017/output,prs_slr_layer.csv,TRUE,pressure
 cc_sst,ohibc:prep/_pressures/v2017/output,prs_sst_layer.csv,TRUE,pressure
@@ -34,7 +38,6 @@ fp_wildcaught_weight,calc_ohibc/master/dummy_layers,fp_wildcaught_wt.csv,TRUE,fp
 g_cites,ohibc:calc_ohibc/master/dummy_layers,g_cites_gl2016.csv,TRUE,resilience_score
 g_mariculture,ohibc:calc_ohibc/master/dummy_layers,g_mariculture_gl2016.csv,TRUE,resilience_score
 g_msi_gov,ohibc:calc_ohibc/master/dummy_layers,g_msi_gov_gl2016.csv,TRUE,resilience_score
-hab_cf_health,ohibc:prep/hab_cs_cp/v2017/output,hab_cf_area.csv,TRUE,cf_area_km2
 hab_ebsa_health,ohibc:prep/hab_cs_cp/v2017/output,hab_ebsa_trawl.csv,TRUE,trawled_area
 hab_sb_health,ohibc:prep/hab_cs_cp/v2017/output,hab_soft_btm_trawl.csv,TRUE,mean_hr_area
 hab_sm_health,ohibc:prep/hab_cs_cp/v2017/output,hab_sm_area.csv,TRUE,sm_area_km2

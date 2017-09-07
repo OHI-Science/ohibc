@@ -52,7 +52,7 @@ This pressure layer calculates the pressure due to genetic escapes from aquacult
 
 $$pressure_{gen.escapes} = \frac{\sum_{spp=1}^N (MSI_{spp} * harvest_{spp})}{\sum_{spp=1}^N harvest_{spp}}$$
 
-The genetic escapes scores are not time-dependent, but harvest data is reported annually.
+The MSI scores are not time-dependent, but harvest data is reported annually.
 
 # Data
 

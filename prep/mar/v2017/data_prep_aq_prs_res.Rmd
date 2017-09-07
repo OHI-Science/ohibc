@@ -1,0 +1,307 @@
+---
+title: 'OHIBC data prep: Aquaculture pressures and resilience'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+scenario <- 'v2017'
+goal     <- 'mar'
+dir_git  <- path.expand('~/github/ohibc')
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_spatial <- file.path(dir_git, 'prep/_spatial')
+
+dir_data_bc  <- file.path(dir_M, 'git-annex/bcprep', '_raw_data')
+
+library(provRmd); prov_setup()
+
+reload <- FALSE
+
+### Set up data location
+data_xlsx <- file.path(dir_M, 'git-annex/bcprep/_raw_data/mar_additions',
+                       'Mariculture Resilience Data.xlsx')
+
+```
+
+# Summary: OHIBC Aquaculture pressures and resilience
+
+This script prepares pressures and resilience layers related to aquaculture production in British Columbia.
+
+-----
+
+# Data sources
+
+* 
+
+-----
+
+# Methods
+
+``` {r examine_data}
+
+shts <- readxl::excel_sheets(data_xlsx)
+# [1] "Pressures"                 "Enforcement"               "Escapes_Pressure"         
+# [4] "Violations_Compliance"     "Reporting_Compliance"      "FishHealth_Sustainability"
+# [7] "Benthic_Pressures"         "SeaLice_Sustainability"    "AllData"
+
+```
+
+These pressures and resilience data are across the entire BC region.
+
+* Pressures: 2011 - 2016
+    * Incidental fish Catch Quantity (Pieces)
+        * __pressure on FIS__
+        * equal among regions with finfish aquaculture (or harvest-weighted)
+    * Number of Marine Mammals Drowned Events	
+    * Number of Authorized Predator Control Events	
+    * Total Marine Mammal Mortality
+        * __combine two other columns for pressure on SPP, ICO__
+        * equal among regions with finfish aquaculture (or harvest-weighted)
+* Enforcement: 2011-2016
+    * Number of fish health audits
+    * Number of sea lice audits	
+    * Number of benthic surveys	
+    * Number of active facilities
+    * __MAR regulation resilience__
+* Escapes_Pressure: 2011-2016:
+    * Number of Confirmed Escaped Fish
+    * __Weighting for sp_genetic layer?__
+* Violations_Compliance 2011-2016
+    * Total Violations
+    * Total Sites
+    * These "total sites" bear little resemblance to "active facilities" in other datasets - what is this metric?
+* Reporting compliance
+    * Compliant reports	
+    * Non-compliant reports	
+    * Total reports
+* FishHealth_Sustainability: 
+    * Number of Fish Health Management Plan components assessed
+    * Number of deficiencies observed
+    * __Sustainability for MAR__
+* Benthic_Pressures
+    * Percentage of sites below threshold(s)	
+    * Percentage of sites above threshold(s)	
+    * Number of sites below threshold(s)	
+    * Number of sites above threshold(s)
+* SeaLice_Sustainability: 
+    * Count Exceeding Threshold	
+    * Count Below Threshold	
+    * Total Count
+    * __Sustainability for MAR__
+    
+## Resilience layers
+
+Resilience will be calculated as a combination of several metrics.  For strong resilience against a known pressure, a regulation would exist, and have strong components of monitoring, enforcement, and compliance.  Here we will create a metric based on a geometric mean of:
+
+* Regulation exists? The existence of these data implies yes; score of 1 across all years.
+* Regulation is enforced?  This will be based on frequency of audits relative to some reference point.  
+    * Here we will combine (fish health audits)/(active facilities), (sea lice audits)/(active facitities) and (benthic surveys)/(active facilities) using a geometric mean:  enforcement across all facets must be high to achieve a strong resilience score.  Poor enforcement on any facet indicates weakness in regulatory enforcement.
+    * For fish health and benthic surveys, the reference point should be the max seen across all years for each metric.  Score is $\frac{\%\text{ sites audited}}{(\%\text{ sites audited})_{max}}$.
+    * For sea lice, the reference point should be 50%, per DFO. Score is $\frac{\%\text{ sites audited}}{50\%}$.
+* Regulation is complied with?  Here we have two compliance metrics: reporting and violations.  These will be combined in an arithmetic mean, since the violations will necessarily have a zero score for at least one year (for the max violations per site).
+    * "Violations_Compliance": Use the final metric of "Violations/Site" for Compliance Metric (reference point is max seen across the data). Score is $1 - \frac{violations/site}{(violations/site)_{ref}}$.
+    * "Reporting_Compliance": Use the final metric of "% non-compliant reports" for Compliance metric (reference value is 100% of reports marked non-compliant). Score is $1 - \frac{\text{noncompliant reports}}{\text{total reports}}$.
+    
+Overall resilience score will be calculated as: 
+
+\[res_{AQ} = \sqrt[3]{(\text{reg exists})*(\text{reg enforced})*(\text{reg compliance})}\]
+
+
+``` {r calc_reg_enforcement}
+
+audit_enforcement_raw <- readxl::read_excel(data_xlsx, sheet = 'Enforcement') %>%
+  clean_df_names() 
+
+audit_enforcement <- audit_enforcement_raw %>%
+  setNames(str_replace(names(.), 'number_of_', '')) %>%
+  gather(audit_type, audits, -year, -active_facilities) %>%
+  mutate(pct_audits = audits/active_facilities) %>%
+  group_by(audit_type) %>%
+  mutate(ref_pt = max(pct_audits)) %>%
+  ungroup() %>%
+  mutate(reg_enforcement = pct_audits / ref_pt)
+
+reg_enforced <- audit_enforcement %>%
+  group_by(year) %>%
+  summarize(reg_enforcement = prod(reg_enforcement) ^ (1/n()))
+
+write_csv(reg_enforced, file.path(dir_goal, 'int/res_enforcement.csv'))
+
+```
+
+``` {r calc_reg_compliance}
+
+comply_report    <- readxl::read_excel(data_xlsx, sheet = 'Reporting_Compliance') %>%
+  clean_df_names() %>%
+  mutate(comply_rate = compliant_reports / total_reports,
+         type = 'reports')
+
+comply_violation <- readxl::read_excel(data_xlsx, sheet = 'Violations_Compliance') %>%
+  clean_df_names() %>%
+  mutate(violations_rate = total_violations / total_sites,
+         ref_pt = max(violations_rate),
+         comply_rate = 1 - (violations_rate / ref_pt),
+         type = 'violations')
+  
+reg_compliance <- comply_report %>%
+  bind_rows(comply_violation) %>%
+  select(year, comply_rate, type) %>%
+  group_by(year) %>%
+  summarize(reg_compliance = sum(comply_rate) / n())
+
+write_csv(reg_compliance, file.path(dir_goal, 'int/res_compliance.csv'))
+
+```
+
+``` {r calc_reg_resilience}
+
+reg_comp <- read_csv(file.path(dir_goal, 'int/res_compliance.csv'))
+reg_enf  <- read_csv(file.path(dir_goal, 'int/res_enforcement.csv'))
+
+yrs_rgns <- data.frame(year = rep(2011:2016, times = 7),
+                       rgn_id = rep(c(1:6, 8), each = 6))
+
+resil_layer <- reg_comp %>%
+  left_join(reg_enf, by = 'year') %>%
+  mutate(reg_exists = 1) %>%
+  mutate(resilience_score = (reg_exists * reg_compliance * reg_enforcement) ^ (1/3)) %>%
+  left_join(yrs_rgns, by = 'year')
+
+write_csv(resil_layer, file.path(dir_goal, 'output', 'res_aq_regulations.csv'))
+
+DT::datatable(resil_layer)
+```
+
+## Pressures layers
+
+We will introduce three new pressures layers and group them with sp_alien and sp_genetic pressures under a single pressure category of "aquaculture and alien species".  These aquaculture-related pressures will be marine mammal losses, fish incidental catch, and benthic habitat pollution.
+
+All pressures layers will be weighted by finfish harvest, calculated as the region's contribution to overall finfish harvest each year.
+
+``` {r calc_harv_weighting}
+
+harv_wt <- read_csv(file.path(dir_goal, 'output', 'aq_harvest.csv')) %>%
+  group_by(year, rgn_id, aq_type) %>%
+  summarize(rgn_harvest = sum(harvest_tonnes)) %>%
+  ungroup() %>%
+  filter(aq_type == 'finfish') %>%
+  group_by(year) %>%
+  mutate(prop_harvest = rgn_harvest / sum(rgn_harvest)) %>%
+  ungroup()
+
+write_csv(harv_wt, file.path(dir_goal, 'int', 'prs_aq_harv_wt.csv'))
+
+```
+
+aq_mammals is a pressure on ICO and SPP, analogous to fp_targeted_harvest, which instead indicates mammal losses due to drownings and predator control measures for Aquaculture.
+
+``` {r calc aq_mammals}
+
+aq_mammals_raw <- readxl::read_excel(data_xlsx, sheet = 'Pressures') %>%
+  clean_df_names() %>%
+  select(year, mamm_count = total_marine_mammal_mortality)
+
+harv_wt <- read_csv(file.path(dir_goal, 'int', 'prs_aq_harv_wt.csv')) %>%
+  group_by(rgn_id) %>%
+  complete(year = c(year, 2016)) %>%
+  fill(-rgn_id, -year, .direction = 'down') %>%
+  ungroup() %>%
+  select(-aq_type, -rgn_harvest)
+
+aq_mammals <- aq_mammals_raw %>%
+  left_join(harv_wt, by = 'year') %>%
+  mutate(prop_mammals = mamm_count * prop_harvest,
+         ref_pt = max(prop_mammals),
+         prs_mammals = prop_mammals / ref_pt)
+
+write_csv(aq_mammals %>%
+  select(rgn_id, year, prs_mammals), 
+  file.path(dir_goal, 'output', 'prs_aq_mammals.csv'))
+DT::datatable(aq_mammals)
+
+```
+
+aq_incidental is a pressure on FIS due to incidental biomass removal in aquaculture harvest. 
+
+``` {r calc aq_incidental}
+
+aq_incidental_raw <- readxl::read_excel(data_xlsx, sheet = 'Pressures') %>%
+  clean_df_names() %>%
+  select(year, bycatch = starts_with('incidental'))
+
+harv_wt <- read_csv(file.path(dir_goal, 'int', 'prs_aq_harv_wt.csv')) %>%
+  group_by(rgn_id) %>%
+  complete(year = c(year, 2016)) %>%
+  fill(-rgn_id, -year, .direction = 'down') %>%
+  ungroup() %>%
+  select(-aq_type, -rgn_harvest)
+
+aq_incidental <- aq_incidental_raw %>%
+  left_join(harv_wt, by = 'year') %>%
+  mutate(prop_bycatch = bycatch * prop_harvest,
+         ref_pt = max(prop_bycatch),
+         prs_incidental = prop_bycatch / ref_pt)
+
+write_csv(aq_incidental %>%
+  select(rgn_id, year, prs_incidental), 
+  file.path(dir_goal, 'output', 'prs_aq_incidental.csv'))
+DT::datatable(aq_incidental)
+
+```
+
+aq_benthic is a pressure on habitats due to aquaculture activity. This presumes the benthic pressure comes from finfish pollution, as described in the benthic audit documentation.  Note that most benthic audits indicate soft substrate rather than hard; and most of the violations were noted in soft substrates.  Thus this pressure will be lower impact on hard substrate than soft.
+
+This pressure will be calculated as the harvest-weighted average of sites above threshold, relative to a max pressure reference point as the region/year with highest number of sites exceeding the threshold.  The pressure is based on total pollution, not proportional pollution relative to total facilities.
+
+``` {r calc aq_benthic}
+
+aq_benthic_raw <- readxl::read_excel(data_xlsx, sheet = 'Benthic_Pressures') %>%
+  clean_df_names() %>%
+  select(year, 
+         sites_above = starts_with('number_of_sites_above'))
+
+harv_wt <- read_csv(file.path(dir_goal, 'int', 'prs_aq_harv_wt.csv')) %>%
+  group_by(rgn_id) %>%
+  complete(year = c(year, 2016)) %>%
+  fill(-rgn_id, -year, .direction = 'down') %>%
+  ungroup() %>%
+  select(-aq_type, -rgn_harvest)
+
+aq_benthic <- aq_benthic_raw %>%
+  left_join(harv_wt, by = 'year') %>%
+  mutate(prop_sites_above = sites_above * prop_harvest,
+         ref_pt = max(prop_sites_above),
+         prs_benthic = prop_sites_above / ref_pt)
+
+write_csv(aq_benthic %>%
+  select(rgn_id, year, prs_benthic), 
+  file.path(dir_goal, 'output', 'prs_aq_benthic.csv'))
+DT::datatable(aq_benthic)
+
+```
+
+-----
+
+``` {r provenance, results = 'asis'}
+
+prov_wrapup()
+
+```

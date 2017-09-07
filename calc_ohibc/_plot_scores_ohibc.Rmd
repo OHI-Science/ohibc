@@ -281,6 +281,13 @@ layer_targets <- read_csv(file.path(dir_calc, 'master/layers_targets_master.csv'
 
 data_years <- read_csv(file.path(dir_calc, 'master/all_data_years.csv'))
 
+# no_year_spans <- layer_targets %>% 
+#   filter(!layer %in% data_years$layer_name) %>%
+#   group_by(layer) %>%
+#   summarize(targets = paste(target, collapse = ', '))
+# 
+# knitr::kable(no_year_spans) %>% paste(collapse = '')
+
 year_spans <- data_years %>%
   full_join(layer_targets, by = c('layer_name' = 'layer')) %>%
   filter(target != 'spatial') %>%
