@@ -506,6 +506,49 @@ ggplot(unempl_layer, aes(x = year, y = unemployment_rate, color = rgn_name)) +
 
 ```
 
+
+``` {r map le scores, fig.height = 6, eval = FALSE}
+
+rgns <- read_sf(dir_spatial, 'ohibc_rgn_simple') %>%
+  mutate(rgn_id = as.integer(rgn_id))
+
+continent <- read_sf(dir_spatial, 'ohibc_continent')
+
+scores_from_toolbox <- read_csv(file.path(dir_git, 'calc_ohibc/scores_all.csv')) %>%
+  filter(goal == 'LE' & dimension == 'status') %>%
+  filter(year == max(year))
+
+rgn_scores <- rgns %>%
+  left_join(scores_from_toolbox, by = c('rgn_id' = 'region_id')) %>%
+  mutate(score = round(score))
+
+ggplot(rgn_scores) +
+  ggtheme_plot() +
+  geom_sf(data = continent, fill = 'grey90', color = 'grey50', size = .25, alpha = .7) +
+  geom_sf(aes(fill = score), size = .25, color = 'grey40', alpha = .7) +
+  scale_fill_distiller(palette = 'Spectral', direction = 1, limits = c(0, 100))
+
+library(tmap)
+tm_shape(continent) +
+  tm_polygons(col = 'grey80', border.col = 'grey50', size = .25) +
+tm_shape(rgn_scores, is.master = TRUE) +
+  tm_polygons(col = 'score', border.col = 'grey40', 
+              style = 'cont', 
+              palette = 'Spectral', 
+              legend.show = FALSE,
+              colorNA = 'grey90') +
+tm_shape(rgn_scores %>% filter(rgn_id != 7)) +
+  tm_bubbles(size = 3, col = 'white', alpha = .8) +
+  tm_markers(text = 'score', text.just = c('center', 'center')) +
+tm_shape(continent %>% filter(rgn_id == 218) %>% mutate(label = '93')) +
+  tm_bubbles(size = 10, col = 'white', alpha = .8) +
+  tm_markers(text = 'label', size.max = 3, size = 'label',
+             text.just = c('center', 'center')) +
+tm_layout(bg.color = '#aabbff')
+
+
+```
+
 -----
 
 ``` {r provenance, results = 'asis'}
