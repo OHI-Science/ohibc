@@ -580,12 +580,12 @@ CSS <- function(layers) {
                           cbr = c(       218.0,              4.6,     138.0))
 
   ### get the data:
-  sm_health   <- layers$data[['hab_sm_health']] %>%
+  sm_health   <- layers$data[['cs_sm_health']] %>%
     select(year, region_id = rgn_id, area_hab = sm_area_km2) %>%
     arrange(region_id, year) %>%
     mutate(habitat = 'salt_marsh')
 
-  cf_health   <- layers$data[['hab_cf_health']] %>%
+  cf_health   <- layers$data[['cs_cf_health']] %>%
     select(year, region_id = rgn_id, area_hab = cf_area_km2) %>%
     arrange(region_id, year) %>%
     mutate(habitat = 'coastal_forest')

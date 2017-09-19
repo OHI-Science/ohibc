@@ -82,6 +82,8 @@ layers_full <- layers_full %>%
   bind_rows(layers_elements, layers_fp_wt) %>%
   arrange(layer)
 
+write_csv(layers_full, file.path(dir_calc, 'master/layers_full_list.csv'))
+
 ```
 
 ## Identify missing layers

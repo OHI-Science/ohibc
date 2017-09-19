@@ -34,10 +34,10 @@ hab_ebsa_trawl.csv,hab_ebsa_health,Thu Apr 6 09:10:31 2017 -0700,ohibc:prep/hab_
 hab_soft_btm_trawl.csv,hab_sb_health,Wed Aug 23 11:30:55 2017 -0700,ohibc:prep/hab_cs_cp/v2017/3_data_prep_hab_ebsa_sb.Rmd,ohibc:prep/hab_cs_cp/v2017/output
 hab_sm_area.csv,hab_sm_health,Tue Aug 22 16:36:27 2017 -0700,ohibc:prep/hab_cs_cp/v2017/2_data_prep_hab_sm_cf.Rmd,ohibc:prep/hab_cs_cp/v2017/output
 hab_sm_area.csv,hab_sm_health,Thu Apr 6 09:10:31 2017 -0700,ohibc:prep/hab_cs_cp/v2017/data_prep_hab_sm_cf.Rmd,ohibc:prep/hab_cs_cp/v2017/output
-prs_hd_intertidal.csv,hd_intertidal,Mon Aug 28 16:53:58 2017,ohibc:prep/_pressures/v2017/pressures_hd_intertidal_prep.Rmd,ohibc:prep/_pressures/v2017/output
+prs_hd_intertidal.csv,hd_intertidal,Mon Aug 28 17:32:30 2017 -0700,ohibc:prep/_pressures/v2017/pressures_hd_intertidal_prep.Rmd,ohibc:prep/_pressures/v2017/output
 mpa_pct_3nm.csv,hd_mpa_coast,Mon Aug 21 17:09:27 2017 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
 mpa_pct_eez.csv,hd_mpa_eez,Mon Aug 21 17:09:27 2017 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
-prs_hd_soft_btm.csv,hd_subtidal_sb,Mon Aug 28 16:53:58 2017,ohibc:prep/_pressures/v2017/pressures_hd_intertidal_prep.Rmd,ohibc:prep/_pressures/v2017/output
+prs_hd_soft_btm.csv,hd_subtidal_sb,Mon Aug 28 17:32:30 2017 -0700,ohibc:prep/_pressures/v2017/pressures_hd_intertidal_prep.Rmd,ohibc:prep/_pressures/v2017/output
 ico_spp_by_rgn.csv,ico_spp_presence,Mon May 22 09:43:10 2017 -0700,ohibc:prep/spp_ico/v2017/data_prep_ico.Rmd,ohibc:prep/spp_ico/v2017/output
 ico_risk_by_year.csv,ico_spp_risk_score,Mon May 22 09:09:21 2017 -0700,ohibc:prep/spp_ico/v2017/data_prep_ico.Rmd,ohibc:prep/spp_ico/v2017/output
 ico_trend_by_id.csv,ico_spp_trend,Thu Jun 1 15:33:18 2017 -0700,ohibc:prep/spp_ico/v2017/data_prep_ico.Rmd,ohibc:prep/spp_ico/v2017/output
