@@ -1,6 +1,5 @@
 
 library(shiny)
-source('~/github/ohibc/src/R/common.R')
 source('shiny_scores_fxn.R')
 
 goals_vec <- c('AO',
@@ -24,14 +23,14 @@ shinyUI(fluidPage(
       selectInput('target',  'Goal:', choices = goals_vec, selected = 'AO'),
       selectInput('element', 'Goal element:', choices = NA, selected = NA),
         ### if goal has elements, populate second dropdown for those elements, selecting the first as default.
-      h6('Note: "element" only affects display of pressures/resilience layers, not dimension scores'),
-      checkboxGroupInput('dimensions', 'Dimens:',
+      h6('Note: "Goal element" only affects display of pressures/resilience layers, not dimension scores'),
+      checkboxGroupInput('dimensions', 'Dimensions:',
                          choices = c('status', 'score', 'pressures', 'resilience', 'future'),
                          selected = 'status'),
-      radioButtons('show_layers', 'Show prs/res layers?',
+      radioButtons('show_layers', 'Show pressure/resilience layers?',
                    choices = c('pressure layers' = 'prs', 'resilience layers' = 'res', 'none' = 'none'),
                    selected = 'none'),
-      checkboxInput('fix_y', 'Show values 0-100?')
+      checkboxInput('fix_y', 'Show values 0-100?', value = TRUE)
     ),
 
     # Show a plot of the generated distribution
