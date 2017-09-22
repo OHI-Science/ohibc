@@ -1,0 +1,3 @@
+See **`r layer_meta$name[layer_meta$layer == 'fp_art_hb']`** for description of data and methods.
+
+Data describes the relative prevalence of poison (cyanide) fishing (Reefs at Risk Revisited, Burke et al. 2007).

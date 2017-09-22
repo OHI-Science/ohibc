@@ -21,7 +21,9 @@ ggtheme_plot <- function(base_size = 9) {
 # dir_calc   <- file.path('~/github/ohibc/calc_ohibc')
 #
 # all_scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
-#   filter(!dimension == 'trend') %>%
+#   group_by(goal, dimension) %>%
+#   complete(region_id = c(1:8)) %>%
+#   ungroup() %>%
 #   filter(region_id != 0) %>%
 #   filter(!goal %in% c('FP', 'BD', 'ES', 'SP', 'Index')) %>%
 #   spread(dimension, score) %>%
@@ -82,7 +84,10 @@ ggtheme_plot <- function(base_size = 9) {
 # write_csv(prs_res_data,    'data/prs_res_data.csv')
 # write_csv(prs_res_files,   'data/prs_res_files.csv')
 
-all_scores      <- read_csv('data/all_scores.csv')
+all_scores      <- read_csv('data/all_scores.csv') %>%
+  mutate(trend1 = (trend + 1) * 50)
+  ### trend1 is the rescaled trend, so values go from 0 (trend = -1) to
+  ### 100 (trend = +1); then a second axis is placed to scale it
 target_elements <- read_csv('data/target_elements.csv')
 prs_res_data    <- read_csv('data/prs_res_data.csv')
 prs_res_files   <- read_csv('data/prs_res_files.csv')
@@ -90,7 +95,8 @@ prs_res_files   <- read_csv('data/prs_res_files.csv')
 generate_plot <- function(goalname,
                           element = NA,
                           show_status = TRUE,
-                          show_score = FALSE,
+                          show_trend  = FALSE,
+                          show_score  = FALSE,
                           show_prs = FALSE,
                           show_res = FALSE,
                           show_lfs = FALSE,
@@ -100,7 +106,7 @@ generate_plot <- function(goalname,
 
   # goalname <- all_scores$goal[1]
   scores_tmp <- all_scores %>%
-    filter(!is.na(score)) %>%
+    # filter(!is.na(score)) %>%
     filter(goal == goalname)
 
   valid_rgns <- scores_tmp %>%
@@ -111,7 +117,7 @@ generate_plot <- function(goalname,
 
   all_plot <- ggplot(scores_tmp,
                      aes(x = year, y = pressure, color = layer)) +
-    ggtheme_plot() +
+    ggtheme_plot(base_size = 14) +
     theme(axis.text.x = element_text(angle = 75)) +
     scale_x_continuous(breaks = scores_tmp$year[scores_tmp$year %% 5 == 0] %>%
                          unique() %>%
@@ -121,23 +127,51 @@ generate_plot <- function(goalname,
     labs(x = 'year',
          y = goalname)
 
-  if(fix_y) all_plot <- all_plot +
-    scale_y_continuous(limits = c(0, 100))
+  if(fix_y) {
+    all_plot <- all_plot +
+      scale_y_continuous(limits = c(0, 100))
+  }
 
-  if(show_status) all_plot <- all_plot +
-    geom_line(aes(y = status),     color = 'blue4', alpha = dim_alpha, size = 2)
 
-  if(show_prs) all_plot <- all_plot +
-    geom_line(aes(y = pressures),  color = 'red4',   alpha = dim_alpha, size = 2)
+  if(show_prs) {
+    all_plot <- all_plot +
+      geom_line(aes(y = pressures),
+                color = 'red4',   alpha = dim_alpha, size = 1.5)
+  }
 
-  if(show_res) all_plot <- all_plot +
-    geom_line(aes(y = resilience), color = 'green4', alpha = dim_alpha, size = 2)
+  if(show_res) {
+    all_plot <- all_plot +
+      geom_line(aes(y = resilience),
+                color = 'green4', alpha = dim_alpha, size = 1.5)
+  }
 
-  if(show_score) all_plot <- all_plot +
-    geom_line(aes(y = score),     color = 'grey30', alpha = dim_alpha, size = 2)
+  if(show_score) {
+    all_plot <- all_plot +
+      geom_line(aes(y = score),
+                color = 'grey30', alpha = dim_alpha, size = 2)
+  }
 
-  if(show_lfs) all_plot <- all_plot +
-    geom_line(aes(y = future), color = 'grey30', alpha = dim_alpha, size = 2, linetype = '1111')
+  if(show_lfs) {
+    all_plot <- all_plot +
+      geom_line(aes(y = future),
+                color = 'grey30', alpha = dim_alpha, size = 1.5, linetype = '1111')
+  }
+
+  if(show_trend) {
+    message('in show_trend')
+    all_plot <- all_plot +
+      geom_hline(yintercept = 50, color = 'red', alpha = dim_alpha) +
+      geom_line(aes(y = trend1),
+                color = 'blue4', alpha = dim_alpha, size = 1.5, linetype = '2121') +
+      scale_y_continuous(sec.axis = sec_axis(~ . / 50 - 1, name = 'Trend -1 to +1'),
+                         limits   = c(0, 100))
+  }
+
+  if(show_status) {
+    all_plot <- all_plot +
+      geom_line(aes(y = status),
+                color = 'blue4', alpha = dim_alpha, size = 2)
+  }
 
   if(show_prs_layers | show_res_layers) {
     dimen <- ifelse(show_prs_layers, 'pressure', 'resilience')
@@ -149,11 +183,6 @@ generate_plot <- function(goalname,
       filter(rgn_id %in% valid_rgns) %>%
       distinct()
 
-    message('Goal is ', goalname, '; here is the dataframe of prs/res:')
-    print(prs_res_tmp)
-    message('element = ', element)
-    print(element)
-
     if(!(is.na(element) | element == 'NA')) {
       prs_res_tmp <- prs_res_tmp %>%
         filter(target_element == element)
@@ -161,6 +190,7 @@ generate_plot <- function(goalname,
     } else color_label <- paste0(dimen, ': ', goalname)
 
     print(prs_res_tmp %>% select(layer, target_element) %>% distinct())
+
 
     all_plot <- all_plot +
       geom_line(data = prs_res_tmp,

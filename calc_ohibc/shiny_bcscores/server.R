@@ -18,9 +18,10 @@ shinyServer(function(input, output, session)  {
 
   output$scores_plot <- renderPlot({
     goalname <- input$target
-    target_element <- input$element
+    element <- input$element
     show_status <- 'status' %in% input$dimensions
-    show_score <-  'score' %in% input$dimensions
+    show_trend  <- 'trend'  %in% input$dimensions
+    show_score  <-  'score' %in% input$dimensions
     show_prs <-  'pressures' %in% input$dimensions
     show_res <-  'resilience' %in% input$dimensions
     show_lfs <-  'future' %in% input$dimensions
@@ -28,16 +29,17 @@ shinyServer(function(input, output, session)  {
     show_res_layers <- input$show_layers == 'res'
     fix_y <- input$fix_y
 
-    generate_plot(goalname,
-                  target_element,
-                  show_status,
-                  show_score ,
-                  show_prs,
-                  show_res,
-                  show_lfs,
-                  show_prs_layers,
-                  show_res_layers,
-                  fix_y)
+    generate_plot(goalname    = goalname,
+                  element     = element,
+                  show_status = show_status,
+                  show_trend  = show_trend,
+                  show_score  = show_score,
+                  show_prs    = show_prs,
+                  show_res    = show_res,
+                  show_lfs    = show_lfs,
+                  show_prs_layers = show_prs_layers,
+                  show_res_layers = show_res_layers,
+                  fix_y       = fix_y)
   }, height = 800)
 
 })

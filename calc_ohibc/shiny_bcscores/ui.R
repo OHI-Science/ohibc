@@ -25,7 +25,10 @@ shinyUI(fluidPage(
         ### if goal has elements, populate second dropdown for those elements, selecting the first as default.
       h6('Note: "Goal element" only affects display of pressures/resilience layers, not dimension scores'),
       checkboxGroupInput('dimensions', 'Dimensions:',
-                         choices = c('status', 'score', 'pressures', 'resilience', 'future'),
+                         choices = c('status', 'trend',
+                                     'score',
+                                     'pressures', 'resilience',
+                                     'future'),
                          selected = 'status'),
       radioButtons('show_layers', 'Show pressure/resilience layers?',
                    choices = c('pressure layers' = 'prs', 'resilience layers' = 'res', 'none' = 'none'),
