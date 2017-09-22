@@ -158,15 +158,25 @@ calc_trend <- function(scenario_df, years = NULL) {
     arrange(region_id, year) %>%
     mutate(status_1 = first(status))
 
-  trend <- scenario_df %>%
-    group_by(region_id, status_1) %>%
-    do(mdl = lm(status ~ year, data = . )) %>%
-    summarize(
-      region_id = region_id,
-      score = 5 * coef(mdl)['year'] / status_1,
-      score = ifelse(is.nan(score), NA, score),
-      score = min(max(score, -1), 1)) %>% # set boundaries so trend does not go below -1 or above 1
-    ungroup() %>%
+  ### Check to make sure there are any valid scores to calculate a trend...
+  if(all(is.na(scenario_df$status))) {
+    trend <- scenario_df %>%
+      group_by(region_id, status_1) %>%
+      summarize(score = NA) %>%
+      ungroup()
+  } else {
+    trend <- scenario_df %>%
+      group_by(region_id, status_1) %>%
+      do(mdl = lm(status ~ year, data = . )) %>%
+      summarize(
+        region_id = region_id,
+        score = 5 * coef(mdl)['year'] / status_1,
+        score = ifelse(is.nan(score), NA, score),
+        score = min(max(score, -1), 1)) %>% # set boundaries so trend does not go below -1 or above 1
+      ungroup()
+  }
+
+  trend <- trend %>%
     mutate(year  = max_year,
            goal  = goalname,
            dimension = 'trend',

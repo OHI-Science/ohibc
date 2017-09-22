@@ -29,7 +29,7 @@ ggtheme_plot <- function(base_size = 9) {
 #   spread(dimension, score) %>%
 #   left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
 #
-# all_layer_files <- read_csv(file.path(dir_calc, 'master/layers_full_list.csv')) %>%
+# all_layer_files <- read_csv(file.path(dir_calc, 'explore/layers_full_list.csv')) %>%
 #   filter(!str_detect(layer, 'element_wt')) %>%
 #   filter(!is.na(dir_prep)) %>%
 #   select(layer, target, target_element, dir_prep, filename, name_data_fld, dimension) %>%

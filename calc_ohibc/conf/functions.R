@@ -259,7 +259,7 @@ MAR <- function(layers) {
     select(region_id, year, score = f_score, harvest_tonnes, aq_type) %>%
     filter(!is.na(score)) %>%
     group_by(region_id) %>%
-    complete_rgn_years(status_yr_span, method = 'zero') %>%
+    complete_rgn_years(status_yr_span, method = 'none') %>%
     ungroup()
 
 
@@ -274,7 +274,7 @@ MAR <- function(layers) {
     select(region_id, year, score = b_score, harvest_tonnes, aq_type) %>%
     filter(!is.na(score)) %>%
     group_by(region_id) %>%
-    complete_rgn_years(status_yr_span, method = 'zero') %>%
+    complete_rgn_years(status_yr_span, method = 'none') %>%
     ungroup()
 
   mar_status <- bind_rows(mar_f_score, mar_b_score) %>%
@@ -282,7 +282,7 @@ MAR <- function(layers) {
     mutate() %>%
     summarize(score_wt    = sum(score * harvest_tonnes, na.rm = TRUE),
               harvest_tot = sum(harvest_tonnes, na.rm = TRUE),
-              score = ifelse(harvest_tot > 0, score_wt / harvest_tot, 0),
+              score = ifelse(harvest_tot > 0, score_wt / harvest_tot, NA),
               score = round(100 * score, 5)) %>%
     ungroup() %>%
     select(region_id, year, score) %>%
