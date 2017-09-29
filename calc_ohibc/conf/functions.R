@@ -881,8 +881,8 @@ LE <- function(layers) {
     complete_rgn_years(status_yr_span) %>%
     arrange(region_id, year) %>%
     mutate(empl_rate = 1 - unemployment_rate,
-           ref_pt = zoo::rollmean(empl_rate, k = 5, fill = NA, align = 'right')) %>%
-    ### reference point is mean of past five years (incl current)
+           ref_pt = lag(empl_rate, 5)) %>%
+    ### reference point is value five years prior
     ungroup()
 
   income_df <- layers$data[['le_income']] %>%
