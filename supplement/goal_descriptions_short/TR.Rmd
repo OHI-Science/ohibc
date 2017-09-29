@@ -4,14 +4,13 @@ Tourism and recreation in coastal areas is a major component of thriving coastal
 
 ### Model & Data 
 
-Assuming that the total number of people engaged in coastal tourism and recreation activities is directly correlated with employment in the tourism sector (eg. accommodation services, food and beverage services, retail trade, transportation services, and cultural, sports and recreational services), the TR model measures the proprotion of employment in tourism relative to total labor force in each country. The model also incorporated tourism competitiveness index (TTCI) from the World Economic Forum (WEF 2013) to capture the sustainability of the tourism
-industry (Halpern 2015). 
-   
-Below are the data sets for this goal.
+For this goal, we use visitations to coastal parks and visitor centers as a measure of tourist activity.  Our area of "coastal interest" is defined here by a buffer extending 15 km inland.  To account for shifts in tourism due to special circumstances (e.g. 2010 Winter Olympics in Vancouver), we adjust regional visitations (coastal parks/visitors centers only) by the total visitations province-wide (including inland parks/visitors centers).
+
 
 ### Reference points 
 
-Reference point is spatial: 90th quantile of coastal employment ratio among all regions. 
+We apply a temporal reference point, comparing current visitors (adjusted for province-wide visitations) to maximum observed visitors (again, adjusted) across each OHIBC region.  Visitors center visits are scored separately from park visits, and the two scores are averaged for the final TR status.
+
 
 
 
