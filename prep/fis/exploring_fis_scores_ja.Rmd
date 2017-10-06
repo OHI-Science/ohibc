@@ -1,0 +1,146 @@
+---
+title: "Exploring fisheries data"
+author: "Jamie Afflerbach"
+date: "10/6/2017"
+output: html_document
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+dir_git     <- path.expand('~/github/ohibc')
+source(file.path(dir_git, 'src/R/common.R'))  
+dir_spatial <- file.path(dir_git, 'prep/_spatial')  
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+
+### goal specific folders and info
+goal      <- 'fis'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### Kobe plot functions
+source(file.path(dir_goal, 'kobe_fxns.R'))
+
+### set up proj4string options: BC Albers and WGS84
+p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
+
+```
+
+```{r}
+
+stocks_ts_df <- bind_rows(read_csv(file.path(dir_goal, 'output/ram_b_bmsy.csv')),
+                     read_csv(file.path(dir_goal, 'output/ram_f_fmsy.csv'))) %>%
+  left_join(read_csv(file.path(dir_goal, 'raw', '1_ram_ids_to_names.csv'))) %>%
+  ungroup() %>%
+  mutate(param = str_replace_all(tolower(param), '[^a-z]', '_') %>%
+           str_replace_all('u', 'f'))
+
+```
+
+There are `r length(unique(stocks_ts_df$stock_id))` RAM stocks used for the FIS sub-goal.
+
+# RAM metrics for each stock
+
+```{r}
+
+b_f_plot <- ggplot(stocks_ts_df, aes(x = year, y = value, color = param)) +
+  geom_line() +
+  facet_wrap(~stock_name)
+
+b_f_plot
+
+```
+
+#Catch over time for each stock
+The catch values here come from the RAM database as well.
+
+```{r}
+
+ram_catch <- read_csv(file.path(dir_goal, 'output/ram_catch.csv')) %>%
+            filter(stock_name %in% stocks_ts_df$stock_name)
+
+catch_plot <- ggplot(ram_catch, aes(x = year, y = value)) +
+  geom_line() +
+  facet_wrap(~stock_name)
+
+catch_plot
+
+```
+
+
+```{r}
+
+## plotting fishery catch weighting by region
+stock_plot_df <- read_csv(file.path(dir_goal, 'summary/fis_from_functions.csv')) %>%
+  filter(!is.na(score)) %>%
+  group_by(region_id, year) %>%
+  mutate(total_catch = sum(rgn_catch),
+         rgn_catch_pct = rgn_catch / total_catch,
+         total_score = sum(score * rgn_catch) / total_catch) %>%
+  ungroup() %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')) %>%
+  filter(rgn_catch > 0)
+
+```
+
+## Contribution of regional catch by stock
+
+Breaking this up by region and stock
+
+```{r}
+
+stock_plot_df$region_id = as.character(stock_plot_df$region_id)
+
+ggplot(stock_plot_df, aes(x = year, y = rgn_catch_pct, color = stock_id)) + geom_line() + facet_wrap(~region_id)
+
+```
+
+## Tuna
+
+Looking just at albacore tuna, the offshore region is entirely dependent on Albacore tuna while this stock makes up a very small portion of the catch elsewhere.
+
+```{r}
+
+t <- filter(stock_plot_df, stock_id == "ALBANPAC" & basis == "F_Fmsy, B_Bmsy")
+t$region_id = as.character(t$region_id)
+ggplot(t, aes(x = year, y = rgn_catch_pct, color = region_id)) + geom_line()
+
+```
+
+
+# B/Bmsy estimates from the global CMSY data
+
+Pulling in the B/Bmsy estimates for stocks in FAO area 67 from this year (2017) for consideration in the model.
+
+```{r}
+
+
+cmsy <- read_csv("~/github/ohiprep/globalprep/fis/v2017/data/cmsy_bbmsy.csv")
+
+mean_catch <- read.csv("~/github/ohiprep/globalprep/fis/v2016/data/mean_catch.csv") %>%
+   mutate(stock_id_taxonkey = as.character(stock_id_taxonkey)) %>%
+   mutate(taxon_key = str_sub(stock_id_taxonkey, -6, -1)) %>%
+   mutate(stock_id = substr(stock_id_taxonkey, 1, nchar(stock_id_taxonkey)-7))
+
+bc_data <- mean_catch %>%left_join(cmsy, by = "stock_id", "year") %>%
+        filter(!is.na(bbmsy_mean)) %>%
+        filter(rgn_id == 218) %>%
+        separate(stock_id, int = c("stock", "fao"), sep = "-") %>%
+        filter(fao == 67)
+
+ggplot(bc_data, aes(x = year.y, y = bbmsy_mean, color = common)) +
+  geom_line()
+        
+
+```
+
+
+
