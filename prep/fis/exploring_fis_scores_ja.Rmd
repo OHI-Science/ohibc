@@ -41,7 +41,8 @@ stocks_ts_df <- bind_rows(read_csv(file.path(dir_goal, 'output/ram_b_bmsy.csv'))
   left_join(read_csv(file.path(dir_goal, 'raw', '1_ram_ids_to_names.csv'))) %>%
   ungroup() %>%
   mutate(param = str_replace_all(tolower(param), '[^a-z]', '_') %>%
-           str_replace_all('u', 'f'))
+           str_replace_all('u', 'f')) %>%
+  filter(year > 1994)
 
 ```
 
@@ -53,7 +54,7 @@ There are `r length(unique(stocks_ts_df$stock_id))` RAM stocks used for the FIS 
 
 b_f_plot <- ggplot(stocks_ts_df, aes(x = year, y = value, color = param)) +
   geom_line() +
-  facet_wrap(~stock_name)
+  facet_wrap(~stock_name_mod)
 
 b_f_plot
 
@@ -65,7 +66,8 @@ The catch values here come from the RAM database as well.
 ```{r}
 
 ram_catch <- read_csv(file.path(dir_goal, 'output/ram_catch.csv')) %>%
-            filter(stock_name %in% stocks_ts_df$stock_name)
+            filter(stock_name %in% stocks_ts_df$stock_name,
+                   year > 1994)
 
 catch_plot <- ggplot(ram_catch, aes(x = year, y = value)) +
   geom_line() +
@@ -75,6 +77,20 @@ catch_plot
 
 ```
 
+Remove tuna
+
+```{r}
+
+ram_catch_no_tuna <- ram_catch %>%
+  filter(stock_id != "ALBANPAC")
+
+catch_plot <- ggplot(ram_catch_no_tuna, aes(x = year, y = value)) +
+  geom_line() +
+  facet_wrap(~stock_name)
+
+catch_plot
+
+```
 
 ```{r}
 
@@ -87,7 +103,8 @@ stock_plot_df <- read_csv(file.path(dir_goal, 'summary/fis_from_functions.csv'))
          total_score = sum(score * rgn_catch) / total_catch) %>%
   ungroup() %>%
   left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')) %>%
-  filter(rgn_catch > 0)
+  filter(rgn_catch > 0,
+         year > 1994)
 
 ```
 
@@ -99,7 +116,7 @@ Breaking this up by region and stock
 
 stock_plot_df$region_id = as.character(stock_plot_df$region_id)
 
-ggplot(stock_plot_df, aes(x = year, y = rgn_catch_pct, color = stock_id)) + geom_line() + facet_wrap(~region_id)
+ggplot(stock_plot_df, aes(x = year, y = rgn_catch_pct, color = stock_id)) + geom_line() + facet_wrap(~ rgn_name)
 
 ```
 
@@ -111,7 +128,7 @@ Looking just at albacore tuna, the offshore region is entirely dependent on Alba
 
 t <- filter(stock_plot_df, stock_id == "ALBANPAC" & basis == "F_Fmsy, B_Bmsy")
 t$region_id = as.character(t$region_id)
-ggplot(t, aes(x = year, y = rgn_catch_pct, color = region_id)) + geom_line()
+ggplot(t, aes(x = year, y = rgn_catch_pct, color = rgn_name)) + geom_line()
 
 ```
 
@@ -123,20 +140,22 @@ Pulling in the B/Bmsy estimates for stocks in FAO area 67 from this year (2017) 
 ```{r}
 
 
-cmsy <- read_csv("~/github/ohiprep/globalprep/fis/v2017/data/cmsy_bbmsy.csv")
+cmsy <- read_csv("~/github/ohiprep/globalprep/fis/v2017/data/cmsy_bbmsy.csv") %>%
+        filter(year > 1994)
 
 mean_catch <- read.csv("~/github/ohiprep/globalprep/fis/v2016/data/mean_catch.csv") %>%
    mutate(stock_id_taxonkey = as.character(stock_id_taxonkey)) %>%
    mutate(taxon_key = str_sub(stock_id_taxonkey, -6, -1)) %>%
-   mutate(stock_id = substr(stock_id_taxonkey, 1, nchar(stock_id_taxonkey)-7))
+   mutate(stock_id = substr(stock_id_taxonkey, 1, nchar(stock_id_taxonkey)-7)) 
 
-bc_data <- mean_catch %>%left_join(cmsy, by = "stock_id", "year") %>%
+bc_data <- mean_catch %>%
+  left_join(cmsy, by = c("stock_id", "year")) %>%
         filter(!is.na(bbmsy_mean)) %>%
         filter(rgn_id == 218) %>%
         separate(stock_id, int = c("stock", "fao"), sep = "-") %>%
         filter(fao == 67)
 
-ggplot(bc_data, aes(x = year.y, y = bbmsy_mean, color = common)) +
+ggplot(bc_data, aes(x = year, y = bbmsy_mean, color = common)) +
   geom_line()
         
 
