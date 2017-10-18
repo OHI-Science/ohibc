@@ -27,11 +27,7 @@ library(provRmd); prov_setup()
 
 ### Kobe plot functions
 source(file.path(dir_goal, 'kobe_fxns.R'))
-
-### set up proj4string options: BC Albers and WGS84
-p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
-p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
-
+library(plotly)
 ```
 
 ```{r}
@@ -158,6 +154,92 @@ bc_data <- mean_catch %>%
 ggplot(bc_data, aes(x = year, y = bbmsy_mean, color = common)) +
   geom_line()
         
+
+```
+
+How much catch is reported for BC stocks in RAM? And of that catch, how much do these stocks contribute to the total?
+
+```{r}
+
+assessment_data_file <- file.path(dir_anx, '_raw_data/ram_fisheries/d2017/RAM_v3.80/DB_Files_With_Assessment_Data/DBdata.RData')
+load(assessment_data_file)
+
+#all bc stocks in RAM
+bc_stocks <- read_csv(file.path(dir_goal, 'ram/1_bc_stocks_all_ram.csv'))
+
+### get time series from .Rdata
+ts <- as.data.frame(timeseries, stringsAsFactors = FALSE) %>%
+  mutate(tsyear  = as.integer(tsyear),
+         tsvalue = as.numeric(tsvalue))
+
+#remove stocks that we have bbmsy or ffmsy for
+
+bc_stocks_ts <- ts %>%
+  inner_join(bc_stocks) %>%
+  filter(!is.na(tsvalue)) %>%
+  filter(!str_detect(stocklong, "Salmon")) #remove salmon
+
+#over the years, get total catch per stock
+
+bc_stocks_ts_catch <- bc_stocks_ts %>%
+  filter(tsid == "Ctouse-MT") %>%
+  group_by(tsyear) %>%
+  mutate(annual_catch = sum(tsvalue),
+         n_stocks = length(unique(stockid))) %>%
+  ungroup() %>%
+  group_by(stockid, tsyear) %>%
+  mutate(catch = sum(tsvalue),
+         catch_prop = catch/annual_catch) %>%
+  filter(tsyear > 1994) %>%
+  select(stockid, tsyear, catch, catch_prop, n_stocks) 
+  
+a <- ggplot(bc_stocks_ts_catch, aes(x = tsyear, y = catch, fill = stockid)) +
+  geom_bar(stat = "identity") + theme(legend.text=element_text(size=6)) +
+  labs(x = "Year",
+         y = "Catch (tons)")
+ggplotly(a)
+
+#this plot adds the total number of stocks in each year. I need to find a way to have it print just once...
+ggplot(bc_stocks_ts_catch, aes(x = tsyear, y = catch, fill = stockid, label = n_stocks)) +
+ geom_bar(stat = "identity") + theme(legend.text=element_text(size=6))  +
+ geom_text(position = "stack", fill = NULL)
+```
+
+Let's look at how catch changes by species over time using the SAUP data.
+
+```{r}
+
+library(seaaroundus)
+
+#saup bc data
+saup_raw <- read_csv(file.path(dir_goal_anx, 'saup/2_saup_bc_raw.csv'))
+
+#get bc cells from the saup_raw dataset
+bc_cells <- unique(saup_raw$cell_id)
+
+bc_saup_catch <- data.frame()
+
+for(i in 1990:2014){
+#get catch for those cells with getcelldata from the seaaroundus package
+saup_catch <- getcelldata(i, bc_cells) %>%
+  filter(taxon_key > 599999) %>%
+  select(-functional_group_id, taxon_key, sector_type_id, fishing_entity_name, reporting_status_name, sector_type_name) %>%
+  group_by(year, taxon_scientific_name, taxon_common_name) %>%
+  summarize(catch = sum(catch_sum)) %>%
+  as.data.frame()
+  
+bc_saup_catch <- rbind(bc_saup_catch, saup_catch)
+}
+
+#remove salmon
+bc_saup_catch <- bc_saup_catch %>%
+  filter(!str_detect(taxon_common_name, "almon")) #removing the s because there are upper and lower case ones, but this should get tme
+
+g <- ggplot(bc_saup_catch, aes(x = year, y = catch, fill = taxon_common_name)) +
+  geom_bar(stat = "identity") + theme(legend.text=element_text(size=6)) +
+  labs(x = "Year",
+         y = "Catch (tons)")
+ggplotly(g)
 
 ```
 
