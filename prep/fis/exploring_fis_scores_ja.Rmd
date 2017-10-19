@@ -205,6 +205,25 @@ ggplot(bc_stocks_ts_catch, aes(x = tsyear, y = catch, fill = stockid, label = n_
  geom_text(position = "stack", fill = NULL)
 ```
 
+Plot total catch assessed vs unassessed in a stacked bar chart
+
+```{r}
+
+ass <- bc_stocks_ts_catch %>%
+  mutate(assessed = ifelse(stockid %in% stock_plot_df$stock_id, 1, 0)) %>%
+  group_by(assessed, tsyear) %>%
+  summarize(catch = sum(catch)) %>%
+  mutate(assessed_char = ifelse(assessed == 1, "assessed", "unassessed"))
+
+a <- ggplot(ass, aes(x = tsyear, y = catch, fill = assessed_char)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Year",
+         y = "Catch (tons)")
+ggplotly(a)
+```
+
+***
+
 Let's look at how catch changes by species over time using the SAUP data.
 
 ```{r}
@@ -240,6 +259,83 @@ g <- ggplot(bc_saup_catch, aes(x = year, y = catch, fill = taxon_common_name)) +
   labs(x = "Year",
          y = "Catch (tons)")
 ggplotly(g)
+
+```
+
+Match SAUP data to RAM data to get a better picture of how much catch is assessed vs not assessed
+
+```{r}
+
+#getting all taxa reported for the BC cells from SAUP
+saup_bc_taxa <- data.frame()
+
+for(i in 1990:2014){
+
+saup_catch <- getcelldata(i, bc_cells) %>%
+  select(taxon_scientific_name, taxon_common_name)
+  
+saup_bc_taxa <- rbind(saup_bc_taxa, saup_catch)
+}
+
+
+ram_taxa <- stocks_ts_df %>%
+  mutate(genus = str_extract(sciname, '.*(?= )')) %>%
+  select(stock_id, stock_name, year, sciname, genus)
+
+saup_to_ram_spp <- saup_bc_taxa %>%
+  left_join(ram_taxa, by = c('taxon_scientific_name' = 'sciname')) %>%
+  select(-genus) %>%
+  rename(ram_stock = stock_id)
+saup_to_ram_gen <- saup_bc_taxa %>%
+   left_join(ram_taxa, by = c('taxon_scientific_name' = 'genus')) %>%
+  select(-sciname) %>%
+  rename(ram_stock = stock_id)
+
+#this dataset lists all taxa in the SAUP data that are in BC and the assessed column identifies if that species has a ram assessment
+saup_to_ram <- rbind(saup_to_ram_spp, saup_to_ram_gen) %>%
+  mutate(assessed = ifelse(is.na(ram_stock), 0, 1)) %>%
+  filter(assessed == 1) %>%
+  select(taxon_scientific_name, taxon_common_name, assessed, year) %>%
+  distinct()
+
+#add this to the bc_saup_catch to then plot assessed vs unassessed
+
+saup_assessed <- bc_saup_catch %>%
+  filter(year > 1994) %>% #we only use ram data from 1995 on
+  left_join(saup_to_ram) %>%
+  mutate(assessed = ifelse(is.na(assessed), 0, 1)) %>%
+  group_by(year, assessed) %>%
+  summarize(catch = sum(catch)) %>%
+  mutate(assessed_char = ifelse(assessed == 1, "assessed", "unassessed"))
+
+saup_ass_plot <- ggplot(saup_assessed, aes(x = year, y = catch, fill = assessed_char)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Year",
+         y = "Catch (tons)")
+ggplotly(saup_ass_plot)
+
+```
+
+Change to catch prop
+```{r}
+
+saup_assessed_prop <- saup_assessed %>%
+  group_by(year) %>%
+  mutate(annual_catch = sum(catch)) %>%
+  ungroup() %>%
+  mutate(catch_prop = catch/annual_catch)
+
+saup_ass_prop_plot <- ggplot(saup_assessed_prop, aes(x = year, y = catch_prop, fill = assessed_char)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Year",
+         y = "Proportion of catch")
+ggplotly(saup_ass_prop_plot)
+```
+
+Can we parse out the SAUP catch to the sub-regional level?
+
+```{r}
+
 
 ```
 
