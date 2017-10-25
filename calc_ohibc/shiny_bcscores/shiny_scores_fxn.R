@@ -204,3 +204,15 @@ generate_plot <- function(goalname,
   return(all_plot)
 }
 
+###############################################
+### Copy Rmd short descs to local copy (as md)
+
+rmd_descs <- list.files('~/github/ohibc/supplement/goal_descriptions_short',
+                        pattern = '.Rmd$',
+                        full.names = TRUE)
+md_destination <- rmd_descs %>%
+  str_replace('.Rmd$', '.md') %>%
+  basename()
+
+file.copy(from = rmd_descs,
+          to = file.path('pages', md_destination))

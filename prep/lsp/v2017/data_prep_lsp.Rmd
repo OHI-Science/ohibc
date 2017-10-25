@@ -840,8 +840,9 @@ Grouping by rgn_id, the total number of cells per region is determined by summin
 
 Since the cells are 500 m on a side, we can easily calculate area by multiplying cell count * 0.25 km^2^ per cell.
 
-Finally we can calculate the status of a region for any given year by finding the ratio of protected:total and normalizing by the goal's target of 30% protected area.
+Next we can calculate the MPA resilience value of a region for any given year by finding the ratio of protected:total and normalizing by the goal's target of 30% protected area.
 
+In addition to presence of MPAs, we also want to include a measure of effectiveness.  To this end, we modify the protected area by the proportion of MPAs with management plans in place, with a target of 100%.  For example, if a region has 33% of its marine area protected in MPAs, but only 70% of protected areas have management plans, then the adjusted percentage is .33 * .70 = .231 = 23.1%, which earns a resilience score of 77.  Note that our management plans data is coast-wide, not regionalized.
 
 ``` {r summarize_MPA_zonal_stats}
 
@@ -852,9 +853,14 @@ rgn_names <- foreign::read.dbf(file.path(dir_spatial, 'ohibc_rgn.dbf'),
 stats_3nm <- read_csv(zonal_3nm_mpa_file)
 stats_eez <- read_csv(zonal_eez_mpa_file)
 
+mpa_mgmt_file <- file.path(dir_anx, '_raw_data/fisheries_resilience/fisheries_resilience.xlsx')
+mpa_mgmt_plans <- readxl::read_excel(mpa_mgmt_file, sheet = 'ProtectAreaPlans') %>%
+  setNames(c('year', 'mgmt_plan_pct'))
+git_prov(mpa_mgmt_file, filetype = 'input')
+
 ### Determine total cells per region (n_cells_tot) and then a cumulative
 ### total of cells per region
-mpa_eez <- stats_eez %>%
+mpa_eez_raw <- stats_eez %>%
   group_by(rgn_id) %>%
   arrange(rgn_id, year) %>%
   mutate(n_cells_tot = sum(n_cells),
@@ -864,12 +870,21 @@ mpa_eez <- stats_eez %>%
   complete(year = full_seq(-1:2016, 1), nesting(rgn_id)) %>%
   fill(-year, -rgn_id, -n_cells) %>%
   filter(!is.na(rgn_id) & year >= 1980) %>%
-  ungroup() %>%
-  mutate(pct_prot = round(n_cells_cum / n_cells_tot, 4)) %>%
-  select(rgn_id, year, pct_prot) %>%
-  distinct()
+  ungroup() 
 
-mpa_3nm <- stats_3nm %>%
+mpa_eez <- mpa_eez_raw %>%
+  left_join(mpa_mgmt_plans, by = 'year') %>%
+  group_by(rgn_id) %>%
+  fill(mgmt_plan_pct) %>%
+  ungroup() %>%
+  mutate(pct_prot = (n_cells_cum / n_cells_tot),
+         pct_prot = round(pct_prot * mgmt_plan_pct / 0.3, 4),
+         pct_prot = ifelse(pct_prot > 1, 1, pct_prot)) %>%
+  select(rgn_id, year, pct_prot) %>%
+  distinct() %>%
+  filter(!is.na(pct_prot))
+
+mpa_3nm_raw <- stats_3nm %>%
   group_by(rgn_id) %>%
   arrange(rgn_id, year) %>%
   mutate(n_cells_tot = sum(n_cells),
@@ -879,10 +894,19 @@ mpa_3nm <- stats_3nm %>%
   complete(year = full_seq(-1:2016, 1), nesting(rgn_id)) %>%
   fill(-year, -rgn_id, -n_cells) %>%
   filter(!is.na(rgn_id) & year >= 1980) %>%
+  ungroup()
+
+mpa_3nm <- mpa_3nm_raw %>%
+  left_join(mpa_mgmt_plans, by = 'year') %>%
+  group_by(rgn_id) %>%
+  fill(mgmt_plan_pct) %>%
   ungroup() %>%
-  mutate(pct_prot = round(n_cells_cum / n_cells_tot, 4)) %>%
+  mutate(pct_prot = (n_cells_cum / n_cells_tot),
+         pct_prot = round(pct_prot * mgmt_plan_pct / 0.3, 4),
+         pct_prot = ifelse(pct_prot > 1, 1, pct_prot)) %>%
   select(rgn_id, year, pct_prot) %>%
-  distinct()
+  distinct() %>%
+  filter(!is.na(pct_prot))
 
 write_csv(mpa_3nm, file.path(dir_goal, 'output', 'mpa_pct_3nm.csv'))
 write_csv(mpa_eez, file.path(dir_goal, 'output', 'mpa_pct_eez.csv'))

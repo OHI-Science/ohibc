@@ -1286,7 +1286,7 @@ SPP <- function(layers) {
     filter(!is.na(risk_score)) %>%
     mutate(year = ifelse(is.na(year), data_year, year)) %>%
     group_by(iucn_sid, am_sid) %>%
-    complete_years(status_yr_span, method = 'carry', dir = 'forward') %>%
+    complete_years(status_yr_span, method = 'carry', dir = 'both') %>%
     ungroup()
 
   spp_df <- spp_risk_expanded %>%

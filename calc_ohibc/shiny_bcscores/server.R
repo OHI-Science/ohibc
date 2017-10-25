@@ -42,4 +42,11 @@ shinyServer(function(input, output, session)  {
                   fix_y       = fix_y)
   }, height = 800)
 
+  output$goal_desc <- reactiveUI(function(){
+    file_to_show = file.path('pages', paste0(input$target, '.md'))
+    print(file_to_show)
+
+    includeMarkdown(file_to_show)
+  })
+
 })

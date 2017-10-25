@@ -94,7 +94,7 @@ __2016 Census Total Population Results Census Subdivisions__
 
 ## Read in data
 
-Read in DFO contamination closures from .xlsx files.
+Read in licenses files.
 
 ``` {r read_xlsx}
 

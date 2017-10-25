@@ -38,7 +38,8 @@ shinyUI(fluidPage(
 
     # Show a plot of the generated distribution
     mainPanel(
-       plotOutput('scores_plot')
+       plotOutput('scores_plot', height = 800),
+       uiOutput('goal_desc')
     )
   )
 ))
