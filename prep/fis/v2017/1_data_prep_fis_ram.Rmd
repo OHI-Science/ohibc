@@ -204,7 +204,7 @@ write_csv(x, file.path(dir_goal, 'raw/1_ram_ids_to_names_raw.csv'))
 
 ### Examine time series of stocks
 
-For each BC-specific stock, determine time series of B/Bmsy, F/Fmsy, and catch.
+For each BC-specific stock, determine time series of B/Bmsy, F/Fmsy, and catch. Remove stocks that do not have data from 2010 onwards.
 
 ``` {r stocks_b_bmsy_f_fmsy}
 
@@ -223,6 +223,10 @@ bmsy_ts <- bc_stocks_ts %>%
   mutate(year  = as.integer(year),
          value = as.numeric(value),
          param = 'B/Bmsy') %>%
+  group_by(stock_id) %>%
+  mutate(max_year = max(year)) %>%
+  filter(max_year > 2009) %>%
+  select(-max_year) %>%
   distinct()
 
 fmsy_ts <- bc_stocks_ts %>% 
@@ -238,6 +242,10 @@ fmsy_ts <- bc_stocks_ts %>%
   mutate(year  = as.integer(year),
          value = as.numeric(value),
          param = ifelse(str_detect(param, 'FdivF'), 'F/Fmsy', 'U/Umsy')) %>%
+  group_by(stock_id) %>%
+  mutate(max_year = max(year)) %>%
+  filter(max_year > 2009) %>%
+  select(-max_year) %>%
   distinct()
 
 ### some dupes here, Pac Cod, with both F/Fmsy and U/Umsy.
