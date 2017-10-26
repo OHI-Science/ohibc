@@ -135,11 +135,10 @@ Pulling in the B/Bmsy estimates for stocks in FAO area 67 from this year (2017) 
 
 ```{r}
 
-
 cmsy <- read_csv("~/github/ohiprep/globalprep/fis/v2017/data/cmsy_bbmsy.csv") %>%
         filter(year > 1994)
 
-mean_catch <- read.csv("~/github/ohiprep/globalprep/fis/v2016/data/mean_catch.csv") %>%
+mean_catch <- read.csv("~/github/ohiprep/globalprep/fis/v2017/data/mean_catch.csv") %>%
    mutate(stock_id_taxonkey = as.character(stock_id_taxonkey)) %>%
    mutate(taxon_key = str_sub(stock_id_taxonkey, -6, -1)) %>%
    mutate(stock_id = substr(stock_id_taxonkey, 1, nchar(stock_id_taxonkey)-7)) 
@@ -154,6 +153,47 @@ bc_data <- mean_catch %>%
 ggplot(bc_data, aes(x = year, y = bbmsy_mean, color = common)) +
   geom_line()
         
+## why isn't herring in the plot (I assume its because there is too little catch to run the data limited method)
+
+catch <- read_csv(file.path(dir_M,'git-annex/globalprep/fis/v2017/int/stock_catch_by_rgn.csv')) %>%
+  rename(common = taxon_common_name, fao_id = fao_rgn, species=taxon_scientific_name) %>%
+  filter(species == "Clupea pallasii pallasii",
+         fao_id == 67,
+         taxon_key > 599999) %>%
+  group_by(fao_id, year) %>%
+  mutate(annual_catch = sum(tons)) %>%
+  select(year, species,common,annual_catch) %>%
+  distinct()
+
+ggplot(catch, aes(x = year, y = annual_catch))+
+  geom_area()
+
+## need an annual average catch of 1000 tons
+mean(catch$annual_catch) #151081.3  this checks out.... and there is a 20 year time history so unsure why this doesn't have a b/bmsy
+
+library(datalimited)
+
+herring_cmsy <- cmsy(yr = catch$year, ct = catch$annual_catch, reps = 2e6) #able to finally get convergence with more reps (2e6)
+
+#lets look at results
+
+h_bbmsy <- herring_cmsy$bbmsy
+
+bmsy <- ggplot(h_bbmsy, aes(x = year)) +
+  geom_line(aes(y = bbmsy_mean, colour = "BBmsy")) +
+  theme(legend.position = "top") +
+  scale_x_continuous(limits = range(h_bbmsy$year)) +
+  xlab("")+
+  ylab(expression(hat(B/B[MSY])))
+
+h_catch <- ggplot(h_bbmsy, aes(x=year, y=catch)) +
+  geom_line(colour="darkblue")+
+  scale_x_continuous(limits = range(h_bbmsy$year))+
+  ylab("Catch")+
+  xlab("Year")
+
+combined<-rbind(ggplotGrob(bmsy), ggplotGrob(h_catch), size="last")
+  plot(combined)
 
 ```
 
