@@ -15,14 +15,6 @@ rgn_id,n_tot,n_phi,ref,potential,rgn_name,rgn_code
 6,8142,682,highR_prod,1026.849,Strait of Georgia,SG
 7,315882,26,highR_prod,1144.791,Pacific Offshore,PO
 8,3211,2270,highR_prod,1098.13,Aristazabal Island,AZ
-1,17486,12291,max_prod,2124.0381770401104,North Coast,NC
-2,46041,20720,max_prod,2154.565728185328,Haida Gwaii,HG
-3,20528,12504,max_prod,2045.5127284069097,Central Coast,CC
-4,13719,5086,max_prod,1980.5150534801417,North Vancouver Island,NV
-5,28153,2929,max_prod,1979.4191341754865,West Vancouver Island,WV
-6,8142,682,max_prod,1866.035439882698,Strait of Georgia,SG
-7,315882,26,max_prod,2264.455769230769,Pacific Offshore,PO
-8,3211,2270,max_prod,2108.8723823788546,Aristazabal Island,AZ
 1,17486,12291,lowR_prod,983.2728376877858,North Coast,NC
 2,46041,20720,lowR_prod,992.6855891165668,Haida Gwaii,HG
 3,20528,12504,lowR_prod,960.0285967599647,Central Coast,CC

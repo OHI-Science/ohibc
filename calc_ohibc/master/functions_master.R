@@ -253,9 +253,7 @@ MAR <- function(layers) {
   mar_f_score <- mar_f_df %>%
     spread(key = ref, value = ref_pt) %>%
     mutate(f_score = harvest_tonnes / lowR_prod,
-           f_score = ifelse(harvest_tonnes > lowR_prod, 1, f_score),
-           f_score = ifelse(harvest_tonnes > highR_prod, (1 - (harvest_tonnes - highR_prod) / (max_prod - highR_prod) ), f_score),
-           f_score = ifelse(harvest_tonnes > max_prod, 0, f_score)) %>%
+           f_score = ifelse(harvest_tonnes > lowR_prod, 1, f_score)) %>%
     select(region_id, year, score = f_score, harvest_tonnes, aq_type) %>%
     filter(!is.na(score)) %>%
     group_by(region_id) %>%
@@ -279,7 +277,6 @@ MAR <- function(layers) {
 
   mar_status <- bind_rows(mar_f_score, mar_b_score) %>%
     group_by(region_id, year) %>%
-    mutate() %>%
     summarize(score_wt    = sum(score * harvest_tonnes, na.rm = TRUE),
               harvest_tot = sum(harvest_tonnes, na.rm = TRUE),
               score = ifelse(harvest_tot > 0, score_wt / harvest_tot, NA),
