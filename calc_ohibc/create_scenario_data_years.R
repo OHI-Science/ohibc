@@ -21,9 +21,9 @@ lyrs_yrs_all <- lapply(lyrs_files, read_csv) %>%
 lyrs_yrs <- lyrs_yrs_all %>%
   mutate(data_year = year,
          scenario_year = year) %>%
-  filter(year <= 2016 & year >= 2000) %>%
+  filter(year <= 2016 & year >= 2001) %>%
   group_by(layer_name) %>%
-  complete(scenario_year = 2000:2016) %>%
+  complete(scenario_year = 2001:2016) %>%
   fill(data_year, .direction = 'down') %>%
   fill(data_year, .direction = 'up') %>%
   select(-year) %>%

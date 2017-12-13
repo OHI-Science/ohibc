@@ -779,33 +779,20 @@ TR <- function(layers) {
 
   vc_visits     <- layers$data[['tr_vis_ctr_visits']] %>%
     select(-layer)
-  vc_visits_all <- layers$data[['tr_vis_ctr_visits_all']] %>%
-    rename(visits_all = visits) %>%
-    select(-layer)
   park_visits   <- layers$data[['tr_park_visits']] %>%
     select(-layer)
-  park_visits_all <- layers$data[['tr_park_visits_all']] %>%
-    rename(visits_all = visits) %>%
-    select(-layer)
 
-  ### Sum visitor center (or park) visits within each region, then adjust by
-  ### province-wide totals (by dividing by normalized province total visits).
+  ### Sum visitor center (or park) visits within each region
   vc_visits_adj <- vc_visits %>%
     group_by(rgn_id, year) %>%
     summarize(visits = sum(visits)) %>%
-    ungroup() %>%
-    left_join(vc_visits_all, by = 'year') %>%
-    mutate(visits_all_norm = visits_all / max(visits_all, na.rm = TRUE),
-           visits_adj = visits / visits_all_norm)
+    ungroup()
 
 
   park_visits_adj <- park_visits %>%
     group_by(rgn_id, year) %>%
     summarize(visits = sum(visits_wt)) %>%
-    ungroup() %>%
-    left_join(park_visits_all, by = 'year') %>%
-    mutate(visits_all_norm = visits_all / max(visits_all, na.rm = TRUE),
-           visits_adj = visits / visits_all_norm)
+    ungroup()
 
   ### Create reference point by looking at rolling mean over prior five years.
   ### This also back- and forward-fills using LOCF (or FOCB) to complete
@@ -814,7 +801,7 @@ TR <- function(layers) {
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
     arrange(region_id, year) %>%
-    mutate(ref_pt = zoo::rollmean(visits_adj, k = 5, fill = NA, align = 'right')) %>%
+    mutate(ref_pt = zoo::rollmean(visits, k = 5, fill = NA, align = 'right')) %>%
     ### reference point is mean of past five years (incl current)
     fill(ref_pt, .direction = 'up') %>%
     ungroup()
@@ -823,7 +810,7 @@ TR <- function(layers) {
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
     arrange(region_id, year) %>%
-    mutate(ref_pt = zoo::rollmean(visits_adj, k = 5, fill = NA, align = 'right')) %>%
+    mutate(ref_pt = zoo::rollmean(visits, k = 5, fill = NA, align = 'right')) %>%
     ### reference point is mean of past five years (incl current)
     fill(ref_pt, .direction = 'up') %>%
     ungroup()
@@ -831,12 +818,12 @@ TR <- function(layers) {
   ### Calculate scores for vis ctrs and parks
 
   vc_scores <- vc_visits_ref %>%
-    mutate(vc_score = visits_adj / ref_pt,
+    mutate(vc_score = visits / ref_pt,
            vc_score = ifelse(vc_score > 1, 1, vc_score)) %>%
     select(region_id, year, vc_score)
 
   park_scores <- park_visits_ref %>%
-    mutate(park_score = visits_adj / ref_pt,
+    mutate(park_score = visits / ref_pt,
            park_score = ifelse(park_score > 1, 1, park_score)) %>%
     select(region_id, year, park_score)
 
@@ -861,7 +848,6 @@ TR <- function(layers) {
     complete(region_id = 1:8) %>%
     ungroup()
 
-
   return(tr_scores)
 
 }
@@ -878,7 +864,8 @@ LE <- function(layers) {
     complete_rgn_years(status_yr_span) %>%
     arrange(region_id, year) %>%
     mutate(empl_rate = 1 - unemployment_rate,
-           ref_pt = lag(empl_rate, 5)) %>%
+           # ref_pt = lag(empl_rate, 5)) %>%
+           ref_pt = zoo::rollmean(empl_rate, k = 5, fill = NA, align = 'right')) %>%
     ### reference point is value five years prior
     ungroup()
 

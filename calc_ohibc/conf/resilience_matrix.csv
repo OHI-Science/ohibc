@@ -1,4 +1,4 @@
-goal,element,po_water,hd_mpa_coast,hd_mpa_eez,hd_trawl_reduction,aq_regulation,fp_mpa_coast,fp_mpa_eez,fp_trawl_reduction,fp_fish_officers,species_diversity_3nm,species_diversity_eez,cwbi_all,cwbi_fn
+goal,element,po_water,hd_mpa_coast,hd_mpa_eez,hd_trawl_reduction,aq_regulation,fp_mpa_coast,fp_mpa_eez,fp_trawl_reduction,fp_biomass_removal,species_diversity_3nm,species_diversity_eez,cwbi_all,cwbi_fn
 AO,shellfish_closures,,x,,x,x,x,,x,x,x,,,x
 AO,salmon,,x,,x,x,x,,x,x,x,,,x
 AO,fn_licenses,,x,,x,,x,,x,x,x,,,x
