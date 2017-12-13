@@ -26,9 +26,8 @@ fis_ram_b_bmsy,ohibc:prep/fis/v2017/output,ram_b_bmsy.csv,TRUE,value
 fis_ram_catch,ohibc:prep/fis/v2017/output,ram_catch.csv,TRUE,value
 fis_ram_f_fmsy,ohibc:prep/fis/v2017/output,ram_f_fmsy.csv,TRUE,value
 fis_stock_area,ohibc:prep/fis/v2017/output,ram_stock_area.csv,TRUE,a_prop
-fp_art_lb,ohibc:calc_ohibc/master/dummy_layers,fp_art_lb_gl2016.csv,TRUE,pressure_score
-fp_com_hb,ohibc:calc_ohibc/master/dummy_layers,fp_com_hb_gl2016.csv,TRUE,pressure_score
-fp_com_lb,ohibc:calc_ohibc/master/dummy_layers,fp_com_lb_gl2016.csv,TRUE,pressure_score
+fp_fis_discards,ohibc:prep/_pressures/v2017/output,prs_discards_fish_layer.csv,TRUE,pressure
+fp_fis_landings,ohibc:prep/_pressures/v2017/output,prs_landings_fish_layer.csv,TRUE,pressure
 fp_trawl_reduction,ohibc:calc_ohibc/master/dummy_layers,fp_habitat_gl2016.csv,TRUE,resilience_score
 fp_biomass_removal,ohibc:prep/_resilience/v2017/output,fp_fishing_regs.csv,TRUE,score
 fp_mpa_coast,ohibc:prep/lsp/v2017/output,mpa_pct_3nm.csv,TRUE,pct_prot
@@ -42,6 +41,8 @@ hd_intertidal,ohibc:prep/_pressures/v2017/output,prs_hd_intertidal.csv,TRUE,pres
 hd_mpa_coast,ohibc:prep/lsp/v2017/output,mpa_pct_3nm.csv,TRUE,pct_prot
 hd_mpa_eez,ohibc:prep/lsp/v2017/output,mpa_pct_eez.csv,TRUE,pct_prot
 hd_subtidal_sb,ohibc:prep/_pressures/v2017/output,prs_hd_soft_btm.csv,TRUE,pressure
+hd_mining,ohibc:calc_ohibc/master/dummy_layers,po_water_gl2016.csv,TRUE,resilience_score
+hd_logging,ohibc:prep/_pressures/v2017/output,prs_logging.csv,TRUE,pressure
 ico_spp_presence,ohibc:prep/spp_ico/v2017/output,ico_spp_by_rgn.csv,TRUE,rgn_id
 ico_spp_risk_score,ohibc:prep/spp_ico/v2017/output,ico_risk_by_year.csv,TRUE,risk_score
 ico_spp_trend,ohibc:prep/spp_ico/v2017/output,ico_trend_by_id.csv,TRUE,iucn_pop_trend
@@ -74,6 +75,4 @@ spp_risk_scores,ohibc:prep/spp_ico/v2017/output,spp_risk_by_year.csv,TRUE,risk_s
 ss_cwbi_all,ohibc:prep/_resilience/v2017/output,ss_cwb_score_all.csv,TRUE,ss_cwb_score
 ss_cwbi_fn,ohibc:prep/_resilience/v2017/output,ss_cwb_score_fn.csv,TRUE,ss_cwb_score
 tr_park_visits,ohibc:prep/tr/v2017/output,park_visits.csv,TRUE,visits_wt
-tr_park_visits_all,ohibc:prep/tr/v2017/output,park_visits_all.csv,TRUE,visits
 tr_vis_ctr_visits,ohibc:prep/tr/v2017/output,vis_ctr_visits.csv,TRUE,visits
-tr_vis_ctr_visits_all,ohibc:prep/tr/v2017/output,vis_ctr_visits_all.csv,TRUE,visits

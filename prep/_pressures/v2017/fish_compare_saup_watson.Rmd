@@ -8,7 +8,7 @@ output: html_document
 While creating the fishing pressure layers, we did this comparison of two different but very similar datasets to try and understand the differences and identify which to use. In the end, we are using the data from Watson (2017) to create the fishing pressure layers.
 
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       echo = FALSE, message = FALSE, warning = FALSE)
 
 library(rgdal)
@@ -53,7 +53,7 @@ The values of these cells are the Cell ID numbers. In the fisheries catch datase
 
   saup_cells <- getcells("POLYGON ((-180 90, 180 90, 180 -90, -180 -90, -180 90))")
 
-   saup_rast <- raster::raster(ncol=720, nrow=360)
+   saup_rast <- raster::raster(ncol = 720, nrow = 360)
    saup_rast[] <- saup_cells
 
    #crop global cells to just those in the BC area
@@ -89,7 +89,7 @@ bc_data <- map_df(yrs, getcelldata, bc_cells)
 #register cores for parallel processing
 registerDoParallel(cores = 8)
 
-years = c(2003:2014)
+years <- c(2003:2014)
 
 foreach(yr = years) %dopar%{
   
@@ -103,7 +103,9 @@ foreach(yr = years) %dopar%{
           summarise(cell_catch = sum(catch))
           
     #rasterize catch by swapping cell ids with 
-raster::subs(bc_rast, landings_cell_catch, by = 1, which = 2, subsWithNA=TRUE, filename = paste0('fish_rasts/saup/landings/landings_',yr,'.tif'),overwrite=T) 
+  raster::subs(bc_rast, landings_cell_catch, by = 1, which = 2, subsWithNA = TRUE, 
+               filename = paste0('fish_rasts/saup/landings/landings_', yr, '.tif'), 
+               overwrite = TRUE) 
   
   #discards
   discards_cell_catch <- bc_data%>%
@@ -114,7 +116,9 @@ raster::subs(bc_rast, landings_cell_catch, by = 1, which = 2, subsWithNA=TRUE, f
           group_by(cell_id)%>%
           summarise(cell_catch = sum(catch))
 
-raster::subs(bc_rast, discards_cell_catch, by = 1, which = 2, subsWithNA=TRUE, filename = paste0('fish_rasts/saup/discards/discards_',yr,'.tif'),overwrite=T) 
+  raster::subs(bc_rast, discards_cell_catch, by = 1, which = 2, subsWithNA = TRUE, 
+               filename = paste0('fish_rasts/saup/discards/discards_', yr, '.tif'),
+               overwrite = TRUE) 
 }
 
 ```
@@ -129,23 +133,27 @@ For each year read in the raw data (data matched with bycatch category), filter 
 #register cores for parallel processing
 registerDoParallel(cores = 8)
 
-years = c(2003:2014)
+years <- c(2003:2014)
 
 foreach(yr = years) %dopar%{
   
   #read in raw data for the year
-  raw <- readRDS(paste0(file.path(dir_M,'marine_threats/impact_acceleration/stressors/comm_fish/int/catch_data_'),yr,'.rds')) %>%
+  raw <- readRDS(paste0(file.path(dir_M, 'marine_threats/impact_acceleration', 
+                                  'stressors/comm_fish/int/catch_data_'), yr, '.rds')) %>%
           filter(Seq %in% bc_cells) #select only those cells in the BC region
   
   #landings
   landings <- raw %>%
-          rowwise() %>%
-          mutate(catch = sum(SSF_CR, LSF_CR, IUU_CR)*OceanArea)%>%  #multiplying by OceanArea to get tons per cell, making this comparable to SAUP. If we use this data, we will not need to do this
-          group_by(Seq)%>%
-          summarise(cell_catch = sum(catch))
+    rowwise() %>%
+    mutate(catch = sum(SSF_CR, LSF_CR, IUU_CR)*OceanArea)%>%  
+      #multiplying by OceanArea to get tons per cell, making this comparable to SAUP. If we use this data, we will not need to do this
+    group_by(Seq)%>%
+    summarise(cell_catch = sum(catch))
           
     #rasterize catch by swapping cell ids with 
-raster::subs(bc_rast, landings, by = 1, which = 2, subsWithNA=TRUE, filename = paste0('fish_rasts/watson/landings/landings_',yr,'.tif'),overwrite=T) 
+  raster::subs(bc_rast, landings, by = 1, which = 2, subsWithNA=TRUE, 
+               filename = paste0('fish_rasts/watson/landings/landings_', yr, '.tif'),
+               overwrite = T) 
   
   #discards
   discards <- raw%>%
@@ -153,7 +161,9 @@ raster::subs(bc_rast, landings, by = 1, which = 2, subsWithNA=TRUE, filename = p
           group_by(Seq)%>%
           summarise(cell_catch = sum(catch))
 
-raster::subs(bc_rast, discards, by = 1, which = 2, subsWithNA=TRUE, filename = paste0('fish_rasts/watson/discards/discards_',yr,'.tif'),overwrite=T) 
+  raster::subs(bc_rast, discards, by = 1, which = 2, subsWithNA=TRUE, 
+               filename = paste0('fish_rasts/watson/discards/discards_', yr, '.tif'),
+               overwrite = T) 
 }
 
 ```

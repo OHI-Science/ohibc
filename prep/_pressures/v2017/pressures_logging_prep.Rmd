@@ -1,0 +1,204 @@
+---
+title: 'OHIBC: data_prep_spp.Rmd'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R;
+  ### includes library(tidyverse); library(stringr)
+library(sf)
+
+dir_git     <- '~/github/ohibc'
+dir_spatial <- file.path(dir_git, 'prep/_spatial') 
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
+### goal specific folders and info
+goal      <- '_pressures'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_anx, goal, scenario)
+dir_data  <- file.path(dir_anx, '_raw_data/databc/logging_cutblocks')
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### set up the default BC projection to be BC Albers
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+
+```
+
+# Summary
+[general description: What data are being generated? Why (what project, etc.)? Upstream/downstream processing information that might be helpful?  Other information?]
+
+-----
+
+# Data Source 
+
+* __Reference__: https://catalogue.data.gov.bc.ca/dataset/harvested-areas-of-bc-consolidated-cutblocks-
+* __Downloaded__: 11/29/2017
+* __Description__:  This is spatial data depicting the cut block boundaries and year of harvest for crown lands within British Columbia. It is created from the provincial Forest Cover, from The RESULTS Reporting system, from Forest Tenures applications and from satellite imagery using change detection processes. It represents the gross opening area when derived from forest cover, RESULTS or Forest Tenure data and does not exclude non harvested 'reserved' areas. Satellite image change detection represents the area harvested each year and may not be the entire cutblock area and will not include non harvested 'reserve' areas.
+* __Time range__: 1900 - 2016
+* __Format__:  .shp
+
+-----
+  
+# Methods
+
+
+The logging cutblocks polygons dataset includes the following attributes:
+
+ [1] "OPENINGID"  "FTAREASQM"  "FTLENGTHM"  "SHAPE"      "OBJECTID"   "S_NN_CD_DT" "HARVESTYR"  "DSTRBSTDT"  "DSTRBEDDT"  "DATASOURCE" "AREAHA"    
+[12] "CUTBLOCKID" "geometry" 
+
+In addition to the spatial information contained in `geometry`, these fields seem likely to be useful:
+
+* `HARVESTYR` is the year of harvest, derived from the disturbance start date of the data source or from the year the disturbance was detected using Landsat change detection.
+* `DSTRBSTDT`	(DISTURBANCE_START_DATE) is derived from the data source. RESULTS describes it as; derived from the first reported disturbance activity reporting. This date is used to calculate the silviculture obligation milestones.
+* `DSTRBEDDT`	(DISTURBANCE_END_DATE) is derived from the data source. RESULTS describes it as; derived from the last disturbance activity reporting record based on the disturbance activity's completion date.
+
+Assuming a 20-year period for full regrowth, we cut out any forestry blocks with no activity later than 1981.  From updated BC CHI: "As in Ban et al (2010), forest cutblocks included were those for the past 20 years but the date range advanced (1993-2013). All records retired before 1993 were removed from the dataset as they were considered functionally restored (Anderson 1996)."
+
+``` {r read_spatial_filter_years_and_intersect_to_ohibc}
+
+lc_ohibc_file <- file.path(dir_goal_anx, 'shp', 'log_cuts_ohibc.shp')
+
+if(!file.exists(lc_ohibc_file)) {
+  ### logging cutblocks poly
+  lc_poly <- read_sf(file.path(dir_data, 'VEG_CONSOLIDATED_CUT_BLOCKS_SP', 
+                               'CNS_CUT_BL_polygon.shp'))
+  
+  lc_recent <- lc_poly %>%
+    dplyr::select(cutb_id = CUTBLOCKID,
+                  hrv_yr  = HARVESTYR, 
+                  dst_st  = DSTRBSTDT, 
+                  dst_end = DSTRBEDDT) %>%
+    mutate(hrv_end = as.integer(str_extract(dst_end, '^[0-9]{4}')),
+           hrv_end = ifelse(is.na(hrv_end), hrv_yr, hrv_end),
+           hrv_end = ifelse(hrv_end < hrv_yr, hrv_yr, hrv_end)) %>%
+    filter(hrv_end > 1981)
+  
+  ohibc_rgn <- read_sf(file.path(dir_spatial, 'ohibc_rgns_unclipped.shp')) %>%
+    st_transform(st_crs(lc_recent))
+  
+  lc_ohibc <- st_intersection(lc_recent, ohibc_rgn) %>%
+    select(-rgn_name, -rgn_code)
+  ### still a big file - 153 MB - store remotely
+  
+  st_write(lc_ohibc, lc_ohibc_file, delete_layer = TRUE)
+
+} else {
+  git_prov(lc_ohibc_file, filetype = 'output')
+}
+
+```
+
+From this trimmed dataset, we will create a dataframe of years vs. impact for each geometry; then a dataframe of area (of each cutblock) within each region.  Comparing this to total inland area will give us a good estimate of the logging impact intensity.
+
+``` {r create_impact_df}
+
+lc_ohibc_file <- file.path(dir_goal_anx, 'shp', 'log_cuts_ohibc.shp')
+
+lc_ohibc <- st_read(lc_ohibc_file)
+  git_prov(lc_ohibc_file, filetype = 'input')
+
+lc_ohibc_df <- lc_ohibc %>%
+  as.data.frame() %>%
+  select(cutb_id, hrv_yr, hrv_end, rgn_id)
+
+yrs <- 1981:2016
+cutb_ids <- unique(lc_ohibc_df$cutb_id)
+
+yr_df <- data.frame(cutb_id = rep(cutb_ids, times = length(yrs)),
+                    year    = rep(yrs, each = length(cutb_ids)))
+
+lc_yrs_df <- lc_ohibc_df %>%
+  left_join(yr_df, by = 'cutb_id') %>%
+  mutate(hrv_length = hrv_end - hrv_yr,
+         impact = 1 - (year - hrv_end)/20,
+         impact = ifelse(impact < 0, 0, impact),
+         impact = ifelse(year < hrv_yr, 0, impact),
+         impact = ifelse(year >= hrv_yr & year <= hrv_end, 1, impact)) %>%
+  filter(impact > 0) %>%
+  select(cutb_id, year, impact) %>%
+  distinct()
+
+lc_areas_df <- lc_ohibc %>%
+  select(rgn_id, cutb_id) %>%
+  mutate(cutb_area_km2 = as.numeric(st_area(.$geometry)) / 1e6) %>%
+  as.data.frame() %>%
+  select(-geometry) %>%
+  filter(cutb_area_km2 > .1) ### ignore cutblocks smaller than .1 km^2...
+
+lc_impacts <- lc_areas_df %>%
+  left_join(lc_yrs_df, by = 'cutb_id') %>%
+  filter(!is.na(year)) %>%
+  group_by(rgn_id, year) %>%
+  summarize(tot_impact = sum(impact * cutb_area_km2))
+
+write_csv(lc_impacts, file.path(dir_goal, 'int/logging_impacts.csv'))
+
+DT::datatable(lc_impacts)
+```
+
+``` {r get_rgn_land_area}
+### get area of inland regions
+ohibc_a_inland <- read_sf(file.path(dir_spatial, 'ohibc_rgns_unclipped.shp')) %>%
+  mutate(tot_area_km2 = st_area(geometry) / 1e6) %>%
+  as.data.frame() %>%
+  select(rgn_id, tot_area_km2)
+ohibc_a_rgn    <- read_sf(file.path(dir_spatial, 'ohibc_rgn.shp')) %>%
+  mutate(ocean_area_km2 = st_area(geometry) / 1e6) %>%
+  as.data.frame() %>%
+  select(rgn_id, ocean_area_km2)
+
+ohibc_inland_area <- ohibc_a_inland %>%
+  full_join(ohibc_a_rgn, by = 'rgn_id') %>%
+  mutate(inland_area_km2 = as.numeric(tot_area_km2 - ocean_area_km2))
+
+logging_intensity <- read_csv(file.path(dir_goal, 'int/logging_impacts.csv')) %>%
+  left_join(ohibc_inland_area, by = 'rgn_id') %>%
+  filter(rgn_id != 7) %>%
+  mutate(intensity = tot_impact / inland_area_km2,
+         pressure  = intensity / max(intensity)) %>%
+  select(rgn_id, year, intensity, pressure) %>%
+  filter(year >= 2001)
+
+write_csv(logging_intensity, file.path(dir_goal, 'output', 'prs_logging.csv'))
+
+DT::datatable(logging_intensity)
+```
+
+``` {r visualize_logging_intensity}
+logging_intensity <- read_csv(file.path(dir_goal, 'output', 'prs_logging.csv')) %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
+
+ggplot(logging_intensity, aes(x = year, y = pressure)) +
+  ggtheme_plot() +
+  geom_line(aes(group = rgn_name)) +
+  facet_wrap( ~ rgn_name)
+```
+
+-----
+
+``` {r prov_footer, results = 'asis'}
+prov_wrapup(commit_outputs = FALSE)
+```
+
+

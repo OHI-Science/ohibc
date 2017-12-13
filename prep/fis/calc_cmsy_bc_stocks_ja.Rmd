@@ -1,19 +1,32 @@
 ---
 title: "CMSY for BC stocks"
-author: "Jamie Afflerbach"
-date: "10/26/2017"
-output: html_document
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
 ---
 
-``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
 
-knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
-                      echo = FALSE, message = FALSE, warning = FALSE)
+This script reruns catch-MSY on all SAUP data for stocks in FAO area 67 (British Columbia).
+
+``` {r setup, echo = F, message = FALSE, warning = FALSE, results= "hide"}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/', message = FALSE, warning = FALSE)
 
 dir_git     <- path.expand('~/github/ohibc')
 source(file.path(dir_git, 'src/R/common.R'))  
 dir_spatial <- file.path(dir_git, 'prep/_spatial')  
 dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+dir_goal <- file.path(dir_git, "prep/fis/v2017")
 
 library(datalimited)
 library(doParallel)
@@ -22,11 +35,10 @@ registerDoParallel(cores = 8)
 options(scipen=999)
 ```
 
-Rerun catch-MSY on all SAUP data for stocks in FAO areae 67 (British Columbia)
+# SAUP data for British Columbia
 
+Read in the stock catch by region calculated for global OHI 2017 from SAUP data. Filter just for species records (taxon key > 599999). We also need to add resilience measures for the cmsy model. We can use the resilience lookup table from global
 ```{r}
-
-#read in the stock catch by region calculated for global OHI 2017 from SAUP data. Filter just for species records (taxon key > 599999). We also need to add resilience measures for the cmsy model. We can use the resilience lookup table from global
 
 res <- read_csv("~/github/ohiprep/globalprep/fis/v2017/data/taxon_resilience_lookup.csv")
 
@@ -51,25 +63,57 @@ ca_stocks <- read_csv(file.path(dir_M,'git-annex/globalprep/fis/v2017/int/stock_
   filter(fao_rgn == 67,
          rgn_id==218,
          taxon_key > 599999) %>%
-  select(sciname = taxon_scientific_name, common = taxon_common_name) %>%
+  select(taxon_scientific_name, taxon_common_name, stock_id) %>%
   distinct()
 
-nrow(ca_stocks) #81 stocks in CA waters. Let's filter out the catch to just incude those found in Canadian waters. Also need to filter out stocks that dont have at elast 20 yr time series and an annual avg catch of 1000 tons
+#nrow(ca_stocks)  #81
 
-catch_for_cmsy <- catch %>%
-  filter(sciname %in% ca_stocks$sciname) %>%
+DT::datatable(ca_stocks)
+```
+
+There are **81 stocks** in Canadian BC waters. 
+
+# Assess what stocks meet reqs of CMSY
+
+Let's filter out the catch to just incude those found in Canadian waters. We also need to filter out stocks that dont have at least a 20 yr time series and an annual avg catch of 1000 tons.
+
+```{r}
+
+stocks_for_cmsy <- catch %>%
+  filter(sciname %in% ca_stocks$taxon_scientific_name,
+         str_detect(common, "almon")==FALSE) %>% #remove salmon
   group_by(stock_id)%>%
   mutate(nyrs = n(),                       #get the total number of years the stock has records for   
          avg_ann_catch = mean(annual_catch)) %>%    #calculate the mean catch over all catch years
-  filter(nyrs > 19,
-         avg_ann_catch >= 1000,
-         str_detect(common, "almon")==FALSE)  # also removing salmon
+  mutate(run_cmsy = ifelse(nyrs > 19 & avg_ann_catch >= 1000, "yes", "no")) %>%
+  select(sciname, common, nyrs, avg_ann_catch, run_cmsy) %>%
+  distinct()
 
-length(unique(catch_for_cmsy$stock_id)) #there are only 27 stocks to run through CMSY
+DT::datatable(stocks_for_cmsy)
 
 ```
 
+There are only **27 stocks** to run through CMSY. In the table you can see the main reason we can't run CMSY on a majority of the stocks is due to low annual average catch.
+
+# Prep data for CMSY
+```{r}
+
+#prepping the catch data for CMSY model
+catch_for_cmsy <- catch %>%
+  filter(sciname %in% ca_stocks$taxon_scientific_name,
+         str_detect(common, "almon")==FALSE) %>% #remove salmon
+  group_by(stock_id) %>%
+  mutate(nyrs = n(),                       #get the total number of years the stock has records for   
+         avg_ann_catch = mean(annual_catch)) %>%    #calculate the mean catch over all catch years
+  filter(nyrs > 19,
+         avg_ann_catch >= 1000)
+
+#length(unique(catch_for_cmsy$stock_id))
+```
+
 # Run CMSY
+
+Run the model on the 27 stocks.
 
 ```{r, eval=F}
 
@@ -101,7 +145,7 @@ cmsy_bbmsy <- plyr::ldply(cmsy_fits, function(x) {
 })
 cmsy_bbmsy$model <- "CMSY"
 
-#write.csv(cmsy_bbmsy,file='v2017/int/cmsy_bbmsy.csv')
+write.csv(cmsy_bbmsy,file='v2017/int/cmsy_bbmsy.csv')
 
 ```
 

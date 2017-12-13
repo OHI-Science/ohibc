@@ -58,14 +58,13 @@ In addition, a sustainability factor is included for the global OHI calculations
 
 For British Columbia, we will leverage Gentry, Froehlich et al. (2017) to determine aquaculture potential for both shellfish and finfish in BC waters.  For each OHIBC region, the $\Phi'$ value based on a generic portfolio of 120 finfish and 60 bivalves is converted into a time-to-harvest value for each 1-km^2 cell.  These in turn are converted to a potential harvest rate $P_c$ as a function of $\Phi'$.
 
-To determine a reference point, we will create a rescaled harvest potential similar to the $B' = f(B/B_{MSY})$ score for the FIS subgoal.  A score of 1 will reflect a harvest value greater than $\bar{P}(\Phi' - \sigma_{\Phi'})$.  Below the lower bound value, the score tapers linearly to zero (at a harvest of zero) for under-production.  For finfish, harvests above the the maximum observed potential $P(\Phi')_{max}$ are considered unsustainable, the score tapers linearly to zero at $2.0\bar{P}(\Phi')$, as a sustainability penalty.
+To determine a reference point, we will create a rescaled harvest potential similar to the $B' = f(B/B_{MSY})$ score for the FIS subgoal.  A score of 1 will reflect a harvest value greater than $\bar{P}(\Phi' - \sigma_{\Phi'})$.  Below the lower bound value, the score tapers linearly to zero (at a harvest of zero) for under-production.  While finfish aquaculture can create environmental problems, we will not impose a sustainability penalty on overproduction as the impact of BC's finfish aquaculture seems to be very low.
 
 The reference point for each region is the product of this rescaled potential harvest rate and the area of existing aquaculture tenures ($A_f$ and $A_s$ for finfish and shellfish respectively) within the region.  Note that MaPP has identified large areas in HG, NC, CC, and NCVI regions for aquaculture, but analogous proposals are not available for WCVI or SG regions.
 
 $$H_{lowR} = \bar{P}(\Phi' - \sigma_{\Phi'}) * A_{tenure}$$
-$$H_{highR} = P(\Phi')_{max} * A_{tenure}$$
-$$H_{max} = 2.0\bar{P}(\Phi') * A_{tenure}$$
-where $H_{lowR}$ is calculated separately for finfish and shellfish aquaculture classes; $H_{highR}$ and $H_{max}$ are calculated only for finfish to determine sustainability limits.  Exceeding production potential for shellfish is highly unlikely and does not create the same problems of effluent that finfish aquaculture overproduction would create.
+
+where $H_{lowR}$ is calculated separately for finfish and shellfish aquaculture classes.
 
 Mariculture score $x_c$ for harvest $H_c$, calculated separately for each aquaculture class $c$:
 
@@ -74,9 +73,7 @@ Mariculture score $x_c$ for harvest $H_c$, calculated separately for each aquacu
 | $x_{shellfish} = H/H_{lowR}$ | when | $0 \leq H_{shellfish} < H_{lowR}$ |
 | $x_{shellfish} = 1$ | when | $H_{shellfish} \geq H_{lowR}$ |
 | $x_{finfish} = H/H_{lowR}$ | when | $0 \leq H_{finfish} < H_{lowR}$ |
-| $x_{finfish} = 1$ | when | $H_{lowR} \leq H_{finfish} \leq H_{highR}$ |
-| $x_{finfish} = 1 - \frac{H_f - H_{highR}}{H_{max} - H_{highR}}$ | when | $H_{highR} < H_{finfish} \leq H_{max}$ |
-| $x_{finfish} = 0$ | when | $H_{finfish} > H_{max}$ |
+| $x_{finfish} = 1$ | when | $H_{finfish} \geq H_{lowR}$ |
 
 The Mariculture score will be the harvest-weighted average of $x_{finfish}$ and $x_{shellfish}$.
 
@@ -271,7 +268,7 @@ For each OHIBC region, harvest intensity targets (in tonnes per year per km^2^) 
 * For finfish aquaculture, which occurs primarily in the southern regions, sufficient data points exist in the regions to determine a reasonable cross-section of representative values.  
 * For shellfish aquaculture, we will use the unclipped $Phi'$ data to identify a range of reasonable production values, assuming that producers will figure out a means around the seasonal lack of chlorophyll.
 * For both finfish and shellfish, we will calculate upper and lower bounds based on mean values for $\bar{P} ± \sigma$ to provide a target range of production.  
-    * Above $(\bar{P} + \sigma)$ seems unsustainable, and below $(\bar{P} - \sigma)$ seems like room for improvement.
+    * Above $(\bar{P} + \sigma)$ could be unsustainable in extreme circumstances, and below $(\bar{P} - \sigma)$ seems like room for improvement.
     * Other quantiles besides the median are estimated in the `data_explore_mar.Rmd` document.
 
 ``` {r get_rast_vals_helper_function} 
@@ -307,8 +304,7 @@ if(!file.exists(f_potential_file) | reload == TRUE) {
     summarize(n_tot = n(), n_phi = sum(!is.na(prod_potential)), 
               mean_prod = mean(prod_potential, na.rm = TRUE),
               highR_prod = max(prod_potential, na.rm = TRUE)) %>%
-    ungroup() %>%
-    mutate(max_prod = 2.0 * mean_prod)
+    ungroup()
   f_lowR <- fminus_vals %>%
       group_by(rgn_id) %>%
       summarize(lowR_prod = mean(prod_potential, na.rm = TRUE)) %>%
@@ -332,7 +328,7 @@ if(!file.exists(f_potential_file) | reload == TRUE) {
     geom_vline(data = f_range_all %>%
                  filter(ref != 'mean_prod'), 
                aes(xintercept = potential, color = ref)) +
-    scale_color_manual(values = c('highR_prod' = 'darkblue', 'lowR_prod' = 'darkgreen', 'max_prod' = 'darkred')) +
+    scale_color_manual(values = c('highR_prod' = 'darkblue', 'lowR_prod' = 'darkgreen')) +
     # xlim(0, NA) +
     facet_wrap(~ rgn_name, scales = 'free_y') +
     labs(x = 'Production potential (Finfish tonnes/km^2/year)',
@@ -748,9 +744,7 @@ aq_f_score <- aq_f_df %>%
   ungroup() %>%
   spread(key = ref, value = ref_pt) %>%
   mutate(f_score = harvest_tonnes / lowR_prod,
-         f_score = ifelse(harvest_tonnes > lowR_prod, 1, f_score),
-         f_score = ifelse(harvest_tonnes > highR_prod, (1 - (harvest_tonnes - highR_prod) / (max_prod - highR_prod) ), f_score),
-         f_score = ifelse(harvest_tonnes > max_prod, 0, f_score)) %>%
+         f_score = ifelse(harvest_tonnes > lowR_prod, 1, f_score)) %>%
   select(rgn_name, f_score, harvest_tonnes)
   
 
@@ -805,7 +799,7 @@ print(aq_b_plot)
 
 ```
 
-***
+-----
 
 ``` {r provenance, results = 'asis'}
 

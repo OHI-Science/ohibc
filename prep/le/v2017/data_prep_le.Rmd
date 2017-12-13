@@ -259,9 +259,10 @@ Due to different formats in 2001, 2006, and 2011, here we read in the various .c
 census_data_dir <- file.path(dir_data_bc, 'le', 'census_data')
 
 census_files <- list.files(census_data_dir, include.dirs = FALSE, 
-                           pattern = '.csv$|.xls$',
+                           pattern = '.csv$|.xls$|.CSV$',
                            full.names = TRUE)
 
+cens_file_2016 <- census_files[str_detect(census_files, '2016')]
 cens_file_2011 <- census_files[str_detect(census_files, '2011')]
 cens_file_0106 <- census_files[str_detect(census_files, '2001|2006')]
 cens_file_1996 <- census_files[str_detect(census_files, '1996')]
@@ -326,6 +327,15 @@ census_2011 <- read_csv(cens_file_2011, skip = 1) %>%
   mutate(year = 2011) %>%
   mutate(district = str_replace_all(tolower(district), '[^a-z]', '')) %>%
   distinct()
+
+# "bcprep/_raw_data/le/census_data/98-400-X2016287_English_CSV_data.csv"
+### This is by Census Metropolitan Area and Census Agglomeration
+# "bcprep/_raw_data/le/census_data/98-402-X2016006-T1-CSD-Eng.csv"
+### This is by census subdivision looks like.
+### For simplicity, get all at same scale and use one shapefile...
+census_2016 <- read_csv(cens_file_2016[2]) %>%
+  clean_df_names() %>%
+  filter(str_detect(alt_geo_code, '^59'))
 
 census_all_raw <- bind_rows(census_1996_clean, census_0106_clean, census_2011)
 

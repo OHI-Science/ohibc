@@ -22,37 +22,32 @@ The commercial fishing pressure layers are created from spatialized catch by gea
 
 Two layers are created here:
 
-1. **Landings** - representing the pressure that targeted catch exerts on the system
-2. **Discards** - representing the pressure that non-targeted catch exerts on the system
+1. __Landings__ - representing the pressure that targeted catch exerts on the system
+2. __Discards__ - representing the pressure that non-targeted catch exerts on the system
 
 The reference point used for each is 110% of the maximum catch rate (tons/km2) within each sub region found across the entire time series (1950 - 2014).
 
-***
+-----
 
-#Data Source
+# Data Source
 
-**Reference**: [Watson (2017)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5387926/)
+* __Reference__: [Watson (2017)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5387926/)
+* __Downloaded__: April 21, 2017
+* __Description__:  Catch per half degree cell (raw values are in tons per km^2^)  
+* __Native data resolution__: 0.5 degree    
+* __Time range__: 1950 - 2014 
+* __Format__:  Tabular  
 
-**Downloaded**: April 21, 2017
-
-**Description**:  Catch per half degree cell (raw values are in tons per km^2^)  
-
-**Native data resolution**: 0.5 degree    
-
-**Time range**: 1950 - 2014 
-
-**Format**:  Tabular  
-
-***
+-----
   
-#Methods
+# Methods
 
-##Setup
+## Setup
 
 Load all relevant libraries 
 
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       echo = FALSE, message = FALSE, warning = FALSE)
 
 library(tidyverse)
@@ -74,19 +69,15 @@ scenario  <- 'v2017'
 dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
 dir_goal_anx <- file.path(dir_M, 'git-annex/bcprep', goal, scenario)
 
-#setting up provenance
-# devtools::install_github('oharac/provRmd')
-# library(provRmd)
-# prov_setup()
+### setting up provenance
+library(provRmd); prov_setup()
 
-#library(provRmd); prov_setup()
+### BC region polygon
 
-# BC region polygon
-
-bc_poly <- st_read(dsn = file.path(dir_git, "prep/_spatial"), layer = "ohibc_rgn_wgs84") %>%
+bc_poly <- st_read(dsn = file.path(dir_git, "prep/_spatial"), 
+                   layer = "ohibc_rgn_wgs84") %>%
            as(.,"Spatial")
 ```
-
 
 First get the template raster with a resolution of 0.5 degree cells. The `getcells()` function comes from the [seaaroundus R package](https://github.com/ropensci/seaaroundus).
 
@@ -96,28 +87,31 @@ The values of these cells are the Cell ID numbers. In the fisheries catch datase
 
   saup_cells <- getcells("POLYGON ((-180 90, 180 90, 180 -90, -180 -90, -180 90))")
 
-   saup_rast <- raster::raster(ncol=720, nrow=360)
+   saup_rast <- raster::raster(ncol = 720, nrow = 360)
    saup_rast[] <- saup_cells
 
-   #crop global cells to just those in the BC area
+   ### crop global cells to just those in the BC area
    bc_rast <- crop(saup_rast, bc_poly) 
    
-   bc_cells <- getValues(bc_rast) #get all cells in the area to help filter out spatial catch data
+   bc_cells <- getValues(bc_rast) 
+      ### get all cells in the area to help filter out spatial catch data
    
    plot(bc_rast)
-   plot(bc_poly, add=T)
+   plot(bc_poly, add = TRUE)
    
-# base raster
+### base raster
 rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif'))
 
-# assign the total area of each cell to the cells using data from Watson
+### assign the total area of each cell to the cells using data from Watson
 
-raw <- readRDS(paste0(file.path(dir_M,'marine_threats/impact_acceleration/stressors/comm_fish/int/catch_data_2014.rds'))) %>%
-          filter(Seq %in% bc_cells) %>% #select only those cells in the BC region
+raw <- readRDS(paste0(file.path(dir_M,'marine_threats/impact_acceleration', 
+                                'stressors/comm_fish/int/catch_data_2014.rds'))) %>%
+          filter(Seq %in% bc_cells) %>% 
+            ### select only those cells in the BC region
           dplyr::select(Seq, OceanArea) %>%
           distinct()
 
-cell_areas <- subs(bc_rast, raw, by = 1, which = 2, subsWithNA=T)
+cell_areas <- subs(bc_rast, raw, by = 1, which = 2, subsWithNA = TRUE)
 ```
 
 # Load data
@@ -138,31 +132,38 @@ An important note is that the data is provided as a "Catch Rate" meaning tons/km
 #register cores for parallel processing
 registerDoParallel(cores = 8)
 
-years = c(1950:2014)
+years <- c(1950:2014)
 
-foreach(yr = years) %dopar%{
+foreach(yr = years) %dopar% {
   
-  #read in raw data for the year
-  raw <- readRDS(paste0(file.path(dir_M,'marine_threats/impact_acceleration/stressors/comm_fish/int/catch_data_'), yr, '.rds')) %>%
-          filter(Seq %in% bc_cells) #select only those cells in the BC region
+  ### read in raw data for the year
+  raw <- readRDS(paste0(file.path(dir_M, 'marine_threats/impact_acceleration/stressors', 
+                                  'comm_fish/int/catch_data_'), yr, '.rds')) %>%
+          filter(Seq %in% bc_cells) 
+  ### select only those cells in the BC region
   
-  #landings
+  ### landings
   landings <- raw %>%
           rowwise() %>%
           mutate(catch = sum(SSF_CR, LSF_CR, IUU_CR))%>%
-          group_by(Seq)%>%
+          group_by(Seq) %>%
           summarise(cell_catch = sum(catch))
           
-    #rasterize catch by swapping cell ids with 
-raster::subs(bc_rast, landings, by = 1, which = 2, subsWithNA=TRUE, filename = paste0('fish_rasts/watson/landings/landings_',yr,'.tif'),overwrite=T) 
+  ### rasterize catch by swapping cell ids with landings
+  raster::subs(bc_rast, landings, by = 1, which = 2, subsWithNA = TRUE,
+               filename = paste0('fish_rasts/watson/landings/landings_', yr, '.tif'), 
+               overwrite = TRUE) 
   
-  #discards
-  discards <- raw%>%
-          mutate(catch = Discards_CR)%>%
-          group_by(Seq)%>%
+  ### discards
+  discards <- raw %>%
+          mutate(catch = Discards_CR) %>%
+          group_by(Seq) %>%
           summarise(cell_catch = sum(catch))
 
-raster::subs(bc_rast, discards, by = 1, which = 2, subsWithNA=TRUE, filename = paste0('fish_rasts/watson/discards/discards_',yr,'.tif'),overwrite=T) 
+raster::subs(bc_rast, discards, by = 1, which = 2, subsWithNA = TRUE, 
+             filename = paste0('fish_rasts/watson/discards/discards_', 
+                               yr, '.tif'), 
+             overwrite = TRUE) 
 
 }
 
@@ -174,26 +175,27 @@ Mean catch per cell is calculated over a rolling window of 5 years to account fo
 
 ```{r mean_catch, eval = F}
 
-land <- list.files('fish_rasts/watson/landings', full.names=T, pattern = ".tif")
-disc <- list.files('fish_rasts/watson/discards', full.names=T, pattern = ".tif")
+land <- list.files('fish_rasts/watson/landings', full.names = TRUE, pattern = ".tif")
+disc <- list.files('fish_rasts/watson/discards', full.names = TRUE, pattern = ".tif")
 
-foreach (i = 1950:2010) %dopar%{
+foreach (i = 1950:2010) %dopar% {
   
   yrs <- c(i:(i+4))
   
-  out_land <- land[which(substr(land, nchar(land)-7, nchar(land)-4) %in% yrs)]%>%
-            stack()%>%
-            calc(fun = function(x){mean(x, na.rm = T)}, 
-                 filename = paste0('fish_rasts/watson/landings/five_year_means/mean_catch_', yrs[1], '_', yrs[5], '.tif'), overwrite = T)
+  out_land <- land[which(substr(land, nchar(land) - 7, nchar(land) - 4) %in% yrs)]%>%
+            stack() %>%
+            calc(fun = function(x) {mean(x, na.rm = TRUE)}, 
+                 filename = paste0('fish_rasts/watson/landings/five_year_means/mean_catch_', 
+                                   yrs[1], '_', yrs[5], '.tif'), overwrite = TRUE)
   
   out_disc <- disc[which(substr(disc, nchar(land)-7, nchar(land)-4) %in% yrs)]%>%
-            stack()%>%
-            calc(fun = function(x){mean(x, na.rm = T)}, 
-                 filename = paste0('fish_rasts/watson/discards/five_year_means/mean_catch_', yrs[1], '_', yrs[5], '.tif'), overwrite = T)
+            stack() %>%
+            calc(fun = function(x) {mean(x, na.rm = TRUE)}, 
+                 filename = paste0('fish_rasts/watson/discards/five_year_means/mean_catch_', 
+                                   yrs[1], '_', yrs[5], '.tif'), overwrite = TRUE)
 }
 
 ```
-
 
 ## Reference Point
 
@@ -201,31 +203,35 @@ Look at all catch data standardized by NPP from 2003 - 2014 and use 110% * the m
 
 ```{r}
 
-land_5 <- list.files('fish_rasts/watson/landings/five_year_means', full.names=T) %>% 
+land_5 <- list.files('fish_rasts/watson/landings/five_year_means', full.names = TRUE) %>% 
               stack() %>%
-              overlay(cell_areas, fun=function(x,y){x*y})
+              overlay(cell_areas, fun=function(x, y){x * y})
 names(land_5) <- c(1954:2014)
-disc_5 <- list.files('fish_rasts/watson/discards/five_year_means', full.names=T) %>% 
+disc_5 <- list.files('fish_rasts/watson/discards/five_year_means', full.names = TRUE) %>% 
               stack() %>%
-              overlay(cell_areas, fun=function(x,y){x*y})
+              overlay(cell_areas, fun = function(x, y){x * y})
 names(disc_5) <- c(1954:2014)
 
-#Landings
+### Landings
 
-#run zonal stats on each raster
+### run zonal stats on each raster
+
 land_prs <- extract(land_5, bc_poly, na.rm = TRUE, df = TRUE, weights = TRUE, normalizeWeights = TRUE) %>%
      rename(rgn_id = ID) %>%
-     gather(key = "year", value = "cell_catch", -rgn_id, - weight) %>%
+     gather(key = "year", value = "cell_catch", -rgn_id, -weight) %>%
      mutate(year = substr(year, 2, 5),
-            rgn_id = as.character(rgn_id),   #forcing into character to join with bc_poly@data$rgn_id
+            rgn_id = as.character(rgn_id),   
+              ### forcing into character to join with bc_poly@data$rgn_id
             catch_weighted = cell_catch * weight) %>% 
      group_by(rgn_id, year) %>%
-     summarize(rgn_catch = sum(catch_weighted, na.rm=T)) %>%
+     summarize(rgn_catch = sum(catch_weighted, na.rm = TRUE)) %>%
      left_join(bc_poly@data, by = "rgn_id") %>%
-     mutate(catch_by_area = rgn_catch/area_km2) %>% #calculate regional catch sums weighted by area
+     mutate(catch_by_area = rgn_catch/area_km2) %>% 
+        ### calculate regional catch sums weighted by area
      group_by(rgn_id) %>%
-     mutate(max_catch = max(catch_by_area)) %>% #get the maximum catch/area for each region across all years
-     mutate(prs_value = catch_by_area/(1.1* max_catch)) %>%
+     mutate(max_catch = max(catch_by_area)) %>% 
+        ### get the maximum catch/area for each region across all years
+     mutate(prs_value = catch_by_area/(1.1 * max_catch)) %>%
      ungroup() %>%
     mutate(year = as.numeric(year))
 
@@ -233,36 +239,39 @@ disc_prs <- extract(disc_5, bc_poly, na.rm = TRUE, df = TRUE, weights = TRUE, no
      rename(rgn_id = ID) %>%
      gather(key = "year", value = "cell_catch", -rgn_id, - weight) %>%
      mutate(year = substr(year, 2, 5),
-            rgn_id = as.character(rgn_id),   #forcing into character to join with bc_poly@data$rgn_id
+            rgn_id = as.character(rgn_id),   
+              ### forcing into character to join with bc_poly@data$rgn_id
             catch_weighted = cell_catch * weight) %>% 
      group_by(rgn_id, year) %>%
-     summarize(rgn_catch = sum(catch_weighted, na.rm=T)) %>%
+     summarize(rgn_catch = sum(catch_weighted, na.rm = TRUE)) %>%
      left_join(bc_poly@data, by = "rgn_id") %>%
-     mutate(catch_by_area = rgn_catch/area_km2) %>% #calculate regional catch sums weighted by area
+     mutate(catch_by_area = rgn_catch / area_km2) %>% 
+        ### calculate regional catch sums weighted by area
      group_by(rgn_id) %>%
-     mutate(max_catch = max(catch_by_area)) %>% #get the maximum catch/area for each region across all years
-     mutate(prs_value = catch_by_area/(1.1* max_catch)) %>%
+     mutate(max_catch = max(catch_by_area)) %>% 
+        ### get the maximum catch/area for each region across all years
+     mutate(prs_value = catch_by_area/(1.1 * max_catch)) %>%
      ungroup() %>%
     mutate(year = as.numeric(year))
 
 ```
 
 
-***
+-----
 
 # Results
 
 
 ``` {r calc_rgn_means}
 
-#landings
+### landings
 
 ohibc_rgn_land <- land_prs %>%
                   dplyr::select(rgn_id, year, pressure = prs_value)
 
 write_csv(ohibc_rgn_land, file.path(dir_goal, 'output/prs_landings_fish_layer.csv'))
 
-#discards
+### discards
 
 ohibc_rgn_disc <- disc_prs %>%
                   dplyr::select(rgn_id, year, pressure = prs_value)
@@ -271,34 +280,53 @@ write_csv(ohibc_rgn_disc, file.path(dir_goal, 'output/prs_discards_fish_layer.cs
 
 ```
 
-# Results
-
 ```{r}
 
-#Landings
+land_prs <- land_prs %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
+disc_prs <- disc_prs %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
 
-lplot <- ggplot(land_prs, aes(x = year,y = prs_value, color = rgn_id, goup = 1))+
-  geom_line()+
+### Landings
+
+lplot <- ggplot(land_prs, aes(x = year, y = prs_value)) +
+  ggtheme_plot() +
+  geom_line() +
   labs(color = "Region",
        y = "Pressure score",
        x = "Year",
-       title = "Landings fishing pressure")
+       title = "Landings fishing pressure") +
+  facet_wrap( ~ rgn_name)
 
-#Discards
+### Discards
 
-dplot <- ggplot(disc_prs, aes(x = year,y = prs_value, color = rgn_id, goup = 1))+
-  geom_line()+
+dplot <- ggplot(disc_prs, aes(x = year, y = prs_value)) +
+  ggtheme_plot() +
+  geom_line() +
   labs(color = "Region",
        y = "Pressure score",
        x = "Year",
-       title = "Discards fishing pressure")
+       title = "Discards fishing pressure") +
+  facet_wrap( ~ rgn_name)
 
-cowplot::plot_grid(lplot, dplot, ncol = 2)
+print(lplot)
+
+print(dplot)
 
 ```
 
 
-***
+-----
 
-#Citation information  
+# Citation information  
+
 Watson, R. A. (2017). A database of global marine commercial, small-scale, illegal and unreported fisheries catch 1950–2014. *Scientific Data*, 4.
+
+-----
+
+``` {r results = 'asis'}
+
+prov_wrapup(commit_outputs = FALSE)
+
+```
+
