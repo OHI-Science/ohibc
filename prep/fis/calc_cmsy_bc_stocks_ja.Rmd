@@ -35,7 +35,7 @@ registerDoParallel(cores = 8)
 options(scipen=999)
 ```
 
-# Get SAUP data for BC prepped for CMSY
+# SAUP data for British Columbia
 
 Read in the stock catch by region calculated for global OHI 2017 from SAUP data. Filter just for species records (taxon key > 599999). We also need to add resilience measures for the cmsy model. We can use the resilience lookup table from global
 ```{r}
@@ -66,13 +66,16 @@ ca_stocks <- read_csv(file.path(dir_M,'git-annex/globalprep/fis/v2017/int/stock_
   select(taxon_scientific_name, taxon_common_name, stock_id) %>%
   distinct()
 
-nrow(ca_stocks) 
+#nrow(ca_stocks)  #81
 
 DT::datatable(ca_stocks)
 ```
 
-There are **81 stocks** in Canadian BC waters. Let's filter out the catch to just incude those found in Canadian waters. Also need to filter out stocks that dont have at least a 20 yr time series and an annual avg catch of 1000 tons
+There are **81 stocks** in Canadian BC waters. 
 
+# Assess what stocks meet reqs of CMSY
+
+Let's filter out the catch to just incude those found in Canadian waters. We also need to filter out stocks that dont have at least a 20 yr time series and an annual avg catch of 1000 tons.
 
 ```{r}
 
@@ -90,9 +93,9 @@ DT::datatable(stocks_for_cmsy)
 
 ```
 
-There are only **27 stocks** to run through CMSY.
+There are only **27 stocks** to run through CMSY. In the table you can see the main reason we can't run CMSY on a majority of the stocks is due to low annual average catch.
 
-
+# Prep data for CMSY
 ```{r}
 
 #prepping the catch data for CMSY model
@@ -105,10 +108,12 @@ catch_for_cmsy <- catch %>%
   filter(nyrs > 19,
          avg_ann_catch >= 1000)
 
-length(unique(catch_for_cmsy$stock_id))
+#length(unique(catch_for_cmsy$stock_id))
 ```
 
 # Run CMSY
+
+Run the model on the 27 stocks.
 
 ```{r, eval=F}
 
