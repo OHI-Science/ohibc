@@ -77,8 +77,8 @@ The .zipped set of shapefiles seems to be named according to the RAM `assess_id`
 
 ``` {r get_fisheries_stocks}
 
-stock_list <- read_csv(file.path(dir_goal, 'output/ram_catch.csv')) %>%
-  select(stock_id, stock_name, ram_area_id, ram_area_name) %>%
+stock_list <- read_csv(file.path(dir_goal, 'output/ram_catch_4.25.csv')) %>%
+  select(stock_id, stock_name, ram_area_name) %>%
   distinct()
 
 ram_spatial_dir <- file.path(dir_anx, '_raw_data/ram_fisheries/d2017/spatial')
@@ -99,9 +99,9 @@ dir.create(bc_bounds_dir)
 y <- lapply(boundary_list$shp, FUN = function(x) {
   ### x <- boundary_list$shp[1]
   stockname <- x %>%
-    str_replace('-PAC-', '-') %>%
-    str_split('-') %>%
-    unlist() %>% .[2]
+    # str_replace('-PAC-', '-') %>%
+    # str_split('-') %>%
+    # unlist() %>% .[2]
   file.copy(from = file.path(ram_spatial_dir, 'ramldb_boundaries', paste0(x, c('.shp', '.prj', '.shx', '.dbf'))),
             to   = file.path(bc_bounds_dir, paste0(stockname, c('.shp', '.prj', '.shx', '.dbf'))))
 })
