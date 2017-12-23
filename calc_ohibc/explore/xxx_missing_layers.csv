@@ -3,6 +3,9 @@ ao_salmon,ohibc:prep/ao/v2017/output,ao_salmon.csv,Salmon stock health,Salmon st
 fp_trawl_reduction,ohibc:calc_ohibc/master/dummy_layers,fp_habitat_gl2016.csv,Voluntary trawl reduction to preserve biodiversity,??? Get description from Courtney,resilience,"AO, FIS, HAB, ICO, SPP, SAL"
 hd_mining,ohibc:prep/_pressures/v2017/output,prs_mining.csv,???,???,pressure,"AO, CPP, CSS, CW, HAB, ICO, LSP, MAR, SAL, SPP, TR"
 hd_trawl_reduction,ohibc:calc_ohibc/master/dummy_layers,hd_habitat_gl2016.csv,Voluntary trawl reduction to preserve biodiversity,??? Get description from Courtney,resilience,"AO, CPP, CSS, FIS, HAB, ICO, SPP, LSP, SAL"
-le_unemployment,ohibc:prep/le/v2017/output,le_unemployment.csv,unemployment rate,Mean unemployment rate,status,LIV
+le_income_fn,ohibc:prep/le/v2017/output,le_income_fn.csv,dollars,Median household income for First Nations communities,status,LIV
+le_income_nonfn,ohibc:prep/le/v2017/output,le_income_nonfn.csv,dollars,Median household income for non-FN communities,status,LIV
+le_unempl_fn,ohibc:prep/le/v2017/output,le_unempl_fn.csv,unemployment rate,Mean unemployment rate for First Nations communities,status,LIV
+le_unempl_nonfn,ohibc:prep/le/v2017/output,le_unempl_nonfn.csv,unemployment rate,Mean unemployment rate for non-FN communities,status,LIV
 po_water,ohibc:calc_ohibc/master/dummy_layers,po_water_gl2016.csv,Management and regulations to control water pollution to preserve biodiversity,Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: tourism related questions,resilience,"CPP, CSS, CW, HAB, ICO, SPP, LSP, MAR, TR"
 sal_stock_status,ohibc:prep/sal/v2017/output,sal_stock_status.csv,Salmon stock health,Salmon stock health as a proxy for access to salmon for commercial fishing purposes,status,SAL

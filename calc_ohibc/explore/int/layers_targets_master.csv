@@ -334,8 +334,10 @@ hab_sm_health,HAB,NA,status
 ico_spp_presence,ICO,NA,status
 ico_spp_risk_score,ICO,NA,status
 ico_spp_trend,ICO,NA,status
-le_income,LIV,NA,status
-le_unemployment,LIV,NA,status
+le_income_fn,LIV,NA,status
+le_unempl_fn,LIV,NA,status
+le_income_nonfn,LIV,NA,status
+le_unempl_nonfn,LIV,NA,status
 lsp_prot_area_inland_ws,LSP,NA,status
 lsp_prot_area_offshore3nm,LSP,NA,status
 lsp_tot_area_inland_ws,LSP,NA,status

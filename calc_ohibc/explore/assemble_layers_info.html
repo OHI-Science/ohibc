@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Compiled on Fri Dec 22 15:33:49 2017 by ohara" />
+<meta name="author" content="Compiled on Fri Dec 22 16:36:57 2017 by ohara" />
 
 
 <title>OHIBC: Layer check helper</title>
@@ -266,7 +266,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">OHIBC: Layer check helper</h1>
-<h4 class="author"><em><em>Compiled on Fri Dec 22 15:33:49 2017 by ohara</em></em></h4>
+<h4 class="author"><em><em>Compiled on Fri Dec 22 16:36:57 2017 by ohara</em></em></h4>
 
 </div>
 
@@ -341,8 +341,8 @@ layers_full &lt;-<span class="st"> </span>layers_full <span class="op">%&gt;%</s
 
 <span class="kw">write_csv</span>(missing, <span class="kw">file.path</span>(dir_calc, <span class="st">'explore/xxx_missing_layers.csv'</span>))</code></pre></div>
 <p><font size="1"></p>
-<div id="htmlwidget-4f42146d0566300c1556" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4f42146d0566300c1556">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7"],["ao_salmon","fp_trawl_reduction","hd_mining","hd_trawl_reduction","le_unemployment","po_water","sal_stock_status"],["ohibc:prep/ao/v2017/output","ohibc:calc_ohibc/master/dummy_layers","ohibc:prep/_pressures/v2017/output","ohibc:calc_ohibc/master/dummy_layers","ohibc:prep/le/v2017/output","ohibc:calc_ohibc/master/dummy_layers","ohibc:prep/sal/v2017/output"],["ao_salmon.csv","fp_habitat_gl2016.csv","prs_mining.csv","hd_habitat_gl2016.csv","le_unemployment.csv","po_water_gl2016.csv","sal_stock_status.csv"],["Salmon stock health","Voluntary trawl reduction to preserve biodiversity","???","Voluntary trawl reduction to preserve biodiversity","unemployment rate","Management and regulations to control water pollution to preserve biodiversity","Salmon stock health"],["Salmon stock health as a proxy for access to salmon for FSC purposes","??? Get description from Courtney","???","??? Get description from Courtney","Mean unemployment rate","Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: tourism related questions","Salmon stock health as a proxy for access to salmon for commercial fishing purposes"],["status","resilience","pressure","resilience","status","resilience","status"],["AO","AO, FIS, HAB, ICO, SPP, SAL","AO, CPP, CSS, CW, HAB, ICO, LSP, MAR, SAL, SPP, TR","AO, CPP, CSS, FIS, HAB, ICO, SPP, LSP, SAL","LIV","CPP, CSS, CW, HAB, ICO, SPP, LSP, MAR, TR","SAL"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>layer<\/th>\n      <th>dir_prep<\/th>\n      <th>filename<\/th>\n      <th>name<\/th>\n      <th>description<\/th>\n      <th>dimension<\/th>\n      <th>target<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-10b23042898f26aa321f" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-10b23042898f26aa321f">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10"],["ao_salmon","fp_trawl_reduction","hd_mining","hd_trawl_reduction","le_income_fn","le_income_nonfn","le_unempl_fn","le_unempl_nonfn","po_water","sal_stock_status"],["ohibc:prep/ao/v2017/output","ohibc:calc_ohibc/master/dummy_layers","ohibc:prep/_pressures/v2017/output","ohibc:calc_ohibc/master/dummy_layers","ohibc:prep/le/v2017/output","ohibc:prep/le/v2017/output","ohibc:prep/le/v2017/output","ohibc:prep/le/v2017/output","ohibc:calc_ohibc/master/dummy_layers","ohibc:prep/sal/v2017/output"],["ao_salmon.csv","fp_habitat_gl2016.csv","prs_mining.csv","hd_habitat_gl2016.csv","le_income_fn.csv","le_income_nonfn.csv","le_unempl_fn.csv","le_unempl_nonfn.csv","po_water_gl2016.csv","sal_stock_status.csv"],["Salmon stock health","Voluntary trawl reduction to preserve biodiversity","???","Voluntary trawl reduction to preserve biodiversity","dollars","dollars","unemployment rate","unemployment rate","Management and regulations to control water pollution to preserve biodiversity","Salmon stock health"],["Salmon stock health as a proxy for access to salmon for FSC purposes","??? Get description from Courtney","???","??? Get description from Courtney","Median household income for First Nations communities","Median household income for non-FN communities","Mean unemployment rate for First Nations communities","Mean unemployment rate for non-FN communities","Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: tourism related questions","Salmon stock health as a proxy for access to salmon for commercial fishing purposes"],["status","resilience","pressure","resilience","status","status","status","status","resilience","status"],["AO","AO, FIS, HAB, ICO, SPP, SAL","AO, CPP, CSS, CW, HAB, ICO, LSP, MAR, SAL, SPP, TR","AO, CPP, CSS, FIS, HAB, ICO, SPP, LSP, SAL","LIV","LIV","LIV","LIV","CPP, CSS, CW, HAB, ICO, SPP, LSP, MAR, TR","SAL"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>layer<\/th>\n      <th>dir_prep<\/th>\n      <th>filename<\/th>\n      <th>name<\/th>\n      <th>description<\/th>\n      <th>dimension<\/th>\n      <th>target<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":[],"jsHooks":[]}</script>
 <p></font></p>
 </div>
 <div id="identify-extra-layers" class="section level2">
@@ -369,6 +369,7 @@ extras &lt;-<span class="st"> </span><span class="kw">c</span>(output_csvs[<span
 <div id="extra-output-csvs-not-used-as-layers" class="section level4">
 <h4><span class="header-section-number">1.2.0.1</span> Extra ‘output’ csvs not used as layers:</h4>
 <ul>
+<li>/home/ohara/github/ohibc/prep/le/v2017/output/le_income.csv</li>
 <li>/home/ohara/github/ohibc/prep/le/v2017/output/le_income_old.csv</li>
 <li>/home/ohara/github/ohibc/prep/le/v2017/output/le_unempl.csv</li>
 <li>/home/ohara/github/ohibc/prep/le/v2017/output/le_unemployment_old.csv</li>

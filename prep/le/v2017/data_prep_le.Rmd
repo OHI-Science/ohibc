@@ -609,7 +609,7 @@ rgn_df <- read_csv(file.path(dir_goal, 'int', 'pop_csd_yr.csv')) %>%
   rename(geo_code = sgc)
 
 ### combine data with regions and gapfill NAs
-unemp_df <- read_csv(file.path(dir_goal, 'int', 'inc_and_empl_yr_csd.csv')) %>%
+unempl_df <- read_csv(file.path(dir_goal, 'int', 'inc_and_empl_yr_csd.csv')) %>%
   filter(str_detect(field, 'unemp')) %>%
   left_join(rgn_df, by = c('geo_code', 'year')) %>%
   filter(ohibc_pop > 0) %>%
@@ -617,54 +617,56 @@ unemp_df <- read_csv(file.path(dir_goal, 'int', 'inc_and_empl_yr_csd.csv')) %>%
   mutate(value = ifelse(is.na(value), mean(value, na.rm = TRUE), value)) %>%
   ungroup()
 
-unemp_wt_mean <- unemp_df %>%
+unempl_wt_mean <- unempl_df %>%
   group_by(year, rgn_id) %>%
-  mutate(dist_unemp = as.numeric(value),
-         rgn_mean_unemp = sum(value * ohibc_pop, na.rm = TRUE) / sum(ohibc_pop),
-         rgn_mean_unemp = round(rgn_mean_unemp, 2)) %>%
-  group_by(year, rgn_id, fn, rgn_mean_unemp) %>%
-  summarize(mean_unemp = sum(value * ohibc_pop, na.rm = TRUE) / sum(ohibc_pop),
-            mean_unemp = round(mean_unemp, 2),
+  mutate(dist_unempl = as.numeric(value),
+         rgn_mean_unempl = sum(value * ohibc_pop, na.rm = TRUE) / sum(ohibc_pop),
+         rgn_mean_unempl = round(rgn_mean_unempl, 2)) %>%
+  group_by(year, rgn_id, fn, rgn_mean_unempl) %>%
+  summarize(mean_unempl  = sum(value * ohibc_pop, na.rm = TRUE) / sum(ohibc_pop),
+            mean_unempl  = round(mean_unempl, 2),
             category_pop = sum(ohibc_pop, na.rm = TRUE)) %>%
   ungroup() %>%
-  filter(mean_unemp > 0)
+  filter(mean_unempl > 0)
 
-unempl_wt_mean_allyrs <- unemp_wt_mean %>%
+unempl_wt_mean_allyrs <- unempl_wt_mean %>%
   group_by(rgn_id, fn) %>%
   complete(year = min(year):max(year), nesting(rgn_id)) %>%
-  mutate(rgn_mean_unemp = zoo::na.approx(rgn_mean_unemp, year),
-         mean_unemp     = zoo::na.approx(mean_unemp, year),
-         category_pop   = zoo::na.approx(category_pop, year)) %>%
+  mutate(rgn_mean_unempl = zoo::na.approx(rgn_mean_unempl, year),
+         mean_unempl     = zoo::na.approx(mean_unempl, year),
+         category_pop    = zoo::na.approx(category_pop, year)) %>%
   ungroup()
 
-fn_unempl <- unempl_wt_med_allyrs %>%
+fn_unempl <- unempl_wt_mean_allyrs %>%
   filter(fn) %>%
-  select(year, rgn_id, median_unempl)
+  select(year, rgn_id, mean_unempl)
 
-non_fn_unempl <- unempl_wt_med_allyrs %>%
+non_fn_unempl <- unempl_wt_mean_allyrs %>%
   filter(!fn) %>%
-  select(year, rgn_id, median_unempl)
+  select(year, rgn_id, mean_unempl)
 
-fn_pop_unempl <- unempl_wt_med_allyrs %>%
+fn_pop_unempl <- unempl_wt_mean_allyrs %>%
   filter(fn) %>%
   select(year, rgn_id, fn_pop = category_pop)
 
-non_fn_pop_unempl <- unempl_wt_med_allyrs %>%
+non_fn_pop_unempl <- unempl_wt_mean_allyrs %>%
   filter(!fn) %>%
   select(year, rgn_id, non_fn_pop = category_pop)
 
-write_csv(fn_unempl, file.path(dir_goal, 'output', 'le_unempl_fn.csv'))
-write_csv(non_fn_unempl, file.path(dir_goal, 'output', 'le_unempl_nonfn.csv'))
-write_csv(fn_pop_unempl, file.path(dir_goal, 'output', 'le_pop1_fn.csv'))
+write_csv(fn_unempl,         file.path(dir_goal, 'output', 'le_unempl_fn.csv'))
+write_csv(non_fn_unempl,     file.path(dir_goal, 'output', 'le_unempl_nonfn.csv'))
+write_csv(fn_pop_unempl,     file.path(dir_goal, 'output', 'le_pop1_fn.csv'))
 write_csv(non_fn_pop_unempl, file.path(dir_goal, 'output', 'le_pop1_nonfn.csv'))
 
-DT::datatable(unemp_wt_mean_allyrs, caption = 'Mean unemployment')
+DT::datatable(unempl_wt_mean_allyrs, caption = 'Mean unemployment')
 
 ```
 
 ### Visualize
 
-``` {r data_viz}
+fix this later
+
+``` {r data_viz, eval = FALSE}
 
 income_layer <- read_csv(file.path(dir_goal, 'output', 'le_income.csv')) %>%
   left_join(get_rgn_names(), by = 'rgn_id')
@@ -679,7 +681,7 @@ ggplot(income_layer, aes(x = year, y = median_income, color = fn)) +
   scale_y_continuous(limits = c(0, NA)) +
   facet_wrap( ~ rgn_name)
 
-ggplot(unempl_layer, aes(x = year, y = mean_unemp, color = fn)) +
+ggplot(unempl_layer, aes(x = year, y = mean_unempl, color = fn)) +
   ggtheme_plot() +
   geom_line(aes(group = fn), alpha = .7, size = 1.5) +
   scale_x_continuous(breaks = c(1996:2016)) +
