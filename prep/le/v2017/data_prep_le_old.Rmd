@@ -1,0 +1,568 @@
+---
+title: 'OHIBC data prep: Livelihoods'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(raster)
+library(sf)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+scenario <- 'v2017'
+goal     <- 'le'
+dir_git  <- '~/github/ohibc'
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_spatial <- file.path(dir_git, 'prep/_spatial')
+
+dir_goal_anx <- file.path(dir_M, 'git-annex/bcprep', goal, scenario) 
+dir_data_gl <- file.path(dir_M, 'git-annex/globalprep', '_raw_data')
+dir_data_bc <- file.path(dir_M, 'git-annex/bcprep', '_raw_data')
+
+library(provRmd); prov_setup()
+
+### set up proj4string options: BC Albers and WGS84
+p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
+p4s_wgs84 <- c('wgs84' = '+init=epsg:4326')
+
+```
+
+# Summary: OHIBC Livelihoods
+
+This script prepares layers (employment rates and median income) for Livelihoods goal in 
+British Columbia's coastal regions.  
+
+From Halpern et al. (2014) (OHI California Current):
+
+>Livelihood sub-goal: As was done in the global analysis, coastal livelihoods is measured by two equally weighted sub-components, the number of jobs (j), which is a proxy for livelihood quantity, and the median annual household wages (g), which is a proxy for job quality. For jobs and wages we used a no-net loss reference point. 
+
+For British Columbia, we do not currently have sector-specific unemployment and wage information.  As such we will analyze Livelihoods according to the model:
+
+$x_{LIV} = \frac{j' + g'}{2}$
+
+$j' = \frac{j_c / j_{ref}}{M_c / M_{ref}}$
+
+where M is each region’s employment rate (1 - unemployment) as a percent at current (c) and reference (ref) time periods, and:
+
+$g' = \frac{g_c / g_{ref}}{W_c / W_{ref}}$
+
+where W is each State’s average annual per capita wage at current (c) and reference (ref) time periods.
+
+-----
+
+# Data sources
+
+* CIESEN gridded population of the world, population density v4
+* Jobs data? wages data?
+
+-----
+
+# Methods
+
+## Apportion BC census blocks to OHIBC regions
+
+BC Census blocks do not line up well with OHIBC regions.  We will use the Gridded Population of the World population density dataset to determine proper weighting of census data within each region.
+
+### Create shapefile of census blocks intersected with OHIBC regions.
+
+Here we must use the unclipped OHIBC regions to capture inland extents of the BC census divisions.  Let's do it in BC Albers so the population density (after transforming) can easily be converted into populations per polygon.
+
+``` {r census_vs_ohibc_rgns}
+
+if(!file.exists(file.path(dir_goal, 'spatial', 'coastal_cens_dists.shp')) |
+   !file.exists(file.path(dir_goal, 'spatial', 'ohibc_census_clip.shp'))) {
+
+  ohibc_poly <- sf::read_sf(dsn = dir_spatial,
+                            layer = 'ohibc_rgns_unclipped') %>%
+    st_transform(3005)
+  bc_census  <- sf::read_sf(dsn = file.path(dir_data_bc, 'le/census_blocks/gcd_000b11a_e'),
+                            layer = 'gcd_000b11a_e') %>%
+    filter(str_detect(PRNAME, 'British Columbia')) %>%
+    st_transform(3005)
+  # sf::st_crs(ohibc_poly); sf::st_crs(bc_census)
+  
+  ohibc_census <- sf::st_intersection(ohibc_poly, bc_census)
+  
+  # plot(ohibc_census)
+  
+  sf::write_sf(ohibc_census,
+               dsn = file.path(dir_goal, 'spatial'),
+               layer = 'ohibc_census_clip',
+               driver = 'ESRI Shapefile')
+  
+  coastal_census <- bc_census %>%
+    filter(CDUID %in% ohibc_census$CDUID)
+  
+  # plot(coastal_census)
+  
+  sf::write_sf(coastal_census,
+               dsn = file.path(dir_goal), # dsn = file.path(dir_goal, 'spatial'),
+               layer = 'coastal_cens_dists',
+               driver = 'ESRI Shapefile')
+  ### for some reason thinks the file already exists; though it doesn't have a problem
+  ### writing over the ohibc_census_clip file that legitimately does exist.
+} else {
+  
+  git_prov(c(file.path(dir_goal, 'spatial', 'coastal_cens_dists.shp'), 
+             file.path(dir_goal, 'spatial', 'ohibc_census_clip.shp')),
+           filetype = 'output')
+  
+}
+
+```
+
+### Determine population weights for census districts to OHIBC regions
+
+For census districts that cross OHIBC region boundaries (to other regions, or outside the region), use population density rasters to determine how to divide population into regions.  Population-density rasters (people per 1 km^2^) will be reprojected to BC Albers and 1-km grid cells for easy population calculations.  Zonal sums will determine total and region-specific populations.
+
+Note that when the resulting weights were calculated they were essentially unchanged from year to year (and the tiny changes are most likely due to rounding rather than actual changes in the data).  The pop density data is modeled, so likely it is a simple extrapolation from year to year without changing the distribution of population.  For determining weights we will simply choose a single year, 2015.
+
+``` {r trim_pop_dens_rasters}
+
+# pop_dens_years <- seq(2000, 2020, 5)
+pop_dens_years <- 2015 
+### see note below; relative density appears constant, so one year is adequate
+
+bc_dens_files <- file.path(dir_goal, 'spatial', sprintf('pop_dens_%s.tif', pop_dens_years))
+
+bb <- sf::read_sf(dsn = file.path(dir_goal, 'spatial'),
+                                    layer = 'coastal_cens_dists') %>%
+  sf::st_transform(4326) %>%
+  sf::st_bbox() 
+bb_ext <- raster::extent(c(bb[1], bb[3], bb[2], bb[4]))
+
+base_rast <- raster::raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif'))
+
+pop_dens_files <- file.path(dir_data_gl, 'CIESEandCIAT_population',
+                            sprintf('d2017/gpw-v4-population-density-adjusted-to-2015-unwpp-country-totals-%s', pop_dens_years),
+                            sprintf('gpw-v4-population-density-adjusted-to-2015-unwpp-country-totals_%s.tif', pop_dens_years))
+pop_dens <- raster::stack(pop_dens_files) %>%
+  raster::crop(bb_ext) %>%
+  raster::projectRaster(base_rast)
+
+# plot(pop_dens[[1]])
+writeRaster(pop_dens, bc_dens_files, bylayer = TRUE, overwrite = TRUE)
+
+
+```
+
+
+``` {r get_pop_totals_for_census_dists}
+
+cd_pop_totals_file <- file.path(dir_goal, 'int/pop_total_census_dists.csv')
+
+census_dists_poly <- sf::read_sf(dsn = file.path(dir_goal, 'spatial'),
+                           layer = 'coastal_cens_dists') %>%
+  mutate(CDUID = as.integer(CDUID))
+
+
+base_rast <- raster::raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif'))
+cd_rast <- fasterize::fasterize(census_dists_poly, base_rast, field = 'CDUID')
+
+bc_dens_files <- file.path(dir_goal, 'spatial', sprintf('pop_dens_%s.tif', pop_dens_years))
+pop_dens <- raster::stack(bc_dens_files)
+values(pop_dens)[values(pop_dens) < 0] <- 0
+
+cd_totpop <- vector('list', length = length(bc_dens_files))
+for(i in seq_along(bc_dens_files)) {
+  cd_totpop[[i]] <- raster::zonal(pop_dens[[i]], cd_rast, fun = 'sum') %>%
+    as.data.frame()
+}
+names(cd_totpop) <- str_extract(bc_dens_files, '[0-9]{4}(?=[.csv$])')
+
+cd_totpop_df <- bind_rows(cd_totpop, .id = 'year') %>%
+  rename(dist_id   = zone,
+         pop_total = sum) %>%
+  mutate(pop_total = round(pop_total))
+
+cd_totpop_df <- cd_totpop_df %>%
+  left_join(census_dists_poly %>%
+              as.data.frame() %>%
+              select(dist_id = CDUID, dist_name = CDNAME),
+            by = c('dist_id'))
+
+# ggplot(cd_totpop, aes(x = year, y = sum, color = zone)) +
+#   geom_line(aes(group = zone))
+
+write_csv(cd_totpop_df, cd_pop_totals_file)
+
+
+```
+
+``` {r get_pop_by_census_dist_per_ohibc_rgn}
+
+cd_pop_by_ohibc_file <- file.path(dir_goal, 'int/pop_census_by_ohibc.csv')
+
+census_by_ohibc_poly <- sf::read_sf(dsn = file.path(dir_goal, 'spatial'),
+                           layer = 'ohibc_census_clip') %>%
+  mutate(CDUID = as.integer(CDUID),
+         ohibc_cduid = CDUID + rgn_id * 10000)
+
+
+base_rast <- raster::raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif'))
+cd_ohibc_rast <- fasterize::fasterize(census_by_ohibc_poly, base_rast, field = 'ohibc_cduid')
+
+bc_dens_files <- file.path(dir_goal, 'spatial', sprintf('pop_dens_%s.tif', pop_dens_years))
+pop_dens <- raster::stack(bc_dens_files)
+values(pop_dens)[values(pop_dens) < 0] <- 0
+
+cd_ohibcpop <- vector('list', length = length(bc_dens_files))
+for(i in seq_along(bc_dens_files)) {
+  cd_ohibcpop[[i]] <- raster::zonal(pop_dens[[i]], cd_ohibc_rast, fun = 'sum') %>%
+    as.data.frame()
+}
+names(cd_ohibcpop) <- str_extract(bc_dens_files, '[0-9]{4}(?=[.csv$])')
+
+
+cd_ohibcpop_df <- bind_rows(cd_ohibcpop, .id = 'year') %>%
+  mutate(rgn_id       = floor(zone / 10000),
+         dist_id  = zone - (rgn_id * 10000),
+         pop_rgn_dist = round(sum)) %>%
+  select(-zone, -sum)
+
+cd_ohibcpop_df <- cd_ohibcpop_df %>%
+  left_join(census_by_ohibc_poly %>%
+              as.data.frame() %>%
+              select(rgn_id, dist_id = CDUID, rgn_name, dist_name = CDNAME),
+            by = c('rgn_id', 'dist_id'))
+
+# ggplot(cd_ohibcpop, aes(x = year, y = sum, color = zone)) +
+#   geom_line(aes(group = zone))
+
+write_csv(cd_ohibcpop_df, cd_pop_by_ohibc_file)
+  
+```
+
+## Read in census data
+
+Due to different formats in 2001, 2006, and 2011, here we read in the various .csvs, filter to appropriate categories and regions, and combine into a single dataframe for later use.
+
+``` {r read_census_data}
+
+census_data_dir <- file.path(dir_data_bc, 'le', 'census_data')
+
+census_files <- list.files(census_data_dir, include.dirs = FALSE, 
+                           pattern = '.csv$|.xls$|.CSV$',
+                           full.names = TRUE)
+
+cens_file_2016 <- census_files[str_detect(census_files, '2016')]
+cens_file_2011 <- census_files[str_detect(census_files, '2011')]
+cens_file_0106 <- census_files[str_detect(census_files, '2001|2006')]
+cens_file_1996 <- census_files[str_detect(census_files, '1996')]
+
+census_1996 <- lapply(cens_file_1996, FUN = function(x) {
+    ### x <- cens_file_1996[1]
+    shts <- readxl::excel_sheets(x)
+    tmp_list <- vector('list', length = length(shts)) %>%
+      setNames(shts %>% str_replace('^RD[0-9]* ', ''))
+    for(sht in shts) {
+      ### sht <- shts[1]
+      tmp_df <- readxl::read_excel(x, sheet = sht, skip = 0) %>%
+        ### pick off the category and district total cols:
+        .[ , c(1, 3)] %>%
+        setNames(c('category', 'dist_tot')) %>%
+        mutate(dist_tot = as.numeric(dist_tot))
+      tmp_list[[sht]] <- tmp_df
+    }
+    tmp_df2 <- bind_rows(tmp_list, .id = 'district')
+    return(tmp_df2)
+  }) %>%
+  bind_rows()
+
+census_1996_clean <- census_1996 %>%
+  mutate(district = str_replace_all(tolower(district), '[^a-z]', ''),
+         subcat   = category,
+         year     = 1996) %>%
+  filter(!is.na(dist_tot)) %>%
+  filter(str_detect(tolower(subcat), 'unemployment rate|median household income')) %>%
+  group_by(subcat, district) %>%
+  filter(dist_tot == first(dist_tot)) %>%
+    ### having selected the two fields of interest, choose the first instance
+    ### of each to get the total population (vs. age 15-24 e.g.)
+  ungroup()
+
+census_0106 <- lapply(cens_file_0106, FUN = function(x) {
+    tmp_df <- read_csv(x, skip = 1) %>%
+      ### all cols in same order, but names change; standardize them here:
+      setNames(c('category', 'subcat', 'dist_tot', 'dist_m', 'dist_f', 'bc_tot', 'bc_m', 'bc_f')) %>%
+      mutate(file_name = basename(x))
+    return(tmp_df)
+  }) %>%
+  bind_rows()
+
+census_0106_clean <- census_0106 %>%
+  ### use filename to determine district and year
+  mutate(district = str_replace_all(tolower(file_name), 'download|.csv$', ''),
+         district = str_replace_all(district, '[^a-z]', ''),
+         year = str_match(file_name, '[0-9]{4}'),
+         year = as.integer(year)) %>%
+  select(-file_name)
+
+### for 2011, select columns and rename to match data for '01 and '06
+census_2011 <- read_csv(cens_file_2011, skip = 1) %>%
+  setNames(tolower(names(.))) %>%
+  filter(str_detect(prov_name, 'British Columbia')) %>%
+  select(district = cd_name, 
+         category = topic, subcat = characteristic,
+         dist_tot = total,
+         dist_m   = male,
+         dist_f   = female) %>%
+  mutate(year = 2011) %>%
+  mutate(district = str_replace_all(tolower(district), '[^a-z]', '')) %>%
+  distinct()
+
+# "bcprep/_raw_data/le/census_data/98-400-X2016287_English_CSV_data.csv"
+### This is by Census Metropolitan Area and Census Agglomeration
+# "bcprep/_raw_data/le/census_data/98-402-X2016006-T1-CSD-Eng.csv"
+### This is by census subdivision looks like.
+### For simplicity, get all at same scale and use one shapefile...
+census_2016 <- read_csv(cens_file_2016[2]) %>%
+  clean_df_names() %>%
+  filter(str_detect(alt_geo_code, '^59'))
+
+census_all_raw <- bind_rows(census_1996_clean, census_0106_clean, census_2011)
+
+write_csv(census_all_raw, file.path(dir_goal, 'int', 'census_all_raw.csv'))
+
+```
+
+``` {r create_dist_name_lookup, eval = FALSE}
+
+# census_all_raw <- read_csv(file.path(dir_goal, 'int', 'census_all_raw.csv'))
+# 
+# dist_list_0106 <- census_all_raw %>%
+#   filter(year %in% c(2001, 2006)) %>%
+#   .$district %>% unique()
+# dist_list_2011 <- census_all_raw %>%
+#   filter(year %in% c(2011)) %>%
+#   .$district %>%
+#   tolower() %>% str_replace_all('[^a-z]', '') %>%
+#   unique()
+# dist_lookup <- data.frame(dist_include = dist_list_0106) %>%
+#   mutate(dist_2011 = rep(list(dist_list_2011), times = nrow(.))) %>%
+#   unnest(dist_2011) %>%
+#   filter(str_detect(dist_2011, dist_include))
+# 
+# dist_lookup_from_spatial <- sf::read_sf(file.path(dir_goal, 'spatial'),
+#                                     'ohibc_census_clip') %>%
+#   as.data.frame() %>%
+#   setNames(tolower(names(.))) %>%
+#   select(cduid, dist_2011 = cdname) %>%
+#   distinct() %>%
+#   mutate(dist_2011 = str_replace_all(tolower(dist_2011), '[^a-z]', '')) %>%
+#   full_join(dist_lookup, by = c('dist_2011'))
+# 
+# write_csv(dist_lookup_from_spatial, file.path(dir_goal, 'raw', 'dist_name_lookup_raw.csv'))
+
+```
+
+``` {r clean_up_dist_stats}
+
+dist_ids <- read_csv(file.path(dir_goal, 'raw', 'dist_ids_lookup_clean.csv')) %>%
+  gather(dataset, district, contains('dist_20'))
+
+### Chop down full census dataset to coastal regions & categories of interest; then
+### fix district names and IDs.
+### Because the income and labor fields are not counts, but averages, we can 
+### split Comox-Strathcona blocks into Comox and Strathcona.  Note that the
+### difference in values for 2011 income and unemployment can give us more
+### of an idea of how these split between the two districts, but they are
+### very close so it would provide negligible impact on final score.
+category_valid <- c('labour force', 'income', 'household', 'unemployment')
+
+census_coast <- read_csv(file.path(dir_goal, 'int', 'census_all_raw.csv')) %>%
+  filter(str_detect(tolower(category), paste(category_valid, collapse = '|'))) %>%
+  ### convoluted... first, add district IDs by district name; then...
+  inner_join(dist_ids, by = 'district') %>%
+  ### ...clear out district name, then...
+  select(-dataset, -district) %>%
+  ### ...reattach *current* district names by ID.
+  left_join(dist_ids %>% filter(dataset == 'dist_2011') %>% select(-dataset),
+            by = 'dist_id') %>%
+  distinct() %>%
+  select(year, dist_id, district, category, subcat, dist_tot)
+
+### isolate unemployment stats
+census_unempl <- census_coast %>%
+  filter(str_detect(tolower(subcat),   'unemployment rate')) %>%
+  select(year, district, dist_id, unempl_rate = dist_tot) %>%
+  distinct()
+
+write_csv(census_unempl, file.path(dir_goal, 'int', 'census_unemployment.csv'))
+
+
+### isolate income stats
+income_fld_valid <- c('median household income.*all',
+                   'median income.*all.*household',
+                   'median household total income')
+census_income <- census_coast %>%
+  mutate(hh_income = str_detect(tolower(subcat), paste(income_fld_valid, collapse = '|')),
+         hh_income = ifelse(year == 1996 & str_detect(tolower(subcat), 'median household income'), TRUE, hh_income)) %>%
+  filter(hh_income) %>%
+  select(year, district, dist_id, income_cat = subcat, dist_median = dist_tot) %>%
+  distinct()
+
+write_csv(census_income, file.path(dir_goal, 'int', 'census_income.csv'))
+
+```
+
+## Aggregate census data to OHIBC region by population weight
+
+Income and employment values at census district level are aggregated to the OHIBC region level, using population weighting of each CD within each OHIBC region to determine a weighted mean.
+
+``` {r interpolate_function}
+
+interp_vals <- function(df, varname) {
+  names(df)[names(df) == varname] <- 'tmp'
+  df <- df %>%
+    complete(year = min(year):max(year), nesting(rgn_id)) %>%
+    group_by(rgn_id) %>%
+    mutate(tmp = zoo::na.approx(tmp, year)) %>%
+    ungroup()
+             
+  names(df)[names(df) == 'tmp'] <- varname
+  
+  return(df)
+}
+
+```
+
+``` {r calc_income_layers}
+rgn_df <- read_csv(file.path(dir_goal, 'int', 'pop_census_by_ohibc.csv')) %>%
+  filter(year == max(year)) %>%
+  select(-year)
+
+income_df <- read_csv(file.path(dir_goal, 'int', 'census_income.csv')) %>%
+  left_join(rgn_df, by = 'dist_id') %>%
+  filter(pop_rgn_dist > 0)
+
+income_wt_mean <- income_df %>%
+  group_by(year, rgn_id) %>%
+  mutate(dist_median = as.numeric(dist_median)) %>%
+  summarize(median_income = sum(dist_median * pop_rgn_dist) / sum(pop_rgn_dist),
+            median_income = round(median_income, 2)) %>%
+  ungroup() %>%
+  interp_vals(varname = 'median_income')
+
+write_csv(income_wt_mean, file.path(dir_goal, 'output', 'le_income.csv'))
+
+DT::datatable(income_wt_mean, caption = 'Median income')
+
+```
+
+``` {r calc_unemployment_layer}
+rgn_df <- read_csv(file.path(dir_goal, 'int', 'pop_census_by_ohibc.csv')) %>%
+  filter(year == max(year)) %>%
+  select(-year)
+
+unempl_df <- read_csv(file.path(dir_goal, 'int', 'census_unemployment.csv')) %>%
+  left_join(rgn_df, by = 'dist_id') %>%
+  filter(pop_rgn_dist > 0)
+
+unempl_layer <- unempl_df %>%
+  group_by(year, rgn_id) %>%
+  summarize(unemployment_rate = sum(unempl_rate * pop_rgn_dist) / sum(pop_rgn_dist),
+            unemployment_rate = round(unemployment_rate / 100, 5)) %>%
+  ungroup() %>%
+  interp_vals(varname = 'unemployment_rate')
+
+write_csv(unempl_layer, file.path(dir_goal, 'output', 'le_unemployment.csv'))
+
+DT::datatable(unempl_layer, caption = 'Unemployment rate')
+
+```
+
+### Visualize
+
+``` {r data_viz}
+
+income_layer <- read_csv(file.path(dir_goal, 'output', 'le_income.csv')) %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
+unempl_layer <- read_csv(file.path(dir_goal, 'output', 'le_unemployment.csv')) %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
+
+ggplot(income_layer, aes(x = year, y = median_income, color = rgn_name)) +
+  ggtheme_plot() +
+  geom_point() +
+  geom_line(aes(group = rgn_name), alpha = .3) +
+  scale_x_continuous(breaks = c(1996:2011)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_y_continuous(limits = c(0, NA))
+
+ggplot(unempl_layer, aes(x = year, y = unemployment_rate, color = rgn_name)) +
+  ggtheme_plot() +
+  geom_point() +
+  geom_line(aes(group = rgn_name), alpha = .3) +
+  scale_x_continuous(breaks = c(1996:2011)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_y_continuous(limits = c(0, NA))
+
+```
+
+
+``` {r map le scores, fig.height = 6, eval = FALSE}
+
+rgns <- read_sf(dir_spatial, 'ohibc_rgn_simple') %>%
+  mutate(rgn_id = as.integer(rgn_id))
+
+continent <- read_sf(dir_spatial, 'ohibc_continent')
+
+scores_from_toolbox <- read_csv(file.path(dir_git, 'calc_ohibc/scores_all.csv')) %>%
+  filter(goal == 'LE' & dimension == 'status') %>%
+  filter(year == max(year))
+
+rgn_scores <- rgns %>%
+  left_join(scores_from_toolbox, by = c('rgn_id' = 'region_id')) %>%
+  mutate(score = round(score))
+
+ggplot(rgn_scores) +
+  ggtheme_plot() +
+  geom_sf(data = continent, fill = 'grey90', color = 'grey50', size = .25, alpha = .7) +
+  geom_sf(aes(fill = score), size = .25, color = 'grey40', alpha = .7) +
+  scale_fill_distiller(palette = 'Spectral', direction = 1, limits = c(0, 100))
+
+library(tmap)
+tm_shape(continent) +
+  tm_polygons(col = 'grey80', border.col = 'grey50', size = .25) +
+tm_shape(rgn_scores, is.master = TRUE) +
+  tm_polygons(col = 'score', border.col = 'grey40', 
+              style = 'cont', 
+              palette = 'Spectral', 
+              legend.show = FALSE,
+              colorNA = 'grey90') +
+tm_shape(rgn_scores %>% filter(rgn_id != 7)) +
+  tm_bubbles(size = 3, col = 'white', alpha = .8) +
+  tm_markers(text = 'score', text.just = c('center', 'center')) +
+tm_shape(continent %>% filter(rgn_id == 218) %>% mutate(label = '93')) +
+  tm_bubbles(size = 10, col = 'white', alpha = .8) +
+  tm_markers(text = 'label', size.max = 3, size = 'label',
+             text.just = c('center', 'center')) +
+tm_layout(bg.color = '#aabbff')
+
+
+```
+
+-----
+
+``` {r provenance, results = 'asis'}
+
+prov_wrapup()
+
+```

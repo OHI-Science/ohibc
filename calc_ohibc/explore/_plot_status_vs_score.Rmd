@@ -37,40 +37,6 @@ source(file.path(dir_calc, 'calc_scores_fxns.R'))
 ```
 
 
-## Status plots
-
-``` {r plot_all_scores}
-
-scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
-  filter(dimension %in% c('status')) %>%
-  spread(dimension, score) %>%
-  filter(!is.na(status)) %>%
-  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
-
-for(goalname in scores$goal %>% unique() %>% sort) {
-  # goalname <- scores$goal[1]
-  scores_tmp <- scores %>%
-    filter(goal == goalname)
-  status_plot <- ggplot(scores_tmp %>% 
-                          filter(region_id != 0), 
-                      aes(x = year, y = status, color = rgn_name)) +
-    ggtheme_plot() +
-    geom_line(data = scores_tmp %>% 
-                filter(region_id == 0), 
-              aes(x = year, y = status), size = 1.5, color = 'grey20', alpha = .8) +
-    geom_line(aes(group = region_id), alpha = .7, size = 1) +
-    scale_x_continuous(breaks = scores_tmp$year %>% unique() %>% sort) +
-    scale_y_continuous(limits = c(0, 100)) +
-    theme(axis.text.x = element_text(angle = 30)) +
-    labs(color = goalname) +
-    guides(colour = guide_legend(override.aes = list(size = 3)))
-
-  print(status_plot)
-}
-
-
-```
-
 ## Status vs dimensions plots (overall only)
 
 Dark grey is status; grey dotted is score; red is pressures; green is resilience.
@@ -223,7 +189,6 @@ for(yr in index_scores$year %>% unique() %>% sort()) {
 }
 
 ```
-
 
 ## Figure: Past "likely future status" compared to current "status"
 

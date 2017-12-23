@@ -37,7 +37,6 @@ Check layers used in toolbox (layers_files, layers_meta, layers_source, layers_t
 
 ``` {r}
 
-
 source(file.path(dir_calc, 'explore/create_layer_to_target_lookup.R'))
        
 source(file.path(dir_calc, 'explore/create_layer_source_lookup.R'))
@@ -142,7 +141,7 @@ extras <- c(output_csvs[!basename(output_csvs) %in% layers_full$filename],
 
 ```
 
-#### Extra output csvs not used as layers:
+#### Extra 'output' csvs not used as layers:
 
 `r paste0('\n* ', extras, collapse = '')`
 

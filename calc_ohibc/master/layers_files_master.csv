@@ -41,7 +41,7 @@ hd_intertidal,ohibc:prep/_pressures/v2017/output,prs_hd_intertidal.csv,TRUE,pres
 hd_mpa_coast,ohibc:prep/lsp/v2017/output,mpa_pct_3nm.csv,TRUE,pct_prot
 hd_mpa_eez,ohibc:prep/lsp/v2017/output,mpa_pct_eez.csv,TRUE,pct_prot
 hd_subtidal_sb,ohibc:prep/_pressures/v2017/output,prs_hd_soft_btm.csv,TRUE,pressure
-hd_mining,ohibc:calc_ohibc/master/dummy_layers,po_water_gl2016.csv,TRUE,resilience_score
+hd_mining,ohibc:prep/_pressures/v2017/output,prs_mining.csv,TRUE,pressure
 hd_logging,ohibc:prep/_pressures/v2017/output,prs_logging.csv,TRUE,pressure
 ico_spp_presence,ohibc:prep/spp_ico/v2017/output,ico_spp_by_rgn.csv,TRUE,rgn_id
 ico_spp_risk_score,ohibc:prep/spp_ico/v2017/output,ico_risk_by_year.csv,TRUE,risk_score

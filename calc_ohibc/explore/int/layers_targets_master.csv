@@ -62,12 +62,6 @@ sp_genetic,FIS,NA,pressure
 sp_genetic,ICO,NA,pressure
 sp_genetic,SAL,NA,pressure
 sp_genetic,SPP,NA,pressure
-sp_hatcheries,AO,salmon,pressure
-sp_hatcheries,AO,fn_licenses,pressure
-sp_hatcheries,ICO,NA,pressure
-sp_hatcheries,MAR,NA,pressure
-sp_hatcheries,SAL,NA,pressure
-sp_hatcheries,SPP,NA,pressure
 aq_mammals,ICO,NA,pressure
 aq_mammals,SPP,NA,pressure
 aq_mammals,TR,NA,pressure
@@ -360,6 +354,4 @@ spp_pop_trends,SPP,NA,status
 spp_range_areas,SPP,NA,status
 spp_risk_scores,SPP,NA,status
 tr_park_visits,TR,NA,status
-tr_park_visits_all,TR,NA,status
 tr_vis_ctr_visits,TR,NA,status
-tr_vis_ctr_visits_all,TR,NA,status

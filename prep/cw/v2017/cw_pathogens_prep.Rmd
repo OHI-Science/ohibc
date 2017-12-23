@@ -255,48 +255,9 @@ write_csv(pop_01_16, file.path(dir_goal, 'int/patho_pop_2001-2016.csv'))
 
 ```
 
-``` {r census_pops_2001_2016}
+Here we combine the population dataframe with the CSD dataframe to calculate total First Nations and non-First Nations populations in each OHIBC region.
 
-pop_df <- read_csv(file.path(dir_goal, 'int/patho_pop_2001-2016.csv'))
-
-csd_df <- read_csv(file.path(dir_goal, 'int/patho_csd_2001-2016.csv')) 
-
-pop_csd <- pop_df %>%
-  left_join(csd_df, by = c('sgc' = 'csduid', 'year')) %>%
-  filter(!is.na(rgn_id)) %>%
-  select(-type, -name, -prev_pop)
-
-pop_rgn_yr <- pop_csd %>%
-  group_by(rgn_id, year) %>%
-  summarize(pop = sum(pop * prop_area, na.rm = TRUE))
-
-pop_rgn_yr_plot <- ggplot(pop_rgn_yr %>%
-         left_join(get_rgn_names(), by = 'rgn_id'), 
-       aes(x = year, y = pop)) +
-  ggtheme_plot() +
-  geom_line(aes(group = rgn_name, color = rgn_name),
-            size = 2, alpha = .8,
-            show.legend = FALSE) +
-  scale_color_brewer(palette = 'Dark2') +
-  ylim(c(0, NA)) +
-  theme(axis.text.x = element_text(angle = 30)) +
-  labs(x = 'year', y = 'region population', color = 'region') +
-  facet_wrap( ~ rgn_name, scales = 'free_y')
-
-print(pop_rgn_yr_plot)
-
-write_csv(pop_csd,    file.path(dir_goal, 'int/patho_pop_csd_yr.csv'))
-write_csv(pop_rgn_yr, file.path(dir_goal, 'int/patho_pop_rgn_yr.csv'))
-
-```
-
-### Determine population of municipalities within OHIBC
-
-Develop a dataframe of municipalities by OHIBC region (inland, based on MaPP inland regions and watershed boundaries).  Census subdivisions will be allocated to OHIBC regions according to area-weighting.
-
-Assign 2001/2006/2011/2016 population statistics to each census subdivision.  Result is a dataframe of OHIBC region, and population by municipality size category by year.
-
-The data from the Municipal Waste Water Survey exclude municipalities on federal lands and First Nations communities.  These can be identified from the census data using the "type" codes: 
+The data from the Municipal Waste Water Survey exclude municipalities on federal lands and First Nations communities.  These can be identified from the census data using the "type" codes (and an older code of "R" seems to indicate First Nations as well prior to 2006): 
 
 |CSD type | Description |
 | :-----: | :---------- |
@@ -312,16 +273,59 @@ The data from the Municipal Waste Water Survey exclude municipalities on federal
 |   NL ✓  | Nisga'a Land |
 |  NVL ✓  | Nisga'a Village |
 
+``` {r census_pops_2001_2016}
+
+pop_df <- read_csv(file.path(dir_goal, 'int/patho_pop_2001-2016.csv'))
+
+csd_df <- read_csv(file.path(dir_goal, 'int/patho_csd_2001-2016.csv')) 
+
+fn_types <- c('IRI', 'IGD', 'S-E', 'NL', 'NVL', 'R') %>%
+  paste(collapse = '|')
+
+pop_csd <- pop_df %>%
+  left_join(csd_df, by = c('sgc' = 'csduid', 'year')) %>%
+  filter(!is.na(rgn_id)) %>%
+  mutate(fn = !is.na(str_match(csdtype, fn_types))) %>%
+  select(-type, -name, -prev_pop)
+
+pop_rgn_yr <- pop_csd %>%
+  group_by(rgn_id, year, fn) %>%
+  summarize(pop = sum(pop * prop_area, na.rm = TRUE))
+
+pop_rgn_yr_plot <- ggplot(pop_rgn_yr %>%
+         left_join(get_rgn_names(), by = 'rgn_id'), 
+       aes(x = year, y = pop)) +
+  ggtheme_plot() +
+  geom_line(aes(group = fn, color = fn),
+            size = 2, alpha = .8,
+            show.legend = FALSE) +
+  scale_color_brewer(palette = 'Dark2') +
+  ylim(c(0, NA)) +
+  theme(axis.text.x = element_text(angle = 30)) +
+  labs(x = 'year', y = 'region population', color = 'First Nations') +
+  facet_wrap( ~ rgn_name, scales = 'free_y')
+
+print(pop_rgn_yr_plot)
+
+write_csv(pop_csd,    file.path(dir_goal, 'int/patho_pop_csd_yr.csv'))
+write_csv(pop_rgn_yr, file.path(dir_goal, 'int/patho_pop_rgn_yr.csv'))
+
+```
+
+### Determine population of municipalities within OHIBC
+
+Develop a dataframe of municipalities by OHIBC region (inland, based on MaPP inland regions and watershed boundaries).  Census subdivisions will be allocated to OHIBC regions according to area-weighting.
+
+Assign 2001/2006/2011/2016 population statistics to each census subdivision.  Result is a dataframe of OHIBC region, and population by municipality size category by year.
+
 ``` {r ohibc_pop_by_municipality_size}
 
 pop_csd_yr <- read_csv(file.path(dir_goal, 'int/patho_pop_csd_yr.csv'))
 
-fn_types <- c('IRI', 'IGD', 'S-E', 'NL', 'NVL') %>%
-  paste(collapse = '|')
 
 pop_cat_csd_yr <- pop_csd_yr %>%
   mutate(pop = ifelse(is.na(pop), 0, pop),
-         pop_cat = case_when(str_detect(csdtype, fn_types) ~ 'First Nations',
+         pop_cat = case_when(fn           ~ 'First Nations',
                              pop < 1000   ~ 'Under 1000',
                              pop < 2000   ~ '1001–2000',
                              pop < 5000   ~ '2001–5000',
@@ -515,6 +519,8 @@ Our pressure model will be based on population density on high-risk wastewater s
 * As (Population density * percent at risk) climbs, pressure climbs.
 * Reference point is the population density of the most dense OHIBC region, as if that region were entirely on high-risk systems.
 
+At this point we also remove Aristazabal Island from the pathogen calculations because it is essentially unpopulated.
+
 ``` {r calc_pressures}
 
 ### Calc land area for population density
@@ -528,6 +534,7 @@ ohibc_land_area <- read_csv(file.path(dir_goal, 'int/patho_csd_2001-2016.csv')) 
 
 ohibc_all <- read_csv(file.path(dir_goal, 'int/patho_ohibc_pop_sewer.csv')) %>%
   left_join(ohibc_land_area, by = 'rgn_id') %>%
+  filter(rgn_id != 8) %>%
   group_by(rgn_id, year) %>%
   summarize(pop_treated  = sum(pop_treated),
             pop_total    = sum(pop_in_cat),

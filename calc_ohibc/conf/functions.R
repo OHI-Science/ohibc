@@ -779,34 +779,20 @@ TR <- function(layers) {
 
   vc_visits     <- layers$data[['tr_vis_ctr_visits']] %>%
     select(-layer)
-  # vc_visits_all <- layers$data[['tr_vis_ctr_visits_all']] %>%
-  #   rename(visits_all = visits) %>%
-  #   select(-layer)
   park_visits   <- layers$data[['tr_park_visits']] %>%
     select(-layer)
-  # park_visits_all <- layers$data[['tr_park_visits_all']] %>%
-  #   rename(visits_all = visits) %>%
-  #   select(-layer)
 
   ### Sum visitor center (or park) visits within each region
-  ###   Deprecated: adjust by province-wide totals (by dividing by normalized
-  ###   province total visits).
   vc_visits_adj <- vc_visits %>%
     group_by(rgn_id, year) %>%
     summarize(visits = sum(visits)) %>%
-    ungroup() # %>%
-    # left_join(vc_visits_all, by = 'year') %>%
-    # mutate(visits_all_norm = visits_all / max(visits_all, na.rm = TRUE),
-    #        visits_adj = visits / visits_all_norm)
+    ungroup()
 
 
   park_visits_adj <- park_visits %>%
     group_by(rgn_id, year) %>%
     summarize(visits = sum(visits_wt)) %>%
-    ungroup() # %>%
-    # left_join(park_visits_all, by = 'year') %>%
-    # mutate(visits_all_norm = visits_all / max(visits_all, na.rm = TRUE),
-    #        visits_adj = visits / visits_all_norm)
+    ungroup()
 
   ### Create reference point by looking at rolling mean over prior five years.
   ### This also back- and forward-fills using LOCF (or FOCB) to complete
@@ -878,7 +864,8 @@ LE <- function(layers) {
     complete_rgn_years(status_yr_span) %>%
     arrange(region_id, year) %>%
     mutate(empl_rate = 1 - unemployment_rate,
-           ref_pt = lag(empl_rate, 5)) %>%
+           # ref_pt = lag(empl_rate, 5)) %>%
+           ref_pt = zoo::rollmean(empl_rate, k = 5, fill = NA, align = 'right')) %>%
     ### reference point is value five years prior
     ungroup()
 
