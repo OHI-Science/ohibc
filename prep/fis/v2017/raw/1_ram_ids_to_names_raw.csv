@@ -1,45 +1,46 @@
-stockid,stocklong,region,areaid
-BIGSKA5AB,Big skate Queen Charlotte Sound,Canada West Coast,Canada-DFO-5AB
-LNOSESKA5AB,Longnose Skate Queen Charlotte Sound,Canada West Coast,Canada-DFO-5AB
-PCOD5AB,Pacific cod Queen Charlotte Sound,Canada West Coast,Canada-DFO-5AB
-RSOLE5AB,Rock sole Queen Charlotte Sound,Canada West Coast,Canada-DFO-5AB
-BOCACCBCW,Bocaccio British Columbia Waters,Canada West Coast,Canada-DFO-BCW
-HERRCC,Pacific herring Central Coast,Canada West Coast,Canada-DFO-CC
-BIGSKA5CDE,Big skate Hecate Strait,Canada West Coast,Canada-DFO-HS
-ESOLEHS,English sole Hecate Strait,Canada West Coast,Canada-DFO-HS
-LNOSESKA5CDE,Longnose skate Hecate Strait,Canada West Coast,Canada-DFO-HS
-PCODHS,Pacific cod Hecate Strait,Canada West Coast,Canada-DFO-HS
-RSOLEHSTR,Rock sole Hecate Strait,Canada West Coast,Canada-DFO-HS
-SABLEFPCAN,Sablefish Pacific Coast of Canada,Canada West Coast,Canada-DFO-PCOAST
-SARDBC,Pacific sardine British Columbia,Canada West Coast,Canada-DFO-PCOAST
-EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,Canada West Coast,Canada-DFO-PCOASTFRDU
-QROCKPCOASTIN,Quillback rockfish Pacific Coast of Canada (Inside),Canada West Coast,Canada-DFO-PCOASTIN
-YEYEROCKPCOASTIN,Yelloweye rockfish Pacific Coast of Canada (Inside),Canada West Coast,Canada-DFO-PCOASTIN
-QROCKPCOASTOUT,Quillback rockfish Pacific Coast of Canada (Outside),Canada West Coast,Canada-DFO-PCOASTOUT
-HERRPRD,Pacific herring Prince Rupert District,Canada West Coast,Canada-DFO-PRD
-HERRQCI,Pacific herring Queen Charlotte Islands,Canada West Coast,Canada-DFO-QCI
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,Canada West Coast,Canada-DFO-QCI
-PANDALSMA14,Northern shrimp SMA 14,Canada West Coast,Canada-DFO-SMA-14
-SSSHRIMPSMA14,Sidestripe shrimp SMA 14,Canada West Coast,Canada-DFO-SMA-14
-PANDALSMA16,Northern shrimp SMA 16,Canada West Coast,Canada-DFO-SMA-16
-SSSHRIMPSMA16,Sidestripe shrimp SMA 16,Canada West Coast,Canada-DFO-SMA-16
-PANDALSMA18-19,Northern shrimp SMA 18-19,Canada West Coast,Canada-DFO-SMA-18-19
-SSSHRIMPSMA18-19,Sidestripe shrimp SMA 18-19,Canada West Coast,Canada-DFO-SMA-18-19
-PANDALSMAFR,Northern shrimp SMA FR,Canada West Coast,Canada-DFO-SMA-FR
-SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,Canada West Coast,Canada-DFO-SMA-FR
-PANDALSMAGTSE,Northern shrimp SMA GTSE,Canada West Coast,Canada-DFO-SMA-GTSE
-SSHRIMPSMAGTSE,Sidestripe shrimp SMA GTSE,Canada West Coast,Canada-DFO-SMA-GTSE
-PANDALSMAPRD,Northern shrimp SMA PRD,Canada West Coast,Canada-DFO-SMA-PRD
-SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,Canada West Coast,Canada-DFO-SMA-PRD
-BIGSKA4B,Big skate Strait of Georgia,Canada West Coast,Canada-DFO-SOG
-HERRSOG,Pacific herring Straight of Georgia,Canada West Coast,Canada-DFO-SOG
-LINGCODSOG,Lingcod Strait of Georgia,Canada West Coast,Canada-DFO-SOG
-LNOSESKA4B,Longnose Skate Strait of Georgia,Canada West Coast,Canada-DFO-SOG
-BIGSKA3CD,Big skate West Coast Vancouver Island,Canada West Coast,Canada-DFO-WCVANI
-HERRWCVANI,Pacific herring West Coast of Vancouver Island,Canada West Coast,Canada-DFO-WCVANI
-LNOSESKA3CD,Longnose skate West Coast Vancouver Island,Canada West Coast,Canada-DFO-WCVANI
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,Canada West Coast,Canada-DFO-WCVANI
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,Canada West Coast,Canada-DFO-WCVANI
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,Canada West Coast,Canada-DFO-WCVANI-SOG-QCI
-PHALNPAC,Pacific halibut North Pacific,US Alaska,multinational-IPHC-NPAC
-ALBANPAC,Albacore tuna North Pacific,US West Coast,Multinational-ISC-NPAC
+stock_id,stock_name,region,ram_area_name
+BOCACCBCW,Bocaccio British Columbia Waters,Canada West Coast,British Columbia Waters
+HERRCC,Pacific herring Central Coast,Canada West Coast,Central Coast
+BIGSKA5CDE,Big skate Hecate Strait,Canada West Coast,Hecate Strait
+ESOLEHS,English sole Hecate Strait,Canada West Coast,Hecate Strait
+LNOSESKA5CDE,Longnose skate Hecate Strait,Canada West Coast,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,Canada West Coast,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,Canada West Coast,Hecate Strait
+PHALNPAC,Pacific halibut North Pacific,US Alaska,North Pacific
+ALBANPAC,Albacore tuna North Pacific,US West Coast,North Pacific Ocean
+PHAKEPCOAST,Pacific hake Pacific Coast,US West Coast,Pacific Coast
+SABLEFPCAN,Sablefish Pacific Coast of Canada,Canada West Coast,Pacific Coast of Canada
+SARDBC,Pacific sardine British Columbia,Canada West Coast,Pacific Coast of Canada
+EULAPCOASTFRDU,Eulachon Pacific Coast of Canada Fraser River DU,Canada West Coast,Pacific Coast of Canada Fraser River Designatable Unit
+QROCKPCOASTIN,Quillback rockfish Pacific Coast of Canada (Inside),Canada West Coast,Pacific Coast of Canada (Inside)
+YEYEROCKPCOASTIN,Yelloweye rockfish Pacific Coast of Canada (Inside),Canada West Coast,Pacific Coast of Canada (Inside)
+QROCKPCOASTOUT,Quillback rockfish Pacific Coast of Canada (Outside),Canada West Coast,Pacific Coast of Canada (Outside)
+HERRPRD,Pacific herring Prince Rupert District,Canada West Coast,Prince Rupert District
+HERRQCI,Pacific herring Haida Gwaii,Canada West Coast,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,Canada West Coast,Queen Charlotte Islands
+BIGSKA5AB,Big skate Queen Charlotte Sound,Canada West Coast,Queen Charlotte Sound
+LNOSESKA5AB,Longnose Skate Queen Charlotte Sound,Canada West Coast,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,Canada West Coast,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,Canada West Coast,Queen Charlotte Sound
+PANDALSMA14,Northern shrimp SMA 14,Canada West Coast,Shrimp Management Area 14
+SSSHRIMPSMA14,Sidestripe shrimp SMA 14,Canada West Coast,Shrimp Management Area 14
+PANDALSMA16,Northern shrimp SMA 16,Canada West Coast,Shrimp Management Area 16
+SSSHRIMPSMA16,Sidestripe shrimp SMA 16,Canada West Coast,Shrimp Management Area 16
+PANDALSMAFR,Northern shrimp SMA FR,Canada West Coast,Shrimp Management Area FR
+SSSHRIMPSMAFR,Sidestripe shrimp SMA FR,Canada West Coast,Shrimp Management Area FR
+PANDALSMAGTSE,Northern shrimp SMA GTSE,Canada West Coast,Shrimp Management Area GTSE
+SSHRIMPSMAGTSE,Sidestripe shrimp SMA GTSE,Canada West Coast,Shrimp Management Area GTSE
+PANDALSMAPRD,Northern shrimp SMA PRD,Canada West Coast,Shrimp Management Area PRD
+SSHRIMPSMAPRD,Sidestripe shrimp SMA PRD,Canada West Coast,Shrimp Management Area PRD
+PANDALSMA18-19,Northern shrimp SMA 18-19,Canada West Coast,Shrimp Management Areas 18 and 19
+SSSHRIMPSMA18-19,Sidestripe shrimp SMA 18-19,Canada West Coast,Shrimp Management Areas 18 and 19
+HERRSOG,Pacific herring Straight of Georgia,Canada West Coast,Straight of Georgia
+BIGSKA4B,Big skate Strait of Georgia,Canada West Coast,Straight of Georgia
+LINGCODSOG,Lingcod Strait of Georgia,Canada West Coast,Straight of Georgia
+LNOSESKA4B,Longnose Skate Strait of Georgia,Canada West Coast,Straight of Georgia
+HERRWCVANI,Pacific herring West Coast of Vancouver Island,Canada West Coast,West Coast of Vancouver Island
+BIGSKA3CD,Big skate West Coast Vancouver Island,Canada West Coast,West Coast of Vancouver Island
+LNOSESKA3CD,Longnose skate West Coast Vancouver Island,Canada West Coast,West Coast of Vancouver Island
+PCODWCVANI,Pacific cod West Coast of Vancouver Island,Canada West Coast,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,Canada West Coast,West Coast of Vancouver Island
+CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,Canada West Coast,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands

@@ -78,7 +78,7 @@ The .zipped set of shapefiles seems to be named according to the RAM `assess_id`
 ``` {r get_fisheries_stocks}
 
 stock_list <- read_csv(file.path(dir_goal, 'output/ram_catch.csv')) %>%
-  select(stock_id, stock_name, ram_area_id, ram_area_name) %>%
+  select(stock_id, stock_name, ram_area_name) %>%
   distinct()
 
 ram_spatial_dir <- file.path(dir_anx, '_raw_data/ram_fisheries/d2017/spatial')
@@ -93,15 +93,15 @@ boundary_list <- boundary_list %>%
          shp = assessid,
          file_exists = file.exists(file.path(dir, shp)))
 
-bc_bounds_dir <- file.path(dir_goal_anx, 'stock_boundaries/ram')
+bc_bounds_dir <- file.path(dir_goal_anx, 'stock_boundaries/ram_files')
 unlink(bc_bounds_dir, recursive = TRUE)
 dir.create(bc_bounds_dir)
 y <- lapply(boundary_list$shp, FUN = function(x) {
   ### x <- boundary_list$shp[1]
-  stockname <- x %>%
-    str_replace('-PAC-', '-') %>%
-    str_split('-') %>%
-    unlist() %>% .[2]
+  stockname <- x
+    # str_replace('-PAC-', '-') %>%
+    # str_split('-') %>%
+    # unlist() %>% .[2]
   file.copy(from = file.path(ram_spatial_dir, 'ramldb_boundaries', paste0(x, c('.shp', '.prj', '.shx', '.dbf'))),
             to   = file.path(bc_bounds_dir, paste0(stockname, c('.shp', '.prj', '.shx', '.dbf'))))
 })
@@ -116,6 +116,50 @@ Note that most species do not actually get fished in the Pacific Offshore region
 
 Two exceptions: Halibut and Albacore.  These will base the regional catch on the total area of the fishery polygon.  The catch for Halibut associated with Pacific Offshore will be dropped.
 
+### Pacific Hake 
+
+The Pacific Hake shapefile from Chris Free's database is only for Southern California:
+
+```{r hake_free_shp}
+
+free_hake <- st_read(file.path(dir_anx, "fis/v2017/stock_boundaries/ram_files"), "PFMC-PHAKEPCOAST-1966-2016-WATSON")
+plot(free_hake[1])
+```
+
+Therefor we can't use this shapefile. We can use shapefiles provided by DFO. Unfortunately these shapefiles are provided individually from 1996 - 2012. So we need to combine them all and then remove all polygons where Hake catch is set to 0.
+
+```{r dfo_hake_shp}
+
+dfo_hake_out <- st_read(file.path(dir_anx, "_raw_data/dfo_khunter/fisheries/d2016/groundfish_trawl_old_1996_2012"),"Trawl_1996_BCA") %>%
+    st_transform(4326) %>%
+    select(HakeWt, geometry) %>% 
+    filter(HakeWt > 0) %>% #filtering out polygons that have 0 catch of Hake in them.
+    mutate(year = 1996)
+
+for (yr in 1997:2012) {
+  
+  dfo_hake <- st_read(file.path(dir_anx, "_raw_data/dfo_khunter/fisheries/d2016/groundfish_trawl_old_1996_2012"), paste0("Trawl_",yr,"_BCA")) %>%
+    st_transform(4326) %>%
+    select(HakeWt, geometry) %>% 
+    filter(HakeWt > 0) %>% #filtering out polygons that have 0 catch of Hake in them.
+    mutate(year = yr)
+  
+  dfo_hake_out <-rbind(dfo_hake_out, dfo_hake)
+}
+
+#union all polygons to create one polygon for size
+
+dfo_hake_geom <- st_union(dfo_hake_out) 
+
+plot(dfo_hake_geom[1])
+
+st_write(dfo_hake_geom, file.path(dir_goal_anx, "stock_boundaries"), layer = "dfo_hake_1996_2012", driver= "ESRI Shapefile", update=TRUE, delete_layer =TRUE)
+
+```
+
+The above plot shows all blocks in which Hake was caught between 1996 and 2012. For simplicity, we will use these combined shapefiles as a single shapefile to represent where the Hake stock is fished in BC.
+
+
 ``` {r apportion_ram_boundaries_to_ohibc}
 
 ram_areas_file <- file.path(dir_goal, 'ram', '2_ram_stock_to_ohibc_areas.csv')
@@ -124,7 +168,7 @@ reload <- TRUE
 
 if(!file.exists(ram_areas_file) | reload) {
     
-  ram_bounds_dir <- file.path(dir_goal_anx, 'stock_boundaries/ram')
+  ram_bounds_dir <- file.path(dir_goal_anx, 'stock_boundaries/ram_files')
   
   shp_list <- list.files(ram_bounds_dir, pattern = '.shp$', full.names = FALSE) %>%
     str_replace('.shp$', '')
@@ -133,11 +177,24 @@ if(!file.exists(ram_areas_file) | reload) {
     st_transform(4326)
   
   intsx_ram <- function(ram_layer) {
-    ### ram_layer <- shp_list[2]
+    ### ram_layer <- shp_list[45]
   
     ptm <- proc.time()
+    
+    # The Hake shapefile in Chris Free's database is only for Southern California. Therefore we need to use a different shapefile. We can use the one from DFO.
+    if(str_detect(ram_layer, "PHAKE")){
+      
+      ram_sf <- st_read(file.path(dir_goal_anx, "stock_boundaries"), "dfo_hake_1996_2012") %>%
+        mutate(tot_area_m2 = st_area(geometry),
+               assessid = "PFMC-PHAKEPCOAST-1966-2016-WATSON",
+               stockid = "PHAKEPCOAST")
+    
+    }else{
+      
     ram_sf <- read_sf(ram_bounds_dir, ram_layer) %>%
       mutate(tot_area_m2 = st_area(geometry))
+    
+    }
     
     intsx_sf <- st_intersection(ohibc_sf, ram_sf) %>%
       select(rgn_name, rgn_id, assessid, stockid, tot_area_m2)
@@ -216,7 +273,7 @@ write_csv(ram_ohibc_all, file.path(dir_goal, 'output', 'ram_stock_area.csv'))
 
 ``` {r plot_ohibc_ram_maps}
 
-ram_bounds_dir <- file.path(dir_goal_anx, 'stock_boundaries/ram')
+ram_bounds_dir <- file.path(dir_goal_anx, 'stock_boundaries/ram_files')
 
 shp_list <- list.files(ram_bounds_dir, pattern = '.shp$', full.names = FALSE) %>%
   str_replace('.shp$', '')
@@ -229,8 +286,12 @@ for(ram_layer in shp_list) {
 
   message('Generating map for ', ram_layer)
   
+  if(ram_layer == "PFMC-PHAKEPCOAST-1966-2016-WATSON"){
+    ram_sf <- st_read(file.path(dir_goal_anx, "stock_boundaries"), "dfo_hake_1996_2012") 
+  }else{
+  
   ram_sf <- read_sf(ram_bounds_dir, ram_layer)
-
+}
   ram_map <- ggplot() +
     ggtheme_plot() +
     geom_sf(data = ohibc_sf, alpha = .5, fill = 'slateblue', color = 'blue', size = .25) +
