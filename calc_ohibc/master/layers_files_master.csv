@@ -48,9 +48,9 @@ ico_spp_presence,ohibc:prep/spp_ico/v2017/output,ico_spp_by_rgn.csv,TRUE,rgn_id
 ico_spp_risk_score,ohibc:prep/spp_ico/v2017/output,ico_risk_by_year.csv,TRUE,risk_score
 ico_spp_trend,ohibc:prep/spp_ico/v2017/output,ico_trend_by_id.csv,TRUE,iucn_pop_trend
 le_income_fn,ohibc:prep/le/v2017/output,le_income_fn.csv,TRUE,median_income
-le_unempl_fn,ohibc:prep/le/v2017/output,le_unempl_fn.csv,TRUE,unemployment_rate
+le_unempl_fn,ohibc:prep/le/v2017/output,le_unempl_fn.csv,TRUE,mean_unempl
 le_income_nonfn,ohibc:prep/le/v2017/output,le_income_nonfn.csv,TRUE,median_income
-le_unempl_nonfn,ohibc:prep/le/v2017/output,le_unempl_nonfn.csv,TRUE,unemployment_rate
+le_unempl_nonfn,ohibc:prep/le/v2017/output,le_unempl_nonfn.csv,TRUE,mean_unempl
 lsp_prot_area_inland_ws,ohibc:prep/lsp/v2017/output,lsp_protected_inland_ws.csv,TRUE,a_prot_inland
 lsp_prot_area_offshore3nm,ohibc:prep/lsp/v2017/output,lsp_protected_offshore3nm.csv,TRUE,a_prot_3nm
 lsp_tot_area_inland_ws,ohibc:prep/lsp/v2017/output,lsp_a_total_inland_ws.csv,TRUE,a_tot_inland
