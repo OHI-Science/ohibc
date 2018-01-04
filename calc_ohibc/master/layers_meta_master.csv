@@ -26,7 +26,7 @@ fis_ram_b_bmsy,FIS,B/Bmsy estimates obtained using RAM data,B/Bmsy,The ratio of 
 fis_ram_catch,FIS,Catch estimates obtained using RAM data,tonnes,Estimate of total annual catch for a given fishery
 fis_ram_f_fmsy,FIS,F/Fmsy estimates obtained using RAM data,F/Fmsy,The ratio of fishery harvest relative to the fishery harvest at maximum sustainable yield
 fis_stock_area,FIS,Proportional area of stock within each OHIBC region,proportion,Spatialized stock area for weighting RAM-reported catch across OHIBC regions.
-fis_dfo_unassessed_catch_props,FIS,Proportion of catch unassessed,proportion,Proportion of catch unassessed by DFO
+fis_dfo_assessed_catch_props,FIS,Proportion of catch assessed,proportion,Proportion of catch assessed by DFO
 fp_fis_discards,pressure,Discards,scaled 0-1,Pressure that non-targeted catch exerts on the system
 fp_fis_landings,pressure,Landings,scaled 0-1,Pressure that targeted catch exerts on the system
 fp_trawl_reduction,resilience,Voluntary trawl reduction to preserve biodiversity,scaled 0-1,??? Get description from Courtney
