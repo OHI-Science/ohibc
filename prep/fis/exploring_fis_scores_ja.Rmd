@@ -1,8 +1,19 @@
 ---
 title: "Exploring fisheries data"
-author: "Jamie Afflerbach"
-date: "10/6/2017"
-output: html_document
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
 ---
 
 ``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
@@ -32,13 +43,12 @@ library(plotly)
 
 ```{r}
 
-stocks_ts_df <- bind_rows(read_csv(file.path(dir_goal, 'output/ram_b_bmsy.csv')),
-                     read_csv(file.path(dir_goal, 'output/ram_f_fmsy.csv'))) %>%
-  left_join(read_csv(file.path(dir_goal, 'raw', '1_ram_ids_to_names.csv'))) %>%
+stocks_ts_df <- bind_rows(read_csv(file.path(dir_goal, 'output/ram_b_bmsy_4.25.csv')),
+                     read_csv(file.path(dir_goal, 'output/ram_f_fmsy_4.25.csv'))) %>%
+  #left_join(read_csv(file.path(dir_goal, 'raw', '1_ram_ids_to_names.csv'))) %>%
   ungroup() %>%
-  mutate(param = str_replace_all(tolower(param), '[^a-z]', '_') %>%
-           str_replace_all('u', 'f')) %>%
-  filter(year > 1994)
+  mutate(param = str_replace_all(tolower(param), '[^a-z]', '_')) %>%
+  filter(year > 1980)
 
 ```
 
@@ -50,7 +60,7 @@ There are `r length(unique(stocks_ts_df$stock_id))` RAM stocks used for the FIS 
 
 b_f_plot <- ggplot(stocks_ts_df, aes(x = year, y = value, color = param)) +
   geom_line() +
-  facet_wrap(~stock_name_mod)
+  facet_wrap(~stock_name, labeller = label_wrap_gen())
 
 b_f_plot
 
@@ -61,7 +71,7 @@ The catch values here come from the RAM database as well.
 
 ```{r}
 
-ram_catch <- read_csv(file.path(dir_goal, 'output/ram_catch.csv')) %>%
+ram_catch <- read_csv(file.path(dir_goal, 'output/ram_catch_4.25.csv')) %>%
             filter(stock_name %in% stocks_ts_df$stock_name,
                    year > 1994)
 
@@ -73,24 +83,35 @@ catch_plot
 
 ```
 
-Remove tuna
+## Plotting fishery catch weighting by region
+
+Do we have hake spatial data?
 
 ```{r}
+library(sf)
+PFMC-PHAKEPCOAST-1966-2016-WATSON.dbf
 
-ram_catch_no_tuna <- ram_catch %>%
-  filter(stock_id != "ALBANPAC")
+hake <- st_read(file.path(dir_M, "git-annex/bcprep/_raw_data/ram_fisheries/d2017/spatial/ramldb_boundaries"), "PFMC-PHAKEPCOAST-1966-2016-WATSON")
 
-catch_plot <- ggplot(ram_catch_no_tuna, aes(x = year, y = value)) +
-  geom_line() +
-  facet_wrap(~stock_name)
+plot(hake[1])
+```
 
-catch_plot
+Unfortunately this Hake shapefile looks like it's just off of Southern California. Therefore I think we need to use the DFO shapefiles.
+
+##DFO Hake shapefile
+
+```{r dfo_hake_shp}
+shp <- st_read(file.path(dir_M, "git-annex/bcprep/_raw_data/dfo_khunter/fisheries/d2016/groundfish_trawl_old_1996_2012"), "Trawl_2012_BCA") %>%
+  filter(HakeWt > 0)
+
+shp
+plot(shp[11])
 
 ```
 
-```{r}
+**THIS HAS NOT BEEN UPDATED FOR THE NEWEST RAM DATA**
 
-## plotting fishery catch weighting by region
+```{r}
 stock_plot_df <- read_csv(file.path(dir_goal, 'summary/fis_from_functions.csv')) %>%
   filter(!is.na(score)) %>%
   group_by(region_id, year) %>%
@@ -113,18 +134,6 @@ Breaking this up by region and stock
 stock_plot_df$region_id = as.character(stock_plot_df$region_id)
 
 ggplot(stock_plot_df, aes(x = year, y = rgn_catch_pct, color = stock_id)) + geom_line() + facet_wrap(~ rgn_name)
-
-```
-
-## Tuna
-
-Looking just at albacore tuna, the offshore region is entirely dependent on Albacore tuna while this stock makes up a very small portion of the catch elsewhere.
-
-```{r}
-
-t <- filter(stock_plot_df, stock_id == "ALBANPAC" & basis == "F_Fmsy, B_Bmsy")
-t$region_id = as.character(t$region_id)
-ggplot(t, aes(x = year, y = rgn_catch_pct, color = rgn_name)) + geom_line()
 
 ```
 
@@ -173,13 +182,14 @@ mean(catch$annual_catch) #151081.3  this checks out.... and there is a 20 year t
 
 library(datalimited)
 
-herring_cmsy <- cmsy(yr = catch$year, ct = catch$annual_catch, reps = 2e6) #able to finally get convergence with more reps (2e6)
+herring_cmsy <- cmsy(yr = catch$year, ct = catch$annual_catch, reps = 2e6, finalbio = c(0.01, 0.4),
+                     start_r = c(0.2, 0.5)) #able to finally get convergence with more reps (2e6)
 
 #lets look at results
 
 h_bbmsy <- herring_cmsy$bbmsy
 
-bmsy <- ggplot(h_bbmsy, aes(x = year)) +
+hbmsy <- ggplot(h_bbmsy, aes(x = year)) +
   geom_line(aes(y = bbmsy_mean, colour = "BBmsy")) +
   theme(legend.position = "top") +
   scale_x_continuous(limits = range(h_bbmsy$year)) +
@@ -188,11 +198,11 @@ bmsy <- ggplot(h_bbmsy, aes(x = year)) +
 
 h_catch <- ggplot(h_bbmsy, aes(x=year, y=catch)) +
   geom_line(colour="darkblue")+
-  scale_x_continuous(limits = range(h_bbmsy$year))+
+  scale_x_continuous(limits = range(h_bbmsy$year)) +
   ylab("Catch")+
   xlab("Year")
 
-combined<-rbind(ggplotGrob(bmsy), ggplotGrob(h_catch), size="last")
+combined<-rbind(ggplotGrob(hbmsy), ggplotGrob(h_catch), size="last")
   plot(combined)
 
 ```
@@ -201,11 +211,11 @@ How much catch is reported for BC stocks in RAM? And of that catch, how much do 
 
 ```{r}
 
-assessment_data_file <- file.path(dir_anx, '_raw_data/ram_fisheries/d2017/RAM_v3.80/DB_Files_With_Assessment_Data/DBdata.RData')
+assessment_data_file <- file.path(dir_M, 'git-annex/globalprep/_raw_data/RAM/d2018/RAM v4.25 (12-14-17)/DB Files With Assessment Data/DBdata.RData')
 load(assessment_data_file)
 
 #all bc stocks in RAM
-bc_stocks <- read_csv(file.path(dir_goal, 'ram/1_bc_stocks_all_ram.csv'))
+bc_stocks <- read_csv(file.path(dir_goal, 'ram/1_bc_stocks_all_ram_4.25.csv'))
 
 ### get time series from .Rdata
 ts <- as.data.frame(timeseries, stringsAsFactors = FALSE) %>%
@@ -216,13 +226,12 @@ ts <- as.data.frame(timeseries, stringsAsFactors = FALSE) %>%
 
 bc_stocks_ts <- ts %>%
   inner_join(bc_stocks) %>%
-  filter(!is.na(tsvalue)) %>%
-  filter(!str_detect(stocklong, "Salmon")) #remove salmon
+  filter(!is.na(tsvalue))
 
 #over the years, get total catch per stock
 
 bc_stocks_ts_catch <- bc_stocks_ts %>%
-  filter(tsid == "Ctouse-MT") %>%
+  filter(tsid == "TCbest-MT") %>%
   group_by(tsyear) %>%
   mutate(annual_catch = sum(tsvalue),
          n_stocks = length(unique(stockid))) %>%
@@ -250,7 +259,7 @@ Plot total catch assessed vs unassessed in a stacked bar chart
 ```{r}
 
 ass <- bc_stocks_ts_catch %>%
-  mutate(assessed = ifelse(stockid %in% stock_plot_df$stock_id, 1, 0)) %>%
+  mutate(assessed = ifelse(stockid %in% stocks_ts_df$stock_id, 1, 0)) %>%
   group_by(assessed, tsyear) %>%
   summarize(catch = sum(catch)) %>%
   mutate(assessed_char = ifelse(assessed == 1, "assessed", "unassessed"))
@@ -263,10 +272,10 @@ ggplotly(a)
 ```
 
 ***
-
+### THE REST OF THIS IS OLD - NOT RUN. SHOULD PROBABLY DELETE
 Let's look at how catch changes by species over time using the SAUP data.
 
-```{r}
+```{r, eval=F}
 
 library(seaaroundus)
 
@@ -304,7 +313,7 @@ ggplotly(g)
 
 Match SAUP data to RAM data to get a better picture of how much catch is assessed vs not assessed
 
-```{r}
+```{r, eval=F}
 
 #getting all taxa reported for the BC cells from SAUP
 saup_bc_taxa <- data.frame()
@@ -357,7 +366,7 @@ ggplotly(saup_ass_plot)
 ```
 
 Change to catch prop
-```{r}
+```{r, eval=F}
 
 saup_assessed_prop <- saup_assessed %>%
   group_by(year) %>%
@@ -372,12 +381,6 @@ saup_ass_prop_plot <- ggplot(saup_assessed_prop, aes(x = year, y = catch_prop, f
 ggplotly(saup_ass_prop_plot)
 ```
 
-Can we parse out the SAUP catch to the sub-regional level?
-
-```{r}
-
-
-```
 
 
 
