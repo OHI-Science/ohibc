@@ -22,6 +22,8 @@ FIS <- function(layers) {
     select(stock_id, year, catch)
   rgn_stock_area  <- layers$data[['fis_stock_area']] %>%
     rename(region_id = rgn_id, stock_id = stockid)
+  dfo_assessed_catch <- layers$data[['fis_dfo_assessed_catch_props']] %>%
+    select(year, penalty = prop_land_ass)
 
   ### These parameters are based on conversation with Ian Perry, Karen Hunter,
   ### and Karin Bodtker on May 24 2017.
@@ -198,9 +200,13 @@ FIS <- function(layers) {
   # score_df <- score_df %>%
   #   group_by(region_id, year) %>%
     summarize(total_catch = sum(rgn_catch),
-              total_score = sum(score * rgn_catch) / total_catch,
-              # stocks      = paste(tolower(stock_catch), collapse = ','),
-              n_stocks    = sum(rgn_catch > 0)) %>%
+              n_stocks    = sum(rgn_catch > 0),
+              ass_score = sum(score * rgn_catch) / total_catch) %>% #score based on assessed stocks
+    left_join(dfo_assessed_catch) %>%
+    filter(!is.na(penalty)) %>%
+    rowwise() %>%
+    mutate(unassess_score =  ass_score * penalty, #score based on unassessed stocks (penalty factor * assessed)
+           total_score = (ass_score + unassess_score)/2) %>%
     ungroup()
 
   fis_status <- score_df %>%
@@ -225,6 +231,10 @@ FIS <- function(layers) {
   return(fis_scores)
 
 }
+
+ggplot(fis_status, aes(x = year, y = score, color = as.character(region_id))) +
+  geom_line() +
+  theme_bw()
 
 MAR <- function(layers) {
 
