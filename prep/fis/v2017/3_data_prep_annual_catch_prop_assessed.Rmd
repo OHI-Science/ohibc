@@ -151,7 +151,7 @@ if(yr_min %in% c(2004, 2013)) {
     summarize(total_landings = sum(value, na.rm=T))
   }
   
-  ## now calculate total landings for assessed catch
+  ## now calculate total landings for assessed catch. If we 
   
   ass_catch <- df %>%
     left_join(assessed_spp) %>%
