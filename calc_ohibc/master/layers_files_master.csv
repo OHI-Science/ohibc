@@ -27,6 +27,7 @@ fis_ram_catch,ohibc:prep/fis/v2017/output,ram_catch.csv,TRUE,value
 fis_ram_f_fmsy,ohibc:prep/fis/v2017/output,ram_f_fmsy.csv,TRUE,value
 fis_stock_area,ohibc:prep/fis/v2017/output,ram_stock_area.csv,TRUE,a_prop
 fis_dfo_assessed_catch_props,ohibc:prep/fis/v2017/output,dfo_assessed_catch_props.csv,TRUE,prop_land_ass
+fis_hake_catch,ohibc:prep/fis/v2017/output,hake_catch.csv,TRUE,catch
 fp_fis_discards,ohibc:prep/_pressures/v2017/output,prs_discards_fish_layer.csv,TRUE,pressure
 fp_fis_landings,ohibc:prep/_pressures/v2017/output,prs_landings_fish_layer.csv,TRUE,pressure
 fp_trawl_reduction,ohibc:calc_ohibc/master/dummy_layers,fp_habitat_gl2016.csv,TRUE,resilience_score

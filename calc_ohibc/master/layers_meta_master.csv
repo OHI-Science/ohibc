@@ -27,6 +27,7 @@ fis_ram_catch,FIS,Catch estimates obtained using RAM data,tonnes,Estimate of tot
 fis_ram_f_fmsy,FIS,F/Fmsy estimates obtained using RAM data,F/Fmsy,The ratio of fishery harvest relative to the fishery harvest at maximum sustainable yield
 fis_stock_area,FIS,Proportional area of stock within each OHIBC region,proportion,Spatialized stock area for weighting RAM-reported catch across OHIBC regions.
 fis_dfo_assessed_catch_props,FIS,Proportion of catch assessed,proportion,Proportion of catch assessed by DFO
+fis_hake_catch,FIS,Annual catch for hake,tonnes,Total catch for hake annually from DFO Year in review
 fp_fis_discards,pressure,Discards,scaled 0-1,Pressure that non-targeted catch exerts on the system
 fp_fis_landings,pressure,Landings,scaled 0-1,Pressure that targeted catch exerts on the system
 fp_trawl_reduction,resilience,Voluntary trawl reduction to preserve biodiversity,scaled 0-1,??? Get description from Courtney
