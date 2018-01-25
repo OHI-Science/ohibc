@@ -79,6 +79,23 @@ ggplot(stock_plot_df, aes(x = year, y = score)) +
 
 ```
 
+## Proportion of hake vs non hake catch over time
+
+```{r}
+hake <- stock_plot_df %>%
+  mutate(hake = ifelse(stock_id == "PHAKEPCOAST", "Hake", "Non-hake")) %>%
+  group_by(hake, year) %>%
+  summarize(catch = sum(rgn_catch)) %>%
+  filter(year>1997)
+
+ggplot(hake, aes(x=year, y=catch, fill = hake)) +
+  geom_bar(stat="identity") +
+  ylab("Catch (tons)") +
+  xlab("Year") +
+  labs(fill='')
+```
+
+
 ## Catch by stock and region
 
 ``` {r plot_catch}
@@ -135,9 +152,12 @@ I copied in the FIS function from functions.R and made small changes to read in 
   ram_f_fmsy        <- read_csv("output/ram_f_fmsy.csv") %>%
     rename(f_fmsy = value) %>%
     select(stock_id, year, f_fmsy)
+  hake_catch        <- read_csv("output/hake_catch.csv")   #hake catch from DFO YOR
   ram_catch         <- read_csv("output/ram_catch.csv") %>%
     rename(catch = value) %>%
-    select(stock_id, year, catch)
+    select(stock_id, year, catch) %>%
+    filter(stock_id != "PHAKEPCOAST") %>%     #we need to replace RAM Hake catch with catch from DFO
+    bind_rows(hake_catch)
   rgn_stock_area  <- read_csv("output/ram_stock_area.csv") %>%
     rename(region_id = rgn_id, stock_id = stockid)
   dfo_assessed_catch <- read_csv("output/dfo_assessed_catch_props.csv") %>%

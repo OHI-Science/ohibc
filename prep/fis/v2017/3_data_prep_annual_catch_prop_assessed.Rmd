@@ -89,7 +89,7 @@ spp_total_groups <- c("groundfish", "herring", "wild shellfish", "other-sum")
 # return dataframe?
 # combine results with all other years
 
-landings_prop_df <- data.frame()
+landings_df <- data.frame()
 
 for(i in 1:13){
   
@@ -118,12 +118,13 @@ for(i in 1:13){
            year = as.numeric(year)) %>%
     filter(!is.na(species),
            tolower(variable) %in% c("landings", "harvest")) #values are in thousands of tons. since we're getting a prop we don't need to multiply by 1000 here. Different years have landings or harvest as column names
-  
-## For most of the sheets we only want to use the earliest year, as we have more trust in these being true values given the time lag toupdate them. But there are some years where no report was created, including 2007, 2008, and 2014. We need to make some exeptions in filtering out these data years.
 
+
+## For most of the sheets we only want to use the earliest year, as we have more trust in these being true values given the time lag toupdate them. But there are some years where no report was created, including 2007, 2008, and 2014. We need to make some exceptions in filtering out these data years.
 
 if(yr_min %in% c(2004, 2013)) {
-  df <- df
+  df <- df %>%
+    filter(!is.na(year))
 }
   if(yr_min == 2011) {
   df <- df %>%
@@ -132,48 +133,79 @@ if(yr_min %in% c(2004, 2013)) {
   if(yr_min %in% c(1998:2003, 2005:2010)){
   df <- df %>%
     filter(year == yr_min)
-}
-  
-  ## calculate total catch for the year
-  
-    ## for the first year of data, DFO does not aggregate herring landings so we need to use the landings listed for Spawn on Kelp, Roe, and Food and Bait.
-  if (yr_min == 1998) {
-  
-  yr_tot_catch <- df %>%
-    filter(species %in% c(spp_total_groups, "spawn on kelp", "roe herring", "food and bait")) %>%
-    group_by(year) %>%
-    summarize(total_landings = sum(value, na.rm=T))
-    
-  }else{
-  yr_tot_catch <- df %>%
-    filter(species %in% spp_total_groups)%>%
-    group_by(year) %>%
-    summarize(total_landings = sum(value, na.rm=T))
   }
+
   
-  ## now calculate total landings for assessed catch. If we 
+  #one output
+  landings_df <- bind_rows(df, landings_df)
+}
+```
+
+## Hake catch
+
+We need to save the hake catch time series individually. We actually use this instead of the RAM reported Hake catch since RAM reports for the entire Pacific coast (USA + Canada)
+
+```{r hake_catch}
+hake <- landings_df %>%
+  filter(species == "hake") %>%
+  mutate(catch = value * 1000,
+         stock_id = "PHAKEPCOAST") %>%
+  select(stock_id, year, catch)
+
+write.csv(hake, "output/hake_catch.csvß")
+
+```
+
+Calculate total catch for each year for the species we're interested in (basically remove salmon and farmed species)
+```{r}
+yrly_catch <- landings_df %>%
+  mutate(keep = case_when(
+    year >1998 & species %in% spp_total_groups ~ 1,
+    year == 1998 & species %in% c(spp_total_groups, "spawn on kelp", "roe herring", "food and bait") ~ 1  # for the first year of data, DFO does not aggregate herring landings so we need to use the landings listed for Spawn on Kelp, Roe, and Food and Bait.
+  )) %>%
+  filter(keep == 1) %>%
+  group_by(year) %>%
+  summarize(total_catch = sum(value))
   
-  ass_catch <- df %>%
+
+## now calculate total landings for just the assessed catch. We want to assume that any stocks with assessments in 2010 are also assessed through 2015. Even though this isn't reported, there is likely a lag in assessment time. We also need to remove all salmon and farmed sp
+  
+  ass_catch <- landings_df %>%
     left_join(assessed_spp) %>%
     mutate(ass = ifelse(is.na(sciname), 0, 1)) %>%
     select(-stock_name, -sciname) %>% 
-    distinct() %>%
-    group_by(year, ass) %>%
-    summarize(assessed_landings = sum(value)) %>%
-    filter(ass == 1) %>%            ## grab only the assessed landings data
-    select(year, assessed_landings) %>% 
-    full_join(yr_tot_catch) %>%
-    mutate(prop_land_ass = assessed_landings/total_landings) #calculate the total proportion of landings that is assessed
- 
- landings_prop_df <- bind_rows(ass_catch, landings_prop_df) %>%
-   filter(!is.na(year)) #we get NA from the most recent report which includes a %change column that turns to NA in our code
-}
+    distinct()
   
+#get list of stocks assessed in year 2010
+ass_2010 <- ass_catch %>%
+  filter(year == 2010,
+         ass == 1) %>%
+  .$species
+
+#we want to make sure all the species in ass_2010 are assigned a 1 for ass (assessed) from 2011-onwards
+
+landings_prop_df <- ass_catch %>%
+  mutate(ass_update = ifelse(year > 2010 & species %in% c(ass_2010), 1, 0)) %>%
+  rowwise() %>%
+  mutate(assessed = max(ass, ass_update)) %>%
+  group_by(year, assessed) %>%
+  summarize(assessed_landings = sum(value, na.rm=T)) %>%
+  filter(assessed == 1) %>%            ## grab only the assessed landings data
+  select(year, assessed_landings) %>% 
+  full_join(yrly_catch) %>%
+  mutate(prop_land_ass = assessed_landings/total_catch) #calculate the total proportion of landings that is assessed
+
 DT::datatable(landings_prop_df)
 
 write.csv(landings_prop_df, file = "output/dfo_assessed_catch_props.csv")
 
-ggplot(landings_prop_df, aes(x = year, y = prop_land_ass,group = 1)) + geom_line() + theme_bw() + expand_limits(y=0) + ylab("Proportion of landings assessed by DFO")
+ggplot(landings_prop_df, aes(x = year, y = prop_land_ass,group = 1)) + 
+  geom_line() + 
+  theme_bw() + 
+  expand_limits(y=0.4) + 
+  ylab("Proportion of landings assessed") +
+  xlab("Year") +
+  ggtitle("Proportion of total wild, non-salmon landings assessed")
 ```
 
 
