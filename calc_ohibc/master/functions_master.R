@@ -852,7 +852,7 @@ LEF <- function(layers) {
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
     arrange(region_id, year) %>%
-    mutate(empl_rate = 1 - unemployment_rate,
+    mutate(empl_rate = 1 - mean_unempl/100,
            # ref_pt = lag(empl_rate, 5)) %>%
            ref_pt = zoo::rollmean(empl_rate, k = 5, fill = NA, align = 'right')) %>%
     ungroup()
@@ -877,7 +877,7 @@ LEF <- function(layers) {
                 select(year, region_id, wages_score),
               by = c('year', 'region_id')) %>%
     mutate(score = 100 * (jobs_score + wages_score) / 2,
-           goal  = 'LE',
+           goal  = 'LEF',
            dimension = 'status') %>%
     select(year, region_id, score, goal, dimension)
 
@@ -905,7 +905,7 @@ LEO <- function(layers) {
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
     arrange(region_id, year) %>%
-    mutate(empl_rate = 1 - unemployment_rate,
+    mutate(empl_rate = 1 - mean_unempl/100,
            # ref_pt = lag(empl_rate, 5)) %>%
            ref_pt = zoo::rollmean(empl_rate, k = 5, fill = NA, align = 'right')) %>%
     ungroup()
@@ -930,7 +930,7 @@ LEO <- function(layers) {
                 select(year, region_id, wages_score),
               by = c('year', 'region_id')) %>%
     mutate(score = 100 * (jobs_score + wages_score) / 2,
-           goal  = 'LE',
+           goal  = 'LEO',
            dimension = 'status') %>%
     select(year, region_id, score, goal, dimension)
 

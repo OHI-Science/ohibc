@@ -95,7 +95,6 @@ score_compare_plot <- ggplot(scores_all, aes(x = pred_future_status, y = status,
 plotly::ggplotly(score_compare_plot)
 ```
 
-
 ``` {r}
 
 scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
@@ -134,33 +133,6 @@ for(goalname in goals) { # goalname <- goals[1]
   print(rgn_score_compare_plot)
 }
 
-```
-
-
-
-``` {r, eval = FALSE}
-
-scores_all <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
-  filter(region_id == 0) %>%
-  filter(goal != 'Index') %>%
-  filter(dimension %in% c('status', 'future')) %>%
-  mutate(dimension = str_replace(dimension, 'status', 'obs_status'),
-         dimension = str_replace(dimension, 'future', 'pred_status'),
-         year = ifelse(dimension == 'pred_status', year + 5, year))
-
-for(gl in (scores_all$goal %>% unique())) { ### gl = 'AO'
-  
-  scores_goal <- scores_all %>% 
-    filter(goal == gl)
-  
-  score_compare_plot <- ggplot(scores_goal, aes(x = dimension, y = score, label = year)) +
-    ggtheme_plot() +
-    geom_point(size = 2) +
-    geom_line(size = 1, alpha = .5, aes(group = year), alpha = .7) +
-    labs(y = gl)
-  
-  print(score_compare_plot)
-}
 ```
 
 ## Data layer year spans

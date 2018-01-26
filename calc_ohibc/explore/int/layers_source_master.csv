@@ -19,13 +19,13 @@ cs_cf_area.csv,cs_cf_health,Tue Aug 22 16:36:27 2017 -0700,ohibc:prep/hab_cs_cp/
 cs_sm_area.csv,cs_sm_health,Tue Aug 22 16:36:27 2017 -0700,ohibc:prep/hab_cs_cp/v2017/2_data_prep_hab_sm_cf.Rmd,ohibc:prep/hab_cs_cp/v2017/output
 cwb_score_all.csv,cwbi_all,Fri Aug 18 10:50:06 2017 -0700,ohibc:prep/_resilience/v2017/data_prep_cwb.Rmd,ohibc:prep/_resilience/v2017/output
 cwb_score_fn.csv,cwbi_fn,Fri Aug 18 10:50:06 2017 -0700,ohibc:prep/_resilience/v2017/data_prep_cwb.Rmd,ohibc:prep/_resilience/v2017/output
-ram_b_bmsy.csv,fis_ram_b_bmsy,Mon Jul 10 15:45:17 2017 -0700,ohibc:prep/fis/v2017/1_data_prep_fis_ram.Rmd,ohibc:prep/fis/v2017/output
+ram_b_bmsy.csv,fis_ram_b_bmsy,Wed Oct 25 14:57:56 2017 -0700,ohibc:prep/fis/v2017/1_data_prep_fis_ram.Rmd,ohibc:prep/fis/v2017/output
 ram_b_bmsy.csv,fis_ram_b_bmsy,Tue May 2 09:52:52 2017 -0700,ohibc:prep/fis/v2017/data_prep_fis_ram.Rmd,ohibc:prep/fis/v2017/output
-ram_catch.csv,fis_ram_catch,Mon Jul 10 15:45:17 2017 -0700,ohibc:prep/fis/v2017/1_data_prep_fis_ram.Rmd,ohibc:prep/fis/v2017/output
+ram_catch.csv,fis_ram_catch,Wed Jul 12 15:41:50 2017 -0700,ohibc:prep/fis/v2017/1_data_prep_fis_ram.Rmd,ohibc:prep/fis/v2017/output
 ram_catch.csv,fis_ram_catch,Tue May 2 09:52:52 2017 -0700,ohibc:prep/fis/v2017/data_prep_fis_ram.Rmd,ohibc:prep/fis/v2017/output
-ram_f_fmsy.csv,fis_ram_f_fmsy,Mon Jul 10 15:45:17 2017 -0700,ohibc:prep/fis/v2017/1_data_prep_fis_ram.Rmd,ohibc:prep/fis/v2017/output
+ram_f_fmsy.csv,fis_ram_f_fmsy,Wed Oct 25 14:57:56 2017 -0700,ohibc:prep/fis/v2017/1_data_prep_fis_ram.Rmd,ohibc:prep/fis/v2017/output
 ram_f_fmsy.csv,fis_ram_f_fmsy,Tue May 2 09:52:52 2017 -0700,ohibc:prep/fis/v2017/data_prep_fis_ram.Rmd,ohibc:prep/fis/v2017/output
-ram_stock_area.csv,fis_stock_area,Mon Jul 10 15:45:17 2017 -0700,ohibc:prep/fis/v2017/2_data_prep_fis_ram_spatial.Rmd,ohibc:prep/fis/v2017/output
+ram_stock_area.csv,fis_stock_area,Wed Jul 12 15:41:50 2017 -0700,ohibc:prep/fis/v2017/2_data_prep_fis_ram_spatial.Rmd,ohibc:prep/fis/v2017/output
 ram_stock_area.csv,fis_stock_area,Mon Jul 10 15:45:17 2017 -0700,ohibc:prep/fis/v2017/3_data_prep_fis_ram_spatial.Rmd,ohibc:prep/fis/v2017/output
 prs_discards_fish_layer.csv,fp_fis_discards,Thu Oct 5 16:20:39 2017 -0700,ohibc:prep/_pressures/v2017/pressures_fishing_prep.Rmd,ohibc:prep/_pressures/v2017/output
 prs_landings_fish_layer.csv,fp_fis_landings,Thu Oct 5 16:20:39 2017 -0700,ohibc:prep/_pressures/v2017/pressures_fishing_prep.Rmd,ohibc:prep/_pressures/v2017/output
@@ -45,6 +45,10 @@ prs_logging.csv,hd_logging,Sat Dec 2 13:31:03 2017 -0800,ohibc:prep/_pressures/v
 ico_spp_by_rgn.csv,ico_spp_presence,Mon May 22 09:43:10 2017 -0700,ohibc:prep/spp_ico/v2017/data_prep_ico.Rmd,ohibc:prep/spp_ico/v2017/output
 ico_risk_by_year.csv,ico_spp_risk_score,Mon May 22 09:09:21 2017 -0700,ohibc:prep/spp_ico/v2017/data_prep_ico.Rmd,ohibc:prep/spp_ico/v2017/output
 ico_trend_by_id.csv,ico_spp_trend,Thu Jun 1 15:33:18 2017 -0700,ohibc:prep/spp_ico/v2017/data_prep_ico.Rmd,ohibc:prep/spp_ico/v2017/output
+le_income_fn.csv,le_income_fn,Fri Dec 22 16:47:45 2017 -0800,ohibc:prep/le/v2017/data_prep_le.Rmd,ohibc:prep/le/v2017/output
+le_unempl_fn.csv,le_unempl_fn,Fri Dec 22 16:47:45 2017 -0800,ohibc:prep/le/v2017/data_prep_le.Rmd,ohibc:prep/le/v2017/output
+le_income_nonfn.csv,le_income_nonfn,Fri Dec 22 16:47:45 2017 -0800,ohibc:prep/le/v2017/data_prep_le.Rmd,ohibc:prep/le/v2017/output
+le_unempl_nonfn.csv,le_unempl_nonfn,Fri Dec 22 16:47:45 2017 -0800,ohibc:prep/le/v2017/data_prep_le.Rmd,ohibc:prep/le/v2017/output
 lsp_protected_inland_ws.csv,lsp_prot_area_inland_ws,Mon Jul 3 13:32:11 2017 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
 lsp_protected_inland_ws.csv,lsp_prot_area_inland_ws,Fri Jan 13 14:30:49 2017,ohibc:prep/lsp/v2017/goal_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
 lsp_protected_offshore3nm.csv,lsp_prot_area_offshore3nm,Mon Jul 3 13:32:11 2017 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output

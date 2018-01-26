@@ -1,0 +1,142 @@
+---
+title: 'OHIBC: Regress Scores'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes:
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(ohicore) ### devtools::install_github('ohi-science/ohicore')
+
+source('~/github/ohibc/src/R/common.R')
+
+dir_ohibc  <- '~/github/ohibc'
+dir_calc   <- file.path(dir_ohibc, 'calc_ohibc')
+dir_master <- file.path(dir_calc, 'master')
+
+source(file.path(dir_calc, 'calc_scores_fxns.R'))
+
+### provenance tracking
+# library(provRmd); prov_setup()
+
+```
+
+
+## Regression? goal-by-goal
+
+For each goal, regress the future status (+5 years) against current status, trend, pressures, and resilience; this would give an idea of coefficients in the OHI LFS model; these likely to differ for each goal.  These do not apply to supragoals (since no pressures/resilience applied at this level), only standalone and subgoals.
+
+Note: scores.csv has pressures and resilience on 0-100 scales rather than 0-1; here I have rescaled to 0-1 values for easier comparison to trend coefficients.
+
+If OHI LFS model were perfectly on, then coefficients should be???:
+
+* 1.00 for status
+* 0.67 for trend
+* 0.33 for resilience
+* -0.33 for pressures
+* 0.00 for intercept
+
+Assume coefficients will be similar region-by-region so compare all regions simultaneously (exclude overall region)
+
+Goals more susceptible to pressures or amenable to resilience, worth looking at?
+
+``` {r regress_lfs_coefficients}
+
+### obs_future_status is status five years hence; use lead() to pull future
+### status to current comparison year
+scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id != 0) %>%
+  spread(dimension, score) %>%
+  select(goal, region_id, year, 
+         pressures, resilience, status, trend) %>%
+  group_by(goal, region_id) %>%
+  mutate(obs_future_status = lead(status, 5),
+         pressures  = pressures / 100,
+         resilience = resilience / 100) %>%
+  arrange(year) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')) 
+
+goals <-  c('AO',  'FIS', # 'MAR', # 'SAL', 
+            'CPP', 'CSS', 'CW',
+            'HAB', 'SPP', 'ICO', 'LSP', 
+            'LEF', 'LEO', 
+            'TR')
+
+lfs_lm_all <- data.frame()
+stat_tr_all <- data.frame()
+
+for(goalname in goals) { # goalname <- goals[1]
+  cat(goalname, '\n')
+  tmp_df <- scores_rgn %>%
+    filter(goal == goalname) %>%
+    filter(!is.na(status) & !is.na(obs_future_status))
+  
+  lfs_lm_goal <- lm(obs_future_status ~ status + trend + pressures + resilience, data = tmp_df) %>%
+    broom::tidy() %>%
+    mutate(goal  = goalname,
+           n_obs = nrow(tmp_df))
+  
+  stat_tr_lm <- lm(obs_future_status ~ status + trend, data = tmp_df) %>%
+    broom::tidy() %>%
+    mutate(goal  = goalname,
+           n_obs = nrow(tmp_df))
+  
+  lfs_lm_all <- bind_rows(lfs_lm_all, lfs_lm_goal)
+  stat_tr_all <- bind_rows(stat_tr_all, stat_tr_lm)
+
+}
+
+lfs_lm_all <- lfs_lm_all %>%
+  mutate(estimate = round(estimate, 4),
+         std.error = round(std.error, 4),
+         statistic = round(statistic, 4))
+  
+stat_tr_all <- stat_tr_all %>%
+  mutate(estimate = round(estimate, 4),
+         std.error = round(std.error, 4),
+         statistic = round(statistic, 4))
+
+write_csv(lfs_lm_all, 'int/lfs_lm_all.csv')
+write_csv(stat_tr_all, 'int/stat_tr_all.csv')
+
+DT::datatable(lfs_lm_all, caption = 'Likely Future Status model')
+
+DT::datatable(stat_tr_all, caption = 'Status and trend only model')
+
+```
+
+``` {r plot coeffs}
+
+lfs_lm_all <- read_csv('int/lfs_lm_all.csv') %>%
+  mutate(p_sig = case_when(p.value < .001 ~ '***',
+                           p.value < .01  ~ '**',
+                           p.value < .05  ~ '*',
+                           p.value < .1   ~ '.',
+                           TRUE           ~ ' '),
+         p_sig = factor(p_sig, levels = c(' ', '.', '*', '**', '***')))
+
+ggplot(lfs_lm_all, aes(x = term, y = estimate, size = p_sig)) +
+  ggtheme_plot() +
+  geom_violin(size = .5, fill = 'grey20', color = NA, alpha = .1) +
+  geom_point(aes(color = goal), alpha = .6) +
+  facet_wrap( ~ term, scales = 'free') +
+  geom_text(aes(label = goal), nudge_x = .25, color = 'grey20', size = 2)
+
+```
+
+
