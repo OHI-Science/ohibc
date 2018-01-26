@@ -1,0 +1,213 @@
+---
+title: "Calculating assessed & unassessed catch proportions from DFO's Year in Review reports"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+# Setup
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+
+
+### goal specific folders and info
+goal      <- 'fis'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_spatial  <- file.path(dir_git, 'prep/_spatial')
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### libraries
+library(tidyverse)
+library(readxl)
+```
+
+This script cleans up annual catch data by species for BC and calculates the amount of catch that is assessed and unassessed each year. In this case, assessed means the stock is found in the RAM database with either a B/Bmsy or F/Fmsy metric. The data was translated, by hand, from pdf copies of the Year in Review reports as shared by DFO into excel. 
+
+# Clean data
+
+```{r}
+catch_xl <- file.path(dir_anx, "_raw_data/DFO_YearinReview/Data_YearinReview_RAW.xlsx")
+excel_sheets(catch_xl)
+```
+
+Each group of years is located in distinct sheets. We need to read each in, clean them and then aggregate into one long-format dataframe.
+
+For each stock in RAM that has a b/bmsy we say these stocks are assessed. DFO reports catch at aggregate levels (e.g. "Soles" instead of Rock sole). By assigning Rock sole to "Soles" and Bocaccio and Ocean perch to "Rockfish" we are being generous in saying that all of those stocks are assessed.
+
+```{r}
+
+## the species for which there exist assessments, by year
+assessed_spp <- read_csv("output/ram_b_bmsy.csv") %>%
+  select(stock_name, year, sciname) %>%
+  distinct() %>%
+  filter(year > 1997) %>%    #we only have DFO catch data from 1998 onwards so no need to include the entire ram series here
+  mutate(
+    species = case_when(
+      stock_name == "Bocaccio British Columbia Waters" ~ "Rockfish",
+      stock_name == "Lingcod Strait of Georgia" ~ "Lingcod",
+      stock_name == "Sablefish Pacific Coast of Canada" ~ "Sablefish",
+      stock_name == "Albacore tuna North Pacific" ~ "Tuna",
+      stock_name == "Pacific halibut North Pacific" ~ "Halibut",
+      stock_name == "Pacific hake Pacific Coast" ~ "Hake",
+      str_detect(stock_name, "Pacific cod") ~ "Pacific Cod",
+      str_detect(stock_name, "Rock sole") ~ "Soles",
+      str_detect(stock_name, "Pacific Ocean perch") ~ "Rockfish"
+  )) %>%
+  mutate(species = tolower(species))
+```
+
+
+```{r}
+
+spp_total_groups <- c("groundfish", "herring", "wild shellfish", "other-sum")
+
+# get earliest year in dataframe (remove others)
+# sum total catch (Groundfish, Herring, Other-sum, wild shellfish)
+# calculate catch of assessed species
+# calculate proportion of catch unassessed
+# return dataframe?
+# combine results with all other years
+
+landings_df <- data.frame()
+
+for(i in 1:13){
+  
+  print(i)
+  
+  sheet <- read_xlsx(catch_xl, sheet = i) 
+  
+  ## take the first row, which has the years and find the minimum.
+  yrs <- slice(sheet, 1) %>% 
+           unlist(., use.names=FALSE) %>%
+    unique() 
+  
+  yr_min <- min(yrs, na.rm=T)
+  
+  #need to rename columns
+  colnames(sheet) <- paste0(colnames(sheet), "-", sheet[1,])
+  
+  df <- sheet %>%
+    rename(species = "X__1-NA") %>%
+    gather(key = "variable", value = "value", -species) %>% 
+    separate(variable, c("variable", "year"), sep = "-") %>%
+    separate(variable, c("variable", "garbage"), sep = "__") %>%
+    select(-garbage) %>%
+    mutate(species = tolower(species),
+           value = as.numeric(value),
+           year = as.numeric(year)) %>%
+    filter(!is.na(species),
+           tolower(variable) %in% c("landings", "harvest")) #values are in thousands of tons. since we're getting a prop we don't need to multiply by 1000 here. Different years have landings or harvest as column names
+
+
+## For most of the sheets we only want to use the earliest year, as we have more trust in these being true values given the time lag toupdate them. But there are some years where no report was created, including 2007, 2008, and 2014. We need to make some exceptions in filtering out these data years.
+
+if(yr_min %in% c(2004, 2013)) {
+  df <- df %>%
+    filter(!is.na(year))
+}
+  if(yr_min == 2011) {
+  df <- df %>%
+    filter(year %in% c(2011, 2012))
+}
+  if(yr_min %in% c(1998:2003, 2005:2010)){
+  df <- df %>%
+    filter(year == yr_min)
+  }
+
+  
+  #one output
+  landings_df <- bind_rows(df, landings_df)
+}
+```
+
+## Hake catch
+
+We need to save the hake catch time series individually. We actually use this instead of the RAM reported Hake catch since RAM reports for the entire Pacific coast (USA + Canada)
+
+```{r hake_catch}
+hake <- landings_df %>%
+  filter(species == "hake") %>%
+  mutate(catch = value * 1000,
+         stock_id = "PHAKEPCOAST") %>%
+  select(stock_id, year, catch)
+
+write.csv(hake, "output/hake_catch.csvß")
+
+```
+
+Calculate total catch for each year for the species we're interested in (basically remove salmon and farmed species)
+```{r}
+yrly_catch <- landings_df %>%
+  mutate(keep = case_when(
+    year >1998 & species %in% spp_total_groups ~ 1,
+    year == 1998 & species %in% c(spp_total_groups, "spawn on kelp", "roe herring", "food and bait") ~ 1  # for the first year of data, DFO does not aggregate herring landings so we need to use the landings listed for Spawn on Kelp, Roe, and Food and Bait.
+  )) %>%
+  filter(keep == 1) %>%
+  group_by(year) %>%
+  summarize(total_catch = sum(value))
+  
+
+## now calculate total landings for just the assessed catch. We want to assume that any stocks with assessments in 2010 are also assessed through 2015. Even though this isn't reported, there is likely a lag in assessment time. We also need to remove all salmon and farmed sp
+  
+  ass_catch <- landings_df %>%
+    left_join(assessed_spp) %>%
+    mutate(ass = ifelse(is.na(sciname), 0, 1)) %>%
+    select(-stock_name, -sciname) %>% 
+    distinct()
+  
+#get list of stocks assessed in year 2010
+ass_2010 <- ass_catch %>%
+  filter(year == 2010,
+         ass == 1) %>%
+  .$species
+
+#we want to make sure all the species in ass_2010 are assigned a 1 for ass (assessed) from 2011-onwards
+
+landings_prop_df <- ass_catch %>%
+  mutate(ass_update = ifelse(year > 2010 & species %in% c(ass_2010), 1, 0)) %>%
+  rowwise() %>%
+  mutate(assessed = max(ass, ass_update)) %>%
+  group_by(year, assessed) %>%
+  summarize(assessed_landings = sum(value, na.rm=T)) %>%
+  filter(assessed == 1) %>%            ## grab only the assessed landings data
+  select(year, assessed_landings) %>% 
+  full_join(yrly_catch) %>%
+  mutate(prop_land_ass = assessed_landings/total_catch) #calculate the total proportion of landings that is assessed
+
+DT::datatable(landings_prop_df)
+
+write.csv(landings_prop_df, file = "output/dfo_assessed_catch_props.csv")
+
+ggplot(landings_prop_df, aes(x = year, y = prop_land_ass,group = 1)) + 
+  geom_line() + 
+  theme_bw() + 
+  expand_limits(y=0.4) + 
+  ylab("Proportion of landings assessed") +
+  xlab("Year") +
+  ggtitle("Proportion of total wild, non-salmon landings assessed")
+```
+
+
+
+

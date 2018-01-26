@@ -40,7 +40,7 @@ options(scipen=999)
 Read in the stock catch by region calculated for global OHI 2017 from SAUP data. Filter just for species records (taxon key > 599999). We also need to add resilience measures for the cmsy model. We can use the resilience lookup table from global
 ```{r}
 
-res <- read_csv("~/github/ohiprep/globalprep/fis/v2017/data/taxon_resilience_lookup.csv")
+res <- read_csv("~/github/ohiprep_v2018/globalprep/fis/v2017/data/taxon_resilience_lookup.csv")
 
 catch <- read_csv(file.path(dir_M,'git-annex/globalprep/fis/v2017/int/stock_catch_by_rgn.csv')) %>%
   rename(common = taxon_common_name, fao_id = fao_rgn, species=taxon_scientific_name) %>%
@@ -154,7 +154,7 @@ write.csv(cmsy_bbmsy,file='v2017/int/cmsy_bbmsy.csv')
 Remove the stocks for which we have assessments from RAM. This includes:
 Pacific Halibut, Lingcod, Pacific ocean perch, rock sole and sablefish
 
-```{r}
+```{r, fig.width = 8, fig.height = 8}
 
 cmsy_bbmsy <- read_csv("v2017/int/cmsy_bbmsy.csv") %>%
   filter(!common %in% c("Pacific halibut", "Pacific cod", "Lingcod", "Pacific ocean perch", "Rock sole", "Sablefish"))
@@ -163,7 +163,9 @@ ggplot(cmsy_bbmsy, aes(x = year, y = bbmsy_mean)) +
   geom_hline(yintercept = 1, col = "red") +
   geom_line() +
   geom_ribbon(aes(ymin=bbmsy_mean-bbmsy_sd,ymax=bbmsy_mean+bbmsy_sd),alpha=0.3) +
-  facet_wrap(~common)
+  facet_wrap(~common, labeller = label_wrap_gen(width = 10, multi_line = TRUE)) +
+  ylab("B/Bmsy") +
+  xlab("Year")
 ```
 
 Compare the stocks we have in RAM
