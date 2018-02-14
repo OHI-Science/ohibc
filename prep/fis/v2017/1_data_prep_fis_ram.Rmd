@@ -366,12 +366,13 @@ for(spp in spp_ids) {
   
   kobe_stock_plot <- ggplot(data = kobe_df, aes(x = b_bmsy, y = f_fmsy)) +
     ggtheme_plot() + 
-    geom_raster(alpha = .8, aes(fill = x_geom), show.legend = FALSE) +
+    geom_raster(alpha = .8, aes(fill = x_geom)) +
     scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
     geom_line(data = hcr_df, aes(x = b_bmsy, y = f_fmsy), color = 'black', size = 1.5, alpha = .6) +
     labs(title = plot_title,
          x = 'B/Bmsy',
-         y = 'F/Fmsy') +
+         y = 'F/Fmsy',
+         fill = "Stock score") +
     annotate(geom = 'text', label = 'critical', x = .15, y = -.15, 
              size = 2, 
              color = 'grey20') + 
