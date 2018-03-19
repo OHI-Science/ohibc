@@ -1,0 +1,397 @@
+---
+title: 'OHIBC: plot FIS scores by stock and region'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 8, fig.height = 6, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+
+
+### goal specific folders and info
+goal      <- 'fis'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_spatial  <- file.path(dir_git, 'prep/_spatial')
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### support scripts
+source(file.path(dir_git, 'src/R/rast_tools.R')) 
+source("~/github/ohibc/calc_ohibc/calc_scores_fxns.R")
+  ### raster plotting and analyzing scripts
+```
+
+# Summary
+
+This script takes the output from `functions.R` FIS model and plots individual stock scores by year and relative contribution to score.
+
+## Stock scores and overall scores by region
+
+``` {r assemble_dataframe}
+
+## plotting fishery catch weighting by region
+stock_plot_df <- read_csv(file.path(dir_goal, 'summary/fis_from_functions.csv')) %>%
+  filter(!is.na(score)) %>%
+  group_by(region_id, year) %>%
+  mutate(total_catch = sum(rgn_catch),
+         rgn_catch_pct = rgn_catch / total_catch,
+         total_score = sum(score * rgn_catch) / total_catch) %>%
+  ungroup() %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')) %>%
+  filter(rgn_catch > 0) %>%
+  filter(year > 1990)
+
+```
+
+``` {r plot_fis_scores}
+
+ggplot(stock_plot_df, aes(x = year, y = score)) +
+    ggtheme_plot() +
+    geom_line(aes(group = stock_id, color = stock_id,
+                  size = rgn_catch_pct),
+              lineend = 'round', alpha = .5) +
+    labs(color = 'Stock ID',
+         y     = 'Stock Score') +
+    guides(colour = guide_legend(override.aes = list(size = 3)),
+           size = 'none') +
+    facet_wrap(~rgn_name)
+
+```
+
+## Proportion of hake vs non hake catch over time
+
+```{r}
+hake <- stock_plot_df %>%
+  mutate(hake = ifelse(stock_id == "PHAKEPCOAST", "Hake", "Non-hake")) %>%
+  group_by(hake, year) %>%
+  summarize(catch = sum(rgn_catch)) %>%
+  filter(year>1997)
+
+ggplot(hake, aes(x=year, y=catch, fill = hake)) +
+  geom_bar(stat="identity") +
+  ylab("Catch (tons)") +
+  xlab("Year") +
+  labs(fill='')
+```
+
+
+## Catch by stock and region
+
+``` {r plot_catch}
+
+ggplot(stock_plot_df, aes(x = year, y = rgn_catch)) +
+    ggtheme_plot() +
+    geom_line(aes(group = stock_id, color = stock_id),
+              alpha = .5, size = 2) +
+    labs(color = 'Stock ID',
+         y     = 'Stock reported catch (tons)') +
+    guides(colour = guide_legend(override.aes = list(size = 3)),
+           size = 'none') +
+  facet_wrap(~rgn_name )
+
+```
+
+### Without Hake
+
+``` {r plot_catch_no_hake}
+
+ggplot(filter(stock_plot_df, stock_id!="PHAKEPCOAST"), aes(x = year, y = rgn_catch)) +
+    ggtheme_plot() +
+    geom_line(aes(group = stock_id, color = stock_id),
+              alpha = .5, size = 2) +
+    labs(color = 'Stock ID',
+         y     = 'Stock reported catch (tons)') +
+    guides(colour = guide_legend(override.aes = list(size = 3)),
+           size = 'none') +
+  facet_wrap(~rgn_name)
+
+```
+
+## Fisheries status scores
+
+I copied in the FIS function from functions.R and made small changes to read in the layers directly from the output folder in the fis/v2017 folder rather than layers.csv. 
+
+```{r}
+# 
+# FIS <- function(layers) {
+# 
+
+  ##### Gather parameters and layers #####
+  ### * ram_b_bmsy, ram_f_fmsy, ram_catch
+  ### * rgn_stock_wt_uniform, _saup, _dfo
+  ### * ram_dfo_saup_lookup.csv
+
+  # status_year    <- layers$data$scenario_year
+  # data_year      <- status_year
+  # status_yr_span <- layers$data$status_year_span
+
+  ram_b_bmsy        <- read_csv("output/ram_b_bmsy.csv") %>%
+    rename(b_bmsy = value) %>%
+    select(-param)
+  ram_f_fmsy        <- read_csv("output/ram_f_fmsy.csv") %>%
+    rename(f_fmsy = value) %>%
+    select(stock_id, year, f_fmsy)
+  hake_catch        <- read_csv("output/hake_catch.csv")   #hake catch from DFO YOR
+  ram_catch         <- read_csv("output/ram_catch.csv") %>%
+    rename(catch = value) %>%
+    select(stock_id, year, catch) %>%
+    filter(stock_id != "PHAKEPCOAST") %>%     #we need to replace RAM Hake catch with catch from DFO
+    bind_rows(hake_catch)
+  rgn_stock_area  <- read_csv("output/ram_stock_area.csv") %>%
+    rename(region_id = rgn_id, stock_id = stockid)
+  dfo_assessed_catch <- read_csv("output/dfo_assessed_catch_props.csv") %>%
+    select(year, penalty = prop_land_ass)
+  
+  status_yr_span <- c(2001:2016)
+  
+ggplot(dfo_assessed_catch, aes(x = year, y = penalty, group = 1)) +
+  geom_line() +
+  theme_bw() +
+  ylab("Penalty (equal to % of catch assessed)") +
+  ggtitle("Proportion of total wild, non-salmon, catch assessed")
+```
+
+We see a large dip in later years because many species only have stock assessments up until 2010-2014. Sablefish assessments end at 2010, Tuna and Bocaccio end in 2012, Ocean Perch ends in 2013, Soles, Halibut and Pacific and Ling cod end in 2014. Pacific Hake is the only stock with assessments through 2016. 
+
+```{r}
+
+ts_ram <- ram_b_bmsy %>%
+  filter(year > 1997)
+
+ggplot(ts_ram, aes(x = year, y = b_bmsy, color = stock_name)) +
+  geom_line() +
+  theme_bw()+
+  annotate("rect", xmin = 2010, xmax = 2016, ymin = 0, ymax = 4.2,
+        alpha = .2) +
+  ylab("B/Bmsy")
+
+```
+
+```{r}
+  ### These parameters are based on conversation with Ian Perry, Karen Hunter,
+  ### and Karin Bodtker on May 24 2017.
+  b_bmsy_underexploit_penalty <- 0.25
+  b_bmsy_underexploit_thresh  <- 3.00
+  f_fmsy_underfishing_penalty <- 0.25
+  f_fmsy_overfishing_thresh   <- 2.00
+
+  ### Apply rolling mean to F/Fmsy
+  ram_f_fmsy <- ram_f_fmsy %>%
+    mutate(f_fmsy_raw = f_fmsy) %>%
+    arrange(stock_id, year) %>%
+    group_by(stock_id) %>%
+    mutate(f_fmsy = zoo::rollmean(f_fmsy_raw, k = 4, align = 'right', fill = NA)) %>%
+    ungroup()
+
+  stock_status_layers <- ram_b_bmsy %>%
+    full_join(ram_f_fmsy, by = c('year', 'stock_id'))
+
+  ########################################################.
+  ##### run each fishery through the Kobe plot calcs #####
+  ########################################################.
+  ### * ram_b_bmsy, ram_f_fmsy
+
+
+  ### Function for converting B/Bmsy values into a 0 - 1 score
+  rescale_bprime_crit <- function(fish_stat_df,
+                                  bmax, bmax_val) {
+
+    ### parameter from DFO harvest control rule:
+    overfished_th  <- 0.8
+    ### parameter from OHI California Current:
+    underfished_th <- 1.5
+
+    bmax_adj <- (bmax - underfished_th) / (1 - bmax_val) + underfished_th
+    ### this is used to create a "virtual" B/Bmsy max where score drops
+    ### to zero.  If bmax_val == 0, this is bmax; if bmax_val > 0, bmax_adj
+    ### extends beyond bmax, to create a gradient where bmax_val occurs at bmax.
+
+    fish_stat_df <- fish_stat_df %>%
+      # group_by(stock) %>% ### grouping by stock will set b_max by max per stock, instead of max overall
+      mutate(b_max     = max(b_bmsy, na.rm = TRUE)) %>%
+      ungroup() %>%
+      mutate(bPrime = NA,
+             bPrime = ifelse(b_bmsy < overfished_th,  ### overfished stock
+                             b_bmsy / overfished_th,
+                             bPrime),
+             bPrime = ifelse(b_bmsy >= overfished_th & b_bmsy < underfished_th,
+                             1,                       ### appropriately fished stock
+                             bPrime),
+             bPrime = ifelse(b_bmsy >= underfished_th,
+                             (bmax_adj - b_bmsy) / (bmax_adj - underfished_th), ### underfished stock
+                             bPrime),
+             bPrime = ifelse(bPrime < 0, 0, bPrime))
+    return(fish_stat_df)
+  }
+
+
+  ### Function to create vertical gradient based on distance from
+  ### ideal F/Fmsy value to actual F/Fmsy value
+  f_gradient <- function(f, over_f, under_f, fmax, fmin_val) {
+    x <- ifelse(f < over_f & f > under_f, 1, NA)
+    x <- ifelse(f <= under_f, (f * (1 - fmin_val) / under_f + fmin_val), x)
+    x <- ifelse(f >= over_f,  (fmax - f) / (fmax - over_f), x)
+    x <- ifelse(f > fmax, NA, x)
+    return(x)
+  }
+
+  ### Function to convert F/Fmsy values into 0 - 1 score
+  rescale_fprime_crit <- function(fish_stat_df,
+                                  fmax, fmin_val) {
+
+    ### params from DFO harvest control rule:
+    Bcrit <- 0.4; overfished_th <- 0.8
+    ### params from OHI California Current:
+    underfishing_th <- 0.8; overfishing_th  <- 1.2
+
+    bcritslope = 1 / (overfished_th - Bcrit)
+    ### connecting from (Bcrit, 0) to (overfished_th, 1)
+
+    fish_stat_df <- fish_stat_df %>%
+      mutate(fPrime = ifelse(b_bmsy < overfished_th & f_fmsy < fmax,
+                             f_gradient(f_fmsy + (overfished_th - b_bmsy) * bcritslope,
+                                        over_f = overfishing_th,
+                                        under_f = underfishing_th,
+                                        fmax = fmax,
+                                        fmin_val = fmin_val),
+                             NA),
+             fPrime = ifelse(b_bmsy >= overfished_th & f_fmsy < fmax,
+                             f_gradient(f_fmsy,
+                                        over_f = overfishing_th,
+                                        under_f = underfishing_th,
+                                        fmax = fmax,
+                                        fmin_val = fmin_val),
+                             fPrime),
+             fPrime = ifelse(is.na(fPrime), 0, fPrime), ### fill zeros everywhere unscored
+             fPrime = ifelse(is.na(f_fmsy), NA, fPrime) ### but if no f_fmsy, reset to NA
+      )
+    return(fish_stat_df)
+  }
+
+  stock_status_df <- stock_status_layers %>%
+    rescale_bprime_crit(bmax     = b_bmsy_underexploit_thresh,
+                        bmax_val = b_bmsy_underexploit_penalty) %>%
+    rescale_fprime_crit(fmax     = f_fmsy_overfishing_thresh,
+                        fmin_val = f_fmsy_underfishing_penalty) %>%
+    mutate(x_prod = ifelse(!is.na(fPrime), (fPrime * bPrime), bPrime),
+           basis  = ifelse(!is.na(fPrime), 'F_Fmsy, B_Bmsy', 'B_Bmsy only')) %>%
+    dplyr::select(year, stock_id,
+                  score = x_prod,
+                  basis,
+                  bPrime, fPrime,
+                  b_bmsy, f_fmsy)  %>%
+    group_by(stock_id) %>%
+    complete_years(status_yr_span, method = 'carry', dir = 'forward') %>%
+    ungroup()
+  
+ggplot(filter(stock_status_df, year > 1994), aes(x = year, y = score, color = stock_id)) +
+  geom_line() +
+  theme_bw() +
+  ylab("Stock Score") +
+  ggtitle("Stock scores based on F' and/or B'")
+```
+
+This plot shows all stocks are given a stock score for every year, even beyond their last assessment. Each stock goes to 2016. This might be an argument for extending our assessment penalty to 2016, basically assuming all stocks assessed in 2010 are assessed from 2010 - 2016...
+
+### Evaluating penalties
+
+Here are the scores with and without the penalty factor. The trends are very similar across time and regions since the penalty is simply a proportional decrease to the score, but it does change the story in, for example, 2000 and 2010.
+
+```{r}
+  ##############################################################.
+  ##### calculate distribution of fishery catch to regions #####
+  ##############################################################.
+
+  ### calculate weights within each region by regional catch
+  catch_df <- ram_catch %>%
+    left_join(rgn_stock_area, by = 'stock_id') %>%
+    group_by(region_id, stock_id) %>%
+    complete_rgn_years(status_yr_span, method = 'carry', dir = 'forward') %>%
+    ungroup() %>%
+    mutate(rgn_catch = catch * a_prop,
+           rgn_catch = ifelse(is.na(rgn_catch), 0, rgn_catch))
+
+  stock_score_df <- stock_status_df %>%
+    filter(!is.na(score)) %>%
+    group_by(stock_id) %>%
+    arrange(stock_id, year) %>%
+    fill(score, .direction = c('down')) %>%
+    fill(score, .direction = c('up')) %>%
+    ungroup() %>%
+    full_join(catch_df, by = c('stock_id', 'year')) %>%
+    select(region_id, year, stock_id, score, rgn_catch, basis) %>%
+    filter(!is.na(region_id))
+
+  # if(data_year == max(status_yr_span)) {
+  #   ### note, this contains all years, but only write it once
+  #   write_csv(stock_score_df, '~/github/ohibc/prep/fis/v2017/summary/fis_from_functions.csv')
+  # }
+
+  score_df <- stock_score_df %>%
+    filter(!is.na(score)) %>%
+    group_by(region_id, year) %>%
+    summarize(total_catch = sum(rgn_catch),
+              n_stocks    = sum(rgn_catch > 0),
+              ass_score = sum(score * rgn_catch) / total_catch) %>% #score based on assessed stocks
+    left_join(dfo_assessed_catch) %>%
+    filter(!is.na(penalty)) %>%
+    rowwise() %>%
+    mutate(unassess_score =  ass_score * penalty, #score based on unassessed stocks (penalty factor * assessed)
+           total_score = (ass_score + unassess_score)/2) %>%
+    ungroup()
+
+  rgns <- get_rgn_names()
+  
+  fis_status <- score_df %>%
+    select(region_id = region_id, year, ass_score, total_score) %>%
+    mutate(no_penalty = ass_score * 100,
+           score_w_penalty = total_score * 100,
+           goal      = 'FIS',
+           dimension = 'status') %>%
+    left_join(rgns, by = c("region_id" = "rgn_id"))
+
+  
+nopen <- ggplot(fis_status, aes(x = year, y = no_penalty, color = rgn_name)) +
+  geom_line() +
+  theme_bw() +
+  ggtitle("Region fisheries goal status \nwithout a penalty") +
+  ylab("Status") +
+  theme(legend.position="none")
+
+pen <- ggplot(fis_status, aes(x = year, y = score_w_penalty, color = rgn_name)) +
+  geom_line() +
+  theme_bw() +
+  ggtitle("Region fisheries goal status \nwith a penalty") +
+  ylab("Status") +
+  theme(legend.position="none")
+
+cowplot::plot_grid(nopen, pen)
+
+```
+
+-----
+
+``` {r provenance, results = 'asis'}
+prov_wrapup(commit_outputs = FALSE)
+```

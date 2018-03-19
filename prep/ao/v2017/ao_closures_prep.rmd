@@ -656,7 +656,8 @@ if(!file.exists(pfmsa_areas_file)) {
 pfmsa_3nm_df <- read_csv(file.path(dir_goal, 'int/closure_pfmsa_to_rgn.csv')) %>%
   separate(pfmsa_id, c('area', 'subarea'), sep = '-', convert = TRUE)
 
-closures_yr <- read_csv(file.path('int/closures_by_year_excl_seasonal.csv')) %>%
+# closures_yr <- read_csv(file.path('int/closures_by_year_excl_seasonal.csv')) %>%
+closures_yr <- read_csv(file.path('int/closures_by_year.csv')) %>%
   rename(days = total_days_closed) %>%
   left_join(pfmsa_3nm_df, by = c('area', 'subarea')) 
 ### check closures not associated with any OHIBC region:

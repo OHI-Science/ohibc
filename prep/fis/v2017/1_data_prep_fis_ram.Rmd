@@ -57,7 +57,7 @@ Total catch data for each stock for each year will be used to determine final we
 
 **Reference**: RAM
 
-**Downloaded**: 2016
+**Downloaded**: December 15, 2017 (downloaded from Dropbox link shared by Mike Melnychuk at UWashington)
 
 **Description**:  Fishery status (B/B~msy~ and F/F~msy~) for stocks in BC waters
 
@@ -69,7 +69,7 @@ Total catch data for each stock for each year will be used to determine final we
   
 # Methods
 
-Explore RAM:  Preliminary RAM database v. 3.8.  Load from .RData file, including time series and metadata.  This initial chunk explores the variables included in the data.
+Explore RAM:  Preliminary RAM database v. 4.25.  Load from .RData file, including time series and metadata.  This initial chunk explores the variables included in the data.
 
 ## BC-specific stocks
 
@@ -80,110 +80,94 @@ From global RAM data, filter to northeastern Pacific stocks whose assessment is 
 # model_data_file <- file.path(dir_anx, '_raw_data/ram_fisheries/d2017/RAM_v3.80/DB_Files_With_Model_Fit_Data/DBdata.RData')
 # load(model_data_file)
 # git_prov(model_data_file, filetype = 'input')
-assessment_data_file <- file.path(dir_anx, '_raw_data/ram_fisheries/d2017/RAM_v3.80/DB_Files_With_Assessment_Data/DBdata.RData')
+assessment_data_file <- file.path(dir_M, 'git-annex/globalprep/_raw_data/RAM/d2018/RAM v4.25 (12-14-17)/DB Files With Assessment Data/DBdata.RData')
 load(assessment_data_file)
 git_prov(assessment_data_file, filetype = 'input')
 
-metadata <- as.data.frame(meta.data, stringsAsFactors = FALSE)
+metadata <- as.data.frame(metadata, stringsAsFactors = FALSE)
 
+#get all stocks managed by DFO on West Coast and remove all Salmon
 bc_stocks <- metadata %>%
-  ### limit georegions:
-  filter(str_detect(region, 'Canada West|US Alaska|US West|Pacific')) %>%
-  ### cut out US-managed stocks, keeping Canada and multinational:
-  filter(str_detect(tolower(areaid), 'canada|multinational')) 
+  filter(str_detect(assessorfull, "Department of Fisheries and Oceans"), 
+         str_detect(region, "Canada West"),
+         !str_detect(stocklong, "almon"))
 
-# bc_stocks %>%
-#   filter(str_detect(tolower(areaid), 'multinational')) %>%
-#   .$areaname %>%
-#   unique()
-#  [1] "North Pacific Ocean"               "South Pacific Ocean"               "Central Western Pacific Ocean"     "Eastern Pacific"                  
-#  [5] "Western Pacific Ocean"             "Pacific Ocean"                     "North Pacific"                     "Nothwest Pacific Ocean"           
-#  [9] "Western and Central North Pacific" "Northeast Pacific"              
+DT::datatable(bc_stocks)
+```
 
-rgn_keep <- c('^North ', 'Northeast ', 'Eastern', '^Pacific', 'Central Western')
-  ### NOTE: Central Western includes Pacific from US southern border northward...
+We need to add in Pacific Hake because we learned that the Pacific Hake stock is [shared & managed by international treaty between the US and Canada](https://www.pcouncil.org/groundfish/stock-assessments/by-species/pacific-whiting-hake/), but in RAM it is only identified as USA-NMFS-PCOAST. 
 
-stocks_exclude <- c('BIGEYE', 'BTUNA', 'MARLIN', 'SWORD', 'YFIN', 'SKJ')
-  ### These get picked up from multinational managed stocks
+We are also missing Pacific Halibut, which is managed multinationally under the IPHC, and Albacore Tuna. They are added back in here.
+
+```{r}
+
+halibut <- metadata %>%
+  filter(commonname == "Pacific halibut")
+hake <- metadata %>% 
+  filter(commonname == "Pacific hake")
+tuna <- metadata %>%
+  filter(stocklong == "Albacore tuna North Pacific")
 
 bc_stocks <- bc_stocks %>%
-  ### further refine georegions for multinationals:
-  filter(str_detect(areaid, 'Canada') | str_detect(areaname, paste(rgn_keep, collapse = '|'))) %>%
-  filter(!str_detect(stockid, paste(stocks_exclude, collapse = '|')))
-  
-write_csv(bc_stocks, file.path(dir_goal, 'ram/1_bc_stocks_all_ram.csv'))
+  rbind(hake) %>%
+  rbind(halibut) %>%
+  rbind(tuna)
+
+write.csv(bc_stocks,file.path(dir_goal, 'ram/1_bc_stocks_all_ram_no_salmon.csv'))
 ```
+
+
+A note:
+
+**Arrowtooth flounder**
+
+RAM has Arrowtooth flounder for the US Pacific Coast. [This 2007 US PFMC Assessment](https://www.pcouncil.org/groundfish/stock-assessments/by-species/arrowtooth-flounder/) states that they assume one stock b/w NorCal and Canada. 
+> "This assessment reports the status of arrowtooth flounder (Atheresthes stomias) off the U.S. West Coast. Arrowtooth flounder are primarily found off Washington, Oregon, northern California, and north of the U.S.-Canada border. We assume a single mixed stock, using a model with one area."
+
+But if we include this, we are giving DFO credit for assessing this stock when it's pretty evident they havent. Therefore I'm removing it.
+
+Now we can attach look at the bioparams data table from RAM to see what parameters are available for each of these stocks. Specifically we are interested in stocks with B/Bmsy and F/Fmsy. The `timeseries_ids_views` table lists available parameters for each stock in the `timeseries` table. The columns we are interested in are `BdivBmsypref`, `UdivUmsypref`, and `TCbest`. These list the preferred `tsid` for B/Bmsy, U/Umsy (or F/Fmsy) and Catch respectively.
+
+```{r}
+
+## get the `tsid` for each of the three metrics we are interested in (B/Bmsy, F/Fmsy and Catch)
+params <- as.data.frame(timeseries_ids_views, stringsAsFactors=FALSE) %>%
+  filter(stockid %in% bc_stocks$stockid) %>%
+  select(stockid, BdivBmsypref, UdivUmsypref, TCbest)
+
+## now join the params table to the bc_stocks table
+bc_stocks_metrics <- bc_stocks %>%
+  left_join(params) %>%
+  gather(key = metric, value = tsid, BdivBmsypref, UdivUmsypref, TCbest) 
+
+```
+
+Get the total timeseries data for each stock and metric.
 
 ``` {r attach_timeseries_data}
+
 ### get time series from .Rdata
 ts <- as.data.frame(timeseries, stringsAsFactors = FALSE) %>%
   mutate(tsyear  = as.integer(tsyear),
-         tsvalue = as.numeric(tsvalue))
-git_prov(assessment_data_file, filetype = 'input')
-
-bc_stocks <- read_csv(file.path(dir_goal, 'ram/1_bc_stocks_all_ram.csv'))
-### Save only stocks with B/Bmsy and F/Fmsy or U/Umsy; also get Ctouse
-### While there are also B/Bmgt and U/Umgt, there seem to be no stocks that 
-### contain *only* these vars.
-bc_stocks_ts <- ts %>%
-  inner_join(bc_stocks) %>%
-  filter(!is.na(tsvalue)) %>%
-  filter(str_detect(tsid, 'BdivBmsy|FdivFmsy|UdivUmsy|Ctouse'))
-
-# param_check <- bc_stocks_ts %>%
-#   select(stockid, tsid, tsvalue, tsyear) %>%
-#   spread(tsid, tsvalue)
-### Ctouse is available for almost all observations; for the observations
-### where Ctouse is NA, there is generally also no F/Fmsy (though Rock Sole
-### seems to have some U/Umsy values.)
-
-write_csv(bc_stocks_ts, file.path(dir_goal, 'ram/1_bc_stocks_ts_ram.csv'))
-
-bc_stocks_ohibc <- bc_stocks_ts %>%
-  select(assessid, stockid, stocklong, scientificname,
-         FisheryType, 
-         region, areaid, areaname) %>%
-  distinct()
-
-write_csv(bc_stocks_ohibc, file.path(dir_goal, 'ram/1_bc_stocks_ohibc_ram.csv'))
-
-```
-
-#### Salmon stocks with available parameters:
-
-``` {r examine_salmon_timeseries_data}
-### get time series from .Rdata
-ts <- as.data.frame(timeseries, stringsAsFactors = FALSE) %>%
-  mutate(tsyear  = as.integer(tsyear),
-         tsvalue = as.numeric(tsvalue))
-git_prov(assessment_data_file, filetype = 'input')
-
-bc_salmon_stocks <- read_csv(file.path(dir_goal, 'ram/1_bc_stocks_all_ram.csv')) %>%
-  filter(str_detect(tolower(stocklong), 'salmon'))
-### Save only stocks with B/Bmsy and F/Fmsy or U/Umsy; also get Ctouse
-### While there are also B/Bmgt and U/Umgt, there seem to be no stocks that 
-### contain *only* these vars.
-bc_salmon_ts <- ts %>%
-  inner_join(bc_salmon_stocks) %>%
+         tsvalue = as.numeric(tsvalue)) %>%
+  filter(stockid %in% bc_stocks$stockid) %>%
+  inner_join(bc_stocks_metrics, by = c("stockid", "stocklong", "tsid", "assessid")) %>%
   filter(!is.na(tsvalue))
-  
 
-param_check <- bc_salmon_ts %>%
-  group_by(stockid) %>%
-  mutate(year_range = paste(min(tsyear), max(tsyear), sep = ' - ')) %>%
-  group_by(stockid, stocklong, tsid) %>%
-  summarize(n_obs = n(), year_range = first(year_range)) %>%
-  ungroup() %>%
-  spread(tsid, n_obs)
+write_csv(ts, file.path(dir_goal, 'ram/1_bc_stocks_ts_ram.csv'))
 
-DT::datatable(param_check)
+git_prov(assessment_data_file, filetype = 'input')
 ```
+
+There are a total of `length(unique(ts$stockid))` stocks in RAM for BC with at least one of our three metrics.
 
 #### Fish stocks represented in this dataset, including span of years and number of missing years in the series:
 
+It looks like only three stocks - all Shrimp - have a couple gaps in their catch data. These stocks do not have B/Bmsy or F/Fmsy data so we likely will not be using these stocks in the model. Therefore these gaps might not be an issue.
+
 ``` {r check_fish_stocks}
-bc_fish_display <- bc_stocks_ts %>%
-  group_by(stockid, stocklong, tsid, areaid) %>%
+bc_fish_display <- ts %>%
+  group_by(stockid, stocklong, tsid, areaname) %>%
   arrange(stockid, tsyear) %>%
   summarize(year_range = paste(first(tsyear), last(tsyear), sep = ' - '),
             recent_val = last(tsvalue),
@@ -193,70 +177,74 @@ DT::datatable(bc_fish_display)
 
 ```
 
+Save a list of the stocks in BC for use later on in visualizing data and naming plots. This is just a list of the stocks.
+
 ``` {r create_list_of_spp}
 x <- read_csv(file.path(dir_goal, 'ram/1_bc_stocks_ts_ram.csv')) %>%
-  select(stockid, stocklong, region, areaid) %>%
+  select(stock_id = stockid, 
+         stock_name = stocklong, 
+         region, 
+         ram_area_name = areaname) %>%
   distinct() %>%
-  arrange(areaid)
+  arrange(ram_area_name)
 
 write_csv(x, file.path(dir_goal, 'raw/1_ram_ids_to_names_raw.csv'))
 ```
 
-### Examine time series of stocks
+# Visualize data
 
-For each BC-specific stock, determine time series of B/Bmsy, F/Fmsy, and catch.
+## Time series of stock metrics
+
+For each BC-specific stock, determine time series of B/Bmsy, F/Fmsy, and catch. Remove stocks that do not have data from 2010 onwards.
 
 ``` {r stocks_b_bmsy_f_fmsy}
 
 bc_stocks_ts <- read_csv(file.path(dir_goal, 'ram/1_bc_stocks_ts_ram.csv'))
 
 bmsy_ts <- bc_stocks_ts %>% 
-  filter(str_detect(tsid, 'BdivBmsy')) %>%
+  filter(metric == 'BdivBmsypref') %>%
   select(stock_id = stockid, 
          stock_name = stocklong, 
-         param = tsid, 
+         param = metric, 
          year = tsyear, 
          value = tsvalue, 
-         sciname = scientificname, 
-         ram_area_id = areaid, 
+         sciname = scientificname,
          ram_area_name = areaname) %>%
   mutate(year  = as.integer(year),
          value = as.numeric(value),
          param = 'B/Bmsy') %>%
+  group_by(stock_id) %>%
+  mutate(max_year = max(year)) %>%
+  filter(max_year > 2009) %>%
+  select(-max_year) %>%
   distinct()
 
 fmsy_ts <- bc_stocks_ts %>% 
-  filter(str_detect(tsid, 'FdivFmsy|UdivUmsy')) %>%
+  filter(metric == 'UdivUmsypref') %>%
   select(stock_id = stockid, 
          stock_name = stocklong, 
          param = tsid, 
          year = tsyear, 
          value = tsvalue, 
-         sciname = scientificname, 
-         ram_area_id = areaid, 
+         sciname = scientificname,
          ram_area_name = areaname) %>%
   mutate(year  = as.integer(year),
          value = as.numeric(value),
-         param = ifelse(str_detect(param, 'FdivF'), 'F/Fmsy', 'U/Umsy')) %>%
+         param = 'F/Fmsy') %>%
+  group_by(stock_id) %>%
+  mutate(max_year = max(year)) %>%
+  filter(max_year > 2009) %>%
+  select(-max_year) %>%
   distinct()
 
-### some dupes here, Pac Cod, with both F/Fmsy and U/Umsy.
-fmsy_ts <- fmsy_ts %>%
-  group_by(stock_id, year) %>%
-  arrange(param) %>%
-  filter(param == first(param)) %>% ### keep F/Fmsy
-  ungroup()
-### add the four-year rolling mean in the toolbox
-
 catch_ts <- bc_stocks_ts %>% 
-  filter(str_detect(tsid, 'Ctouse')) %>%
+  filter(metric == 'TCbest') %>%
   select(stock_id = stockid, 
          stock_name = stocklong, 
          param = tsid, 
          year = tsyear, 
          value = tsvalue, 
-         sciname = scientificname, 
-         ram_area_id = areaid, 
+         sciname = scientificname,
          ram_area_name = areaname) %>%
   mutate(year  = as.integer(year),
          value = as.numeric(value),
@@ -274,40 +262,46 @@ write_csv(catch_ts, file.path(dir_goal, 'output/ram_catch.csv'))
 
 ``` {r plot_stock_timeseries}
 
-span_df <- bind_rows(read_csv(file.path(dir_goal, 'output/ram_b_bmsy.csv')),
-                     read_csv(file.path(dir_goal, 'output/ram_f_fmsy.csv')),
-                     read_csv(file.path(dir_goal, 'output/ram_catch.csv'))) %>%
-  mutate(param = ifelse(param == 'U/Umsy', 'F/Fmsy', param)) %>%
-  left_join(read_csv(file.path(dir_goal, 'raw', '1_ram_ids_to_names.csv'))) %>%
-  group_by(stock_name_mod, param) %>%
-  summarize(yr_min = min(year), yr_max = max(year)) %>%
-  ungroup()
+span_df <- ts %>%
+  mutate(tsid_new = case_when( #create a new column for metrics
+    metric == "BdivBmsypref" ~ "B/Bmsy",
+    metric == "UdivUmsypref" ~ "F/Fmsy",
+    metric == "TCbest" ~ "Catch")) %>%
+  filter(!is.na(tsvalue)) %>%
+  group_by(stocklong, tsid_new) %>%
+  summarize(yr_min = min(tsyear), yr_max = max(tsyear)) %>%
+  ungroup() %>%
+  mutate(stocklong = ifelse(str_detect(stocklong, "Canary"), "Canary rockfish WCVI-SOG-QCI", stocklong)) %>%
+  mutate(yr_min = ifelse(yr_min < 1980, 1980, yr_min))  ## some stocks have a really long history (e.g. Atlantic Halibut goes back to pre-1900) so I'm reducing the years to only 1980 for plotting purposes
 
 span_df2 <- span_df %>%
   bind_rows(span_df %>%
-              group_by(stock_name_mod) %>%
-              complete(param = c('F/Fmsy', 'B/Bmsy', 'Catch')) %>%
-              summarize(param = 'Complete', yr_min = max(yr_min), yr_max = min(yr_max))) %>%
-  mutate(param = factor(param, levels = c('B/Bmsy', 'F/Fmsy', 'Catch', 'Complete')))
+              group_by(stocklong) %>%
+              complete(tsid_new = c('F/Fmsy', 'B/Bmsy', 'Catch')) %>%
+              summarize(tsid_new = 'Complete', yr_min = max(yr_min), yr_max = min(yr_max))) %>%
+  mutate(param = factor(tsid_new, levels = c('B/Bmsy', 'F/Fmsy', 'Catch', 'Complete')))
 
-stock_ids <- span_df2$stock_name_mod %>% unique()
+stock_ids <- span_df2$stocklong %>% unique()
   
-
-span_plot <- ggplot(span_df2, aes(x = stock_name_mod)) +
+span_plot <- ggplot(span_df2, aes(x = stocklong)) +
   ggtheme_plot(base_size = 7) +
   annotate('rect', ymin = 2000, ymax = 2016, 
            xmin = first(stock_ids), xmax = last(stock_ids), 
            fill = 'red', alpha = .1) +
   geom_linerange(aes(ymin = yr_min, ymax = yr_max, 
-                     color = param),
+                     color = tsid_new),
                  position = position_dodge(width = .5), alpha = .8) +
-  scale_color_manual(values = c('#66c2a5', '#fc8d62', '#8da0cb', 'black')) +
+  scale_color_manual(values = c('red', 'darkgreen', 'black', 'blue')) +
   coord_flip() +
   labs(x = 'RAM Stock',
        y = 'Year',
        color = 'Parameter') +
-  guides(colour = guide_legend(override.aes = list(size = 3)))
-# span_plot
+  guides(colour = guide_legend(override.aes = list(size = 3))) +
+  theme(axis.text.y = element_text(size = 10),
+        legend.text = element_text(size=8),
+        legend.title = element_text(size = 8))
+#span_plot
+
 
 ggsave(file.path(dir_goal, 'Figs', 'ram_stock_id_spans.png'), width = 6, height = 6)
 
@@ -315,13 +309,13 @@ ggsave(file.path(dir_goal, 'Figs', 'ram_stock_id_spans.png'), width = 6, height 
 
 ![](Figs/ram_stock_id_spans.png)
 
-## Plot stock status against modified Kobe
+## Kobe plots
 
 ``` {r examine_each_stock, cache = FALSE}
 
 stocks_ts_df <- bind_rows(read_csv(file.path(dir_goal, 'output/ram_b_bmsy.csv')),
                      read_csv(file.path(dir_goal, 'output/ram_f_fmsy.csv'))) %>%
-  left_join(read_csv(file.path(dir_goal, 'raw', '1_ram_ids_to_names.csv'))) %>%
+  left_join(read_csv(file.path(dir_goal, 'raw', '1_ram_ids_to_names_raw.csv'))) %>%
   ungroup() %>%
   mutate(param = str_replace_all(tolower(param), '[^a-z]', '_') %>%
            str_replace_all('u', 'f')) %>%
@@ -368,16 +362,17 @@ for(spp in spp_ids) {
   hcr_df <- data.frame(b_bmsy = c(0, .4, .8, bbmsy_lim),
                        f_fmsy = c(0,  0,  1, 1))
   
-  plot_title <- stocks_ts1$stock_name_mod[1]
+  plot_title <- stocks_ts1$stock_name[1]
   
   kobe_stock_plot <- ggplot(data = kobe_df, aes(x = b_bmsy, y = f_fmsy)) +
     ggtheme_plot() + 
-    geom_raster(alpha = .8, aes(fill = x_geom), show.legend = FALSE) +
+    geom_raster(alpha = .8, aes(fill = x_geom)) +
     scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
     geom_line(data = hcr_df, aes(x = b_bmsy, y = f_fmsy), color = 'black', size = 1.5, alpha = .6) +
     labs(title = plot_title,
          x = 'B/Bmsy',
-         y = 'F/Fmsy') +
+         y = 'F/Fmsy',
+         fill = "Stock score") +
     annotate(geom = 'text', label = 'critical', x = .15, y = -.15, 
              size = 2, 
              color = 'grey20') + 

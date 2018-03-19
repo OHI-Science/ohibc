@@ -1,0 +1,400 @@
+---
+title: 'OHIBC: Commercial Fishing Pressure layers prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+#Summary
+
+The commercial fishing pressure layers are created from spatialized catch by gear data provided by Watson (2017), and net primary production data from the Vertically Generalized Production Model [(VGPM)](http://www.science.oregonstate.edu/ocean.productivity/) as described in [Behrenfeld and Falkowski (1997)](http://www.science.oregonstate.edu/ocean.productivity/references/L&O%201997a.pdf).
+
+Two layers are created here, commercial fishing pressure from **high bycatch** gear and **low bycatch** gear. The raw spatial catch data provides information about species catch per cell along with information on the type of gear used. Each gear type was categorized into high and low bycatch gears based on the global Cumulative Human Impacts study (Halpern et al. 2008) and was done using [this script](https://github.com/OHI-Science/impact_acceleration/blob/master/stressors/comm_fish/watson_gear_matching.Rmd).
+
+The layers created here are derived from the layers used for the global OHI assessment. The main difference, aside from only using data within the BC region, is the decision to not log transform the values. When using the full global extent of the data in the global assessment, we log transform to account for skew. Since we are using this data at a much smaller scale, we have decided not to log transform.
+
+
+***
+
+#Data Source
+
+**Reference**: [Watson (2017)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5387926/)
+
+**Downloaded**: April 21, 2017
+
+**Description**:  Catch per half degree cell (raw values are in tons per km^2^)  
+
+**Native data resolution**: 0.5 degree    
+
+**Time range**: 2003 - 2014  (raw data goes back to 1950 but NPP data limits time series to 2003)
+
+**Format**:  Tabular  
+
+***
+  
+#Methods
+
+##Setup
+
+Load all relevant libraries 
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(rgdal)
+library(dplyr)
+library(ggplot2)
+library(raster)
+library(doParallel)
+library(foreach)
+library(seaaroundus)
+library(sf)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))
+
+dir_spatial <- path.expand(file.path(dir_git, 'prep/_spatial'))
+
+### goal specific folders and info
+goal      <- '_pressures'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_M, 'git-annex/bcprep', goal, scenario)
+
+#setting up provenance
+# devtools::install_github('oharac/provRmd')
+# library(provRmd)
+# prov_setup()
+
+#library(provRmd); prov_setup()
+
+# BC region polygon
+
+bc_poly <- st_read("~/github/ohibc/prep/_spatial", layer = "ohibc_rgn_wgs84") %>%
+           as(.,"Spatial")
+```
+
+
+
+## Aggregate annual catch by type
+
+First get the template raster with a resolution of 0.5 degree cells. The `getcells()` function comes from the [seaaroundus R package](https://github.com/ropensci/seaaroundus).
+
+The values of these cells are the Cell ID numbers. In the fisheries catch dataset, these Cell ID numbers match up with the "Seq" numbers.
+
+```{r}
+
+  saup_cells <- getcells("POLYGON ((-180 90, 180 90, 180 -90, -180 -90, -180 90))")
+
+   saup_rast <- raster::raster(ncol=720, nrow=360)
+   saup_rast[] <- saup_cells
+
+   #crop global cells to just those in the BC area
+   bc_rast <- crop(saup_rast, bc_poly) 
+   
+   bc_cells <- getValues(bc_rast) #get all cells in the area to help filter out spatial catch data
+   
+   plot(bc_rast)
+   plot(bc_poly, add=T)
+   
+# base raster
+rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif'))
+```
+
+For each year read in the raw data (data matched with bycatch category), filter for appropriate type (high, low and artisanal) and then summarize total catch per cell (in tons/km^2^). The data is large and therefore held on the NCEAS server.
+
+```{r}
+
+#register cores for parallel processing
+registerDoParallel(cores = 8)
+
+years = c(2003:2014)
+
+foreach(yr = years) %dopar%{
+  
+  #read in raw data for the year
+  raw <- readRDS(paste0(file.path(dir_M,'marine_threats/impact_acceleration/stressors/comm_fish/int/catch_data_'),yr,'.rds')) %>%
+          filter(Seq %in% bc_cells) #select only those cells in the BC region
+  
+  #high bycatch
+  high <- raw %>%
+          filter(bycatch == "high") %>%
+          rowwise() %>%
+          mutate(catch = sum(SSF_CR, LSF_CR, IUU_CR, Discards_CR, na.rm=T))%>% #there shouldnt be NAs but just in case
+          group_by(Seq)%>%
+          summarise(cell_catch = sum(catch))
+          
+    #rasterize catch by swapping cell ids with 
+raster::subs(bc_rast, high, by = 1, which = 2, subsWithNA=TRUE, filename = paste0('int/high_bycatch/annual_catch/high_bc_',yr,'.tif'),overwrite=T) 
+  
+  #low bycatch
+  low <- raw%>%
+          filter(bycatch == "low")%>%
+          rowwise()%>%
+          mutate(catch = sum(SSF_CR, LSF_CR, IUU_CR, Discards_CR,na.rm=T))%>% #there shouldnt be NAs but just in case
+          group_by(Seq)%>%
+          summarise(cell_catch = sum(catch))
+
+raster::subs(bc_rast, low, by = 1, which = 2, subsWithNA=TRUE, filename = paste0('int/low_bycatch/annual_catch/low_bc_',yr,'.tif'),overwrite=T) 
+}
+
+```
+
+
+## Net Primary Production (NPP)
+
+The Net Primary Production data was prepared in [npp.Rmd](https://cdn.rawgit.com/OHI-Science/ohiprep/master/globalprep/prs_fish/v2016/prim_productivity/npp.html).
+
+```{r npp}
+
+npp <- list.files(file.path(dir_M,'git-annex/globalprep/prs_fish/v2016/VGPM_primary_productivity/int/annual_npp'),pattern = 'npp_2',full.names=T)
+
+```
+
+## Standardize by NPP
+
+Total catch per cell is standardized by the NPP values. This is done because the same fishing pressure can have different impacts depending on the productivity in the region. 
+
+Before standardizing, the NPP data is aggregated to the same spatial resolution as the catch data, 0.5 degree cells, to accurately calculate catch in tons/km2 standardized by mg C/m2/day.
+
+```{r}
+
+npp_stand <- function(file,fname){
+  
+  yr <- substr(file,nchar(file)-7,nchar(file)-4)
+  
+  catch <- raster(file)
+  
+  #get net primary production for that year
+  n <- npp[substr(npp,111,114)==yr]%>%
+          raster()%>%
+          projectRaster(catch)%>%
+          crop(catch) %>%
+          resample(.,catch)
+
+  #3. Divide catch by npp and save
+  overlay(catch,n,fun=function(x,y){x/y},filename = paste0('int/',fname,'/annual_catch_npp/annual_catch_npp_',yr,'.tif'), overwrite=T,progress="text") 
+
+}
+
+#apply the function
+hb_files <- list.files('int/high_bycatch/annual_catch',full.names=T)
+lb_files <- list.files('int/low_bycatch/annual_catch',full.names=T)
+
+lapply(hb_files,npp_stand,fname = "high_bycatch")
+lapply(lb_files,npp_stand,fname = "low_bycatch")
+```
+
+## Five year means
+
+Mean catch per cell is calculated over a rolling window of 5 years to account for interannual variability.
+
+```{r mean_catch}
+
+lb_npp <- list.files('int/low_bycatch/annual_catch_npp',full.names=T)
+hb_npp <- list.files('int/high_bycatch/annual_catch_npp',full.names=T)
+
+foreach (i = 2003:2010) %dopar%{
+  
+  yrs <- c(i:(i+4))
+  
+  out_lb <- lb_npp[which(substr(lb_npp,51,54) %in% yrs)]%>%
+            stack()%>%
+            calc(fun=function(x){mean(x,na.rm=T)}, filename = paste0('int/low_bycatch/five_year_means/mean_catch_',yrs[1],'_',yrs[5],'.tif'),overwrite=T)
+  
+  out_hb <- hb_npp[which(substr(hb_npp,52,55) %in% yrs)]%>%
+            stack()%>%
+            calc(fun=function(x){mean(x,na.rm=T)}, filename = paste0('int/high_bycatch/five_year_means/mean_catch_',yrs[1],'_',yrs[5],'.tif'),overwrite=T)
+}
+
+```
+
+
+## Reference Point
+
+Look at all catch data standardized by NPP from 2003 - 2014 and use 110% * the maximum value as the reference point.
+
+```{r ref_point}
+
+lb_npp <- list.files('int/low_bycatch/annual_catch_npp',full.names=T)
+hb_npp <- list.files('int/high_bycatch/annual_catch_npp',full.names=T)
+
+plot(stack(lb_npp))
+plot(stack(hb_npp))
+
+# HIGH BYCATCH
+
+#get data across all years
+vals <- c()
+
+for(i in 2003:2014){
+#print(i)
+  m <- hb_npp[which(substr(hb_npp,52,55) == i)]%>%
+    raster()%>%
+    getValues()
+  
+ n <- m[!is.na(m)]
+
+  vals <- c(vals,n)
+
+}
+
+ref_hb <- 1.1 * max(vals)
+
+
+#LOW BYCATCH
+
+#get data across all years
+lb_vals <- c()
+
+for(i in 2003:2014){
+
+  m <- lb_npp[which(substr(lb_npp,51,54) == i)]%>%
+    raster()%>%
+    getValues()
+
+  n <- m[!is.na(m)]
+  
+  lb_vals <- c(lb_vals,n)
+
+}
+
+ref_lb <- 1.1 * max(lb_vals)
+```
+
+The reference point is `r ref_hb` for high bycatch, `r ref_lb` for low bycatch.
+
+## Rescale, Resample and Reproject
+
+```{r rescale}
+
+mean_hb <- list.files('int/high_bycatch/five_year_means',full.names=T)
+mean_lb <- list.files('int/low_bycatch/five_year_means',full.names=T)
+
+foreach (i = 2003:2010) %dopar%{
+  
+  yrs <- c(i:(i+4))
+  
+  out_hb <- mean_hb[which(substr(mean_hb,45,48) == i)]%>%
+            raster()%>%
+            calc(fun=function(x){x/ref_hb})%>%
+            projectRaster(crs = "+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs") %>%
+            resample(rast_base, method = 'ngb',
+                     filename = paste0('fish_rasts/output/high_bycatch/hb_fish_pressure_',yrs[1],'-',yrs[5],'.tif'),overwrite=T)
+  
+  out_lb <- mean_lb[which(substr(mean_lb,44,47) == i)]%>%
+            raster()%>%
+            calc(fun=function(x){x/ref_lb})%>%
+            projectRaster(crs = "+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs") %>%
+            resample(rast_base, method = 'ngb', filename = 
+                       paste0('fish_rasts/output/low_bycatch/lb_fish_pressure_',yrs[1],'-',yrs[5],'.tif'),overwrite=T)
+}
+
+```
+
+***
+
+# Results
+
+```{r results}
+
+hb <- raster('fish_rasts/output/high_bycatch/hb_fish_pressure_2010-2014.tif')
+lb <- raster('fish_rasts/output/low_bycatch/lb_fish_pressure_2010-2014.tif')
+
+s = stack(hb, lb)
+plot(s, axes=F, box=F)
+
+```
+
+***
+
+To calculate region scores, we run zonal statistics on each layer to calculate a mean proportion of anomalous weeks over the entire region.  At that point we can apply a rolling mean as well, though this reduces our data availability for the earlier portion of our time frame.
+
+``` {r calc_rgn_means}
+
+#high bycatch
+hb_prs_files <- list.files(file.path(dir_goal, 'fish_rasts/output/high_bycatch'), 
+                                full.names = TRUE)
+
+hb_prs_stack <- stack(hb_prs_files)
+
+ohibc_rgn_rast <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif'))
+
+ohibc_rgn_hb <- zonal(hb_prs_stack, ohibc_rgn_rast, fun = 'mean', na.rm = TRUE) %>%
+  as.data.frame() %>%
+  rename(rgn_id = zone) %>%
+  gather(year, prs_raw, -rgn_id) %>%
+  group_by(rgn_id) %>%
+  mutate(year = as.integer(substr(year, 23, 26))) %>%
+  rename(pressure = prs_raw) %>%
+  ungroup()
+
+write_csv(ohibc_rgn_hb, file.path(dir_goal, 'output/prs_hb_fish_layer.csv'))
+
+#low bycatch
+lb_prs_files <- list.files(file.path(dir_goal, 'fish_rasts/output/low_bycatch'), 
+                                full.names = TRUE)
+
+lb_prs_stack <- stack(lb_prs_files)
+
+ohibc_rgn_lb <- zonal(lb_prs_stack, ohibc_rgn_rast, fun = 'mean', na.rm = TRUE) %>%
+  as.data.frame() %>%
+  rename(rgn_id = zone) %>%
+  gather(year, prs_raw, -rgn_id) %>%
+  group_by(rgn_id) %>%
+  mutate(year = as.integer(substr(year, 23, 26))) %>%
+  rename(pressure = prs_raw) %>%
+  ungroup() 
+
+write_csv(ohibc_rgn_lb, file.path(dir_goal, 'output/prs_lb_fish_layer.csv'))
+
+```
+
+# Results
+
+```{r}
+
+#high bycatch
+
+ohibc_rgn_hb$rgn_id <- as.character(ohibc_rgn_hb$rgn_id)
+
+hbplot <- ggplot(ohibc_rgn_hb, aes(x = year,y = pressure, color = rgn_id))+
+  geom_line()+
+  labs(color = "Region",
+       y = "Pressure score",
+       x = "Year",
+       title = "High bycatch fishing pressure")
+
+#low bycatch
+
+ohibc_rgn_lb$rgn_id <- as.character(ohibc_rgn_lb$rgn_id)
+
+lbplot <- ggplot(ohibc_rgn_lb, aes(x = year,y = pressure, color = rgn_id))+
+  geom_line()+
+  labs(color = "Region",
+       y = "Pressure score",
+       x = "Year",
+       title = "Low bycatch fishing pressure")
+
+
+cowplot::plot_grid(hbplot, lbplot, ncol = 2)
+
+```
+
+
+***
+
+#Citation information  
+Watson, R. A. (2017). A database of global marine commercial, small-scale, illegal and unreported fisheries catch 1950–2014. *Scientific Data*, 4.

@@ -1,0 +1,26 @@
+## Ecosystem Services
+
+#### Current status
+
+#### Trend
+
+#### Data
+
+_Status and trend_
+
+```{r NP data st, results="asis", echo=FALSE}
+data_layers(goal="ES", dimension=c("status", "trend"))
+```
+
+_Pressure_
+
+```{r NP data p, results="asis", echo=FALSE}
+data_layers(goal="ES", dimension=c("pressure"))
+```
+
+_Resilience_
+
+```{r NP r, results="asis", echo=FALSE}
+data_layers(goal="ES", dimension=c("resilience"))
+
+```

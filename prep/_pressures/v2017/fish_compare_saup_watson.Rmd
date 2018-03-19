@@ -1,0 +1,187 @@
+---
+title: "Comparing Watson and SAUP data"
+author: "Jamie Afflerbach"
+date: "9/29/2017"
+output: html_document
+---
+
+While creating the fishing pressure layers, we did this comparison of two different but very similar datasets to try and understand the differences and identify which to use. In the end, we are using the data from Watson (2017) to create the fishing pressure layers.
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(rgdal)
+library(tidyverse)
+library(ggplot2)
+library(raster)
+library(doParallel)
+library(foreach)
+library(seaaroundus)
+library(sf)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))
+
+dir_spatial <- path.expand(file.path(dir_git, 'prep/_spatial'))
+
+### goal specific folders and info
+goal      <- '_pressures'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_M, 'git-annex/bcprep', goal, scenario)
+
+#setting up provenance
+# devtools::install_github('oharac/provRmd')
+# library(provRmd)
+# prov_setup()
+
+#library(provRmd); prov_setup()
+
+# BC region polygon
+
+bc_poly <- st_read("~/github/ohibc/prep/_spatial", layer = "ohibc_rgn_wgs84") %>%
+           as(.,"Spatial")
+```
+
+
+First get the template raster with a resolution of 0.5 degree cells. The `getcells()` function comes from the [seaaroundus R package](https://github.com/ropensci/seaaroundus).
+
+The values of these cells are the Cell ID numbers. In the fisheries catch dataset, these Cell ID numbers match up with the "Seq" numbers.
+
+```{r}
+
+  saup_cells <- getcells("POLYGON ((-180 90, 180 90, 180 -90, -180 -90, -180 90))")
+
+   saup_rast <- raster::raster(ncol = 720, nrow = 360)
+   saup_rast[] <- saup_cells
+
+   #crop global cells to just those in the BC area
+   bc_rast <- crop(saup_rast, bc_poly) 
+   
+   bc_cells <- getValues(bc_rast) #get all cells in the area to help filter out spatial catch data
+   
+   plot(bc_rast)
+   plot(bc_poly, add=T)
+   
+# base raster
+rast_base <- raster(file.path(dir_spatial, 'raster/ohibc_rgn_raster_1000m.tif'))
+```
+
+
+# Sea Around Us Project Data
+
+## Download SAUP data using rseaaroundus
+
+```{r}
+
+yrs <- c(2003:2014)
+
+#get all SAUP data for cells in BC for years 2003 - 2014
+bc_data <- map_df(yrs, getcelldata, bc_cells)
+
+```
+
+## Aggregate annual catch for landings and discards
+
+```{r}
+
+#register cores for parallel processing
+registerDoParallel(cores = 8)
+
+years <- c(2003:2014)
+
+foreach(yr = years) %dopar%{
+  
+  #landings
+  landings_cell_catch <- bc_data %>%
+          filter(year == yr,
+                 catch_status_name == "Landings") %>%
+          rowwise() %>%
+          rename(catch = catch_sum)%>% 
+          group_by(cell_id)%>%
+          summarise(cell_catch = sum(catch))
+          
+    #rasterize catch by swapping cell ids with 
+  raster::subs(bc_rast, landings_cell_catch, by = 1, which = 2, subsWithNA = TRUE, 
+               filename = paste0('fish_rasts/saup/landings/landings_', yr, '.tif'), 
+               overwrite = TRUE) 
+  
+  #discards
+  discards_cell_catch <- bc_data%>%
+          filter(year == yr,
+                 catch_status_name == "Discards")%>%
+          rowwise() %>%
+          rename(catch = catch_sum)%>% 
+          group_by(cell_id)%>%
+          summarise(cell_catch = sum(catch))
+
+  raster::subs(bc_rast, discards_cell_catch, by = 1, which = 2, subsWithNA = TRUE, 
+               filename = paste0('fish_rasts/saup/discards/discards_', yr, '.tif'),
+               overwrite = TRUE) 
+}
+
+```
+
+
+# Reg Watson data
+
+For each year read in the raw data (data matched with bycatch category), filter for appropriate type (high, low) and then summarize total catch per cell (in tons/km^2^). The data is large and therefore held on the NCEAS server.
+
+```{r}
+
+#register cores for parallel processing
+registerDoParallel(cores = 8)
+
+years <- c(2003:2014)
+
+foreach(yr = years) %dopar%{
+  
+  #read in raw data for the year
+  raw <- readRDS(paste0(file.path(dir_M, 'marine_threats/impact_acceleration', 
+                                  'stressors/comm_fish/int/catch_data_'), yr, '.rds')) %>%
+          filter(Seq %in% bc_cells) #select only those cells in the BC region
+  
+  #landings
+  landings <- raw %>%
+    rowwise() %>%
+    mutate(catch = sum(SSF_CR, LSF_CR, IUU_CR)*OceanArea)%>%  
+      #multiplying by OceanArea to get tons per cell, making this comparable to SAUP. If we use this data, we will not need to do this
+    group_by(Seq)%>%
+    summarise(cell_catch = sum(catch))
+          
+    #rasterize catch by swapping cell ids with 
+  raster::subs(bc_rast, landings, by = 1, which = 2, subsWithNA=TRUE, 
+               filename = paste0('fish_rasts/watson/landings/landings_', yr, '.tif'),
+               overwrite = T) 
+  
+  #discards
+  discards <- raw%>%
+          mutate(catch = Discards_CR * OceanArea)%>%
+          group_by(Seq)%>%
+          summarise(cell_catch = sum(catch))
+
+  raster::subs(bc_rast, discards, by = 1, which = 2, subsWithNA=TRUE, 
+               filename = paste0('fish_rasts/watson/discards/discards_', yr, '.tif'),
+               overwrite = T) 
+}
+
+```
+
+# Comparing SAUP and Watson data
+
+First let's map them using just the 2014 data
+```{r}
+land_s <- raster('fish_rasts/saup/landings/landings_2014.tif')
+land_w <- raster('fish_rasts/watson/landings/landings_2014.tif')
+disc_s <- raster('fish_rasts/saup/discards/discards_2014.tif')
+disc_w <- raster('fish_rasts/watson/discards/discards_2014.tif')
+
+par(mfrow = c(2,2),
+    mar = c(2,1,2,0.5))
+plot(land_s, main = "SAUP Landings 2014", axes = F, zlim = c(0,13100))
+plot(land_w, main = "Watson Landings 2014", axes = F, zlim = c(0,13100))
+plot(disc_s, main = "SAUP Discards 2014", axes = F, zlim = c(0,320))
+plot(disc_w, main = "Watson Discards 2014", axes = F, zlim = c(0,320))
+
+```

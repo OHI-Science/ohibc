@@ -1,0 +1,151 @@
+---
+title: 'OHIBC: Resilience - Food provision biomass removal resilience prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(sf)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))
+
+dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+dir_spatial <- path.expand(file.path(dir_git, 'prep/_spatial'))
+
+### goal specific folders and info
+goal      <- '_resilience'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_M, 'git-annex/bcprep', goal, scenario)
+
+library(provRmd); prov_setup()
+
+```
+
+# Summary
+
+This script prepares a resilience layer based upon the presence, effectiveness, and compliance with fishing management regulations.  As in several other resilience layers, it is a geometric mean of three components: 
+
+$$resilience = \sqrt[3]{reg.presence \times reg.effectiveness \times reg.compliance}$$
+
+# Data
+
+* __Reference__: 
+* __Downloaded__: 
+* __Description__:  
+* __Native data resolution__: 
+* __Format__:  
+
+# Methods
+
+Read in layers and compute geometric mean of values for each year.  Reference points:
+
+* Regulation: 100% indicates Fisheries Act in place; this is true for all years.
+* Effectiveness: Metric = Fisheries officers/vessels each year (target is max number of officers per vessels across time).
+    * Number of vessels will be determined from license data.
+* Compliance: Metric = Observer coverage in groundfish fishery (target 100%)
+
+## Determine regulation score
+
+Since regulation is long-standing, all years earn a regulation component score of 100.
+
+## Determine effectiveness
+
+Using officers and vessels data (from fishing license data) determine ratio of officers per vessel, and determine peak as reference point.
+
+To determine vessel count, take the license data, filter to vessel-based licenses, clean vessel names by lower-casing and stripping all non-letter/number info, and then using distinct() to eliminate duplicates (e.g. a vessel with multiple licenses in one year).  Then summarize the count for each year.  This is not spatialized - accounts for all licensed vessels in BC waters.
+
+``` {r}
+
+license_file <- file.path(dir_anx, '_raw_data/fishing_license/Pacific Region Commercial Fishing Licenses En.csv')
+metadata_file <- file.path(dir_anx, '_raw_data/fishing_license/Commercial License Meta Data EN (1).csv')
+
+licensed_vessels <- read_csv(license_file) %>%
+  setNames(tolower(names(.)) %>% str_replace_all('[\\s()]+', '_')) %>%
+  filter(licence_type == 'VESSEL-BASED') %>%
+  select(year = licence_suffix, vessel = licence_holder_vessel) %>%
+  mutate(vessel = tolower(vessel) %>% str_replace_all('[^a-z0-9]', '')) %>%
+  distinct() %>%
+  group_by(year) %>%
+  summarize(vessels = n()) %>%
+  filter(year != 2017) ### drop 2017 b/c incomplete data
+  
+
+res_data_file <- file.path(dir_anx, '_raw_data/fisheries_resilience/fisheries_resilience.xlsx')
+### readxl::excel_sheets(res_data_file)
+### [1] "GroundfishEnforcement" "GroundfishMonitoring"  "ProtectAreaPlans"      "ReferenceNotes"       
+
+reg_eff <- readxl::read_excel(res_data_file, sheet = 'GroundfishEnforcement') %>%
+  setNames(c('year', 'officers', 'vessels')) %>%
+  select(year, officers)
+
+reg_eff <- reg_eff %>%
+  left_join(licensed_vessels, by = 'year') %>%
+  mutate(eff_ratio = officers / vessels,
+         eff_score = eff_ratio / max(eff_ratio, na.rm = TRUE))
+
+DT::datatable(reg_eff %>% mutate(eff_ratio = round(eff_ratio, 4), eff_score = round(eff_score, 4)))
+
+write_csv(reg_eff, file.path(dir_goal, 'int', 'fp_reg_effectiveness.csv'))
+
+```
+
+## Determining compliance
+
+``` {r} 
+res_data_file <- file.path(dir_anx, '_raw_data/fisheries_resilience/fisheries_resilience.xlsx')
+### readxl::excel_sheets(res_data_file)
+### [1] "GroundfishEnforcement" "GroundfishMonitoring"  "ProtectAreaPlans"      "ReferenceNotes"       
+reg_comp <- readxl::read_excel(res_data_file, sheet = 'GroundfishMonitoring') %>%
+  setNames(c('year', 'observers')) %>%
+  mutate(comp_score = observers / max(observers, na.rm = TRUE))
+
+DT::datatable(reg_comp)
+write_csv(reg_comp, file.path(dir_goal, 'int', 'fp_reg_compliance.csv'))
+
+```
+
+## Compute overall resilience
+
+``` {r}
+reg_comp <- read_csv(file.path(dir_goal, 'int', 'fp_reg_compliance.csv'))
+reg_eff  <- read_csv(file.path(dir_goal, 'int', 'fp_reg_effectiveness.csv'))
+
+reg_df <- reg_comp %>%
+  full_join(reg_eff, by = 'year') %>%
+  mutate(reg_score = 1) %>%
+  gather(component, score, contains('score')) %>%
+  select(year, component, score) %>%
+  filter(!is.na(score)) %>%
+  group_by(year) %>%
+  summarize(components = paste0(component, ' = ', score, collapse = ', '),
+            score = prod(score) ^ (1/n()))
+
+write_csv(reg_df, file.path(dir_goal, 'output/fp_fishing_regs.csv'))
+
+DT::datatable(reg_df)
+```
+
+-----
+
+``` {r results = 'asis'}
+
+prov_wrapup(commit_outputs = FALSE)
+
+```

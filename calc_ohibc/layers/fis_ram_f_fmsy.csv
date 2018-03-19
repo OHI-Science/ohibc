@@ -1,489 +1,556 @@
-stock_id,stock_name,param,year,value,sciname,ram_area_id,ram_area_name
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1966,0.588,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1967,0.72,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1968,0.601,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1969,0.639,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1970,0.574,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1971,0.762,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1972,0.907,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1973,0.93,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1974,1.03,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1975,0.915,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1976,1.26,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1977,0.679,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1978,1.06,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1979,0.797,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1980,0.87,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1981,0.854,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1982,0.908,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1983,0.693,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1984,0.899,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1985,0.754,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1986,0.603,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1987,0.633,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1988,0.578,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1989,0.547,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1990,0.617,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1991,0.389,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1992,0.51,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1993,0.463,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1994,0.58,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1995,0.512,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1996,0.629,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1997,0.777,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1998,0.73,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1999,0.971,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2000,0.695,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2001,0.728,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2002,0.856,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2003,0.78,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2004,0.785,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2005,0.563,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2006,0.583,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2007,0.821,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2008,0.636,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2009,0.731,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2010,0.6,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2011,0.68,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2012,0.71,Thunnus alalunga,Multinational-ISC-NPAC,North Pacific Ocean
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1956,1.01769911504425,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1957,0.809734513274336,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1958,0.429203539823009,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1959,0.615044247787611,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1960,0.84070796460177,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1961,0.712389380530973,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1962,0.800884955752212,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1963,0.495575221238938,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1964,0.539823008849557,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1965,1.28761061946903,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1966,0.902654867256637,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1967,1.11504424778761,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1968,1.17256637168142,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1969,0.845132743362832,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1970,0.880530973451327,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1971,1.13274336283186,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1972,1.22566371681416,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1973,1,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1974,1.01327433628319,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1975,1.39823008849558,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1976,1.4070796460177,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1977,1.06194690265487,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1978,0.526548672566372,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1979,0.380530973451327,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1980,0.438053097345133,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1981,0.70353982300885,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1982,0.65929203539823,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1983,1.19026548672566,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1984,0.845132743362832,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1985,1.29203539823009,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1986,0.588495575221239,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1987,1.00884955752212,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1988,1.1858407079646,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1989,1.29646017699115,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1990,1.15486725663717,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1991,3.22566371681416,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1992,2.54424778761062,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1993,2.10176991150442,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1994,2.29203539823009,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1995,1.22566371681416,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1996,1.10619469026549,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1997,0.561946902654867,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1998,0.247787610619469,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,1999,0.261061946902655,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,2000,0.261061946902655,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PCODWCVANI,Pacific cod West Coast of Vancouver Island,F/Fmsy,2001,0.469026548672566,Gadus macrocephalus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1945,0.486065573770492,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1946,0.25983606557377,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1947,0.14016393442623,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1948,0.227868852459016,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1949,0.279508196721311,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1950,0.278688524590164,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1951,0.237704918032787,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1952,0.227868852459016,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1953,0.0967213114754098,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1954,0.10327868852459,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1955,0.127049180327869,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1956,0.122950819672131,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1957,0.112295081967213,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1958,0.0901639344262295,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1959,0.139344262295082,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1960,0.126229508196721,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1961,0.187704918032787,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1962,0.308196721311475,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1963,0.242622950819672,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1964,0.15327868852459,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1965,0.202459016393443,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1966,0.310655737704918,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1967,0.265573770491803,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1968,0.598360655737705,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1969,0.463114754098361,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1970,0.405737704918033,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1971,0.394262295081967,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1972,0.131967213114754,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1973,0.358196721311475,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1974,0.401639344262295,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1975,0.347540983606557,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1976,0.550819672131147,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1977,0.445901639344262,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1978,0.715573770491803,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1979,0.489344262295082,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1980,0.355737704918033,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1981,0.219672131147541,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1982,0.389344262295082,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1983,0.749180327868852,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1984,1.04918032786885,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1985,0.959016393442623,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1986,0.79672131147541,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1987,1,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1988,1.33606557377049,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1989,1.44262295081967,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1990,1.37704918032787,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1991,1.27049180327869,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1992,1.39344262295082,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1993,1.21311475409836,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1994,1.35245901639344,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1995,1.05737704918033,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1996,0.877049180327869,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1997,0.89344262295082,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1998,1.00819672131148,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,1999,1.16393442622951,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,2000,1.04918032786885,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,2001,1.13114754098361,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,2002,1.23770491803279,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,2003,1.21311475409836,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,2004,1.14754098360656,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,2005,1.24590163934426,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,2006,0.967213114754098,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,2007,0.909836065573771,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,2008,0.950819672131148,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-CROCKWCVANISOGQCI,Canary rockfish West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands,U/Umsy,2009,0.737704918032787,Sebastes pinniger,Canada-DFO-WCVANI-SOG-QCI,West Coast of Vancouver Island and Straight of Georgia and Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1940,1.76e-4,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1941,5.6e-4,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1942,0.00114,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1943,0.00341,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1944,0.00256,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1945,0.0122,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1946,0.00861,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1947,0.00313,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1948,0.00498,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1949,0.00613,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1950,0.00912,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1951,0.00498,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1952,0.00579,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1953,0.002,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1954,0.00243,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1955,0.00384,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1956,1.54e-4,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1957,3.04e-4,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1958,8.87e-4,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1959,1.48e-7,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1960,5.11e-7,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1961,6.85e-5,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1962,3.77e-7,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1963,1.98e-4,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1964,7.98e-4,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1965,0.768,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1966,1.33,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1967,0.761,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1968,1.22,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1969,0.548,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1970,0.279,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1971,0.475,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1972,0.711,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1973,0.613,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1974,0.463,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1975,0.385,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1976,0.453,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1977,0.898,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1978,1.05,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1979,0.572,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1980,0.513,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1981,0.408,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1982,0.553,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1983,0.673,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1984,1.75,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1985,1.51,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1986,1.61,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1987,0.889,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1988,0.93,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1989,1.06,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1990,0.907,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1991,0.339,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1992,0.199,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1993,0.283,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1994,0.162,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1995,0.374,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1996,0.301,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1997,0.303,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1998,0.428,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,1999,0.338,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,2000,0.517,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,2001,0.567,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,2002,0.546,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,2003,0.47,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,2004,0.439,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,2005,0.39,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,2006,0.384,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,2007,0.355,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,2008,0.38,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,2009,0.369,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,2010,0.435,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,2011,0.47,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHQCI,Pacific Ocean perch Queen Charlotte Islands,U/Umsy,2012,0.482,Sebastes alutus,Canada-DFO-QCI,Queen Charlotte Islands
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1940,0.00102,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1941,7.57e-4,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1942,0.00764,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1943,0.0241,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1944,0.0125,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1945,0.096,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1946,0.0498,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1947,0.0255,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1948,0.0415,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1949,0.0505,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1950,0.0509,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1951,0.0467,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1952,0.052,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1953,0.032,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1954,0.0572,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1955,0.0469,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1956,0.232,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1957,0.245,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1958,0.0545,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1959,0.228,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1960,0.303,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1961,0.546,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1962,1.07,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1963,1.24,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1964,0.693,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1965,1.25,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1966,3.23,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1967,2.69,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1968,2.67,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1969,1.11,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1970,2.59,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1971,2.17,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1972,1.53,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1973,1.72,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1974,0.872,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1975,0.519,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1976,0.134,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1977,0.0175,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1978,0.0559,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1979,0.115,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1980,0.382,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1981,0.496,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1982,0.481,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1983,0.792,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1984,0.743,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1985,0.546,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1986,1.21,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1987,0.988,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1988,0.8,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1989,1.24,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1990,1.17,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1991,0.806,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1992,1.03,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1993,1.61,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1994,1.7,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1995,1,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1996,0.631,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1997,0.458,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1998,0.506,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,1999,0.483,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,2000,0.42,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,2001,0.401,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,2002,0.436,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,2003,0.454,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,2004,0.435,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,2005,0.429,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,2006,0.406,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,2007,0.363,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,2008,0.542,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,2009,0.352,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,2010,0.274,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,2011,0.376,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,U/Umsy,2012,0.384,Sebastes alutus,Canada-DFO-WCVANI,West Coast of Vancouver Island
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1945,0.011255230125523,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1946,5.52301255230126e-4,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1947,0.0305020920502092,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1948,0.0200418410041841,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1949,0.018744769874477,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1950,0.11673640167364,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1951,0.097071129707113,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1952,0.157322175732218,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1953,0.0548117154811716,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1954,0.0711297071129707,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1955,0.12092050209205,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1956,0.489539748953975,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1957,0.447698744769874,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1958,0.594142259414226,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1959,0.422594142259414,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1960,0.686192468619247,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1961,0.531380753138075,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1962,0.606694560669456,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1963,0.560669456066946,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1964,0.560669456066946,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1965,0.648535564853556,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1966,0.945606694560669,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1967,1.00418410041841,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1968,0.928870292887029,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1969,1.12970711297071,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1970,0.619246861924686,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1971,0.677824267782427,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1972,0.548117154811716,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1973,0.485355648535565,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1974,0.569037656903766,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1975,0.581589958158996,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1976,0.732217573221757,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1977,0.397489539748954,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1978,0.40836820083682,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1979,0.548117154811716,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1980,0.841004184100418,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1981,0.476987447698745,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1982,0.535564853556485,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1983,0.481171548117155,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1984,0.354811715481172,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1985,0.348117154811715,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1986,0.228870292887029,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1987,0.371129707112971,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1988,0.476987447698745,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1989,0.400418410041841,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1990,0.673640167364017,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1991,0.786610878661088,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1992,0.861924686192469,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1993,1.19246861924686,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1994,1.2510460251046,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1995,1.2928870292887,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1996,0.98326359832636,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1997,0.769874476987448,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1998,0.761506276150628,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,1999,0.824267782426778,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,2000,0.928870292887029,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,2001,1.07949790794979,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,2002,1.63179916317992,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,2003,1.69456066945607,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,2004,1.40585774058577,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,2005,1.06276150627615,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,2006,0.828451882845188,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,2007,0.556485355648536,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,2008,0.177824267782427,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,2009,0.456066945606695,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,2010,0.933054393305439,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,2011,0.690376569037657,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,2012,0.489539748953975,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLE5AB,Rock sole Queen Charlotte Sound,U/Umsy,2013,0.460251046025105,Lepidopsetta bilineata,Canada-DFO-5AB,Queen Charlotte Sound
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1945,0.0146942800788955,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1946,0.0500986193293886,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1947,0.147337278106509,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1948,0.118343195266272,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1949,0.0875739644970414,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1950,0.0863905325443787,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1951,0.15818540433925,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1952,0.264299802761341,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1953,0.0775147928994083,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1954,0.0938856015779093,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1955,0.145956607495069,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1956,0.104733727810651,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1957,0.119526627218935,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1958,0.14181459566075,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1959,0.0528599605522682,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1960,0.130966469428008,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1961,0.0932938856015779,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1962,0.105325443786982,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1963,0.111439842209073,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1964,0.103155818540434,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1965,0.126627218934911,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1966,0.341222879684418,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1967,0.319526627218935,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1968,0.382642998027613,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1969,0.420118343195266,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1970,0.285996055226824,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1971,0.307692307692308,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1972,0.118540433925049,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1973,0.0988165680473373,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1974,0.125443786982249,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1975,0.238658777120316,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1976,0.27810650887574,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1977,0.172978303747535,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1978,0.193096646942801,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1979,0.27810650887574,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1980,0.238658777120316,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1981,0.155621301775148,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1982,0.0775147928994083,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1983,0.0609467455621302,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1984,0.0536489151873767,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1985,0.0274161735700197,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1986,0.0607495069033531,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1987,0.135897435897436,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1988,0.284023668639053,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1989,0.353057199211045,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1990,0.378698224852071,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1991,0.605522682445759,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1992,0.599605522682446,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1993,0.556213017751479,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1994,0.351084812623274,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1995,0.313609467455621,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1996,0.167061143984221,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1997,0.182840236686391,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1998,0.15917159763313601,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,1999,0.201183431952663,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,2000,0.230769230769231,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,2001,0.192504930966469,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,2002,0.194477317554241,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,2003,0.182248520710059,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,2004,0.183037475345168,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,2005,0.110059171597633,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,2006,0.113214990138067,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,2007,0.0948717948717949,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,2008,0.0828402366863905,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,2009,0.147534516765286,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,2010,0.0925049309664694,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,2011,0.108678500986193,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,2012,0.083629191321499,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-RSOLEHSTR,Rock sole Hecate Strait,U/Umsy,2013,0.0769230769230769,Lepidopsetta bilineata,Canada-DFO-HS,Hecate Strait
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1965,0.0882727272727273,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1966,0.124545454545455,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1967,0.16,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1968,0.27,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1969,0.449090909090909,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1970,0.525454545454545,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1971,0.380909090909091,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1972,0.760909090909091,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1973,0.437272727272727,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1974,0.584545454545454,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1975,1,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1976,1.05454545454545,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1977,0.945454545454545,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1978,0.799090909090909,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1979,1.04545454545455,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1980,0.894545454545455,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1981,0.719090909090909,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1982,0.757272727272727,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1983,0.82,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1984,0.706363636363636,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1985,0.763636363636364,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1986,0.868181818181818,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1987,0.873636363636364,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1988,1.08181818181818,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1989,1.1,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1990,1.03636363636364,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1991,1.12727272727273,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1992,1.18181818181818,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1993,1.33636363636364,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1994,1.4,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1995,1.27272727272727,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1996,1.05454545454545,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1997,1.31818181818182,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1998,1.67272727272727,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,1999,1.85454545454545,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,2000,1.65454545454545,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,2001,1.61818181818182,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,2002,1.38181818181818,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,2003,1.03636363636364,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,2004,1.17272727272727,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,2005,1.60909090909091,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,2006,1.7,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,2007,1.37272727272727,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,2008,1.32727272727273,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,2009,1.17272727272727,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
-SABLEFPCAN,Sablefish Pacific Coast of Canada,U/Umsy,2010,1.14545454545455,Anoplopoma fimbria,Canada-DFO-PCOAST,Pacific Coast of Canada
+stock_id,stock_name,param,year,value,sciname,ram_area_name
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1956,0.960735317,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1957,1.364478515,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1958,0.764566708,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1959,0.759574839,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1960,0.611861129,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1961,0.344797725,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1962,0.626594723,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1963,1.21344077,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1964,0.703162148,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1965,0.889944293,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1966,0.988772905,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1967,1.121729038,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1968,1.067188689,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1969,0.967264336,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1970,0.424920176,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1971,1.241718174,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1972,1.104107326,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1973,0.734233355,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1974,0.884238019,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1975,0.942256187,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1976,0.954159784,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1977,0.647840866,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1978,0.939561253,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1979,1.16878143,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1980,1.004477381,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1981,0.870625661,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1982,0.829460488,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1983,0.332784513,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1984,0.719074989,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1985,0.614431589,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1986,0.62320151,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1987,1.770615262,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1988,1.227819801,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1989,0.675822358,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1990,0.791475932,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1991,1.553026126,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1992,1.692120959,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1993,2.001191153,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1994,1.519223372,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1995,1.120589607,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1996,1.167780408,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1997,1.149946614,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1998,1.332805066,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1999,1.420027299,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2000,1.139154283,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2001,0.617387617,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2002,0.825384515,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2003,1.350343055,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2004,1.474466897,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2005,1.559649848,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2006,1.47833847,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2007,0.810274501,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2008,0.221908546,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2009,0.653365125,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2010,1.45979771,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2011,1.304692451,Gadus macrocephalus,Queen Charlotte Sound
+PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2012,0.845242092,Gadus macrocephalus,Queen Charlotte Sound
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1956,0.584602112,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1957,0.767162377,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1958,1.212734206,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1959,0.881788856,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1960,0.674914631,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1961,0.451200145,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1962,0.521656092,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1963,0.467639594,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1964,0.724929378,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1965,0.979368329,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1966,1.244331915,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1967,1.112256398,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1968,1.036856183,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1969,0.871115028,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1970,0.495066826,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1971,0.534230327,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1972,0.556438746,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1973,0.575667838,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1974,0.796855408,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1975,0.95796952,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1976,0.912385811,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1977,0.844819919,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1978,0.611075735,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1979,1.273583677,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1980,1.055156434,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1981,0.705499019,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1982,0.681411258,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1983,0.704891529,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1984,0.567665689,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1985,0.357111321,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1986,0.689887925,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1987,1.221186171,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1988,0.947217642,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1989,0.668950439,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1990,0.752198606,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1991,1.633970891,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1992,1.531795002,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1993,1.406156194,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1994,0.684009962,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1995,0.643989367,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1996,0.763186182,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1997,0.891438657,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1998,0.760089454,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,1999,0.569488636,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,2000,0.504201805,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,2001,0.229751804,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,2002,0.168361549,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,2003,0.209218552,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,2004,0.242552806,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,2005,0.345023585,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,2006,0.363820262,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,2007,0.177671041,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,2008,0.131772918,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,2009,0.210439206,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,2010,0.3426068,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,2011,0.306747288,Gadus macrocephalus,Hecate Strait
+PCODHS,Pacific cod Hecate Strait,F/Fmsy,2012,0.257187101,Gadus macrocephalus,Hecate Strait
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1945,0.01125523,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1946,5.52301e-4,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1947,0.030502092,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1948,0.020041841,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1949,0.01874477,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1950,0.116736402,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1951,0.09707113,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1952,0.157322176,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1953,0.054811715,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1954,0.071129707,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1955,0.120920502,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1956,0.489539749,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1957,0.447698745,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1958,0.594142259,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1959,0.422594142,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1960,0.686192469,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1961,0.531380753,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1962,0.606694561,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1963,0.560669456,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1964,0.560669456,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1965,0.648535565,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1966,0.945606695,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1967,1.0041841,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1968,0.928870293,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1969,1.129707113,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1970,0.619246862,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1971,0.677824268,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1972,0.548117155,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1973,0.485355649,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1974,0.569037657,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1975,0.581589958,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1976,0.732217573,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1977,0.39748954,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1978,0.408368201,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1979,0.548117155,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1980,0.841004184,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1981,0.476987448,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1982,0.535564854,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1983,0.481171548,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1984,0.354811715,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1985,0.348117155,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1986,0.228870293,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1987,0.371129707,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1988,0.476987448,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1989,0.40041841,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1990,0.673640167,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1991,0.786610879,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1992,0.861924686,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1993,1.192468619,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1994,1.251046025,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1995,1.292887029,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1996,0.983263598,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1997,0.769874477,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1998,0.761506276,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1999,0.824267782,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,2000,0.928870293,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,2001,1.079497908,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,2002,1.631799163,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,2003,1.694560669,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,2004,1.405857741,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,2005,1.062761506,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,2006,0.82845188299999994,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,2007,0.556485356,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,2008,0.177824268,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,2009,0.456066946,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,2010,0.933054393,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,2011,0.690376569,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,2012,0.489539749,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,2013,0.460251046,Lepidopsetta bilineata,Queen Charlotte Sound
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1945,0.01469428,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1946,0.050098619,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1947,0.147337278,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1948,0.118343195,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1949,0.087573964,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1950,0.086390533,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1951,0.158185404,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1952,0.264299803,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1953,0.077514793,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1954,0.093885602,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1955,0.145956607,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1956,0.104733728,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1957,0.119526627,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1958,0.141814596,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1959,0.052859961,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1960,0.130966469,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1961,0.093293886,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1962,0.105325444,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1963,0.111439842,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1964,0.103155819,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1965,0.126627219,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1966,0.34122288,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1967,0.319526627,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1968,0.382642998,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1969,0.420118343,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1970,0.285996055,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1971,0.307692308,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1972,0.118540434,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1973,0.098816568,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1974,0.125443787,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1975,0.238658777,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1976,0.278106509,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1977,0.172978304,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1978,0.193096647,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1979,0.278106509,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1980,0.238658777,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1981,0.155621302,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1982,0.077514793,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1983,0.060946746,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1984,0.053648915,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1985,0.027416174,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1986,0.060749507,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1987,0.135897436,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1988,0.284023669,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1989,0.353057199,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1990,0.378698225,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1991,0.605522682,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1992,0.599605523,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1993,0.556213018,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1994,0.351084813,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1995,0.313609467,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1996,0.167061144,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1997,0.182840237,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1998,0.159171598,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,1999,0.201183432,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,2000,0.230769231,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,2001,0.192504931,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,2002,0.194477318,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,2003,0.182248521,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,2004,0.183037475,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,2005,0.110059172,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,2006,0.11321499,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,2007,0.094871795,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,2008,0.082840237,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,2009,0.147534517,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,2010,0.092504931,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,2011,0.108678501,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,2012,0.083629191,Lepidopsetta bilineata,Hecate Strait
+RSOLEHSTR,Rock sole Hecate Strait,F/Fmsy,2013,0.076923077,Lepidopsetta bilineata,Hecate Strait
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1965,0.088272727,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1966,0.124545455,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1967,0.16,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1968,0.27,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1969,0.449090909,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1970,0.525454545,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1971,0.380909091,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1972,0.760909091,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1973,0.43727272700000003,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1974,0.584545455,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1975,1,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1976,1.054545455,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1977,0.945454545,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1978,0.799090909,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1979,1.045454545,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1980,0.894545455,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1981,0.719090909,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1982,0.757272727,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1983,0.82,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1984,0.706363636,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1985,0.763636364,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1986,0.868181818,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1987,0.873636364,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1988,1.081818182,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1989,1.1,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1990,1.036363636,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1991,1.127272727,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1992,1.181818182,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1993,1.336363636,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1994,1.4,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1995,1.272727273,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1996,1.054545455,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1997,1.318181818,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1998,1.672727273,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,1999,1.854545455,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,2000,1.654545455,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,2001,1.618181818,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,2002,1.381818182,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,2003,1.036363636,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,2004,1.172727273,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,2005,1.609090909,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,2006,1.7,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,2007,1.372727273,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,2008,1.327272727,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,2009,1.172727273,Anoplopoma fimbria,Pacific Coast of Canada
+SABLEFPCAN,Sablefish Pacific Coast of Canada,F/Fmsy,2010,1.145454545,Anoplopoma fimbria,Pacific Coast of Canada
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1940,1.76e-4,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1941,5.6e-4,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1942,0.00114,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1943,0.00341,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1944,0.00256,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1945,0.0122,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1946,0.00861,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1947,0.00313,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1948,0.00498,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1949,0.00613,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1950,0.00912,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1951,0.00498,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1952,0.00579,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1953,0.002,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1954,0.00243,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1955,0.00384,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1956,1.54e-4,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1957,3.04e-4,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1958,8.87e-4,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1959,1.48e-7,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1960,5.11e-7,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1961,6.85e-5,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1962,3.77e-7,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1963,1.98e-4,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1964,7.98e-4,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1965,0.768,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1966,1.33,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1967,0.761,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1968,1.22,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1969,0.548,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1970,0.279,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1971,0.475,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1972,0.711,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1973,0.613,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1974,0.463,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1975,0.385,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1976,0.453,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1977,0.898,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1978,1.05,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1979,0.572,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1980,0.513,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1981,0.408,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1982,0.553,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1983,0.673,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1984,1.75,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1985,1.51,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1986,1.61,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1987,0.889,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1988,0.93,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1989,1.06,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1990,0.907,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1991,0.339,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1992,0.199,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1993,0.283,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1994,0.162,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1995,0.374,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1996,0.301,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1997,0.303,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1998,0.428,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,1999,0.338,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,2000,0.517,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,2001,0.567,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,2002,0.546,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,2003,0.47,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,2004,0.439,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,2005,0.39,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,2006,0.384,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,2007,0.355,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,2008,0.38,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,2009,0.369,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,2010,0.435,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,2011,0.47,Sebastes alutus,Queen Charlotte Islands
+PERCHQCI,Pacific Ocean perch Haida Gwaii,F/Fmsy,2012,0.482,Sebastes alutus,Queen Charlotte Islands
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1940,0.00102,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1941,7.57e-4,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1942,0.00764,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1943,0.0241,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1944,0.0125,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1945,0.096,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1946,0.0498,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1947,0.0255,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1948,0.0415,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1949,0.0505,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1950,0.0509,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1951,0.0467,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1952,0.052,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1953,0.032,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1954,0.0572,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1955,0.0469,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1956,0.232,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1957,0.245,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1958,0.0545,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1959,0.228,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1960,0.303,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1961,0.546,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1962,1.07,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1963,1.24,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1964,0.693,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1965,1.25,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1966,3.23,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1967,2.69,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1968,2.67,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1969,1.11,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1970,2.59,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1971,2.17,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1972,1.53,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1973,1.72,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1974,0.872,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1975,0.519,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1976,0.134,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1977,0.0175,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1978,0.0559,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1979,0.115,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1980,0.382,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1981,0.496,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1982,0.481,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1983,0.792,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1984,0.743,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1985,0.546,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1986,1.21,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1987,0.988,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1988,0.8,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1989,1.24,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1990,1.17,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1991,0.806,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1992,1.03,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1993,1.61,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1994,1.7,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1995,1,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1996,0.631,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1997,0.458,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1998,0.506,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,1999,0.483,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,2000,0.42,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,2001,0.401,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,2002,0.436,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,2003,0.454,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,2004,0.435,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,2005,0.429,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,2006,0.406,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,2007,0.363,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,2008,0.542,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,2009,0.352,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,2010,0.274,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,2011,0.376,Sebastes alutus,West Coast of Vancouver Island
+PERCHWCVANI,Pacific Ocean perch West Coast of Vancouver Island,F/Fmsy,2012,0.384,Sebastes alutus,West Coast of Vancouver Island
+PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2000,0.645,Hippoglossus stenolepis,North Pacific
+PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2001,0.755,Hippoglossus stenolepis,North Pacific
+PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2002,0.875,Hippoglossus stenolepis,North Pacific
+PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2003,1.01,Hippoglossus stenolepis,North Pacific
+PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2004,1.17,Hippoglossus stenolepis,North Pacific
+PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2005,1.32,Hippoglossus stenolepis,North Pacific
+PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2006,1.465,Hippoglossus stenolepis,North Pacific
+PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2007,1.605,Hippoglossus stenolepis,North Pacific
+PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2008,1.72,Hippoglossus stenolepis,North Pacific
+PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2009,1.785,Hippoglossus stenolepis,North Pacific
+PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2010,1.855,Hippoglossus stenolepis,North Pacific
+PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2011,1.615,Hippoglossus stenolepis,North Pacific
+PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2012,1.415,Hippoglossus stenolepis,North Pacific
+PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2013,1.28,Hippoglossus stenolepis,North Pacific
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1966,0.191720152,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1967,0.227848673,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1968,0.187600363,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1969,0.196545986,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1970,0.173834005,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1971,0.228658576,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1972,0.270877261,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1973,0.279003579,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1974,0.309456821,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1975,0.274355409,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1976,0.368357931,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1977,0.192407769,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1978,0.310284354,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1979,0.241297072,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1980,0.270877261,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1981,0.268744835,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1982,0.289283033,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1983,0.221316442,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1984,0.290345448,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1985,0.250168581,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1986,0.206185617,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1987,0.223826477,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1988,0.211684958,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1989,0.211380872,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1990,0.25692347,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1991,0.173678797,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1992,0.236575418,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1993,0.221802351,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1994,0.278210319,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1995,0.244882344,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1996,0.300893399,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1997,0.371015397,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1998,0.346961369,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1999,0.460148838,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2000,0.333181844,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2001,0.345878543,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2002,0.399691326,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2003,0.368142381,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2004,0.376179002,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2005,0.272368627,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2006,0.274823285,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2007,0.37533569,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2008,0.283928876,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2009,0.313383338,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2010,0.27476988,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2011,0.31676711,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2012,0.3125894,Thunnus alalunga,North Pacific Ocean
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1966,0.174698795,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1967,0.289156627,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1968,0.174698795,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1969,0.256024096,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1970,0.289156627,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1971,0.189759036,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1972,0.15060241,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1973,0.13253012,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1974,0.18373494,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1975,0.171686747,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1976,0.14457831300000001,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1977,0.09939759,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1978,0.090361446,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1979,0.123493976,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1980,0.075301205,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1981,0.13253012,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1982,0.129518072,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1983,0.06626506,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1984,0.084337349,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1985,0.072289157,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1986,0.159638554,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1987,0.129518072,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1988,0.15060241,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1989,0.231927711,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1990,0.18373494,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1991,0.237951807,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1992,0.286144578,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1993,0.222891566,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1994,0.430722892,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1995,0.361445783,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1996,0.457831325,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1997,0.457831325,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1998,0.545180723,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1999,0.629518072,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2000,0.436746988,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2001,0.391566265,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2002,0.135542169,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2003,0.18373494,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2004,0.370481928,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2005,0.530120482,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2006,0.638554217,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2007,0.759036145,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2008,0.789156627,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2009,0.487951807,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2010,0.81626506,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2011,0.61746988,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2012,0.484939759,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2013,0.231927711,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2014,0.256024096,Merluccius productus,Pacific Coast
+PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,2015,0.201807229,Merluccius productus,Pacific Coast

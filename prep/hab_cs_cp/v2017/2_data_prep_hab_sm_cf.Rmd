@@ -301,7 +301,7 @@ Seagrass coastal protection value will currently be left out of the calculation.
 
 For salt marshes, we will determine rate of salt marsh change within 2 km inland and offshore.  Salt marsh presence will be established using categories 71, 73, and 74 from the Government of Canada 30 m land use rasters for 1990, 2000, and 2010.  
 
-Salt marsh health status for coastal protection is determined by summing the weighted vulnerability value of salt marshes over the whole Howe Sound area.  Vulnerability value is weighted by exposure (0.25 = very protected, 1.0 = semi exposed, categories from BCMCA).  As saltmarsh is lost, the sum drops; saltmarsh lost in exposed and/or highly populated areas counts as a higher penalty.  The reference point for a score of 1 will be the 1990 salt marsh sum(weighted vulnerability value), adjusted to reflect a 30% drop in salt marsh since historical baselines.
+Salt marsh health status for coastal protection is determined by summing the weighted vulnerability value of salt marshes over each region  Vulnerability value is weighted by exposure (0.25 = very protected, 1.0 = semi exposed, categories from BCMCA).  As saltmarsh is lost, the sum drops; saltmarsh lost in exposed and/or highly populated areas counts as a higher penalty.  The reference point for a score of 1 will be the 1990 salt marsh sum(weighted vulnerability value).  For Howe Sound, we adjusted to reflect a 30% drop in salt marsh since historical baselines, but this is not currently implemented for OHIBC regions.
 
 Simple area of salt marsh extent will be calculated as well, for calculation of Carbon Storage and Habitat goals.
 

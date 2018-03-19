@@ -1,0 +1,211 @@
+---
+title: "CMSY for BC stocks"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+
+This script reruns catch-MSY on all SAUP data for stocks in FAO area 67 (British Columbia).
+
+``` {r setup, echo = F, message = FALSE, warning = FALSE, results= "hide"}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/', message = FALSE, warning = FALSE)
+
+dir_git     <- path.expand('~/github/ohibc')
+source(file.path(dir_git, 'src/R/common.R'))  
+dir_spatial <- file.path(dir_git, 'prep/_spatial')  
+dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+dir_goal <- file.path(dir_git, "prep/fis/v2017")
+
+library(datalimited)
+library(doParallel)
+registerDoParallel(cores = 8)
+
+options(scipen=999)
+```
+
+# SAUP data for British Columbia
+
+Read in the stock catch by region calculated for global OHI 2017 from SAUP data. Filter just for species records (taxon key > 599999). We also need to add resilience measures for the cmsy model. We can use the resilience lookup table from global
+```{r}
+
+res <- read_csv("~/github/ohiprep_v2018/globalprep/fis/v2017/data/taxon_resilience_lookup.csv")
+
+catch <- read_csv(file.path(dir_M,'git-annex/globalprep/fis/v2017/int/stock_catch_by_rgn.csv')) %>%
+  rename(common = taxon_common_name, fao_id = fao_rgn, species=taxon_scientific_name) %>%
+  filter(fao_id == 67,
+         taxon_key > 599999) %>%
+  group_by(year, species, common, stock_id) %>%
+  mutate(annual_catch = sum(tons)) %>%
+  select(year, sciname = species, common, annual_catch) %>%
+  distinct() %>%
+  left_join(res, by = c("sciname", "common")) %>%
+  select(-X1, -SpecCode)
+
+#how many stocks?
+
+length(unique(catch$sciname)) #92
+
+# how many of these stocks are found in Canadian waters in 67?
+
+ca_stocks <- read_csv(file.path(dir_M,'git-annex/globalprep/fis/v2017/int/stock_catch_by_rgn.csv')) %>%
+  filter(fao_rgn == 67,
+         rgn_id==218,
+         taxon_key > 599999) %>%
+  select(taxon_scientific_name, taxon_common_name, stock_id) %>%
+  distinct()
+
+#nrow(ca_stocks)  #81
+
+DT::datatable(ca_stocks)
+```
+
+There are **81 stocks** in Canadian BC waters. 
+
+# Assess what stocks meet reqs of CMSY
+
+Let's filter out the catch to just incude those found in Canadian waters. We also need to filter out stocks that dont have at least a 20 yr time series and an annual avg catch of 1000 tons.
+
+```{r}
+
+stocks_for_cmsy <- catch %>%
+  filter(sciname %in% ca_stocks$taxon_scientific_name,
+         str_detect(common, "almon")==FALSE) %>% #remove salmon
+  group_by(stock_id)%>%
+  mutate(nyrs = n(),                       #get the total number of years the stock has records for   
+         avg_ann_catch = mean(annual_catch)) %>%    #calculate the mean catch over all catch years
+  mutate(run_cmsy = ifelse(nyrs > 19 & avg_ann_catch >= 1000, "yes", "no")) %>%
+  select(sciname, common, nyrs, avg_ann_catch, run_cmsy) %>%
+  distinct()
+
+DT::datatable(stocks_for_cmsy)
+
+```
+
+There are only **27 stocks** to run through CMSY. In the table you can see the main reason we can't run CMSY on a majority of the stocks is due to low annual average catch.
+
+# Prep data for CMSY
+```{r}
+
+#prepping the catch data for CMSY model
+catch_for_cmsy <- catch %>%
+  filter(sciname %in% ca_stocks$taxon_scientific_name,
+         str_detect(common, "almon")==FALSE) %>% #remove salmon
+  group_by(stock_id) %>%
+  mutate(nyrs = n(),                       #get the total number of years the stock has records for   
+         avg_ann_catch = mean(annual_catch)) %>%    #calculate the mean catch over all catch years
+  filter(nyrs > 19,
+         avg_ann_catch >= 1000)
+
+#length(unique(catch_for_cmsy$stock_id))
+```
+
+# Run CMSY
+
+Run the model on the 27 stocks.
+
+```{r, eval=F}
+
+if (!file.exists(file.path(dir_M,"git-annex/bcprep/fis/v2017/cmsy_fits/cmsy-fits.rds"))) {
+  
+cmsy_fits <- plyr::dlply(catch_for_cmsy, c("stock_id", "common"), function(x) {
+  
+    #make sure the data is ordered from 1950 to 2010
+    x <- arrange(x,year)
+    out <- cmsy(ct = x$annual_catch, yr = x$year,  start_r = resilience(x$Resilience[1]), 
+      reps = 2e6)
+    out$year <- x$year
+    out
+  }, .parallel = TRUE)
+saveRDS(cmsy_fits, file = file.path(dir_M,"git-annex/bcprep/fis/v2017/cmsy_fits/cmsy-fits.rds"))
+} else {
+  cmsy_fits <- readRDS(file.path(dir_M,"git-annex/bcprep/fis/v2017/cmsy_fits/cmsy-fits.rds"))
+}
+
+fake_data <- data.frame(bbmsy_q2.5 = NA, bbmsy_q25 = NA, bbmsy_q50 = NA, 
+  bbmsy_q75 = NA, bbmsy_q97.5 = NA)
+
+cmsy_bbmsy <- plyr::ldply(cmsy_fits, function(x) {
+  bbmsy_cmsy <- x$biomass[, -1] / x$bmsy
+  bbmsy_out <- tryCatch({
+    bbmsy_out <- summarize_bbmsy(bbmsy_cmsy)
+    bbmsy_out$year <- x$year
+    bbmsy_out}, error = function(e) fake_data)
+})
+cmsy_bbmsy$model <- "CMSY"
+
+write.csv(cmsy_bbmsy,file='v2017/int/cmsy_bbmsy.csv')
+
+```
+
+# Plot bbmsy for all stocks
+
+Remove the stocks for which we have assessments from RAM. This includes:
+Pacific Halibut, Lingcod, Pacific ocean perch, rock sole and sablefish
+
+```{r, fig.width = 8, fig.height = 8}
+
+cmsy_bbmsy <- read_csv("v2017/int/cmsy_bbmsy.csv") %>%
+  filter(!common %in% c("Pacific halibut", "Pacific cod", "Lingcod", "Pacific ocean perch", "Rock sole", "Sablefish"))
+  
+ggplot(cmsy_bbmsy, aes(x = year, y = bbmsy_mean)) +
+  geom_hline(yintercept = 1, col = "red") +
+  geom_line() +
+  geom_ribbon(aes(ymin=bbmsy_mean-bbmsy_sd,ymax=bbmsy_mean+bbmsy_sd),alpha=0.3) +
+  facet_wrap(~common, labeller = label_wrap_gen(width = 10, multi_line = TRUE)) +
+  ylab("B/Bmsy") +
+  xlab("Year")
+```
+
+Compare the stocks we have in RAM
+
+```{r}
+
+cmsy_bbmsy <- read_csv("v2017/int/cmsy_bbmsy.csv") %>%
+  filter(common %in% c("Pacific halibut", "Pacific cod", "Lingcod", "Pacific ocean perch", "Rock sole", "Sablefish")) 
+
+#plot RAM species
+stocks_ts_df <- bind_rows(read_csv(file.path(dir_goal, 'output/ram_b_bmsy.csv')),
+                     read_csv(file.path(dir_goal, 'output/ram_f_fmsy.csv'))) %>%
+  left_join(read_csv(file.path(dir_goal, 'raw', '1_ram_ids_to_names.csv'))) %>%
+  ungroup() %>%
+  mutate(param = str_replace_all(tolower(param), '[^a-z]', '_') %>%
+        str_replace_all('u', 'f')) %>%
+  filter(!stock_name_mod %in% c("Albacore tuna N Pac", "Bocaccio BC All")) %>%
+  mutate(common = case_when(
+    stock_name_mod == "Lingcod SoG" ~ "Lingcod",
+    stock_name_mod == "Pacific cod Hecate Strait" ~ "Pacific cod",
+    stock_name_mod == "Pacific cod QCS" ~ "Pacific cod", 
+    stock_name_mod == "Pacific halibut N Pac" ~ "Pacific halibut",
+    stock_name_mod == "Pacific Ocean perch QCI" ~ "Pacific ocean perch",
+    stock_name_mod == "Pacific Ocean perch WCVanI" ~ "Pacific ocean perch",
+    stock_name_mod == "Rock sole Hecate Strait" ~ "Rock sole",
+    stock_name_mod == "Rock sole QCS" ~ "Rock sole",
+    stock_name_mod == "Sablefish BC All" ~ "Sablefish"
+  )) %>%
+  filter(param == "b_bmsy") %>%
+  left_join(cmsy_bbmsy, by = c("common", "year")) %>%
+  filter(year>1990)
+
+  
+ggplot(stocks_ts_df, aes(x = year)) +
+  geom_hline(yintercept = 1, col = "red") +
+  geom_line(aes(y = bbmsy_mean), color = "blue") +
+  geom_line(aes(y = value), color = "black") +
+  facet_wrap(~stock_name_mod) +
+  ylab("B/Bmsy")
+```
+
+
+

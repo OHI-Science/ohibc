@@ -17,7 +17,7 @@ output:
 ---
 
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       echo = FALSE, message = FALSE, warning = FALSE)
 
 library(sf)
@@ -310,18 +310,18 @@ print(prs_plot)
 
 ## Soft-Bottom Trawl habitat destruction layer
 
-This is identical to the HAB soft bottom trawl component layer.  For bookkeeping we will just copy it over to the _pressures/v2017/output folder.
+This is essentially to the HAB soft bottom trawl component layer, with trawl effort rescaled from zero to 1.
 
 ``` {r copy_soft_btm_trawl}
 
 orig <- file.path(dir_git, 'prep/hab_cs_cp/v2017/output/hab_soft_btm_trawl.csv')
 dst  <- file.path(dir_goal, 'output/prs_hd_soft_btm.csv')
 
-file.copy(orig, dst, overwrite = TRUE)
+hd_subtidal_sb <- read_csv(orig) %>%
+  mutate(pressure = mean_hr_area / max_hr_area) %>%
+  select(rgn_id, year, pressure)
 
-git_prov(orig, filetype = 'input')
-git_prov(dst, filetype = 'output')
-
+write_csv(hd_subtidal_sb, dst)
 
 ```
 

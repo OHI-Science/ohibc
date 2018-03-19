@@ -31,7 +31,7 @@ scenario <- 'v2017'
 goal     <- 'tr'
 dir_git  <- '~/github/ohibc'
 dir_goal <- file.path(dir_git, 'prep', goal, scenario)
-dir_spatial <- file.path(dir_git, 'prep/spatial')
+dir_spatial <- file.path(dir_git, 'prep/_spatial')
 
 dir_data_bc <- file.path(dir_M, 'git-annex/bcprep', '_raw_data')
 
@@ -50,13 +50,13 @@ British Columbia's coastal regions.
 
 We will analyze Livelihoods according to the model:
 
-$x_{TR} = \frac{P' + V'}{2}$
+$$x_{TR} = \frac{P' + V'}{2}$$
 
-$P' = \frac{P_c / P_{ref}}$
+$$P' = \frac{P_c}{P_{ref}}$$
 
 where P is total visitation to tourism centers found within each BC coastal region, compared to a reference period over the prior five years, and
 
-$V' = \frac{V_c / V_{ref}}$
+$$V' = \frac{V_c}{V_{ref}}$$
 
 where V is total visitation to parks found within each coastal region, compared to a reference period over the prior five years.
 
@@ -107,7 +107,8 @@ vc_pts <- vc_pts_sf %>%
 ### shapefile represents that conbination.
 bc_rgns_layer <- file.path(dir_goal, 'spatial', 'ohibc_clipped_15km_inland')
 bc_rgns <- read_sf(dsn = dirname(bc_rgns_layer),
-                   layer = basename(bc_rgns_layer))
+                   layer = basename(bc_rgns_layer)) %>%
+  st_transform(st_crs(vc_pts_sf))
 
 vc_to_bc <- st_intersection(vc_pts, bc_rgns) %>%
   as.data.frame() %>%
@@ -340,7 +341,8 @@ park_poly <- park_poly_sf %>%
 
 bc_rgns_layer <- file.path(dir_goal, 'spatial', 'ohibc_clipped_15km_inland')
 bc_rgns <- read_sf(dsn = dirname(bc_rgns_layer),
-                   layer = basename(bc_rgns_layer))
+                   layer = basename(bc_rgns_layer)) %>%
+  st_transform(st_crs(park_poly))
 
 park_to_bc_sf <- st_intersection(park_poly, bc_rgns)
 
@@ -477,7 +479,8 @@ park_poly_sf <- read_sf(dsn = file.path(dir_data_bc, 'tr/ParkVisitation/ParkLoca
   st_zm()
 
 park_poly_incl <- park_poly_sf %>%
-  st_intersection(bc_rgns) %>%
+  st_intersection(bc_rgns %>% 
+                    st_transform(st_crs(park_poly_sf))) %>%
   filter(name %in% park_rgn_sum$park_name) %>%
   distinct()
 
@@ -637,7 +640,7 @@ vc_plot <- ggplot(vc_visits_adj, aes(x = year, y = visits_norm_adj, size = visit
   scale_x_continuous(breaks = c(2005:2017)) +
   theme(axis.text.x = element_text(angle = 75, hjust = 1)) +
   scale_y_continuous(limits = c(0, NA)) +
-  labs(title = 'Annual visitor center visitations',
+  labs(title = 'Annual visitor center visitations, total-adjusted',
        y     = 'Normalized visits, total-adjusted',
        fill  = 'OHIBC region')
 print(vc_plot)
@@ -664,7 +667,6 @@ park_plot <- ggplot(park_visits_adj, aes(x = year, y = visits_norm_adj, size = v
        y     = 'Normalized visits, total-adjusted',
        fill  = 'OHIBC region')
 print(park_plot)
-
 
 ```
 

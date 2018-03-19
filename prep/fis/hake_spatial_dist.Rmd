@@ -1,0 +1,97 @@
+---
+title: "Hake spatial distribution"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+Looking at the spatial distribution of Hake over time.
+
+```{r setup, message = F, warning = F}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, message = FALSE, warning = FALSE)
+
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+dir_spatial  <- file.path(dir_git, 'prep/_spatial')
+
+library(sf)
+library(tidyverse)
+
+ohibc_sf <- read_sf(dir_spatial, 'ohibc_rgn') %>%
+  st_transform(4326)
+
+```
+
+```{r}
+
+#read in hake shapefile
+
+dfo_hake_out <- st_read(file.path(dir_anx, "_raw_data/dfo_khunter/fisheries/d2016/groundfish_trawl_old_1996_2012"),"Trawl_1996_BCA") %>%
+    st_transform(4326) %>%
+    select(HakeWt, geometry) %>% 
+    filter(HakeWt > 0) %>% #filtering out polygons that have 0 catch of Hake in them.
+    mutate(year = 1996)
+
+for (yr in 1997:2012) {
+  
+  dfo_hake <- st_read(file.path(dir_anx, "_raw_data/dfo_khunter/fisheries/d2016/groundfish_trawl_old_1996_2012"), paste0("Trawl_",yr,"_BCA")) %>%
+    st_transform(4326) %>%
+    select(HakeWt, geometry) %>% 
+    filter(HakeWt > 0) %>% #filtering out polygons that have 0 catch of Hake in them.
+    mutate(year = yr)
+  
+  dfo_hake_out <- rbind(dfo_hake_out, dfo_hake)
+}
+
+```
+
+Plot
+
+Values are extremely skewed so log transforming first.
+```{r}
+
+dfo_hake_out$log_wt = log10(dfo_hake_out$HakeWt)
+
+p <- ggplot(dfo_hake_out) +
+  geom_sf(aes(fill = log_wt), lwd = 0) +
+  facet_wrap(~year) +
+  coord_sf(crs = st_crs(dfo_hake_out), datum = NA) +
+  theme_void()
+
+```
+
+```{r animate}
+
+p <- ggplot() +
+  geom_sf(data = ohibc_sf, aes(fill = rgn_name), colour = "black", fill = NA) + 
+  geom_sf(data = dfo_hake_out, aes(fill = log_wt, frame = year), lwd = 0) +
+  scale_fill_gradient(low="blue", high="red") +
+  coord_sf(crs = st_crs(dfo_hake_out), datum = NA) +
+  theme_void() +
+  labs(fill='log(landings)') 
+
+gganimate::gganimate(p, filename = "hake_over_time.gif", title_frame = T)
+```
+
+
+
+
+
+
+
+

@@ -1,7 +1,0 @@
-targets,layer,name,description,fld_value,units,filename
-HAB CP CS,hab_health,Habitat condition,Current condition of habitat relative to historical condition,health,proportion,hab_health.csv
-ICO,ico_spp_iucn_status,IUCN extinction risk,IUCN extinction risk category for iconic species located within each region,category,IUCN risk category,ico_spp_iucn_status.csv
-LSP,lsp_prot_area_inland_ws,Inland coastal protected areas,Protected areas located 1 km inland,a_prot_inland,km2,lsp_prot_area_inland_ws.csv
-LSP,lsp_prot_area_offshore3nm,Offshore coastal protected areas,Protected areas located 3nm offshore,a_prot_3nm,km2,lsp_prot_area_offshore3nm.csv
-LSP,lsp_tot_area_inland_ws,Inland area,Inland area of OHI regions within 1km of shoreline,a_tot_inland,km2,lsp_tot_area_inland_ws.csv
-LSP,lsp_tot_area_offshore3nm,Offshore area,Offshore area of OHI regions within 3nm of shoreline,a_tot_3nm,km2,lsp_tot_area_offshore3nm.csv
