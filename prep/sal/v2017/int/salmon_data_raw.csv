@@ -1,0 +1,443 @@
+stock,avail,year,esc_tgt,escapes,catch_tgt,catch
+CH AABM NC,2,2009,no column given,no column given,139100,109470
+CH AABM NC,2,2010,no column given,no column given,160400,136613
+CH AABM NC,2,2011,no column given,no column given,186800,122660
+CH AABM NC,2,2012,no column given,no column given,149500,120307
+CH AABM NC,2,2013,no column given,no column given,220300,115914
+CH AABM NC,2,2014,no column given,no column given,262600,216901
+CH AABM NC,2,2015,no column given,no column given,246600,158903
+CH AABM NC,2,2016,no column given,no column given,NA,190181
+CH AABM WCVI,2,2009,no column given,no column given, 91300,124617
+CH AABM WCVI,2,2010,no column given,no column given,142300,139047
+CH AABM WCVI,2,2011,no column given,no column given,134800,204232
+CH AABM WCVI,2,2012,no column given,no column given,113800,134468
+CH AABM WCVI,2,2013,no column given,no column given,178000,113598
+CH AABM WCVI,2,2014,no column given,no column given,191700,188400
+CH AABM WCVI,2,2015,no column given,no column given,179700,116700
+CH AABM WCVI,2,2016,no column given,no column given,104800, 99600
+CH AABM WCVI,2,2017,no column given,no column given,NA,NA
+FRS ES,1,2005,NA,98500,NA,NA
+FRS ES,1,2006, 54000,36000,NA,NA
+FRS ES,1,2007, 13000, 5300,10, 6
+FRS ES,1,2008, 34100,29900,10, 8
+FRS ES,1,2009, 82000,45000,10,10
+FRS ES,1,2010,104900,60300,10, 6
+FRS ES,1,2011, 21200,  800,10, 8
+FRS ES,1,2012, 74000,26200,10, 5
+FRS ES,1,2013,NA,NA,10, 6
+FRS ES,1,2014,NA,NA,10,13
+FRS ES,1,2015, 28700,10100,NA,NA
+FRS ESum,1,2005,NA, 224700,NA,NA
+FRS ESum,1,2006, 728000, 392000,NA,NA
+FRS ESum,1,2007, 174000, 123000, 0,14
+FRS ESum,1,2008, 181300, 188700,58,29
+FRS ESum,1,2009, 177000,  91600, 0,11
+FRS ESum,1,2010,1201000,1529800,46,33
+FRS ESum,1,2011, 226100, 228900,44,34
+FRS ESum,1,2012, 212100, 273300,40,15
+FRS ESum,1,2013,NA,NA,28,11
+FRS ESum,1,2014,NA,NA,50,46
+FRS ESum,1,2015, 134000, 135600,NA,NA
+FRS Sum,1,2005,NA,2455000,2914000,1497100
+FRS Sum,1,2006,1947000, 815000, 172000,1359000
+FRS Sum,1,2007, 600000, 431000,  50000, 204700
+FRS Sum,1,2008, 520000, 564400, 460000, 396800
+FRS Sum,1,2009, 520000, 477700,      0,  73400
+FRS Sum,1,2010,2302400,2990500,2808000,2370600
+FRS Sum,1,2011, 810600,1052100, 933600, 840100
+FRS Sum,1,2012, 651000, 559300, 590400, 522200
+FRS Sum,1,2013,NA,NA,NA,NA
+FRS Sum,1,2014,NA,NA,NA,NA
+FRS Sum,1,2015,1448000, 974800,      0, 300900
+FRS Late,1,2005,NA, 470800,   84000,  72900
+FRS Late,1,2006,3184000,3129000, 1605000,3072000
+FRS Late,1,2007, 415000, 229200,       0,  73000
+FRS Late,1,2008, 144300,  10300,   38000,  30000
+FRS Late,1,2009, 503000, 379500,   80000,  18000
+FRS Late,1,2010,7760500,8550300,11702900,9981800
+FRS Late,1,2011, 449700, 491300,  709700, 445300
+FRS Late,1,2012, 261100,  61500,       0,  49500
+FRS Late,1,2013,NA,NA,NA,NA
+FRS Late,1,2014,NA,NA,NA,NA
+FRS Late,1,2015, 118100,  68000,       0,  19600
+Pink FR,1,2005,6000000, 8939600, 4000000,1060400
+Pink FR,1,2006,NA,NA,NA,NA
+Pink FR,1,2007,6000000,10160100, 5000000, 839900
+Pink FR,1,2008,NA,NA,NA,NA
+Pink FR,1,2009,6000000,15428800,13500000,4564200
+Pink FR,1,2010,NA,NA,NA,NA
+Pink FR,1,2011,6000000,12788400,12300000,7860600
+Pink FR,1,2012,NA,NA,NA,NA
+Pink FR,1,2013,NA,NA,NA,NA
+Pink FR,1,2014,NA,NA,NA,NA
+Pink FR,1,2015,5069300, 5315800,  710200, 463100
+S Stikine - Tahltan,1,2004,"18,000 - 30,000",58710,121183, 84886
+S Stikine - Tahltan,1,2005,"18,000 - 30,000",39641,104140, 85890
+S Stikine - Tahltan,1,2006,"18,000 - 30,000",50052,115200,101000
+S Stikine - Tahltan,1,2007,"18,000 - 30,000",18035, 77200, 59000
+S Stikine - Tahltan,1,2008,"18,000 - 30,000", 8052, 18600, 33613
+S Stikine - Tahltan,1,2009,"18,000 - 30,000",27312, 56200, 48000
+S Stikine - Tahltan,1,2010,"18,000 - 30,000",18350, 47361, 53336
+S Stikine - Tahltan,1,2011,"18,000 - 30,000",29689, 73700, 58000
+S Stikine - Tahltan,1,2012,"18,000 - 30,000", 9514, 23500, 33300
+S Stikine - Tahltan,1,2013,NA,NA,NA,NA
+S Stikine - Tahltan,1,2014,"18,000 - 30,000",36864, 46400, 41000
+S Stikine - Tahltan,1,2015,"18,000 - 30,000",29288, 57760, 60046
+S Stikine - Tahltan,1,2016,NA,NA,NA,NA
+S Stikine - Non-Tahltan,1,2004,"20,000- 40,000",30125,121183, 84886
+S Stikine - Non-Tahltan,1,2005,"20,000- 40,000",30500,104140, 85890
+S Stikine - Non-Tahltan,1,2006,"20,000- 40,000",43300,115200,101000
+S Stikine - Non-Tahltan,1,2007,"20,000- 40,000",27000, 77200, 59000
+S Stikine - Non-Tahltan,1,2008,"20,000- 40,000",14500, 18600, 33613
+S Stikine - Non-Tahltan,1,2009,"20,000- 40,000",23300, 56200, 48000
+S Stikine - Non-Tahltan,1,2010,"20,000- 40,000",25163, 47361, 53336
+S Stikine - Non-Tahltan,1,2011,"20,000- 40,000",33651, 73700, 58000
+S Stikine - Non-Tahltan,1,2012,"20,000- 40,000",33612, 23500, 33300
+S Stikine - Non-Tahltan,1,2013,NA,NA,NA,NA
+S Stikine - Non-Tahltan,1,2014,"20,000- 40,000",26500, 46400, 41000
+S Stikine - Non-Tahltan,1,2015,"20,000- 40,000",39094, 57760, 60046
+S Stikine - Non-Tahltan,1,2016,NA,NA,NA,NA
+S Skeena,2,2004,1050000,NA,no column given,no column given
+S Skeena,2,2005,1050000,NA,no column given,no column given
+S Skeena,2,2006,1050000,NA,no column given,no column given
+S Skeena,2,2007,1050000,NA,no column given,no column given
+S Skeena,2,2008,1050000,NA,no column given,no column given
+S Skeena,2,2009,1050000, 840000,no column given,no column given
+S Skeena,2,2010,1050000, 829182,no column given,no column given
+S Skeena,2,2011,1050000,1450000,no column given,no column given
+S Skeena,2,2012,1050000,1200000,no column given,no column given
+S Skeena,2,2013,1050000, 440000,no column given,no column given
+S Skeena,2,2014, 900000,2320000,no column given,no column given
+S Skeena,2,2015, 900000,1680000,no column given,no column given
+S Area 4 PSF,3,1960,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1961,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1962,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1963,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1964,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1965,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1966,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1967,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1968,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1969,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1970,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1971,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1972,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1973,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1974,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1975,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1976,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1977,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1978,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1979,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1980,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1981,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1982,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1983,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1984,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1985,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1986,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1987,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1988,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1989,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1990,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1991,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1992,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1993,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1994,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1995,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1996,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1997,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1998,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,1999,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,2000,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,2001,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,2002,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,2003,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,2004,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,2005,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,2006,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,2007,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,2008,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,2009,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,2010,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,2011,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,2012,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,2013,no column given,no column given,no column given,no column given
+S Area 4 PSF,3,2014,no column given,no column given,no column given,no column given
+S Nass,3,2004,no column given,no column given,no column given,no column given
+S Nass,3,2005,no column given,no column given,no column given,no column given
+S Nass,3,2006,no column given,no column given,no column given,no column given
+S Nass,3,2007,no column given,no column given,no column given,no column given
+S Nass,3,2008,no column given,no column given,no column given,no column given
+S Nass,3,2009,no column given,no column given,no column given,no column given
+S Nass,3,2010,no column given,no column given,no column given,no column given
+S Nass,3,2011,no column given,no column given,no column given,no column given
+S Nass,3,2012,no column given,no column given,no column given,no column given
+S Nass,3,2013,no column given,no column given,no column given,no column given
+S Nass,3,2014,no column given,no column given,no column given,no column given
+S Nass,3,2015,no column given,no column given,no column given,no column given
+S Nass,3,2016,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1982,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1983,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1984,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1985,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1986,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1987,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1988,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1989,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1990,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1991,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1992,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1993,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1994,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1995,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1996,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1997,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1998,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,1999,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,2000,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,2001,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,2002,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,2003,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,2004,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,2005,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,2006,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,2007,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,2008,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,2009,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,2010,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,2011,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,2012,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,2013,no column given,no column given,no column given,no column given
+S Area 3 PSF,3,2014,no column given,no column given,no column given,no column given
+Chum FR,1,2003,800000,1451961,no column given,156618
+Chum FR,1,2004,800000,2633549,no column given,258880
+Chum FR,1,2005,800000,1264071,no column given,212770
+Chum FR,1,2006,800000,2026673,no column given,410350
+Chum FR,1,2007,800000,1026701,no column given,163332
+Chum FR,1,2008,800000, 940143,no column given,176098
+Chum FR,1,2009,800000, 619363,no column given,144163
+Chum FR,1,2010,800000, 634493,no column given, 44925
+Chum FR,1,2011,800000,1084652,no column given,117695
+Chum FR,1,2012,800000,1280332,no column given,241415
+Chum FR,1,2013,800000, 799573,no column given,302730
+Chum southern,2,2003,no column given,2229917,20,37.60
+Chum southern,2,2004,no column given,3642966,20,34.00
+Chum southern,2,2005,no column given,1822380,20,41.70
+Chum southern,2,2006,no column given,2774327,20,35.50
+Chum southern,2,2007,no column given,1931781,20,29.20
+Chum southern,2,2008,no column given,1647874,20,26.00
+Chum southern,2,2009,no column given,1480067,20,33.50
+Chum southern,2,2010,no column given,1053561,20,10.80
+Chum southern,2,2011,no column given,2008103,20,41.80
+Chum southern,2,2012,no column given,2607180,20,25.90
+Chum southern,2,2013,no column given,1949769,20,33.49
+Chum JS,2,2003,no column given,777956,20,26.3
+Chum JS,2,2004,no column given,973010,20,21.8
+Chum JS,2,2005,no column given,547538,20,28.0
+Chum JS,2,2006,no column given,696960,20,20.4
+Chum JS,2,2007,no column given,902149,20,18.2
+Chum JS,2,2008,no column given,690814,20,14.0
+Chum JS,2,2009,no column given,853501,20,23.7
+Chum JS,2,2010,no column given,416398,20, 5.0
+Chum JS,2,2011,no column given,912293,20,22.0
+Chum JS,2,2012,no column given,1305359,20,11.5
+Chum JS,2,2013,no column given,NA,20,22.2
+S WCVI NUSEDS,3,1974,no column given,NA,no column given,NA
+S WCVI NUSEDS,3,1975,no column given,NA,no column given,NA
+S WCVI NUSEDS,3,1976,no column given,NA,no column given,NA
+S WCVI NUSEDS,3,1977,no column given,209810,no column given,794304
+S WCVI NUSEDS,3,1978,no column given, 84373,no column given,145531
+S WCVI NUSEDS,3,1979,no column given,247475,no column given,540963
+S WCVI NUSEDS,3,1980,no column given,246041,no column given,421856
+S WCVI NUSEDS,3,1981,no column given,195124,no column given,557539
+S WCVI NUSEDS,3,1982,no column given,155579,no column given,185086
+S WCVI NUSEDS,3,1983,no column given,339204,no column given,508028
+S WCVI NUSEDS,3,1984,no column given,131000,no column given,518835
+S WCVI NUSEDS,3,1985,no column given,112339,no column given,317600
+S WCVI NUSEDS,3,1986,no column given,119820,no column given, 10316
+S WCVI NUSEDS,3,1987,no column given,277562,no column given, 83017
+S WCVI NUSEDS,3,1988,no column given,195327,no column given,146833
+S WCVI NUSEDS,3,1989,no column given,171652,no column given, 14924
+S WCVI NUSEDS,3,1990,no column given,163320,no column given, 19353
+S WCVI NUSEDS,3,1991,no column given,402976,no column given,807514
+S WCVI NUSEDS,3,1992,no column given,149898,no column given,178555
+S WCVI NUSEDS,3,1993,no column given,227694,no column given,432423
+S WCVI NUSEDS,3,1994,no column given,113121,no column given, 97353
+S WCVI NUSEDS,3,1995,no column given, 40940,no column given, 17925
+S WCVI NUSEDS,3,1996,no column given,157087,no column given, 26873
+S WCVI NUSEDS,3,1997,no column given,174088,no column given, 97281
+S WCVI NUSEDS,3,1998,no column given,184542,no column given,132609
+S WCVI NUSEDS,3,1999,no column given,203969,no column given, 58636
+S WCVI NUSEDS,3,2000,no column given, 52043,no column given, 37113
+S WCVI NUSEDS,3,2001,no column given,307106,no column given,113864
+S WCVI NUSEDS,3,2002,no column given,259482,no column given,384591
+S WCVI NUSEDS,3,2003,no column given,223546,no column given,276617
+S WCVI NUSEDS,3,2004,no column given,213021,no column given,202387
+S WCVI NUSEDS,3,2005,no column given,172962,no column given, 63307
+S WCVI NUSEDS,3,2006,no column given,135493,no column given, 61288
+S WCVI NUSEDS,3,2007,no column given, 67717,no column given,  5003
+S WCVI NUSEDS,3,2008,no column given, 59589,no column given,     0
+S WCVI NUSEDS,3,2009,no column given,203858,no column given, 86640
+S WCVI NUSEDS,3,2010,no column given,255339,no column given,496565
+S WCVI NUSEDS,3,2011,no column given,NA,no column given,321345
+S WCVI NUSEDS,3,2012,no column given,NA,no column given,181517
+S WCVI NUSEDS,3,2013,no column given,NA,no column given, 26580
+S WCVI NUSEDS,3,1974,no column given,NA,no column given,NA
+S WCVI NUSEDS,3,1975,no column given,NA,no column given,NA
+S WCVI NUSEDS,3,1976,no column given,NA,no column given,NA
+S WCVI NUSEDS,3,1977,no column given, 76662,no column given,302450
+S WCVI NUSEDS,3,1978,no column given, 34091,no column given, 47705
+S WCVI NUSEDS,3,1979,no column given, 42181,no column given,156649
+S WCVI NUSEDS,3,1980,no column given,124943,no column given,226933
+S WCVI NUSEDS,3,1981,no column given,118710,no column given,363579
+S WCVI NUSEDS,3,1982,no column given,213477,no column given,256553
+S WCVI NUSEDS,3,1983,no column given,239763,no column given,375670
+S WCVI NUSEDS,3,1984,no column given, 76373,no column given,420949
+S WCVI NUSEDS,3,1985,no column given,113688,no column given,139969
+S WCVI NUSEDS,3,1986,no column given,173915,no column given, 46602
+S WCVI NUSEDS,3,1987,no column given,105457,no column given,171366
+S WCVI NUSEDS,3,1988,no column given,210518,no column given,178271
+S WCVI NUSEDS,3,1989,no column given,133349,no column given, 13403
+S WCVI NUSEDS,3,1990,no column given, 93631,no column given, 17236
+S WCVI NUSEDS,3,1991,no column given,140123,no column given,362598
+S WCVI NUSEDS,3,1992,no column given,192641,no column given,392343
+S WCVI NUSEDS,3,1993,no column given,187860,no column given,348207
+S WCVI NUSEDS,3,1994,no column given,142162,no column given, 82020
+S WCVI NUSEDS,3,1995,no column given, 43254,no column given, 12522
+S WCVI NUSEDS,3,1996,no column given,207716,no column given, 33812
+S WCVI NUSEDS,3,1997,no column given,126349,no column given, 45690
+S WCVI NUSEDS,3,1998,no column given,142360,no column given, 75320
+S WCVI NUSEDS,3,1999,no column given,162776,no column given, 55911
+S WCVI NUSEDS,3,2000,no column given,108568,no column given, 67797
+S WCVI NUSEDS,3,2001,no column given,158923,no column given,117873
+S WCVI NUSEDS,3,2002,no column given,190971,no column given,211952
+S WCVI NUSEDS,3,2003,no column given,163807,no column given,254488
+S WCVI NUSEDS,3,2004,no column given,113798,no column given,132038
+S WCVI NUSEDS,3,2005,no column given,131949,no column given, 41737
+S WCVI NUSEDS,3,2006,no column given, 61940,no column given, 28916
+S WCVI NUSEDS,3,2007,no column given, 52837,no column given,  4756
+S WCVI NUSEDS,3,2008,no column given, 65333,no column given,     0
+S WCVI NUSEDS,3,2009,no column given,130289,no column given, 62881
+S WCVI NUSEDS,3,2010,no column given,296956,no column given,441560
+S WCVI NUSEDS,3,2011,no column given,NA,no column given,262605
+S WCVI NUSEDS,3,2012,no column given,NA,no column given,198134
+S WCVI NUSEDS,3,2013,no column given,NA,no column given, 61702
+S WCVI,1,2004,170000,329819,30000,334810
+S WCVI,1,2005,262500,306911,82501,104788
+S WCVI,1,2006,262500,200433,82501,87959
+S WCVI,1,2007,325000,132554,170001,9591
+S WCVI,1,2008,325000,135921,170001,-
+S WCVI,1,2009,350000,364148,340000,147399
+S WCVI,1,2010,350000,582296,340000,919638
+S WCVI,1,2011,400000,833616,590000,593024
+S WCVI,1,2012,400000,356800,590000,385593
+S WCVI,1,2013,540000,198840,1245000,82164
+S WCVI,1,2014,NA,260885,NA,628739
+S WCVI,1,2015,NA,731250,IFMP 2015-2012,1309656
+S WCVI,1,2016,NA,443584,NA,660719
+S WCVI,1,All data from WCVI salmon bulletin (columns B to O),NA,NA,NA,NA
+Pink 6 PSF,3,1954,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1955,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1956,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1957,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1958,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1959,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1960,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1961,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1962,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1963,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1964,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1965,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1966,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1967,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1968,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1969,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1970,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1971,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1972,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1973,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1974,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1975,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1976,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1977,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1978,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1979,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1980,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1981,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1982,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1983,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1984,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1985,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1986,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1987,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1988,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1989,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1990,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1991,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1992,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1993,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1994,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1995,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1996,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1997,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1998,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,1999,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,2000,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,2001,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,2002,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,2003,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,2004,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,2005,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,2006,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,2007,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,2008,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,2009,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,2010,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,2011,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,2012,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,2013,no column given,no column given,no column given,no column given
+Pink 6 PSF,3,2014,no column given,no column given,no column given,no column given
+Pink 6,2,2002,NA, 685400,no column given,NA
+Pink 6,2,2003,2006520,1995375,no column given,2003 post season review
+Pink 6,2,2004, 810758, 662619,no column given,2004 post season review
+Pink 6,2,2005,1569275,1358975,no column given,2005 post season review
+Pink 6,2,2006, 263765, 253330,no column given,2006 post season review
+Pink 6,2,2007,1526390,NA,no column given,2007 post season review
+Pink 6,2,2008, 156301,NA,no column given,2008 post season review
+Pink 6,2,2009,2674740,NA,no column given,2009 post season review
+Pink 6,2,2010,NA,NA,no column given,NA
+Pink 6,2,2011,NA,NA,no column given,NA
+Pink 6,2,2012, 766635,NA,no column given,2012 post season review
+Pink 6,2,2013,NA,NA,no column given,NA
+Pink 6,2,2014,NA,NA,no column given,NA
+Pink 6,2,2015,NA,NA,no column given,NA
+Pink 6,2,2016,NA,NA,no column given,NA
+Coho N troll,3,2004,no column given,no column given,no column given,no column given
+Coho N troll,3,2005,no column given,no column given,no column given,no column given
+Coho N troll,3,2006,no column given,no column given,no column given,no column given
+Coho N troll,3,2007,no column given,no column given,no column given,no column given
+Coho N troll,3,2008,no column given,no column given,no column given,no column given
+Coho N troll,3,2009,no column given,no column given,no column given,no column given
+Coho N troll,3,2010,no column given,no column given,no column given,no column given
+Coho N troll,3,2011,no column given,no column given,no column given,no column given
+Coho N troll,3,2012,no column given,no column given,no column given,no column given
+Coho N troll,3,2013,no column given,no column given,no column given,no column given
+Coho N troll,3,2014,no column given,no column given,no column given,no column given
+Coho N troll,3,2015,no column given,no column given,no column given,no column given
+Coho N troll,3,2016,no column given,no column given,no column given,no column given
+Coho N troll,3,NOTE: TRTC= total return to Canada,no column given,no column given,no column given,no column given
+Coho inside F,1,2005,NA,15000,CDN ER 3%,2.6
+Coho inside F,1,2006,NA, 7800,CDN ER 3% or less,2.2000000000000002
+Coho inside F,1,2007,"20,000-25,000",57727,CDN ER 3% or less,1.8
+Coho inside F,1,2008,"20,000-25,000",14248,CDN ER 3% or less,1.84
+Coho inside F,1,2009,"20,000-25,000",21043,CDN ER 3% or less,2.41
+Coho inside F,1,2010,"20,000-25,000",36000,CDN ER 3% or less,3.1
+Coho inside F,1,2011,"20,000-25,000",26000,CDN ER 3%,3.1
+Coho inside F,1,2012,"20,000-25,000",55000,CDN ER 3%,1.3
+Coho inside F,1,2013,"20,000-25,000",NA,cdn ER of 3% or less,2.9
+Coho inside F,1,2014,"20,000-25,000",18530,CDN ER of 16% or less,uncertain (10.1 to 19.4 depending on methods)
+Coho inside F,1,2015,"20,000-25,000",12436,CDN ER of 16% or less,not yet available
+Coho inside F,1,2016,"20,000-25,000",60000,3-5%,NA
+Coho inside F,1,2017,NA,NA,NA,NA
+Coho inside F,1,NOTES:,NA,NA,NA,NA
