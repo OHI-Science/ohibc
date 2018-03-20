@@ -135,14 +135,79 @@ if(!file.exists(salmon_raw_file)) {
   
   }
   
-  salmon_data <- bind_rows(salmon_list) %>%
+  salmon_data_raw <- bind_rows(salmon_list) %>%
     filter(!is.na(year))
   
-  write_csv(salmon_data, salmon_raw_file)
+  write_csv(salmon_data_raw, salmon_raw_file)
   
 } else {
+  
   git_prov(salmon_raw_file, 'output')
+
 }
+
+```
+
+From the raw salmon data, we will include only stocks with columns for (catch & catch target) and/or (escapement & escapemenet target).  Stocks with neither will be dropped.  
+``` {r identify stocks with inadequate data}
+salmon_data_raw <- read_csv(salmon_raw_file)
+
+stocks_dropped <- salmon_data_raw %>%
+  filter(avail == 3) %>%
+  select(stock) %>% distinct()
+
+knitr::kable(stocks_dropped, caption = 'Stocks dropped due to inadequate data')
+```
+
+Due to the methods for extracting data from the spreadsheets, some columns have text-based data that needs to be extracted or cleaned.  Extract embedded data from text where applicable, and use "as.numeric" to convert text w/o data to NA.
+
+``` {r identify stocks with inadequate data}
+salmon_data_raw <- read_csv(salmon_raw_file)
+
+stocks <- salmon_data_raw %>%
+  filter(avail != 3)
+
+cat('\nProblems in "year":\n')
+print(stocks$year[str_detect(stocks$year, '[^0-9]')])
+cat('\nProblems in "esc_tgt":\n')
+print(stocks$esc_tgt[str_detect(stocks$esc_tgt, '[^0-9\\.]')] %>% unique())
+cat('\nProblems in "escapes":\n')
+print(stocks$escapes[str_detect(stocks$escapes, '[^0-9\\.]')] %>% unique())
+cat('\nProblems in "catch_tgt":\n')
+print(stocks$catch_tgt[str_detect(stocks$catch_tgt, '[^0-9\\.]')] %>% unique())
+cat('\nProblems in "catch":\n')
+print(stocks$catch[str_detect(stocks$catch, '[^0-9\\.]')] %>% unique())
+
+knitr::kable(stocks_dropped, caption = 'Stocks dropped due to inadequate data')
+```
+
+``` {r}
+
+salmon_data_raw <- read_csv(salmon_raw_file)
+
+stocks <- salmon_data_raw %>%
+  filter(avail != 3) %>%
+  mutate(year = as.integer(year),       
+           ### no actual problems here
+         escapes = as.numeric(escapes), 
+           ### no actual problems here
+         esc_tgt = str_replace_all(esc_tgt, '[^0-9-]', ''), 
+           ### ditch non-digits, spaces, and commas
+         esc_tgt = str_replace_all(esc_tgt, '-.*', ''),     
+           ### use hyphen to drop anything after
+         esc_tgt = as.numeric(esc_tgt), 
+           ### no problems remaining
+         catch_tgt = ifelse(str_detect(catch_tgt, '[^0-9\\.]'), 
+                                           str_extract(catch_tgt, '[0-9]*\\%'), 
+           ### if non-digits in string, extract number attached to %; this extracts the 5 from "3-5%"
+                                           catch_tgt),
+           ### otherwise assign all-digits catch target field
+         catch_tgt = as.numeric(str_replace(catch_tgt, '%', '')),
+         catch = ifelse(catch == 'uncertain (10.1 to 19.4 depending on methods)', 10.1, catch), 
+           ### manually assign this one
+         catch = as.numeric(catch))
+
+write_csv(stocks, file.path(dir_goal, 'int/salmon_data_cleaned.csv'))
 
 ```
 
