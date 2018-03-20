@@ -1,0 +1,155 @@
+---
+title: 'OHIBC data prep: Salmon'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(raster)
+library(sf)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+scenario <- 'v2017'
+goal     <- 'sal'
+dir_git  <- path.expand('~/github/ohibc')
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_spatial <- file.path(dir_git, 'prep/_spatial')
+
+dir_data_bc  <- file.path(dir_M, 'git-annex/bcprep', '_raw_data')
+
+library(provRmd); prov_setup()
+
+reload <- FALSE
+
+
+```
+
+# Summary: OHIBC Salmon
+
+This script prepares layers Salmon sub-goals for food provision and First Nations Resource Access Opportunity in British Columbia's coastal regions.  
+
+From Halpern et al. (2012) :
+
+
+-----
+
+# Data sources
+
+* DFO Salmon catch and escapement data
+
+-----
+
+# Methods
+
+## Extract catch and escapement info
+
+``` {r}
+
+salmon_raw_file <- file.path(dir_goal, 'int/salmon_data_raw.csv')
+
+if(!file.exists(salmon_raw_file)) {
+  
+  salmon_sum_xls  <- file.path(dir_data_bc, 'dfo_salmon/Salmon Data Summary.xlsx')
+  salmon_sum_cols <- readxl::read_excel(salmon_sum_xls, 1) %>%
+    clean_df_names()
+  salmon_sum_avail <- readxl::read_excel(salmon_sum_xls, 2) %>%
+    clean_df_names()
+  
+  salmon_xls <- file.path(dir_data_bc, 'dfo_salmon/OHI Data Canada 29 Dec 2017.xlsx')
+  
+  ltr_to_num <- function(x) {
+    if(is.na(x)) return(NA)
+    if(nchar(x) == 1) {
+      return (which(letters == tolower(x)))
+    }
+    if(nchar(x) == 2) {
+      x1 <- substr(x, 1, 1)
+      x2 <- substr(x, 2, 2)
+      x1_num <- which(letters == tolower(x1))
+      x2_num <- which(letters == tolower(x2))
+      return( x1_num * 26 + x2_num)
+    }
+  }
+  
+  get_col_data <- function(y, type = 'c') {
+    if(is.na(y)) {
+      return('no column given')
+    } else if (type == 'c') {
+      return(as.character(data_raw[ , y]))
+    } else {
+      return(data_raw[ , y])
+    }
+  }
+  
+  salmon_stocks <- salmon_sum_cols$stock_name
+    ### NOTE: Stikine sheet has two stocks; go by stock rather than sheet!
+  salmon_list <- vector('list', length = length(salmon_stocks))
+  
+  for(i in seq_along(salmon_stocks)) { ### i <- 10
+    
+    col_info <- salmon_sum_cols %>%
+      filter(stock_name == salmon_stocks[i])
+    avail_info <- salmon_sum_avail %>%
+      filter(stock_name == salmon_stocks[i])
+  
+    skip_rows     <- col_info$data_start - 1
+    ### Column IDs are given as Excel column letters; convert to number
+    esc_tgt_col   <- ltr_to_num(col_info$escapement_target_col_id)
+    esc_col       <- ltr_to_num(col_info$escapement_col_id)
+    catch_tgt_col <- ltr_to_num(col_info$catch_target_col_id)
+    catch_col     <- ltr_to_num(col_info$catch_col_id)
+    year_col      <- ltr_to_num(col_info$yr_col)
+    
+    data_raw <- readxl::read_excel(salmon_xls, 
+                                   sheet = col_info$sheet_name,
+                                   skip = skip_rows,
+                                   col_names = FALSE) %>%
+      as.matrix()
+    
+    stock_data <- data.frame('stock'     = col_info$stock_name,
+                             'avail'     = avail_info$availability,
+                             'year'      = get_col_data(year_col),
+                             'esc_tgt'   = get_col_data(esc_tgt_col),
+                             'escapes'   = get_col_data(esc_col),
+                             'catch_tgt' = get_col_data(catch_tgt_col),
+                             'catch'     = get_col_data(catch_col))
+  
+    salmon_list[[i]] <- stock_data
+  
+  }
+  
+  salmon_data <- bind_rows(salmon_list) %>%
+    filter(!is.na(year))
+  
+  write_csv(salmon_data, salmon_raw_file)
+  
+} else {
+  git_prov(salmon_raw_file, 'output')
+}
+
+```
+
+-----
+
+``` {r provenance, results = 'asis'}
+
+prov_wrapup()
+
+```
