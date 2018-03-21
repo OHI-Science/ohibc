@@ -211,6 +211,23 @@ write_csv(stocks, file.path(dir_goal, 'int/salmon_data_cleaned.csv'))
 
 ```
 
+``` {r calc_salmon_components}
+
+stocks <- read_csv(file.path(dir_goal, 'int/salmon_data_cleaned.csv'))
+
+stocks_scored <- stocks %>%
+  rowwise() %>%
+  mutate(esc_score = min(escapes / esc_tgt, 1), ### NAs should also dominate the max
+         catch_score = min(catch / catch_tgt, 1),
+         stock_score = mean(c(esc_score, catch_score), na.rm = TRUE)) %>%
+  ungroup() 
+
+ggplot(stocks_scored, aes(x = year, y = stock_score, color = stock)) +
+  ggtheme_plot() +
+  geom_line() +
+  ylim(c(0, 1))
+```
+
 -----
 
 ``` {r provenance, results = 'asis'}
