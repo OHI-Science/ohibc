@@ -161,7 +161,7 @@ knitr::kable(stocks_dropped, caption = 'Stocks dropped due to inadequate data')
 
 Due to the methods for extracting data from the spreadsheets, some columns have text-based data that needs to be extracted or cleaned.  Extract embedded data from text where applicable, and use "as.numeric" to convert text w/o data to NA.
 
-``` {r identify stocks with inadequate data}
+``` {r clean up the data}
 salmon_data_raw <- read_csv(salmon_raw_file)
 
 stocks <- salmon_data_raw %>%
@@ -218,19 +218,39 @@ stocks <- read_csv(file.path(dir_goal, 'int/salmon_data_cleaned.csv'))
 stocks_scored <- stocks %>%
   rowwise() %>%
   mutate(esc_score = min(escapes / esc_tgt, 1), ### NAs should also dominate the max
-         catch_score = min(catch / catch_tgt, 1),
+         catch_score = min(catch_tgt / catch, 1),
          stock_score = mean(c(esc_score, catch_score), na.rm = TRUE)) %>%
-  ungroup() 
+  ungroup() %>%
+  mutate(stock_spp = case_when(str_detect(tolower(stock), 'chum') ~ 'chum',
+                               str_detect(tolower(stock), 'pink') ~ 'pink',
+                               str_detect(tolower(stock), 'coho') ~ 'coho',
+                               str_detect(tolower(stock), 'ch')   ~ 'chinook',
+                               TRUE                               ~ 'sockeye'))
 
-ggplot(stocks_scored, aes(x = year, y = stock_score, color = stock)) +
+DT::datatable(stocks_scored)
+
+ggplot(stocks_scored %>%
+         filter(stock_spp != 'sockeye'), 
+       aes(x = year, y = stock_score, color = stock)) +
   ggtheme_plot() +
-  geom_line() +
-  ylim(c(0, 1))
+  geom_line(size = 2) +
+  geom_point(size = 3) +
+  ylim(c(0, 1)) + 
+  facet_wrap( ~ stock_spp)
+
+ggplot(stocks_scored %>%
+         filter(stock_spp == 'sockeye'), 
+       aes(x = year, y = stock_score, color = stock)) +
+  ggtheme_plot() +
+  geom_line(size = 2) +
+  geom_point(size = 3) +
+  ylim(c(0, 1)) + 
+  facet_wrap( ~ stock)
 ```
 
 -----
 
-``` {r provenance, results = 'asis'}
+``` {r provenance, results = 'asis', eval = FALSE}
 
 prov_wrapup()
 
