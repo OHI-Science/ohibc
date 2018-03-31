@@ -34,7 +34,7 @@ dir_spatial <- file.path(dir_git, 'prep/_spatial')
 
 dir_data_bc  <- file.path(dir_M, 'git-annex/bcprep', '_raw_data')
 
-library(provRmd); prov_setup()
+# library(provRmd); prov_setup()
 
 reload <- FALSE
 
@@ -64,92 +64,88 @@ From Halpern et al. (2012) :
 
 salmon_raw_file <- file.path(dir_goal, 'int/salmon_data_raw.csv')
 
-if(!file.exists(salmon_raw_file)) {
-  
-  salmon_sum_xls  <- file.path(dir_data_bc, 'dfo_salmon/Salmon Data Summary.xlsx')
-  salmon_sum_cols <- readxl::read_excel(salmon_sum_xls, 1) %>%
-    clean_df_names()
-  salmon_sum_avail <- readxl::read_excel(salmon_sum_xls, 2) %>%
-    clean_df_names()
-  
-  salmon_xls <- file.path(dir_data_bc, 'dfo_salmon/OHI Data Canada 29 Dec 2017.xlsx')
-  
-  ltr_to_num <- function(x) {
-    if(is.na(x)) return(NA)
-    if(nchar(x) == 1) {
-      return (which(letters == tolower(x)))
-    }
-    if(nchar(x) == 2) {
-      x1 <- substr(x, 1, 1)
-      x2 <- substr(x, 2, 2)
-      x1_num <- which(letters == tolower(x1))
-      x2_num <- which(letters == tolower(x2))
-      return( x1_num * 26 + x2_num)
-    }
+
+salmon_sum_xls  <- file.path(dir_data_bc, 'dfo_salmon/Salmon Data Summary.xlsx')
+salmon_sum_cols <- readxl::read_excel(salmon_sum_xls, 1) %>%
+  clean_df_names()
+salmon_sum_avail <- readxl::read_excel(salmon_sum_xls, 2) %>%
+  clean_df_names()
+
+salmon_xls <- file.path(dir_data_bc, 'dfo_salmon/OHI Data Canada 29 Dec 2017.xlsx')
+
+ltr_to_num <- function(x) {
+  if(is.na(x)) return(NA)
+  if(nchar(x) == 1) {
+    return (which(letters == tolower(x)))
   }
-  
-  get_col_data <- function(y, type = 'c') {
-    if(is.na(y)) {
-      return('no column given')
-    } else if (type == 'c') {
-      return(as.character(data_raw[ , y]))
-    } else {
-      return(data_raw[ , y])
-    }
+  if(nchar(x) == 2) {
+    x1 <- substr(x, 1, 1)
+    x2 <- substr(x, 2, 2)
+    x1_num <- which(letters == tolower(x1))
+    x2_num <- which(letters == tolower(x2))
+    return( x1_num * 26 + x2_num)
   }
-  
-  salmon_stocks <- salmon_sum_cols$stock_name
-    ### NOTE: Stikine sheet has two stocks; go by stock rather than sheet!
-  salmon_list <- vector('list', length = length(salmon_stocks))
-  
-  for(i in seq_along(salmon_stocks)) { ### i <- 10
-    
-    col_info <- salmon_sum_cols %>%
-      filter(stock_name == salmon_stocks[i])
-    avail_info <- salmon_sum_avail %>%
-      filter(stock_name == salmon_stocks[i])
-  
-    skip_rows     <- col_info$data_start - 1
-    ### Column IDs are given as Excel column letters; convert to number
-    esc_tgt_col   <- ltr_to_num(col_info$escapement_target_col_id)
-    esc_col       <- ltr_to_num(col_info$escapement_col_id)
-    catch_tgt_col <- ltr_to_num(col_info$catch_target_col_id)
-    catch_col     <- ltr_to_num(col_info$catch_col_id)
-    year_col      <- ltr_to_num(col_info$yr_col)
-    
-    data_raw <- readxl::read_excel(salmon_xls, 
-                                   sheet = col_info$sheet_name,
-                                   skip = skip_rows,
-                                   col_names = FALSE) %>%
-      as.matrix()
-    
-    stock_data <- data.frame('stock'     = col_info$stock_name,
-                             'avail'     = avail_info$availability,
-                             'year'      = get_col_data(year_col),
-                             'esc_tgt'   = get_col_data(esc_tgt_col),
-                             'escapes'   = get_col_data(esc_col),
-                             'catch_tgt' = get_col_data(catch_tgt_col),
-                             'catch'     = get_col_data(catch_col))
-  
-    salmon_list[[i]] <- stock_data
-  
+}
+
+get_col_data <- function(y, type = 'c') {
+  if(is.na(y)) {
+    return('no column given')
+  } else if (type == 'c') {
+    return(as.character(data_raw[ , y]))
+  } else {
+    return(data_raw[ , y])
   }
+}
+
+salmon_stocks <- salmon_sum_cols$stock_name
+  ### NOTE: Stikine sheet has two stocks; go by stock rather than sheet!
+salmon_list <- vector('list', length = length(salmon_stocks))
+
+for(i in seq_along(salmon_stocks)) { ### i <- 10
   
-  salmon_data_raw <- bind_rows(salmon_list) %>%
-    filter(!is.na(year))
+  col_info <- salmon_sum_cols %>%
+    filter(stock_name == salmon_stocks[i])
+  avail_info <- salmon_sum_avail %>%
+    filter(stock_name == salmon_stocks[i])
+
+  skip_rows     <- col_info$data_start - 1
+  ### Column IDs are given as Excel column letters; convert to number
+  esc_tgt_col   <- ltr_to_num(col_info$escapement_target_col_id)
+  esc_col       <- ltr_to_num(col_info$escapement_col_id)
+  catch_tgt_col <- ltr_to_num(col_info$catch_target_col_id)
+  catch_col     <- ltr_to_num(col_info$catch_col_id)
+  year_col      <- ltr_to_num(col_info$yr_col)
   
-  write_csv(salmon_data_raw, salmon_raw_file)
+  data_raw <- readxl::read_excel(salmon_xls, 
+                                 sheet = col_info$sheet_name,
+                                 skip = skip_rows,
+                                 col_names = FALSE) %>%
+    as.matrix()
   
-} else {
-  
-  git_prov(salmon_raw_file, 'output')
+  stock_data <- data.frame('stock'     = col_info$stock_name,
+                           'avail'     = avail_info$availability,
+                           'year'      = get_col_data(year_col),
+                           'esc_tgt'   = get_col_data(esc_tgt_col),
+                           'escapes'   = get_col_data(esc_col),
+                           'catch_tgt' = get_col_data(catch_tgt_col),
+                           'catch'     = get_col_data(catch_col))
+
+  salmon_list[[i]] <- stock_data
 
 }
 
+salmon_data_raw <- bind_rows(salmon_list) %>%
+  filter(!is.na(year))
+
+write_csv(salmon_data_raw, salmon_raw_file)
+
 ```
+
+### Exclude stocks with inadequate data
 
 From the raw salmon data, we will include only stocks with columns for (catch & catch target) and/or (escapement & escapemenet target).  Stocks with neither will be dropped.  
 ``` {r identify stocks with inadequate data}
+
 salmon_data_raw <- read_csv(salmon_raw_file)
 
 stocks_dropped <- salmon_data_raw %>%
@@ -157,11 +153,15 @@ stocks_dropped <- salmon_data_raw %>%
   select(stock) %>% distinct()
 
 knitr::kable(stocks_dropped, caption = 'Stocks dropped due to inadequate data')
+
 ```
+
+### Clean data for catch, escapes, and targets
 
 Due to the methods for extracting data from the spreadsheets, some columns have text-based data that needs to be extracted or cleaned.  Extract embedded data from text where applicable, and use "as.numeric" to convert text w/o data to NA.
 
-``` {r clean up the data}
+``` {r clean up the data, eval = FALSE}
+
 salmon_data_raw <- read_csv(salmon_raw_file)
 
 stocks <- salmon_data_raw %>%
@@ -178,7 +178,6 @@ print(stocks$catch_tgt[str_detect(stocks$catch_tgt, '[^0-9\\.]')] %>% unique())
 cat('\nProblems in "catch":\n')
 print(stocks$catch[str_detect(stocks$catch, '[^0-9\\.]')] %>% unique())
 
-knitr::kable(stocks_dropped, caption = 'Stocks dropped due to inadequate data')
 ```
 
 ``` {r}
@@ -205,10 +204,163 @@ stocks <- salmon_data_raw %>%
          catch_tgt = as.numeric(str_replace(catch_tgt, '%', '')),
          catch = ifelse(catch == 'uncertain (10.1 to 19.4 depending on methods)', 10.1, catch), 
            ### manually assign this one
-         catch = as.numeric(catch))
+         catch = as.numeric(catch)) %>%
+  select(-avail)
 
 write_csv(stocks, file.path(dir_goal, 'int/salmon_data_cleaned.csv'))
 
+```
+
+## Calculate analogs to B' and F'
+
+For FIS wild capture fisheries, we use a combination of rescaled B/Bmsy and F/Fmsy based on thresholds and targets.
+
+For SAL we will use catch and escapement data to generate a similar rescaled score.  To determine reference points, we examine the distribution of $E/E_{target}$ and $C/C_{target}$.
+
+For each axis, we determine the mean and standard deviation.  By determining mean and standard deviation of the $E/E_{target}$ and $C/C_{target}$ we essentially normalize by the expected run size and so can compare runs directly rather than a more complex weighting scheme.
+
+By calculating mean and SD across the entire dataset without grouping by species or number of assessed years, we are implicitly weighting by number of stocks and number of years per stock (e.g. holding years constant, then sockeye (eight fisheries) carry the same weight as all others combined (2 Chinook, 3 Chum, 2 Pink, 1 Coho)).
+
+Normalizing by the mean we recenter and rescale the distribution around the ideal value of 1.0.
+
+### Rescaling $E/E_{target}$
+
+``` {r determine_E_refs}
+
+stocks <- read_csv(file.path(dir_goal, 'int/salmon_data_cleaned.csv'))
+
+stocks_rescaled <- stocks %>%
+  mutate(E_Et = escapes / esc_tgt)
+
+E_dist <- stocks_rescaled %>%
+  filter(!is.na(E_Et)) %>%
+  summarize(mean_E_Et    = mean(E_Et),
+            sd_E_Et      = sd(E_Et),
+            sd_norm_E_Et = sd_E_Et / mean_E_Et)
+
+knitr::kable(E_dist)
+```
+
+For escapes, we wish to penalize underescapement rather harshly, while being more lenient on overescapement.  Under or over escapement can result from poor management or targets based on poor pre-season estimates, either one of which is problematic in maintaining a sustainable fishery.
+
+Using an approximate normalized standard deviation of $\sigma_E = 0.60$ and a max overescapement penalty of $\delta_E = .25$, we set thresholds away from the target (i.e. 1.0) at 1 std dev below, 1 std dev above, and 2 std devs above.
+
+\begin{align*}
+  E' &= \begin{cases}
+    0                            &\text{ when } \frac{E}{E_t} < (1 - \sigma_E)\\
+    E_{0,1}' + m_{E1} \frac{E}{E_t} &\text{ when } (1 - \sigma_E) \leq \frac{E}{E_t} < 1.0\\
+    1.0                          &\text{ when } 1.0 \leq \frac{E}{E_t} < (1 + \sigma_E)\\
+    E_{0,2}' + m_{E2} \frac{E}{E_t} &\text{ when } (1 + \sigma_E) \leq \frac{E}{E_t} < (1 + 2 \sigma_E)\\
+    \delta_E                       &\text{ when } \frac{E}{E_t} \geq (1 + 2 \sigma_E)
+  \end{cases}\\
+  \text{Where: }\\
+    m_{E1}      &= \frac{1}{\sigma_E}        = \frac{1}{.6}         =  1.67 \text{ for } \sigma_E = 0.60\\
+    E_{0,1}' &= 1 - m_{E1}                   = \frac{-.4}{.6}       =  -.67 \text{ for } \sigma_E = 0.60\\
+    m_{E2}      &= -\frac{1 - \delta_E}{\sigma_E} = -\frac{.75}{.6} = -1.25 \text{ for } \sigma_E = 0.60\\
+    E_{0,2}' &= 1 - m_{E2} (1 + \sigma_E)    = 1 - (-1.25)(1.6)     =  3.00 \text{ for } \sigma_E = 0.60\\
+\end{align*}
+          
+``` {r plot escapement control rule}
+ecr_df <- data.frame(x = c(0, .4, 1, 1.6, 2.2, 3.0),
+                     y = c(0,  0, 1,   1, .25, .25))
+
+ggplot(ecr_df, aes(x, y)) +
+  ggtheme_plot() +
+  geom_line() +
+  labs(x = 'E/E(target)',
+       y = "Rescaled E' score")
+
+```
+
+### Rescaling $C/C_{target}$
+
+``` {r determine_C_refs}
+
+stocks <- read_csv(file.path(dir_goal, 'int/salmon_data_cleaned.csv'))
+
+stocks_rescaled <- stocks %>%
+  mutate(C_Ct = catch / catch_tgt)
+    ### How to deal with years with zero catch targets? drop these? use mean 
+    ### of other years? set at some high value?
+
+C_dist <- stocks_rescaled %>%
+  filter(!is.na(C_Ct)) %>%
+  filter(!is.infinite(C_Ct)) %>%
+  summarize(mean_C_Ct    = mean(C_Ct),
+            sd_C_Ct      = sd(C_Ct),
+            sd_norm_C_Ct = sd_C_Ct / mean_C_Ct)
+
+knitr::kable(C_dist)
+
+```
+
+For catch, we wish to penalize excessive catch rather harshly, while being more lenient on under-harvest.  Under or over catch, as with escapement, can result from poor management or targets based on poor pre-season estimates, either one of which is problematic in maintaining a sustainable fishery.
+
+Using an approximate normalized standard deviation of 1.20, we set an upper buffer at 1 std dev above the target.  Below $C/C_t = 1.0$ we set a buffer $\gamma_C = .40$, representing an allowance for uncertainty as well as intentional underharvest for ecological purposes (e.g. "one third for the birds" - and orcas, and bears, etc).  Below this threshold, $C'$ decreases to a minimum value of $\delta_C = 0.25$ at a catch (and thus $C/C_{target}$) of zero.
+
+\begin{align*}
+  C' &= \begin{cases}
+    C_{0,1}' + m_{C1} \frac{C}{C_t}  &\text{ when } \frac{C}{C_t} < 1 - \gamma_C\\
+    1                                &\text{ when } 1 - \gamma_C \leq \frac{C}{C_t} < 1\\
+    C_{0,2}' + m_{C2} \frac{C}{C_t}  &\text{ when } 1 \leq \frac{C}{C_t} < 1 + \sigma_C\\
+    0                                &\text{ when } \frac{C}{C_t} \geq 1 + \sigma_C
+  \end{cases}\\
+  \text{Where: }\\
+    m_{C1}   &= \frac{1 - \delta_C}{1 - \gamma_C}  = \frac{.75}{.6} =  1.25\\
+    C_{0,1}' &= \delta_C                                            =  0.25\\
+    m_{C2}   &= -\frac{1}{\sigma_C}                = -\frac{1}{1.2} = -0.83 \text{ for } \sigma_C = 1.20\\
+    C_{0,2}' &= -m_{C2} (1 + \sigma_C)             = +.83 (2.2)     =  1.83 \text{ for } \sigma_C = 1.20\\
+\end{align*}
+          
+``` {r plot catch control rule}
+ccr_df <- data.frame(x = c( 0.0, 0.6, 1.0, 2.2),
+                     y = c(0.25, 1.0, 1.0, 0.0))
+
+ggplot(ccr_df, aes(x, y)) +
+  ggtheme_plot() +
+  geom_line() +
+  labs(x = 'C/C(target)',
+       y = "Rescaled C' score")
+
+```
+
+### Calculate $E'$ and $C'$ for all stocks and years
+
+``` {r implement C_prime and E_prime functions}
+
+calc_e_prime <- function(E_Et) {
+  delta_e <- .25 ### max overescape penalty
+  sigma_e <- 0.6 ### std deviation of C/Ctarget
+  
+  m_e1 <- 1 / sigma_e
+  m_e2 <- - (1 - delta_e)/(sigma_e)
+  e_0_1 <- 1 - m_e1
+  e_0_2 <- 1 - m_e2 * (1 + sigma_e)
+  
+  e_prime <- case_when(E_Et < 1.0 - sigma_e      ~ 0,
+                       E_Et < 1.0                ~ e_0_1 + m_e1 * E_Et,
+                       E_Et < 1.0 + sigma_e      ~ 1,
+                       E_Et < 1.0 + 2 * sigma_e  ~ e_0_2 + m_e2 * E_Et,
+                       E_Et >= 1.0 + 2 * sigma_e ~ delta_e,
+                       TRUE                      ~ NA_real_)
+}
+
+calc_c_prime <- function(C_Ct) {
+  delta_c <- .25 ### max undercatch penalty
+  gamma_c <- 0.4 ### undercatch buffer
+  sigma_c <- 1.2 ### std deviation of C/Ctarget
+  
+  m_c1 <- (1 - delta_c) / (1 - gamma_c)
+  m_c2 <- - 1 / sigma_c
+  c_0_1 <- delta_c
+  c_0_2 <- -m_c2 * (1 + sigma_c)
+  
+  c_prime <- case_when(C_Ct < 1.0 - gamma_c  ~ c_0_1 + m_c1 * C_Ct,
+                       C_Ct < 1.0            ~ 1.0,
+                       C_Ct < 1.0 + sigma_c  ~ c_0_2 + m_c2 * C_Ct,
+                       C_Ct >= 1.0 + sigma_c ~ 0,
+                       TRUE                  ~ NA_real_)
+}
 ```
 
 ``` {r calc_salmon_components}
@@ -217,35 +369,84 @@ stocks <- read_csv(file.path(dir_goal, 'int/salmon_data_cleaned.csv'))
 
 stocks_scored <- stocks %>%
   rowwise() %>%
-  mutate(esc_score = min(escapes / esc_tgt, 1), ### NAs should also dominate the max
-         catch_score = min(catch_tgt / catch, 1),
-         stock_score = mean(c(esc_score, catch_score), na.rm = TRUE)) %>%
+  mutate(E_Et        = (escapes / esc_tgt) %>% round(5),
+         esc_score   = calc_e_prime(E_Et)  %>% round(5),
+         C_Ct        = (catch_tgt / catch) %>% round(5),
+         catch_score = calc_c_prime(C_Ct)  %>% round(5),
+         stock_score = prod(c(esc_score, catch_score), na.rm = TRUE) %>% round(5)) %>%
+  filter(!(is.na(esc_score) & is.na(catch_score))) %>% ### if both esc_score and catch_score are NA, drop the row
   ungroup() %>%
   mutate(stock_spp = case_when(str_detect(tolower(stock), 'chum') ~ 'chum',
                                str_detect(tolower(stock), 'pink') ~ 'pink',
                                str_detect(tolower(stock), 'coho') ~ 'coho',
                                str_detect(tolower(stock), 'ch')   ~ 'chinook',
-                               TRUE                               ~ 'sockeye'))
+                               TRUE                               ~ 'sockeye')) %>%
+  select(stock, year, 
+         E_Et, esc_score,
+         C_Ct, catch_score, 
+         stock_score)
 
-DT::datatable(stocks_scored)
+stocks_scored %>%
+  DT::datatable()
 
-ggplot(stocks_scored %>%
-         filter(stock_spp != 'sockeye'), 
-       aes(x = year, y = stock_score, color = stock)) +
+write_csv(stocks_scored, file.path(dir_goal, 'int', 'salmon_stocks_scored.csv'))
+
+```
+
+``` {r plot_salmon_stock_scores}
+
+stocks_scored <- read_csv(file.path(dir_goal, 'int', 'salmon_stocks_scored.csv'))
+
+for(stock_name in stocks_scored$stock %>% unique()) { ### stock_name <- stocks_scored$stock[1]
+  stock_df <- stocks_scored %>%
+    filter(stock == stock_name)
+  
+  score_plot <- ggplot(stock_df, aes(x = year)) +
+    ggtheme_plot() +
+    geom_line(aes(y = esc_score), size = 2, alpha = .6, color = 'blue') +
+    geom_line(aes(y = E_Et),   size = .5, alpha = .6, color = 'blue', linetype = 'dashed') +
+    geom_line(aes(y = catch_score), size = 2, alpha = .6, color = 'red4') +
+    geom_line(aes(y = C_Ct),   size = .5, alpha = .6, color = 'red4', linetype = 'dashed') +
+    ylim(c(0, NA)) +
+    labs(title = stock_name,
+         y = 'solid = rescaled score, dashed = X/X_target')
+    
+  stock_plot <- ggplot(stock_df, aes(x = year, y = stock_score)) +
+    ggtheme_plot() +
+    geom_line(size = 2, color = 'grey60', alpha = 1) +
+    geom_point(size = 3, color = 'grey60', alpha = 1) +
+    geom_line(size = 1, alpha = .8, color = 'red4',  aes(y = catch_score)) +
+    geom_line(size = 1, alpha = .8, color = 'blue', aes(y = esc_score)) +
+    ylim(c(0, 1)) +
+    labs(title = '(R=catch, B=escapes, Grey=tot)',
+         y = 'Score and components')
+
+  multi_plot <- cowplot::plot_grid(score_plot, stock_plot, align = 'v')
+  print(multi_plot)
+}
+
+```
+
+## Combine scores across all BC
+
+Because commercial salmon harvests are often brought to harbors away from the place of catch, and because we are scoring based on a subset of all commercial fisheries, we simply aggregate all salmon fishery scores to the overall BC coastal scale.
+
+``` {r combine_scores}
+
+stocks_scored <- read_csv(file.path(dir_goal, 'int', 'salmon_stocks_scored.csv')) %>%
+  filter(!is.na(year) & year <= 2016)
+
+combined_score <- stocks_scored %>%
+  group_by(year) %>%
+  summarize(sal_score = mean(stock_score, na.rm = TRUE))
+  
+ggplot(combined_score, aes(x = year, y = sal_score)) +
   ggtheme_plot() +
-  geom_line(size = 2) +
-  geom_point(size = 3) +
-  ylim(c(0, 1)) + 
-  facet_wrap( ~ stock_spp)
+  geom_line(color = 'salmon', size = 2) +
+  ylim(c(0, 1)) +
+  labs(title = 'Overall SAL score',
+       y = 'SAL score')
 
-ggplot(stocks_scored %>%
-         filter(stock_spp == 'sockeye'), 
-       aes(x = year, y = stock_score, color = stock)) +
-  ggtheme_plot() +
-  geom_line(size = 2) +
-  geom_point(size = 3) +
-  ylim(c(0, 1)) + 
-  facet_wrap( ~ stock)
 ```
 
 -----
