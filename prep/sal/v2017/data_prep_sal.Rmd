@@ -260,18 +260,6 @@ Using an approximate normalized standard deviation of $\sigma_E = 0.60$ and a ma
     E_{0,2}' &= 1 - m_{E2} (1 + \sigma_E)    = 1 - (-1.25)(1.6)     =  3.00 \text{ for } \sigma_E = 0.60\\
 \end{align*}
           
-``` {r plot escapement control rule}
-ecr_df <- data.frame(x = c(0, .4, 1, 1.6, 2.2, 3.0),
-                     y = c(0,  0, 1,   1, .25, .25))
-
-ggplot(ecr_df, aes(x, y)) +
-  ggtheme_plot() +
-  geom_line() +
-  labs(x = 'E/E(target)',
-       y = "Rescaled E' score")
-
-```
-
 ### Rescaling $C/C_{target}$
 
 ``` {r determine_C_refs}
@@ -311,20 +299,6 @@ Using an approximate normalized standard deviation of 1.20, we set an upper buff
     m_{C2}   &= -\frac{1}{\sigma_C}                = -\frac{1}{1.2} = -0.83 \text{ for } \sigma_C = 1.20\\
     C_{0,2}' &= -m_{C2} (1 + \sigma_C)             = +.83 (2.2)     =  1.83 \text{ for } \sigma_C = 1.20\\
 \end{align*}
-          
-``` {r plot catch control rule}
-ccr_df <- data.frame(x = c( 0.0, 0.6, 1.0, 2.2),
-                     y = c(0.25, 1.0, 1.0, 0.0))
-
-ggplot(ccr_df, aes(x, y)) +
-  ggtheme_plot() +
-  geom_line() +
-  labs(x = 'C/C(target)',
-       y = "Rescaled C' score")
-
-```
-
-### Calculate $E'$ and $C'$ for all stocks and years
 
 ``` {r implement C_prime and E_prime functions}
 
@@ -362,6 +336,31 @@ calc_c_prime <- function(C_Ct) {
                        TRUE                  ~ NA_real_)
 }
 ```
+
+Plotting the scores in the style of the FIS Kobe plots, note the effects of the asymmetric buffers around 1.0.  Penalties for exceeding catch targets and not achieving escapement targets both begin right at the targets of $\frac{C}{C_{target}} = 1.0$ and $\frac{E}{E_{target}} = 1.0$ respectively, rather than the buffer we include for uncertainty in stock assessments for FIS scores.
+
+``` {r}
+
+### run scores for each axis from 0 to 2.5, step 0.01 (251 instances)
+plot_df <- data.frame(E_Et = rep(seq(0, 2.5, .01), times = 251),
+                      C_Ct = rep(seq(0, 2.5, .01), each = 251)) %>%
+  mutate(E_prime   = calc_e_prime(E_Et),
+         C_prime   = calc_c_prime(C_Ct),
+         SAL_score = E_prime * C_prime) %>%
+  gather(facet, score, E_prime:SAL_score)
+
+ggplot(plot_df, aes(x = E_Et, y = C_Ct)) +
+  ggtheme_plot() +
+  geom_raster(aes(fill = score)) +
+  scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
+  geom_hline(yintercept = 1, color = 'grey70') +
+  geom_vline(xintercept = 1, color = 'grey70') +
+  facet_wrap( ~ facet) +
+  labs(x = 'E/E_target', y = 'C/C_target')
+
+```
+## Calculate $E'$ and $C'$ for all stocks and years
+
 
 ``` {r calc_salmon_components}
 
