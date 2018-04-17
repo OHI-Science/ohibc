@@ -1,7 +1,5 @@
 
 FIS <- function(layers) {
-
-
   ##### Gather parameters and layers #####
   ### * ram_b_bmsy, ram_f_fmsy, ram_catch
   ### * rgn_stock_wt_uniform, _saup, _dfo
@@ -58,7 +56,7 @@ FIS <- function(layers) {
     underfished_th <- 1.5
 
     bmax_adj <- (bmax - underfished_th) / (1 - bmax_val) + underfished_th
-    ### this is used to create a "virtual" B/Bmsy max where score drops
+    ### this is used to create a 'virtual' B/Bmsy max where score drops
     ### to zero.  If bmax_val == 0, this is bmax; if bmax_val > 0, bmax_adj
     ### extends beyond bmax, to create a gradient where bmax_val occurs at bmax.
 
@@ -220,7 +218,7 @@ FIS <- function(layers) {
     bind_rows(fis_trend) %>%
     select(goal, dimension, region_id, score)
 
-  message('returning from FIS')
+  # message('returning from FIS')
 
   return(fis_scores)
 
@@ -287,8 +285,8 @@ MAR <- function(layers) {
            dimension = 'status')
 
   ## reference points
-  write_ref_pts(goal   = "MAR",
-                method = "XXXXXXXX",
+  write_ref_pts(goal   = 'MAR',
+                method = 'XXXXXXXX',
                 ref_pt = NA)
 
   ### prepare scores (status and trend) for current status year
@@ -302,7 +300,7 @@ MAR <- function(layers) {
     bind_rows(mar_trend) %>%
     select(region_id, goal, dimension, score)
 
-  message('Returning from MAR')
+  # message('Returning from MAR')
   return(mar_scores)
 
 }
@@ -311,7 +309,7 @@ SAL <- function(layers) {
 
   ##### Gather parameters and layers #####
   ### * sal_catch, sal_escapes
-  message('Now starting SAL')
+  # message('Now starting SAL')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
@@ -332,7 +330,7 @@ SAL <- function(layers) {
   ### Function for converting E/E_target values into a 0 - 1 score
   calc_e_prime <- function(E_Et) {
     delta_e <- .25 ### max overescape penalty
-    c_v_e <- 0.6 ### std deviation of C/Ctarget
+    c_v_e <- 0.6 ### Coefficient of variation of E/E_target
 
     m_e1 <- 1 / c_v_e
     m_e2 <- - (1 - delta_e)/(c_v_e)
@@ -364,9 +362,9 @@ SAL <- function(layers) {
 
   stocks_scored <- stocks %>%
     rowwise() %>%
-    mutate(esc_score   = calc_e_prime(E_Et)  %>% round(5),
-           catch_score = calc_c_prime(C_Ct)  %>% round(5),
-           stock_score = prod(c(esc_score, catch_score), na.rm = TRUE) %>% round(5)) %>%
+    mutate(esc_score   = calc_e_prime(E_Et),
+           catch_score = calc_c_prime(C_Ct),
+           stock_score = prod(c(esc_score, catch_score), na.rm = TRUE)) %>%
     filter(!(is.na(esc_score) & is.na(catch_score))) %>% ### if both esc_score and catch_score are NA, drop the row
     ungroup() %>%
     select(rgn_id, stock, year,
@@ -392,7 +390,7 @@ SAL <- function(layers) {
     bind_rows(sal_trend) %>%
     select(goal, dimension, region_id, score)
 
-  message('returning from SAL')
+  # message('returning from SAL')
 
   return(sal_scores)
 
@@ -400,57 +398,82 @@ SAL <- function(layers) {
 
 FP <- function(layers, scores) {
 
-  # # weights
-  # w <-  SelectLayersData(layers, layers='fp_wildcaught_weight', narrow = TRUE) %>%
+  ### Here we will weight FIS and MAR as in global
+  ### (i.e. (FIS * catch + MAR * harvest) / (catch + harvest))
+  ### and SAL will be given 0.5 weight (one third of total weight)
+
+  message('Beginning FP goal, starting with weights')
+
+  ### weights
+  # w <-  SelectLayersData(layers, layers = 'fp_wildcaught_weight', narrow = TRUE) %>%
   #   select(region_id = id_num, w_FIS = val_num); head(w)
-  #
-  # # scores
-  # s <- scores %>%
-  #   filter(goal %in% c('FIS', 'MAR')) %>%
-  #   filter(!(dimension %in% c('pressures', 'resilience'))) %>%
-  #   left_join(w, by="region_id")  %>%
-  #   mutate(w_MAR = 1 - w_FIS) %>%
-  #   mutate(weight = ifelse(goal == "FIS", w_FIS, w_MAR))
-  #
-  #
-  # ## Some warning messages due to potential mismatches in data:
-  # # NA score but there is a weight
-  # tmp <- filter(s, goal=='FIS' & is.na(score) & (!is.na(w_FIS) & w_FIS!=0) & dimension == "score")
-  # if(dim(tmp)[1]>0){
-  #   warning(paste0("Check: these regions have a FIS weight but no score: ",
-  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
-  #
-  # tmp <- filter(s, goal=='MAR' & is.na(score) & (!is.na(w_MAR) & w_MAR!=0) & dimension == "score")
-  # if(dim(tmp)[1]>0){
-  #   warning(paste0("Check: these regions have a MAR weight but no score: ",
-  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
-  #
-  # # score, but the weight is NA or 0
-  # tmp <- filter(s, goal=='FIS' & (!is.na(score) & score > 0) & (is.na(w_FIS) | w_FIS==0) & dimension == "score" & region_id !=0)
-  # if(dim(tmp)[1]>0){
-  #   warning(paste0("Check: these regions have a FIS score but no weight: ",
-  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
-  #
-  # tmp <- filter(s, goal=='MAR' & (!is.na(score) & score > 0) & (is.na(w_MAR) | w_MAR==0) & dimension == "score" & region_id !=0)
-  # if(dim(tmp)[1]>0){
-  #   warning(paste0("Check: these regions have a MAR score but no weight: ",
-  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
-  #
-  # s <- s  %>%
-  #   group_by(region_id, dimension) %>%
-  #   summarize(score = weighted.mean(score, weight, na.rm=TRUE)) %>%
-  #   mutate(goal = "FP") %>%
-  #   ungroup() %>%
-  #   select(region_id, goal, dimension, score) %>%
-  #   data.frame()
-  #
-  # # return all scores
-  # return(rbind(scores, s))
-  return(rbind(scores,
-               data.frame(goal = 'FP',
-                          region_id = rep(c(1:8), 2),
-                          dimension = c(rep('status', 8), rep('trend', 8)),
-                          score = rep(NA, 16))))
+
+  ### Wildcaught weight will be calculated from catch weight / (catch + harvest),
+  ### but for now just weight both equally
+  w <- data.frame(region_id = c(1:8),
+                  w_FIS     = rep(.5, 8))
+
+  message('getting FP scores')
+  ### scores
+  fp_w_wts <- scores %>%
+    filter(goal %in% c('FIS', 'MAR', 'SAL')) %>%
+    filter(!(dimension %in% c('pressures', 'resilience'))) %>%
+    left_join(w, by='region_id')  %>%
+    mutate(w_FIS = as.double(w_FIS),
+           w_MAR = 1 - w_FIS) %>%
+    mutate(weight = case_when(goal == 'FIS' ~ w_FIS,
+                              goal == 'MAR' ~ w_MAR,
+                              goal == 'SAL' ~ 0.5))
+
+  ### Some warning messages due to potential mismatches in data:
+  ### NA score but there is a weight
+  tmp <- fp_w_wts %>% filter(goal=='FIS' & is.na(score) &
+                                   (!is.na(w_FIS) & w_FIS!=0) &
+                                   dimension == 'score')
+  if(dim(tmp)[1]>0){
+    warning(paste0('Check: these regions have a FIS weight but no score: ',
+                   paste(as.character(tmp$region_id), collapse = ', ')))}
+
+  tmp <- fp_w_wts %>% filter(goal=='MAR' & is.na(score) &
+                                   (!is.na(w_MAR) & w_MAR!=0) &
+                                   dimension == 'score')
+  if(dim(tmp)[1]>0){
+    warning(paste0('Check: these regions have a MAR weight but no score: ',
+                   paste(as.character(tmp$region_id), collapse = ', ')))}
+
+  ### score, but the weight is NA or 0
+  tmp <- fp_w_wts %>% filter(goal=='FIS' & (!is.na(score) & score > 0) &
+                                   (is.na(w_FIS) | w_FIS==0) &
+                                   dimension == 'score' & region_id !=0)
+  if(dim(tmp)[1]>0){
+    warning(paste0('Check: these regions have a FIS score but no weight: ',
+                   paste(as.character(tmp$region_id), collapse = ', ')))}
+
+  tmp <- fp_w_wts %>% filter(goal=='MAR' & (!is.na(score) & score > 0) &
+                                   (is.na(w_MAR) | w_MAR==0) &
+                                   dimension == 'score' & region_id !=0)
+  if(dim(tmp)[1]>0){
+    warning(paste0('Check: these regions have a MAR score but no weight: ',
+                   paste(as.character(tmp$region_id), collapse = ', ')))}
+
+  ### NOTE: Salmon weight will be constant; when scores are calculated with
+  ### a weighted mean, and SAL is NA, na.rm will drop that from the calc including
+  ### the weight.
+
+  message('Calculating weighted mean for FP')
+
+  fp_combined <- fp_w_wts  %>%
+    group_by(region_id, dimension) %>%
+    summarize(score = weighted.mean(score, weight, na.rm=TRUE)) %>%
+    mutate(goal = 'FP') %>%
+    ungroup() %>%
+    select(region_id, goal, dimension, score) %>%
+    data.frame()
+
+  message('returning from FP')
+  ### return all scores
+  return(rbind(scores, fp_combined))
+
 }
 
 AO <- function(layers) {
@@ -466,16 +489,21 @@ AO <- function(layers) {
   licenses <- layers$data[['ao_licenses']] %>% select(-layer)
   licenses_ref <- layers$data[['ao_licenses_fn_pop']] %>% select(-layer)
   shi      <- layers$data[['ao_spawn_hab_index']] %>% select(-layer)
-  salmon   <- layers$data[['ao_salmon']] %>% select(-layer)
+  sal_C    <- layers$data[['sal_catch']] %>% select(-layer)
+  sal_E    <- layers$data[['sal_escapes']] %>% select(-layer)
+
 
   ### assign weights to each layer
   component_wts <- c('shellfish_closures' = 1,
                      'fn_licenses' = 1,
                      'herring_spawn' = 1,
-                     'salmon' = 0)
+                     'salmon' = 1)
 
   ### Calculate status for each component
+
+  ############################################################################=
   ### Closures:
+  ############################################################################=
   ### * proportion of year open for access; 0 closures = 100%
   closure_status <- closures %>%
     group_by(rgn_id) %>%
@@ -486,7 +514,9 @@ AO <- function(layers) {
            component = 'shellfish_closures') %>%
     select(year, region_id, status, component)
 
+  ############################################################################=
   ### Licenses:
+  ############################################################################=
   ### * prop of licenses allocated to FNs, with some level (25%?) as target?
   ### * no net loss vs some rolling average?
   ### * Reference point idea: % FN licenses is equal to FN pop, with some minimum
@@ -507,7 +537,9 @@ AO <- function(layers) {
     select(year, region_id, status, component)
   # ggplot(license_status, aes(x = year, y = status, group = region_id, color = region_id)) + geom_line()
 
+  ############################################################################=
   ### Spawn habitat index
+  ############################################################################=
   ### * SHI vs historical reference point of mean SHI from 1940-1960.
   shi_hist_ref <- shi %>%
     group_by(rgn_id) %>%
@@ -528,18 +560,57 @@ AO <- function(layers) {
            component = 'herring_spawn') %>%
     select(year, region_id, status, component)
 
+  ############################################################################=
   ### Salmon
-  ### * dummy for now
-  salmon_status <- salmon %>%
-    group_by(rgn_id) %>%
-    complete_rgn_years(status_yr_span) %>%
+  ############################################################################=
+  ### Similar to SAL goal except:
+  ### * status based only on Escapements if available; if not,
+  ###   status based on Catch
+  ### * Escapes not penalized for overescapement
+  ### * Catch not penalized for underharvest
+  stocks <- sal_C %>%
+    full_join(sal_E, by = c('rgn_id', 'year', 'stock'))
+
+  ##### run each salmon stock through the E' and C' calcs #####
+  ### Function for converting E/E_target values into a 0 - 1 score
+  calc_e_prime_ao <- function(E_Et) {
+    c_v_e <- 0.6 ### Coefficient of variation of E/E_target
+    m_e1 <- 1 / c_v_e
+    e_0_1 <- 1 - m_e1
+    e_prime <- case_when(E_Et < 1.0 - c_v_e      ~ 0,
+                         E_Et < 1.0                ~ e_0_1 + m_e1 * E_Et,
+                         TRUE                      ~ NA_real_)
+  }
+
+  ### Function for converting C/C_target values into a 0 - 1 score
+  calc_c_prime_ao <- function(C_Ct) {
+    c_prime <- case_when(C_Ct < 1.0            ~ 1.0,
+                         C_Ct < 2.0            ~ 2.0 - C_Ct,
+                         C_Ct >= 2.0           ~ 0,
+                         TRUE                  ~ NA_real_)
+  }
+
+  stocks_scored <- stocks %>%
+    rowwise() %>%
+    mutate(esc_score   = calc_e_prime_ao(E_Et),
+           catch_score = calc_c_prime_ao(C_Ct),
+           stock_score = ifelse(is.na(esc_score), catch_score, esc_score)) %>%
     ungroup() %>%
-    mutate(status = 0,
-           component = 'salmon') %>%
-    select(year, region_id, status, component)
+    select(rgn_id, stock, year,
+           stock_score)
 
+  salmon_status <- stocks_scored %>%
+    group_by(rgn_id, year) %>%
+    summarize(status = mean(stock_score, na.rm = TRUE)) %>%
+    ungroup() %>%
+    complete_rgn_years(status_yr_span, method = 'none') %>%
+    filter(!is.na(status)) %>% ### kinda cancels the complete_rgn_years, but just for form
+    mutate(component = 'salmon')
+  message('  * Yes, that is what we want - same score given to all regions')
 
+  ############################################################################=
   ### Combine all components by weighting
+  ############################################################################=
   ao_status <- bind_rows(closure_status, license_status, shi_status, salmon_status) %>%
     mutate(comp_wt = component_wts[component]) %>%
     group_by(region_id, year) %>%
@@ -566,14 +637,14 @@ AO <- function(layers) {
   ### write element weights to layers object for pressures/resilience calculations
   ao_weights <- ao_status_components %>%
     filter(year == status_year) %>%
-    mutate(layer = "element_wts_ao_components") %>%
+    mutate(layer = 'element_wts_ao_components') %>%
     select(rgn_id = region_id, component, ao_comp_status = status, layer)
 
   layers$data$element_wts_ao_components <- ao_weights
 
   ### reference points
-  write_ref_pts(goal   = "AO",
-                method = "XXXXXXXX",
+  write_ref_pts(goal   = 'AO',
+                method = 'XXXXXXXX',
                 ref_pt = NA)
 
   ### prepare scores (status and trend) for current status year
@@ -642,15 +713,15 @@ CSS <- function(layers) {
     ungroup()
 
   ## reference points
-  write_ref_pts(goal   = "CS",
-                method = "XXXXXXXX",
+  write_ref_pts(goal   = 'CS',
+                method = 'XXXXXXXX',
                 ref_pt = NA)
 
   ### write element weights to layers object for pressures/resilience calculations
   cs_weights <- cs_components %>%
     filter(year == status_year) %>%
     mutate(cs_km2_x_storage = area_hab * cbr,
-           layer = "element_wts_cs_km2_x_storage") %>%
+           layer = 'element_wts_cs_km2_x_storage') %>%
     select(rgn_id = region_id, habitat, cs_km2_x_storage, layer)
 
   layers$data$element_wts_cs_km2_x_storage <- cs_weights
@@ -727,14 +798,14 @@ CPP <- function(layers) {
   cp_weights <- cp_components %>%
     filter(year == status_year) %>%
     mutate(cp_km2_x_exposure_x_protection = expos_area_tot * prot,
-           layer = "element_wts_cp_km2_x_exposure_x_protection") %>%
+           layer = 'element_wts_cp_km2_x_exposure_x_protection') %>%
     select(rgn_id = region_id, habitat, cp_km2_x_exposure_x_protection, layer)
 
   layers$data$element_wts_cp_km2_x_exposure_x_protection <- cp_weights
 
   ### reference points
-  write_ref_pts(goal   = "CP",
-                method = "XXXXXXXX",
+  write_ref_pts(goal   = 'CP',
+                method = 'XXXXXXXX',
                 ref_pt = NA)
 
   ### prepare scores (status and trend) for current status year
@@ -762,7 +833,7 @@ ES <- function(scores) {
   s <- s  %>%
     group_by(region_id, dimension) %>%
     summarize(score = mean(score, na.rm=TRUE)) %>%
-    mutate(goal = "ES") %>%
+    mutate(goal = 'ES') %>%
     ungroup() %>%
     select(region_id, goal, dimension, score) %>%
     data.frame()
@@ -869,7 +940,7 @@ LE <- function(scores) {
   s <- s  %>%
     group_by(region_id, dimension) %>%
     summarize(score = mean(score, na.rm=TRUE)) %>%
-    mutate(goal = "LE") %>%
+    mutate(goal = 'LE') %>%
     ungroup() %>%
     select(region_id, goal, dimension, score) %>%
     data.frame()
@@ -1025,7 +1096,7 @@ ICO <- function(layers) {
 
   ### Linear trend calculated only for species with two or more assessments,
   ### and not using BC-specific scores; otherwise use the COSEWIC trend or
-  ### "population trend" method of calculation using these values:
+  ### 'population trend' method of calculation using these values:
   ### For species with more than one assessment, calculate linear model trend
   ico_lm_trends <- ico_risk_by_year %>%
     group_by(iucn_sid, am_sid) %>%
@@ -1074,8 +1145,8 @@ ICO <- function(layers) {
 
 
   ### write reference points
-  write_ref_pts(goal   = "ICO",
-                method = "scaled IUCN risk categories",
+  write_ref_pts(goal   = 'ICO',
+                method = 'scaled IUCN risk categories',
                 ref_pt = NA)
 
   ### combine and return scores df
@@ -1108,7 +1179,7 @@ LSP <- function(layers, ref_pct_cmpa = 30, ref_pct_cp = 30) {
   ### get percent of total area that is protected for inland (cp) and
   ### offshore (cmpa) per year, and calculate status score
   rgn_yrs <- prot_area_rgn %>%
-    full_join(tot_area_rgn, by = "region_id") %>%
+    full_join(tot_area_rgn, by = 'region_id') %>%
     mutate(pct_cp    = pmin(cp   / area_inland   * 100, 100),
            pct_cmpa  = pmin(cmpa / area_offshore * 100, 100),
            status    = ( pmin(pct_cp / ref_pct_cp, 1) + pmin(pct_cmpa / ref_pct_cmpa, 1) ) / 2) %>%
@@ -1128,10 +1199,10 @@ LSP <- function(layers, ref_pct_cmpa = 30, ref_pct_cp = 30) {
   rgn_trend <-calc_trend(rgn_status, trend_years)
 
   ### reference points
-  write_ref_pts(goal   = "LSP",
-                method = paste0(ref_pct_cmpa, "% marine protected area; ",
-                                ref_pct_cp, "% coastal protected area"),
-                ref_pt = "varies by area of region's eez and 1 km inland")
+  write_ref_pts(goal   = 'LSP',
+                method = paste0(ref_pct_cmpa, '% marine protected area; ',
+                                ref_pct_cp, '% coastal protected area'),
+                ref_pt = 'varies by area of region eez and 1 km inland')
 
   ### return scores
   scores_lsp <- rgn_status %>%
@@ -1221,7 +1292,7 @@ CW <- function(layers) {
   rgn_trend <-calc_trend(rgn_status, trend_years)
 
   ### reference points
-  write_ref_pts(goal   = "CW",
+  write_ref_pts(goal   = 'CW',
                 method = 'Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure',
                 ref_pt = NA)
 
@@ -1281,8 +1352,8 @@ HAB <- function(layers) {
            score = ifelse(score > 1, 1, score) * 100)
 
   ### reference points
-  write_ref_pts(goal   = "HAB",
-                method = "XXXXXXXX",
+  write_ref_pts(goal   = 'HAB',
+                method = 'XXXXXXXX',
                 ref_pt = NA)
 
   ### write element weights to layers object for pressures/resilience calculations
@@ -1292,7 +1363,7 @@ HAB <- function(layers) {
     complete(habitat = unique(hab_components$habitat)) %>%
     ungroup() %>%
     mutate(hab_presence = !is.na(status)) %>%
-    mutate(layer = "element_wts_hab_pres_abs") %>%
+    mutate(layer = 'element_wts_hab_pres_abs') %>%
     select(rgn_id = region_id, habitat, hab_presence, layer)
 
   layers$data$element_wts_hab_pres_abs <- hab_weights
@@ -1325,13 +1396,13 @@ SPP <- function(layers) {
 
 
   ## reference points
-  write_ref_pts(goal   = "SPP",
-                method = "Average of IUCN risk categories, scaled to historic extinction",
+  write_ref_pts(goal   = 'SPP',
+                method = 'Average of IUCN risk categories, scaled to historic extinction',
                 ref_pt = NA)
 
   ### prepare scores (status and trend) for current status year.
   ### Linear trend calculated only for species with two or more assessments,
-  ### and not using BC-specific scores; otherwise use the "population trend"
+  ### and not using BC-specific scores; otherwise use the 'population trend'
   ### method of calculation using these values:
   pop_trend_score_lookup <- c('increasing' = 0.025, 'decreasing' = -0.025, 'stable' = 0)
 
