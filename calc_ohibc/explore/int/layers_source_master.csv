@@ -68,6 +68,8 @@ po_pathogen.csv,po_pathogen,Thu Aug 24 17:41:31 2017 -0700,ohibc:prep/cw/v2017/c
 po_trash.csv,po_trash,Fri Apr 14 21:19:37 2017 -0700,ohibc:prep/cw/v2017/cw_goal_est.rmd,ohibc:prep/cw/v2017/output
 rgn_areas.csv,rgn_areas,Thu Aug 24 11:10:00 2017,ohibc:prep/_spatial/v2017/spatial_layers_prep.Rmd,ohibc:prep/_spatial/v2017/output
 rgn_labels.csv,rgn_labels,Thu Aug 24 11:10:00 2017,ohibc:prep/_spatial/v2017/spatial_layers_prep.Rmd,ohibc:prep/_spatial/v2017/output
+sal_catch.csv,sal_catch,Mon Apr 16 20:51:28 2018 -0700,ohibc:prep/sal/v2017/data_prep_sal.Rmd,ohibc:prep/sal/v2017/output
+sal_escapes.csv,sal_escapes,Mon Apr 16 20:51:28 2018 -0700,ohibc:prep/sal/v2017/data_prep_sal.Rmd,ohibc:prep/sal/v2017/output
 prs_inv_spp.csv,sp_alien,Wed Aug 2 13:42:41 2017 -0700,ohibc:prep/_pressures/v2017/pressures_alien_spp.Rmd,ohibc:prep/_pressures/v2017/output
 prs_genesc.csv,sp_genetic,Thu Aug 3 18:21:22 2017 -0700,ohibc:prep/_pressures/v2017/pressures_gen_escapes.Rmd,ohibc:prep/_pressures/v2017/output
 spp_status_3nm.csv,species_diversity_3nm,Fri May 19 11:48:28 2017 -0700,ohibc:prep/spp_ico/v2017/data_prep_spp.Rmd,ohibc:prep/spp_ico/v2017/output

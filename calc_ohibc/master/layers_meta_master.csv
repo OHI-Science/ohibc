@@ -68,7 +68,8 @@ po_trash,CW pressure,Marine plastics,scaled 0-1,Global marine plastics
 po_water,pressure,Management and regulations to control water pollution to preserve biodiversity,scaled 0-1,Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: tourism related questions
 rgn_areas,spatial,Region areas based on EEZ boundaries,km2,Area of OHIBC regions modified from MaPP boundaries within BC exclusive economic zone
 rgn_labels,spatial,Regions,region name,Region names by region ID
-sal_stock_status,SAL,Salmon stock health,stock status,Salmon stock health as a proxy for access to salmon for commercial fishing purposes
+sal_catch,SAL,Salmon catch/catch target,C/Ct,Salmon catch relative to catch target as proxy for maximizing sustainable yield for commercial fishing purposes
+sal_escapes,SAL,Salmon escapements/escapement target,E/Et,Salmon escapements relative to escapements target as a proxy for sustainable biomass for commercial fishing purposes
 sp_alien,pressure,Nonindigenous species,scaled 0-1,Measure of harmful invasive species
 sp_genetic,pressure,Genetic escapes,scaled 0-1,Introduced mariculture species (Mariculture Sustainability Index) as a proxy for genetic escapes
 species_diversity_3nm,resilience,Measure of coastal ecological integrity,scaled 0-1,Marine species condition (same calculation and data as the species subgoal status score)  calculated within 3 nm of shoreline as a proxy for ecological integrity

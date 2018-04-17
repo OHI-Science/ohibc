@@ -34,7 +34,7 @@ dir_spatial <- file.path(dir_git, 'prep/_spatial')
 
 dir_data_bc  <- file.path(dir_M, 'git-annex/bcprep', '_raw_data')
 
-# library(provRmd); prov_setup()
+library(provRmd); prov_setup()
 
 reload <- FALSE
 
@@ -44,9 +44,6 @@ reload <- FALSE
 # Summary: OHIBC Salmon
 
 This script prepares layers Salmon sub-goals for food provision and First Nations Resource Access Opportunity in British Columbia's coastal regions.  
-
-From Halpern et al. (2012) :
-
 
 -----
 
@@ -211,7 +208,39 @@ write_csv(stocks, file.path(dir_goal, 'int/salmon_data_cleaned.csv'))
 
 ```
 
+## Write output layers
+
+Output layers for functions.R will be simply the year, stock, E/Et, C/Ct; these will each be assigned equally across all regions.
+
+``` {r}
+
+stocks <- read_csv(file.path(dir_goal, 'int/salmon_data_cleaned.csv'))
+
+yrs <- stocks$year %>% unique() %>% sort()
+rgn_yrs <- data.frame(rgn_id = rep(c(1:6, 8), times = length(yrs)),
+                      year   = rep(yrs, each = 7))
+
+stock_layers <- stocks %>%
+  mutate(E_Et        = (escapes / esc_tgt) %>% round(5),
+         C_Ct        = (catch_tgt / catch) %>% round(5)) %>%
+  filter(!(is.na(E_Et) & is.na(C_Ct))) %>% ### if both esc_score and catch_score are NA, drop the row
+  select(stock, year, E_Et, C_Ct) %>%
+  left_join(rgn_yrs, by = 'year')
+
+catch_layer <- stock_layers %>%
+  select(rgn_id, year, stock, C_Ct)
+
+escapes_layer <- stock_layers %>%
+  select(rgn_id, year, stock, E_Et)
+
+write_csv(catch_layer,   file.path(dir_goal, 'output', 'sal_catch.csv'))
+write_csv(escapes_layer, file.path(dir_goal, 'output', 'sal_escapes.csv'))
+
+```
+
 ## Calculate analogs to B' and F'
+
+___NOTE: From here, these calculations are not canon - the official calculations are stored within `functions.R`.  However, these calculations were used to determine and test those official calculations.___
 
 For FIS wild capture fisheries, we use a combination of rescaled B/Bmsy and F/Fmsy based on thresholds and targets.
 
@@ -221,7 +250,7 @@ For each axis, we determine the mean and standard deviation.  By determining mea
 
 By calculating mean and SD across the entire dataset without grouping by species or number of assessed years, we are implicitly weighting by number of stocks and number of years per stock (e.g. holding years constant, then sockeye (eight fisheries) carry the same weight as all others combined (2 Chinook, 3 Chum, 2 Pink, 1 Coho)).
 
-Normalizing by the mean we recenter and rescale the distribution around the ideal value of 1.0.
+Calculating a coefficient of variation (i.e. $\sigma/\mu$) we recenter and rescale the distribution around the ideal value of 1.0.
 
 ### Rescaling $E/E_{target}$
 
@@ -236,28 +265,28 @@ E_dist <- stocks_rescaled %>%
   filter(!is.na(E_Et)) %>%
   summarize(mean_E_Et    = mean(E_Et),
             sd_E_Et      = sd(E_Et),
-            sd_norm_E_Et = sd_E_Et / mean_E_Et)
+            c_v_E_Et = sd_E_Et / mean_E_Et)
 
 knitr::kable(E_dist)
 ```
 
 For escapes, we wish to penalize underescapement rather harshly, while being more lenient on overescapement.  Under or over escapement can result from poor management or targets based on poor pre-season estimates, either one of which is problematic in maintaining a sustainable fishery.
 
-Using an approximate normalized standard deviation of $\sigma_E = 0.60$ and a max overescapement penalty of $\delta_E = .25$, we set thresholds away from the target (i.e. 1.0) at 1 std dev below, 1 std dev above, and 2 std devs above.
+Using an approximate coefficient of variation of $c_{v,E} = 0.60$ and a max overescapement penalty of $\delta_E = .25$, we set thresholds away from the target (i.e. 1.0) at 1 std dev below, 1 std dev above, and 2 std devs above.
 
 \begin{align*}
   E' &= \begin{cases}
-    0                            &\text{ when } \frac{E}{E_t} < (1 - \sigma_E)\\
-    E_{0,1}' + m_{E1} \frac{E}{E_t} &\text{ when } (1 - \sigma_E) \leq \frac{E}{E_t} < 1.0\\
-    1.0                          &\text{ when } 1.0 \leq \frac{E}{E_t} < (1 + \sigma_E)\\
-    E_{0,2}' + m_{E2} \frac{E}{E_t} &\text{ when } (1 + \sigma_E) \leq \frac{E}{E_t} < (1 + 2 \sigma_E)\\
-    \delta_E                       &\text{ when } \frac{E}{E_t} \geq (1 + 2 \sigma_E)
+    0.0                             &\text{ when } \frac{E}{E_t} < (1.0 - c_{v,E})\\
+    E_{0,1}' + m_{E1} \frac{E}{E_t} &\text{ when } (1.0 - c_{v,E}) \leq \frac{E}{E_t} < 1.0\\
+    1.0                             &\text{ when } 1.0 \leq \frac{E}{E_t} < (1.0 + c_{v,E})\\
+    E_{0,2}' + m_{E2} \frac{E}{E_t} &\text{ when } (1.0 + c_{v,E}) \leq \frac{E}{E_t} < (1.0 + 2 c_{v,E})\\
+    \delta_E                        &\text{ when } \frac{E}{E_t} \geq (1.0 + 2 c_{v,E})
   \end{cases}\\
   \text{Where: }\\
-    m_{E1}      &= \frac{1}{\sigma_E}        = \frac{1}{.6}         =  1.67 \text{ for } \sigma_E = 0.60\\
-    E_{0,1}' &= 1 - m_{E1}                   = \frac{-.4}{.6}       =  -.67 \text{ for } \sigma_E = 0.60\\
-    m_{E2}      &= -\frac{1 - \delta_E}{\sigma_E} = -\frac{.75}{.6} = -1.25 \text{ for } \sigma_E = 0.60\\
-    E_{0,2}' &= 1 - m_{E2} (1 + \sigma_E)    = 1 - (-1.25)(1.6)     =  3.00 \text{ for } \sigma_E = 0.60\\
+    m_{E1}      &= \frac{1}{c_{v,E}}         = \frac{1}{.6}        =  1.67 \text{ for } c_{v,E} = 0.60\\
+    E_{0,1}' &= 1 - m_{E1}                   = \frac{-.4}{.6}      =  -.67 \text{ for } c_{v,E} = 0.60\\
+    m_{E2}      &= -\frac{1 - \delta_E}{c_{v,E}} = -\frac{.75}{.6} = -1.25 \text{ for } c_{v,E} = 0.60\\
+    E_{0,2}' &= 1 - m_{E2} (1 + c_{v,E})     = 1 - (-1.25)(1.6)    =  3.00 \text{ for } c_{v,E} = 0.60\\
 \end{align*}
           
 ### Rescaling $C/C_{target}$
@@ -284,20 +313,18 @@ knitr::kable(C_dist)
 
 For catch, we wish to penalize excessive catch rather harshly, while being more lenient on under-harvest.  Under or over catch, as with escapement, can result from poor management or targets based on poor pre-season estimates, either one of which is problematic in maintaining a sustainable fishery.
 
-Using an approximate normalized standard deviation of 1.20, we set an upper buffer at 1 std dev above the target.  Below $C/C_t = 1.0$ we set a buffer $\gamma_C = .40$, representing an allowance for uncertainty as well as intentional underharvest for ecological purposes (e.g. "one third for the birds" - and orcas, and bears, etc).  Below this threshold, $C'$ decreases to a minimum value of $\delta_C = 0.25$ at a catch (and thus $C/C_{target}$) of zero.
+We calculated a coefficient of variation for catch $c_{v,C}$ at about 1.20, which is rather high.  To better match our wild-capture fisheries model, we instead set an upper buffer at $C/C_t$ = 2.0 (rather than 1 $c_{v,C}$ above).  Below $C/C_t = 1.0$ we set a buffer $\gamma_C = .40$, representing an allowance for uncertainty as well as intentional underharvest for ecological purposes (e.g. "one third for the birds" - and orcas, and bears, etc).  Below this threshold, $C'$ decreases to a minimum value of $\delta_C = 0.25$ at a catch (and thus $C/C_{target}$) of zero.
 
 \begin{align*}
   C' &= \begin{cases}
-    C_{0,1}' + m_{C1} \frac{C}{C_t}  &\text{ when } \frac{C}{C_t} < 1 - \gamma_C\\
-    1                                &\text{ when } 1 - \gamma_C \leq \frac{C}{C_t} < 1\\
-    C_{0,2}' + m_{C2} \frac{C}{C_t}  &\text{ when } 1 \leq \frac{C}{C_t} < 1 + \sigma_C\\
-    0                                &\text{ when } \frac{C}{C_t} \geq 1 + \sigma_C
+    C_{0,1}' + m_{C1} \frac{C}{C_t}  &\text{ when } \frac{C}{C_t} < 1.0 - \gamma_C\\
+    1.0                              &\text{ when } 1.0 - \gamma_C \leq \frac{C}{C_t} < 1.0\\
+    2.0 - \frac{C}{C_t}              &\text{ when } 1.0 \leq \frac{C}{C_t} < 2.0\\
+    0.0                              &\text{ when } \frac{C}{C_t} \geq 2.0
   \end{cases}\\
   \text{Where: }\\
-    m_{C1}   &= \frac{1 - \delta_C}{1 - \gamma_C}  = \frac{.75}{.6} =  1.25\\
-    C_{0,1}' &= \delta_C                                            =  0.25\\
-    m_{C2}   &= -\frac{1}{\sigma_C}                = -\frac{1}{1.2} = -0.83 \text{ for } \sigma_C = 1.20\\
-    C_{0,2}' &= -m_{C2} (1 + \sigma_C)             = +.83 (2.2)     =  1.83 \text{ for } \sigma_C = 1.20\\
+    m_{C1}   &= \frac{1 - \delta_C}{1.0 - \gamma_C}  = \frac{.75}{.6} =  1.25\\
+    C_{0,1}' &= \delta_C                                              =  0.25
 \end{align*}
 
 ``` {r implement C_prime and E_prime functions}
@@ -319,22 +346,20 @@ calc_e_prime <- function(E_Et) {
                        TRUE                      ~ NA_real_)
 }
 
-calc_c_prime <- function(C_Ct) {
-  delta_c <- .25 ### max undercatch penalty
-  gamma_c <- 0.4 ### undercatch buffer
-  sigma_c <- 1.2 ### std deviation of C/Ctarget
-  
-  m_c1 <- (1 - delta_c) / (1 - gamma_c)
-  m_c2 <- - 1 / sigma_c
-  c_0_1 <- delta_c
-  c_0_2 <- -m_c2 * (1 + sigma_c)
-  
-  c_prime <- case_when(C_Ct < 1.0 - gamma_c  ~ c_0_1 + m_c1 * C_Ct,
-                       C_Ct < 1.0            ~ 1.0,
-                       C_Ct < 1.0 + sigma_c  ~ c_0_2 + m_c2 * C_Ct,
-                       C_Ct >= 1.0 + sigma_c ~ 0,
-                       TRUE                  ~ NA_real_)
-}
+  calc_c_prime <- function(C_Ct) {
+    delta_c <- .25 ### max undercatch penalty
+    gamma_c <- 0.4 ### undercatch buffer
+
+    m_c1 <- (1 - delta_c) / (1 - gamma_c)
+    c_0_1 <- delta_c
+
+    c_prime <- case_when(C_Ct < 1.0 - gamma_c  ~ c_0_1 + m_c1 * C_Ct,
+                         C_Ct < 1.0            ~ 1.0,
+                         C_Ct < 2.0            ~ 2.0 - C_Ct,
+                         C_Ct >= 2.0           ~ 0,
+                         TRUE                  ~ NA_real_)
+  }
+
 ```
 
 Plotting the scores in the style of the FIS Kobe plots, note the effects of the asymmetric buffers around 1.0.  Penalties for exceeding catch targets and not achieving escapement targets both begin right at the targets of $\frac{C}{C_{target}} = 1.0$ and $\frac{E}{E_{target}} = 1.0$ respectively, rather than the buffer we include for uncertainty in stock assessments for FIS scores.
@@ -446,11 +471,13 @@ ggplot(combined_score, aes(x = year, y = sal_score)) +
   labs(title = 'Overall SAL score',
        y = 'SAL score')
 
+DT::datatable(combined_score)
 ```
+
 
 -----
 
-``` {r provenance, results = 'asis', eval = FALSE}
+``` {r provenance, results = 'asis'}
 
 prov_wrapup()
 

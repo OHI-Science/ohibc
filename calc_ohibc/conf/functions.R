@@ -302,62 +302,100 @@ MAR <- function(layers) {
     bind_rows(mar_trend) %>%
     select(region_id, goal, dimension, score)
 
+  message('Returning from MAR')
   return(mar_scores)
 
 }
 
 SAL <- function(layers) {
 
-  # # weights
-  # w <-  SelectLayersData(layers, layers='fp_wildcaught_weight', narrow = TRUE) %>%
-  #   select(region_id = id_num, w_FIS = val_num); head(w)
-  #
-  # # scores
-  # s <- scores %>%
-  #   filter(goal %in% c('FIS', 'MAR')) %>%
-  #   filter(!(dimension %in% c('pressures', 'resilience'))) %>%
-  #   left_join(w, by="region_id")  %>%
-  #   mutate(w_MAR = 1 - w_FIS) %>%
-  #   mutate(weight = ifelse(goal == "FIS", w_FIS, w_MAR))
-  #
-  #
-  # ## Some warning messages due to potential mismatches in data:
-  # # NA score but there is a weight
-  # tmp <- filter(s, goal=='FIS' & is.na(score) & (!is.na(w_FIS) & w_FIS!=0) & dimension == "score")
-  # if(dim(tmp)[1]>0){
-  #   warning(paste0("Check: these regions have a FIS weight but no score: ",
-  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
-  #
-  # tmp <- filter(s, goal=='MAR' & is.na(score) & (!is.na(w_MAR) & w_MAR!=0) & dimension == "score")
-  # if(dim(tmp)[1]>0){
-  #   warning(paste0("Check: these regions have a MAR weight but no score: ",
-  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
-  #
-  # # score, but the weight is NA or 0
-  # tmp <- filter(s, goal=='FIS' & (!is.na(score) & score > 0) & (is.na(w_FIS) | w_FIS==0) & dimension == "score" & region_id !=0)
-  # if(dim(tmp)[1]>0){
-  #   warning(paste0("Check: these regions have a FIS score but no weight: ",
-  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
-  #
-  # tmp <- filter(s, goal=='MAR' & (!is.na(score) & score > 0) & (is.na(w_MAR) | w_MAR==0) & dimension == "score" & region_id !=0)
-  # if(dim(tmp)[1]>0){
-  #   warning(paste0("Check: these regions have a MAR score but no weight: ",
-  #                  paste(as.character(tmp$region_id), collapse = ", ")))}
-  #
-  # s <- s  %>%
-  #   group_by(region_id, dimension) %>%
-  #   summarize(score = weighted.mean(score, weight, na.rm=TRUE)) %>%
-  #   mutate(goal = "FP") %>%
-  #   ungroup() %>%
-  #   select(region_id, goal, dimension, score) %>%
-  #   data.frame()
-  #
-  # # return all scores
-  # return(rbind(scores, s))
-  return(data.frame(goal = 'SAL',
-                    region_id = rep(c(1:8), 2),
-                    dimension = c(rep('status', 8), rep('trend', 8)),
-                    score = rep(NA, 16)))
+  ##### Gather parameters and layers #####
+  ### * sal_catch, sal_escapes
+  message('Now starting SAL')
+
+  status_year    <- layers$data$scenario_year
+  data_year      <- status_year
+  status_yr_span <- layers$data$status_year_span
+
+  sal_C        <- layers$data[['sal_catch']] %>%
+    select(-layer)
+  sal_E        <- layers$data[['sal_escapes']] %>%
+    select(-layer)
+
+  stocks <- sal_C %>%
+    full_join(sal_E, by = c('rgn_id', 'year', 'stock'))
+
+  #############################################################.
+  ##### run each salmon stock through the E' and C' calcs #####
+  #############################################################.
+
+  ### Function for converting E/E_target values into a 0 - 1 score
+  calc_e_prime <- function(E_Et) {
+    delta_e <- .25 ### max overescape penalty
+    c_v_e <- 0.6 ### std deviation of C/Ctarget
+
+    m_e1 <- 1 / c_v_e
+    m_e2 <- - (1 - delta_e)/(c_v_e)
+    e_0_1 <- 1 - m_e1
+    e_0_2 <- 1 - m_e2 * (1 + c_v_e)
+
+    e_prime <- case_when(E_Et < 1.0 - c_v_e      ~ 0,
+                         E_Et < 1.0                ~ e_0_1 + m_e1 * E_Et,
+                         E_Et < 1.0 + c_v_e      ~ 1,
+                         E_Et < 1.0 + 2 * c_v_e  ~ e_0_2 + m_e2 * E_Et,
+                         E_Et >= 1.0 + 2 * c_v_e ~ delta_e,
+                         TRUE                      ~ NA_real_)
+  }
+
+  ### Function for converting C/C_target values into a 0 - 1 score
+  calc_c_prime <- function(C_Ct) {
+    delta_c <- .25 ### max undercatch penalty
+    gamma_c <- 0.4 ### undercatch buffer
+
+    m_c1 <- (1 - delta_c) / (1 - gamma_c)
+    c_0_1 <- delta_c
+
+    c_prime <- case_when(C_Ct < 1.0 - gamma_c  ~ c_0_1 + m_c1 * C_Ct,
+                         C_Ct < 1.0            ~ 1.0,
+                         C_Ct < 2.0            ~ 2.0 - C_Ct,
+                         C_Ct >= 2.0           ~ 0,
+                         TRUE                  ~ NA_real_)
+  }
+
+  stocks_scored <- stocks %>%
+    rowwise() %>%
+    mutate(esc_score   = calc_e_prime(E_Et)  %>% round(5),
+           catch_score = calc_c_prime(C_Ct)  %>% round(5),
+           stock_score = prod(c(esc_score, catch_score), na.rm = TRUE) %>% round(5)) %>%
+    filter(!(is.na(esc_score) & is.na(catch_score))) %>% ### if both esc_score and catch_score are NA, drop the row
+    ungroup() %>%
+    select(rgn_id, stock, year,
+           stock_score)
+
+  sal_status <- stocks_scored %>%
+    group_by(rgn_id, year) %>%
+    summarize(score = mean(stock_score, na.rm = TRUE)) %>%
+    ungroup() %>%
+    complete_rgn_years(status_yr_span, method = 'none') %>%
+    mutate(score     = 100 * score,
+           goal      = 'SAL',
+           dimension = 'status')
+
+  ### prepare scores (status and trend) for current status year
+
+  trend_years <- (data_year - 4) : data_year
+  sal_trend   <- calc_trend(sal_status, trend_years)
+
+  sal_scores <- sal_status %>%
+    filter(year == data_year) %>%
+    filter(!is.na(region_id)) %>%
+    bind_rows(sal_trend) %>%
+    select(goal, dimension, region_id, score)
+
+  message('returning from SAL')
+
+  return(sal_scores)
+
 }
 
 FP <- function(layers, scores) {

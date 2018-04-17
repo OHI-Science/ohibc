@@ -66,7 +66,8 @@ po_trash,ohibc:prep/cw/v2017/output,po_trash.csv,TRUE,trash_pressure
 po_water,ohibc:calc_ohibc/master/dummy_layers,po_water_gl2016.csv,TRUE,resilience_score
 rgn_areas,ohibc:prep/_spatial/v2017/output,rgn_areas.csv,TRUE,area_km2
 rgn_labels,ohibc:prep/_spatial/v2017/output,rgn_labels.csv,TRUE,rgn_name
-sal_stock_status,ohibc:prep/sal/v2017/output,sal_stock_status.csv,TRUE,stock_status
+sal_catch,ohibc:prep/sal/v2017/output,sal_catch.csv,TRUE,C_Ct
+sal_escapes,ohibc:prep/sal/v2017/output,sal_escapes.csv,TRUE,E_Et
 sp_alien,ohibc:prep/_pressures/v2017/output,prs_inv_spp.csv,TRUE,pressure
 sp_genetic,ohibc:prep/_pressures/v2017/output,prs_genesc.csv,TRUE,pressure
 species_diversity_3nm,ohibc:prep/spp_ico/v2017/output,spp_status_3nm.csv,TRUE,status
