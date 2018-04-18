@@ -152,7 +152,7 @@ hake <- landings_df %>%
          stock_id = "PHAKEPCOAST") %>%
   select(stock_id, year, catch)
 
-write.csv(hake, "output/hake_catch.csvß")
+write.csv(hake, "output/hake_catch.csv")
 
 ```
 
