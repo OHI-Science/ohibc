@@ -1,0 +1,211 @@
+---
+title: "Calculating FIS, MAR, and SAL weights from DFO's Year in Review reports"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+# Setup
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
+dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+
+
+### goal specific folders and info
+goal      <- 'fis'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_spatial  <- file.path(dir_git, 'prep/_spatial')
+
+### provenance tracking
+library(provRmd); prov_setup()
+
+### packages
+library(readxl)
+```
+
+This script cleans up annual catch data by species for BC and calculates the weights of wild-caught salmon (SAL), other wild-caught fish (FIS), and mariculture (MAR). The data was translated, by hand, from pdf copies of the Year in Review reports as shared by DFO into excel. 
+
+# Clean data
+
+```{r}
+catch_xl <- file.path(dir_anx, '_raw_data/DFO_YearinReview/Data_YearinReview_RAW.xlsx')
+excel_sheets(catch_xl)
+```
+
+
+## Collect all sheets
+
+Each group of years is located in distinct sheets. We need to read each in, clean them and then aggregate into one long-format dataframe, keeping only the landings and harvest observations, rather than economic value.
+
+```{r}
+
+landings_df <- data.frame()
+
+shts <- excel_sheets(catch_xl)
+
+for(sht in shts) { ### sht <- shts[1]
+  
+  sheet <- read_xlsx(catch_xl, sheet = sht) 
+  
+  ### take the first row, which has the years and find the minimum.
+  yrs <- slice(sheet, 1) %>% 
+           unlist(., use.names = FALSE) %>%
+    unique() 
+  
+  yr_min <- min(yrs, na.rm = TRUE)
+  
+  ### need to rename columns
+  colnames(sheet) <- paste0(colnames(sheet), '_', sheet[1, ])
+  colnames(sheet)[1] <- 'species'
+  
+  df <- sheet %>%
+    clean_df_names() %>%
+    gather(key = 'variable', value = 'value', -species) %>% 
+    mutate(year     = str_extract(variable, '[0-9]{4}'),
+           variable = str_replace_all(variable, '_[0-9_]+', '')) %>%
+    mutate(species  = tolower(species),
+           value    = ifelse(value == '<.1', 0, value),
+           value    = as.numeric(value),
+           year     = as.numeric(year)) %>%
+    filter(!is.na(species)) %>%
+    filter(str_detect(variable, 'landings|harvest|value')) %>%
+    mutate(xl_sheet = sht)
+  ### values are in thousands of tons. since we're getting a prop we don't 
+  ### need to multiply by 1000 here. Different years have landings or harvest 
+  ### as column names
+
+
+  ### For most of the sheets we only want to use the earliest year, as we have
+  ### more trust in these being true values given the time lag to update them. 
+  ### But there are some years where no report was created, including 2007, 
+  ### 2008, and 2014. We need to make some exceptions in filtering out these 
+  ### data years.
+  
+  yr_shts <- data.frame()
+
+  if(yr_min %in% c(2004, 2013)) {
+    df <- df %>%
+      filter(!is.na(year))
+  }
+  if(yr_min == 2011) {
+    df <- df %>%
+      filter(year %in% c(2011, 2012))
+  }
+  if(yr_min %in% c(1998:2003, 2005:2010)){
+    df <- df %>%
+      filter(year == yr_min)
+  }
+
+  ### bind df to landings_df
+  landings_df <- bind_rows(df, landings_df)
+  
+}
+
+DT::datatable(landings_df)
+
+write_csv(landings_df, file.path(dir_goal, 'int/dfo_yr_in_review_totals.csv'))
+
+```
+
+## Identify by FIS, SAL, MAR
+
+We will need to identify which rows are totals vs. individual species, and where each species falls into the three subgoals.
+
+Calculate total catch for each year for the species we're interested in (basically remove salmon and farmed species).
+
+```{r}
+
+landings_df <- read_csv(file.path(dir_goal, 'int/dfo_yr_in_review_totals.csv'))
+
+landings_clean <- landings_df %>%
+  mutate(species = str_replace_all(species, '[^a-z]', ''),
+         species = str_replace(species, 'cultured', 'farmed'))
+  
+### Check that target rows are present in all years
+spp_yr_df <- landings_clean %>% 
+  select(species, year) %>%
+  arrange(year) %>%
+  group_by(species) %>%
+  summarize(yrs = ifelse(sum(year %in% 1998:2015) == 18, 'all', paste0(year, collapse = ', ')))
+### * 'herring', 'groundfish', 'farmedsalmon', 'wildsalmon', 
+###   'wildshellfish': all years
+### * 'farmedshellfish' and 'shellfishfarmed': all years (together)
+### 
+### 'othersum' sometimes refers to tuna, sardines, and other; sometimes 
+### it excludes tuna/sardines.
+### * Use 'othernonfarmed' where available (created to sum tuna, sardines, 
+###   and other where the original data did not), 
+### * otherwise use 'othersum' where the original data included those species.
+
+wild_spp <- c('herring', 'groundfish', 'wildsalmon', 'wildshellfish', 'othersum', 'othernonfarmed')
+farm_spp <- c('farmedsalmon', 'farmedshellfish', 'shellfishfarmed', 'otherfarmed')
+
+landings_by_category <- landings_clean %>%
+  group_by(year) %>%
+  mutate(fis_mar_sal = case_when(
+    species %in% farm_spp   ~ 'mar',
+    species == 'wildsalmon' ~ 'sal',
+    species == 'othersum' & 
+      any(str_detect(species, 'othernonfarmed')) ~ NA_character_,
+    species %in% wild_spp   ~ 'fis',
+    TRUE                  ~ NA_character_)) %>%
+  ungroup() %>%
+  filter(!is.na(fis_mar_sal) & !is.na(year)) %>%
+  mutate(variable = str_replace(variable, 'harvest|landings', 'weight')) %>%
+  select(-xl_sheet)
+
+write_csv(landings_by_category, file.path(dir_goal, 'int/dfo_yr_in_review_fis_mar_sal.csv'))
+
+```
+
+## Examine plots of harvest, landed value, wholesale value
+``` {r}
+
+landings_by_category <- read_csv(file.path(dir_goal, 'int/dfo_yr_in_review_fis_mar_sal.csv'))
+  
+landings_prop_df <- landings_by_category %>%
+  group_by(year, variable) %>%
+  mutate(total = sum(value)) %>%
+  group_by(year, variable, fis_mar_sal) %>%
+  summarize(total_category = sum(value),
+            total = first(total),
+            prop_category = total_category / total) %>%
+  ungroup()
+
+DT::datatable(landings_prop_df)
+
+write_csv(landings_prop_df, 'output/catch_props_fis_mar_sal.csv')
+
+ggplot(landings_prop_df, aes(x = year, y = prop_category, color = fis_mar_sal)) + 
+  geom_line() + 
+  theme_bw() + 
+  ylim(c(0, NA)) +
+  labs(y = 'Proportion of total',
+       x = 'Year', 
+       title = 'Proportion of weight or value by goal',
+       color = 'Goal') +
+  facet_grid( . ~ variable)
+```
+
+
+
+
