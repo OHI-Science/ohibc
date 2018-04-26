@@ -398,79 +398,43 @@ SAL <- function(layers) {
 
 FP <- function(layers, scores) {
 
-  ### Here we will weight FIS and MAR as in global
-  ### (i.e. (FIS * catch + MAR * harvest) / (catch + harvest))
-  ### and SAL will be given 0.5 weight (one third of total weight)
+  ### Here we will weight FIS, MAR, and SAL equally.  In BC, wild-capture
+  ### fishing landed weight and mariculture harvest weights are approaching
+  ### parity based on the DFO year-in-review literature.  While wild-caught
+  ### salmon fall significantly lower in harvest, they are important in terms
+  ### of cultural importance and are likely eaten in greater proportion
+  ### relative to hake, which drive the wild-caught mass.
+  ### As such, we've decided that an equal weighting across all three
+  ### emphasizes the outsize importance of all three in BC's ability
+  ### to provide sustainable seafood to its citizens and the globe.
+  ### NOTE: for years in which any one subgoal score is NA, the other scores
+  ### will equally contribute to the overall FP score (e.g. when MAR is NA,
+  ### FIS and SAL scores will each contribute half of the FP score).
 
-  message('Beginning FP goal, starting with weights')
 
-  ### weights
-  # w <-  SelectLayersData(layers, layers = 'fp_wildcaught_weight', narrow = TRUE) %>%
-  #   select(region_id = id_num, w_FIS = val_num); head(w)
-
-  ### Wildcaught weight will be calculated from catch weight / (catch + harvest),
-  ### but for now just weight both equally
-  w <- data.frame(region_id = c(1:8),
-                  w_FIS     = rep(.5, 8))
+  wts <- data.frame(region_id = c(1:8),
+                    w_FIS     = rep(.333, 8),
+                    w_MAR     = rep(.333, 8),
+                    w_SAL     = rep(.333, 8))
 
   message('getting FP scores')
   ### scores
   fp_w_wts <- scores %>%
     filter(goal %in% c('FIS', 'MAR', 'SAL')) %>%
     filter(!(dimension %in% c('pressures', 'resilience'))) %>%
-    left_join(w, by='region_id')  %>%
-    mutate(w_FIS = as.double(w_FIS),
-           w_MAR = 1 - w_FIS) %>%
+    left_join(wts, by='region_id')  %>%
     mutate(weight = case_when(goal == 'FIS' ~ w_FIS,
                               goal == 'MAR' ~ w_MAR,
-                              goal == 'SAL' ~ 0.5))
-
-  ### Some warning messages due to potential mismatches in data:
-  ### NA score but there is a weight
-  tmp <- fp_w_wts %>% filter(goal=='FIS' & is.na(score) &
-                                   (!is.na(w_FIS) & w_FIS!=0) &
-                                   dimension == 'score')
-  if(dim(tmp)[1]>0){
-    warning(paste0('Check: these regions have a FIS weight but no score: ',
-                   paste(as.character(tmp$region_id), collapse = ', ')))}
-
-  tmp <- fp_w_wts %>% filter(goal=='MAR' & is.na(score) &
-                                   (!is.na(w_MAR) & w_MAR!=0) &
-                                   dimension == 'score')
-  if(dim(tmp)[1]>0){
-    warning(paste0('Check: these regions have a MAR weight but no score: ',
-                   paste(as.character(tmp$region_id), collapse = ', ')))}
-
-  ### score, but the weight is NA or 0
-  tmp <- fp_w_wts %>% filter(goal=='FIS' & (!is.na(score) & score > 0) &
-                                   (is.na(w_FIS) | w_FIS==0) &
-                                   dimension == 'score' & region_id !=0)
-  if(dim(tmp)[1]>0){
-    warning(paste0('Check: these regions have a FIS score but no weight: ',
-                   paste(as.character(tmp$region_id), collapse = ', ')))}
-
-  tmp <- fp_w_wts %>% filter(goal=='MAR' & (!is.na(score) & score > 0) &
-                                   (is.na(w_MAR) | w_MAR==0) &
-                                   dimension == 'score' & region_id !=0)
-  if(dim(tmp)[1]>0){
-    warning(paste0('Check: these regions have a MAR score but no weight: ',
-                   paste(as.character(tmp$region_id), collapse = ', ')))}
-
-  ### NOTE: Salmon weight will be constant; when scores are calculated with
-  ### a weighted mean, and SAL is NA, na.rm will drop that from the calc including
-  ### the weight.
-
-  message('Calculating weighted mean for FP')
+                              goal == 'SAL' ~ w_SAL))
 
   fp_combined <- fp_w_wts  %>%
     group_by(region_id, dimension) %>%
-    summarize(score = weighted.mean(score, weight, na.rm=TRUE)) %>%
+    summarize(score = weighted.mean(score, weight, na.rm = TRUE)) %>%
     mutate(goal = 'FP') %>%
     ungroup() %>%
     select(region_id, goal, dimension, score) %>%
     data.frame()
 
-  message('returning from FP')
   ### return all scores
   return(rbind(scores, fp_combined))
 
