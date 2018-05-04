@@ -303,6 +303,12 @@ write_csv(pop_csd, file.path(dir_goal, 'int/pop_csd_yr.csv'))
 
 ## Read in census data on income and employment rate
 
+The R package `cancensus` provides census information for 2006, 2011, and 2016.  A comparison between the `cancensus` results and the downloaded data show consistency in both unemployment rate (see note below) and income, when comparing median total household income (as opposed to individual or family income!)
+
+For consistency we will use the `cancensus` reported median household income results for 2006 and 2011 (as well as 2016).
+
+Unemployment results are similar across all, though there are some large percentage discrepancies for some communities - note that these tend to be very small communities where a change in reporting for a few individuals may make a significant change in the percent unemployment.  We will use `cancensus` reported unemployment rates for 2006, 2011, and 2016.
+
 ### Census data 1996
 
 1996 data are archived as SDMX.  
@@ -411,32 +417,52 @@ census_2001 <- read_csv(census_2001_file, skip = 2) %>%
   select(geo_code, csd_name, topic, characteristic, total) %>%
   distinct() %>%
   mutate(year = 2001)
+emp_inc_2001 <- census_2001 %>%
+  filter(str_detect(tolower(topic), 'income|labour|household')) %>%
+  filter(str_detect(tolower(characteristic), 'median (household )?income.+all.+households|unemployment'))
+  
 census_2006 <- read_csv(census_2006_file, skip = 2) %>%
   clean_df_names() %>%
   select(geo_code, csd_name, topic, characteristic, total) %>%
   distinct() %>%
   mutate(year = 2006)
+emp_inc_2006 <- census_2006 %>%
+  filter(str_detect(tolower(topic), 'income|labour|household')) %>%
+  filter(str_detect(tolower(characteristic), 'median (household )?income.+all.+households|unemployment'))
+
 census_2011 <- read_csv(census_2011_file, skip = 0) %>%
   clean_df_names() %>%
   select(geo_code, csd_name, topic, characteristic, total) %>%
   distinct() %>%
   mutate(year = 2011)
+emp_inc_2011 <- census_2011 %>%
+  filter(str_detect(tolower(topic), 'income|labour|household')) %>%
+  filter(str_detect(tolower(characteristic), 'median household total income|unemployment'))
 
-topics <- c('income', 'labour force', 'population') %>%
-  paste(collapse = '|')
-census_010611 <- bind_rows(census_2001, census_2006, census_2011) %>%
-  filter(str_detect(tolower(topic), topics))
+emp_inc_df <- bind_rows(emp_inc_2001, emp_inc_2006, emp_inc_2011)
 
-# y <- census_010611 %>%
-#   select(year, characteristic) %>%
-#   distinct()
+x <- emp_inc_df %>%
+  rename(csd_id = geo_code, csd_name_a = csd_name) %>%
+  mutate(characteristic = tolower(characteristic),
+         characteristic = case_when(str_detect(characteristic, 'income') ~ 'med_income_a',
+                                    str_detect(characteristic, 'unempl') ~ 'unempl_rate_a',
+                                    str_detect(characteristic, 'empl')   ~ 'empl_rate_a')) %>%
+  spread(characteristic, total)
+                          
+y <- inc_emp_06_11_16 %>%
+  full_join(x, by = c('csd_id', 'year')) %>%
+  select(csd_id, csd_name, year, pop = population,
+         unemp_rate, unempl_rate_a,
+         med_income, med_income_a) %>%
+  mutate(d_unempl = unemp_rate - unempl_rate_a,
+         d_income = med_income - med_income_a) 
+         
+ggplot(y, aes(x = pop, y = d_income)) +
+  geom_point(aes(color = year), alpha = .5)
 
-characteristics <- c('Median total income', 'Median household total', 
-                     'Median income', 'Employment rate', 'Unemployment rate') %>%
-  paste(collapse = '|')
-
-income_employment_010611 <- census_010611 %>%
-  filter(str_detect(characteristic, characteristics))
+ggplot(y, aes(x = year, y = med_income, group = csd_id)) +
+  geom_line() +
+  geom_line(aes(y = med_income_a), color = 'red', alpha = .5)
 
 write_csv(income_employment_010611, file.path(dir_goal, 'int/income_empl_010611.csv'))
 
@@ -446,72 +472,80 @@ write_csv(income_employment_010611, file.path(dir_goal, 'int/income_empl_010611.
 
 These data only have income fields, no employment fields.
 
-``` {r read_census_2016}
+``` {r read_census_2006_2011_2016}
 
-income_2016_file <- file.path(dir_goal, 'int/income_only_2016.csv')
-census_2016_raw_file <- file.path(dir_goal, 'int/census_raw_2016.csv')
-### 2016 data are saved as a SDMX file for entire Canada
-census_2016_gen_file <- file.path(dir_data_anx, 'canada_census',
-                               '98-400-X2016099/Generic_98-400-X2016099.xml')
-census_2016_str_file <- file.path(dir_data_anx, 'canada_census',
-                               '98-400-X2016099/Structure_98-400-X2016099.xml')
 
-if(!file.exists(census_2016_raw_file)) {
-  
-  # devtools::install_github("opensdmx/rsdmx")
-  census_2016_gen <- rsdmx::readSDMX(census_2016_gen_file, isURL = FALSE) %>%
-    as.data.frame() %>%
-    clean_df_names()
-  census_2016_str <- rsdmx::readSDMX(census_2016_str_file, isURL = FALSE)
-  
-  ### get codelists from structure
-  cls <- slot(census_2016_str, "codelists")
-  
-  ### get list of codelists
-  codelists <- sapply(slot(cls, "codelists"), function(x) slot(x, "id"))
-  # "CL_GEO"                 "CL_A16_HHTYPE_CFSTRUCT" "CL_HHINC_GRP"           "CL_OBS_STATUS"
-  
-  ### get codelist
-  geo_codes <- as.data.frame(slot(census_2016_str, "codelists"), 
-                                codelistId = 'CL_GEO') %>%
-    setNames(c('geo', 'csd_name'))
-  char_codes <- as.data.frame(slot(census_2016_str, "codelists"), 
-                                         codelistId = 'CL_A16_HHTYPE_CFSTRUCT') %>%
-    setNames(c('a16_hhtype_cfstruct', 'value_fr', 'characteristic')) %>%
-    select(-value_fr)
-  
-  income_codes <- as.data.frame(slot(census_2016_str, "codelists"), codelistId = 'CL_HHINC_GRP') %>%
-    setNames(c('hhinc_grp', 'value_fr', 'income_type')) %>%
-    select(-value_fr)
-  
-  codes4 <- as.data.frame(slot(census_2016_str, "codelists"), codelistId = codelists[4]) %>%
-    setNames(c(codelists[4], 'value_fr', 'value')) %>%
-    select(-value_fr) %>%
-    clean_df_names()
-  
-  csd_info <- read_csv(file.path(dir_goal, 'int/csd_2001-2016.csv')) %>%
-    filter(year == 2016)
-  
-  census_2016 <- census_2016_gen %>%
-    clean_df_names() %>%
-    left_join(geo_codes) %>%
-    left_join(char_codes) %>%
-    left_join(income_codes) %>%
-    select(geo_code = geo, csd_name, characteristic, income_type, year = obstime, value = obsvalue) %>%
-    mutate(geo_code = as.integer(geo_code)) %>%
-    filter(geo_code %in% csd_info$csduid)
-  
-  write_csv(census_2016, census_2016_raw_file)
-} else {
-  git_prov(c(census_2016_gen_file, census_2016_str_file), filetype = 'input')
-  git_prov(census_2016_raw_file, filetype = 'output')
-}
+library(cancensus)
 
-income_2016 <- read_csv(census_2016_raw_file) %>%
-  filter(str_detect(income_type, 'Median total income')) %>%
-  filter(str_detect(characteristic, 'Total - Household type'))
+api_key <- scan('~/github/censusmapper_api.txt', what = 'character')
+options(cancensus.cache_path = file.path(dir_goal_anx, 'cancensus_cache'),
+        cancensus.api_key = api_key)
 
-write_csv(income_2016, income_2016_file)
+### Gather 2006 data
+# income_vecs <- cancensus::list_census_vectors('CA06') %>%
+#   filter(str_detect(tolower(label), 'household') & str_detect(tolower(label), 'income'))
+### v_CA06_2000, only 20% data?!
+# unempl_vecs <- cancensus::list_census_vectors('CA06') %>%
+#   filter(str_detect(tolower(label), 'unempl'))
+### v_CA06_582
+
+inc_emp_2006_raw <- cancensus::get_census(dataset = 'CA06', 
+                                      regions = list(PR = '59'),
+                                      vectors = c('v_CA06_2000', 'v_CA06_582'),
+                                      level = 'CSD',
+                                      use_cache = TRUE) 
+
+inc_emp_2006 <- inc_emp_2006_raw %>%
+  clean_df_names() %>%
+  mutate(region_name = as.character(region_name),
+         year = 2006) %>%
+  select(csd_id = geouid, csd_name = region_name,
+         year, area_sq_km, population,
+         unemp_rate = contains('unempl'), med_income = contains('income'))
+### Gather 2011 data
+# income_vecs <- cancensus::list_census_vectors('CA11') %>%
+#   filter(str_detect(tolower(label), 'household') & str_detect(tolower(label), 'income'))
+### v_CA11N_2562
+# unempl_vecs <- cancensus::list_census_vectors('CA11') %>%
+#   filter(str_detect(tolower(label), 'unempl'))
+### v_CA11N_2008
+
+inc_emp_2011_raw <- cancensus::get_census(dataset = 'CA11', 
+                                      regions = list(PR = '59'),
+                                      vectors = c('v_CA11N_2562', 'v_CA11N_2008'),
+                                      level = 'CSD',
+                                      use_cache = TRUE)
+inc_emp_2011 <- inc_emp_2011_raw %>%
+  clean_df_names() %>%
+  mutate(region_name = as.character(region_name),
+         year = 2011) %>%
+  select(csd_id = geouid, csd_name = region_name,
+         year, area_sq_km, population,
+         unemp_rate = contains('unempl'), med_income = contains('income'))
+# income_vecs <- cancensus::list_census_vectors('CA16') %>%
+#   filter(str_detect(tolower(label), 'household') & str_detect(tolower(label), 'income'))
+### looks like v_CA16_2397: Total/Median total income of households in 2015 ($)/100% data
+# unempl_vecs <- cancensus::list_census_vectors('CA16') %>%
+#   filter(str_detect(tolower(label), 'unempl'))
+### looks like v_CA16_5618: Total/Unemployment rate/25% data
+
+inc_emp_2016_raw <- cancensus::get_census(dataset = 'CA16', 
+                                      regions = list(PR = '59'),
+                                      vectors = c('v_CA16_2397', 'v_CA16_5618'),
+                                      level = 'CSD',
+                                      use_cache = TRUE)
+inc_emp_2016 <- inc_emp_2016_raw %>%
+  clean_df_names() %>%
+  mutate(region_name = as.character(region_name),
+         year = 2016) %>%
+  select(csd_id = geouid, csd_name = region_name,
+         year, area_sq_km, population,
+         unemp_rate = contains('unempl'), med_income = contains('income'))
+
+inc_emp_06_11_16 <- bind_rows(list(inc_emp_2006, inc_emp_2011, inc_emp_2016)) %>%
+  mutate(csd_id = as.integer(csd_id))
+
+write_csv(inc_emp_06_11_16, file.path(dir_goal, 'int/inc_emp_06_11_16.csv'))
 
 ```
 
