@@ -1,0 +1,1633 @@
+csd_id,csd_name,topic,characteristic,total,year
+5901003,ELKFORD,Labour Force Indicators,Unemployment rate,6.6,2001
+5901003,ELKFORD,Selected Household Characteristics,"Median household income, 2000 ($) - All households",65430,2001
+5901006,SPARWOOD,Labour Force Indicators,Unemployment rate,10.1,2001
+5901006,SPARWOOD,Selected Household Characteristics,"Median household income, 2000 ($) - All households",55557,2001
+5901012,FERNIE,Labour Force Indicators,Unemployment rate,9.8,2001
+5901012,FERNIE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",46634,2001
+5901017,EAST KOOTENAY A,Labour Force Indicators,Unemployment rate,10.9,2001
+5901017,EAST KOOTENAY A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",52556,2001
+5901019,EAST KOOTENAY B,Labour Force Indicators,Unemployment rate,12.4,2001
+5901019,EAST KOOTENAY B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",41875,2001
+5901022,CRANBROOK,Labour Force Indicators,Unemployment rate,10.7,2001
+5901022,CRANBROOK,Selected Household Characteristics,"Median household income, 2000 ($) - All households",42873,2001
+5901028,KIMBERLEY,Labour Force Indicators,Unemployment rate,10.3,2001
+5901028,KIMBERLEY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",41087,2001
+5901035,EAST KOOTENAY C,Labour Force Indicators,Unemployment rate,9.1,2001
+5901035,EAST KOOTENAY C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",51194,2001
+5901037,EAST KOOTENAY E,Labour Force Indicators,Unemployment rate,7.5,2001
+5901037,EAST KOOTENAY E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49812,2001
+5901039,INVERMERE,Labour Force Indicators,Unemployment rate,4.2,2001
+5901039,INVERMERE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",48324,2001
+5901040,RADIUM HOT SPRINGS,Labour Force Indicators,Unemployment rate,3.1,2001
+5901040,RADIUM HOT SPRINGS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",52151,2001
+5901046,EAST KOOTENAY F,Labour Force Indicators,Unemployment rate,9.7,2001
+5901046,EAST KOOTENAY F,Selected Household Characteristics,"Median household income, 2000 ($) - All households",48953,2001
+5901048,EAST KOOTENAY G,Labour Force Indicators,Unemployment rate,6.3,2001
+5901048,EAST KOOTENAY G,Selected Household Characteristics,"Median household income, 2000 ($) - All households",41948,2001
+5901801,TOBACCO PLAINS 2,Labour Force Indicators,Unemployment rate,0,2001
+5901801,TOBACCO PLAINS 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5901802,ISIDORE'S RANCH 4,Labour Force Indicators,Unemployment rate,NA,2001
+5901802,ISIDORE'S RANCH 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5901803,KOOTENAY 1,Labour Force Indicators,Unemployment rate,35.7,2001
+5901803,KOOTENAY 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5901804,COLUMBIA LAKE 3,Labour Force Indicators,Unemployment rate,11.1,2001
+5901804,COLUMBIA LAKE 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5901805,CASSIMAYOOKS (MAYOOK) 5,Labour Force Indicators,Unemployment rate,NA,2001
+5901805,CASSIMAYOOKS (MAYOOK) 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5901806,SHUSWAP,Labour Force Indicators,Unemployment rate,28.6,2001
+5901806,SHUSWAP,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5901807,BUMMERS FLAT 6,Labour Force Indicators,Unemployment rate,NA,2001
+5901807,BUMMERS FLAT 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5903004,CRESTON,Labour Force Indicators,Unemployment rate,9.9,2001
+5903004,CRESTON,Selected Household Characteristics,"Median household income, 2000 ($) - All households",32970,2001
+5903010,CENTRAL KOOTENAY A,Labour Force Indicators,Unemployment rate,9,2001
+5903010,CENTRAL KOOTENAY A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",28634,2001
+5903011,SALMO,Labour Force Indicators,Unemployment rate,15.5,2001
+5903011,SALMO,Selected Household Characteristics,"Median household income, 2000 ($) - All households",29923,2001
+5903013,CENTRAL KOOTENAY B,Labour Force Indicators,Unemployment rate,9.3,2001
+5903013,CENTRAL KOOTENAY B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",31216,2001
+5903015,NELSON,Labour Force Indicators,Unemployment rate,9,2001
+5903015,NELSON,Selected Household Characteristics,"Median household income, 2000 ($) - All households",38559,2001
+5903017,CENTRAL KOOTENAY C,Labour Force Indicators,Unemployment rate,9,2001
+5903017,CENTRAL KOOTENAY C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",36967,2001
+5903019,SLOCAN,Labour Force Indicators,Unemployment rate,10.8,2001
+5903019,SLOCAN,Selected Household Characteristics,"Median household income, 2000 ($) - All households",31363,2001
+5903023,KASLO,Labour Force Indicators,Unemployment rate,13.1,2001
+5903023,KASLO,Selected Household Characteristics,"Median household income, 2000 ($) - All households",32392,2001
+5903027,SILVERTON,Labour Force Indicators,Unemployment rate,19.2,2001
+5903027,SILVERTON,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5903032,NEW DENVER,Labour Force Indicators,Unemployment rate,15.2,2001
+5903032,NEW DENVER,Selected Household Characteristics,"Median household income, 2000 ($) - All households",24760,2001
+5903039,CENTRAL KOOTENAY D,Labour Force Indicators,Unemployment rate,20.9,2001
+5903039,CENTRAL KOOTENAY D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",27662,2001
+5903041,CENTRAL KOOTENAY E,Labour Force Indicators,Unemployment rate,14.2,2001
+5903041,CENTRAL KOOTENAY E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",37992,2001
+5903043,CENTRAL KOOTENAY F,Labour Force Indicators,Unemployment rate,8.8,2001
+5903043,CENTRAL KOOTENAY F,Selected Household Characteristics,"Median household income, 2000 ($) - All households",55536,2001
+5903045,CASTLEGAR,Labour Force Indicators,Unemployment rate,11.2,2001
+5903045,CASTLEGAR,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44511,2001
+5903047,CENTRAL KOOTENAY G,Labour Force Indicators,Unemployment rate,14.1,2001
+5903047,CENTRAL KOOTENAY G,Selected Household Characteristics,"Median household income, 2000 ($) - All households",36173,2001
+5903050,NAKUSP,Labour Force Indicators,Unemployment rate,20.7,2001
+5903050,NAKUSP,Selected Household Characteristics,"Median household income, 2000 ($) - All households",37033,2001
+5903052,CENTRAL KOOTENAY H,Labour Force Indicators,Unemployment rate,10.9,2001
+5903052,CENTRAL KOOTENAY H,Selected Household Characteristics,"Median household income, 2000 ($) - All households",32869,2001
+5903056,CENTRAL KOOTENAY I,Labour Force Indicators,Unemployment rate,11.7,2001
+5903056,CENTRAL KOOTENAY I,Selected Household Characteristics,"Median household income, 2000 ($) - All households",45599,2001
+5903058,CENTRAL KOOTENAY J,Labour Force Indicators,Unemployment rate,12.6,2001
+5903058,CENTRAL KOOTENAY J,Selected Household Characteristics,"Median household income, 2000 ($) - All households",46816,2001
+5903060,CENTRAL KOOTENAY K,Labour Force Indicators,Unemployment rate,19.1,2001
+5903060,CENTRAL KOOTENAY K,Selected Household Characteristics,"Median household income, 2000 ($) - All households",33624,2001
+5903807,CRESTON 1,Labour Force Indicators,Unemployment rate,18.2,2001
+5903807,CRESTON 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5905005,FRUITVALE,Labour Force Indicators,Unemployment rate,6.7,2001
+5905005,FRUITVALE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49902,2001
+5905009,MONTROSE,Labour Force Indicators,Unemployment rate,16.3,2001
+5905009,MONTROSE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",51014,2001
+5905014,TRAIL,Labour Force Indicators,Unemployment rate,12.5,2001
+5905014,TRAIL,Selected Household Characteristics,"Median household income, 2000 ($) - All households",37314,2001
+5905018,WARFIELD,Labour Force Indicators,Unemployment rate,5,2001
+5905018,WARFIELD,Selected Household Characteristics,"Median household income, 2000 ($) - All households",59312,2001
+5905023,ROSSLAND,Labour Force Indicators,Unemployment rate,8.5,2001
+5905023,ROSSLAND,Selected Household Characteristics,"Median household income, 2000 ($) - All households",51056,2001
+5905026,KOOTENAY BOUNDARY A,Labour Force Indicators,Unemployment rate,11.4,2001
+5905026,KOOTENAY BOUNDARY A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",57005,2001
+5905030,KOOTENAY BOUNDARY B,Labour Force Indicators,Unemployment rate,7.1,2001
+5905030,KOOTENAY BOUNDARY B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",54072,2001
+5905032,GRAND FORKS,Labour Force Indicators,Unemployment rate,7.2,2001
+5905032,GRAND FORKS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",32761,2001
+5905037,MIDWAY,Labour Force Indicators,Unemployment rate,3.8,2001
+5905037,MIDWAY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",43318,2001
+5905042,GREENWOOD,Labour Force Indicators,Unemployment rate,14.5,2001
+5905042,GREENWOOD,Selected Household Characteristics,"Median household income, 2000 ($) - All households",29461,2001
+5905050,KOOTENAY BOUNDARY C,Labour Force Indicators,Unemployment rate,9,2001
+5905050,KOOTENAY BOUNDARY C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",43977,2001
+5905052,KOOTENAY BOUNDARY D,Labour Force Indicators,Unemployment rate,11.1,2001
+5905052,KOOTENAY BOUNDARY D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",37888,2001
+5905054,KOOTENAY BOUNDARY E,Labour Force Indicators,Unemployment rate,9.7,2001
+5905054,KOOTENAY BOUNDARY E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",33214,2001
+5907005,OSOYOOS,Labour Force Indicators,Unemployment rate,9.5,2001
+5907005,OSOYOOS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",32094,2001
+5907009,KEREMEOS,Labour Force Indicators,Unemployment rate,14.5,2001
+5907009,KEREMEOS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",22110,2001
+5907014,OLIVER,Labour Force Indicators,Unemployment rate,8.3,2001
+5907014,OLIVER,Selected Household Characteristics,"Median household income, 2000 ($) - All households",31613,2001
+5907022,OKANAGAN-SIMILKAMEEN A,Labour Force Indicators,Unemployment rate,11.9,2001
+5907022,OKANAGAN-SIMILKAMEEN A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",41058,2001
+5907024,PRINCETON,Labour Force Indicators,Unemployment rate,14.2,2001
+5907024,PRINCETON,Selected Household Characteristics,"Median household income, 2000 ($) - All households",32094,2001
+5907026,OKANAGAN-SIMILKAMEEN B,Labour Force Indicators,Unemployment rate,5.6,2001
+5907026,OKANAGAN-SIMILKAMEEN B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",25610,2001
+5907028,OKANAGAN-SIMILKAMEEN C,Labour Force Indicators,Unemployment rate,7,2001
+5907028,OKANAGAN-SIMILKAMEEN C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",32109,2001
+5907035,SUMMERLAND,Labour Force Indicators,Unemployment rate,8.1,2001
+5907035,SUMMERLAND,Selected Household Characteristics,"Median household income, 2000 ($) - All households",42941,2001
+5907041,PENTICTON,Labour Force Indicators,Unemployment rate,11.2,2001
+5907041,PENTICTON,Selected Household Characteristics,"Median household income, 2000 ($) - All households",33940,2001
+5907047,OKANAGAN-SIMILKAMEEN D,Labour Force Indicators,Unemployment rate,8.1,2001
+5907047,OKANAGAN-SIMILKAMEEN D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44847,2001
+5907049,OKANAGAN-SIMILKAMEEN E,Labour Force Indicators,Unemployment rate,8.6,2001
+5907049,OKANAGAN-SIMILKAMEEN E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",51425,2001
+5907051,OKANAGAN-SIMILKAMEEN F,Labour Force Indicators,Unemployment rate,7.2,2001
+5907051,OKANAGAN-SIMILKAMEEN F,Selected Household Characteristics,"Median household income, 2000 ($) - All households",55811,2001
+5907053,OKANAGAN-SIMILKAMEEN G,Labour Force Indicators,Unemployment rate,10.6,2001
+5907053,OKANAGAN-SIMILKAMEEN G,Selected Household Characteristics,"Median household income, 2000 ($) - All households",24525,2001
+5907055,OKANAGAN-SIMILKAMEEN H,Labour Force Indicators,Unemployment rate,11.5,2001
+5907055,OKANAGAN-SIMILKAMEEN H,Selected Household Characteristics,"Median household income, 2000 ($) - All households",39939,2001
+5907801,LOWER SIMILKAMEEN 2,Labour Force Indicators,Unemployment rate,0,2001
+5907801,LOWER SIMILKAMEEN 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5907802,OSOYOOS 1,Labour Force Indicators,Unemployment rate,7,2001
+5907802,OSOYOOS 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",32547,2001
+5907803,PENTICTON 1,Labour Force Indicators,Unemployment rate,20,2001
+5907803,PENTICTON 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",30072,2001
+5907805,CHOPAKA 7 & 8,Labour Force Indicators,Unemployment rate,0,2001
+5907805,CHOPAKA 7 & 8,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5907806,BLIND CREEK 6,Labour Force Indicators,Unemployment rate,NA,2001
+5907806,BLIND CREEK 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5907807,CHUCHUWAYHA 2,Labour Force Indicators,Unemployment rate,0,2001
+5907807,CHUCHUWAYHA 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5907808,ALEXIS 9,Labour Force Indicators,Unemployment rate,NA,2001
+5907808,ALEXIS 9,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5907809,ASHNOLA 10,Labour Force Indicators,Unemployment rate,33.3,2001
+5907809,ASHNOLA 10,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909009,HOPE,Labour Force Indicators,Unemployment rate,11.9,2001
+5909009,HOPE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",35330,2001
+5909014,FRASER VALLEY A,Labour Force Indicators,Unemployment rate,11.5,2001
+5909014,FRASER VALLEY A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",28288,2001
+5909016,FRASER VALLEY B,Labour Force Indicators,Unemployment rate,13.2,2001
+5909016,FRASER VALLEY B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",27727,2001
+5909020,CHILLIWACK,Labour Force Indicators,Unemployment rate,8.3,2001
+5909020,CHILLIWACK,Selected Household Characteristics,"Median household income, 2000 ($) - All households",42042,2001
+5909027,HARRISON HOT SPRINGS,Labour Force Indicators,Unemployment rate,3.8,2001
+5909027,HARRISON HOT SPRINGS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",37535,2001
+5909032,KENT,Labour Force Indicators,Unemployment rate,5.3,2001
+5909032,KENT,Selected Household Characteristics,"Median household income, 2000 ($) - All households",39304,2001
+5909034,FRASER VALLEY D,Labour Force Indicators,Unemployment rate,5.9,2001
+5909034,FRASER VALLEY D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",51699,2001
+5909036,FRASER VALLEY E,Labour Force Indicators,Unemployment rate,8.4,2001
+5909036,FRASER VALLEY E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",42373,2001
+5909048,FRASER VALLEY C,Labour Force Indicators,Unemployment rate,17.1,2001
+5909048,FRASER VALLEY C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",35890,2001
+5909052,ABBOTSFORD,Labour Force Indicators,Unemployment rate,8.2,2001
+5909052,ABBOTSFORD,Selected Household Characteristics,"Median household income, 2000 ($) - All households",48319,2001
+5909056,MISSION,Labour Force Indicators,Unemployment rate,8.1,2001
+5909056,MISSION,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49905,2001
+5909060,FRASER VALLEY F,Labour Force Indicators,Unemployment rate,13.8,2001
+5909060,FRASER VALLEY F,Selected Household Characteristics,"Median household income, 2000 ($) - All households",37266,2001
+5909062,FRASER VALLEY G,Labour Force Indicators,Unemployment rate,9.1,2001
+5909062,FRASER VALLEY G,Selected Household Characteristics,"Median household income, 2000 ($) - All households",41669,2001
+5909064,FRASER VALLEY H,Labour Force Indicators,Unemployment rate,6.4,2001
+5909064,FRASER VALLEY H,Selected Household Characteristics,"Median household income, 2000 ($) - All households",64025,2001
+5909801,AYWAWWIS 15,Labour Force Indicators,Unemployment rate,NA,2001
+5909801,AYWAWWIS 15,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909802,BOOTHROYD 5A,Labour Force Indicators,Unemployment rate,NA,2001
+5909802,BOOTHROYD 5A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909803,BOOTHROYD 8A,Labour Force Indicators,Unemployment rate,NA,2001
+5909803,BOOTHROYD 8A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909804,CHAWATHIL 4,Labour Force Indicators,Unemployment rate,33.3,2001
+5909804,CHAWATHIL 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909805,INKAHTSAPH 6,Labour Force Indicators,Unemployment rate,NA,2001
+5909805,INKAHTSAPH 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909806,KOPCHITCHIN 2,Labour Force Indicators,Unemployment rate,40,2001
+5909806,KOPCHITCHIN 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909807,OHAMIL 1,Labour Force Indicators,Unemployment rate,0,2001
+5909807,OHAMIL 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909808,PUCKATHOLETCHIN 11,Labour Force Indicators,Unemployment rate,NA,2001
+5909808,PUCKATHOLETCHIN 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909809,SADDLE ROCK 9,Labour Force Indicators,Unemployment rate,NA,2001
+5909809,SADDLE ROCK 9,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909810,LUKSEETSISSUM 9,Labour Force Indicators,Unemployment rate,NA,2001
+5909810,LUKSEETSISSUM 9,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909811,RUBY CREEK 2,Labour Force Indicators,Unemployment rate,NA,2001
+5909811,RUBY CREEK 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909812,SCHKAM 2,Labour Force Indicators,Unemployment rate,37.5,2001
+5909812,SCHKAM 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909813,SHO-OOK 5,Labour Force Indicators,Unemployment rate,NA,2001
+5909813,SHO-OOK 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909814,SKAWAHLOOK 1,Labour Force Indicators,Unemployment rate,NA,2001
+5909814,SKAWAHLOOK 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909815,SPEYUM 3,Labour Force Indicators,Unemployment rate,NA,2001
+5909815,SPEYUM 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909816,SPUZZUM 1,Labour Force Indicators,Unemployment rate,40,2001
+5909816,SPUZZUM 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909817,TUCKKWIOWHUM 1,Labour Force Indicators,Unemployment rate,NA,2001
+5909817,TUCKKWIOWHUM 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909818,YALE TOWN 1,Labour Force Indicators,Unemployment rate,NA,2001
+5909818,YALE TOWN 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909819,KAHMOOSE 4,Labour Force Indicators,Unemployment rate,33.3,2001
+5909819,KAHMOOSE 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909820,CHAUMOX 11,Labour Force Indicators,Unemployment rate,NA,2001
+5909820,CHAUMOX 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909821,KWAWKWAWAPILT 6,Labour Force Indicators,Unemployment rate,10,2001
+5909821,KWAWKWAWAPILT 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",40512,2001
+5909822,SKOWKALE 10,Labour Force Indicators,Unemployment rate,8.3,2001
+5909822,SKOWKALE 10,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909823,SKOWKALE 11,Labour Force Indicators,Unemployment rate,0,2001
+5909823,SKOWKALE 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909824,SKWAH 4,Labour Force Indicators,Unemployment rate,18.8,2001
+5909824,SKWAH 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909825,SKWALI 3,Labour Force Indicators,Unemployment rate,NA,2001
+5909825,SKWALI 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909826,SKWAY 5,Labour Force Indicators,Unemployment rate,40,2001
+5909826,SKWAY 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909827,SOOWAHLIE 14,Labour Force Indicators,Unemployment rate,27.8,2001
+5909827,SOOWAHLIE 14,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909828,SQUIAALA 7,Labour Force Indicators,Unemployment rate,NA,2001
+5909828,SQUIAALA 7,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909829,SQUIAALA 8,Labour Force Indicators,Unemployment rate,NA,2001
+5909829,SQUIAALA 8,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909830,TZEACHTEN 13,Labour Force Indicators,Unemployment rate,14.5,2001
+5909830,TZEACHTEN 13,Selected Household Characteristics,"Median household income, 2000 ($) - All households",31991,2001
+5909831,YAKWEAKWIOOSE 12,Labour Force Indicators,Unemployment rate,50,2001
+5909831,YAKWEAKWIOOSE 12,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909832,SEABIRD ISLAND,Labour Force Indicators,Unemployment rate,21.4,2001
+5909832,SEABIRD ISLAND,Selected Household Characteristics,"Median household income, 2000 ($) - All households",23616,2001
+5909833,SCOWLITZ 1,Labour Force Indicators,Unemployment rate,NA,2001
+5909833,SCOWLITZ 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909834,TSEATAH 2,Labour Force Indicators,Unemployment rate,NA,2001
+5909834,TSEATAH 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909835,AITCHELITCH 9,Labour Force Indicators,Unemployment rate,NA,2001
+5909835,AITCHELITCH 9,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909836,BOSTON BAR 1A,Labour Force Indicators,Unemployment rate,NA,2001
+5909836,BOSTON BAR 1A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909837,CHEAM 1,Labour Force Indicators,Unemployment rate,38.9,2001
+5909837,CHEAM 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909838,SCHELOWAT 1,Labour Force Indicators,Unemployment rate,NA,2001
+5909838,SCHELOWAT 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909839,CHEHALIS 5,Labour Force Indicators,Unemployment rate,30.8,2001
+5909839,CHEHALIS 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",31168,2001
+5909840,SWAHLISEAH 14,Labour Force Indicators,Unemployment rate,NA,2001
+5909840,SWAHLISEAH 14,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909841,STULLAWHEETS 8,Labour Force Indicators,Unemployment rate,NA,2001
+5909841,STULLAWHEETS 8,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909842,DOUGLAS 8,Labour Force Indicators,Unemployment rate,0,2001
+5909842,DOUGLAS 8,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909843,PETERS 1,Labour Force Indicators,Unemployment rate,0,2001
+5909843,PETERS 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909844,POPKUM 1,Labour Force Indicators,Unemployment rate,NA,2001
+5909844,POPKUM 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909845,SKOOKUMCHUCK 4,Labour Force Indicators,Unemployment rate,60,2001
+5909845,SKOOKUMCHUCK 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909846,FRANKS 10,Labour Force Indicators,Unemployment rate,NA,2001
+5909846,FRANKS 10,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909847,BUCKTUM 4,Labour Force Indicators,Unemployment rate,NA,2001
+5909847,BUCKTUM 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909848,TIPELLA 7,Labour Force Indicators,Unemployment rate,NA,2001
+5909848,TIPELLA 7,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909849,SKWAHLA 2,Labour Force Indicators,Unemployment rate,NA,2001
+5909849,SKWAHLA 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909852,BAPTISTE SMITH 1A,Labour Force Indicators,Unemployment rate,NA,2001
+5909852,BAPTISTE SMITH 1A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909855,SACHTEEN 2,Labour Force Indicators,Unemployment rate,NA,2001
+5909855,SACHTEEN 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909860,SACHTEEN 2A,Labour Force Indicators,Unemployment rate,NA,2001
+5909860,SACHTEEN 2A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909865,SAMAHQUAM 1,Labour Force Indicators,Unemployment rate,NA,2001
+5909865,SAMAHQUAM 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909870,KUTHLALTH 3,Labour Force Indicators,Unemployment rate,NA,2001
+5909870,KUTHLALTH 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909875,BAPTISTE SMITH 1B,Labour Force Indicators,Unemployment rate,40,2001
+5909875,BAPTISTE SMITH 1B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909876,ALBERT FLAT 5,Labour Force Indicators,Unemployment rate,NA,2001
+5909876,ALBERT FLAT 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5909877,UPPER SUMAS 6,Labour Force Indicators,Unemployment rate,23.5,2001
+5909877,UPPER SUMAS 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909878,MATSQUI MAIN 2,Labour Force Indicators,Unemployment rate,40,2001
+5909878,MATSQUI MAIN 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909879,HOLACHTEN 8,Labour Force Indicators,Unemployment rate,12.9,2001
+5909879,HOLACHTEN 8,Selected Household Characteristics,"Median household income, 2000 ($) - All households",37637,2001
+5909880,LAKAHAHMEN 11,Labour Force Indicators,Unemployment rate,23.1,2001
+5909880,LAKAHAHMEN 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5909881,SKWEAHM 10,Labour Force Indicators,Unemployment rate,15,2001
+5909881,SKWEAHM 10,Selected Household Characteristics,"Median household income, 2000 ($) - All households",30329,2001
+5909882,SQUAWKUM CREEK 3,Labour Force Indicators,Unemployment rate,42.9,2001
+5909882,SQUAWKUM CREEK 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5915001,LANGLEY,Labour Force Indicators,Unemployment rate,5.1,2001
+5915001,LANGLEY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",61443,2001
+5915002,LANGLEY,Labour Force Indicators,Unemployment rate,7.2,2001
+5915002,LANGLEY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",41891,2001
+5915004,SURREY,Labour Force Indicators,Unemployment rate,7.4,2001
+5915004,SURREY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",53957,2001
+5915007,WHITE ROCK,Labour Force Indicators,Unemployment rate,4.9,2001
+5915007,WHITE ROCK,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44691,2001
+5915011,DELTA,Labour Force Indicators,Unemployment rate,5.4,2001
+5915011,DELTA,Selected Household Characteristics,"Median household income, 2000 ($) - All households",66303,2001
+5915015,RICHMOND,Labour Force Indicators,Unemployment rate,7.2,2001
+5915015,RICHMOND,Selected Household Characteristics,"Median household income, 2000 ($) - All households",50060,2001
+5915020,GREATER VANCOUVER A,Labour Force Indicators,Unemployment rate,11.4,2001
+5915020,GREATER VANCOUVER A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49979,2001
+5915022,VANCOUVER,Labour Force Indicators,Unemployment rate,8.3,2001
+5915022,VANCOUVER,Selected Household Characteristics,"Median household income, 2000 ($) - All households",42026,2001
+5915025,BURNABY,Labour Force Indicators,Unemployment rate,8.3,2001
+5915025,BURNABY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44754,2001
+5915029,NEW WESTMINSTER,Labour Force Indicators,Unemployment rate,7.7,2001
+5915029,NEW WESTMINSTER,Selected Household Characteristics,"Median household income, 2000 ($) - All households",40784,2001
+5915034,COQUITLAM,Labour Force Indicators,Unemployment rate,7,2001
+5915034,COQUITLAM,Selected Household Characteristics,"Median household income, 2000 ($) - All households",52657,2001
+5915036,BELCARRA,Labour Force Indicators,Unemployment rate,3.7,2001
+5915036,BELCARRA,Selected Household Characteristics,"Median household income, 2000 ($) - All households",100995,2001
+5915038,ANMORE,Labour Force Indicators,Unemployment rate,5.1,2001
+5915038,ANMORE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",70860,2001
+5915039,PORT COQUITLAM,Labour Force Indicators,Unemployment rate,6.4,2001
+5915039,PORT COQUITLAM,Selected Household Characteristics,"Median household income, 2000 ($) - All households",59926,2001
+5915043,PORT MOODY,Labour Force Indicators,Unemployment rate,5.7,2001
+5915043,PORT MOODY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",64932,2001
+5915046,NORTH VANCOUVER,Labour Force Indicators,Unemployment rate,5.1,2001
+5915046,NORTH VANCOUVER,Selected Household Characteristics,"Median household income, 2000 ($) - All households",70228,2001
+5915051,NORTH VANCOUVER,Labour Force Indicators,Unemployment rate,7,2001
+5915051,NORTH VANCOUVER,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44095,2001
+5915055,WEST VANCOUVER,Labour Force Indicators,Unemployment rate,5.3,2001
+5915055,WEST VANCOUVER,Selected Household Characteristics,"Median household income, 2000 ($) - All households",75582,2001
+5915062,BOWEN ISLAND,Labour Force Indicators,Unemployment rate,4.9,2001
+5915062,BOWEN ISLAND,Selected Household Characteristics,"Median household income, 2000 ($) - All households",64979,2001
+5915065,LIONS BAY,Labour Force Indicators,Unemployment rate,4.1,2001
+5915065,LIONS BAY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",92510,2001
+5915070,PITT MEADOWS,Labour Force Indicators,Unemployment rate,6.5,2001
+5915070,PITT MEADOWS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",57892,2001
+5915075,MAPLE RIDGE,Labour Force Indicators,Unemployment rate,6.2,2001
+5915075,MAPLE RIDGE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",55632,2001
+5915801,SEMIAHMOO,Labour Force Indicators,Unemployment rate,23.1,2001
+5915801,SEMIAHMOO,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5915802,TSAWWASSEN,Labour Force Indicators,Unemployment rate,5.5,2001
+5915802,TSAWWASSEN,Selected Household Characteristics,"Median household income, 2000 ($) - All households",74874,2001
+5915803,MUSQUEAM 2,Labour Force Indicators,Unemployment rate,9.2,2001
+5915803,MUSQUEAM 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",70937,2001
+5915804,COQUITLAM 2,Labour Force Indicators,Unemployment rate,NA,2001
+5915804,COQUITLAM 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5915805,COQUITLAM 1,Labour Force Indicators,Unemployment rate,NA,2001
+5915805,COQUITLAM 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5915806,BURRARD INLET 3,Labour Force Indicators,Unemployment rate,8,2001
+5915806,BURRARD INLET 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",67202,2001
+5915807,MISSION 1,Labour Force Indicators,Unemployment rate,NA,2001
+5915807,MISSION 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5915808,CAPILANO 5,Labour Force Indicators,Unemployment rate,11.8,2001
+5915808,CAPILANO 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",32571,2001
+5915809,BARNSTON ISLAND 3,Labour Force Indicators,Unemployment rate,0,2001
+5915809,BARNSTON ISLAND 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5915810,MUSQUEAM 4,Labour Force Indicators,Unemployment rate,NA,2001
+5915810,MUSQUEAM 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5915811,SEYMOUR CREEK 2,Labour Force Indicators,Unemployment rate,28.6,2001
+5915811,SEYMOUR CREEK 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5915813,KATZIE 2,Labour Force Indicators,Unemployment rate,NA,2001
+5915813,KATZIE 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5915816,MCMILLAN ISLAND 6,Labour Force Indicators,Unemployment rate,0,2001
+5915816,MCMILLAN ISLAND 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5915825,MATSQUI 4,Labour Force Indicators,Unemployment rate,0,2001
+5915825,MATSQUI 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",26487,2001
+5915830,KATZIE 1,Labour Force Indicators,Unemployment rate,31.6,2001
+5915830,KATZIE 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5915835,LANGLEY 5,Labour Force Indicators,Unemployment rate,NA,2001
+5915835,LANGLEY 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5915840,WHONNOCK 1,Labour Force Indicators,Unemployment rate,NA,2001
+5915840,WHONNOCK 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5917005,NORTH SAANICH,Labour Force Indicators,Unemployment rate,4.3,2001
+5917005,NORTH SAANICH,Selected Household Characteristics,"Median household income, 2000 ($) - All households",71711,2001
+5917010,SIDNEY,Labour Force Indicators,Unemployment rate,6,2001
+5917010,SIDNEY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44013,2001
+5917015,CENTRAL SAANICH,Labour Force Indicators,Unemployment rate,4,2001
+5917015,CENTRAL SAANICH,Selected Household Characteristics,"Median household income, 2000 ($) - All households",61486,2001
+5917021,SAANICH,Labour Force Indicators,Unemployment rate,6.1,2001
+5917021,SAANICH,Selected Household Characteristics,"Median household income, 2000 ($) - All households",52099,2001
+5917027,CAPITAL F,Labour Force Indicators,Unemployment rate,6.2,2001
+5917027,CAPITAL F,Selected Household Characteristics,"Median household income, 2000 ($) - All households",40852,2001
+5917029,CAPITAL G,Labour Force Indicators,Unemployment rate,6.4,2001
+5917029,CAPITAL G,Selected Household Characteristics,"Median household income, 2000 ($) - All households",35131,2001
+5917030,OAK BAY,Labour Force Indicators,Unemployment rate,5.6,2001
+5917030,OAK BAY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",58905,2001
+5917034,VICTORIA,Labour Force Indicators,Unemployment rate,8.6,2001
+5917034,VICTORIA,Selected Household Characteristics,"Median household income, 2000 ($) - All households",34334,2001
+5917040,ESQUIMALT,Labour Force Indicators,Unemployment rate,7.2,2001
+5917040,ESQUIMALT,Selected Household Characteristics,"Median household income, 2000 ($) - All households",40101,2001
+5917041,COLWOOD,Labour Force Indicators,Unemployment rate,4.9,2001
+5917041,COLWOOD,Selected Household Characteristics,"Median household income, 2000 ($) - All households",59987,2001
+5917042,METCHOSIN,Labour Force Indicators,Unemployment rate,6.4,2001
+5917042,METCHOSIN,Selected Household Characteristics,"Median household income, 2000 ($) - All households",57044,2001
+5917044,LANGFORD,Labour Force Indicators,Unemployment rate,5.6,2001
+5917044,LANGFORD,Selected Household Characteristics,"Median household income, 2000 ($) - All households",51173,2001
+5917047,VIEW ROYAL,Labour Force Indicators,Unemployment rate,6.2,2001
+5917047,VIEW ROYAL,Selected Household Characteristics,"Median household income, 2000 ($) - All households",54950,2001
+5917049,HIGHLANDS,Labour Force Indicators,Unemployment rate,4,2001
+5917049,HIGHLANDS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",72637,2001
+5917052,SOOKE,Labour Force Indicators,Unemployment rate,7,2001
+5917052,SOOKE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44921,2001
+5917054,CAPITAL H (PART 1),Labour Force Indicators,Unemployment rate,7,2001
+5917054,CAPITAL H (PART 1),Selected Household Characteristics,"Median household income, 2000 ($) - All households",46471,2001
+5917056,CAPITAL H (PART 2),Labour Force Indicators,Unemployment rate,0,2001
+5917056,CAPITAL H (PART 2),Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5917801,COLE BAY 3,Labour Force Indicators,Unemployment rate,31.6,2001
+5917801,COLE BAY 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",18496,2001
+5917802,UNION BAY 4,Labour Force Indicators,Unemployment rate,28.6,2001
+5917802,UNION BAY 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5917803,EAST SAANICH 2,Labour Force Indicators,Unemployment rate,10.9,2001
+5917803,EAST SAANICH 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",33948,2001
+5917804,SOUTH SAANICH 1,Labour Force Indicators,Unemployment rate,29.7,2001
+5917804,SOUTH SAANICH 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",24518,2001
+5917805,GALIANO ISLAND 9,Labour Force Indicators,Unemployment rate,NA,2001
+5917805,GALIANO ISLAND 9,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5917806,MAYNE ISLAND 6,Labour Force Indicators,Unemployment rate,NA,2001
+5917806,MAYNE ISLAND 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5917809,BECHER BAY 1,Labour Force Indicators,Unemployment rate,20,2001
+5917809,BECHER BAY 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5917811,ESQUIMALT,Labour Force Indicators,Unemployment rate,NA,2001
+5917811,ESQUIMALT,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5917812,NEW SONGHEES 1A,Labour Force Indicators,Unemployment rate,13.4,2001
+5917812,NEW SONGHEES 1A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",32371,2001
+5917815,GORDON RIVER 2,Labour Force Indicators,Unemployment rate,25,2001
+5917815,GORDON RIVER 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5917816,PACHEENA 1,Labour Force Indicators,Unemployment rate,NA,2001
+5917816,PACHEENA 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5917817,T'SOU-KE 1 (SOOKE 1),Labour Force Indicators,Unemployment rate,0,2001
+5917817,T'SOU-KE 1 (SOOKE 1),Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5917818,T'SOU-KE 2 (SOOKE 2),Labour Force Indicators,Unemployment rate,0,2001
+5917818,T'SOU-KE 2 (SOOKE 2),Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5919008,NORTH COWICHAN,Labour Force Indicators,Unemployment rate,9.4,2001
+5919008,NORTH COWICHAN,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44295,2001
+5919012,DUNCAN,Labour Force Indicators,Unemployment rate,14.2,2001
+5919012,DUNCAN,Selected Household Characteristics,"Median household income, 2000 ($) - All households",28158,2001
+5919013,COWICHAN VALLEY D,Labour Force Indicators,Unemployment rate,7.8,2001
+5919013,COWICHAN VALLEY D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",43619,2001
+5919015,COWICHAN VALLEY G,Labour Force Indicators,Unemployment rate,7.5,2001
+5919015,COWICHAN VALLEY G,Selected Household Characteristics,"Median household income, 2000 ($) - All households",46167,2001
+5919016,LAKE COWICHAN,Labour Force Indicators,Unemployment rate,16.2,2001
+5919016,LAKE COWICHAN,Selected Household Characteristics,"Median household income, 2000 ($) - All households",34882,2001
+5919017,COWICHAN VALLEY H,Labour Force Indicators,Unemployment rate,7.2,2001
+5919017,COWICHAN VALLEY H,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49109,2001
+5919021,LADYSMITH,Labour Force Indicators,Unemployment rate,10.7,2001
+5919021,LADYSMITH,Selected Household Characteristics,"Median household income, 2000 ($) - All households",42440,2001
+5919033,COWICHAN VALLEY F,Labour Force Indicators,Unemployment rate,11.7,2001
+5919033,COWICHAN VALLEY F,Selected Household Characteristics,"Median household income, 2000 ($) - All households",39838,2001
+5919035,COWICHAN VALLEY I,Labour Force Indicators,Unemployment rate,14.8,2001
+5919035,COWICHAN VALLEY I,Selected Household Characteristics,"Median household income, 2000 ($) - All households",38887,2001
+5919043,COWICHAN VALLEY A,Labour Force Indicators,Unemployment rate,9,2001
+5919043,COWICHAN VALLEY A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",50123,2001
+5919046,COWICHAN VALLEY B,Labour Force Indicators,Unemployment rate,4.9,2001
+5919046,COWICHAN VALLEY B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",56568,2001
+5919049,COWICHAN VALLEY C,Labour Force Indicators,Unemployment rate,6.8,2001
+5919049,COWICHAN VALLEY C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",55568,2001
+5919051,COWICHAN VALLEY E,Labour Force Indicators,Unemployment rate,9.2,2001
+5919051,COWICHAN VALLEY E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44180,2001
+5919801,HALALT 2,Labour Force Indicators,Unemployment rate,30,2001
+5919801,HALALT 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5919802,SQUAW-HAY-ONE 11,Labour Force Indicators,Unemployment rate,0,2001
+5919802,SQUAW-HAY-ONE 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5919803,TSUSSIE 6,Labour Force Indicators,Unemployment rate,66.7,2001
+5919803,TSUSSIE 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5919804,CHEMAINUS 13,Labour Force Indicators,Unemployment rate,24.2,2001
+5919804,CHEMAINUS 13,Selected Household Characteristics,"Median household income, 2000 ($) - All households",19456,2001
+5919805,CLAOOSE 4,Labour Force Indicators,Unemployment rate,NA,2001
+5919805,CLAOOSE 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5919806,COWICHAN 9,Labour Force Indicators,Unemployment rate,NA,2001
+5919806,COWICHAN 9,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5919807,COWICHAN 1,Labour Force Indicators,Unemployment rate,32.4,2001
+5919807,COWICHAN 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",22577,2001
+5919808,KIL-PAH-LAS 3,Labour Force Indicators,Unemployment rate,NA,2001
+5919808,KIL-PAH-LAS 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5919809,KUPER ISLAND 7,Labour Force Indicators,Unemployment rate,23.1,2001
+5919809,KUPER ISLAND 7,Selected Household Characteristics,"Median household income, 2000 ($) - All households",17088,2001
+5919810,LYACKSUN 3,Labour Force Indicators,Unemployment rate,NA,2001
+5919810,LYACKSUN 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5919811,SHINGLE POINT 4,Labour Force Indicators,Unemployment rate,NA,2001
+5919811,SHINGLE POINT 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5919812,COWICHAN LAKE,Labour Force Indicators,Unemployment rate,NA,2001
+5919812,COWICHAN LAKE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5919814,MALACHAN 11,Labour Force Indicators,Unemployment rate,22.2,2001
+5919814,MALACHAN 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5919815,MALAHAT 11,Labour Force Indicators,Unemployment rate,66.7,2001
+5919815,MALAHAT 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5919816,OYSTER BAY 12,Labour Force Indicators,Unemployment rate,0,2001
+5919816,OYSTER BAY 12,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5919817,PORTIER PASS 5,Labour Force Indicators,Unemployment rate,NA,2001
+5919817,PORTIER PASS 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5919818,THEIK 2,Labour Force Indicators,Unemployment rate,NA,2001
+5919818,THEIK 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5919819,WYAH 3,Labour Force Indicators,Unemployment rate,NA,2001
+5919819,WYAH 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5921007,NANAIMO,Labour Force Indicators,Unemployment rate,11.8,2001
+5921007,NANAIMO,Selected Household Characteristics,"Median household income, 2000 ($) - All households",39706,2001
+5921010,NANAIMO A,Labour Force Indicators,Unemployment rate,12.8,2001
+5921010,NANAIMO A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44316,2001
+5921014,NANAIMO B,Labour Force Indicators,Unemployment rate,11.5,2001
+5921014,NANAIMO B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",30809,2001
+5921016,NANAIMO C,Labour Force Indicators,Unemployment rate,7.8,2001
+5921016,NANAIMO C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",46457,2001
+5921018,PARKSVILLE,Labour Force Indicators,Unemployment rate,9.7,2001
+5921018,PARKSVILLE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",34793,2001
+5921020,NANAIMO D,Labour Force Indicators,Unemployment rate,6.3,2001
+5921020,NANAIMO D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",56303,2001
+5921023,QUALICUM BEACH,Labour Force Indicators,Unemployment rate,8.7,2001
+5921023,QUALICUM BEACH,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44680,2001
+5921030,NANAIMO E,Labour Force Indicators,Unemployment rate,7.6,2001
+5921030,NANAIMO E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",50684,2001
+5921032,NANAIMO F,Labour Force Indicators,Unemployment rate,14.4,2001
+5921032,NANAIMO F,Selected Household Characteristics,"Median household income, 2000 ($) - All households",35856,2001
+5921034,NANAIMO G,Labour Force Indicators,Unemployment rate,8.1,2001
+5921034,NANAIMO G,Selected Household Characteristics,"Median household income, 2000 ($) - All households",46340,2001
+5921036,NANAIMO H,Labour Force Indicators,Unemployment rate,11.4,2001
+5921036,NANAIMO H,Selected Household Characteristics,"Median household income, 2000 ($) - All households",34405,2001
+5921801,NANAIMO RIVER 3,Labour Force Indicators,Unemployment rate,NA,2001
+5921801,NANAIMO RIVER 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5921802,NANAIMO RIVER 2,Labour Force Indicators,Unemployment rate,NA,2001
+5921802,NANAIMO RIVER 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5921803,NANAIMO RIVER 4,Labour Force Indicators,Unemployment rate,22.2,2001
+5921803,NANAIMO RIVER 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5921804,NANAIMO TOWN 1,Labour Force Indicators,Unemployment rate,0,2001
+5921804,NANAIMO TOWN 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5921805,NANOOSE,Labour Force Indicators,Unemployment rate,33.3,2001
+5921805,NANOOSE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5921806,QUALICUM,Labour Force Indicators,Unemployment rate,0,2001
+5921806,QUALICUM,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5923008,PORT ALBERNI,Labour Force Indicators,Unemployment rate,15.1,2001
+5923008,PORT ALBERNI,Selected Household Characteristics,"Median household income, 2000 ($) - All households",36586,2001
+5923019,UCLUELET,Labour Force Indicators,Unemployment rate,9.7,2001
+5923019,UCLUELET,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44435,2001
+5923025,TOFINO,Labour Force Indicators,Unemployment rate,5,2001
+5923025,TOFINO,Selected Household Characteristics,"Median household income, 2000 ($) - All households",47572,2001
+5923033,ALBERNI-CLAYOQUOT B,Labour Force Indicators,Unemployment rate,6.5,2001
+5923033,ALBERNI-CLAYOQUOT B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",45226,2001
+5923035,ALBERNI-CLAYOQUOT D,Labour Force Indicators,Unemployment rate,12.4,2001
+5923035,ALBERNI-CLAYOQUOT D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",55490,2001
+5923037,ALBERNI-CLAYOQUOT E,Labour Force Indicators,Unemployment rate,12.5,2001
+5923037,ALBERNI-CLAYOQUOT E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",48068,2001
+5923039,ALBERNI-CLAYOQUOT F,Labour Force Indicators,Unemployment rate,17.2,2001
+5923039,ALBERNI-CLAYOQUOT F,Selected Household Characteristics,"Median household income, 2000 ($) - All households",48655,2001
+5923047,ALBERNI-CLAYOQUOT A,Labour Force Indicators,Unemployment rate,8.8,2001
+5923047,ALBERNI-CLAYOQUOT A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",32375,2001
+5923049,ALBERNI-CLAYOQUOT C,Labour Force Indicators,Unemployment rate,10,2001
+5923049,ALBERNI-CLAYOQUOT C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",45184,2001
+5923801,AHAHSWINIS 1,Labour Force Indicators,Unemployment rate,18.2,2001
+5923801,AHAHSWINIS 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5923802,ALBERNI 2,Labour Force Indicators,Unemployment rate,NA,2001
+5923802,ALBERNI 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5923803,ANACLA 12,Labour Force Indicators,Unemployment rate,40,2001
+5923803,ANACLA 12,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5923804,CLAKAMUCUS 2,Labour Force Indicators,Unemployment rate,NA,2001
+5923804,CLAKAMUCUS 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5923805,ELHLATEESE 2,Labour Force Indicators,Unemployment rate,NA,2001
+5923805,ELHLATEESE 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5923806,HESQUIAT 1,Labour Force Indicators,Unemployment rate,NA,2001
+5923806,HESQUIAT 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5923807,ITTATSOO 1,Labour Force Indicators,Unemployment rate,26.3,2001
+5923807,ITTATSOO 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5923808,MARKTOSIS 15,Labour Force Indicators,Unemployment rate,16.7,2001
+5923808,MARKTOSIS 15,Selected Household Characteristics,"Median household income, 2000 ($) - All households",35200,2001
+5923809,NUMUKAMIS 1,Labour Force Indicators,Unemployment rate,NA,2001
+5923809,NUMUKAMIS 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5923810,MACOAH 1,Labour Force Indicators,Unemployment rate,NA,2001
+5923810,MACOAH 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5923812,OPENIT 27,Labour Force Indicators,Unemployment rate,NA,2001
+5923812,OPENIT 27,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5923813,OPITSAT 1,Labour Force Indicators,Unemployment rate,20,2001
+5923813,OPITSAT 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5923814,SACHSA 4,Labour Force Indicators,Unemployment rate,NA,2001
+5923814,SACHSA 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5923815,STUART BAY 6,Labour Force Indicators,Unemployment rate,NA,2001
+5923815,STUART BAY 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5923816,TSAHAHEH 1,Labour Force Indicators,Unemployment rate,NA,2001
+5923816,TSAHAHEH 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5923821,KEESHAN 9,Labour Force Indicators,Unemployment rate,NA,2001
+5923821,KEESHAN 9,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5923822,KLEHKOOT 2,Labour Force Indicators,Unemployment rate,NA,2001
+5923822,KLEHKOOT 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5923823,ESOWISTA 3,Labour Force Indicators,Unemployment rate,0,2001
+5923823,ESOWISTA 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5923824,REFUGE COVE 6,Labour Force Indicators,Unemployment rate,22.2,2001
+5923824,REFUGE COVE 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5925005,COMOX,Labour Force Indicators,Unemployment rate,7.9,2001
+5925005,COMOX,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49105,2001
+5925010,COURTENAY,Labour Force Indicators,Unemployment rate,13.2,2001
+5925010,COURTENAY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",37235,2001
+5925014,CUMBERLAND,Labour Force Indicators,Unemployment rate,13.7,2001
+5925014,CUMBERLAND,Selected Household Characteristics,"Median household income, 2000 ($) - All households",38073,2001
+5925018,COMOX-STRATHCONA A,Labour Force Indicators,Unemployment rate,10.4,2001
+5925018,COMOX-STRATHCONA A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",41994,2001
+5925019,COMOX-STRATHCONA K,Labour Force Indicators,Unemployment rate,9.6,2001
+5925019,COMOX-STRATHCONA K,Selected Household Characteristics,"Median household income, 2000 ($) - All households",32148,2001
+5925022,COMOX-STRATHCONA B,Labour Force Indicators,Unemployment rate,11.2,2001
+5925022,COMOX-STRATHCONA B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",47153,2001
+5925024,COMOX-STRATHCONA C,Labour Force Indicators,Unemployment rate,10.8,2001
+5925024,COMOX-STRATHCONA C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",50167,2001
+5925025,GOLD RIVER,Labour Force Indicators,Unemployment rate,18.2,2001
+5925025,GOLD RIVER,Selected Household Characteristics,"Median household income, 2000 ($) - All households",57415,2001
+5925029,ZEBALLOS,Labour Force Indicators,Unemployment rate,14.3,2001
+5925029,ZEBALLOS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5925030,TAHSIS,Labour Force Indicators,Unemployment rate,25,2001
+5925030,TAHSIS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49386,2001
+5925034,CAMPBELL RIVER,Labour Force Indicators,Unemployment rate,12.7,2001
+5925034,CAMPBELL RIVER,Selected Household Characteristics,"Median household income, 2000 ($) - All households",46052,2001
+5925039,SAYWARD,Labour Force Indicators,Unemployment rate,10.3,2001
+5925039,SAYWARD,Selected Household Characteristics,"Median household income, 2000 ($) - All households",38807,2001
+5925042,COMOX-STRATHCONA D,Labour Force Indicators,Unemployment rate,9.1,2001
+5925042,COMOX-STRATHCONA D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",59014,2001
+5925046,COMOX-STRATHCONA H,Labour Force Indicators,Unemployment rate,14.9,2001
+5925046,COMOX-STRATHCONA H,Selected Household Characteristics,"Median household income, 2000 ($) - All households",36552,2001
+5925049,COMOX-STRATHCONA G,Labour Force Indicators,Unemployment rate,30.8,2001
+5925049,COMOX-STRATHCONA G,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5925052,COMOX-STRATHCONA I,Labour Force Indicators,Unemployment rate,6.7,2001
+5925052,COMOX-STRATHCONA I,Selected Household Characteristics,"Median household income, 2000 ($) - All households",26138,2001
+5925054,COMOX-STRATHCONA J,Labour Force Indicators,Unemployment rate,12,2001
+5925054,COMOX-STRATHCONA J,Selected Household Characteristics,"Median household income, 2000 ($) - All households",31368,2001
+5925801,COMOX 1,Labour Force Indicators,Unemployment rate,14.3,2001
+5925801,COMOX 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",24690,2001
+5925802,PENTLEDGE 2,Labour Force Indicators,Unemployment rate,NA,2001
+5925802,PENTLEDGE 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5925803,AHAMINAQUUS 12,Labour Force Indicators,Unemployment rate,NA,2001
+5925803,AHAMINAQUUS 12,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5925804,CAMPBELL RIVER 11,Labour Force Indicators,Unemployment rate,34.5,2001
+5925804,CAMPBELL RIVER 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",35840,2001
+5925805,CHENAHKINT 12,Labour Force Indicators,Unemployment rate,NA,2001
+5925805,CHENAHKINT 12,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5925806,HOUPSITAS 6,Labour Force Indicators,Unemployment rate,16.7,2001
+5925806,HOUPSITAS 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5925808,NUCHATL 2,Labour Force Indicators,Unemployment rate,NA,2001
+5925808,NUCHATL 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5925809,NUCHATL 1,Labour Force Indicators,Unemployment rate,NA,2001
+5925809,NUCHATL 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5925812,QUINSAM 12,Labour Force Indicators,Unemployment rate,22.7,2001
+5925812,QUINSAM 12,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5925813,VILLAGE ISLAND 1,Labour Force Indicators,Unemployment rate,NA,2001
+5925813,VILLAGE ISLAND 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5925814,YUQUOT 1,Labour Force Indicators,Unemployment rate,NA,2001
+5925814,YUQUOT 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5925815,AUPE 6,Labour Force Indicators,Unemployment rate,NA,2001
+5925815,AUPE 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5925816,AUPE 6A,Labour Force Indicators,Unemployment rate,NA,2001
+5925816,AUPE 6A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5925817,CAPE MUDGE 10,Labour Force Indicators,Unemployment rate,27.3,2001
+5925817,CAPE MUDGE 10,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5925818,SQUIRREL COVE 8,Labour Force Indicators,Unemployment rate,NA,2001
+5925818,SQUIRREL COVE 8,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5925819,TATPO-OOSE 10,Labour Force Indicators,Unemployment rate,NA,2001
+5925819,TATPO-OOSE 10,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5925820,TORK 7,Labour Force Indicators,Unemployment rate,25,2001
+5925820,TORK 7,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5925825,MATSAYNO 5,Labour Force Indicators,Unemployment rate,NA,2001
+5925825,MATSAYNO 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5925830,SAAIYOUCK 6,Labour Force Indicators,Unemployment rate,NA,2001
+5925830,SAAIYOUCK 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5925833,OCLUCJE 7,Labour Force Indicators,Unemployment rate,NA,2001
+5925833,OCLUCJE 7,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5925835,TSA XANA 18,Labour Force Indicators,Unemployment rate,41.7,2001
+5925835,TSA XANA 18,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5927008,POWELL RIVER,Labour Force Indicators,Unemployment rate,7.9,2001
+5927008,POWELL RIVER,Selected Household Characteristics,"Median household income, 2000 ($) - All households",42905,2001
+5927010,POWELL RIVER A,Labour Force Indicators,Unemployment rate,7.3,2001
+5927010,POWELL RIVER A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",28224,2001
+5927012,POWELL RIVER B,Labour Force Indicators,Unemployment rate,7.9,2001
+5927012,POWELL RIVER B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",51341,2001
+5927016,POWELL RIVER C,Labour Force Indicators,Unemployment rate,11.5,2001
+5927016,POWELL RIVER C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",38355,2001
+5927018,POWELL RIVER D,Labour Force Indicators,Unemployment rate,5.9,2001
+5927018,POWELL RIVER D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",35453,2001
+5927020,POWELL RIVER E,Labour Force Indicators,Unemployment rate,5.7,2001
+5927020,POWELL RIVER E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",13668,2001
+5927802,SLIAMMON 1,Labour Force Indicators,Unemployment rate,NA,2001
+5927802,SLIAMMON 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5927805,HARWOOD ISLAND 2,Labour Force Indicators,Unemployment rate,NA,2001
+5927805,HARWOOD ISLAND 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5927806,SECHELT (PART),Labour Force Indicators,Unemployment rate,NA,2001
+5927806,SECHELT (PART),Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5929005,GIBSONS,Labour Force Indicators,Unemployment rate,9,2001
+5929005,GIBSONS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",36220,2001
+5929011,SECHELT,Labour Force Indicators,Unemployment rate,6.9,2001
+5929011,SECHELT,Selected Household Characteristics,"Median household income, 2000 ($) - All households",39921,2001
+5929018,SUNSHINE COAST A,Labour Force Indicators,Unemployment rate,6,2001
+5929018,SUNSHINE COAST A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",36774,2001
+5929022,SUNSHINE COAST B,Labour Force Indicators,Unemployment rate,6.9,2001
+5929022,SUNSHINE COAST B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44142,2001
+5929024,SUNSHINE COAST D,Labour Force Indicators,Unemployment rate,6.3,2001
+5929024,SUNSHINE COAST D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",41238,2001
+5929026,SUNSHINE COAST E,Labour Force Indicators,Unemployment rate,6.6,2001
+5929026,SUNSHINE COAST E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",45767,2001
+5929028,SUNSHINE COAST F,Labour Force Indicators,Unemployment rate,5.5,2001
+5929028,SUNSHINE COAST F,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49975,2001
+5929801,CHEKWELP 26,Labour Force Indicators,Unemployment rate,NA,2001
+5929801,CHEKWELP 26,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5929802,CHEKWELP 26A,Labour Force Indicators,Unemployment rate,NA,2001
+5929802,CHEKWELP 26A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5929803,SECHELT (PART),Labour Force Indicators,Unemployment rate,23.1,2001
+5929803,SECHELT (PART),Selected Household Characteristics,"Median household income, 2000 ($) - All households",24229,2001
+5929804,SCHALTUUCH 27,Labour Force Indicators,Unemployment rate,NA,2001
+5929804,SCHALTUUCH 27,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931006,SQUAMISH,Labour Force Indicators,Unemployment rate,7.3,2001
+5931006,SQUAMISH,Selected Household Characteristics,"Median household income, 2000 ($) - All households",57058,2001
+5931012,PEMBERTON,Labour Force Indicators,Unemployment rate,4.4,2001
+5931012,PEMBERTON,Selected Household Characteristics,"Median household income, 2000 ($) - All households",53347,2001
+5931017,SQUAMISH-LILLOOET C,Labour Force Indicators,Unemployment rate,4.4,2001
+5931017,SQUAMISH-LILLOOET C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",47244,2001
+5931020,WHISTLER,Labour Force Indicators,Unemployment rate,6.2,2001
+5931020,WHISTLER,Selected Household Characteristics,"Median household income, 2000 ($) - All households",58906,2001
+5931021,SQUAMISH-LILLOOET D,Labour Force Indicators,Unemployment rate,11.7,2001
+5931021,SQUAMISH-LILLOOET D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",50090,2001
+5931026,LILLOOET,Labour Force Indicators,Unemployment rate,9.2,2001
+5931026,LILLOOET,Selected Household Characteristics,"Median household income, 2000 ($) - All households",40289,2001
+5931032,SQUAMISH-LILLOOET A,Labour Force Indicators,Unemployment rate,9.1,2001
+5931032,SQUAMISH-LILLOOET A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5931034,SQUAMISH-LILLOOET B,Labour Force Indicators,Unemployment rate,9.3,2001
+5931034,SQUAMISH-LILLOOET B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",21630,2001
+5931801,CHEAKAMUS 11,Labour Force Indicators,Unemployment rate,50,2001
+5931801,CHEAKAMUS 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5931802,KOWTAIN 17,Labour Force Indicators,Unemployment rate,NA,2001
+5931802,KOWTAIN 17,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931803,MOUNT CURRIE  1,Labour Force Indicators,Unemployment rate,NA,2001
+5931803,MOUNT CURRIE  1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931804,MOUNT CURRIE 10,Labour Force Indicators,Unemployment rate,18.8,2001
+5931804,MOUNT CURRIE 10,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5931805,NEQUATQUE 1,Labour Force Indicators,Unemployment rate,23.1,2001
+5931805,NEQUATQUE 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5931806,SEAICHEM 16,Labour Force Indicators,Unemployment rate,NA,2001
+5931806,SEAICHEM 16,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931807,STAWAMUS 24,Labour Force Indicators,Unemployment rate,0,2001
+5931807,STAWAMUS 24,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5931808,WAIWAKUM 14,Labour Force Indicators,Unemployment rate,37.5,2001
+5931808,WAIWAKUM 14,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5931809,YEKWAUPSUM 18,Labour Force Indicators,Unemployment rate,NA,2001
+5931809,YEKWAUPSUM 18,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931810,NEQUATQUE 3A,Labour Force Indicators,Unemployment rate,NA,2001
+5931810,NEQUATQUE 3A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931811,MOUNT CURRIE  2,Labour Force Indicators,Unemployment rate,NA,2001
+5931811,MOUNT CURRIE  2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931812,NESUCH 3,Labour Force Indicators,Unemployment rate,25,2001
+5931812,NESUCH 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5931813,BRIDGE RIVER 1,Labour Force Indicators,Unemployment rate,31.2,2001
+5931813,BRIDGE RIVER 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5931814,CAYOOSH CREEK 1,Labour Force Indicators,Unemployment rate,33.3,2001
+5931814,CAYOOSH CREEK 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5931815,CHILHIL 6,Labour Force Indicators,Unemployment rate,50,2001
+5931815,CHILHIL 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5931816,FOUNTAIN  1,Labour Force Indicators,Unemployment rate,29.4,2001
+5931816,FOUNTAIN  1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5931817,FOUNTAIN  3,Labour Force Indicators,Unemployment rate,NA,2001
+5931817,FOUNTAIN  3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931818,FOUNTAIN 10,Labour Force Indicators,Unemployment rate,NA,2001
+5931818,FOUNTAIN 10,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931819,FOUNTAIN 11,Labour Force Indicators,Unemployment rate,NA,2001
+5931819,FOUNTAIN 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931820,FOUNTAIN 12,Labour Force Indicators,Unemployment rate,NA,2001
+5931820,FOUNTAIN 12,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931821,LILLOOET 1,Labour Force Indicators,Unemployment rate,21.1,2001
+5931821,LILLOOET 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5931822,FOUNTAIN CREEK 8,Labour Force Indicators,Unemployment rate,NA,2001
+5931822,FOUNTAIN CREEK 8,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931823,MCCARTNEY'S FLAT 4,Labour Force Indicators,Unemployment rate,NA,2001
+5931823,MCCARTNEY'S FLAT 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931824,SETON LAKE 5,Labour Force Indicators,Unemployment rate,NA,2001
+5931824,SETON LAKE 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931826,NECAIT 6,Labour Force Indicators,Unemployment rate,NA,2001
+5931826,NECAIT 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931827,NESIKEP 6,Labour Force Indicators,Unemployment rate,NA,2001
+5931827,NESIKEP 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931828,PASHILQUA 2,Labour Force Indicators,Unemployment rate,NA,2001
+5931828,PASHILQUA 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931829,PAVILION 1,Labour Force Indicators,Unemployment rate,NA,2001
+5931829,PAVILION 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931830,SETON LAKE 5A,Labour Force Indicators,Unemployment rate,NA,2001
+5931830,SETON LAKE 5A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931831,SLOSH 1,Labour Force Indicators,Unemployment rate,26.7,2001
+5931831,SLOSH 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5931832,TOWINOCK 2,Labour Force Indicators,Unemployment rate,NA,2001
+5931832,TOWINOCK 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931833,MISSION 5,Labour Force Indicators,Unemployment rate,NA,2001
+5931833,MISSION 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931837,MOUNT CURRIE  8,Labour Force Indicators,Unemployment rate,0,2001
+5931837,MOUNT CURRIE  8,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5931838,MOUNT CURRIE  6,Labour Force Indicators,Unemployment rate,22.6,2001
+5931838,MOUNT CURRIE  6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",27776,2001
+5931839,SLOSH 1A,Labour Force Indicators,Unemployment rate,NA,2001
+5931839,SLOSH 1A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5931840,NEQUATQUE 2,Labour Force Indicators,Unemployment rate,NA,2001
+5931840,NEQUATQUE 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933006,MERRITT,Labour Force Indicators,Unemployment rate,13.7,2001
+5933006,MERRITT,Selected Household Characteristics,"Median household income, 2000 ($) - All households",41069,2001
+5933008,THOMPSON-NICOLA M,Labour Force Indicators,Unemployment rate,5.3,2001
+5933008,THOMPSON-NICOLA M,Selected Household Characteristics,"Median household income, 2000 ($) - All households",42444,2001
+5933012,THOMPSON-NICOLA N,Labour Force Indicators,Unemployment rate,11.2,2001
+5933012,THOMPSON-NICOLA N,Selected Household Characteristics,"Median household income, 2000 ($) - All households",42997,2001
+5933015,LYTTON,Labour Force Indicators,Unemployment rate,8.6,2001
+5933015,LYTTON,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44314,2001
+5933019,ASHCROFT,Labour Force Indicators,Unemployment rate,6.7,2001
+5933019,ASHCROFT,Selected Household Characteristics,"Median household income, 2000 ($) - All households",40318,2001
+5933024,CACHE CREEK,Labour Force Indicators,Unemployment rate,7.7,2001
+5933024,CACHE CREEK,Selected Household Characteristics,"Median household income, 2000 ($) - All households",34366,2001
+5933028,CLINTON,Labour Force Indicators,Unemployment rate,4.8,2001
+5933028,CLINTON,Selected Household Characteristics,"Median household income, 2000 ($) - All households",27267,2001
+5933032,THOMPSON-NICOLA E,Labour Force Indicators,Unemployment rate,11.4,2001
+5933032,THOMPSON-NICOLA E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",33362,2001
+5933035,LOGAN LAKE,Labour Force Indicators,Unemployment rate,6.4,2001
+5933035,LOGAN LAKE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",52338,2001
+5933037,THOMPSON-NICOLA I,Labour Force Indicators,Unemployment rate,14.1,2001
+5933037,THOMPSON-NICOLA I,Selected Household Characteristics,"Median household income, 2000 ($) - All households",35171,2001
+5933039,THOMPSON-NICOLA J,Labour Force Indicators,Unemployment rate,12,2001
+5933039,THOMPSON-NICOLA J,Selected Household Characteristics,"Median household income, 2000 ($) - All households",48609,2001
+5933042,KAMLOOPS,Labour Force Indicators,Unemployment rate,10.2,2001
+5933042,KAMLOOPS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",46536,2001
+5933044,THOMPSON-NICOLA P,Labour Force Indicators,Unemployment rate,15.3,2001
+5933044,THOMPSON-NICOLA P,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49480,2001
+5933054,CHASE,Labour Force Indicators,Unemployment rate,13.2,2001
+5933054,CHASE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",27666,2001
+5933060,THOMPSON-NICOLA L,Labour Force Indicators,Unemployment rate,9.4,2001
+5933060,THOMPSON-NICOLA L,Selected Household Characteristics,"Median household income, 2000 ($) - All households",48755,2001
+5933068,THOMPSON-NICOLA A,Labour Force Indicators,Unemployment rate,18.1,2001
+5933068,THOMPSON-NICOLA A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",43378,2001
+5933070,THOMPSON-NICOLA B,Labour Force Indicators,Unemployment rate,17.3,2001
+5933070,THOMPSON-NICOLA B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44562,2001
+5933072,THOMPSON-NICOLA O,Labour Force Indicators,Unemployment rate,16.1,2001
+5933072,THOMPSON-NICOLA O,Selected Household Characteristics,"Median household income, 2000 ($) - All households",35611,2001
+5933801,COLDWATER 1,Labour Force Indicators,Unemployment rate,28.6,2001
+5933801,COLDWATER 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",21696,2001
+5933802,DOUGLAS LAKE 3,Labour Force Indicators,Unemployment rate,15.8,2001
+5933802,DOUGLAS LAKE 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933803,HAMILTON CREEK 2,Labour Force Indicators,Unemployment rate,NA,2001
+5933803,HAMILTON CREEK 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933804,HAMILTON CREEK 7,Labour Force Indicators,Unemployment rate,NA,2001
+5933804,HAMILTON CREEK 7,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933805,JOEYASKA 2,Labour Force Indicators,Unemployment rate,NA,2001
+5933805,JOEYASKA 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933806,NICOLA LAKE 1,Labour Force Indicators,Unemployment rate,18.8,2001
+5933806,NICOLA LAKE 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933807,NICOLA MAMEET 1,Labour Force Indicators,Unemployment rate,33.3,2001
+5933807,NICOLA MAMEET 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",24384,2001
+5933808,NOOAITCH 10,Labour Force Indicators,Unemployment rate,27.3,2001
+5933808,NOOAITCH 10,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933809,PAUL'S BASIN 2,Labour Force Indicators,Unemployment rate,NA,2001
+5933809,PAUL'S BASIN 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933811,ZOHT 4,Labour Force Indicators,Unemployment rate,NA,2001
+5933811,ZOHT 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933812,BONAPARTE 3,Labour Force Indicators,Unemployment rate,15.4,2001
+5933812,BONAPARTE 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933814,CANOE CREEK 1,Labour Force Indicators,Unemployment rate,0,2001
+5933814,CANOE CREEK 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933815,HALHALAEDEN 14A,Labour Force Indicators,Unemployment rate,NA,2001
+5933815,HALHALAEDEN 14A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933816,CHUCHHRIASCHIN 5,Labour Force Indicators,Unemployment rate,NA,2001
+5933816,CHUCHHRIASCHIN 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933817,SKEETCHESTN,Labour Force Indicators,Unemployment rate,25,2001
+5933817,SKEETCHESTN,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933818,HALHALAEDEN 14,Labour Force Indicators,Unemployment rate,NA,2001
+5933818,HALHALAEDEN 14,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933819,HIGH BAR 1,Labour Force Indicators,Unemployment rate,NA,2001
+5933819,HIGH BAR 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933820,INKLUCKCHEEN 21,Labour Force Indicators,Unemployment rate,30,2001
+5933820,INKLUCKCHEEN 21,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933821,CANOE CREEK 2,Labour Force Indicators,Unemployment rate,75,2001
+5933821,CANOE CREEK 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933822,CHUCHHRIASCHIN 5A,Labour Force Indicators,Unemployment rate,NA,2001
+5933822,CHUCHHRIASCHIN 5A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933823,KITZOWIT 20,Labour Force Indicators,Unemployment rate,NA,2001
+5933823,KITZOWIT 20,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933824,SKUPPAH 2A,Labour Force Indicators,Unemployment rate,NA,2001
+5933824,SKUPPAH 2A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933825,INKLYUHKINATKO 2,Labour Force Indicators,Unemployment rate,0,2001
+5933825,INKLYUHKINATKO 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933826,KANAKA BAR 1A,Labour Force Indicators,Unemployment rate,66.7,2001
+5933826,KANAKA BAR 1A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933827,KANAKA BAR 2,Labour Force Indicators,Unemployment rate,NA,2001
+5933827,KANAKA BAR 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933828,BASQUE 18,Labour Force Indicators,Unemployment rate,NA,2001
+5933828,BASQUE 18,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933829,KLAHKAMICH 17,Labour Force Indicators,Unemployment rate,28.6,2001
+5933829,KLAHKAMICH 17,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933830,KLAHKOWIT 5,Labour Force Indicators,Unemployment rate,NA,2001
+5933830,KLAHKOWIT 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933831,KLEETLEKUT 22,Labour Force Indicators,Unemployment rate,NA,2001
+5933831,KLEETLEKUT 22,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933832,KLICKKUMCHEEN 18,Labour Force Indicators,Unemployment rate,30,2001
+5933832,KLICKKUMCHEEN 18,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933834,KUMCHEEN 1,Labour Force Indicators,Unemployment rate,NA,2001
+5933834,KUMCHEEN 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933835,LEON CREEK 2,Labour Force Indicators,Unemployment rate,NA,2001
+5933835,LEON CREEK 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933836,LOWER HAT CREEK 2,Labour Force Indicators,Unemployment rate,40,2001
+5933836,LOWER HAT CREEK 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933839,LYTTON  4A,Labour Force Indicators,Unemployment rate,NA,2001
+5933839,LYTTON  4A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933840,LYTTON  4E,Labour Force Indicators,Unemployment rate,NA,2001
+5933840,LYTTON  4E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933841,LYTTON  9A,Labour Force Indicators,Unemployment rate,66.7,2001
+5933841,LYTTON  9A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933842,LYTTON  9B,Labour Force Indicators,Unemployment rate,NA,2001
+5933842,LYTTON  9B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933844,ASHCROFT 4,Labour Force Indicators,Unemployment rate,28.6,2001
+5933844,ASHCROFT 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933845,105 MILE POST 2,Labour Force Indicators,Unemployment rate,NA,2001
+5933845,105 MILE POST 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933846,OREGON JACK CREEK 5,Labour Force Indicators,Unemployment rate,NA,2001
+5933846,OREGON JACK CREEK 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933847,SPATSUM 11,Labour Force Indicators,Unemployment rate,NA,2001
+5933847,SPATSUM 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933848,NICKEL PALM 4,Labour Force Indicators,Unemployment rate,NA,2001
+5933848,NICKEL PALM 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933850,NICKEYEAH 25,Labour Force Indicators,Unemployment rate,NA,2001
+5933850,NICKEYEAH 25,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933851,NICOMEN 1,Labour Force Indicators,Unemployment rate,100,2001
+5933851,NICOMEN 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933852,NOHOMEEN 23,Labour Force Indicators,Unemployment rate,NA,2001
+5933852,NOHOMEEN 23,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933853,NUUAUTIN 2,Labour Force Indicators,Unemployment rate,27.3,2001
+5933853,NUUAUTIN 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933854,OREGON JACK CREEK 3,Labour Force Indicators,Unemployment rate,NA,2001
+5933854,OREGON JACK CREEK 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933855,PAPYUM 27,Labour Force Indicators,Unemployment rate,NA,2001
+5933855,PAPYUM 27,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933856,PAPYUM 27A,Labour Force Indicators,Unemployment rate,NA,2001
+5933856,PAPYUM 27A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933857,PEMYNOOS 9,Labour Force Indicators,Unemployment rate,NA,2001
+5933857,PEMYNOOS 9,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933858,SEAH 5,Labour Force Indicators,Unemployment rate,NA,2001
+5933858,SEAH 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933859,SHACKAN 11,Labour Force Indicators,Unemployment rate,28.6,2001
+5933859,SHACKAN 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933860,SISKA FLAT 3,Labour Force Indicators,Unemployment rate,28.6,2001
+5933860,SISKA FLAT 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933861,KLOKLOWUCK 7,Labour Force Indicators,Unemployment rate,NA,2001
+5933861,KLOKLOWUCK 7,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933862,SISKA FLAT 5A,Labour Force Indicators,Unemployment rate,NA,2001
+5933862,SISKA FLAT 5A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933863,SISKA FLAT 5B,Labour Force Indicators,Unemployment rate,NA,2001
+5933863,SISKA FLAT 5B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933864,SISKA FLAT 8,Labour Force Indicators,Unemployment rate,NA,2001
+5933864,SISKA FLAT 8,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933865,SKUPPAH 4,Labour Force Indicators,Unemployment rate,NA,2001
+5933865,SKUPPAH 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933866,SKWAYAYNOPE 26,Labour Force Indicators,Unemployment rate,NA,2001
+5933866,SKWAYAYNOPE 26,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933867,SPENCES BRIDGE 4,Labour Force Indicators,Unemployment rate,NA,2001
+5933867,SPENCES BRIDGE 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933868,SPINTLUM FLAT 3,Labour Force Indicators,Unemployment rate,NA,2001
+5933868,SPINTLUM FLAT 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933869,STAIYAHANNY 8,Labour Force Indicators,Unemployment rate,NA,2001
+5933869,STAIYAHANNY 8,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933870,NKAIH 10,Labour Force Indicators,Unemployment rate,NA,2001
+5933870,NKAIH 10,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933871,SPENCES BRIDGE 4C,Labour Force Indicators,Unemployment rate,NA,2001
+5933871,SPENCES BRIDGE 4C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933872,MARBLE CANYON 3,Labour Force Indicators,Unemployment rate,NA,2001
+5933872,MARBLE CANYON 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933873,STRYEN 9,Labour Force Indicators,Unemployment rate,NA,2001
+5933873,STRYEN 9,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933874,TSAUKAN 12,Labour Force Indicators,Unemployment rate,NA,2001
+5933874,TSAUKAN 12,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933875,UPPER HAT CREEK 1,Labour Force Indicators,Unemployment rate,NA,2001
+5933875,UPPER HAT CREEK 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933876,UPPER NEPA 6,Labour Force Indicators,Unemployment rate,NA,2001
+5933876,UPPER NEPA 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933877,WHISPERING PINES 4,Labour Force Indicators,Unemployment rate,33.3,2001
+5933877,WHISPERING PINES 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933878,YAWAUCHT 11,Labour Force Indicators,Unemployment rate,NA,2001
+5933878,YAWAUCHT 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933879,ZACHT 5,Labour Force Indicators,Unemployment rate,NA,2001
+5933879,ZACHT 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933880,KAMLOOPS 1,Labour Force Indicators,Unemployment rate,13.7,2001
+5933880,KAMLOOPS 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",31544,2001
+5933883,NESKONLITH 1 (NESKAINLITH 1),Labour Force Indicators,Unemployment rate,NA,2001
+5933883,NESKONLITH 1 (NESKAINLITH 1),Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933884,SAHHALTKUM 4,Labour Force Indicators,Unemployment rate,30,2001
+5933884,SAHHALTKUM 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",29003,2001
+5933885,NESKONLITH 2,Labour Force Indicators,Unemployment rate,27.3,2001
+5933885,NESKONLITH 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933886,NEKALLISTON 2,Labour Force Indicators,Unemployment rate,NA,2001
+5933886,NEKALLISTON 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933887,NORTH THOMPSON 1,Labour Force Indicators,Unemployment rate,16,2001
+5933887,NORTH THOMPSON 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5933888,LOUIS CREEK 4,Labour Force Indicators,Unemployment rate,NA,2001
+5933888,LOUIS CREEK 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933889,SQUAAM 2,Labour Force Indicators,Unemployment rate,NA,2001
+5933889,SQUAAM 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5933890,CAMERON BAR 13,Labour Force Indicators,Unemployment rate,NA,2001
+5933890,CAMERON BAR 13,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5935010,KELOWNA,Labour Force Indicators,Unemployment rate,9.1,2001
+5935010,KELOWNA,Selected Household Characteristics,"Median household income, 2000 ($) - All households",42216,2001
+5935012,CENTRAL OKANAGAN I,Labour Force Indicators,Unemployment rate,6.7,2001
+5935012,CENTRAL OKANAGAN I,Selected Household Characteristics,"Median household income, 2000 ($) - All households",51907,2001
+5935016,LAKE COUNTRY,Labour Force Indicators,Unemployment rate,6.1,2001
+5935016,LAKE COUNTRY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",48967,2001
+5935018,PEACHLAND,Labour Force Indicators,Unemployment rate,9,2001
+5935018,PEACHLAND,Selected Household Characteristics,"Median household income, 2000 ($) - All households",37800,2001
+5935025,CENTRAL OKANAGAN G,Labour Force Indicators,Unemployment rate,7.7,2001
+5935025,CENTRAL OKANAGAN G,Selected Household Characteristics,"Median household income, 2000 ($) - All households",54099,2001
+5935027,CENTRAL OKANAGAN H,Labour Force Indicators,Unemployment rate,8,2001
+5935027,CENTRAL OKANAGAN H,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49974,2001
+5935801,DUCK LAKE 7,Labour Force Indicators,Unemployment rate,14.7,2001
+5935801,DUCK LAKE 7,Selected Household Characteristics,"Median household income, 2000 ($) - All households",32268,2001
+5935802,TSINSTIKEPTUM  9,Labour Force Indicators,Unemployment rate,14.2,2001
+5935802,TSINSTIKEPTUM  9,Selected Household Characteristics,"Median household income, 2000 ($) - All households",34061,2001
+5935803,TSINSTIKEPTUM 10,Labour Force Indicators,Unemployment rate,5,2001
+5935803,TSINSTIKEPTUM 10,Selected Household Characteristics,"Median household income, 2000 ($) - All households",46014,2001
+5937005,LUMBY,Labour Force Indicators,Unemployment rate,26,2001
+5937005,LUMBY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",34750,2001
+5937010,COLDSTREAM,Labour Force Indicators,Unemployment rate,8.3,2001
+5937010,COLDSTREAM,Selected Household Characteristics,"Median household income, 2000 ($) - All households",59026,2001
+5937014,VERNON,Labour Force Indicators,Unemployment rate,10.7,2001
+5937014,VERNON,Selected Household Characteristics,"Median household income, 2000 ($) - All households",35948,2001
+5937017,NORTH OKANAGAN B,Labour Force Indicators,Unemployment rate,11,2001
+5937017,NORTH OKANAGAN B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",42699,2001
+5937021,NORTH OKANAGAN C,Labour Force Indicators,Unemployment rate,8.2,2001
+5937021,NORTH OKANAGAN C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",56955,2001
+5937022,NORTH OKANAGAN D,Labour Force Indicators,Unemployment rate,10,2001
+5937022,NORTH OKANAGAN D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",38013,2001
+5937023,NORTH OKANAGAN E,Labour Force Indicators,Unemployment rate,24.7,2001
+5937023,NORTH OKANAGAN E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",29018,2001
+5937024,SPALLUMCHEEN,Labour Force Indicators,Unemployment rate,8.7,2001
+5937024,SPALLUMCHEEN,Selected Household Characteristics,"Median household income, 2000 ($) - All households",45266,2001
+5937028,ARMSTRONG,Labour Force Indicators,Unemployment rate,10.1,2001
+5937028,ARMSTRONG,Selected Household Characteristics,"Median household income, 2000 ($) - All households",37178,2001
+5937033,ENDERBY,Labour Force Indicators,Unemployment rate,12.5,2001
+5937033,ENDERBY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",29810,2001
+5937041,NORTH OKANAGAN F,Labour Force Indicators,Unemployment rate,11.6,2001
+5937041,NORTH OKANAGAN F,Selected Household Characteristics,"Median household income, 2000 ($) - All households",35902,2001
+5937801,OKANAGAN (PART) 1,Labour Force Indicators,Unemployment rate,19.5,2001
+5937801,OKANAGAN (PART) 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",32051,2001
+5937802,ENDERBY 2,Labour Force Indicators,Unemployment rate,39.1,2001
+5937802,ENDERBY 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5937803,PRIEST'S VALLEY 6,Labour Force Indicators,Unemployment rate,8.6,2001
+5937803,PRIEST'S VALLEY 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",31750,2001
+5937805,HARRIS 3,Labour Force Indicators,Unemployment rate,NA,2001
+5937805,HARRIS 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5939007,GOLDEN,Labour Force Indicators,Unemployment rate,8.4,2001
+5939007,GOLDEN,Selected Household Characteristics,"Median household income, 2000 ($) - All households",45929,2001
+5939011,COLUMBIA-SHUSWAP A,Labour Force Indicators,Unemployment rate,14.5,2001
+5939011,COLUMBIA-SHUSWAP A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",43690,2001
+5939019,REVELSTOKE,Labour Force Indicators,Unemployment rate,10.2,2001
+5939019,REVELSTOKE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44661,2001
+5939023,COLUMBIA-SHUSWAP B,Labour Force Indicators,Unemployment rate,19,2001
+5939023,COLUMBIA-SHUSWAP B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",54849,2001
+5939032,SALMON ARM,Labour Force Indicators,Unemployment rate,9.4,2001
+5939032,SALMON ARM,Selected Household Characteristics,"Median household income, 2000 ($) - All households",38956,2001
+5939037,COLUMBIA-SHUSWAP C,Labour Force Indicators,Unemployment rate,10.8,2001
+5939037,COLUMBIA-SHUSWAP C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",38902,2001
+5939039,COLUMBIA-SHUSWAP D,Labour Force Indicators,Unemployment rate,12.1,2001
+5939039,COLUMBIA-SHUSWAP D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",37753,2001
+5939043,COLUMBIA-SHUSWAP E,Labour Force Indicators,Unemployment rate,15.9,2001
+5939043,COLUMBIA-SHUSWAP E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",39266,2001
+5939044,COLUMBIA-SHUSWAP F,Labour Force Indicators,Unemployment rate,10.4,2001
+5939044,COLUMBIA-SHUSWAP F,Selected Household Characteristics,"Median household income, 2000 ($) - All households",35882,2001
+5939045,SICAMOUS,Labour Force Indicators,Unemployment rate,18.7,2001
+5939045,SICAMOUS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",33777,2001
+5939801,CHUM CREEK 2,Labour Force Indicators,Unemployment rate,50,2001
+5939801,CHUM CREEK 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5939802,HUSTALEN 1,Labour Force Indicators,Unemployment rate,NA,2001
+5939802,HUSTALEN 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5939803,NORTH BAY 5,Labour Force Indicators,Unemployment rate,0,2001
+5939803,NORTH BAY 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5939804,OKANAGAN (PART) 1,Labour Force Indicators,Unemployment rate,22.2,2001
+5939804,OKANAGAN (PART) 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5939805,QUAAOUT 1,Labour Force Indicators,Unemployment rate,30,2001
+5939805,QUAAOUT 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5939806,SALMON RIVER 1,Labour Force Indicators,Unemployment rate,NA,2001
+5939806,SALMON RIVER 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5939807,SCOTCH CREEK 4,Labour Force Indicators,Unemployment rate,NA,2001
+5939807,SCOTCH CREEK 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5939808,SWITSEMALPH 3,Labour Force Indicators,Unemployment rate,33.3,2001
+5939808,SWITSEMALPH 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5939809,SWITSEMALPH 6,Labour Force Indicators,Unemployment rate,15.4,2001
+5939809,SWITSEMALPH 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5939810,SWITSEMALPH 7,Labour Force Indicators,Unemployment rate,NA,2001
+5939810,SWITSEMALPH 7,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941005,ONE HUNDRED MILE HOUSE,Labour Force Indicators,Unemployment rate,13.3,2001
+5941005,ONE HUNDRED MILE HOUSE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",33153,2001
+5941009,WILLIAMS LAKE,Labour Force Indicators,Unemployment rate,13.7,2001
+5941009,WILLIAMS LAKE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49156,2001
+5941010,CARIBOO D,Labour Force Indicators,Unemployment rate,15.3,2001
+5941010,CARIBOO D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",48854,2001
+5941012,CARIBOO E,Labour Force Indicators,Unemployment rate,15.4,2001
+5941012,CARIBOO E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",59376,2001
+5941013,QUESNEL,Labour Force Indicators,Unemployment rate,13.4,2001
+5941013,QUESNEL,Selected Household Characteristics,"Median household income, 2000 ($) - All households",42412,2001
+5941014,CARIBOO F,Labour Force Indicators,Unemployment rate,11.5,2001
+5941014,CARIBOO F,Selected Household Characteristics,"Median household income, 2000 ($) - All households",48620,2001
+5941015,CARIBOO G,Labour Force Indicators,Unemployment rate,12.2,2001
+5941015,CARIBOO G,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44045,2001
+5941016,CARIBOO H,Labour Force Indicators,Unemployment rate,16.5,2001
+5941016,CARIBOO H,Selected Household Characteristics,"Median household income, 2000 ($) - All households",35105,2001
+5941017,CARIBOO L,Labour Force Indicators,Unemployment rate,14.1,2001
+5941017,CARIBOO L,Selected Household Characteristics,"Median household income, 2000 ($) - All households",40200,2001
+5941019,CARIBOO A,Labour Force Indicators,Unemployment rate,15.3,2001
+5941019,CARIBOO A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",48876,2001
+5941021,CARIBOO B,Labour Force Indicators,Unemployment rate,12,2001
+5941021,CARIBOO B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",47037,2001
+5941025,WELLS,Labour Force Indicators,Unemployment rate,12.5,2001
+5941025,WELLS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5941026,CARIBOO C,Labour Force Indicators,Unemployment rate,15.4,2001
+5941026,CARIBOO C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",38254,2001
+5941027,CARIBOO I,Labour Force Indicators,Unemployment rate,9.8,2001
+5941027,CARIBOO I,Selected Household Characteristics,"Median household income, 2000 ($) - All households",40859,2001
+5941039,CARIBOO J,Labour Force Indicators,Unemployment rate,14.9,2001
+5941039,CARIBOO J,Selected Household Characteristics,"Median household income, 2000 ($) - All households",30432,2001
+5941041,CARIBOO K,Labour Force Indicators,Unemployment rate,7.9,2001
+5941041,CARIBOO K,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44868,2001
+5941801,ALKALI LAKE 1,Labour Force Indicators,Unemployment rate,38.2,2001
+5941801,ALKALI LAKE 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",28672,2001
+5941802,CANIM LAKE 1,Labour Force Indicators,Unemployment rate,36.8,2001
+5941802,CANIM LAKE 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5941803,CANIM LAKE 4,Labour Force Indicators,Unemployment rate,NA,2001
+5941803,CANIM LAKE 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941804,CANOE CREEK 3,Labour Force Indicators,Unemployment rate,NA,2001
+5941804,CANOE CREEK 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941805,DEEP CREEK 2,Labour Force Indicators,Unemployment rate,23.1,2001
+5941805,DEEP CREEK 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5941806,DOG CREEK 1,Labour Force Indicators,Unemployment rate,0,2001
+5941806,DOG CREEK 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5941807,DOG CREEK 2,Labour Force Indicators,Unemployment rate,0,2001
+5941807,DOG CREEK 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5941808,LOHBIEE 3,Labour Force Indicators,Unemployment rate,40,2001
+5941808,LOHBIEE 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5941809,QUESNEL 1,Labour Force Indicators,Unemployment rate,50,2001
+5941809,QUESNEL 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5941810,SODA CREEK 1,Labour Force Indicators,Unemployment rate,40,2001
+5941810,SODA CREEK 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5941811,JOHNY STICKS 2,Labour Force Indicators,Unemployment rate,NA,2001
+5941811,JOHNY STICKS 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941812,WILLIAMS LAKE 1,Labour Force Indicators,Unemployment rate,26.7,2001
+5941812,WILLIAMS LAKE 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",30016,2001
+5941813,CANIM LAKE 2,Labour Force Indicators,Unemployment rate,NA,2001
+5941813,CANIM LAKE 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941814,ALEXANDRIA 3A,Labour Force Indicators,Unemployment rate,NA,2001
+5941814,ALEXANDRIA 3A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941815,ALEXANDRIA 1,Labour Force Indicators,Unemployment rate,NA,2001
+5941815,ALEXANDRIA 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941816,ALEXANDRIA 3,Labour Force Indicators,Unemployment rate,NA,2001
+5941816,ALEXANDRIA 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941817,ALEXIS CREEK 14,Labour Force Indicators,Unemployment rate,NA,2001
+5941817,ALEXIS CREEK 14,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941818,ALEXIS CREEK 16,Labour Force Indicators,Unemployment rate,NA,2001
+5941818,ALEXIS CREEK 16,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941819,ALEXIS CREEK 24,Labour Force Indicators,Unemployment rate,NA,2001
+5941819,ALEXIS CREEK 24,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941820,ALEXIS CREEK 25,Labour Force Indicators,Unemployment rate,NA,2001
+5941820,ALEXIS CREEK 25,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941821,ANAHIM'S FLAT 1,Labour Force Indicators,Unemployment rate,31,2001
+5941821,ANAHIM'S FLAT 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",22848,2001
+5941822,ANAHIM'S MEADOW 2,Labour Force Indicators,Unemployment rate,NA,2001
+5941822,ANAHIM'S MEADOW 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941823,ANAHIM'S MEADOW 2A,Labour Force Indicators,Unemployment rate,NA,2001
+5941823,ANAHIM'S MEADOW 2A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941824,ANDY CAHOOSE MEADOW 16,Labour Force Indicators,Unemployment rate,NA,2001
+5941824,ANDY CAHOOSE MEADOW 16,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941825,BAEZAEKO RIVER 25,Labour Force Indicators,Unemployment rate,NA,2001
+5941825,BAEZAEKO RIVER 25,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941826,CAHOOSE  8,Labour Force Indicators,Unemployment rate,NA,2001
+5941826,CAHOOSE  8,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941827,CHARLEY BOY'S MEADOW 3,Labour Force Indicators,Unemployment rate,NA,2001
+5941827,CHARLEY BOY'S MEADOW 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941828,CHILCO LAKE 1,Labour Force Indicators,Unemployment rate,NA,2001
+5941828,CHILCO LAKE 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941829,CHILCO LAKE 1A,Labour Force Indicators,Unemployment rate,0,2001
+5941829,CHILCO LAKE 1A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5941830,GARDEN 2,Labour Force Indicators,Unemployment rate,NA,2001
+5941830,GARDEN 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941831,TANAKUT 4,Labour Force Indicators,Unemployment rate,NA,2001
+5941831,TANAKUT 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941832,GARDEN 2A,Labour Force Indicators,Unemployment rate,NA,2001
+5941832,GARDEN 2A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941833,KLUSKUS 1,Labour Force Indicators,Unemployment rate,75,2001
+5941833,KLUSKUS 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5941834,LOUIS SQUINAS RANCH 14,Labour Force Indicators,Unemployment rate,NA,2001
+5941834,LOUIS SQUINAS RANCH 14,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941835,COGLISTIKO RIVER 29,Labour Force Indicators,Unemployment rate,NA,2001
+5941835,COGLISTIKO RIVER 29,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941836,BAEZAEKO RIVER 26,Labour Force Indicators,Unemployment rate,NA,2001
+5941836,BAEZAEKO RIVER 26,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941837,NAZCO 20,Labour Force Indicators,Unemployment rate,62.5,2001
+5941837,NAZCO 20,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5941838,PUNTZI LAKE 2,Labour Force Indicators,Unemployment rate,NA,2001
+5941838,PUNTZI LAKE 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941839,REDSTONE FLAT 1,Labour Force Indicators,Unemployment rate,53.3,2001
+5941839,REDSTONE FLAT 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5941840,SQUINAS 2,Labour Force Indicators,Unemployment rate,NA,2001
+5941840,SQUINAS 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941841,STONE 1,Labour Force Indicators,Unemployment rate,36.8,2001
+5941841,STONE 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5941842,ALEXIS CREEK 17,Labour Force Indicators,Unemployment rate,NA,2001
+5941842,ALEXIS CREEK 17,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941843,SEYMOUR MEADOWS 19,Labour Force Indicators,Unemployment rate,NA,2001
+5941843,SEYMOUR MEADOWS 19,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941844,AGATS MEADOW 8,Labour Force Indicators,Unemployment rate,NA,2001
+5941844,AGATS MEADOW 8,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941845,THOMAS SQUINAS RANCH 2A,Labour Force Indicators,Unemployment rate,NA,2001
+5941845,THOMAS SQUINAS RANCH 2A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941846,TOBY'S MEADOW 4,Labour Force Indicators,Unemployment rate,NA,2001
+5941846,TOBY'S MEADOW 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941847,ALEXIS CREEK  6,Labour Force Indicators,Unemployment rate,NA,2001
+5941847,ALEXIS CREEK  6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941848,ALEXIS CREEK 21,Labour Force Indicators,Unemployment rate,NA,2001
+5941848,ALEXIS CREEK 21,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941849,BAPTISTE MEADOW 2,Labour Force Indicators,Unemployment rate,NA,2001
+5941849,BAPTISTE MEADOW 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941850,TOOSEY 1,Labour Force Indicators,Unemployment rate,50,2001
+5941850,TOOSEY 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5941851,TOWDYSTAN LAKE 3,Labour Force Indicators,Unemployment rate,NA,2001
+5941851,TOWDYSTAN LAKE 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941852,TROUT LAKE ALEC 16,Labour Force Indicators,Unemployment rate,NA,2001
+5941852,TROUT LAKE ALEC 16,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941853,TSUNNIA LAKE 5,Labour Force Indicators,Unemployment rate,NA,2001
+5941853,TSUNNIA LAKE 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941854,ULKATCHO 13,Labour Force Indicators,Unemployment rate,NA,2001
+5941854,ULKATCHO 13,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941855,WINDY MOUTH 7,Labour Force Indicators,Unemployment rate,NA,2001
+5941855,WINDY MOUTH 7,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941856,ALEXIS CREEK 34,Labour Force Indicators,Unemployment rate,NA,2001
+5941856,ALEXIS CREEK 34,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941857,CASIMIEL MEADOWS 15A,Labour Force Indicators,Unemployment rate,NA,2001
+5941857,CASIMIEL MEADOWS 15A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941858,CAHOOSE 10,Labour Force Indicators,Unemployment rate,NA,2001
+5941858,CAHOOSE 10,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941859,BLACKWATER MEADOW 11,Labour Force Indicators,Unemployment rate,NA,2001
+5941859,BLACKWATER MEADOW 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941860,CAHOOSE 12,Labour Force Indicators,Unemployment rate,NA,2001
+5941860,CAHOOSE 12,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941861,BETTY CREEK 18,Labour Force Indicators,Unemployment rate,NA,2001
+5941861,BETTY CREEK 18,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941862,SALMON RIVER MEADOW 7,Labour Force Indicators,Unemployment rate,NA,2001
+5941862,SALMON RIVER MEADOW 7,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941863,TZETZI LAKE 11,Labour Force Indicators,Unemployment rate,NA,2001
+5941863,TZETZI LAKE 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941864,SUNDAYMAN'S MEADOW 3,Labour Force Indicators,Unemployment rate,NA,2001
+5941864,SUNDAYMAN'S MEADOW 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941865,TATELKUS LAKE 28,Labour Force Indicators,Unemployment rate,NA,2001
+5941865,TATELKUS LAKE 28,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941866,EUCHINICO CREEK 17,Labour Force Indicators,Unemployment rate,NA,2001
+5941866,EUCHINICO CREEK 17,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941867,KUSHYA CREEK 7,Labour Force Indicators,Unemployment rate,NA,2001
+5941867,KUSHYA CREEK 7,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941868,SANDY HARRY 4,Labour Force Indicators,Unemployment rate,NA,2001
+5941868,SANDY HARRY 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941870,ALEXANDRIA 1A,Labour Force Indicators,Unemployment rate,NA,2001
+5941870,ALEXANDRIA 1A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941871,FISHTRAP 19,Labour Force Indicators,Unemployment rate,NA,2001
+5941871,FISHTRAP 19,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941872,SWAN LAKE  3,Labour Force Indicators,Unemployment rate,NA,2001
+5941872,SWAN LAKE  3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941873,ALKALI LAKE 4A,Labour Force Indicators,Unemployment rate,NA,2001
+5941873,ALKALI LAKE 4A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941874,LITTLE SPRINGS  8,Labour Force Indicators,Unemployment rate,NA,2001
+5941874,LITTLE SPRINGS  8,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5941875,LITTLE SPRINGS 18,Labour Force Indicators,Unemployment rate,NA,2001
+5941875,LITTLE SPRINGS 18,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5943008,ALERT BAY,Labour Force Indicators,Unemployment rate,15.3,2001
+5943008,ALERT BAY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",37320,2001
+5943012,PORT MCNEILL,Labour Force Indicators,Unemployment rate,7.8,2001
+5943012,PORT MCNEILL,Selected Household Characteristics,"Median household income, 2000 ($) - All households",65584,2001
+5943017,PORT ALICE,Labour Force Indicators,Unemployment rate,5,2001
+5943017,PORT ALICE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",70134,2001
+5943023,PORT HARDY,Labour Force Indicators,Unemployment rate,7.6,2001
+5943023,PORT HARDY,Selected Household Characteristics,"Median household income, 2000 ($) - All households",48034,2001
+5943027,MOUNT WADDINGTON B,Labour Force Indicators,Unemployment rate,23.8,2001
+5943027,MOUNT WADDINGTON B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5943031,MOUNT WADDINGTON C,Labour Force Indicators,Unemployment rate,10.7,2001
+5943031,MOUNT WADDINGTON C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",61993,2001
+5943033,MOUNT WADDINGTON D,Labour Force Indicators,Unemployment rate,10.2,2001
+5943033,MOUNT WADDINGTON D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",87943,2001
+5943037,MOUNT WADDINGTON A,Labour Force Indicators,Unemployment rate,17.2,2001
+5943037,MOUNT WADDINGTON A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",38734,2001
+5943801,ALERT BAY 1,Labour Force Indicators,Unemployment rate,28,2001
+5943801,ALERT BAY 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",34944,2001
+5943802,ALERT BAY 1A,Labour Force Indicators,Unemployment rate,23.3,2001
+5943802,ALERT BAY 1A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",28608,2001
+5943804,FORT RUPERT 1,Labour Force Indicators,Unemployment rate,NA,2001
+5943804,FORT RUPERT 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5943805,QUATTISHE 1,Labour Force Indicators,Unemployment rate,NA,2001
+5943805,QUATTISHE 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5943806,TSULQUATE 4,Labour Force Indicators,Unemployment rate,36.4,2001
+5943806,TSULQUATE 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",25920,2001
+5943807,DEAD POINT 5,Labour Force Indicators,Unemployment rate,NA,2001
+5943807,DEAD POINT 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5943808,GWAYASDUMS 1,Labour Force Indicators,Unemployment rate,NA,2001
+5943808,GWAYASDUMS 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5943809,HOPETOWN 10A,Labour Force Indicators,Unemployment rate,NA,2001
+5943809,HOPETOWN 10A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5943810,KARLUKWEES 1,Labour Force Indicators,Unemployment rate,NA,2001
+5943810,KARLUKWEES 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5943813,QUAEE 7,Labour Force Indicators,Unemployment rate,25,2001
+5943813,QUAEE 7,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5943815,KIPPASE 2,Labour Force Indicators,Unemployment rate,22.2,2001
+5943815,KIPPASE 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",33472,2001
+5943816,QUATSINO SUBDIVISION 18,Labour Force Indicators,Unemployment rate,35.3,2001
+5943816,QUATSINO SUBDIVISION 18,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5943817,THOMAS POINT 5,Labour Force Indicators,Unemployment rate,NA,2001
+5943817,THOMAS POINT 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5943820,APSAGAYU 1A,Labour Force Indicators,Unemployment rate,NA,2001
+5943820,APSAGAYU 1A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5943824,COMPTON ISLAND 6,Labour Force Indicators,Unemployment rate,NA,2001
+5943824,COMPTON ISLAND 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5943828,MAHMALILLIKULLAH 1,Labour Force Indicators,Unemployment rate,NA,2001
+5943828,MAHMALILLIKULLAH 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5943832,GLEN-GLA-OUCH 5,Labour Force Indicators,Unemployment rate,NA,2001
+5943832,GLEN-GLA-OUCH 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5943836,HOPE ISLAND 1,Labour Force Indicators,Unemployment rate,NA,2001
+5943836,HOPE ISLAND 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5945006,CENTRAL COAST A,Labour Force Indicators,Unemployment rate,11.1,2001
+5945006,CENTRAL COAST A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5945010,CENTRAL COAST C,Labour Force Indicators,Unemployment rate,12.3,2001
+5945010,CENTRAL COAST C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49179,2001
+5945012,CENTRAL COAST D,Labour Force Indicators,Unemployment rate,12.3,2001
+5945012,CENTRAL COAST D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",41288,2001
+5945014,CENTRAL COAST E,Labour Force Indicators,Unemployment rate,0,2001
+5945014,CENTRAL COAST E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5945801,BELLA BELLA 1,Labour Force Indicators,Unemployment rate,26.4,2001
+5945801,BELLA BELLA 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",38016,2001
+5945802,BELLA COOLA 1,Labour Force Indicators,Unemployment rate,29.4,2001
+5945802,BELLA COOLA 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",24512,2001
+5945803,KATIT 1,Labour Force Indicators,Unemployment rate,NA,2001
+5945803,KATIT 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5947007,PORT EDWARD,Labour Force Indicators,Unemployment rate,27.3,2001
+5947007,PORT EDWARD,Selected Household Characteristics,"Median household income, 2000 ($) - All households",40694,2001
+5947012,PRINCE RUPERT,Labour Force Indicators,Unemployment rate,15.4,2001
+5947012,PRINCE RUPERT,Selected Household Characteristics,"Median household income, 2000 ($) - All households",50058,2001
+5947016,SKEENA-QUEEN CHARLOTTE A,Labour Force Indicators,Unemployment rate,0,2001
+5947016,SKEENA-QUEEN CHARLOTTE A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5947021,SKEENA-QUEEN CHARLOTTE C,Labour Force Indicators,Unemployment rate,50,2001
+5947021,SKEENA-QUEEN CHARLOTTE C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5947023,MASSET,Labour Force Indicators,Unemployment rate,8.3,2001
+5947023,MASSET,Selected Household Characteristics,"Median household income, 2000 ($) - All households",51470,2001
+5947025,SKEENA-QUEEN CHARLOTTE F,Labour Force Indicators,Unemployment rate,3.8,2001
+5947025,SKEENA-QUEEN CHARLOTTE F,Selected Household Characteristics,"Median household income, 2000 ($) - All households",53024,2001
+5947027,SKEENA-QUEEN CHARLOTTE D,Labour Force Indicators,Unemployment rate,16.7,2001
+5947027,SKEENA-QUEEN CHARLOTTE D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",38348,2001
+5947030,PORT CLEMENTS,Labour Force Indicators,Unemployment rate,12.3,2001
+5947030,PORT CLEMENTS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",52811,2001
+5947032,SKEENA-QUEEN CHARLOTTE E,Labour Force Indicators,Unemployment rate,5.9,2001
+5947032,SKEENA-QUEEN CHARLOTTE E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",50115,2001
+5947803,MASSET 1,Labour Force Indicators,Unemployment rate,NA,2001
+5947803,MASSET 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5947804,SKIDEGATE 1,Labour Force Indicators,Unemployment rate,19.4,2001
+5947804,SKIDEGATE 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",32896,2001
+5947806,KULKAYU (HARTLEY BAY) 4,Labour Force Indicators,Unemployment rate,15.4,2001
+5947806,KULKAYU (HARTLEY BAY) 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5947807,DOLPHIN ISLAND 1,Labour Force Indicators,Unemployment rate,53.3,2001
+5947807,DOLPHIN ISLAND 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",26432,2001
+5947809,LAX KW'ALAAMS,Labour Force Indicators,Unemployment rate,56.7,2001
+5947809,LAX KW'ALAAMS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",23949,2001
+5949005,KITIMAT,Labour Force Indicators,Unemployment rate,11.8,2001
+5949005,KITIMAT,Selected Household Characteristics,"Median household income, 2000 ($) - All households",66799,2001
+5949011,TERRACE,Labour Force Indicators,Unemployment rate,13.5,2001
+5949011,TERRACE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",53259,2001
+5949013,KITIMAT-STIKINE C (PART 1),Labour Force Indicators,Unemployment rate,13,2001
+5949013,KITIMAT-STIKINE C (PART 1),Selected Household Characteristics,"Median household income, 2000 ($) - All households",56831,2001
+5949018,KITIMAT-STIKINE E,Labour Force Indicators,Unemployment rate,16.7,2001
+5949018,KITIMAT-STIKINE E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",44117,2001
+5949020,KITIMAT-STIKINE C (PART 2),Labour Force Indicators,Unemployment rate,NA,2001
+5949020,KITIMAT-STIKINE C (PART 2),Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5949022,HAZELTON,Labour Force Indicators,Unemployment rate,18.2,2001
+5949022,HAZELTON,Selected Household Characteristics,"Median household income, 2000 ($) - All households",58554,2001
+5949024,NEW HAZELTON,Labour Force Indicators,Unemployment rate,22.2,2001
+5949024,NEW HAZELTON,Selected Household Characteristics,"Median household income, 2000 ($) - All households",35259,2001
+5949028,KITIMAT-STIKINE B,Labour Force Indicators,Unemployment rate,19.3,2001
+5949028,KITIMAT-STIKINE B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",45209,2001
+5949032,STEWART,Labour Force Indicators,Unemployment rate,24.1,2001
+5949032,STEWART,Selected Household Characteristics,"Median household income, 2000 ($) - All households",45433,2001
+5949035,NISGA'A,Labour Force Indicators,Unemployment rate,30,2001
+5949035,NISGA'A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5949039,KITIMAT-STIKINE A,Labour Force Indicators,Unemployment rate,45.5,2001
+5949039,KITIMAT-STIKINE A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5949041,KITIMAT-STIKINE D,Labour Force Indicators,Unemployment rate,0,2001
+5949041,KITIMAT-STIKINE D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5949802,KITASOO 1,Labour Force Indicators,Unemployment rate,16,2001
+5949802,KITASOO 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",28480,2001
+5949803,KITAMAAT 2,Labour Force Indicators,Unemployment rate,18.2,2001
+5949803,KITAMAAT 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",37248,2001
+5949804,KITSUMKAYLUM 1,Labour Force Indicators,Unemployment rate,NA,2001
+5949804,KITSUMKAYLUM 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5949805,KSHISH 4,Labour Force Indicators,Unemployment rate,37.5,2001
+5949805,KSHISH 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5949807,KULSPAI 6,Labour Force Indicators,Unemployment rate,33.3,2001
+5949807,KULSPAI 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5949810,CORYATSAQUA (MORICETOWN) 2,Labour Force Indicators,Unemployment rate,26.7,2001
+5949810,CORYATSAQUA (MORICETOWN) 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5949811,HAGWILGET 1,Labour Force Indicators,Unemployment rate,38.1,2001
+5949811,HAGWILGET 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5949812,GITANMAAX 1,Labour Force Indicators,Unemployment rate,36.5,2001
+5949812,GITANMAAX 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",33280,2001
+5949813,KISPIOX 1,Labour Force Indicators,Unemployment rate,34,2001
+5949813,KISPIOX 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",25312,2001
+5949814,GITSEGUKLA 1,Labour Force Indicators,Unemployment rate,59.4,2001
+5949814,GITSEGUKLA 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",19008,2001
+5949815,GITANYOW 1,Labour Force Indicators,Unemployment rate,34.8,2001
+5949815,GITANYOW 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",26144,2001
+5949816,GITWANGAK 1,Labour Force Indicators,Unemployment rate,39.5,2001
+5949816,GITWANGAK 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",11008,2001
+5949817,MORICETOWN 1,Labour Force Indicators,Unemployment rate,33.3,2001
+5949817,MORICETOWN 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5949818,SIK-E-DAKH 2,Labour Force Indicators,Unemployment rate,40,2001
+5949818,SIK-E-DAKH 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5949819,BABINE 17,Labour Force Indicators,Unemployment rate,41.7,2001
+5949819,BABINE 17,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5949820,BULKLEY RIVER 19,Labour Force Indicators,Unemployment rate,50,2001
+5949820,BULKLEY RIVER 19,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5949826,TELEGRAPH CREEK 6,Labour Force Indicators,Unemployment rate,33.3,2001
+5949826,TELEGRAPH CREEK 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5949827,TELEGRAPH CREEK 6A,Labour Force Indicators,Unemployment rate,NA,2001
+5949827,TELEGRAPH CREEK 6A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5949830,KLUACHON LAKE 1,Labour Force Indicators,Unemployment rate,NA,2001
+5949830,KLUACHON LAKE 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5949831,GITZAULT 24,Labour Force Indicators,Unemployment rate,NA,2001
+5949831,GITZAULT 24,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5949832,ISKUT 6,Labour Force Indicators,Unemployment rate,33.3,2001
+5949832,ISKUT 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",34944,2001
+5949834,NEW AIYANSH,Labour Force Indicators,Unemployment rate,33.8,2001
+5949834,NEW AIYANSH,Selected Household Characteristics,"Median household income, 2000 ($) - All households",41024,2001
+5949836,AIYANSH (KITLADAMAS) 1,Labour Force Indicators,Unemployment rate,NA,2001
+5949836,AIYANSH (KITLADAMAS) 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5949838,GITWINKSIHLKW,Labour Force Indicators,Unemployment rate,31.8,2001
+5949838,GITWINKSIHLKW,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5949840,LAXGALTS'AP,Labour Force Indicators,Unemployment rate,47.8,2001
+5949840,LAXGALTS'AP,Selected Household Characteristics,"Median household income, 2000 ($) - All households",28992,2001
+5949842,GINGOLX,Labour Force Indicators,Unemployment rate,NA,2001
+5949842,GINGOLX,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5949843,GUHTHE TAH 12,Labour Force Indicators,Unemployment rate,26.7,2001
+5949843,GUHTHE TAH 12,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5951007,VANDERHOOF,Labour Force Indicators,Unemployment rate,10.6,2001
+5951007,VANDERHOOF,Selected Household Characteristics,"Median household income, 2000 ($) - All households",45621,2001
+5951009,FRASER LAKE,Labour Force Indicators,Unemployment rate,15.8,2001
+5951009,FRASER LAKE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49074,2001
+5951013,FORT ST. JAMES,Labour Force Indicators,Unemployment rate,7.2,2001
+5951013,FORT ST. JAMES,Selected Household Characteristics,"Median household income, 2000 ($) - All households",60053,2001
+5951015,BULKLEY-NECHAKO C,Labour Force Indicators,Unemployment rate,11.1,2001
+5951015,BULKLEY-NECHAKO C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",54937,2001
+5951017,BULKLEY-NECHAKO D,Labour Force Indicators,Unemployment rate,11.6,2001
+5951017,BULKLEY-NECHAKO D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49235,2001
+5951019,BULKLEY-NECHAKO F,Labour Force Indicators,Unemployment rate,13.1,2001
+5951019,BULKLEY-NECHAKO F,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49705,2001
+5951022,BURNS LAKE,Labour Force Indicators,Unemployment rate,15.8,2001
+5951022,BURNS LAKE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",43671,2001
+5951028,BULKLEY-NECHAKO B,Labour Force Indicators,Unemployment rate,21.2,2001
+5951028,BULKLEY-NECHAKO B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",56325,2001
+5951031,BULKLEY-NECHAKO E,Labour Force Indicators,Unemployment rate,14.5,2001
+5951031,BULKLEY-NECHAKO E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",43334,2001
+5951032,GRANISLE,Labour Force Indicators,Unemployment rate,30.3,2001
+5951032,GRANISLE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",23310,2001
+5951034,HOUSTON,Labour Force Indicators,Unemployment rate,12,2001
+5951034,HOUSTON,Selected Household Characteristics,"Median household income, 2000 ($) - All households",57810,2001
+5951038,TELKWA,Labour Force Indicators,Unemployment rate,8.3,2001
+5951038,TELKWA,Selected Household Characteristics,"Median household income, 2000 ($) - All households",55309,2001
+5951043,SMITHERS,Labour Force Indicators,Unemployment rate,9.3,2001
+5951043,SMITHERS,Selected Household Characteristics,"Median household income, 2000 ($) - All households",55724,2001
+5951051,BULKLEY-NECHAKO A,Labour Force Indicators,Unemployment rate,8.3,2001
+5951051,BULKLEY-NECHAKO A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",55615,2001
+5951053,BULKLEY-NECHAKO G,Labour Force Indicators,Unemployment rate,15.4,2001
+5951053,BULKLEY-NECHAKO G,Selected Household Characteristics,"Median household income, 2000 ($) - All households",54612,2001
+5951801,YE KOO CHE 3,Labour Force Indicators,Unemployment rate,33.3,2001
+5951801,YE KOO CHE 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5951802,NAUTLEY (FORT FRASER) 1,Labour Force Indicators,Unemployment rate,33.3,2001
+5951802,NAUTLEY (FORT FRASER) 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5951803,NAK'AZDLI (NECOSLIE 1),Labour Force Indicators,Unemployment rate,29.4,2001
+5951803,NAK'AZDLI (NECOSLIE 1),Selected Household Characteristics,"Median household income, 2000 ($) - All households",20736,2001
+5951804,SOWCHEA 3,Labour Force Indicators,Unemployment rate,NA,2001
+5951804,SOWCHEA 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951805,BINCHE 2 (PINCHIE 2),Labour Force Indicators,Unemployment rate,NA,2001
+5951805,BINCHE 2 (PINCHIE 2),Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951806,SEASPUNKUT 4,Labour Force Indicators,Unemployment rate,NA,2001
+5951806,SEASPUNKUT 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951807,STELLAQUO (STELLA) 1,Labour Force Indicators,Unemployment rate,16.7,2001
+5951807,STELLAQUO (STELLA) 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5951808,TSAY CHO 4,Labour Force Indicators,Unemployment rate,NA,2001
+5951808,TSAY CHO 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951809,STONY CREEK 1,Labour Force Indicators,Unemployment rate,34.4,2001
+5951809,STONY CREEK 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",12043,2001
+5951810,TACHE 1,Labour Force Indicators,Unemployment rate,NA,2001
+5951810,TACHE 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951811,TACLA LAKE (FERRY LANDING) 9,Labour Force Indicators,Unemployment rate,NA,2001
+5951811,TACLA LAKE (FERRY LANDING) 9,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951812,NORTH TACLA LAKE 7,Labour Force Indicators,Unemployment rate,NA,2001
+5951812,NORTH TACLA LAKE 7,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951813,LAKETOWN 3,Labour Force Indicators,Unemployment rate,NA,2001
+5951813,LAKETOWN 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951814,DZITLINE LEE 9,Labour Force Indicators,Unemployment rate,NA,2001
+5951814,DZITLINE LEE 9,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951815,BURNS LAKE 18,Labour Force Indicators,Unemployment rate,NA,2001
+5951815,BURNS LAKE 18,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951816,KUZ CHE 5,Labour Force Indicators,Unemployment rate,NA,2001
+5951816,KUZ CHE 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951817,BIHL' K'A 18,Labour Force Indicators,Unemployment rate,NA,2001
+5951817,BIHL' K'A 18,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951818,CHESLATTA 1,Labour Force Indicators,Unemployment rate,0,2001
+5951818,CHESLATTA 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5951819,OMINECA 1,Labour Force Indicators,Unemployment rate,NA,2001
+5951819,OMINECA 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951820,PALLING 1,Labour Force Indicators,Unemployment rate,NA,2001
+5951820,PALLING 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951821,DUNCAN LAKE 2,Labour Force Indicators,Unemployment rate,NA,2001
+5951821,DUNCAN LAKE 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951822,FRANCOIS LAKE 7,Labour Force Indicators,Unemployment rate,NA,2001
+5951822,FRANCOIS LAKE 7,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951823,SKINS LAKE 16A,Labour Force Indicators,Unemployment rate,NA,2001
+5951823,SKINS LAKE 16A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951824,SKINS LAKE 16B,Labour Force Indicators,Unemployment rate,NA,2001
+5951824,SKINS LAKE 16B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951825,TATLA WEST 11,Labour Force Indicators,Unemployment rate,NA,2001
+5951825,TATLA WEST 11,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951826,UNCHA LAKE 13A,Labour Force Indicators,Unemployment rate,NA,2001
+5951826,UNCHA LAKE 13A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951827,WOYENNE 27,Labour Force Indicators,Unemployment rate,23.5,2001
+5951827,WOYENNE 27,Selected Household Characteristics,"Median household income, 2000 ($) - All households",26560,2001
+5951828,BABINE  6,Labour Force Indicators,Unemployment rate,50,2001
+5951828,BABINE  6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5951829,BABINE 25,Labour Force Indicators,Unemployment rate,0,2001
+5951829,BABINE 25,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5951830,JEAN BAPTISTE 28,Labour Force Indicators,Unemployment rate,NA,2001
+5951830,JEAN BAPTISTE 28,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951833,TATLA'T EAST 2,Labour Force Indicators,Unemployment rate,NA,2001
+5951833,TATLA'T EAST 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951835,ISAAC (GALE LAKE) 8,Labour Force Indicators,Unemployment rate,NA,2001
+5951835,ISAAC (GALE LAKE) 8,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951837,MAXAN LAKE 4,Labour Force Indicators,Unemployment rate,NA,2001
+5951837,MAXAN LAKE 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951840,WILLIAMS PRAIRIE MEADOW 1A,Labour Force Indicators,Unemployment rate,NA,2001
+5951840,WILLIAMS PRAIRIE MEADOW 1A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5951841,NORTH TACLA LAKE 7A,Labour Force Indicators,Unemployment rate,50,2001
+5951841,NORTH TACLA LAKE 7A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5951842,BIHLK'A 6,Labour Force Indicators,Unemployment rate,NA,2001
+5951842,BIHLK'A 6,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5953007,VALEMOUNT,Labour Force Indicators,Unemployment rate,13.9,2001
+5953007,VALEMOUNT,Selected Household Characteristics,"Median household income, 2000 ($) - All households",36192,2001
+5953012,MCBRIDE,Labour Force Indicators,Unemployment rate,6.6,2001
+5953012,MCBRIDE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",42993,2001
+5953019,FRASER-FORT GEORGE H,Labour Force Indicators,Unemployment rate,7.1,2001
+5953019,FRASER-FORT GEORGE H,Selected Household Characteristics,"Median household income, 2000 ($) - All households",39468,2001
+5953023,PRINCE GEORGE,Labour Force Indicators,Unemployment rate,11.4,2001
+5953023,PRINCE GEORGE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",52107,2001
+5953033,MACKENZIE,Labour Force Indicators,Unemployment rate,7.7,2001
+5953033,MACKENZIE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",69076,2001
+5953038,FRASER-FORT GEORGE A,Labour Force Indicators,Unemployment rate,10.8,2001
+5953038,FRASER-FORT GEORGE A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",60526,2001
+5953042,FRASER-FORT GEORGE C,Labour Force Indicators,Unemployment rate,9.3,2001
+5953042,FRASER-FORT GEORGE C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",67930,2001
+5953044,FRASER-FORT GEORGE D,Labour Force Indicators,Unemployment rate,10.3,2001
+5953044,FRASER-FORT GEORGE D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",53850,2001
+5953046,FRASER-FORT GEORGE E,Labour Force Indicators,Unemployment rate,19,2001
+5953046,FRASER-FORT GEORGE E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",34308,2001
+5953048,FRASER-FORT GEORGE F,Labour Force Indicators,Unemployment rate,15.4,2001
+5953048,FRASER-FORT GEORGE F,Selected Household Characteristics,"Median household income, 2000 ($) - All households",45690,2001
+5953050,FRASER-FORT GEORGE G,Labour Force Indicators,Unemployment rate,13.2,2001
+5953050,FRASER-FORT GEORGE G,Selected Household Characteristics,"Median household income, 2000 ($) - All households",50084,2001
+5953801,FORT GEORGE (SHELLEY) 2,Labour Force Indicators,Unemployment rate,44.4,2001
+5953801,FORT GEORGE (SHELLEY) 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5953802,MCLEOD LAKE 1,Labour Force Indicators,Unemployment rate,28.6,2001
+5953802,MCLEOD LAKE 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5953804,PARSNIP 5,Labour Force Indicators,Unemployment rate,NA,2001
+5953804,PARSNIP 5,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5955003,TUMBLER RIDGE,Labour Force Indicators,Unemployment rate,10,2001
+5955003,TUMBLER RIDGE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",64175,2001
+5955005,POUCE COUPE,Labour Force Indicators,Unemployment rate,15,2001
+5955005,POUCE COUPE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",31294,2001
+5955010,CHETWYND,Labour Force Indicators,Unemployment rate,19.1,2001
+5955010,CHETWYND,Selected Household Characteristics,"Median household income, 2000 ($) - All households",47744,2001
+5955014,DAWSON CREEK,Labour Force Indicators,Unemployment rate,10.3,2001
+5955014,DAWSON CREEK,Selected Household Characteristics,"Median household income, 2000 ($) - All households",43805,2001
+5955021,PEACE RIVER D,Labour Force Indicators,Unemployment rate,7.9,2001
+5955021,PEACE RIVER D,Selected Household Characteristics,"Median household income, 2000 ($) - All households",52554,2001
+5955023,PEACE RIVER E,Labour Force Indicators,Unemployment rate,10.5,2001
+5955023,PEACE RIVER E,Selected Household Characteristics,"Median household income, 2000 ($) - All households",49364,2001
+5955025,HUDSON'S HOPE,Labour Force Indicators,Unemployment rate,18,2001
+5955025,HUDSON'S HOPE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",41444,2001
+5955030,TAYLOR,Labour Force Indicators,Unemployment rate,4.6,2001
+5955030,TAYLOR,Selected Household Characteristics,"Median household income, 2000 ($) - All households",54788,2001
+5955034,FORT ST. JOHN,Labour Force Indicators,Unemployment rate,9.1,2001
+5955034,FORT ST. JOHN,Selected Household Characteristics,"Median household income, 2000 ($) - All households",55155,2001
+5955040,PEACE RIVER B,Labour Force Indicators,Unemployment rate,6.2,2001
+5955040,PEACE RIVER B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",42302,2001
+5955042,PEACE RIVER C,Labour Force Indicators,Unemployment rate,5.9,2001
+5955042,PEACE RIVER C,Selected Household Characteristics,"Median household income, 2000 ($) - All households",67549,2001
+5955801,EAST MOBERLY LAKE 169,Labour Force Indicators,Unemployment rate,41.7,2001
+5955801,EAST MOBERLY LAKE 169,Selected Household Characteristics,"Median household income, 2000 ($) - All households",30059,2001
+5955802,WEST MOBERLY LAKE 168A,Labour Force Indicators,Unemployment rate,0,2001
+5955802,WEST MOBERLY LAKE 168A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5955803,BLUEBERRY RIVER 205,Labour Force Indicators,Unemployment rate,75,2001
+5955803,BLUEBERRY RIVER 205,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5955804,DOIG RIVER 206,Labour Force Indicators,Unemployment rate,33.3,2001
+5955804,DOIG RIVER 206,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5955807,FORT WARE 1,Labour Force Indicators,Unemployment rate,44.4,2001
+5955807,FORT WARE 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5955808,HALFWAY RIVER 168,Labour Force Indicators,Unemployment rate,50,2001
+5955808,HALFWAY RIVER 168,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5955812,INGENIKA POINT,Labour Force Indicators,Unemployment rate,NA,2001
+5955812,INGENIKA POINT,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5957022,STIKINE REGION,Labour Force Indicators,Unemployment rate,13.3,2001
+5957022,STIKINE REGION,Selected Household Characteristics,"Median household income, 2000 ($) - All households",35244,2001
+5957801,DEASE LAKE 9,Labour Force Indicators,Unemployment rate,50,2001
+5957801,DEASE LAKE 9,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5957802,UNNAMED 10,Labour Force Indicators,Unemployment rate,NA,2001
+5957802,UNNAMED 10,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5957803,FIVE MILE  POINT 3,Labour Force Indicators,Unemployment rate,30,2001
+5957803,FIVE MILE  POINT 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5957804,GOOD HOPE LAKE,Labour Force Indicators,Unemployment rate,0,2001
+5957804,GOOD HOPE LAKE,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5957805,TAHLTAN 1,Labour Force Indicators,Unemployment rate,NA,2001
+5957805,TAHLTAN 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5957813,LOWER POST,Labour Force Indicators,Unemployment rate,NA,2001
+5957813,LOWER POST,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5957814,LIARD RIVER 3,Labour Force Indicators,Unemployment rate,30,2001
+5957814,LIARD RIVER 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5959005,FORT NELSON,Labour Force Indicators,Unemployment rate,5.6,2001
+5959005,FORT NELSON,Selected Household Characteristics,"Median household income, 2000 ($) - All households",67158,2001
+5959011,NORTHERN ROCKIES A,Labour Force Indicators,Unemployment rate,2.7,2001
+5959011,NORTHERN ROCKIES A,Selected Household Characteristics,"Median household income, 2000 ($) - All households",75175,2001
+5959013,NORTHERN ROCKIES B,Labour Force Indicators,Unemployment rate,0,2001
+5959013,NORTHERN ROCKIES B,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
+5959805,FONTAS 1,Labour Force Indicators,Unemployment rate,NA,2001
+5959805,FONTAS 1,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5959806,FORT NELSON 2,Labour Force Indicators,Unemployment rate,NA,2001
+5959806,FORT NELSON 2,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5959809,KAHNTAH 3,Labour Force Indicators,Unemployment rate,NA,2001
+5959809,KAHNTAH 3,Selected Household Characteristics,"Median household income, 2000 ($) - All households",NA,2001
+5959810,PROPHET RIVER 4,Labour Force Indicators,Unemployment rate,33.3,2001
+5959810,PROPHET RIVER 4,Selected Household Characteristics,"Median household income, 2000 ($) - All households",0,2001
