@@ -1,0 +1,859 @@
+csd_id,csd_name,year,field,value
+5901003,    Elkford,1996,unempl_rate,5
+5901003,    Elkford,1996,med_income,65745
+5901006,    Sparwood,1996,unempl_rate,16.1
+5901006,    Sparwood,1996,med_income,44176
+5901012,    Fernie,1996,unempl_rate,10.7
+5901012,    Fernie,1996,med_income,45340
+5901015,"    East Kootenay, Subd. C",1996,unempl_rate,13.8
+5901015,"    East Kootenay, Subd. C",1996,med_income,40720
+5901022,    Cranbrook,1996,unempl_rate,11.2
+5901022,    Cranbrook,1996,med_income,36497
+5901028,    Kimberley,1996,unempl_rate,13.1
+5901028,    Kimberley,1996,med_income,36442
+5901033,"    East Kootenay, Subd. B",1996,unempl_rate,11.9
+5901033,"    East Kootenay, Subd. B",1996,med_income,46060
+5901039,    Invermere,1996,unempl_rate,8.3
+5901039,    Invermere,1996,med_income,40752
+5901040,    Radium Hot Springs,1996,unempl_rate,3.4
+5901040,    Radium Hot Springs,1996,med_income,34814
+5901044,"    East Kootenay, Subd. A",1996,unempl_rate,12
+5901044,"    East Kootenay, Subd. A",1996,med_income,44432
+5901801,    Tobacco Plains 2,1996,unempl_rate,22.2
+5901801,    Tobacco Plains 2,1996,med_income,0
+5901803,    Kootenay 1,1996,unempl_rate,35.7
+5901803,    Kootenay 1,1996,med_income,0
+5901804,    Columbia Lake 3,1996,unempl_rate,25
+5901804,    Columbia Lake 3,1996,med_income,0
+5901806,    Shuswap,1996,unempl_rate,14.3
+5901806,    Shuswap,1996,med_income,0
+5903004,    Creston,1996,unempl_rate,7.1
+5903004,    Creston,1996,med_income,28675
+5903008,"    Central Kootenay, Subd. C",1996,unempl_rate,11.6
+5903008,"    Central Kootenay, Subd. C",1996,med_income,29475
+5903011,    Salmo,1996,unempl_rate,20.8
+5903011,    Salmo,1996,med_income,25091
+5903015,    Nelson,1996,unempl_rate,11.4
+5903015,    Nelson,1996,med_income,32293
+5903019,    Slocan,1996,unempl_rate,32
+5903019,    Slocan,1996,med_income,18690
+5903023,    Kaslo,1996,unempl_rate,8.4
+5903023,    Kaslo,1996,med_income,33234
+5903027,    Silverton,1996,unempl_rate,10.3
+5903027,    Silverton,1996,med_income,0
+5903032,    New Denver,1996,unempl_rate,7.8
+5903032,    New Denver,1996,med_income,22360
+5903037,"    Central Kootenay, Subd. B",1996,unempl_rate,11.6
+5903037,"    Central Kootenay, Subd. B",1996,med_income,33853
+5903045,    Castlegar,1996,unempl_rate,10.9
+5903045,    Castlegar,1996,med_income,40321
+5903050,    Nakusp,1996,unempl_rate,14.3
+5903050,    Nakusp,1996,med_income,31623
+5903054,"    Central Kootenay, Subd. A",1996,unempl_rate,13.3
+5903054,"    Central Kootenay, Subd. A",1996,med_income,38852
+5903807,    Creston 1,1996,unempl_rate,18.2
+5903807,    Creston 1,1996,med_income,0
+5905005,    Fruitvale,1996,unempl_rate,7.4
+5905005,    Fruitvale,1996,med_income,45251
+5905009,    Montrose,1996,unempl_rate,3.7
+5905009,    Montrose,1996,med_income,60165
+5905014,    Trail,1996,unempl_rate,12.2
+5905014,    Trail,1996,med_income,30397
+5905018,    Warfield,1996,unempl_rate,7.3
+5905018,    Warfield,1996,med_income,44958
+5905023,    Rossland,1996,unempl_rate,6.2
+5905023,    Rossland,1996,med_income,53143
+5905028,"    Kootenay Boundary, Subd. A",1996,unempl_rate,11.1
+5905028,"    Kootenay Boundary, Subd. A",1996,med_income,48324
+5905032,    Grand Forks,1996,unempl_rate,9.1
+5905032,    Grand Forks,1996,med_income,32628
+5905037,    Midway,1996,unempl_rate,15.2
+5905037,    Midway,1996,med_income,33960
+5905042,    Greenwood,1996,unempl_rate,23.8
+5905042,    Greenwood,1996,med_income,22037
+5905048,"    Kootenay Boundary, Subd. B",1996,unempl_rate,8.3
+5905048,"    Kootenay Boundary, Subd. B",1996,med_income,33499
+5907005,    Osoyoos,1996,unempl_rate,13.2
+5907005,    Osoyoos,1996,med_income,28839
+5907009,    Keremeos,1996,unempl_rate,10.6
+5907009,    Keremeos,1996,med_income,25887
+5907014,    Oliver,1996,unempl_rate,10.8
+5907014,    Oliver,1996,med_income,31267
+5907020,"    Okanagan-Similkameen, Subd. B",1996,unempl_rate,11.9
+5907020,"    Okanagan-Similkameen, Subd. B",1996,med_income,29141
+5907024,    Princeton,1996,unempl_rate,10.6
+5907024,    Princeton,1996,med_income,37491
+5907030,"    Okanagan-Similkameen, Subd. C",1996,unempl_rate,9.2
+5907030,"    Okanagan-Similkameen, Subd. C",1996,med_income,45019
+5907035,    Summerland,1996,unempl_rate,10.8
+5907035,    Summerland,1996,med_income,36358
+5907041,    Penticton,1996,unempl_rate,10.9
+5907041,    Penticton,1996,med_income,30536
+5907045,"    Okanagan-Similkameen, Subd. A",1996,unempl_rate,8.9
+5907045,"    Okanagan-Similkameen, Subd. A",1996,med_income,41461
+5907802,    Osoyoos 1,1996,unempl_rate,11.8
+5907802,    Osoyoos 1,1996,med_income,31533
+5907803,    Penticton 1,1996,unempl_rate,15.7
+5907803,    Penticton 1,1996,med_income,34677
+5907805,    Chopaka,1996,unempl_rate,0
+5907805,    Chopaka,1996,med_income,0
+5909009,    Hope,1996,unempl_rate,11.7
+5909009,    Hope,1996,med_income,32353
+5909012,"    Fraser Valley, Subd. A",1996,unempl_rate,14.5
+5909012,"    Fraser Valley, Subd. A",1996,med_income,27053
+5909020,    Chilliwack,1996,unempl_rate,9.8
+5909020,    Chilliwack,1996,med_income,37958
+5909027,    Harrison Hot Springs,1996,unempl_rate,11.2
+5909027,    Harrison Hot Springs,1996,med_income,34148
+5909032,    Kent,1996,unempl_rate,6.7
+5909032,    Kent,1996,med_income,37025
+5909038,"    Fraser Valley, Subd. B",1996,unempl_rate,9.8
+5909038,"    Fraser Valley, Subd. B",1996,med_income,37148
+5909050,"    Fraser Valley, Subd. C",1996,unempl_rate,12.5
+5909050,"    Fraser Valley, Subd. C",1996,med_income,0
+5909052,    Abbotsford,1996,unempl_rate,9.9
+5909052,    Abbotsford,1996,med_income,43005
+5909054,"    Fraser Valley, Subd. D",1996,unempl_rate,0
+5909054,"    Fraser Valley, Subd. D",1996,med_income,52144
+5909056,    Mission,1996,unempl_rate,10.1
+5909056,    Mission,1996,med_income,44071
+5909058,"    Fraser Valley, Subd. E",1996,unempl_rate,7.5
+5909058,"    Fraser Valley, Subd. E",1996,med_income,37063
+5909804,    Chawathil 4,1996,unempl_rate,42.9
+5909804,    Chawathil 4,1996,med_income,0
+5909806,    Kopchitchin 2,1996,unempl_rate,50
+5909806,    Kopchitchin 2,1996,med_income,0
+5909807,    Ohamil 1,1996,unempl_rate,40
+5909807,    Ohamil 1,1996,med_income,0
+5909812,    Schkam 2,1996,unempl_rate,75
+5909812,    Schkam 2,1996,med_income,0
+5909819,    Kahmoose 4,1996,unempl_rate,28.6
+5909819,    Kahmoose 4,1996,med_income,0
+5909821,    Kwawkwawapilt 6,1996,unempl_rate,22.2
+5909821,    Kwawkwawapilt 6,1996,med_income,25555
+5909822,    Skowkale 10,1996,unempl_rate,20
+5909822,    Skowkale 10,1996,med_income,0
+5909824,    Skwah 4,1996,unempl_rate,28.6
+5909824,    Skwah 4,1996,med_income,0
+5909826,    Skway 5,1996,unempl_rate,0
+5909826,    Skway 5,1996,med_income,0
+5909827,    Soowahlie 14,1996,unempl_rate,26.7
+5909827,    Soowahlie 14,1996,med_income,0
+5909828,    Squiaala 7,1996,unempl_rate,50
+5909828,    Squiaala 7,1996,med_income,0
+5909830,    Tzeachten 13,1996,unempl_rate,18.8
+5909830,    Tzeachten 13,1996,med_income,24086
+5909831,    Yakweakwioose 12,1996,unempl_rate,0
+5909831,    Yakweakwioose 12,1996,med_income,0
+5909832,    Seabird Island,1996,unempl_rate,NA
+5909832,    Seabird Island,1996,med_income,NA
+5909837,    Cheam 1,1996,unempl_rate,30.8
+5909837,    Cheam 1,1996,med_income,0
+5909839,    Chehalis 5,1996,unempl_rate,19.4
+5909839,    Chehalis 5,1996,med_income,19456
+5909843,    Peters 1,1996,unempl_rate,0
+5909843,    Peters 1,1996,med_income,0
+5909845,    Skookumchuck 4,1996,unempl_rate,100
+5909845,    Skookumchuck 4,1996,med_income,0
+5909875,    Baptiste Smith 1B,1996,unempl_rate,66.7
+5909875,    Baptiste Smith 1B,1996,med_income,0
+5909877,    Upper Sumas 6,1996,unempl_rate,15.4
+5909877,    Upper Sumas 6,1996,med_income,0
+5909878,    Matsqui Main 2,1996,unempl_rate,40
+5909878,    Matsqui Main 2,1996,med_income,0
+5909879,    Holachten 8,1996,unempl_rate,9.1
+5909879,    Holachten 8,1996,med_income,26592
+5909880,    Lakahahmen 11,1996,unempl_rate,28.6
+5909880,    Lakahahmen 11,1996,med_income,0
+5909881,    Skweahm 10,1996,unempl_rate,0
+5909881,    Skweahm 10,1996,med_income,0
+5909882,    Squawkum Creek 3,1996,unempl_rate,40
+5909882,    Squawkum Creek 3,1996,med_income,0
+5915001,    Langley,1996,unempl_rate,5.6
+5915001,    Langley,1996,med_income,56550
+5915002,    Langley,1996,unempl_rate,8.2
+5915002,    Langley,1996,med_income,37588
+5915004,    Surrey,1996,unempl_rate,10.4
+5915004,    Surrey,1996,med_income,47237
+5915007,    White Rock,1996,unempl_rate,6.1
+5915007,    White Rock,1996,med_income,40048
+5915011,    Delta,1996,unempl_rate,7.4
+5915011,    Delta,1996,med_income,60147
+5915015,    Richmond,1996,unempl_rate,7.8
+5915015,    Richmond,1996,med_income,46180
+5915018,    University Endowment Area,1996,unempl_rate,7.7
+5915018,    University Endowment Area,1996,med_income,36988
+5915022,    Vancouver,1996,unempl_rate,9.8
+5915022,    Vancouver,1996,med_income,35544
+5915025,    Burnaby,1996,unempl_rate,9
+5915025,    Burnaby,1996,med_income,40313
+5915029,    New Westminster,1996,unempl_rate,9.9
+5915029,    New Westminster,1996,med_income,36268
+5915034,    Coquitlam,1996,unempl_rate,7.3
+5915034,    Coquitlam,1996,med_income,50112
+5915036,    Belcarra,1996,unempl_rate,4.5
+5915036,    Belcarra,1996,med_income,88430
+5915038,    Anmore,1996,unempl_rate,4.5
+5915038,    Anmore,1996,med_income,56198
+5915039,    Port Coquitlam,1996,unempl_rate,7.7
+5915039,    Port Coquitlam,1996,med_income,54571
+5915043,    Port Moody,1996,unempl_rate,6.3
+5915043,    Port Moody,1996,med_income,58462
+5915046,    North Vancouver,1996,unempl_rate,5
+5915046,    North Vancouver,1996,med_income,64297
+5915051,    North Vancouver,1996,unempl_rate,7.3
+5915051,    North Vancouver,1996,med_income,38970
+5915055,    West Vancouver,1996,unempl_rate,4.3
+5915055,    West Vancouver,1996,med_income,65127
+5915063,"    Greater Vancouver, Subd. A",1996,unempl_rate,4.6
+5915063,"    Greater Vancouver, Subd. A",1996,med_income,52023
+5915065,    Lions Bay,1996,unempl_rate,3
+5915065,    Lions Bay,1996,med_income,80605
+5915070,    Pitt Meadows,1996,unempl_rate,7.8
+5915070,    Pitt Meadows,1996,med_income,51628
+5915075,    Maple Ridge,1996,unempl_rate,7.6
+5915075,    Maple Ridge,1996,med_income,48522
+5915801,    Semiahmoo,1996,unempl_rate,36.8
+5915801,    Semiahmoo,1996,med_income,0
+5915802,    Tsawwassen,1996,unempl_rate,15.7
+5915802,    Tsawwassen,1996,med_income,46322
+5915803,    Musqueam 2,1996,unempl_rate,8.1
+5915803,    Musqueam 2,1996,med_income,60740
+5915806,    Burrard Inlet 3,1996,unempl_rate,8.1
+5915806,    Burrard Inlet 3,1996,med_income,53088
+5915807,    Mission 1,1996,unempl_rate,17.9
+5915807,    Mission 1,1996,med_income,26816
+5915808,    Capilano 5,1996,unempl_rate,12.9
+5915808,    Capilano 5,1996,med_income,26764
+5915816,    McMillan Island 6,1996,unempl_rate,25
+5915816,    McMillan Island 6,1996,med_income,0
+5915825,    Matsqui 4,1996,unempl_rate,0
+5915825,    Matsqui 4,1996,med_income,28071
+5915830,    Katzie 1,1996,unempl_rate,27.3
+5915830,    Katzie 1,1996,med_income,0
+5917005,    North Saanich,1996,unempl_rate,4.6
+5917005,    North Saanich,1996,med_income,60451
+5917010,    Sidney,1996,unempl_rate,8.2
+5917010,    Sidney,1996,med_income,38789
+5917015,    Central Saanich,1996,unempl_rate,5.1
+5917015,    Central Saanich,1996,med_income,55777
+5917021,    Saanich,1996,unempl_rate,6.7
+5917021,    Saanich,1996,med_income,49089
+5917025,"    Capital, Subd. A",1996,unempl_rate,7.1
+5917025,"    Capital, Subd. A",1996,med_income,33744
+5917030,    Oak Bay,1996,unempl_rate,7.6
+5917030,    Oak Bay,1996,med_income,54104
+5917034,    Victoria,1996,unempl_rate,9.6
+5917034,    Victoria,1996,med_income,31010
+5917040,    Esquimalt,1996,unempl_rate,8.1
+5917040,    Esquimalt,1996,med_income,35230
+5917041,    Colwood,1996,unempl_rate,7.4
+5917041,    Colwood,1996,med_income,53279
+5917042,    Metchosin,1996,unempl_rate,4.6
+5917042,    Metchosin,1996,med_income,53840
+5917044,    Langford,1996,unempl_rate,8.9
+5917044,    Langford,1996,med_income,46656
+5917045,"    Capital, Subd. B",1996,unempl_rate,0
+5917045,"    Capital, Subd. B",1996,med_income,70295
+5917047,    View Royal,1996,unempl_rate,7.5
+5917047,    View Royal,1996,med_income,45098
+5917049,    Highlands,1996,unempl_rate,5.3
+5917049,    Highlands,1996,med_income,55670
+5917051,"    Capital, Subd. C",1996,unempl_rate,8.6
+5917051,"    Capital, Subd. C",1996,med_income,42149
+5917055,"    Capital, Subd. D",1996,unempl_rate,35.7
+5917055,"    Capital, Subd. D",1996,med_income,0
+5917801,    Cole Bay 3,1996,unempl_rate,35.3
+5917801,    Cole Bay 3,1996,med_income,18752
+5917803,    East Saanich 2,1996,unempl_rate,20
+5917803,    East Saanich 2,1996,med_income,33439
+5917809,    Becher Bay 1,1996,unempl_rate,0
+5917809,    Becher Bay 1,1996,med_income,0
+5917812,    New Songhees 1A,1996,unempl_rate,10.1
+5917812,    New Songhees 1A,1996,med_income,35373
+5917815,    Gordon River 2,1996,unempl_rate,25
+5917815,    Gordon River 2,1996,med_income,0
+5917817,    Sooke 1,1996,unempl_rate,33.3
+5917817,    Sooke 1,1996,med_income,0
+5917818,    Sooke 2,1996,unempl_rate,50
+5917818,    Sooke 2,1996,med_income,0
+5919008,    North Cowichan,1996,unempl_rate,9.7
+5919008,    North Cowichan,1996,med_income,39947
+5919012,    Duncan,1996,unempl_rate,14.2
+5919012,    Duncan,1996,med_income,26705
+5919014,"    Cowichan Valley, Subd. B",1996,unempl_rate,9.3
+5919014,"    Cowichan Valley, Subd. B",1996,med_income,42215
+5919016,    Lake Cowichan,1996,unempl_rate,10.4
+5919016,    Lake Cowichan,1996,med_income,35700
+5919021,    Ladysmith,1996,unempl_rate,9.8
+5919021,    Ladysmith,1996,med_income,40256
+5919031,"    Cowichan Valley, Subd. A",1996,unempl_rate,11.4
+5919031,"    Cowichan Valley, Subd. A",1996,med_income,40432
+5919045,"    Cowichan Valley, Subd. C",1996,unempl_rate,7.9
+5919045,"    Cowichan Valley, Subd. C",1996,med_income,47397
+5919047,"    Cowichan Valley, Subd. D",1996,unempl_rate,11.3
+5919047,"    Cowichan Valley, Subd. D",1996,med_income,43570
+5919801,    Halalt 2,1996,unempl_rate,36.4
+5919801,    Halalt 2,1996,med_income,0
+5919802,    Squaw-hay-one 11,1996,unempl_rate,0
+5919802,    Squaw-hay-one 11,1996,med_income,0
+5919803,    Tsussie 6,1996,unempl_rate,0
+5919803,    Tsussie 6,1996,med_income,0
+5919804,    Chemainus 13,1996,unempl_rate,37.5
+5919804,    Chemainus 13,1996,med_income,17536
+5919807,    Cowichan 1,1996,unempl_rate,34.6
+5919807,    Cowichan 1,1996,med_income,17515
+5919809,    Kuper Island 7,1996,unempl_rate,30
+5919809,    Kuper Island 7,1996,med_income,0
+5919814,    Malachan 11,1996,unempl_rate,30.8
+5919814,    Malachan 11,1996,med_income,0
+5919816,    Oyster Bay 12,1996,unempl_rate,40
+5919816,    Oyster Bay 12,1996,med_income,0
+5921007,    Nanaimo,1996,unempl_rate,12.3
+5921007,    Nanaimo,1996,med_income,37578
+5921012,"    Nanaimo, Subd. A",1996,unempl_rate,10.8
+5921012,"    Nanaimo, Subd. A",1996,med_income,40031
+5921018,    Parksville,1996,unempl_rate,9.6
+5921018,    Parksville,1996,med_income,31569
+5921023,    Qualicum Beach,1996,unempl_rate,12
+5921023,    Qualicum Beach,1996,med_income,40081
+5921028,"    Nanaimo, Subd. B",1996,unempl_rate,12.1
+5921028,"    Nanaimo, Subd. B",1996,med_income,37082
+5921801,    Nanaimo River 3,1996,unempl_rate,66.7
+5921801,    Nanaimo River 3,1996,med_income,0
+5921803,    Nanaimo River 4,1996,unempl_rate,30.8
+5921803,    Nanaimo River 4,1996,med_income,0
+5921804,    Nanaimo Town 1,1996,unempl_rate,23.1
+5921804,    Nanaimo Town 1,1996,med_income,0
+5921805,    Nanoose,1996,unempl_rate,13.3
+5921805,    Nanoose,1996,med_income,0
+5921806,    Qualicum,1996,unempl_rate,0
+5921806,    Qualicum,1996,med_income,0
+5923008,    Port Alberni,1996,unempl_rate,13.9
+5923008,    Port Alberni,1996,med_income,36250
+5923019,    Ucluelet,1996,unempl_rate,12.2
+5923019,    Ucluelet,1996,med_income,47859
+5923025,    Tofino,1996,unempl_rate,7.4
+5923025,    Tofino,1996,med_income,43878
+5923031,"    Alberni-Clayoquot, Subd. A",1996,unempl_rate,8.9
+5923031,"    Alberni-Clayoquot, Subd. A",1996,med_income,44628
+5923045,"    Alberni-Clayoquot, Subd. B",1996,unempl_rate,6.5
+5923045,"    Alberni-Clayoquot, Subd. B",1996,med_income,36470
+5923801,    Ahahswinis 1,1996,unempl_rate,20
+5923801,    Ahahswinis 1,1996,med_income,0
+5923803,    Anacla 12,1996,unempl_rate,0
+5923803,    Anacla 12,1996,med_income,0
+5923807,    Ittatsoo 1,1996,unempl_rate,26.7
+5923807,    Ittatsoo 1,1996,med_income,0
+5923808,    Marktosis 15,1996,unempl_rate,18.5
+5923808,    Marktosis 15,1996,med_income,25152
+5923813,    Opitsat 1,1996,unempl_rate,0
+5923813,    Opitsat 1,1996,med_income,0
+5923816,    Tsahaheh 1,1996,unempl_rate,21.9
+5923816,    Tsahaheh 1,1996,med_income,23872
+5923823,    Esowista 3,1996,unempl_rate,0
+5923823,    Esowista 3,1996,med_income,0
+5923824,    Refuge Cove 6,1996,unempl_rate,28.6
+5923824,    Refuge Cove 6,1996,med_income,0
+5925005,    Comox,1996,unempl_rate,8.2
+5925005,    Comox,1996,med_income,44903
+5925010,    Courtenay,1996,unempl_rate,14.5
+5925010,    Courtenay,1996,med_income,33793
+5925014,    Cumberland,1996,unempl_rate,13.7
+5925014,    Cumberland,1996,med_income,34598
+5925020,"    Comox-Strathcona, Subd. C",1996,unempl_rate,10.5
+5925020,"    Comox-Strathcona, Subd. C",1996,med_income,39659
+5925025,    Gold River,1996,unempl_rate,7.6
+5925025,    Gold River,1996,med_income,68865
+5925029,    Zeballos,1996,unempl_rate,0
+5925029,    Zeballos,1996,med_income,0
+5925030,    Tahsis,1996,unempl_rate,3.5
+5925030,    Tahsis,1996,med_income,58976
+5925034,    Campbell River,1996,unempl_rate,10.6
+5925034,    Campbell River,1996,med_income,46841
+5925039,    Sayward,1996,unempl_rate,14.6
+5925039,    Sayward,1996,med_income,52511
+5925044,"    Comox-Strathcona, Subd. B",1996,unempl_rate,8.2
+5925044,"    Comox-Strathcona, Subd. B",1996,med_income,53144
+5925047,"    Comox-Strathcona, Subd. D",1996,unempl_rate,11.1
+5925047,"    Comox-Strathcona, Subd. D",1996,med_income,0
+5925050,"    Comox-Strathcona, Subd. A",1996,unempl_rate,12.3
+5925050,"    Comox-Strathcona, Subd. A",1996,med_income,27938
+5925801,    Comox 1,1996,unempl_rate,30
+5925801,    Comox 1,1996,med_income,0
+5925803,    Ahaminaquus 12,1996,unempl_rate,0
+5925803,    Ahaminaquus 12,1996,med_income,0
+5925804,    Campbell River 11,1996,unempl_rate,29.6
+5925804,    Campbell River 11,1996,med_income,0
+5925806,    Houpsitas 6,1996,unempl_rate,13.3
+5925806,    Houpsitas 6,1996,med_income,0
+5925812,    Quinsam 12,1996,unempl_rate,50
+5925812,    Quinsam 12,1996,med_income,0
+5925817,    Cape Mudge 10,1996,unempl_rate,43.8
+5925817,    Cape Mudge 10,1996,med_income,0
+5925820,    Tork 7,1996,unempl_rate,25
+5925820,    Tork 7,1996,med_income,0
+5927008,    Powell River,1996,unempl_rate,10.5
+5927008,    Powell River,1996,med_income,40319
+5927014,"    Powell River, Subd. A",1996,unempl_rate,10.1
+5927014,"    Powell River, Subd. A",1996,med_income,34349
+5927802,    Sliammon 1,1996,unempl_rate,20.5
+5927802,    Sliammon 1,1996,med_income,23272
+5929005,    Gibsons,1996,unempl_rate,10.1
+5929005,    Gibsons,1996,med_income,32645
+5929011,    Sechelt,1996,unempl_rate,6.4
+5929011,    Sechelt,1996,med_income,36050
+5929020,"    Sunshine Coast, Subd. A",1996,unempl_rate,8.1
+5929020,"    Sunshine Coast, Subd. A",1996,med_income,39946
+5929803,    Sechelt (Part),1996,unempl_rate,16.2
+5929803,    Sechelt (Part),1996,med_income,21722
+5931006,    Squamish,1996,unempl_rate,8.5
+5931006,    Squamish,1996,med_income,51365
+5931012,    Pemberton,1996,unempl_rate,9.6
+5931012,    Pemberton,1996,med_income,52816
+5931019,"    Squamish-Lillooet, Subd. B",1996,unempl_rate,6.3
+5931019,"    Squamish-Lillooet, Subd. B",1996,med_income,42584
+5931020,    Whistler,1996,unempl_rate,5.5
+5931020,    Whistler,1996,med_income,47156
+5931024,    Lillooet,1996,unempl_rate,12.3
+5931024,    Lillooet,1996,med_income,35164
+5931030,"    Squamish-Lillooet, Subd. A",1996,unempl_rate,11.4
+5931030,"    Squamish-Lillooet, Subd. A",1996,med_income,41327
+5931801,    Cheakamus 11,1996,unempl_rate,0
+5931801,    Cheakamus 11,1996,med_income,0
+5931805,    Nequatque 1,1996,unempl_rate,33.3
+5931805,    Nequatque 1,1996,med_income,0
+5931806,    Seaichem 16,1996,unempl_rate,40
+5931806,    Seaichem 16,1996,med_income,0
+5931808,    Waiwakum 14,1996,unempl_rate,28.6
+5931808,    Waiwakum 14,1996,med_income,0
+5931813,    Bridge River 1,1996,unempl_rate,30
+5931813,    Bridge River 1,1996,med_income,0
+5931814,    Cayoosh Creek 1,1996,unempl_rate,22.2
+5931814,    Cayoosh Creek 1,1996,med_income,0
+5931815,    Chilhil 6,1996,unempl_rate,28.6
+5931815,    Chilhil 6,1996,med_income,0
+5931816,    Fountain 1,1996,unempl_rate,28.6
+5931816,    Fountain 1,1996,med_income,0
+5931821,    Lillooet 1,1996,unempl_rate,17.6
+5931821,    Lillooet 1,1996,med_income,0
+5931829,    Pavilion 1,1996,unempl_rate,25
+5931829,    Pavilion 1,1996,med_income,0
+5931831,    Slosh 1,1996,unempl_rate,33.3
+5931831,    Slosh 1,1996,med_income,0
+5933006,    Merritt,1996,unempl_rate,13.6
+5933006,    Merritt,1996,med_income,35825
+5933010,"    Thompson-Nicola, Subd. C",1996,unempl_rate,11.4
+5933010,"    Thompson-Nicola, Subd. C",1996,med_income,36518
+5933015,    Lytton,1996,unempl_rate,12.8
+5933015,    Lytton,1996,med_income,54405
+5933019,    Ashcroft,1996,unempl_rate,4.6
+5933019,    Ashcroft,1996,med_income,40948
+5933024,    Cache Creek,1996,unempl_rate,4.2
+5933024,    Cache Creek,1996,med_income,31737
+5933028,    Clinton,1996,unempl_rate,8.3
+5933028,    Clinton,1996,med_income,29613
+5933034,"    Thompson-Nicola, Subd. D",1996,unempl_rate,11.7
+5933034,"    Thompson-Nicola, Subd. D",1996,med_income,31153
+5933035,    Logan Lake,1996,unempl_rate,11.4
+5933035,    Logan Lake,1996,med_income,42290
+5933040,"    Thompson-Nicola, Subd. B",1996,unempl_rate,10.1
+5933040,"    Thompson-Nicola, Subd. B",1996,med_income,44083
+5933042,    Kamloops,1996,unempl_rate,11.1
+5933042,    Kamloops,1996,med_income,43822
+5933054,    Chase,1996,unempl_rate,13.5
+5933054,    Chase,1996,med_income,30609
+5933058,"    Thompson-Nicola, Subd. E",1996,unempl_rate,9.8
+5933058,"    Thompson-Nicola, Subd. E",1996,med_income,41775
+5933066,"    Thompson-Nicola, Subd. A",1996,unempl_rate,17.6
+5933066,"    Thompson-Nicola, Subd. A",1996,med_income,40228
+5933801,    Coldwater 1,1996,unempl_rate,27.3
+5933801,    Coldwater 1,1996,med_income,20736
+5933802,    Douglas Lake 3,1996,unempl_rate,22.2
+5933802,    Douglas Lake 3,1996,med_income,0
+5933805,    Joeyaska 2,1996,unempl_rate,0
+5933805,    Joeyaska 2,1996,med_income,0
+5933806,    Nicola Lake 1,1996,unempl_rate,15.4
+5933806,    Nicola Lake 1,1996,med_income,0
+5933807,    Nicola Mameet 1,1996,unempl_rate,32.4
+5933807,    Nicola Mameet 1,1996,med_income,22208
+5933808,    Nooaitch 10,1996,unempl_rate,27.3
+5933808,    Nooaitch 10,1996,med_income,0
+5933812,    Bonaparte 3,1996,unempl_rate,18.2
+5933812,    Bonaparte 3,1996,med_income,0
+5933814,    Canoe Creek 1,1996,unempl_rate,0
+5933814,    Canoe Creek 1,1996,med_income,0
+5933817,    Skeetchestn,1996,unempl_rate,11.1
+5933817,    Skeetchestn,1996,med_income,0
+5933820,    Inkluckcheen 21,1996,unempl_rate,16.7
+5933820,    Inkluckcheen 21,1996,med_income,0
+5933826,    Kanaka Bar 1A,1996,unempl_rate,0
+5933826,    Kanaka Bar 1A,1996,med_income,0
+5933829,    Klahkamich 17,1996,unempl_rate,33.3
+5933829,    Klahkamich 17,1996,med_income,0
+5933832,    Klickkumcheen 18,1996,unempl_rate,28.6
+5933832,    Klickkumcheen 18,1996,med_income,0
+5933836,    Lower Hat Creek 2,1996,unempl_rate,66.7
+5933836,    Lower Hat Creek 2,1996,med_income,0
+5933841,    Lytton 9A,1996,unempl_rate,0
+5933841,    Lytton 9A,1996,med_income,0
+5933844,    Ashcroft 4,1996,unempl_rate,33.3
+5933844,    Ashcroft 4,1996,med_income,0
+5933851,    Nicomen 1,1996,unempl_rate,0
+5933851,    Nicomen 1,1996,med_income,0
+5933853,    Nuuautin 2,1996,unempl_rate,36.4
+5933853,    Nuuautin 2,1996,med_income,0
+5933855,    Papyum 27,1996,unempl_rate,100
+5933855,    Papyum 27,1996,med_income,0
+5933859,    Shackan 11,1996,unempl_rate,33.3
+5933859,    Shackan 11,1996,med_income,0
+5933860,    Siska Flat 3,1996,unempl_rate,28.6
+5933860,    Siska Flat 3,1996,med_income,0
+5933872,    Marble Canyon 3,1996,unempl_rate,40
+5933872,    Marble Canyon 3,1996,med_income,0
+5933877,    Whispering Pines 4,1996,unempl_rate,33.3
+5933877,    Whispering Pines 4,1996,med_income,0
+5933880,    Kamloops 1,1996,unempl_rate,29
+5933880,    Kamloops 1,1996,med_income,26032
+5933883,    Neskainlith 1,1996,unempl_rate,57.1
+5933883,    Neskainlith 1,1996,med_income,0
+5933884,    Sahhaltkum 4,1996,unempl_rate,22.7
+5933884,    Sahhaltkum 4,1996,med_income,22069
+5933887,    North Thompson 1,1996,unempl_rate,19
+5933887,    North Thompson 1,1996,med_income,0
+5935010,    Kelowna,1996,unempl_rate,9.7
+5935010,    Kelowna,1996,med_income,36582
+5935013,"    Central Okanagan, Subd. A",1996,unempl_rate,4.2
+5935013,"    Central Okanagan, Subd. A",1996,med_income,44158
+5935016,    Lake Country,1996,unempl_rate,10.5
+5935016,    Lake Country,1996,med_income,39831
+5935018,    Peachland,1996,unempl_rate,11.4
+5935018,    Peachland,1996,med_income,36343
+5935023,"    Central Okanagan, Subd. B",1996,unempl_rate,9.2
+5935023,"    Central Okanagan, Subd. B",1996,med_income,48168
+5935801,    Duck Lake 7,1996,unempl_rate,12.5
+5935801,    Duck Lake 7,1996,med_income,30029
+5935802,    Tsinstikeptum 9,1996,unempl_rate,11.1
+5935802,    Tsinstikeptum 9,1996,med_income,28875
+5935803,    Tsinstikeptum 10,1996,unempl_rate,10.8
+5935803,    Tsinstikeptum 10,1996,med_income,45337
+5937005,    Lumby,1996,unempl_rate,18.4
+5937005,    Lumby,1996,med_income,28279
+5937010,    Coldstream,1996,unempl_rate,9.2
+5937010,    Coldstream,1996,med_income,52395
+5937014,    Vernon,1996,unempl_rate,12.8
+5937014,    Vernon,1996,med_income,30316
+5937019,"    North Okanagan, Subd. B",1996,unempl_rate,11.6
+5937019,"    North Okanagan, Subd. B",1996,med_income,41905
+5937024,    Spallumcheen,1996,unempl_rate,7.4
+5937024,    Spallumcheen,1996,med_income,40001
+5937028,    Armstrong,1996,unempl_rate,7.1
+5937028,    Armstrong,1996,med_income,33380
+5937033,    Enderby,1996,unempl_rate,15.2
+5937033,    Enderby,1996,med_income,25337
+5937039,"    North Okanagan, Subd. A",1996,unempl_rate,9
+5937039,"    North Okanagan, Subd. A",1996,med_income,34738
+5937801,    Okanagan (Part) 1,1996,unempl_rate,17.3
+5937801,    Okanagan (Part) 1,1996,med_income,31361
+5937803,    Priest's Valley 6,1996,unempl_rate,6.5
+5937803,    Priest's Valley 6,1996,med_income,26439
+5939007,    Golden,1996,unempl_rate,14.2
+5939007,    Golden,1996,med_income,47663
+5939013,"    Columbia-Shuswap, Subd. A",1996,unempl_rate,14.3
+5939013,"    Columbia-Shuswap, Subd. A",1996,med_income,37816
+5939019,    Revelstoke,1996,unempl_rate,14.2
+5939019,    Revelstoke,1996,med_income,44509
+5939025,"    Columbia-Shuswap, Subd. B",1996,unempl_rate,14.1
+5939025,"    Columbia-Shuswap, Subd. B",1996,med_income,53249
+5939032,    Salmon Arm,1996,unempl_rate,8.7
+5939032,    Salmon Arm,1996,med_income,36006
+5939041,"    Columbia-Shuswap, Subd. C",1996,unempl_rate,12.2
+5939041,"    Columbia-Shuswap, Subd. C",1996,med_income,31607
+5939045,    Sicamous,1996,unempl_rate,15
+5939045,    Sicamous,1996,med_income,28342
+5939801,    Chum Creek 2,1996,unempl_rate,50
+5939801,    Chum Creek 2,1996,med_income,0
+5939802,    Hustalen 1,1996,unempl_rate,66.7
+5939802,    Hustalen 1,1996,med_income,0
+5939803,    North Bay 5,1996,unempl_rate,37.5
+5939803,    North Bay 5,1996,med_income,0
+5939804,    Okanagan (Part) 1,1996,unempl_rate,28.6
+5939804,    Okanagan (Part) 1,1996,med_income,0
+5939805,    Quaaout 1,1996,unempl_rate,21.7
+5939805,    Quaaout 1,1996,med_income,0
+5939806,    Salmon River 1,1996,unempl_rate,NA
+5939806,    Salmon River 1,1996,med_income,NA
+5939808,    Switsemalph 3,1996,unempl_rate,0
+5939808,    Switsemalph 3,1996,med_income,0
+5939809,    Switsemalph 6,1996,unempl_rate,33.3
+5939809,    Switsemalph 6,1996,med_income,0
+5941005,    One Hundred Mile House,1996,unempl_rate,17.9
+5941005,    One Hundred Mile House,1996,med_income,34427
+5941009,    Williams Lake,1996,unempl_rate,9.5
+5941009,    Williams Lake,1996,med_income,45309
+5941011,"    Cariboo, Subd. B",1996,unempl_rate,13.4
+5941011,"    Cariboo, Subd. B",1996,med_income,44336
+5941013,    Quesnel,1996,unempl_rate,14.7
+5941013,    Quesnel,1996,med_income,38615
+5941023,"    Cariboo, Subd. A",1996,unempl_rate,14
+5941023,"    Cariboo, Subd. A",1996,med_income,46330
+5941037,"    Cariboo, Subd. C",1996,unempl_rate,9.3
+5941037,"    Cariboo, Subd. C",1996,med_income,30387
+5941801,    Alkali Lake 1,1996,unempl_rate,11.1
+5941801,    Alkali Lake 1,1996,med_income,20800
+5941802,    Canim Lake 1,1996,unempl_rate,25
+5941802,    Canim Lake 1,1996,med_income,0
+5941805,    Deep Creek 2,1996,unempl_rate,36.4
+5941805,    Deep Creek 2,1996,med_income,0
+5941806,    Dog Creek 1,1996,unempl_rate,57.1
+5941806,    Dog Creek 1,1996,med_income,0
+5941808,    Lohbiee 3,1996,unempl_rate,0
+5941808,    Lohbiee 3,1996,med_income,0
+5941810,    Soda Creek 1,1996,unempl_rate,33.3
+5941810,    Soda Creek 1,1996,med_income,0
+5941812,    Williams Lake 1,1996,unempl_rate,23.1
+5941812,    Williams Lake 1,1996,med_income,0
+5941829,    Chilco Lake 1A,1996,unempl_rate,0
+5941829,    Chilco Lake 1A,1996,med_income,0
+5941833,    Kluskus 1,1996,unempl_rate,66.7
+5941833,    Kluskus 1,1996,med_income,0
+5941837,    Nazco 20,1996,unempl_rate,66.7
+5941837,    Nazco 20,1996,med_income,0
+5941839,    Redstone Flat 1,1996,unempl_rate,33.3
+5941839,    Redstone Flat 1,1996,med_income,0
+5941840,    Squinas 2,1996,unempl_rate,20
+5941840,    Squinas 2,1996,med_income,0
+5941841,    Stone 1,1996,unempl_rate,37.5
+5941841,    Stone 1,1996,med_income,0
+5941850,    Toosey 1,1996,unempl_rate,25
+5941850,    Toosey 1,1996,med_income,0
+5943008,    Alert Bay,1996,unempl_rate,17.8
+5943008,    Alert Bay,1996,med_income,43794
+5943012,    Port McNeill,1996,unempl_rate,6
+5943012,    Port McNeill,1996,med_income,63049
+5943017,    Port Alice,1996,unempl_rate,9
+5943017,    Port Alice,1996,med_income,61857
+5943023,    Port Hardy,1996,unempl_rate,9.4
+5943023,    Port Hardy,1996,med_income,54073
+5943029,"    Mount Waddington, Subd. B",1996,unempl_rate,9.6
+5943029,"    Mount Waddington, Subd. B",1996,med_income,61308
+5943035,"    Mount Waddington, Subd. A",1996,unempl_rate,9
+5943035,"    Mount Waddington, Subd. A",1996,med_income,37740
+5943801,    Alert Bay 1,1996,unempl_rate,40
+5943801,    Alert Bay 1,1996,med_income,0
+5943802,    Alert Bay 1A,1996,unempl_rate,35.9
+5943802,    Alert Bay 1A,1996,med_income,21440
+5943806,    Tsulquate 4,1996,unempl_rate,48.1
+5943806,    Tsulquate 4,1996,med_income,23488
+5943813,    Quaee 7,1996,unempl_rate,23.1
+5943813,    Quaee 7,1996,med_income,0
+5943815,    Kippase 2,1996,unempl_rate,28
+5943815,    Kippase 2,1996,med_income,19520
+5943816,    Quatsino Subdivision 18,1996,unempl_rate,21.1
+5943816,    Quatsino Subdivision 18,1996,med_income,0
+5945008,"    Central Coast, Subd. A",1996,unempl_rate,8.3
+5945008,"    Central Coast, Subd. A",1996,med_income,41856
+5945801,    Bella Bella 1,1996,unempl_rate,27.1
+5945801,    Bella Bella 1,1996,med_income,29739
+5945802,    Bella Coola 1,1996,unempl_rate,22.2
+5945802,    Bella Coola 1,1996,med_income,26560
+5947007,    Port Edward,1996,unempl_rate,21.8
+5947007,    Port Edward,1996,med_income,42390
+5947012,    Prince Rupert,1996,unempl_rate,16.3
+5947012,    Prince Rupert,1996,med_income,49681
+5947018,"    Skeena-Queen Charlotte, Subd. A",1996,unempl_rate,25
+5947018,"    Skeena-Queen Charlotte, Subd. A",1996,med_income,0
+5947023,    Masset,1996,unempl_rate,7.3
+5947023,    Masset,1996,med_income,45307
+5947029,"    Skeena-Queen Charlotte, Subd. B",1996,unempl_rate,8.9
+5947029,"    Skeena-Queen Charlotte, Subd. B",1996,med_income,42430
+5947030,    Port Clements,1996,unempl_rate,6.2
+5947030,    Port Clements,1996,med_income,58496
+5947801,    Port Simpson 1,1996,unempl_rate,60
+5947801,    Port Simpson 1,1996,med_income,29632
+5947802,    Tsimpsean 2 North Part,1996,unempl_rate,35.6
+5947802,    Tsimpsean 2 North Part,1996,med_income,30016
+5947803,    Masset 1,1996,unempl_rate,24.6
+5947803,    Masset 1,1996,med_income,25280
+5947804,    Skidegate 1,1996,unempl_rate,15.2
+5947804,    Skidegate 1,1996,med_income,36224
+5947806,    Kulkayu 4,1996,unempl_rate,23.1
+5947806,    Kulkayu 4,1996,med_income,0
+5947807,    Dolphin Island 1,1996,unempl_rate,46.9
+5947807,    Dolphin Island 1,1996,med_income,22144
+5949005,    Kitimat,1996,unempl_rate,9.3
+5949005,    Kitimat,1996,med_income,61958
+5949009,"    Kitimat-Stikine, Subd. D",1996,unempl_rate,0
+5949009,"    Kitimat-Stikine, Subd. D",1996,med_income,0
+5949011,    Terrace,1996,unempl_rate,9.9
+5949011,    Terrace,1996,med_income,51217
+5949016,"    Kitimat-Stikine, Subd. C",1996,unempl_rate,9.4
+5949016,"    Kitimat-Stikine, Subd. C",1996,med_income,50049
+5949022,    Hazelton,1996,unempl_rate,19.5
+5949022,    Hazelton,1996,med_income,47705
+5949024,    New Hazelton,1996,unempl_rate,16.8
+5949024,    New Hazelton,1996,med_income,40310
+5949026,"    Kitimat-Stikine, Subd. B",1996,unempl_rate,14.9
+5949026,"    Kitimat-Stikine, Subd. B",1996,med_income,42770
+5949032,    Stewart,1996,unempl_rate,23.8
+5949032,    Stewart,1996,med_income,50224
+5949037,"    Kitimat-Stikine, Subd. A",1996,unempl_rate,28.9
+5949037,"    Kitimat-Stikine, Subd. A",1996,med_income,41334
+5949802,    Kitasoo 1,1996,unempl_rate,22.7
+5949802,    Kitasoo 1,1996,med_income,21184
+5949803,    Kitamaat 2,1996,unempl_rate,31.9
+5949803,    Kitamaat 2,1996,med_income,26720
+5949804,    Kitsumkaylum 1,1996,unempl_rate,30.8
+5949804,    Kitsumkaylum 1,1996,med_income,0
+5949807,    Kulspai 6,1996,unempl_rate,25
+5949807,    Kulspai 6,1996,med_income,0
+5949810,    Coryatsaqua 2,1996,unempl_rate,38.5
+5949810,    Coryatsaqua 2,1996,med_income,0
+5949811,    Hagwilget 1,1996,unempl_rate,20.8
+5949811,    Hagwilget 1,1996,med_income,21312
+5949812,    Gitanmaax 1,1996,unempl_rate,31.6
+5949812,    Gitanmaax 1,1996,med_income,36224
+5949813,    Kispiox 1,1996,unempl_rate,27.7
+5949813,    Kispiox 1,1996,med_income,31168
+5949814,    Gitsegukla 1,1996,unempl_rate,41
+5949814,    Gitsegukla 1,1996,med_income,17664
+5949815,    Gitanyow 1,1996,unempl_rate,50
+5949815,    Gitanyow 1,1996,med_income,21504
+5949816,    Gitwangak 1,1996,unempl_rate,33.3
+5949816,    Gitwangak 1,1996,med_income,31680
+5949817,    Moricetown 1,1996,unempl_rate,38.1
+5949817,    Moricetown 1,1996,med_income,29344
+5949818,    Sik-e-dakh 2,1996,unempl_rate,22.2
+5949818,    Sik-e-dakh 2,1996,med_income,0
+5949819,    Babine 17,1996,unempl_rate,66.7
+5949819,    Babine 17,1996,med_income,0
+5949820,    Bulkley River 19,1996,unempl_rate,100
+5949820,    Bulkley River 19,1996,med_income,0
+5949823,    Kincolith 14,1996,unempl_rate,51.7
+5949823,    Kincolith 14,1996,med_income,32896
+5949824,    Gitwinksihlkw 7,1996,unempl_rate,21.7
+5949824,    Gitwinksihlkw 7,1996,med_income,0
+5949825,    Lachkaltsap 9,1996,unempl_rate,42.2
+5949825,    Lachkaltsap 9,1996,med_income,26240
+5949826,    Telegraph Creek 6,1996,unempl_rate,33.3
+5949826,    Telegraph Creek 6,1996,med_income,0
+5949827,    Telegraph Creek 6A,1996,unempl_rate,33.3
+5949827,    Telegraph Creek 6A,1996,med_income,0
+5949828,    New Aiyansh 1,1996,unempl_rate,20
+5949828,    New Aiyansh 1,1996,med_income,43904
+5949832,    Iskut 6,1996,unempl_rate,20
+5949832,    Iskut 6,1996,med_income,30432
+5951007,    Vanderhoof,1996,unempl_rate,13.7
+5951007,    Vanderhoof,1996,med_income,42338
+5951009,    Fraser Lake,1996,unempl_rate,15
+5951009,    Fraser Lake,1996,med_income,54176
+5951013,    Fort St. James,1996,unempl_rate,7.8
+5951013,    Fort St. James,1996,med_income,53288
+5951018,"    Bulkley-Nechako, Subd. A",1996,unempl_rate,11.9
+5951018,"    Bulkley-Nechako, Subd. A",1996,med_income,47727
+5951022,    Burns Lake,1996,unempl_rate,4.9
+5951022,    Burns Lake,1996,med_income,43669
+5951030,"    Bulkley-Nechako, Subd. C",1996,unempl_rate,10.6
+5951030,"    Bulkley-Nechako, Subd. C",1996,med_income,50326
+5951032,    Granisle,1996,unempl_rate,15.6
+5951032,    Granisle,1996,med_income,34532
+5951034,    Houston,1996,unempl_rate,14.1
+5951034,    Houston,1996,med_income,52843
+5951038,    Telkwa,1996,unempl_rate,12.3
+5951038,    Telkwa,1996,med_income,55175
+5951043,    Smithers,1996,unempl_rate,7.1
+5951043,    Smithers,1996,med_income,48083
+5951049,"    Bulkley-Nechako, Subd. B",1996,unempl_rate,11.3
+5951049,"    Bulkley-Nechako, Subd. B",1996,med_income,53408
+5951801,    Ye Koo Che 3,1996,unempl_rate,50
+5951801,    Ye Koo Che 3,1996,med_income,0
+5951802,    Nautley 1,1996,unempl_rate,31.6
+5951802,    Nautley 1,1996,med_income,0
+5951803,    Necoslie 1,1996,unempl_rate,30
+5951803,    Necoslie 1,1996,med_income,28608
+5951805,    Pinchie 2,1996,unempl_rate,25
+5951805,    Pinchie 2,1996,med_income,0
+5951807,    Stellaquo 1,1996,unempl_rate,14.3
+5951807,    Stellaquo 1,1996,med_income,0
+5951809,    Stony Creek 1,1996,unempl_rate,42.9
+5951809,    Stony Creek 1,1996,med_income,19648
+5951810,    Tache 1,1996,unempl_rate,25
+5951810,    Tache 1,1996,med_income,29952
+5951812,    North Tacla Lake 7,1996,unempl_rate,58.8
+5951812,    North Tacla Lake 7,1996,med_income,0
+5951818,    Cheslatta 1,1996,unempl_rate,33.3
+5951818,    Cheslatta 1,1996,med_income,0
+5951820,    Palling 1,1996,unempl_rate,0
+5951820,    Palling 1,1996,med_income,0
+5951827,    Woyenne 27,1996,unempl_rate,38
+5951827,    Woyenne 27,1996,med_income,26880
+5951828,    Babine 6,1996,unempl_rate,50
+5951828,    Babine 6,1996,med_income,0
+5951829,    Babine 25,1996,unempl_rate,0
+5951829,    Babine 25,1996,med_income,0
+5951841,    North Tacla Lake 7A,1996,unempl_rate,50
+5951841,    North Tacla Lake 7A,1996,med_income,0
+5953007,    Valemount,1996,unempl_rate,14.5
+5953007,    Valemount,1996,med_income,32585
+5953012,    McBride,1996,unempl_rate,10.3
+5953012,    McBride,1996,med_income,30188
+5953017,"    Fraser-Fort George, Subd. B",1996,unempl_rate,9.4
+5953017,"    Fraser-Fort George, Subd. B",1996,med_income,34711
+5953023,    Prince George,1996,unempl_rate,11.7
+5953023,    Prince George,1996,med_income,50799
+5953033,    Mackenzie,1996,unempl_rate,9.4
+5953033,    Mackenzie,1996,med_income,65515
+5953040,"    Fraser-Fort George, Subd. A",1996,unempl_rate,11
+5953040,"    Fraser-Fort George, Subd. A",1996,med_income,55089
+5953801,    Fort George 2,1996,unempl_rate,33.3
+5953801,    Fort George 2,1996,med_income,0
+5953802,    McLeod Lake 1,1996,unempl_rate,25
+5953802,    McLeod Lake 1,1996,med_income,0
+5955003,    Tumbler Ridge,1996,unempl_rate,4.8
+5955003,    Tumbler Ridge,1996,med_income,66501
+5955005,    Pouce Coupe,1996,unempl_rate,15.3
+5955005,    Pouce Coupe,1996,med_income,39117
+5955010,    Chetwynd,1996,unempl_rate,11.9
+5955010,    Chetwynd,1996,med_income,52110
+5955014,    Dawson Creek,1996,unempl_rate,9.9
+5955014,    Dawson Creek,1996,med_income,40367
+5955019,"    Peace River, Subd. C",1996,unempl_rate,8.1
+5955019,"    Peace River, Subd. C",1996,med_income,44148
+5955025,    Hudson's Hope,1996,unempl_rate,11.8
+5955025,    Hudson's Hope,1996,med_income,49728
+5955030,    Taylor,1996,unempl_rate,16.3
+5955030,    Taylor,1996,med_income,45048
+5955034,    Fort St. John,1996,unempl_rate,10.6
+5955034,    Fort St. John,1996,med_income,49529
+5955036,"    Peace River, Subd. B",1996,unempl_rate,8.1
+5955036,"    Peace River, Subd. B",1996,med_income,49728
+5955801,    East Moberly Lake 169,1996,unempl_rate,37.5
+5955801,    East Moberly Lake 169,1996,med_income,0
+5955802,    West Moberly Lake 168A,1996,unempl_rate,50
+5955802,    West Moberly Lake 168A,1996,med_income,0
+5955803,    Blueberry River 205,1996,unempl_rate,50
+5955803,    Blueberry River 205,1996,med_income,0
+5955804,    Doig River 206,1996,unempl_rate,20
+5955804,    Doig River 206,1996,med_income,0
+5955807,    Fort Ware 1,1996,unempl_rate,38.5
+5955807,    Fort Ware 1,1996,med_income,0
+5955808,    Halfway River 168,1996,unempl_rate,45.5
+5955808,    Halfway River 168,1996,med_income,0
+5957020,"    Stikine, Subd. A",1996,unempl_rate,6.7
+5957020,"    Stikine, Subd. A",1996,med_income,40343
+5957801,    Dease Lake 9,1996,unempl_rate,30
+5957801,    Dease Lake 9,1996,med_income,0
+5957803,    Five Mile 3,1996,unempl_rate,0
+5957803,    Five Mile 3,1996,med_income,0
+5957804,    Good Hope Lake,1996,unempl_rate,0
+5957804,    Good Hope Lake,1996,med_income,0
+5957813,    Lower Post,1996,unempl_rate,22.2
+5957813,    Lower Post,1996,med_income,0
+5959005,    Fort Nelson,1996,unempl_rate,7.1
+5959005,    Fort Nelson,1996,med_income,52005
+5959009,"    Fort Nelson-Liard, Subd. A",1996,unempl_rate,2.4
+5959009,"    Fort Nelson-Liard, Subd. A",1996,med_income,74326
+5959806,    Fort Nelson 2,1996,unempl_rate,40.9
+5959806,    Fort Nelson 2,1996,med_income,9376
+5959810,    Prophet River 4,1996,unempl_rate,44.4
+5959810,    Prophet River 4,1996,med_income,0
