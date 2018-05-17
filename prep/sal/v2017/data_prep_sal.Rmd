@@ -212,6 +212,12 @@ write_csv(stocks, file.path(dir_goal, 'int/salmon_data_cleaned.csv'))
 
 Output layers for functions.R will be simply the year, stock, E/Et, C/Ct; these will each be assigned equally across all regions.
 
+* `sal_catch.csv`
+* `sal_escapes.csv`
+* `ao_sal_catch.csv` is a dupe of `sal_catch` but treated as a separate layer in case of future changes that differentiate between FP and AO purposes.
+* `ao_sal_escapes.csv` is similarly a dupe of `sal_escapes`
+
+
 ``` {r}
 
 stocks <- read_csv(file.path(dir_goal, 'int/salmon_data_cleaned.csv'))
@@ -235,6 +241,8 @@ escapes_layer <- stock_layers %>%
 
 write_csv(catch_layer,   file.path(dir_goal, 'output', 'sal_catch.csv'))
 write_csv(escapes_layer, file.path(dir_goal, 'output', 'sal_escapes.csv'))
+write_csv(catch_layer,   file.path(dir_goal, 'output', 'ao_sal_catch.csv'))
+write_csv(escapes_layer, file.path(dir_goal, 'output', 'ao_sal_escapes.csv'))
 
 ```
 

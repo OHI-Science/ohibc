@@ -515,6 +515,31 @@ write_csv(inc_emp_06_11_16, file.path(dir_goal, 'int/inc_emp_06_11_16.csv'))
 
 ### Combine 1996 and 2001 with 2006/2011/2016
 
+Also adjust income by CPI to 2016 dollars.  Median income for data years are adjusted for inflation based on CPI (manually pulled data): http://www.statcan.gc.ca/pub/62-001-x/2017001/t040-eng.htm which is then used to approximate earlier years (1996-1997) and then adjusted to 2016 dollars.
+
+``` {r fix_cpi_data}
+
+### manually bring in CPI using data from 1998-2016; manually fill for 1996-1997
+cpi_raw <- read_csv(file.path(dir_goal, 'raw/can_cpi.csv')) %>%
+  select(year, cpi = annual_avg)
+
+cpi_trend <- lm(cpi ~ year, cpi_raw)[['coefficients']]['year'] ### 2.095 per year overall average
+
+earliest_cpi <- cpi_raw %>%
+  filter(year == min(year))
+
+cpi <- cpi_raw %>%
+  bind_rows(data.frame(year = c(1996, 1997),
+                       cpi  = c(NA, NA))) %>%
+  arrange(year) %>%
+  mutate(lag_yr = ifelse(is.na(cpi), min(cpi_raw$year) - year, NA),
+         cpi = ifelse(is.na(cpi), earliest_cpi$cpi - lag_yr * cpi_trend, cpi)) %>%
+  mutate(cpi = 100 * cpi / last(cpi)) %>%
+  select(-lag_yr)
+
+write_csv(cpi, file.path(dir_goal, 'int/can_cpi_1996_2016.csv'))
+```
+
 ``` {r combine_2001-2016_data}
 
 inc_emp_1996 <- read_csv(file.path(dir_goal, 'int/inc_emp_96.csv'))
@@ -533,7 +558,15 @@ inc_emp_06_11_16 <- read_csv(file.path(dir_goal, 'int/inc_emp_06_11_16.csv'),
 
 inc_empl_allyears <- bind_rows(inc_emp_1996, inc_emp_2001, inc_emp_06_11_16)
 
-write_csv(inc_empl_allyears, file.path(dir_goal, 'int/inc_and_empl_yr_csd.csv'))
+### Adjust incomes by CPI
+cpi <- read_csv(file.path(dir_goal, 'int/can_cpi_1996_2016.csv'))
+
+inc_empl_allyears_adj <- inc_empl_allyears %>%
+  spread(field, value) %>%
+  left_join(cpi, by = 'year') %>%
+  mutate(adj_med_income = med_income * 100 / cpi)
+
+write_csv(inc_empl_allyears_adj, file.path(dir_goal, 'int/inc_and_empl_yr_csd.csv'))
 
 ```
 
@@ -545,62 +578,66 @@ Income and employment values at census district level are aggregated to the OHIB
 
 Years between censuses are filled using linear interpolation.
 
-``` {r calc_income_layer}
-rgn_df <- read_csv(file.path(dir_goal, 'int', 'pop_csd_yr.csv'))
+### Income data
 
-### combine data with regions and gapfill NAs
+NOTE:  Some CSDs for some years show a zero median income for some years.  These CSDs will be excluded from the analysis for those years, as anomalous values.  In all cases the populations are very small (< 300 people).  In most cases, these are First Nations communities (164 out of 190 communities).  
+
+``` {r calc_income_layer}
+rgn_df <- read_csv(file.path(dir_goal, 'int', 'pop_csd_yr.csv')) 
+
+### combine data with regions and drop NAs
 income_df <- read_csv(file.path(dir_goal, 'int', 'inc_and_empl_yr_csd.csv')) %>%
-  select(-csd_name) %>%
-  filter(str_detect(field, 'income')) %>%
+  select(-csd_name, -med_income, -cpi) %>%
   left_join(rgn_df, by = c('csd_id', 'year')) %>%
-  filter(ohibc_pop > 0) %>%
-  group_by(rgn_id, year, fn) %>%
-  mutate(value = ifelse(is.na(value), mean(value, na.rm = TRUE), value)) %>%
+  filter(ohibc_pop > 0 & adj_med_income > 0)
+
+income_wt_med <- income_df %>%
+  group_by(year, rgn_id) %>%
+  mutate(rgn_med_adj = sum(adj_med_income * ohibc_pop, na.rm = TRUE) / sum(ohibc_pop)) %>%
+  group_by(year, rgn_id, fn, rgn_med_adj) %>%
+  summarize(cat_med_adj = sum(adj_med_income * ohibc_pop, na.rm = TRUE) / sum(ohibc_pop),
+            category_pop  = sum(ohibc_pop, na.rm = TRUE)) %>%
   ungroup()
 
-income_wt_median <- income_df %>%
-  group_by(year, rgn_id) %>%
-  mutate(rgn_median_all = sum(value * ohibc_pop, na.rm = TRUE) / sum(ohibc_pop),
-         rgn_median_all = round(rgn_median_all, 2)) %>%
-  group_by(year, rgn_id, fn, rgn_median_all) %>%
-  summarize(cat_median_income = sum(value * ohibc_pop, na.rm = TRUE) / sum(ohibc_pop),
-            cat_median_income = round(cat_median_income, 2),
-            category_pop  = sum(ohibc_pop, na.rm = TRUE)) %>%
-  ungroup() %>%
-  filter(cat_median_income > 0)
-
-income_wt_med_allyrs <- income_wt_median %>%
+### Fill in intervening years
+income_wt_med_allyrs <- income_wt_med %>%
   group_by(rgn_id, fn) %>%
   complete(year = min(year):max(year), nesting(rgn_id)) %>%
-  mutate(rgn_median_all    = zoo::na.approx(rgn_median_all, year),
-         cat_median_income = zoo::na.approx(cat_median_income, year),
-         category_pop      = zoo::na.approx(category_pop, year)) %>%
-  ungroup()
+  mutate(rgn_med_adj = zoo::na.approx(rgn_med_adj, year),
+         cat_med_adj = zoo::na.approx(cat_med_adj, year),
+         category_pop   = zoo::na.approx(category_pop, year)) %>%
+  ungroup() %>%
+  mutate(rgn_med_adj = round(rgn_med_adj, 2),
+         cat_med_adj = round(cat_med_adj, 2))
 
 fn_income <- income_wt_med_allyrs %>%
   filter(fn) %>%
-  select(year, rgn_id, fn_median_income = cat_median_income)
+  select(year, rgn_id, med_adj_income = cat_med_adj)
 
 non_fn_income <- income_wt_med_allyrs %>%
   filter(!fn) %>%
-  select(year, rgn_id, non_fn_median_income = cat_median_income)
+  select(year, rgn_id, med_adj_income = cat_med_adj)
 
-fn_pop_income <- income_wt_med_allyrs %>%
-  filter(fn) %>%
-  select(year, rgn_id, fn_pop = category_pop)
-
-non_fn_pop_income <- income_wt_med_allyrs %>%
-  filter(!fn) %>%
-  select(year, rgn_id, non_fn_pop = category_pop)
+# fn_pop_income <- income_wt_med_allyrs %>%
+#   filter(fn) %>%
+#   select(year, rgn_id, fn_pop = category_pop)
+# 
+# non_fn_pop_income <- income_wt_med_allyrs %>%
+#   filter(!fn) %>%
+#   select(year, rgn_id, non_fn_pop = category_pop)
 
 write_csv(fn_income, file.path(dir_goal, 'output', 'le_income_fn.csv'))
 write_csv(non_fn_income, file.path(dir_goal, 'output', 'le_income_nonfn.csv'))
-write_csv(fn_pop_income, file.path(dir_goal, 'output', 'le_pop_fn.csv'))
-write_csv(non_fn_pop_income, file.path(dir_goal, 'output', 'le_pop_nonfn.csv'))
+# write_csv(fn_pop_income, file.path(dir_goal, 'int', 'le_pop_income_fn.csv'))
+# write_csv(non_fn_pop_income, file.path(dir_goal, 'int', 'le_pop_income_nonfn.csv'))
 
-DT::datatable(income_wt_med_allyrs %>% rename(first_nations = fn), caption = 'Median income')
+DT::datatable(income_wt_med_allyrs, caption = 'Median income (2016 CAD)')
 
 ```
+
+### Unemployment data
+
+CSDs with zero reported unemployment for a given year are dropped from the analysis for that year as anomalous.  Nearly all these communities are small (200 or fewer), with a few larger communities up to 1176 pop. Of these, 82 out of 127 are First Nations communities.
 
 ``` {r calc_unemployment_layer}
 
@@ -608,23 +645,20 @@ rgn_df <- read_csv(file.path(dir_goal, 'int', 'pop_csd_yr.csv'))
 
 ### combine data with regions and gapfill NAs
 unempl_df <- read_csv(file.path(dir_goal, 'int', 'inc_and_empl_yr_csd.csv')) %>%
-  filter(str_detect(field, 'unemp')) %>%
+  select(csd_id, year, unempl_rate) %>%
   left_join(rgn_df, by = c('csd_id', 'year')) %>%
   filter(ohibc_pop > 0) %>%
-  group_by(rgn_id, year, fn) %>%
-  mutate(value = ifelse(is.na(value), mean(value, na.rm = TRUE), value)) %>%
-  ungroup()
+  filter(unempl_rate > 0 & !is.na(unempl_rate))
 
 unempl_wt_mean <- unempl_df %>%
   group_by(year, rgn_id) %>%
-  mutate(rgn_mean_unempl_all = sum(value * ohibc_pop, na.rm = TRUE) / sum(ohibc_pop),
+  mutate(rgn_mean_unempl_all = sum(unempl_rate * ohibc_pop, na.rm = TRUE) / sum(ohibc_pop),
          rgn_mean_unempl_all = round(rgn_mean_unempl_all, 2)) %>%
   group_by(year, rgn_id, fn, rgn_mean_unempl_all) %>%
-  summarize(cat_mean_unempl  = sum(value * ohibc_pop, na.rm = TRUE) / sum(ohibc_pop),
+  summarize(cat_mean_unempl  = sum(unempl_rate * ohibc_pop, na.rm = TRUE) / sum(ohibc_pop),
             cat_mean_unempl  = round(cat_mean_unempl, 2),
             category_pop = sum(ohibc_pop, na.rm = TRUE)) %>%
-  ungroup() %>%
-  filter(cat_mean_unempl > 0)
+  ungroup()
 
 unempl_wt_mean_allyrs <- unempl_wt_mean %>%
   group_by(rgn_id, fn) %>%
@@ -636,32 +670,157 @@ unempl_wt_mean_allyrs <- unempl_wt_mean %>%
 
 fn_unempl <- unempl_wt_mean_allyrs %>%
   filter(fn) %>%
-  select(year, rgn_id, fn_mean_unempl = cat_mean_unempl)
+  select(year, rgn_id, mean_unempl = cat_mean_unempl)
 
 non_fn_unempl <- unempl_wt_mean_allyrs %>%
   filter(!fn) %>%
-  select(year, rgn_id, non_fn_mean_unempl = cat_mean_unempl)
+  select(year, rgn_id, mean_unempl = cat_mean_unempl)
 
-fn_pop_unempl <- unempl_wt_mean_allyrs %>%
-  filter(fn) %>%
-  select(year, rgn_id, fn_pop = category_pop)
-
-non_fn_pop_unempl <- unempl_wt_mean_allyrs %>%
-  filter(!fn) %>%
-  select(year, rgn_id, non_fn_pop = category_pop)
+# fn_pop_unempl <- unempl_wt_mean_allyrs %>%
+#   filter(fn) %>%
+#   select(year, rgn_id, fn_pop = category_pop)
+# 
+# non_fn_pop_unempl <- unempl_wt_mean_allyrs %>%
+#   filter(!fn) %>%
+#   select(year, rgn_id, non_fn_pop = category_pop)
 
 write_csv(fn_unempl,         file.path(dir_goal, 'output', 'le_unempl_fn.csv'))
 write_csv(non_fn_unempl,     file.path(dir_goal, 'output', 'le_unempl_nonfn.csv'))
-write_csv(fn_pop_unempl,     file.path(dir_goal, 'output', 'le_pop1_fn.csv'))
-write_csv(non_fn_pop_unempl, file.path(dir_goal, 'output', 'le_pop1_nonfn.csv'))
+# write_csv(fn_pop_unempl,     file.path(dir_goal, 'int', 'le_pop_unempl_fn.csv'))
+# write_csv(non_fn_pop_unempl, file.path(dir_goal, 'int', 'le_pop_unempl_nonfn.csv'))
 
 DT::datatable(unempl_wt_mean_allyrs, caption = 'Mean unemployment')
 
 ```
 
+
+### Alternate lower-bound reference points
+
+In a simple no-net-loss model, the top reference point is set at the rolling mean of the previous five year period (e.g. ref pt for 2009 is mean of 2004-2008 values), but currently assumes (implicitly) a lower reference point of 0.  This results in all scores being extremely close to 1: even a 10% decline below the reference point, essentially a large dip in income for all people, results in a score of 90.
+
+Instead let's try a lower reference point based on the income at the bottom quantile (say 5% or 10%) of the population of each region, or the min value found in the region.  The score calculation would look like:
+
+$$X_{wages} = \frac{I_{current} - I_{low.ref}}{I_{ref} - I_{low.ref}}$$
+
+$$X_{jobs} = \frac{E_{current} - E_{low.ref}}{E_{ref} - E_{low.ref}}$$
+
+though our data are expressed in unemployment, rather than employment; so more accurately, 
+
+$$X_{jobs} = \frac{1 - U_{current} - (1 - U_{high.ref})}{1 - U_{ref} - (1 - U_{high.ref})} = \frac{U_{high.ref} - U_{current}}{U_{high.ref} - U_{ref}}$$
+
+where $I,U$ represent median income and unemployment rate respectively, and $E = 1 - U$ represents the employment rate.
+
+#### Lower reference point: income
+
+Reference point will be calculated based on entire population of each region for each year, presuming that a low wage is equally bad for First Nations and non-First Nations.  CSDs with zero median income are dropped as anomalous.
+
+As calculated here, we will use the minimum median income for any CSD (FN or otherwise, but probably FN) with a population of at least 100 (to establish some minimum community size for averaging).  Using the bottom decile resulted in median income floors that were in most cases higher than the mean for First Nations; largely due to differences in income, and compounded since the population of FN communities are much smaller than non-FN communities.
+
+``` {r calc_income_ref_pts}
+
+rgn_df <- read_csv(file.path(dir_goal, 'int', 'pop_csd_yr.csv'))
+
+### combine data with regions and gapfill NAs
+income_df <- read_csv(file.path(dir_goal, 'int', 'inc_and_empl_yr_csd.csv')) %>%
+  select(csd_id, year, adj_med_income) %>%
+  left_join(rgn_df, by = c('csd_id', 'year')) %>%
+  filter(ohibc_pop > 0 & adj_med_income > 0)
+
+### Order communities in each region/year by income;
+### select the communities with population in the bottom 5%;
+### take weighted mean of median incomes (clipping any pop above
+### the quantile population)
+# ref_quantile = .05
+# 
+# ref_pts_qtile <- income_df %>%
+#   group_by(rgn_id, year) %>%
+#   arrange(rgn_id, year, adj_med_income) %>%
+#   mutate(cum_pop = cumsum(ohibc_pop),
+#          qtile   = max(cum_pop) * ref_quantile) %>%
+#   filter(lag(cum_pop) < qtile | cum_pop == first(cum_pop)) %>%
+#     ### the OR accounts for the case where one community includes the bottom decile
+#     ### in which case, lag returns NA
+#   mutate(adj_pop = ifelse(cum_pop > qtile, qtile - lag(cum_pop), ohibc_pop),
+#          adj_pop = ifelse(is.na(adj_pop), qtile, adj_pop)) %>%
+#     ### the second line accounts for the case where one community includes the bottom decile
+#   summarize(med_inc_qtile = sum(adj_med_income * adj_pop) / sum(adj_pop))
+
+min_comm_size <- 100
+
+ref_pts_min <- income_df %>%
+  group_by(rgn_id, year) %>%
+  filter(ohibc_pop >= min_comm_size) %>% 
+  summarize(med_inc_min = min(adj_med_income))
+
+ref_pts_low_allyrs <- ref_pts_min %>%
+  group_by(rgn_id) %>%
+  complete(year = min(year):max(year)) %>%
+  mutate(income_lower_ref = zoo::na.approx(med_inc_min, year) %>% round())
+  
+write_csv(ref_pts_low_allyrs, file.path(dir_goal, 'output/le_income_lower_ref.csv'))
+
+```
+
+#### Upper reference point: unemployment
+
+Reference point will be calculated based on entire population of each region for each year, presuming that low employment is equally bad for First Nations and non-First Nations.  CSDs with zero reported unemployment for a given year are dropped for that year as anomalous.
+
+As for median income, we will use as a reference point the max unemployment (i.e. minimum employment) for all communities within a region that meet some threshold population. 
+
+``` {r calc_unempl_ref_pts}
+
+rgn_df <- read_csv(file.path(dir_goal, 'int', 'pop_csd_yr.csv'))
+
+### combine data with regions and gapfill NAs
+unempl_df <- read_csv(file.path(dir_goal, 'int', 'inc_and_empl_yr_csd.csv')) %>%
+  select(csd_id, year, unempl_rate) %>%
+  left_join(rgn_df, by = c('csd_id', 'year')) %>%
+  filter(ohibc_pop > 0) %>%
+  filter(unempl_rate > 0 & !is.na(unempl_rate))
+
+### Order communities in each region/year by income;
+### cut out any communities below the 10th %ile, and take the
+### next one in the line using first().
+# ref_pts_qtile <- unempl_df %>%
+#   group_by(rgn_id, year) %>%
+#   arrange(rgn_id, year, desc(unempl_rate)) %>%
+#   mutate(cum_pop = cumsum(ohibc_pop),
+#          qtile  = max(cum_pop) * ref_quantile) %>%
+#   filter(lag(cum_pop) < qtile | cum_pop == first(cum_pop)) %>%
+#     ### the OR accounts for the case where one community includes the bottom qtile
+#     ### in which case, lag returns NA
+#   mutate(adj_pop = ifelse(cum_pop > qtile, qtile - lag(cum_pop), ohibc_pop),
+#          adj_pop = ifelse(is.na(adj_pop), qtile, adj_pop)) %>%
+#     ### The second line accounts for the case where one community includes the bottom qtile
+#   summarize(unempl_qtile = sum(unempl_rate * adj_pop) / sum(adj_pop))
+
+ref_pts_max <- unempl_df %>%
+  group_by(rgn_id, year) %>%
+  filter(ohibc_pop >= min_comm_size) %>%
+  summarize(unempl_max = max(unempl_rate))
+
+ref_pts_low_allyrs <- ref_pts_max %>%
+  group_by(rgn_id) %>%
+  complete(year = min(year):max(year)) %>%
+  mutate(unempl_upper_ref = zoo::na.approx(unempl_max, year) %>% round(2))
+  
+write_csv(ref_pts_low_allyrs, file.path(dir_goal, 'output/le_unempl_upper_ref.csv'))
+
+```
+
+#### Reference point discussion
+
+In all cases, setting a non-zero lower bound reference point will far more harshly penalize scores for First Nations communities.  Using a bottom decile value for income and employment establish a lower-bound reference that in most cases exceeds the value for First Nations communities, resulting in a score of zero.  Even setting a reference point based on the minimum value within a region creates a reference point that is often barely lower than the region's overall value.  Without a doubt, First Nations communities throughout Canada are vastly underserved by the market economy: https://globalnews.ca/news/3795083/reserves-poverty-line-census/.
+
+Wage reference points based on a poverty line or minimum wage value are complicated by the fact that we're looking at household income rather than individual; http://www.livingwageforfamilies.ca/tags/poverty_line_bc has some information on poverty in BC.  Employment reference points are tricky as well.
+
+Due to these complications, it is probably best to stick with the simplest model, using a zero lower bound reference point as is typical of other OHI assessments.  
+
 ### Visualize
 
-``` {r data_viz, eval = TRUE}
+Solid lines indicate average income (population-weighted average of median income across all census subdistricts, for First Nations and non-First Nations).  Dashed line indicates the lower bound reference, determined by the median income of the CSD (with pop > 100) with the lowest median income.  Similar for unemployment, though the reference line is the maximum unemployment found in any CSD with pop > 100.
+
+``` {r data_viz_unempl, eval = TRUE}
 
 income_layer <- read_csv(file.path(dir_goal, 'output', 'le_income_fn.csv')) %>%
   left_join(read_csv(file.path(dir_goal, 'output', 'le_income_nonfn.csv')),
@@ -670,6 +829,23 @@ income_layer <- read_csv(file.path(dir_goal, 'output', 'le_income_fn.csv')) %>%
   gather(first_nations, median_income, contains('income')) %>%
   mutate(first_nations = !str_detect(first_nations, 'non_fn'))
 
+income_ref <- read_csv(file.path(dir_goal, 'output', 'le_income_lower_ref.csv')) %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
+
+ggplot(income_layer, aes(x = year, y = median_income)) +
+  ggtheme_plot() +
+  geom_line(aes(group = first_nations, color = first_nations), alpha = .7, size = 1.5) +
+  geom_line(data = income_ref, aes(y = income_lower_ref, group = rgn_name), 
+            color = 'red', linetype = 'dashed') +
+  scale_x_continuous(breaks = seq(1996, 2016, 5)) +
+  theme(axis.text.x = element_text(angle = 75, hjust = 1)) +
+  scale_y_continuous(limits = c(0, NA)) +
+  facet_wrap( ~ rgn_name)
+
+```
+
+``` {r data_viz_income, eval = TRUE}
+
 unempl_layer <- read_csv(file.path(dir_goal, 'output', 'le_unempl_fn.csv')) %>%
   left_join(read_csv(file.path(dir_goal, 'output', 'le_unempl_nonfn.csv')),
             by = c('rgn_id', 'year')) %>%
@@ -677,18 +853,15 @@ unempl_layer <- read_csv(file.path(dir_goal, 'output', 'le_unempl_fn.csv')) %>%
   gather(first_nations, mean_unempl, contains('unempl')) %>%
   mutate(first_nations = !str_detect(first_nations, 'non_fn'))
 
-ggplot(income_layer, aes(x = year, y = median_income, color = first_nations)) +
-  ggtheme_plot() +
-  geom_line(aes(group = first_nations), alpha = .7, size = 1.5) +
-  scale_x_continuous(breaks = c(1996:2016)) +
-  theme(axis.text.x = element_text(angle = 75, hjust = 1)) +
-  scale_y_continuous(limits = c(0, NA)) +
-  facet_wrap( ~ rgn_name)
+unempl_ref <- read_csv(file.path(dir_goal, 'output', 'le_unempl_upper_ref.csv')) %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
 
 ggplot(unempl_layer, aes(x = year, y = mean_unempl, color = first_nations)) +
   ggtheme_plot() +
   geom_line(aes(group = first_nations), alpha = .7, size = 1.5) +
-  scale_x_continuous(breaks = c(1996:2016)) +
+  geom_line(data = unempl_ref, aes(y = unempl_upper_ref, group = rgn_name), 
+            color = 'red', linetype = 'dashed') +
+  scale_x_continuous(breaks = seq(1996, 2016, 5)) +
   theme(axis.text.x = element_text(angle = 75, hjust = 1)) +
   scale_y_continuous(limits = c(0, NA)) +
   facet_wrap( ~ rgn_name)

@@ -398,79 +398,43 @@ SAL <- function(layers) {
 
 FP <- function(layers, scores) {
 
-  ### Here we will weight FIS and MAR as in global
-  ### (i.e. (FIS * catch + MAR * harvest) / (catch + harvest))
-  ### and SAL will be given 0.5 weight (one third of total weight)
+  ### Here we will weight FIS, MAR, and SAL equally.  In BC, wild-capture
+  ### fishing landed weight and mariculture harvest weights are approaching
+  ### parity based on the DFO year-in-review literature.  While wild-caught
+  ### salmon fall significantly lower in harvest, they are important in terms
+  ### of cultural importance and are likely eaten in greater proportion
+  ### relative to hake, which drive the wild-caught mass.
+  ### As such, we've decided that an equal weighting across all three
+  ### emphasizes the outsize importance of all three in BC's ability
+  ### to provide sustainable seafood to its citizens and the globe.
+  ### NOTE: for years in which any one subgoal score is NA, the other scores
+  ### will equally contribute to the overall FP score (e.g. when MAR is NA,
+  ### FIS and SAL scores will each contribute half of the FP score).
 
-  message('Beginning FP goal, starting with weights')
 
-  ### weights
-  # w <-  SelectLayersData(layers, layers = 'fp_wildcaught_weight', narrow = TRUE) %>%
-  #   select(region_id = id_num, w_FIS = val_num); head(w)
-
-  ### Wildcaught weight will be calculated from catch weight / (catch + harvest),
-  ### but for now just weight both equally
-  w <- data.frame(region_id = c(1:8),
-                  w_FIS     = rep(.5, 8))
+  wts <- data.frame(region_id = c(1:8),
+                    w_FIS     = rep(.333, 8),
+                    w_MAR     = rep(.333, 8),
+                    w_SAL     = rep(.333, 8))
 
   message('getting FP scores')
   ### scores
   fp_w_wts <- scores %>%
     filter(goal %in% c('FIS', 'MAR', 'SAL')) %>%
     filter(!(dimension %in% c('pressures', 'resilience'))) %>%
-    left_join(w, by='region_id')  %>%
-    mutate(w_FIS = as.double(w_FIS),
-           w_MAR = 1 - w_FIS) %>%
+    left_join(wts, by='region_id')  %>%
     mutate(weight = case_when(goal == 'FIS' ~ w_FIS,
                               goal == 'MAR' ~ w_MAR,
-                              goal == 'SAL' ~ 0.5))
-
-  ### Some warning messages due to potential mismatches in data:
-  ### NA score but there is a weight
-  tmp <- fp_w_wts %>% filter(goal=='FIS' & is.na(score) &
-                                   (!is.na(w_FIS) & w_FIS!=0) &
-                                   dimension == 'score')
-  if(dim(tmp)[1]>0){
-    warning(paste0('Check: these regions have a FIS weight but no score: ',
-                   paste(as.character(tmp$region_id), collapse = ', ')))}
-
-  tmp <- fp_w_wts %>% filter(goal=='MAR' & is.na(score) &
-                                   (!is.na(w_MAR) & w_MAR!=0) &
-                                   dimension == 'score')
-  if(dim(tmp)[1]>0){
-    warning(paste0('Check: these regions have a MAR weight but no score: ',
-                   paste(as.character(tmp$region_id), collapse = ', ')))}
-
-  ### score, but the weight is NA or 0
-  tmp <- fp_w_wts %>% filter(goal=='FIS' & (!is.na(score) & score > 0) &
-                                   (is.na(w_FIS) | w_FIS==0) &
-                                   dimension == 'score' & region_id !=0)
-  if(dim(tmp)[1]>0){
-    warning(paste0('Check: these regions have a FIS score but no weight: ',
-                   paste(as.character(tmp$region_id), collapse = ', ')))}
-
-  tmp <- fp_w_wts %>% filter(goal=='MAR' & (!is.na(score) & score > 0) &
-                                   (is.na(w_MAR) | w_MAR==0) &
-                                   dimension == 'score' & region_id !=0)
-  if(dim(tmp)[1]>0){
-    warning(paste0('Check: these regions have a MAR score but no weight: ',
-                   paste(as.character(tmp$region_id), collapse = ', ')))}
-
-  ### NOTE: Salmon weight will be constant; when scores are calculated with
-  ### a weighted mean, and SAL is NA, na.rm will drop that from the calc including
-  ### the weight.
-
-  message('Calculating weighted mean for FP')
+                              goal == 'SAL' ~ w_SAL))
 
   fp_combined <- fp_w_wts  %>%
     group_by(region_id, dimension) %>%
-    summarize(score = weighted.mean(score, weight, na.rm=TRUE)) %>%
+    summarize(score = weighted.mean(score, weight, na.rm = TRUE)) %>%
     mutate(goal = 'FP') %>%
     ungroup() %>%
     select(region_id, goal, dimension, score) %>%
     data.frame()
 
-  message('returning from FP')
   ### return all scores
   return(rbind(scores, fp_combined))
 
@@ -956,32 +920,60 @@ LEF <- function(layers) {
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
-  unempl_df <- layers$data[['le_unempl_fn']] %>%
-    select(-layer) %>%
+  ### NOTE: the 100 score ref point for employment is based on a rolling
+  ### mean of the *lagged* empl rate, so the ref point for the current
+  ### year DOES NOT include data from the current year.  E.g. for 2009,
+  ### ref point is based on 2004-2008.
+  ### The employment reference will be the higher of the FN or non-FN
+  ### employment rates.
+  ### The 100 score ref point for income is based on the highest median
+  ### income across all OHIBC regions, including both First Nations and non-
+  ### First Nations.
+  ###
+  ### NOTE: the 0 score ref point will remain at 0 median wage and 0 employment;
+  ### other options were explored in data_prep_le.Rmd but rejected for a simpler model.
+
+  empl_df <- layers$data[['le_unempl_fn']] %>%
+    select(-layer, fn_unempl = mean_unempl) %>%
+    full_join(layers$data[['le_unempl_nonfn']],
+              by = c('year', 'rgn_id')) %>%
+    select(-layer, nonfn_unempl = mean_unempl) %>%
+    mutate(empl_rate_fn    = 1 - fn_unempl/100,
+           empl_rate_nonfn = 1 - nonfn_unempl/100) %>%
+    rowwise() %>%
+    mutate(empl_rate_max = max(empl_rate_nonfn, empl_rate_fn)) %>%
+    ungroup() %>%
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
     arrange(region_id, year) %>%
-    mutate(empl_rate = 1 - mean_unempl/100,
-           # ref_pt = lag(empl_rate, 5)) %>%
-           ref_pt = zoo::rollmean(empl_rate, k = 5, fill = NA, align = 'right')) %>%
-    ungroup()
+    mutate(empl_rate_lag = lag(empl_rate_max, 1, default = first(empl_rate_max)),
+              ### note: the default back-fills the first value, i.e. 1996 value
+           ref_pt = zoo::rollmean(empl_rate_lag, k = 5, fill = NA, align = 'right')) %>%
+    ungroup() %>%
+    select(region_id, year, empl_rate_fn, ref_pt)
 
   income_df <- layers$data[['le_income_fn']] %>%
-    select(-layer) %>%
+    select(-layer, med_income_fn = med_adj_income) %>%
+    left_join(layers$data[['le_income_nonfn']], by = c('year', 'rgn_id')) %>%
+    select(-layer, med_income_nonfn = med_adj_income) %>%
+    rowwise() %>%
+    mutate(med_income_max = max(med_income_fn, med_income_nonfn)) %>%
+    ungroup() %>%
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
     ungroup() %>%
-    mutate(ref_pt = max(median_income, na.rm = TRUE))
+    mutate(ref_pt = max(med_income_max, na.rm = TRUE)) %>%
+    select(region_id, year, med_income_fn, ref_pt)
   ### reference point is max value across regions and years; make sure
   ### income is listed in equivalent dollars
 
   ### combine wages and jobs scores; calculate overall score
-  le_status <- unempl_df %>%
-    mutate(jobs_score = empl_rate / ref_pt,
+  lef_status <- empl_df %>%
+    mutate(jobs_score = empl_rate_fn / ref_pt,
            jobs_score = ifelse(jobs_score > 1, 1, jobs_score)) %>%
     select(year, region_id, jobs_score) %>%
     left_join(income_df %>%
-                mutate(wages_score = median_income / ref_pt,
+                mutate(wages_score = med_income_fn / ref_pt,
                        wages_score = ifelse(wages_score > 1, 1, wages_score)) %>%
                 select(year, region_id, wages_score),
               by = c('year', 'region_id')) %>%
@@ -992,14 +984,14 @@ LEF <- function(layers) {
 
 
   trend_years <- (data_year - 4) : data_year
-  le_trend   <- calc_trend(le_status, trend_years)
+  lef_trend   <- calc_trend(lef_status, trend_years)
 
-  le_scores <- le_status %>%
+  lef_scores <- lef_status %>%
     filter(year == data_year) %>%
-    bind_rows(le_trend) %>%
+    bind_rows(lef_trend) %>%
     select(region_id, goal, dimension, score)
 
-  return(le_scores)
+  return(lef_scores)
 
 }
 
@@ -1009,32 +1001,49 @@ LEO <- function(layers) {
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
-  unempl_df <- layers$data[['le_unempl_nonfn']] %>%
-    select(-layer) %>%
+  ### See methods notes in LEF
+
+  empl_df <- layers$data[['le_unempl_fn']] %>%
+    select(-layer, fn_unempl = mean_unempl) %>%
+    full_join(layers$data[['le_unempl_nonfn']],
+              by = c('year', 'rgn_id')) %>%
+    select(-layer, nonfn_unempl = mean_unempl) %>%
+    mutate(empl_rate_fn    = 1 - fn_unempl/100,
+           empl_rate_nonfn = 1 - nonfn_unempl/100) %>%
+    rowwise() %>%
+    mutate(empl_rate_max = max(empl_rate_nonfn, empl_rate_fn)) %>%
+    ungroup() %>%
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
     arrange(region_id, year) %>%
-    mutate(empl_rate = 1 - mean_unempl/100,
-           # ref_pt = lag(empl_rate, 5)) %>%
-           ref_pt = zoo::rollmean(empl_rate, k = 5, fill = NA, align = 'right')) %>%
-    ungroup()
+    mutate(empl_rate_lag = lag(empl_rate_max, 1, default = first(empl_rate_max)),
+           ### note: the default back-fills the first value, i.e. 1996 value
+           ref_pt = zoo::rollmean(empl_rate_lag, k = 5, fill = NA, align = 'right')) %>%
+    ungroup() %>%
+    select(region_id, year, empl_rate_nonfn, ref_pt)
 
-  income_df <- layers$data[['le_income_nonfn']] %>%
-    select(-layer) %>%
+  income_df <- layers$data[['le_income_fn']] %>%
+    select(-layer, med_income_fn = med_adj_income) %>%
+    left_join(layers$data[['le_income_nonfn']], by = c('year', 'rgn_id')) %>%
+    select(-layer, med_income_nonfn = med_adj_income) %>%
+    rowwise() %>%
+    mutate(med_income_max = max(med_income_fn, med_income_nonfn)) %>%
+    ungroup() %>%
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
     ungroup() %>%
-    mutate(ref_pt = max(median_income, na.rm = TRUE))
+    mutate(ref_pt = max(med_income_max, na.rm = TRUE)) %>%
+    select(region_id, year, med_income_nonfn, ref_pt)
   ### reference point is max value across regions and years; make sure
   ### income is listed in equivalent dollars
 
   ### combine wages and jobs scores; calculate overall score
-  le_status <- unempl_df %>%
-    mutate(jobs_score = empl_rate / ref_pt,
+  leo_status <- empl_df %>%
+    mutate(jobs_score = empl_rate_nonfn / ref_pt,
            jobs_score = ifelse(jobs_score > 1, 1, jobs_score)) %>%
     select(year, region_id, jobs_score) %>%
     left_join(income_df %>%
-                mutate(wages_score = median_income / ref_pt,
+                mutate(wages_score = med_income_nonfn / ref_pt,
                        wages_score = ifelse(wages_score > 1, 1, wages_score)) %>%
                 select(year, region_id, wages_score),
               by = c('year', 'region_id')) %>%
@@ -1045,14 +1054,14 @@ LEO <- function(layers) {
 
 
   trend_years <- (data_year - 4) : data_year
-  le_trend   <- calc_trend(le_status, trend_years)
+  leo_trend   <- calc_trend(leo_status, trend_years)
 
-  le_scores <- le_status %>%
+  leo_scores <- leo_status %>%
     filter(year == data_year) %>%
-    bind_rows(le_trend) %>%
+    bind_rows(leo_trend) %>%
     select(region_id, goal, dimension, score)
 
-  return(le_scores)
+  return(leo_scores)
 
 }
 

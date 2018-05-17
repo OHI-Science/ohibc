@@ -1,5 +1,4 @@
 layer,dir_prep,filename,name,description,dimension,target
-ao_salmon,ohibc:prep/ao/v2017/output,ao_salmon.csv,Salmon stock health,Salmon stock health as a proxy for access to salmon for FSC purposes,status,AO
 fis_dfo_assessed_catch_props,NA,NA,Proportion of catch assessed,Proportion of catch assessed by DFO,status,FIS
 fis_hake_catch,NA,NA,Annual catch for hake,Total catch for hake annually from DFO Year in review,status,FIS
 fp_trawl_reduction,ohibc:calc_ohibc/master/dummy_layers,fp_habitat_gl2016.csv,Voluntary trawl reduction to preserve biodiversity,??? Get description from Courtney,resilience,"AO, FIS, HAB, ICO, SPP, SAL"

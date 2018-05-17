@@ -84,10 +84,23 @@ scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
   filter(!is.na(status)) %>%
   left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
 
-for(goalname in scores$goal %>% unique() %>% sort) {
-  # goalname <- scores$goal[1]
+goals <- c('AO' = 'First Nations Resource Access Opportunity',
+           'HAB' = 'BD: Habitats', 'SPP' = 'BD: Species', 'BD' = 'Biodiversity', 
+           'CPP' = 'ES: Coastal Protection', 'CSS' = 'ES: Carbon Storage', 'ES' = 'Ecosystem Services', 
+           'CW' = 'Clean Waters',  
+           'FIS' = 'FP: Wild-capture Fisheries', 'MAR' = 'FP: Mariculture', 
+           'SAL' = 'FP: Salmon', 'FP' = 'Food Provision',
+           'ICO' = 'SP: Iconic Species', 'LSP' = 'SP: Lasting Special Places', 'SP' = 'Sense of Place', 
+           'LEF' = 'LE: First Nations Livelihoods', 'LEO' = 'LE: Non-First Nations Livelihoods', 'LE' = 'Livelihoods', 
+           'TR' = 'Tourism and Recreation')
+
+for(i in seq_along(goals)) {
+  
+  goal_code = names(goals)[i]
+  goal_name = goals[i]
+  
   scores_tmp <- scores %>%
-    filter(goal == goalname)
+    filter(goal == goal_code)
   status_plot <- ggplot(scores_tmp %>% 
                           filter(region_id != 0), 
                       aes(x = year, y = status, color = rgn_name)) +
@@ -99,7 +112,8 @@ for(goalname in scores$goal %>% unique() %>% sort) {
     scale_x_continuous(breaks = scores_tmp$year %>% unique() %>% sort) +
     scale_y_continuous(limits = c(0, 100)) +
     theme(axis.text.x = element_text(angle = 30)) +
-    labs(color = goalname) +
+    labs(color = goal_code,
+         title = goal_name) +
     guides(colour = guide_legend(override.aes = list(size = 3)))
 
   print(status_plot)
@@ -173,7 +187,7 @@ span_plot <- ggplot(year_spans, aes(x = layer_name, color = targets)) +
   geom_linerange(aes(ymin = year_min, ymax = year_max), show.legend = FALSE) +
   labs(x = 'Layer name',
        y = 'Data year') +
-  scale_color_manual(values = rep(brewer.pal(n = 8, name = 'Dark2'), 4)) +
+  scale_color_manual(values = rep(brewer.pal(n = 8, name = 'Dark2'), 5)) +
   geom_text(aes(y = year_max, label = targets), color = 'grey20', size = 1.6, 
             vjust = 0, nudge_x = 0.1, hjust = 1, show.legend = FALSE) +
   coord_flip()

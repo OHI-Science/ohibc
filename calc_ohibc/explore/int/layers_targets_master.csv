@@ -319,7 +319,8 @@ cwbi_fn,LEF,NA,resilience
 ao_closures,AO,NA,status
 ao_licenses,AO,NA,status
 ao_licenses_fn_pop,AO,NA,status
-ao_salmon,AO,NA,status
+ao_sal_catch,SAL,NA,status
+ao_sal_escapes,SAL,NA,status
 ao_spawn_hab_index,AO,NA,status
 cp_cf_health,CPP,NA,status
 cp_sm_health,CPP,NA,status

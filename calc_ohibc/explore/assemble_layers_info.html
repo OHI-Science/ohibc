@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Compiled on Mon Apr 16 21:18:00 2018 by ohara" />
+<meta name="author" content="Compiled on Thu May 17 11:08:29 2018 by ohara" />
 
 
 <title>OHIBC: Layer check helper</title>
@@ -266,7 +266,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">OHIBC: Layer check helper</h1>
-<h4 class="author"><em><em>Compiled on Mon Apr 16 21:18:00 2018 by ohara</em></em></h4>
+<h4 class="author"><em><em>Compiled on Thu May 17 11:08:29 2018 by ohara</em></em></h4>
 
 </div>
 
@@ -341,8 +341,8 @@ layers_full &lt;-<span class="st"> </span>layers_full <span class="op">%&gt;%</s
 
 <span class="kw">write_csv</span>(missing, <span class="kw">file.path</span>(dir_calc, <span class="st">'explore/xxx_missing_layers.csv'</span>))</code></pre></div>
 <p><font size="1"></p>
-<div id="htmlwidget-dba3a76876624e82e76b" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-dba3a76876624e82e76b">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7"],["ao_salmon","fis_dfo_assessed_catch_props","fis_hake_catch","fp_trawl_reduction","hd_mining","hd_trawl_reduction","po_water"],["ohibc:prep/ao/v2017/output",null,null,"ohibc:calc_ohibc/master/dummy_layers","ohibc:prep/_pressures/v2017/output","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers"],["ao_salmon.csv",null,null,"fp_habitat_gl2016.csv","prs_mining.csv","hd_habitat_gl2016.csv","po_water_gl2016.csv"],["Salmon stock health","Proportion of catch assessed","Annual catch for hake","Voluntary trawl reduction to preserve biodiversity","???","Voluntary trawl reduction to preserve biodiversity","Management and regulations to control water pollution to preserve biodiversity"],["Salmon stock health as a proxy for access to salmon for FSC purposes","Proportion of catch assessed by DFO","Total catch for hake annually from DFO Year in review","??? Get description from Courtney","???","??? Get description from Courtney","Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: tourism related questions"],["status","status","status","resilience","pressure","resilience","resilience"],["AO","FIS","FIS","AO, FIS, HAB, ICO, SPP, SAL","AO, CPP, CSS, CW, HAB, ICO, LSP, MAR, SAL, SPP, TR","AO, CPP, CSS, FIS, HAB, ICO, SPP, LSP, SAL","CPP, CSS, CW, HAB, ICO, SPP, LSP, MAR, TR"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>layer<\/th>\n      <th>dir_prep<\/th>\n      <th>filename<\/th>\n      <th>name<\/th>\n      <th>description<\/th>\n      <th>dimension<\/th>\n      <th>target<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-b2c3223d8275ae7b5dbc" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b2c3223d8275ae7b5dbc">{"x":{"filter":"none","data":[["1","2","3","4","5","6"],["fis_dfo_assessed_catch_props","fis_hake_catch","fp_trawl_reduction","hd_mining","hd_trawl_reduction","po_water"],[null,null,"ohibc:calc_ohibc/master/dummy_layers","ohibc:prep/_pressures/v2017/output","ohibc:calc_ohibc/master/dummy_layers","ohibc:calc_ohibc/master/dummy_layers"],[null,null,"fp_habitat_gl2016.csv","prs_mining.csv","hd_habitat_gl2016.csv","po_water_gl2016.csv"],["Proportion of catch assessed","Annual catch for hake","Voluntary trawl reduction to preserve biodiversity","???","Voluntary trawl reduction to preserve biodiversity","Management and regulations to control water pollution to preserve biodiversity"],["Proportion of catch assessed by DFO","Total catch for hake annually from DFO Year in review","??? Get description from Courtney","???","??? Get description from Courtney","Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: tourism related questions"],["status","status","resilience","pressure","resilience","resilience"],["FIS","FIS","AO, FIS, HAB, ICO, SPP, SAL","AO, CPP, CSS, CW, HAB, ICO, LSP, MAR, SAL, SPP, TR","AO, CPP, CSS, FIS, HAB, ICO, SPP, LSP, SAL","CPP, CSS, CW, HAB, ICO, SPP, LSP, MAR, TR"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>layer<\/th>\n      <th>dir_prep<\/th>\n      <th>filename<\/th>\n      <th>name<\/th>\n      <th>description<\/th>\n      <th>dimension<\/th>\n      <th>target<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":[],"jsHooks":[]}</script>
 <p></font></p>
 </div>
 <div id="identify-extra-layers" class="section level2">
@@ -369,14 +369,12 @@ extras &lt;-<span class="st"> </span><span class="kw">c</span>(output_csvs[<span
 <div id="extra-output-csvs-not-used-as-layers" class="section level4">
 <h4><span class="header-section-number">1.2.0.1</span> Extra ‘output’ csvs not used as layers:</h4>
 <ul>
+<li>/home/ohara/github/ohibc/prep/ao/v2017/output/ao_salmon.csv</li>
+<li>/home/ohara/github/ohibc/prep/fis/v2017/output/catch_props_fis_mar_sal.csv</li>
 <li>/home/ohara/github/ohibc/prep/fis/v2017/output/dfo_assessed_catch_props.csv</li>
 <li>/home/ohara/github/ohibc/prep/fis/v2017/output/hake_catch.csv</li>
-<li>/home/ohara/github/ohibc/prep/le/v2017/output/le_income_old.csv</li>
-<li>/home/ohara/github/ohibc/prep/le/v2017/output/le_pop1_fn.csv</li>
-<li>/home/ohara/github/ohibc/prep/le/v2017/output/le_pop1_nonfn.csv</li>
-<li>/home/ohara/github/ohibc/prep/le/v2017/output/le_pop_fn.csv</li>
-<li>/home/ohara/github/ohibc/prep/le/v2017/output/le_pop_nonfn.csv</li>
-<li>/home/ohara/github/ohibc/prep/le/v2017/output/le_unemployment_old.csv</li>
+<li>/home/ohara/github/ohibc/prep/le/v2017/output/le_income_lower_ref.csv</li>
+<li>/home/ohara/github/ohibc/prep/le/v2017/output/le_unempl_upper_ref.csv</li>
 <li>/home/ohara/github/ohibc/prep/_pressures/v2017/output/prs_oa_gapfill.csv</li>
 <li>/home/ohara/github/ohibc/prep/spp_ico/v2017/output/spp_info_by_id.csv</li>
 <li>/home/ohara/github/ohibc/prep/tr/v2017/output/park_visits_all.csv</li>

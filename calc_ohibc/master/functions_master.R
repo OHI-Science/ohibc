@@ -453,11 +453,11 @@ AO <- function(layers) {
   licenses <- layers$data[['ao_licenses']] %>% select(-layer)
   licenses_ref <- layers$data[['ao_licenses_fn_pop']] %>% select(-layer)
   shi      <- layers$data[['ao_spawn_hab_index']] %>% select(-layer)
-  sal_C    <- layers$data[['sal_catch']] %>% select(-layer)
-  sal_E    <- layers$data[['sal_escapes']] %>% select(-layer)
+  sal_C    <- layers$data[['ao_sal_catch']] %>% select(-layer)
+  sal_E    <- layers$data[['ao_sal_escapes']] %>% select(-layer)
 
 
-  ### assign weights to each layer
+  ### assign weights to each component
   component_wts <- c('shellfish_closures' = 1,
                      'fn_licenses' = 1,
                      'herring_spawn' = 1,
@@ -920,32 +920,60 @@ LEF <- function(layers) {
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
-  unempl_df <- layers$data[['le_unempl_fn']] %>%
-    select(-layer) %>%
+  ### NOTE: the 100 score ref point for employment is based on a rolling
+  ### mean of the *lagged* empl rate, so the ref point for the current
+  ### year DOES NOT include data from the current year.  E.g. for 2009,
+  ### ref point is based on 2004-2008.
+  ### The employment reference will be the higher of the FN or non-FN
+  ### employment rates.
+  ### The 100 score ref point for income is based on the highest median
+  ### income across all OHIBC regions, including both First Nations and non-
+  ### First Nations.
+  ###
+  ### NOTE: the 0 score ref point will remain at 0 median wage and 0 employment;
+  ### other options were explored in data_prep_le.Rmd but rejected for a simpler model.
+
+  empl_df <- layers$data[['le_unempl_fn']] %>%
+    select(-layer, fn_unempl = mean_unempl) %>%
+    full_join(layers$data[['le_unempl_nonfn']],
+              by = c('year', 'rgn_id')) %>%
+    select(-layer, nonfn_unempl = mean_unempl) %>%
+    mutate(empl_rate_fn    = 1 - fn_unempl/100,
+           empl_rate_nonfn = 1 - nonfn_unempl/100) %>%
+    rowwise() %>%
+    mutate(empl_rate_max = max(empl_rate_nonfn, empl_rate_fn)) %>%
+    ungroup() %>%
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
     arrange(region_id, year) %>%
-    mutate(empl_rate = 1 - mean_unempl/100,
-           # ref_pt = lag(empl_rate, 5)) %>%
-           ref_pt = zoo::rollmean(empl_rate, k = 5, fill = NA, align = 'right')) %>%
-    ungroup()
+    mutate(empl_rate_lag = lag(empl_rate_max, 1, default = first(empl_rate_max)),
+              ### note: the default back-fills the first value, i.e. 1996 value
+           ref_pt = zoo::rollmean(empl_rate_lag, k = 5, fill = NA, align = 'right')) %>%
+    ungroup() %>%
+    select(region_id, year, empl_rate_fn, ref_pt)
 
   income_df <- layers$data[['le_income_fn']] %>%
-    select(-layer) %>%
+    select(-layer, med_income_fn = med_adj_income) %>%
+    left_join(layers$data[['le_income_nonfn']], by = c('year', 'rgn_id')) %>%
+    select(-layer, med_income_nonfn = med_adj_income) %>%
+    rowwise() %>%
+    mutate(med_income_max = max(med_income_fn, med_income_nonfn)) %>%
+    ungroup() %>%
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
     ungroup() %>%
-    mutate(ref_pt = max(median_income, na.rm = TRUE))
+    mutate(ref_pt = max(med_income_max, na.rm = TRUE)) %>%
+    select(region_id, year, med_income_fn, ref_pt)
   ### reference point is max value across regions and years; make sure
   ### income is listed in equivalent dollars
 
   ### combine wages and jobs scores; calculate overall score
-  le_status <- unempl_df %>%
-    mutate(jobs_score = empl_rate / ref_pt,
+  lef_status <- empl_df %>%
+    mutate(jobs_score = empl_rate_fn / ref_pt,
            jobs_score = ifelse(jobs_score > 1, 1, jobs_score)) %>%
     select(year, region_id, jobs_score) %>%
     left_join(income_df %>%
-                mutate(wages_score = median_income / ref_pt,
+                mutate(wages_score = med_income_fn / ref_pt,
                        wages_score = ifelse(wages_score > 1, 1, wages_score)) %>%
                 select(year, region_id, wages_score),
               by = c('year', 'region_id')) %>%
@@ -956,14 +984,14 @@ LEF <- function(layers) {
 
 
   trend_years <- (data_year - 4) : data_year
-  le_trend   <- calc_trend(le_status, trend_years)
+  lef_trend   <- calc_trend(lef_status, trend_years)
 
-  le_scores <- le_status %>%
+  lef_scores <- lef_status %>%
     filter(year == data_year) %>%
-    bind_rows(le_trend) %>%
+    bind_rows(lef_trend) %>%
     select(region_id, goal, dimension, score)
 
-  return(le_scores)
+  return(lef_scores)
 
 }
 
@@ -973,32 +1001,49 @@ LEO <- function(layers) {
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
-  unempl_df <- layers$data[['le_unempl_nonfn']] %>%
-    select(-layer) %>%
+  ### See methods notes in LEF
+
+  empl_df <- layers$data[['le_unempl_fn']] %>%
+    select(-layer, fn_unempl = mean_unempl) %>%
+    full_join(layers$data[['le_unempl_nonfn']],
+              by = c('year', 'rgn_id')) %>%
+    select(-layer, nonfn_unempl = mean_unempl) %>%
+    mutate(empl_rate_fn    = 1 - fn_unempl/100,
+           empl_rate_nonfn = 1 - nonfn_unempl/100) %>%
+    rowwise() %>%
+    mutate(empl_rate_max = max(empl_rate_nonfn, empl_rate_fn)) %>%
+    ungroup() %>%
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
     arrange(region_id, year) %>%
-    mutate(empl_rate = 1 - mean_unempl/100,
-           # ref_pt = lag(empl_rate, 5)) %>%
-           ref_pt = zoo::rollmean(empl_rate, k = 5, fill = NA, align = 'right')) %>%
-    ungroup()
+    mutate(empl_rate_lag = lag(empl_rate_max, 1, default = first(empl_rate_max)),
+           ### note: the default back-fills the first value, i.e. 1996 value
+           ref_pt = zoo::rollmean(empl_rate_lag, k = 5, fill = NA, align = 'right')) %>%
+    ungroup() %>%
+    select(region_id, year, empl_rate_nonfn, ref_pt)
 
-  income_df <- layers$data[['le_income_nonfn']] %>%
-    select(-layer) %>%
+  income_df <- layers$data[['le_income_fn']] %>%
+    select(-layer, med_income_fn = med_adj_income) %>%
+    left_join(layers$data[['le_income_nonfn']], by = c('year', 'rgn_id')) %>%
+    select(-layer, med_income_nonfn = med_adj_income) %>%
+    rowwise() %>%
+    mutate(med_income_max = max(med_income_fn, med_income_nonfn)) %>%
+    ungroup() %>%
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
     ungroup() %>%
-    mutate(ref_pt = max(median_income, na.rm = TRUE))
+    mutate(ref_pt = max(med_income_max, na.rm = TRUE)) %>%
+    select(region_id, year, med_income_nonfn, ref_pt)
   ### reference point is max value across regions and years; make sure
   ### income is listed in equivalent dollars
 
   ### combine wages and jobs scores; calculate overall score
-  le_status <- unempl_df %>%
-    mutate(jobs_score = empl_rate / ref_pt,
+  leo_status <- empl_df %>%
+    mutate(jobs_score = empl_rate_nonfn / ref_pt,
            jobs_score = ifelse(jobs_score > 1, 1, jobs_score)) %>%
     select(year, region_id, jobs_score) %>%
     left_join(income_df %>%
-                mutate(wages_score = median_income / ref_pt,
+                mutate(wages_score = med_income_nonfn / ref_pt,
                        wages_score = ifelse(wages_score > 1, 1, wages_score)) %>%
                 select(year, region_id, wages_score),
               by = c('year', 'region_id')) %>%
@@ -1009,14 +1054,14 @@ LEO <- function(layers) {
 
 
   trend_years <- (data_year - 4) : data_year
-  le_trend   <- calc_trend(le_status, trend_years)
+  leo_trend   <- calc_trend(leo_status, trend_years)
 
-  le_scores <- le_status %>%
+  leo_scores <- leo_status %>%
     filter(year == data_year) %>%
-    bind_rows(le_trend) %>%
+    bind_rows(leo_trend) %>%
     select(region_id, goal, dimension, score)
 
-  return(le_scores)
+  return(leo_scores)
 
 }
 
