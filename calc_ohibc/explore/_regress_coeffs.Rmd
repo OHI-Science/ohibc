@@ -244,7 +244,7 @@ for(goalname in goals) {
     facet_wrap( ~ term, scales = 'free') +
     labs(x = 'Future lag years',
          y = 'Parameter value',
-         title = paste0(goalname, ': trend, pressures, resilience model'),
+         title = paste0(goalname, ': trend, (resilience - pressures) model'),
          size = 'Significance')
   
   print(term_plot)
