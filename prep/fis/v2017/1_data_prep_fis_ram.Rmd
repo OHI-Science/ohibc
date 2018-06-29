@@ -38,18 +38,13 @@ library(provRmd); prov_setup()
 
 ### Kobe plot functions
 source(file.path(dir_goal, 'kobe_fxns.R'))
-
-### set up proj4string options: BC Albers and WGS84
-p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
-p4s_bcalb <- '+proj=aea +lat_1=50 +lat_2=58.5 +lat_0=45 +lon_0=-126 +x_0=1000000 +y_0=0 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0'
-
 ```
 
 # Summary
 
-Process RAM database for British Columbia fisheries stock status and harvest levels.  Each RAM stock will be filtered to the RAM stock ID and RAM area (to separate region-specific stocks), and then the stock status parameters B/Bmsy and F/Fmsy for that stock for each year reported.
+Process RAM database for British Columbia fisheries stock status.  Each RAM stock will be filtered to the RAM stock ID and RAM area (to separate region-specific stocks), and then the stock status parameters B/Bmsy and F/Fmsy for that stock for each year reported.
 
-Total catch data for each stock for each year will be used to determine final weightings.  Since the distribution of catch data is not differentiated within the reporting region, we will use SAUP and/or DFO spatial catch data to determine the distribution and allocate the total catch proportionally.
+Total catch data for each stock for each year will be used to determine final weightings.  We will use DFO data to weight by catch.
 
 ***
 
@@ -57,7 +52,7 @@ Total catch data for each stock for each year will be used to determine final we
 
 **Reference**: RAM
 
-**Downloaded**: December 15, 2017 (downloaded from Dropbox link shared by Mike Melnychuk at UWashington)
+**Downloaded**: June 2018 (downloaded from Dropbox link shared by Mike Melnychuk at UWashington)
 
 **Description**:  Fishery status (B/B~msy~ and F/F~msy~) for stocks in BC waters
 
@@ -69,7 +64,7 @@ Total catch data for each stock for each year will be used to determine final we
   
 # Methods
 
-Explore RAM:  Preliminary RAM database v. 4.25.  Load from .RData file, including time series and metadata.  This initial chunk explores the variables included in the data.
+Explore RAM:  Preliminary RAM database v. 4.40.  Load from .RData file, including time series and metadata.  This initial chunk explores the variables included in the data.
 
 ## BC-specific stocks
 
@@ -80,7 +75,7 @@ From global RAM data, filter to northeastern Pacific stocks whose assessment is 
 # model_data_file <- file.path(dir_anx, '_raw_data/ram_fisheries/d2017/RAM_v3.80/DB_Files_With_Model_Fit_Data/DBdata.RData')
 # load(model_data_file)
 # git_prov(model_data_file, filetype = 'input')
-assessment_data_file <- file.path(dir_M, 'git-annex/globalprep/_raw_data/RAM/d2018/RAM v4.25 (12-14-17)/DB Files With Assessment Data/DBdata.RData')
+assessment_data_file <- file.path(dir_M, 'git-annex/globalprep/_raw_data/RAM/d2018/RAM v4.40 (6-4-18)/DB Files With Assessment Data/DBdata.RData')
 load(assessment_data_file)
 git_prov(assessment_data_file, filetype = 'input')
 
