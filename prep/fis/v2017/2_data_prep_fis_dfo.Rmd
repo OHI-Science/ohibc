@@ -107,6 +107,8 @@ Column to use for all, if available is `Sum_LANDED` which has Kilograms as units
 >**Boccacio** – I do not understand why this is not `Sum_LANDED` (KGS) like the other groundfish. I’ll take a look at this. Could be an artifact of bycatch records in the DB.  Looks like there is a `sum_catch` in the output. Sorry about that. I was going quickly and didn’t catch this strange output.
 >
 >Column to use for **Geoduck** is `Tl_landed`. The units are in Pounds (LB).  
+>
+> Behold, the new tuna scientist confirmed that tuna catch has always been reported in pounds not kgs. I think I told you kgs. I either was given the wrong info previously or wrote it down incorrectly. 
 
 ***
 
@@ -146,7 +148,7 @@ Now we can get a single dataset for each stock by running the `read_files` funct
 #albacore (not running this until we have 2013-2015 files)
 # tuna <- read_files("albacore_tuna", "Sum_CatchW") %>%
 #   mutate(species = "albacore_tuna",
-#          units = "kg") %>%
+#          units = "lbs") %>%
 #   rename(harvest = "Sum_CatchW")
 #arrowtooth flounder
 af <- read_files("arrowtooth_flounder", "Sum_LANDED") %>%
@@ -329,7 +331,7 @@ species_catch <- af %>%
   mutate(rgn_catch  = sum(catch)) %>% #this calculates the total catch (in kgs) for each region of either assessed or unassessed species
   ungroup() %>%
   mutate(rgn_ass_catch_prop = ifelse(is.na(stockid), NA, catch/rgn_catch)) %>% ## catch_prop gives the proportion of catch that harvest contributes towards the overall assessed or unassessed catch. We are really only going to use the assessed part of this.
-  select(rgn_name, year, species, stockid, catch, rgn_catch, rgn_ass_catch_prop)
+  select(rgn_name, rgn_id, year, species, stockid, catch, rgn_catch, rgn_ass_catch_prop)
   
 write_csv(species_catch, "output/dfo_catch.csv")
 ```
@@ -338,12 +340,12 @@ We also need to calculate the total proportion of unassessed catch per region pe
 
 ```{r}
 rgn_catch <- species_catch %>%
-  group_by(year, rgn_name) %>%
+  group_by(year, rgn_id, rgn_name) %>%
   summarize(rgn_catch = sum(catch))
 
 unassessed <- species_catch %>%
   filter(is.na(stockid)) %>%  #if a stockid is na it is not assessed. 
-  group_by(rgn_name, year) %>%
+  group_by(rgn_name, rgn_id, year) %>%
   summarize(unass_catch = sum(catch))
 
 catch_summary <- rgn_catch %>%
