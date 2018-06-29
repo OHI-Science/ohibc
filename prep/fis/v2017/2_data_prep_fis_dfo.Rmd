@@ -145,11 +145,11 @@ read_files <- function(folder, column){
 Now we can get a single dataset for each stock by running the `read_files` function. We are still waiting on two more years of data for Albacore tuna which is why I have it commented out. Otherwise this would throw an error since not all years are there. 
 
 ```{r}
-#albacore (not running this until we have 2013-2015 files)
-# tuna <- read_files("albacore_tuna", "Sum_CatchW") %>%
-#   mutate(species = "albacore_tuna",
-#          units = "lbs") %>%
-#   rename(harvest = "Sum_CatchW")
+#albacore
+tuna <- read_files("albacore_tuna", "Sum_CatchW") %>%
+  mutate(species = "albacore_tuna",
+         units = "lbs") %>%
+  rename(harvest = "Sum_CatchW")
 #arrowtooth flounder
 af <- read_files("arrowtooth_flounder", "Sum_LANDED") %>%
   mutate(species = "arrowtooth_flounder",
@@ -307,11 +307,9 @@ Now I'm:
 8. Save as `dfo_catch.csv`
 
 ```{r}
-## STILL NEED TO ADD TUNA when we get 2013-2015
-
 species_catch <- af %>%
   rbind(boc, dog, crab, cod, hal, herr, geo, ling, pop, hake, 
-        rfish, sable, skates, prawn, pollock, soles, srsole, shrimp) %>%
+        rfish, sable, skates, prawn, pollock, soles, srsole, shrimp, tuna) %>%
   mutate(harvest_kgs = ifelse(units == "lbs", harvest/0.453592,  #pounds to kg
                               ifelse(units == "metric_tons", harvest*1000, harvest))) %>%
   select(-units, -harvest) %>%
