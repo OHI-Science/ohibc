@@ -1,118 +1,4 @@
 stock_id,stock_name,param,year,value,sciname,ram_area_name
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1956,0.960735317,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1957,1.364478515,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1958,0.764566708,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1959,0.759574839,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1960,0.611861129,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1961,0.344797725,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1962,0.626594723,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1963,1.21344077,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1964,0.703162148,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1965,0.889944293,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1966,0.988772905,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1967,1.121729038,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1968,1.067188689,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1969,0.967264336,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1970,0.424920176,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1971,1.241718174,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1972,1.104107326,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1973,0.734233355,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1974,0.884238019,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1975,0.942256187,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1976,0.954159784,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1977,0.647840866,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1978,0.939561253,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1979,1.16878143,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1980,1.004477381,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1981,0.870625661,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1982,0.829460488,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1983,0.332784513,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1984,0.719074989,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1985,0.614431589,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1986,0.62320151,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1987,1.770615262,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1988,1.227819801,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1989,0.675822358,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1990,0.791475932,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1991,1.553026126,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1992,1.692120959,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1993,2.001191153,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1994,1.519223372,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1995,1.120589607,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1996,1.167780408,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1997,1.149946614,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1998,1.332805066,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,1999,1.420027299,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2000,1.139154283,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2001,0.617387617,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2002,0.825384515,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2003,1.350343055,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2004,1.474466897,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2005,1.559649848,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2006,1.47833847,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2007,0.810274501,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2008,0.221908546,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2009,0.653365125,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2010,1.45979771,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2011,1.304692451,Gadus macrocephalus,Queen Charlotte Sound
-PCOD5AB,Pacific cod Queen Charlotte Sound,F/Fmsy,2012,0.845242092,Gadus macrocephalus,Queen Charlotte Sound
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1956,0.584602112,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1957,0.767162377,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1958,1.212734206,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1959,0.881788856,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1960,0.674914631,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1961,0.451200145,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1962,0.521656092,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1963,0.467639594,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1964,0.724929378,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1965,0.979368329,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1966,1.244331915,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1967,1.112256398,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1968,1.036856183,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1969,0.871115028,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1970,0.495066826,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1971,0.534230327,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1972,0.556438746,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1973,0.575667838,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1974,0.796855408,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1975,0.95796952,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1976,0.912385811,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1977,0.844819919,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1978,0.611075735,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1979,1.273583677,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1980,1.055156434,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1981,0.705499019,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1982,0.681411258,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1983,0.704891529,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1984,0.567665689,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1985,0.357111321,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1986,0.689887925,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1987,1.221186171,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1988,0.947217642,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1989,0.668950439,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1990,0.752198606,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1991,1.633970891,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1992,1.531795002,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1993,1.406156194,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1994,0.684009962,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1995,0.643989367,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1996,0.763186182,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1997,0.891438657,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1998,0.760089454,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,1999,0.569488636,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,2000,0.504201805,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,2001,0.229751804,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,2002,0.168361549,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,2003,0.209218552,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,2004,0.242552806,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,2005,0.345023585,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,2006,0.363820262,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,2007,0.177671041,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,2008,0.131772918,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,2009,0.210439206,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,2010,0.3426068,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,2011,0.306747288,Gadus macrocephalus,Hecate Strait
-PCODHS,Pacific cod Hecate Strait,F/Fmsy,2012,0.257187101,Gadus macrocephalus,Hecate Strait
 RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1945,0.01125523,Lepidopsetta bilineata,Queen Charlotte Sound
 RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1946,5.52301e-4,Lepidopsetta bilineata,Queen Charlotte Sound
 RSOLE5AB,Rock sole Queen Charlotte Sound,F/Fmsy,1947,0.030502092,Lepidopsetta bilineata,Queen Charlotte Sound
@@ -457,53 +343,29 @@ PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2010,1.855,Hippoglossus stenolepis
 PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2011,1.615,Hippoglossus stenolepis,North Pacific
 PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2012,1.415,Hippoglossus stenolepis,North Pacific
 PHALNPAC,Pacific halibut North Pacific,F/Fmsy,2013,1.28,Hippoglossus stenolepis,North Pacific
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1966,0.191720152,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1967,0.227848673,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1968,0.187600363,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1969,0.196545986,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1970,0.173834005,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1971,0.228658576,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1972,0.270877261,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1973,0.279003579,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1974,0.309456821,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1975,0.274355409,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1976,0.368357931,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1977,0.192407769,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1978,0.310284354,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1979,0.241297072,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1980,0.270877261,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1981,0.268744835,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1982,0.289283033,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1983,0.221316442,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1984,0.290345448,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1985,0.250168581,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1986,0.206185617,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1987,0.223826477,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1988,0.211684958,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1989,0.211380872,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1990,0.25692347,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1991,0.173678797,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1992,0.236575418,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1993,0.221802351,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1994,0.278210319,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1995,0.244882344,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1996,0.300893399,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1997,0.371015397,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1998,0.346961369,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1999,0.460148838,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2000,0.333181844,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2001,0.345878543,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2002,0.399691326,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2003,0.368142381,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2004,0.376179002,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2005,0.272368627,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2006,0.274823285,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2007,0.37533569,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2008,0.283928876,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2009,0.313383338,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2010,0.27476988,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2011,0.31676711,Thunnus alalunga,North Pacific Ocean
-ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2012,0.3125894,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1993,0.363,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1994,0.441,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1995,0.428,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1996,0.519,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1997,0.623,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1998,0.623,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,1999,0.792,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2000,0.61,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2001,0.649,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2002,0.753,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2003,0.662,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2004,0.688,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2005,0.532,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2006,0.545,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2007,0.675,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2008,0.506,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2009,0.636,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2010,0.584,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2011,0.649,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2012,0.662,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2013,0.636,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2014,0.662,Thunnus alalunga,North Pacific Ocean
+ALBANPAC,Albacore tuna North Pacific,F/Fmsy,2015,0.61,Thunnus alalunga,North Pacific Ocean
 PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1966,0.174698795,Merluccius productus,Pacific Coast
 PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1967,0.289156627,Merluccius productus,Pacific Coast
 PHAKEPCOAST,Pacific hake Pacific Coast,F/Fmsy,1968,0.174698795,Merluccius productus,Pacific Coast

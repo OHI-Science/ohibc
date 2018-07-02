@@ -60,6 +60,9 @@ Framing as a trend-only model:
 
 $$ X = \frac{Status_{t+lag}}{Status_{t}} = \beta_0 + \beta_1 T_t$$
 
+## Fixed effects
+
+Using a fixed effects model by year may compensate for exogenous unobserved variables (i.e. not included in the index calculations) that affect all regions equally in each time period, such as global economic conditions or fluctuations in net primary productivity.  Using a fixed effects model by region may compensate for unobserved variables (i.e. not included in index calculations) related to interregional differences, such as total population, proportion of First Nations population, or geophysical differences.
 
 # Regress goal-by-goal
 
@@ -96,9 +99,12 @@ goals <-  c('AO',
             'LEF', 'LEO', 
             'TR')
 
-lfs1_all <- data.frame()
-lfs2_all <- data.frame()
-tr_only_all <- data.frame()
+lfs_all <- data.frame()
+lfs_felm_yr <- data.frame()
+lfs_felm_yr_rgn <- data.frame()
+# library(lfe)
+# lfs2_all <- data.frame()
+# tr_only_all <- data.frame()
 
 for(lead_yr in lead_yrs) { # lead_yr <- 5
 
@@ -119,66 +125,87 @@ for(lead_yr in lead_yrs) { # lead_yr <- 5
     # 
     # print(tmp_plot)
 
-    lfs1_lm <- lm(lfs_ratio ~ trend_adj + pressures + resilience, data = tmp_df) %>%
+    # lfs_lm <- lm(lfs_ratio ~ trend_adj + pressures + resilience, data = tmp_df) %>%
+    lfs_lm <- lm(lfs_ratio ~ pressures + resilience, data = tmp_df) %>%
       broom::tidy() %>%
       mutate(goal  = goalname,
              n_obs = nrow(tmp_df),
              years = length(tmp_df$year %>% unique()),
              lfs_lead = lead_yr)
  
-    lfs2_lm <- lm(lfs_ratio ~ trend_adj + res_minus_prs, data = tmp_df) %>%
+    # lfs_felm_yr <- lm(lfs_ratio ~ trend_adj + pressures + resilience + factor(year), data = tmp_df) %>%
+    lfs_felm_yr <- lm(lfs_ratio ~  pressures + resilience + factor(year), data = tmp_df) %>%
       broom::tidy() %>%
       mutate(goal  = goalname,
              n_obs = nrow(tmp_df),
              years = length(tmp_df$year %>% unique()),
              lfs_lead = lead_yr)
+
+    # lfs_felm_yr_rgn <- lm(lfs_ratio ~ trend_adj + pressures + resilience + factor(year) + factor(region_id), data = tmp_df) %>%
+    lfs_felm_yr_rgn <- lm(lfs_ratio ~ pressures + resilience + factor(year) + factor(region_id), data = tmp_df) %>%
+      broom::tidy() %>%
+      mutate(goal  = goalname,
+             n_obs = nrow(tmp_df),
+             years = length(tmp_df$year %>% unique()),
+             lfs_lead = lead_yr)
+
+    # lfs2_lm <- lm(lfs_ratio ~ trend_adj + res_minus_prs, data = tmp_df) %>%
+    #   broom::tidy() %>%
+    #   mutate(goal  = goalname,
+    #          n_obs = nrow(tmp_df),
+    #          years = length(tmp_df$year %>% unique()),
+    #          lfs_lead = lead_yr)
    
-    tr_only_lm <- lm(lfs_ratio ~ trend_adj, data = tmp_df) %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()),
-             lfs_lead = lead_yr)
+    # tr_only_lm <- lm(lfs_ratio ~ trend_adj, data = tmp_df) %>%
+    #   broom::tidy() %>%
+    #   mutate(goal  = goalname,
+    #          n_obs = nrow(tmp_df),
+    #          years = length(tmp_df$year %>% unique()),
+    #          lfs_lead = lead_yr)
     
-    lfs1_all <- bind_rows(lfs1_all, lfs1_lm)
-    lfs2_all <- bind_rows(lfs2_all, lfs2_lm)
-    tr_only_all <- bind_rows(tr_only_all, tr_only_lm)
+    lfs_felm_yr <- bind_rows(lfs_felm_yr, lfs_felm_yr)
+    lfs_felm_yr_rgn <- bind_rows(lfs_felm_yr_rgn, lfs_felm_yr_rgn)
+    lfs_all <- bind_rows(lfs_all, lfs_lm)
+    # lfs2_all <- bind_rows(lfs2_all, lfs2_lm)
+    # tr_only_all <- bind_rows(tr_only_all, tr_only_lm)
   
   }
 }
 
-lfs1_all <- lfs1_all %>%
+lfs_all <- lfs_all %>%
   mutate(estimate  = round(estimate, 4),
          std.error = round(std.error, 4),
          statistic = round(statistic, 4),
          p.value   = round(p.value, 4))
-lfs2_all <- lfs2_all %>%
-  mutate(estimate  = round(estimate, 4),
-         std.error = round(std.error, 4),
-         statistic = round(statistic, 4),
-         p.value   = round(p.value, 4))
-  
-tr_only_all <- tr_only_all %>%
-  mutate(estimate  = round(estimate, 4),
-         std.error = round(std.error, 4),
-         statistic = round(statistic, 4),
-         p.value   = round(p.value, 4))
+# lfs2_all <- lfs2_all %>%
+#   mutate(estimate  = round(estimate, 4),
+#          std.error = round(std.error, 4),
+#          statistic = round(statistic, 4),
+#          p.value   = round(p.value, 4))
+#   
+# tr_only_all <- tr_only_all %>%
+#   mutate(estimate  = round(estimate, 4),
+#          std.error = round(std.error, 4),
+#          statistic = round(statistic, 4),
+#          p.value   = round(p.value, 4))
 
-write_csv(lfs1_all, 'int/lfs1_all.csv')
-write_csv(lfs2_all, 'int/lfs2_all.csv')
-write_csv(tr_only_all, 'int/trend_only_all.csv')
+write_csv(lfs_all, 'int/lfs_all.csv')
+write_csv(lfs_felm_yr, 'int/lfs_felm_yr.csv')
+write_csv(lfs_felm_yr_rgn, 'int/lfs_felm_yr_rgn.csv')
+# write_csv(lfs2_all, 'int/lfs2_all.csv')
+# write_csv(tr_only_all, 'int/trend_only_all.csv')
 
 ```
 
-## Trend/Pressure/Resilience parameter estimates
-`r DT::datatable(lfs1_all)`
+## ~Trend~/Pressure/Resilience parameter estimates
+`r DT::datatable(lfs_all)`
 
-## Trend/(Pressure - Resilience) parameter estimates
-`r DT::datatable(lfs2_all)`
+<!-- ## Trend/(Pressure - Resilience) parameter estimates -->
+<!-- `r # DT::datatable(lfs2_all)` -->
 
-## Trend-only parameter estimates
+<!-- ## Trend-only parameter estimates -->
 
-`r DT::datatable(tr_only_all)`
+<!-- `r # DT::datatable(tr_only_all)` -->
 
 # Plots
 
@@ -186,7 +213,7 @@ write_csv(tr_only_all, 'int/trend_only_all.csv')
 
 ``` {r plot_tr_pr_res_model}
 
-lfs1_all <- read_csv('int/lfs1_all.csv') %>%
+lfs_all <- read_csv('int/lfs_all.csv') %>%
   mutate(p_sig = case_when(p.value < .001 ~ 'p < .001',
                            p.value < .01  ~ 'p < .01',
                            p.value < .05  ~ 'p < .05',
@@ -194,10 +221,10 @@ lfs1_all <- read_csv('int/lfs1_all.csv') %>%
          p_sig = factor(p_sig, levels = c('p >.05', 'p < .05', 'p < .01', 'p < .001')))
 
 for(goalname in goals) {
-  lfs1_goal <- lfs1_all %>%
+  lfs_goal <- lfs_all %>%
     filter(goal == goalname)
   
-  term_plot <- ggplot(lfs1_goal, aes(x = lfs_lead, y = estimate, 
+  term_plot <- ggplot(lfs_goal, aes(x = lfs_lead, y = estimate, 
                                        color = p_sig)) +
     ggtheme_plot() +
     geom_hline(yintercept = 0, color = 'red4', alpha = .5) +
@@ -217,9 +244,79 @@ for(goalname in goals) {
 
 ```
 
-## Trend, (Res - Prs) model
+### Fixed effects on year
 
-``` {r plot_tr_res_minus_prs_model}
+``` {r plot_tr_pr_res_yr_model}
+
+lfs_felm_yr <- read_csv('int/lfs_felm_yr.csv') %>%
+  mutate(p_sig = case_when(p.value < .001 ~ 'p < .001',
+                           p.value < .01  ~ 'p < .01',
+                           p.value < .05  ~ 'p < .05',
+                           TRUE           ~ 'p >.05'),
+         p_sig = factor(p_sig, levels = c('p >.05', 'p < .05', 'p < .01', 'p < .001')))
+
+for(goalname in goals) {
+  lfs_goal <- lfs_all %>%
+    filter(goal == goalname)
+  
+  term_plot <- ggplot(lfs_goal, aes(x = lfs_lead, y = estimate, 
+                                       color = p_sig)) +
+    ggtheme_plot() +
+    geom_hline(yintercept = 0, color = 'red4', alpha = .5) +
+    geom_point(alpha = .8, size = 3) +
+    scale_x_continuous(breaks = 1:6, limits = c(.5, 7)) +
+    scale_color_manual(values = c('p >.05'  = 'grey80',     'p < .05'  = 'orange',
+                                  'p < .01' = 'yellowgreen', 'p < .001' = 'green4')) +
+    geom_text(aes(label = p_sig), nudge_x = .25, hjust = 0, color = 'grey20', size = 2) +
+    facet_wrap( ~ term, scales = 'free') +
+    labs(x = 'Future lag years',
+         y = 'Parameter value',
+         title = paste0(goalname, ': trend, pressures, resilience + FE(year) model'),
+         size = 'Significance')
+  
+  print(term_plot)
+}
+
+```
+
+### Fixed effects on year and region
+
+``` {r plot_tr_pr_res_yr_rgn_model}
+
+lfs_felm_yr <- read_csv('int/lfs_felm_yr_rgn.csv') %>%
+  mutate(p_sig = case_when(p.value < .001 ~ 'p < .001',
+                           p.value < .01  ~ 'p < .01',
+                           p.value < .05  ~ 'p < .05',
+                           TRUE           ~ 'p >.05'),
+         p_sig = factor(p_sig, levels = c('p >.05', 'p < .05', 'p < .01', 'p < .001')))
+
+for(goalname in goals) {
+  lfs_goal <- lfs_all %>%
+    filter(goal == goalname)
+  
+  term_plot <- ggplot(lfs_goal, aes(x = lfs_lead, y = estimate, 
+                                       color = p_sig)) +
+    ggtheme_plot() +
+    geom_hline(yintercept = 0, color = 'red4', alpha = .5) +
+    geom_point(alpha = .8, size = 3) +
+    scale_x_continuous(breaks = 1:6, limits = c(.5, 7)) +
+    scale_color_manual(values = c('p >.05'  = 'grey80',     'p < .05'  = 'orange',
+                                  'p < .01' = 'yellowgreen', 'p < .001' = 'green4')) +
+    geom_text(aes(label = p_sig), nudge_x = .25, hjust = 0, color = 'grey20', size = 2) +
+    facet_wrap( ~ term, scales = 'free') +
+    labs(x = 'Future lag years',
+         y = 'Parameter value',
+         title = paste0(goalname, ': trend, pressures, resilience + FE(year, rgn) model'),
+         size = 'Significance')
+  
+  print(term_plot)
+}
+
+```
+
+<!-- ## Trend, (Res - Prs) model -->
+
+``` {r plot_tr_res_minus_prs_model, eval = FALSE}
 
 lfs2_all <- read_csv('int/lfs2_all.csv') %>%
   mutate(p_sig = case_when(p.value < .001 ~ 'p < .001',
@@ -252,9 +349,9 @@ for(goalname in goals) {
 
 ```
 
-## Trend-only model
+<!-- ## Trend-only model -->
 
-``` {r plot_tr_only_model}
+``` {r plot_tr_only_model, eval = FALSE}
 
 tr_only_all <- read_csv('int/trend_only_all.csv') %>%
   mutate(p_sig = case_when(p.value < .001 ~ 'p < .001',

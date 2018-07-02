@@ -60396,3 +60396,2307 @@ ohibc2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",N
 2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
 2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
 2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2001,MAR,XXXXXXXX,NA
+2002,MAR,XXXXXXXX,NA
+2003,MAR,XXXXXXXX,NA
+2004,MAR,XXXXXXXX,NA
+2005,MAR,XXXXXXXX,NA
+2006,MAR,XXXXXXXX,NA
+2007,MAR,XXXXXXXX,NA
+2008,MAR,XXXXXXXX,NA
+2009,MAR,XXXXXXXX,NA
+2010,MAR,XXXXXXXX,NA
+2011,MAR,XXXXXXXX,NA
+2012,MAR,XXXXXXXX,NA
+2013,MAR,XXXXXXXX,NA
+2014,MAR,XXXXXXXX,NA
+2015,MAR,XXXXXXXX,NA
+2016,MAR,XXXXXXXX,NA
+2001,AO,XXXXXXXX,NA
+2002,AO,XXXXXXXX,NA
+2003,AO,XXXXXXXX,NA
+2004,AO,XXXXXXXX,NA
+2005,AO,XXXXXXXX,NA
+2006,AO,XXXXXXXX,NA
+2007,AO,XXXXXXXX,NA
+2008,AO,XXXXXXXX,NA
+2009,AO,XXXXXXXX,NA
+2010,AO,XXXXXXXX,NA
+2011,AO,XXXXXXXX,NA
+2012,AO,XXXXXXXX,NA
+2013,AO,XXXXXXXX,NA
+2014,AO,XXXXXXXX,NA
+2015,AO,XXXXXXXX,NA
+2016,AO,XXXXXXXX,NA
+2001,CS,XXXXXXXX,NA
+2002,CS,XXXXXXXX,NA
+2003,CS,XXXXXXXX,NA
+2004,CS,XXXXXXXX,NA
+2005,CS,XXXXXXXX,NA
+2006,CS,XXXXXXXX,NA
+2007,CS,XXXXXXXX,NA
+2008,CS,XXXXXXXX,NA
+2009,CS,XXXXXXXX,NA
+2010,CS,XXXXXXXX,NA
+2011,CS,XXXXXXXX,NA
+2012,CS,XXXXXXXX,NA
+2013,CS,XXXXXXXX,NA
+2014,CS,XXXXXXXX,NA
+2015,CS,XXXXXXXX,NA
+2016,CS,XXXXXXXX,NA
+2001,CP,XXXXXXXX,NA
+2002,CP,XXXXXXXX,NA
+2003,CP,XXXXXXXX,NA
+2004,CP,XXXXXXXX,NA
+2005,CP,XXXXXXXX,NA
+2006,CP,XXXXXXXX,NA
+2007,CP,XXXXXXXX,NA
+2008,CP,XXXXXXXX,NA
+2009,CP,XXXXXXXX,NA
+2010,CP,XXXXXXXX,NA
+2011,CP,XXXXXXXX,NA
+2012,CP,XXXXXXXX,NA
+2013,CP,XXXXXXXX,NA
+2014,CP,XXXXXXXX,NA
+2015,CP,XXXXXXXX,NA
+2016,CP,XXXXXXXX,NA
+2001,ICO,scaled IUCN risk categories,NA
+2002,ICO,scaled IUCN risk categories,NA
+2003,ICO,scaled IUCN risk categories,NA
+2004,ICO,scaled IUCN risk categories,NA
+2005,ICO,scaled IUCN risk categories,NA
+2006,ICO,scaled IUCN risk categories,NA
+2007,ICO,scaled IUCN risk categories,NA
+2008,ICO,scaled IUCN risk categories,NA
+2009,ICO,scaled IUCN risk categories,NA
+2010,ICO,scaled IUCN risk categories,NA
+2011,ICO,scaled IUCN risk categories,NA
+2012,ICO,scaled IUCN risk categories,NA
+2013,ICO,scaled IUCN risk categories,NA
+2014,ICO,scaled IUCN risk categories,NA
+2015,ICO,scaled IUCN risk categories,NA
+2016,ICO,scaled IUCN risk categories,NA
+2001,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2002,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2003,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2004,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2005,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2006,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2007,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2008,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2009,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2010,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2011,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2012,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2013,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2014,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2015,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2016,LSP,30% marine protected area; 30% coastal protected area,varies by area of region eez and 1 km inland
+2001,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2002,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2003,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2004,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2005,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2006,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2007,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2008,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2009,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2010,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2011,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2012,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2013,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2014,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2015,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2016,CW,"Geometric mean of (1 - pressure); 0 = any component at max pressure, 1 = all components at zero pressure",NA
+2001,HAB,XXXXXXXX,NA
+2002,HAB,XXXXXXXX,NA
+2003,HAB,XXXXXXXX,NA
+2004,HAB,XXXXXXXX,NA
+2005,HAB,XXXXXXXX,NA
+2006,HAB,XXXXXXXX,NA
+2007,HAB,XXXXXXXX,NA
+2008,HAB,XXXXXXXX,NA
+2009,HAB,XXXXXXXX,NA
+2010,HAB,XXXXXXXX,NA
+2011,HAB,XXXXXXXX,NA
+2012,HAB,XXXXXXXX,NA
+2013,HAB,XXXXXXXX,NA
+2014,HAB,XXXXXXXX,NA
+2015,HAB,XXXXXXXX,NA
+2016,HAB,XXXXXXXX,NA
+2001,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2002,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2003,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2004,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2005,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2006,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2007,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2008,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2009,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2010,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2011,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2012,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2013,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2014,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2015,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA
+2016,SPP,"Average of IUCN risk categories, scaled to historic extinction",NA

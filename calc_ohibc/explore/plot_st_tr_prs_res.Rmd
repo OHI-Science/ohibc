@@ -1,0 +1,100 @@
+---
+title: 'OHIBC: Plot Status, Trend, Pressures, Resilience'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes:
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(ohicore) ### devtools::install_github('ohi-science/ohicore')
+
+source('~/github/ohibc/src/R/common.R')
+
+dir_ohibc  <- '~/github/ohibc'
+dir_calc   <- file.path(dir_ohibc, 'calc_ohibc')
+dir_master <- file.path(dir_calc, 'master')
+
+source(file.path(dir_calc, 'calc_scores_fxns.R'))
+
+### provenance tracking
+# library(provRmd); prov_setup()
+
+```
+
+# Status/trend/pressures/resilience plots
+
+Note for supragoals, no pressures or resilience are included.
+
+``` {r plot_all_scores}
+
+scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(dimension %in% c('status', 'trend', 'pressures', 'resilience')) %>%
+  # spread(dimension, score) %>%
+  # filter(region_id != 0) %>%
+  filter(!is.na(score)) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')) %>%
+  mutate(dimension = case_when(dimension == 'status'     ~ '1. status',
+                               dimension == 'trend'      ~ '2. trend',
+                               dimension == 'pressures'  ~ '3. pressures',
+                               dimension == 'resilience' ~ '4. resilience'))
+
+goals <- c('AO' = 'AO: First Nations Resource Access Opportunity',
+           'HAB' = 'BD: Habitats', 'SPP' = 'BD: Species', 
+           # 'BD' = 'Biodiversity', 
+           'CPP' = 'ES: Coastal Protection', 'CSS' = 'ES: Carbon Storage', 
+           # 'ES' = 'Ecosystem Services', 
+           'CW' = 'CW: Clean Waters',  
+           'FIS' = 'FP: Wild-capture Fisheries', 'MAR' = 'FP: Mariculture', 'SAL' = 'FP: Salmon', 
+           # 'FP' = 'Food Provision',
+           'ICO' = 'SP: Iconic Species', 'LSP' = 'SP: Lasting Special Places', 
+           # 'SP' = 'Sense of Place', 
+           'LEF' = 'LE: First Nations Livelihoods', 'LEO' = 'LE: Non-First Nations Livelihoods', 
+           # 'LE' = 'Livelihoods', 
+           'TR' = 'TR: Tourism and Recreation')
+
+for(i in seq_along(goals)) { ### i <- 1
+  
+  goal_code = names(goals)[i]
+  goal_name = goals[i]
+  
+  scores_tmp <- scores %>%
+    filter(goal == goal_code)
+  
+  status_plot <- ggplot(scores_tmp %>% 
+                          filter(region_id != 0), 
+                      aes(x = year, y = score, color = rgn_name)) +
+    ggtheme_plot() +
+    geom_hline(yintercept = 0, color = 'red4', size = 1) +
+    geom_line(data = scores_tmp %>% 
+                filter(region_id == 0), 
+              aes(x = year, y = score), size = 1.5, color = 'grey20', alpha = .8) +
+    geom_line(aes(group = region_id), alpha = .7, size = 1) +
+    scale_x_continuous(breaks = seq(2000, 2016, 2)) +
+    # scale_y_continuous(limits = c(0, NA)) +
+    theme(axis.text.x = element_text(angle = 30)) +
+    labs(color = goal_code,
+         title = goal_name) +
+    guides(colour = guide_legend(override.aes = list(size = 3))) +
+    facet_wrap( ~ dimension, scales = 'free_y')
+
+  print(status_plot)
+  
+}
+
+
+```

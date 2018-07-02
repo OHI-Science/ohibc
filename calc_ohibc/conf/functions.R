@@ -9,17 +9,14 @@ FIS <- function(layers) {
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
-  ram_b_bmsy        <- layers$data[['fis_ram_b_bmsy']] %>%
-    rename(b_bmsy = value) %>%
-    select(-param, -layer)
-  ram_f_fmsy        <- layers$data[['fis_ram_f_fmsy']] %>%
-    rename(f_fmsy = value) %>%
-    select(stock_id, year, f_fmsy)
-  ram_catch         <- layers$data[['fis_ram_catch']] %>%
-    rename(catch = value) %>%
-    select(stock_id, year, catch)
-  rgn_stock_area  <- layers$data[['fis_stock_area']] %>%
-    rename(region_id = rgn_id, stock_id = stockid)
+  ram_b_bmsy    <- layers$data[['fis_ram_b_bmsy']] %>%
+    select(stockid = stock_id, year, b_bmsy = value)
+  ram_f_fmsy    <- layers$data[['fis_ram_f_fmsy']] %>%
+    select(stockid = stock_id, year, f_fmsy = value)
+  dfo_catch     <- layers$data[['fis_dfo_catch']] %>%
+    select(rgn_id, stockid, year, rgn_ass_catch_prop)
+  rgn_catch_sum <- layers$data[['fis_rgn_catch_summary']] %>%
+    select(rgn_id, year, ass_catch_prop)
 
   ### These parameters are based on conversation with Ian Perry, Karen Hunter,
   ### and Karin Bodtker on May 24 2017.
@@ -31,14 +28,14 @@ FIS <- function(layers) {
   ### Apply rolling mean to F/Fmsy
   ram_f_fmsy <- ram_f_fmsy %>%
     mutate(f_fmsy_raw = f_fmsy) %>%
-    arrange(stock_id, year) %>%
-    group_by(stock_id) %>%
+    arrange(stockid, year) %>%
+    group_by(stockid) %>%
     # filter(!is.na(f_fmsy)) %>%
     mutate(f_fmsy = zoo::rollmean(f_fmsy_raw, k = 4, align = 'right', fill = NA)) %>%
     ungroup()
 
   stock_status_layers <- ram_b_bmsy %>%
-    full_join(ram_f_fmsy, by = c('year', 'stock_id'))
+    full_join(ram_f_fmsy, by = c('year', 'stockid'))
 
   ########################################################.
   ##### run each fishery through the Kobe plot calcs #####
@@ -96,7 +93,8 @@ FIS <- function(layers) {
     ### params from DFO harvest control rule:
     Bcrit <- 0.4; overfished_th <- 0.8
     ### params from OHI California Current:
-    underfishing_th <- 0.8; overfishing_th  <- 1.2
+    underfishing_th <- 0.66; overfishing_th  <- 1.2
+      ### changed underfishing to 0.66 under the 1/3 for the birds principle
 
     bcritslope = 1 / (overfished_th - Bcrit)
     ### connecting from (Bcrit, 0) to (overfished_th, 1)
@@ -129,42 +127,32 @@ FIS <- function(layers) {
                         fmin_val = f_fmsy_underfishing_penalty) %>%
     mutate(x_prod = ifelse(!is.na(fPrime), (fPrime * bPrime), bPrime),
            basis  = ifelse(!is.na(fPrime), 'F_Fmsy, B_Bmsy', 'B_Bmsy only')) %>%
-    dplyr::select(year, stock_id,
+    dplyr::select(year, stockid,
                   score = x_prod,
                   basis,
                   bPrime, fPrime,
                   b_bmsy, f_fmsy)  %>%
-    group_by(stock_id) %>%
+    group_by(stockid) %>%
+    filter(year >= 1996) %>%
     complete_years(status_yr_span, method = 'carry', dir = 'forward') %>%
     ungroup()
 
-  ##############################################################.
-  ##### calculate distribution of fishery catch to regions #####
-  ##############################################################.
+  ### joing stock status data with dfo catch data then weighting stock scores with their proportional catch
+  ### this is only done for assessed stocks. We incorporate a penalty for unassessed stocks later
 
-  ### calculate weights within each region by regional catch
-  catch_df <- ram_catch %>%
-    left_join(rgn_stock_area, by = 'stock_id') %>%
-    group_by(region_id, stock_id) %>%
-    complete_rgn_years(status_yr_span, method = 'carry', dir = 'forward') %>%
-    ungroup() %>%
-    mutate(rgn_catch = catch * a_prop,
-           rgn_catch = ifelse(is.na(rgn_catch), 0, rgn_catch))
-
-  stock_score_df <- stock_status_df %>%
-    filter(!is.na(score)) %>%
-    group_by(stock_id) %>%
-    arrange(stock_id, year) %>%
-    fill(score, .direction = c('down')) %>%
-    fill(score, .direction = c('up')) %>%
-    ungroup() %>%
-    full_join(catch_df, by = c('stock_id', 'year')) %>%
-    select(region_id, year, stock_id, score, rgn_catch, basis) %>%
-    filter(!is.na(region_id))
+  stock_score_catch <- stock_status_df %>%
+    left_join(dfo_catch, by = c("stockid", "year")) %>%
+    filter(!is.na(score) & !is.na(rgn_id)) %>%    ### remove rows with no stock score or rgn_id
+      ### write_csv("output/stock_scores.csv") %>%  ##not sure if we want this?
+    mutate(score_weighted = score * rgn_ass_catch_prop * 100) %>%
+    group_by(year, rgn_id) %>%
+    summarize(status_ass = sum(score_weighted)) %>%
+      ### status_ass is the status when using assessed species weighted by their catch proportion
+    ungroup()
 
   if(data_year == max(status_yr_span)) {
     ### note, this contains all years, but only write it once
-    write_csv(stock_score_df, '~/github/ohibc/prep/fis/v2017/summary/fis_from_functions.csv')
+    write_csv(stock_score_catch, '~/github/ohibc/prep/fis/v2017/summary/fis_from_functions.csv')  ## JA: i'm no longer sure we want to be saving this?
   }
 
   ### plotting fishery catch weighting by region
@@ -181,31 +169,25 @@ FIS <- function(layers) {
   #   rgn_plot_df <- stock_plot_df %>%
   #     filter(region_id == rgn)
   #   rgn_plot <- ggplot(rgn_plot_df, aes(x = year, y = rgn_catch_pct)) +
-  #     geom_area(aes(group = stock_id, fill = stock_id)) +
+  #     geom_area(aes(group = stockid, fill = stockid)) +
   #     labs(title = first(rgn_plot_df$rgn_name),
   #          fill  = 'Stock ID',
   #          y     = 'Proportion of catch')
   #   print(rgn_plot)
   # }
-  score_df <- stock_score_df %>%
-    filter(!is.na(score)) %>%
-    group_by(region_id, year) %>%
-  #   mutate(stock_catch = sprintf('%s: %.2f', stock_id, rgn_catch)) %>%
-  #   ungroup()
-  #
-  # score_df <- score_df %>%
-  #   group_by(region_id, year) %>%
-    summarize(total_catch = sum(rgn_catch),
-              total_score = sum(score * rgn_catch) / total_catch,
-              # stocks      = paste(tolower(stock_catch), collapse = ','),
-              n_stocks    = sum(rgn_catch > 0)) %>%
-    ungroup()
 
-  fis_status <- score_df %>%
-    select(region_id = region_id, year, score = total_score) %>%
-    mutate(score     = 100 * score,
-           goal      = 'FIS',
+  ### calculate FIS status
+  fis_status <- stock_score_catch %>%
+    left_join(rgn_catch_sum, by = c('year', 'rgn_id')) %>%
+    mutate(score = (status_ass + (status_ass * ass_catch_prop))/2) %>%
+             ### multiply the status by the % of catch assessed (this acts as a penalty for unassessed catch)
+    select(year, rgn_id, score) %>%
+    group_by(rgn_id) %>%
+    complete_rgn_years(status_yr_span, method = 'none', dir = 'forward') %>%
+    ungroup() %>%
+    mutate(goal = 'FIS',
            dimension = 'status')
+
 
   ### prepare scores (status and trend) for current status year
 
@@ -453,11 +435,11 @@ AO <- function(layers) {
   licenses <- layers$data[['ao_licenses']] %>% select(-layer)
   licenses_ref <- layers$data[['ao_licenses_fn_pop']] %>% select(-layer)
   shi      <- layers$data[['ao_spawn_hab_index']] %>% select(-layer)
-  sal_C    <- layers$data[['sal_catch']] %>% select(-layer)
-  sal_E    <- layers$data[['sal_escapes']] %>% select(-layer)
+  sal_C    <- layers$data[['ao_sal_catch']] %>% select(-layer)
+  sal_E    <- layers$data[['ao_sal_escapes']] %>% select(-layer)
 
 
-  ### assign weights to each layer
+  ### assign weights to each component
   component_wts <- c('shellfish_closures' = 1,
                      'fn_licenses' = 1,
                      'herring_spawn' = 1,

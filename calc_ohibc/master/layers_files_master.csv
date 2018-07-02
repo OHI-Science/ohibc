@@ -24,9 +24,9 @@ element_wts_cp_km2_x_exposure_x_protection,ohibc:calc_ohibc/master/dummy_layers,
 element_wts_cs_km2_x_storage,ohibc:calc_ohibc/master/dummy_layers,element_wts_cs_km2_x_storage.csv,TRUE,cs_km2_x_storage
 element_wts_hab_pres_abs,ohibc:calc_ohibc/master/dummy_layers,element_wts_hab_pres_abs.csv,TRUE,hab_presence
 fis_ram_b_bmsy,ohibc:prep/fis/v2017/output,ram_b_bmsy.csv,TRUE,value
-fis_ram_catch,ohibc:prep/fis/v2017/output,ram_catch.csv,TRUE,value
+fis_dfo_catch,ohibc:prep/fis/v2017/output,dfo_catch.csv,TRUE,rgn_ass_catch_prop
 fis_ram_f_fmsy,ohibc:prep/fis/v2017/output,ram_f_fmsy.csv,TRUE,value
-fis_stock_area,ohibc:prep/fis/v2017/output,ram_stock_area.csv,TRUE,a_prop
+fis_rgn_catch_summary,ohibc:prep/fis/v2017/output,rgn_catch_summary.csv,TRUE,ass_catch_prop
 fp_fis_discards,ohibc:prep/_pressures/v2017/output,prs_discards_fish_layer.csv,TRUE,pressure
 fp_fis_landings,ohibc:prep/_pressures/v2017/output,prs_landings_fish_layer.csv,TRUE,pressure
 fp_trawl_reduction,ohibc:calc_ohibc/master/dummy_layers,fp_habitat_gl2016.csv,TRUE,resilience_score
