@@ -21,10 +21,13 @@ knitr::opts_chunk$set(fig.width = 6, fig.height = 4, message = FALSE, warning = 
 
 options(scipen = 999)
 
+library(sf)
+
 dir_git     <- path.expand('~/github/ohibc')
 source(file.path(dir_git, 'src/R/common.R'))  
 dir_spatial <- file.path(dir_git, 'prep/_spatial')  
 dir_anx     <- file.path(dir_M, 'git-annex/bcprep')
+
 
 ### goal specific folders and info
 goal      <- 'fis'
@@ -63,30 +66,28 @@ This script preps the DFO catch data for use in the BC Fisheries model.
 
 Explore data: this first chunk just looks at the data to see what we are working with.
 
-```{r}
-library(tidyverse)
-library(sf)
-```
 
 Let's take a look at one file to see the data format
 
 ```{r}
-halibut <- st_read(file.path(dir_anx, "_raw_data/dfo_khunter/fisheries/d2018/halibut/Halibut_2015.shp"), quiet = T) %>% 
+halibut <- read_sf(file.path(dir_anx, '_raw_data/dfo_khunter/fisheries', 
+                             'd2018/halibut/Halibut_2015.shp')) %>% 
   as.data.frame() %>%
   select(-geometry)
 
-#data held in the shapefile
+### data held in the shapefile
 DT::datatable(head(halibut))
 ```
 
 Do they all look like this? Let's look at shrimp
 
 ```{r}
-shrimp <- st_read(file.path(dir_anx, "_raw_data/dfo_khunter/fisheries/d2018/shrimp/Shrimp_2009.shp"), quiet = T) %>%
+shrimp <- read_sf(file.path(dir_anx, '_raw_data/dfo_khunter/fisheries',
+                            'd2018/shrimp/Shrimp_2009.shp')) %>%
   as.data.frame() %>%
   select(-geometry)
 
-#data held in the shapefile
+### data held in the shapefile
 DT::datatable(head(shrimp))
 ```
 
@@ -115,131 +116,136 @@ Column to use for all, if available is `Sum_LANDED` which has Kilograms as units
 # Prep work
 
 Created a function, `read_files` to read in each annual file for each species, aggregate, and make a dataframe with the columns we are interested in (region and catch).
+
 ```{r}
 spp_folders <- list.files(file.path(dir_anx, '_raw_data/dfo_khunter/fisheries/d2018'))
 
-read_files <- function(folder, column){
+read_files <- function(folder, column) {
   
-  files <- list.files(paste0(dir_anx, '/_raw_data/dfo_khunter/fisheries/d2018/', folder), full.names = T)
+  files <- list.files(file.path(dir_anx, '_raw_data/dfo_khunter/fisheries/d2018', folder), 
+                      full.names = TRUE)
   
   out <- data.frame()
   
   for(yr in 2007:2015){
-    #get the shapefile for yr
+    ### get the shapefile for yr
     yr_files <- files[str_detect(files, as.character(yr))]
     
-    yr_shp_file <- yr_files[str_detect(yr_files, as.character(".shp"))]
+    yr_shp_file <- yr_files[str_detect(yr_files, as.character('.shp'))]
     
-    yr_shp <- st_read(yr_shp_file, quiet = T) %>%
+    yr_shp <- read_sf(yr_shp_file) %>%
     as.data.frame() %>%
       select(rgn_name, rgn_id, rgn_code, column) %>%
       mutate(year = yr)
     
     out <- rbind(yr_shp, out)
   }
-    return(out)
+    
+  return(out)
     
 }
 ```
 
-Now we can get a single dataset for each stock by running the `read_files` function. We are still waiting on two more years of data for Albacore tuna which is why I have it commented out. Otherwise this would throw an error since not all years are there. 
+Now we can get a single dataset for each stock by running the `read_files` function. 
+
+<!-- We are still waiting on two more years of data for Albacore tuna which is why I have it commented out. Otherwise this would throw an error since not all years are there.  -->
 
 ```{r}
-#albacore
-tuna <- read_files("albacore_tuna", "Sum_CatchW") %>%
-  mutate(species = "albacore_tuna",
-         units = "lbs") %>%
-  rename(harvest = "Sum_CatchW")
-#arrowtooth flounder
-af <- read_files("arrowtooth_flounder", "Sum_LANDED") %>%
-  mutate(species = "arrowtooth_flounder",
-         units   = "kg") %>%
-  rename(harvest = "Sum_LANDED")
-#boccacio
-boc <- read_files("bocaccio", "Sum_LANDED") %>%
-  mutate(species = "bocaccio",
-         units   = "kg") %>%
-  rename(harvest = "Sum_LANDED")
-#dogfish
-dog <- read_files("dogfish", "Sum_LANDED") %>%
-  mutate(species = "dogfish",
-         units   = "kg") %>%
-  rename(harvest = "Sum_LANDED")
-#dungness crab
-crab <- read_files("dungeness_crab", "Sum_clc_wg") %>%
-  mutate(species = "dungeness_crab",
-         units   = "kg") %>%
-  rename(harvest = "Sum_clc_wg")
-#hake
-hake <- read_files("hake", "Sum_LANDED") %>%
-  mutate(species = "hake",
-         units = "kg") %>%
-  rename(harvest = "Sum_LANDED")
-#halibut
-hal <- read_files("halibut", "Sum_LANDED") %>%
-  mutate(species = "halibut",
-         units   = "kg") %>%
-  rename(harvest = "Sum_LANDED")
-#herring
-herr <- read_files("herring", "Sum_Catch") %>%
-  mutate(species = "herring",
-         units   = "metric_tons") %>%
-  rename(harvest = "Sum_Catch")
-#geoduck
-geo <- read_files("geoduck", "Sum_Tt_lnd") %>%
-  mutate(species = "geoduck",
-         units   = "lbs") %>%
-  rename(harvest = "Sum_Tt_lnd")
-#lingcod
-ling <- read_files("lingcod", "Sum_LANDED") %>%
-  mutate(species = "lingcod",
-         units   = "kg") %>%
-  rename(harvest = "Sum_LANDED")
-#pacific cod
-cod <- read_files("pacific_cod", "Sum_LANDED") %>%
-  mutate(species = "pacific_cod",
-         units   = "kg") %>%
-  rename(harvest = "Sum_LANDED")
-#pacific ocean perch
-pop <- read_files("pop", "Sum_LANDED") %>%
-  mutate(species = "pacific_ocean_perch",
-         units   = "kg") %>%
-  rename(harvest = "Sum_LANDED")
-#rockfish
-rfish <- read_files("rockfish", "Sum_LANDED") %>%
-  mutate(species = "rockfish",
-         units   = "kg") %>%
-  rename(harvest = "Sum_LANDED")
-#sablefish
-sable <- read_files("sablefish", "Sum_LANDED") %>%
-  mutate(species = "sablefish",
-         units   = "kg") %>%
-  rename(harvest = "Sum_LANDED")
-#skates
-skates <- read_files("skates", "Sum_LANDED") %>%
-  mutate(species = "skates",
-         units   = "kg") %>%
-  rename(harvest = "Sum_LANDED")
-#spot prawn
-prawn <- read_files("spot_prawn", "Sum_prwn_w") %>%
-  mutate(species = "spot_prawn",
-         units   = "kg") %>%
-  rename(harvest = "Sum_prwn_w")
-#walleye pollock
-pollock <- read_files("walleye_pollock", "Sum_LANDED") %>%
-  mutate(species = "walleye_pollock",
-         units   = "kg") %>%
-  rename(harvest = "Sum_LANDED")
-#soles (without southern rock sole)
-soles <- read_files("soles", "Sum_LANDED") %>%
-  mutate(species = "sole",
-         units   = "kg") %>%
-  rename(harvest = "Sum_LANDED")
-#southern rock sole
-srsole <- read_files("southernrocksole", "Sum_LANDED") %>%
-  mutate(species = "srsole",
-         units   = "kg") %>%
-  rename(harvest = "Sum_LANDED")
+### albacore
+tuna <- read_files('albacore_tuna', 'Sum_CatchW') %>%
+  mutate(species = 'albacore_tuna',
+         units = 'lbs') %>%
+  rename(harvest = 'Sum_CatchW')
+### arrowtooth flounder
+af <- read_files('arrowtooth_flounder', 'Sum_LANDED') %>%
+  mutate(species = 'arrowtooth_flounder',
+         units   = 'kg') %>%
+  rename(harvest = 'Sum_LANDED')
+### boccacio
+boc <- read_files('bocaccio', 'Sum_LANDED') %>%
+  mutate(species = 'bocaccio',
+         units   = 'kg') %>%
+  rename(harvest = 'Sum_LANDED')
+### dogfish
+dog <- read_files('dogfish', 'Sum_LANDED') %>%
+  mutate(species = 'dogfish',
+         units   = 'kg') %>%
+  rename(harvest = 'Sum_LANDED')
+### dungness crab
+crab <- read_files('dungeness_crab', 'Sum_clc_wg') %>%
+  mutate(species = 'dungeness_crab',
+         units   = 'kg') %>%
+  rename(harvest = 'Sum_clc_wg')
+### hake
+hake <- read_files('hake', 'Sum_LANDED') %>%
+  mutate(species = 'hake',
+         units = 'kg') %>%
+  rename(harvest = 'Sum_LANDED')
+### halibut
+hal <- read_files('halibut', 'Sum_LANDED') %>%
+  mutate(species = 'halibut',
+         units   = 'kg') %>%
+  rename(harvest = 'Sum_LANDED')
+### herring
+herr <- read_files('herring', 'Sum_Catch') %>%
+  mutate(species = 'herring',
+         units   = 'metric_tons') %>%
+  rename(harvest = 'Sum_Catch')
+### geoduck
+geo <- read_files('geoduck', 'Sum_Tt_lnd') %>%
+  mutate(species = 'geoduck',
+         units   = 'lbs') %>%
+  rename(harvest = 'Sum_Tt_lnd')
+### lingcod
+ling <- read_files('lingcod', 'Sum_LANDED') %>%
+  mutate(species = 'lingcod',
+         units   = 'kg') %>%
+  rename(harvest = 'Sum_LANDED')
+### pacific cod
+cod <- read_files('pacific_cod', 'Sum_LANDED') %>%
+  mutate(species = 'pacific_cod',
+         units   = 'kg') %>%
+  rename(harvest = 'Sum_LANDED')
+### pacific ocean perch
+pop <- read_files('pop', 'Sum_LANDED') %>%
+  mutate(species = 'pacific_ocean_perch',
+         units   = 'kg') %>%
+  rename(harvest = 'Sum_LANDED')
+### rockfish
+rfish <- read_files('rockfish', 'Sum_LANDED') %>%
+  mutate(species = 'rockfish',
+         units   = 'kg') %>%
+  rename(harvest = 'Sum_LANDED')
+### sablefish
+sable <- read_files('sablefish', 'Sum_LANDED') %>%
+  mutate(species = 'sablefish',
+         units   = 'kg') %>%
+  rename(harvest = 'Sum_LANDED')
+### skates
+skates <- read_files('skates', 'Sum_LANDED') %>%
+  mutate(species = 'skates',
+         units   = 'kg') %>%
+  rename(harvest = 'Sum_LANDED')
+### spot prawn
+prawn <- read_files('spot_prawn', 'Sum_prwn_w') %>%
+  mutate(species = 'spot_prawn',
+         units   = 'kg') %>%
+  rename(harvest = 'Sum_prwn_w')
+### walleye pollock
+pollock <- read_files('walleye_pollock', 'Sum_LANDED') %>%
+  mutate(species = 'walleye_pollock',
+         units   = 'kg') %>%
+  rename(harvest = 'Sum_LANDED')
+### soles (without southern rock sole)
+soles <- read_files('soles', 'Sum_LANDED') %>%
+  mutate(species = 'sole',
+         units   = 'kg') %>%
+  rename(harvest = 'Sum_LANDED')
+### southern rock sole
+srsole <- read_files('southernrocksole', 'Sum_LANDED') %>%
+  mutate(species = 'srsole',
+         units   = 'kg') %>%
+  rename(harvest = 'Sum_LANDED')
 ```
 
 Shrimp are trickier - we need to add across columns. So I'm doing this outside the `read_files` function. 
@@ -250,19 +256,21 @@ Karen says:
 
 ```{r shrimp}
 
-files <- list.files(paste0(dir_anx, '/_raw_data/dfo_khunter/fisheries/d2018/shrimp'), full.names = T)
+files <- list.files(file.path(dir_anx, '_raw_data/dfo_khunter/fisheries/d2018/shrimp'), 
+                    full.names = TRUE)
   
   out <- data.frame()
   
   for(yr in 2007:2015){
-    #get the shapefile for yr
+    ### get the shapefile for yr
     yr_files <- files[str_detect(files, as.character(yr))]
     
-    yr_shp_file <- yr_files[str_detect(yr_files, as.character(".shp"))]
+    yr_shp_file <- yr_files[str_detect(yr_files, as.character('.shp'))]
     
-    yr_shp <- st_read(yr_shp_file, quiet = T) %>%
+    yr_shp <- read_sf(yr_shp_file) %>%
       as.data.frame() %>%
-      mutate(harvest = Sum_pinks + Sum_sdstrp + Sum_prawns + Sum_hmpbck + Sum_docks + Sum_smth_p + Sum_flxd_p +Sum_othr_w + Sum_spny_p) %>%
+      mutate(harvest = Sum_pinks + Sum_sdstrp + Sum_prawns + Sum_hmpbck + 
+               Sum_docks + Sum_smth_p + Sum_flxd_p + Sum_othr_w + Sum_spny_p) %>%
       select(rgn_name, rgn_id, rgn_code, harvest) %>%
       mutate(year = yr)
     
@@ -270,8 +278,8 @@ files <- list.files(paste0(dir_anx, '/_raw_data/dfo_khunter/fisheries/d2018/shri
   }
   
 shrimp <- out %>%
-  mutate(species = "shrimp",
-         units   = "kg")
+  mutate(species = 'shrimp',
+         units   = 'kg')
 ```
 
 Some of these species have multiple stocks within BC. For example, there are two Southern Rock Sole stocks (RSOLE5AB and RSOLEHSTR). But the catch data we have for rock sole does not differentiate between the stocks. So, for these stocks, we can use the proportion of each stock per OHI region. For example, Aristazabal Island has both RSOLEHSTR and RSOLE5AB located in the region. But what propotion of Aristazabal Island region contains one vs the other? We can use the `2_ram_stock_to_ohibc_areas.csv` data which used stock specific shapefiles to calculate proportion of each stock range in each OHI region. 
@@ -280,18 +288,21 @@ I only do this for the stocks I know are not BC wide. Otherwise it causes some f
 
 ```{r}
 
-stock_rgn_prop <- readr::read_csv("ram/2_ram_stock_to_ohibc_areas.csv") %>%
+stock_rgn_prop <- readr::read_csv('ram/2_ram_stock_to_ohibc_areas.csv') %>%
   mutate(species = 
            case_when(
-             stockid %in% c("PCOD5AB", "PCODHS","PCODWCVANI") ~ "pacific_cod",
-             stockid %in% c("RSOLE5AB", "RSOLEHSTR") ~ "srsole",
-             stockid == "LINGCODSOG" ~ "lingcod",
-             stockid %in% c("PERCHQCI", "PERCHWCVANI") ~ "pacific_ocean_perch"
+             stockid %in% c('PCOD5AB', 'PCODHS','PCODWCVANI') ~ 'pacific_cod',
+             stockid %in% c('RSOLE5AB', 'RSOLEHSTR') ~ 'srsole',
+             stockid == 'LINGCODSOG' ~ 'lingcod',
+             stockid %in% c('PERCHQCI', 'PERCHWCVANI') ~ 'pacific_ocean_perch'
            )) %>%
-  select(-a_prop, -tot_area_km2) %>%   #remove these unnecessary columns
+  select(-a_prop, -tot_area_km2) %>%   ### remove these unnecessary columns
   group_by(rgn_name, species) %>%      
-  mutate(stock_area = sum(area_km2),           # we want the total area of the species within each BC region and then we calculate
-         stock_rgn_prop = area_km2/stock_area) # the proportion of each BC region that contains the stock. This ensures that the proportional area the two (or three) stocks in a region will add up to one
+  mutate(stock_area = sum(area_km2),   ### we want the total area of the 
+           ### species within each BC region and then we calculate
+         stock_rgn_prop = area_km2/stock_area) ### the proportion of each 
+           ### BC region that contains the stock. This ensures that the 
+           ### proportional area the two (or three) stocks in a region will add up to one
 
 ```
 
@@ -301,57 +312,87 @@ Now I'm:
 2. converting tons and lbs to kilograms  
 3. joining with the `stock_rgn_prop` dataframe
 4. adding in stockids to link to assessment info  
+    a. note that Strait of Georgia hake is unassessed, so this is manually set to NA stock ID
 5. calculating catch of each stock within each region by multiplying catch in each region by the % of that region that contains the stock. This only really affects the species with multiple stocks (cod, perch and sole)  
 6. calculate total catch per region per year and then  
 7. get the proportional catch for each stock
 8. Save as `dfo_catch.csv`
 
 ```{r}
+
 species_catch <- af %>%
   rbind(boc, dog, crab, cod, hal, herr, geo, ling, pop, hake, 
         rfish, sable, skates, prawn, pollock, soles, srsole, shrimp, tuna) %>%
-  mutate(harvest_kgs = ifelse(units == "lbs", harvest/0.453592,  #pounds to kg
-                              ifelse(units == "metric_tons", harvest*1000, harvest))) %>%
+  mutate(harvest_kgs = case_when(units == 'lbs'         ~ harvest/0.453592,  ### pounds to kg
+                                 units == 'metric_tons' ~ harvest*1000, 
+                                 TRUE                   ~ harvest)) %>%
   select(-units, -harvest) %>%
-  left_join(stock_rgn_prop, by = c("species", "rgn_name", "rgn_id")) %>% #this adds in the calculated prop for multiple stocks but we need to add in the stockids for the other stocks
-  mutate(stockid =
-           case_when(
-             species == "sablefish" ~ "SABLEFPCAN",
-             species == "bocaccio" ~ "BOCACCBCW",
-             species == "albacore_tuna" ~ "ALBANPAC",
-             species == "hake" ~ "PHAKEPCOAST",
-             species == "halibut" ~ "PHALNPAC",
-             species %in% c("pacific_cod", "pacific_ocean_perch", "lingcod", "srsole") ~ stockid
-           ),
-          catch = ifelse(!is.na(stock_rgn_prop), harvest_kgs * stock_rgn_prop, harvest_kgs)) %>% # calculate the proportion of each stock harvested in each region. This is only different for species with multiple stocks in BC
-  mutate(assessed = ifelse(is.na(stockid), 0, 1)) %>%  #identify stocks that are assessed
+  left_join(stock_rgn_prop, by = c('species', 'rgn_name', 'rgn_id')) %>% 
+    ### this adds in the calculated prop for multiple stocks but we need to 
+    ### add in the stockids for the other stocks
+  mutate(stockid = case_when(
+           species == 'sablefish'     ~ 'SABLEFPCAN',
+           species == 'bocaccio'      ~ 'BOCACCBCW',
+           species == 'albacore_tuna' ~ 'ALBANPAC',
+           species == 'hake' & rgn_id != 6 ~ 'PHAKEPCOAST',
+             ### rgn_id 6 is Strait of Georgia - hake is unassessed
+           species == 'halibut'       ~ 'PHALNPAC',
+           species %in% c('pacific_cod', 'pacific_ocean_perch', 'lingcod', 'srsole') ~ stockid,
+           TRUE ~ NA_character_),
+         catch = ifelse(!is.na(stock_rgn_prop), harvest_kgs * stock_rgn_prop, harvest_kgs)) %>% 
+           ### calculate the proportion of each stock harvested in each region. 
+           ### This is only different for species with multiple stocks in BC
+  mutate(assessed = ifelse(is.na(stockid), 0, 1)) %>%  
+    ### identify stocks that are assessed
   group_by(rgn_name, rgn_id, rgn_code, year, assessed) %>%
-  mutate(rgn_catch  = sum(catch)) %>% #this calculates the total catch (in kgs) for each region of either assessed or unassessed species
+  mutate(rgn_catch  = sum(catch)) %>% 
+    ### this calculates the total catch (in kgs) for each region of either 
+    ### assessed or unassessed species
   ungroup() %>%
-  mutate(rgn_ass_catch_prop = ifelse(is.na(stockid), NA, catch/rgn_catch)) %>% ## catch_prop gives the proportion of catch that harvest contributes towards the overall assessed or unassessed catch. We are really only going to use the assessed part of this.
+  mutate(rgn_ass_catch_prop = case_when(is.na(stockid) ~ NA_real_, 
+                                        rgn_catch == 0 ~ 0,  ### avoid NaNs
+                                        TRUE           ~ catch/rgn_catch)) %>% 
+    ### catch_prop gives the proportion of catch that harvest contributes 
+    ### towards the overall assessed or unassessed catch. We are really only 
+    ### going to use the assessed part of this.
   select(rgn_name, rgn_id, year, species, stockid, catch, rgn_catch, rgn_ass_catch_prop)
   
-write_csv(species_catch, "output/dfo_catch.csv")
+### Here we manually adjust the stockid to account for alt-assessed stocks:
+alt_assess <- c('herring', 'geoduck', 'spot_prawn', 'shrimp', 'dungeness_crab')
+
+species_catch <- species_catch %>%
+  mutate(stockid = ifelse(is.na(stockid) & species %in% alt_assess,
+                          'alternative assessment method, excluded from scoring',
+                          stockid))
+
+write_csv(species_catch, file.path(dir_goal, 'output/dfo_catch.csv'))
 ```
 
 We also need to calculate the total proportion of unassessed catch per region per year. I use a simple (but correct) rule here that if a species does not have a `stockid` then it is not assessed. This works because I've carefully added in only those stockids for stocks that I know are assessed.
 
+Update:  Based on conversations with Karen Hunter (DFO), there are assessments for invertebrates (shrimp, spot prawn, dungeness crab, and geoduck) as well as herring stocks, but not in a way that is readily usable for our F' and B' method.  As such, we will not count these stocks as "unassessed" for the purposes of the unassessed penalty.  To identify these stocks, see chunk above: we code the `stockid` variable as "alternative assessment method, excluded from scoring".
+
 ```{r}
 rgn_catch <- species_catch %>%
+  filter(is.na(stockid) | !str_detect(stockid, 'excluded')) %>%
+    ### keep NA stockid (unassessed) and non-excluded (assessed)
   group_by(year, rgn_id, rgn_name) %>%
   summarize(rgn_catch = sum(catch))
 
 unassessed <- species_catch %>%
-  filter(is.na(stockid)) %>%  #if a stockid is na it is not assessed. 
+  filter(is.na(stockid)) %>%  
+    ### if a stockid is na it is not assessed.
+    ### this will also drop the 'alternative assessment method, excluded from scoring' stocks
   group_by(rgn_name, rgn_id, year) %>%
-  summarize(unass_catch = sum(catch))
+  summarize(unass_catch = sum(catch)) %>%
+  ungroup()
 
 catch_summary <- rgn_catch %>%
-  left_join(unassessed) %>%
-  mutate(unass_catch_prop = unass_catch/rgn_catch,
-          ass_catch_prop  = 1-unass_catch_prop)
+  left_join(unassessed, by = c('year', 'rgn_id', 'rgn_name')) %>%
+  mutate(unass_catch_prop = ifelse(rgn_catch == 0, 1, unass_catch/rgn_catch),
+          ass_catch_prop  = 1 - unass_catch_prop)
 
-write.csv(catch_summary, "output/rgn_catch_summary.csv")
+write_csv(catch_summary, file.path(dir_goal, 'output/rgn_catch_summary.csv'))
 ```
 
 # Plot

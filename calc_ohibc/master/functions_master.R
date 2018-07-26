@@ -5,6 +5,8 @@ FIS <- function(layers) {
   ### * rgn_stock_wt_uniform, _saup, _dfo
   ### * ram_dfo_saup_lookup.csv
 
+  # message('Starting FIS')
+
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
@@ -180,7 +182,12 @@ FIS <- function(layers) {
   fis_status <- stock_score_catch %>%
     left_join(rgn_catch_sum, by = c('year', 'rgn_id')) %>%
     mutate(score = (status_ass + (status_ass * ass_catch_prop))/2) %>%
-             ### multiply the status by the % of catch assessed (this acts as a penalty for unassessed catch)
+      ### multiply the status by the % of catch assessed (this acts as
+      ### a penalty for unassessed catch)
+    filter(ass_catch_prop > 0.10) %>%
+      ### If assessed catch is less than 10% of total catch, remove
+      ### - just not enough information to score confidently.
+      ### NOTE: this basically sets all SoG scores to NA
     select(year, rgn_id, score) %>%
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span, method = 'none', dir = 'forward') %>%

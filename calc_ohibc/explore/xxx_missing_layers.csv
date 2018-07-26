@@ -1,7 +1,4 @@
 layer,dir_prep,filename,name,description,dimension,target
-fis_dfo_assessed_catch_props,NA,NA,Proportion of catch assessed,Proportion of catch assessed by DFO,status,FIS
-fis_hake_catch,NA,NA,Annual catch for hake,Total catch for hake annually from DFO Year in review,status,FIS
 fp_trawl_reduction,ohibc:calc_ohibc/master/dummy_layers,fp_habitat_gl2016.csv,Voluntary trawl reduction to preserve biodiversity,??? Get description from Courtney,resilience,"AO, FIS, HAB, ICO, SPP, SAL"
-hd_mining,ohibc:prep/_pressures/v2017/output,prs_mining.csv,???,???,pressure,"AO, CPP, CSS, CW, HAB, ICO, LSP, MAR, SAL, SPP, TR"
 hd_trawl_reduction,ohibc:calc_ohibc/master/dummy_layers,hd_habitat_gl2016.csv,Voluntary trawl reduction to preserve biodiversity,??? Get description from Courtney,resilience,"AO, CPP, CSS, FIS, HAB, ICO, SPP, LSP, SAL"
 po_water,ohibc:calc_ohibc/master/dummy_layers,po_water_gl2016.csv,Management and regulations to control water pollution to preserve biodiversity,Survey responses by country to the Convention on Biologicial Diversity (CBD) Third National Report: tourism related questions,resilience,"CPP, CSS, CW, HAB, ICO, SPP, LSP, MAR, TR"

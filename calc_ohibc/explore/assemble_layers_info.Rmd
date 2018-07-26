@@ -69,16 +69,16 @@ layers_elements <- layers_elements %>%
   unnest(dimension)
 
 ### Manually fix "FP" wildcaught weighting layer
-layers_fp_wt <- layers_full %>%
-  filter(str_detect(layer, 'fp_wildcaught')) %>%
-  mutate(date = date(),
-         prep_script = 'wildcaught weighting layer is generated within functions.R',
-         target = 'FP',
-         dimension = 'status')
+# layers_fp_wt <- layers_full %>%
+#   filter(str_detect(layer, 'fp_wildcaught')) %>%
+#   mutate(date = date(),
+#          prep_script = 'wildcaught weighting layer is generated within functions.R',
+#          target = 'FP',
+#          dimension = 'status')
 
 layers_full <- layers_full %>%
   filter(!str_detect(layer, '^element|fp_wildcaught')) %>%
-  bind_rows(layers_elements, layers_fp_wt) %>%
+  bind_rows(layers_elements) %>%
   arrange(layer)
 
 write_csv(layers_full, file.path(dir_calc, 'explore/layers_full_list.csv'))

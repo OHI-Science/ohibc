@@ -10,11 +10,11 @@ prov_logs <- list.files(dir_prep,
                         recursive = TRUE, full.names = TRUE)
 
 prov_df_all <- lapply(prov_logs, FUN = function(x) {
-  # x <- prov_logs[1]
+  # x <- prov_logs[14]
   y <- read_csv(x) %>%
     filter(run_id == max(run_id)) %>%
     filter(filetype == 'output') %>%
-    filter(str_detect(file_loc, '/output/')) %>%
+    filter(str_detect(file_loc, '/output/|^output/')) %>%
     filter(!str_detect(file_loc, '/vHS/')) %>%
     mutate(filename = basename(file_loc),
            date = ifelse(is.na(commit_date), run_date, commit_date),

@@ -33,7 +33,6 @@ fp_trawl_reduction,resilience,Voluntary trawl reduction to preserve biodiversity
 fp_biomass_removal,resilience,Commercial fishing management,scaled 0-1,"Regulations and management of commerical fishing including Fisheries Act, fisheries officers on vessels, and observer coverage"
 fp_mpa_coast,resilience,Coastal protected marine areas to protect fishery resources,scaled 0-1,Protected marine areas with effective management plans within 3nm of coastline relative to 30% baseline
 fp_mpa_eez,resilience,EEZ protected marine areas to protect fishery resources,scaled 0-1,Protected marine areas with effective management plans within EEZ to protect fishery resource relative to 30% baseline
-fp_wildcaught_weight,FP,Food provision weights,proportion,Proportion of non-salmon wild caught fisheries to mariculture to salmon
 hab_ebsa_health,HAB,EBSA habitat condition,trawled area,Current condition of EBSA habitat based on trawled area
 hab_sb_health,HAB,Soft Bottom habitat condition,proportion,Current condition of soft bottom habitat based on trawl effort
 hab_sm_health,HAB,Saltmarsh habitat condition,proportion,Current condition of saltmarsh habitat relative to historical condition

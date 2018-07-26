@@ -33,7 +33,6 @@ fp_trawl_reduction,ohibc:calc_ohibc/master/dummy_layers,fp_habitat_gl2016.csv,TR
 fp_biomass_removal,ohibc:prep/_resilience/v2017/output,fp_fishing_regs.csv,TRUE,score
 fp_mpa_coast,ohibc:prep/lsp/v2017/output,mpa_pct_3nm.csv,TRUE,pct_prot
 fp_mpa_eez,ohibc:prep/lsp/v2017/output,mpa_pct_eez.csv,TRUE,pct_prot
-fp_wildcaught_weight,calc_ohibc/master/dummy_layers,fp_wildcaught_wt.csv,TRUE,fp_weight
 hab_ebsa_health,ohibc:prep/hab_cs_cp/v2017/output,hab_ebsa_trawl.csv,TRUE,trawled_area
 hab_sb_health,ohibc:prep/hab_cs_cp/v2017/output,hab_soft_btm_trawl.csv,TRUE,mean_hr_area
 hab_sm_health,ohibc:prep/hab_cs_cp/v2017/output,hab_sm_area.csv,TRUE,sm_area_km2

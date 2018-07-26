@@ -75,7 +75,9 @@ From global RAM data, filter to northeastern Pacific stocks whose assessment is 
 # model_data_file <- file.path(dir_anx, '_raw_data/ram_fisheries/d2017/RAM_v3.80/DB_Files_With_Model_Fit_Data/DBdata.RData')
 # load(model_data_file)
 # git_prov(model_data_file, filetype = 'input')
-assessment_data_file <- file.path(dir_M, 'git-annex/globalprep/_raw_data/RAM/d2018/RAM v4.40 (6-4-18)/DB Files With Assessment Data/DBdata.RData')
+assessment_data_file <- file.path(dir_M, 'git-annex/globalprep/_raw_data/RAM',
+                                  'd2018/RAM v4.40 (6-4-18)',
+                                  'DB Files With Assessment Data/DBdata.RData')
 load(assessment_data_file)
 git_prov(assessment_data_file, filetype = 'input')
 
@@ -130,7 +132,17 @@ params <- as.data.frame(timeseries_ids_views, stringsAsFactors=FALSE) %>%
   filter(stockid %in% bc_stocks$stockid) %>%
   select(stockid, BdivBmsypref, UdivUmsypref, TCbest)
 
-## now join the params table to the bc_stocks table
+### Exploring parameters available for herring assessments.
+# herr_params <- as.data.frame(timeseries_ids_views, stringsAsFactors=FALSE) %>%
+#   filter(stockid %in% bc_stocks$stockid & str_detect(stockid, 'HERR')) %>%
+#   gather(param, code, TBbest:EFFORT) %>%
+#   filter(!is.na(code)) %>%
+#   spread(param, code) %>%
+#   select(-stockid, -stocklong) %>%
+#   distinct()
+
+
+### now join the params table to the bc_stocks table
 bc_stocks_metrics <- bc_stocks %>%
   left_join(params) %>%
   gather(key = metric, value = tsid, BdivBmsypref, UdivUmsypref, TCbest) 

@@ -1,5 +1,5 @@
 ---
-title: 'OHIBC: data_prep_spp.Rmd'
+title: 'OHIBC: Pressures for logging and mining'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -45,7 +45,10 @@ p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 ```
 
 # Summary
-[general description: What data are being generated? Why (what project, etc.)? Upstream/downstream processing information that might be helpful?  Other information?]
+
+Generates pressures layers for logging activity.
+
+Also generates a layer for mining activity which will be set to zeros for all observations, but preserves a placeholder for future mining pressures.
 
 -----
 
@@ -59,8 +62,7 @@ p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 
 -----
   
-# Methods
-
+# Methods: Logging
 
 The logging cutblocks polygons dataset includes the following attributes:
 
@@ -193,6 +195,20 @@ ggplot(logging_intensity, aes(x = year, y = pressure)) +
   ggtheme_plot() +
   geom_line(aes(group = rgn_name)) +
   facet_wrap( ~ rgn_name)
+```
+
+# Methods: Mining
+
+Create a dataframe of zeros for region ID as a placeholder for future mining pressures.
+
+``` {r}
+
+mining_df <- data.frame(rgn_id = 1:8,
+                        intensity = 0,
+                        pressure  = 0)
+
+write_csv(mining_df, file.path(dir_goal, 'output', 'prs_mining.csv'))
+
 ```
 
 -----

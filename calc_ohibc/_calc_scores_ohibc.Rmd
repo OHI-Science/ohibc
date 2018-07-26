@@ -119,7 +119,7 @@ layers$data$status_year_span <- layers$data$scenario_data_years %>%
 status_years <- layers$data$status_year_span
 
 ### for testing:
-status_year <- 2001
+status_year <- 2007
 layers$data$scenario_year <- status_year
 
 ```
@@ -130,9 +130,6 @@ scores_all <- data.frame() ### initialize scores
 
 for (status_year in status_years) {
   
-  ### for testing...
-  if(!exists('status_year')) status_year <- status_years[1]
-
   message('Calculating scores for ', status_year)
 
   ### For each run through loop, assign status_year inside

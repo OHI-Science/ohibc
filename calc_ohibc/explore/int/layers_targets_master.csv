@@ -327,12 +327,9 @@ cp_sm_health,CPP,NA,status
 cs_cf_health,CSS,NA,status
 cs_sm_health,CSS,NA,status
 fis_ram_b_bmsy,FIS,NA,status
-fis_ram_catch,FIS,NA,status
+fis_dfo_catch,FIS,NA,status
 fis_ram_f_fmsy,FIS,NA,status
-fis_stock_area,FIS,NA,status
-fis_dfo_assessed_catch_props,FIS,NA,status
-fis_hake_catch,FIS,NA,status
-fp_wildcaught_weight,FP,NA,status
+fis_rgn_catch_summary,FIS,NA,status
 hab_ebsa_health,HAB,NA,status
 hab_sb_health,HAB,NA,status
 hab_sm_health,HAB,NA,status

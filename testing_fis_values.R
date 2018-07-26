@@ -24,28 +24,33 @@ ok <- combined %>%
   group_by(rgn_id) %>%
   mutate(all_ok = n() == length(2007:2015)) %>%
   select(rgn_id, rgn_name, year, all_ok)
-### SoG and Az Island are all the same scores.
+### Yay, now all OK!
 
-not_ok <- combined %>%
-  filter(diff1 != 0) %>%
-  group_by(rgn_id) %>%
-  mutate(all_wrong = n() == length(2007:2015))
-### HG, WCVI, and Pac Offshore are all different scores.
-
-### What is the cause of the differences?  Examine the layers from each repo...
-dir_bc <- file.path(dir_ohibc, 'prep/fis/v2017/output')
-dir_ja <- file.path('https://raw.githubusercontent.com/OHI-Science/bc-fisheries/master/output')
-
-bc_files <- list.files(dir_bc)
-# "dfo_catch.csv"         "ram_b_bmsy.csv"        "ram_f_fmsy.csv"        "rgn_catch_summary.csv"
-
-f <- 'dfo_catch.csv'
-dfo_ja <- read_csv(file.path(dir_ja, f)) %>%
-  left_join(get_rgn_names(), by = 'rgn_name') %>%
-  select(rgn_id, rgn_name, year, species, stockid, ja_value = rgn_ass_catch_prop)
-dfo_bc <- read_csv(file.path(dir_bc, f)) %>%
-  select(rgn_id, year, species, stockid, bc_value = rgn_ass_catch_prop)
-dfo_both <- full_join(dfo_ja, dfo_bc, by = c('rgn_id', 'year', 'species', 'stockid')) %>%
-  mutate(diff = bc_value - ja_value)
-
-### OK, there are diffs between the dfo_catch values here... need to rerun the layer generation scripts?
+# not_ok <- combined %>%
+#   filter(diff1 != 0) %>%
+#   group_by(rgn_id) %>%
+#   mutate(all_wrong = n() == length(2007:2015))
+# ### HG, WCVI, and Pac Offshore are all different scores.
+#
+# ### What is the cause of the differences?  Examine the layers from each repo...
+# dir_bc <- file.path(dir_ohibc, 'prep/fis/v2017/output')
+# dir_ja <- file.path('https://raw.githubusercontent.com/OHI-Science/bc-fisheries/master/output')
+#
+# bc_files <- list.files(dir_bc)
+# # "dfo_catch.csv"         "ram_b_bmsy.csv"        "ram_f_fmsy.csv"        "rgn_catch_summary.csv"
+#
+#
+#
+# ###############################################################################
+# ##### Start with dfo_catch.csv
+#
+# f <- 'dfo_catch.csv'
+# dfo_ja <- read_csv(file.path(dir_ja, f)) %>%
+#   left_join(get_rgn_names(), by = 'rgn_name') %>%
+#   select(rgn_id, rgn_name, year, species, stockid, ja_value = rgn_ass_catch_prop)
+# dfo_bc <- read_csv(file.path(dir_bc, f)) %>%
+#   select(rgn_id, year, species, stockid, bc_value = rgn_ass_catch_prop)
+# dfo_both <- full_join(dfo_ja, dfo_bc, by = c('rgn_id', 'year', 'species', 'stockid')) %>%
+#   mutate(diff = bc_value - ja_value)
+#
+# ### OK, there are diffs between the dfo_catch values here... need to rerun the layer generation scripts?
