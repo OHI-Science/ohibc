@@ -58,12 +58,14 @@ For Global OHI 2017:
 >2. For each week/year/cell, calculate the mean and sd, so each cell would have ~624 (12*52) values (2004-2016)  
 >3. Determine which of these were anomalous, defined as greater than the mean plus 1 standard deviation  
 >4. Sum weekly anomalies for each year/cell (for a total of 52 possible anomalies per year/cell)  
->5. Calculate the total number of anomalies in the reference period (in our case, 2004-2009, for a total of 52*5 anomalies per cell)  
+>5. Calculate the total number of anomalies in the reference period (in our case, 2004-2009, for a total of 52*5 anomalies per cell) 
 >6. Calculate the total number of anomalies in the most recent 5 year period (2011-2015)    
 >7. then for each cell, get the difference between current anomalies and reference anomolies    
 >8. Rescale the data to be between 0-1 by using the 99.99th quantile as a reference point
 
-For OHIBC, we will use the global prepared data from steps 1-4, then clip to BC regions, interpolate to fill gaps, resample to OHIBC, and determine the pressure based on a reference point of 50% of weeks being higher than the climatological norms (mean + 1 standard deviation).  This 50% reference point represents a threshold to a "new normal" or a regime shift.
+For OHIBC, we will use the global prepared data from steps 1-4, then clip to BC regions, interpolate to fill gaps, resample to OHIBC, and determine the pressure based on a reference point of 50% of weeks being higher than the climatological norms (mean + 1 standard deviation).  This 50% reference point represents a threshold to a "new normal" or a regime shift.  
+
+While reference point is based on a five-year mean, annual scores will be based on the year in question only.  We will calculate a score for all years, including the reference point years.
 
 -----
 
@@ -135,7 +137,7 @@ if(!all(file.exists(bc_dst_files)) | reload) {
 
 ## Calculate pressures from count of anomalous weeks
 
-Each cell will be rescaled to a 0-1 score based on the reference point of 50% of weeks being anomalous.  Note for 2016, we have to account for two missing weeks, so we multiply the proportion of anomalous weeks by $\frac{26}{25}$.
+Each cell will be rescaled to a 0-1 score based on the reference point of 50% of weeks being anomalous.  Note for 2016, we have to account for two missing weeks, so we multiply the proportion of anomalous weeks by $\frac{52}{50}$.
 
 ``` {r rescale_uv_pressures}
 
@@ -150,6 +152,8 @@ if(!all(file.exists(uv_prs_files)) | reload) {
   uv_anom_wks_stack <- stack(uv_anom_wks_files)
   
   uv_prs_stack <- uv_anom_wks_stack / 26
+    ### 26 anomalous weeks out of the 52-week year = regime shift
+  
   uv_prs_stack[['uv_anom_wks_2016']] <- uv_prs_stack[['uv_anom_wks_2016']] * 26/25
     ### 2016 is missing two weeks; so values are based on 50 wks instead of 52.
     ### Adjust accordingly.
@@ -165,7 +169,8 @@ if(!all(file.exists(uv_prs_files)) | reload) {
 
 ```
 
-To calculate region scores, we run zonal statistics on each layer to calculate a mean proportion of anomalous weeks over the entire region.  At that point we can apply a rolling mean as well, though this reduces our data availability for the earlier portion of our time frame.
+To calculate region scores, we run zonal statistics on each layer to calculate a mean proportion of anomalous weeks over the entire region.  
+<!-- At that point we can apply a rolling mean as well, though this reduces our data availability for the earlier portion of our time frame. -->
 
 ``` {r calc_rgn_means}
 
@@ -184,12 +189,16 @@ ohibc_rgn_uv <- zonal(uv_prs_stack, ohibc_rgn_rast, fun = 'mean', na.rm = TRUE) 
   group_by(rgn_id) %>%
   mutate(year = str_extract(year, '[0-9]{4}') %>%
            as.integer(),
-         pressure = zoo::rollmean(prs_raw, 5, align = 'right', fill = NA)) %>%
+         # pressure = zoo::rollmean(prs_raw, 5, align = 'right', fill = NA)) %>%
+         pressure = prs_raw) %>%
+           ### each year's score is based only on anomalies within that year,
+           ### rather than a five-year rolling mean.
   ungroup() %>%
   mutate(prs_raw  = ifelse(prs_raw  > 1, 1, prs_raw),
          prs_raw  = ifelse(prs_raw  < 0, 0, prs_raw),
          pressure = ifelse(pressure > 1, 1, pressure),
-         pressure = ifelse(pressure < 0, 0, pressure))
+         pressure = ifelse(pressure < 0, 0, pressure)) %>%
+  select(-prs_raw)
 
 write_csv(ohibc_rgn_uv, file.path(dir_goal, 'output/prs_uv_layer.csv'))
 
@@ -205,7 +214,7 @@ prs_df <- read_csv(file.path(dir_goal, 'output', 'prs_uv_layer.csv')) %>%
 prs_plot <- ggplot(prs_df, aes(x = year, y = pressure, color = rgn_name, group = rgn_name)) +
   ggtheme_plot() +
   geom_line(show.legend = FALSE, size = 1.5) +
-  geom_line(show.legend = FALSE, aes(y = prs_raw), alpha = .4) +
+  # geom_line(show.legend = FALSE, aes(y = prs_raw), alpha = .4) +
   scale_color_brewer(palette = 'Dark2') +
   ylim(0, NA) +
   facet_wrap( ~ rgn_name) +
@@ -217,7 +226,7 @@ print(prs_plot)
 
 ```
 
-Heavy line is smoothed using a 5-year rolling mean.  Light line is score on year-to-year basis.
+<!-- Heavy line is smoothed using a 5-year rolling mean.  Light line is score on year-to-year basis. -->
 
 -----
 

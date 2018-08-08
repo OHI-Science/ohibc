@@ -14,8 +14,8 @@ HAB,ebsa,x,,x,x,x,,x,x,x,,x,x,
 HAB,soft_bottom,x,,x,x,x,,x,x,x,,x,x,
 ICO,,x,,x,x,x,,x,x,x,,x,x,
 SPP,,x,,x,x,x,,x,x,x,,,x,
-LEF,,,,,,,,,,,,,,x
-LEO,,,,,,,,,,,,,x,
+LVF,,,,,,,,,,,,,,x
+LVO,,,,,,,,,,,,,x,
 LSP,,x,,,x,,,,,,,,x,
 MAR,,x,,,,x,,,,,,,x,
 SAL,,,,x,x,x,,x,x,x,,x,x,

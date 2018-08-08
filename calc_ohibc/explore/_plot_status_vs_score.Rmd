@@ -60,7 +60,7 @@ dim_plot <- ggplot(scores_overall,
             color = 'grey30', linetype = '1111',alpha = .7, size = 1) +
   geom_line(aes(y = pressures),  color = 'darkred', alpha = .7, size = .5) +
   geom_line(aes(y = resilience), color = 'darkgreen', alpha = .7, size = .5) +
-  scale_x_continuous(breaks = scores_tmp$year %>% unique() %>% sort) +
+  scale_x_continuous(breaks = scores_overall$year %>% unique() %>% sort) +
   scale_y_continuous(limits = c(0, 100)) +
   theme(axis.text.x = element_text(angle = 90),
         axis.title.y = element_blank()) +
@@ -236,7 +236,7 @@ for(gl in (scores_all$goal %>% unique())) { ### gl = 'AO'
 
 ## Data layer year spans
 
-Clipped to 1990 and later; some data layers go back farther but these will not typically inform scores except as reference points.
+Clipped to 1990 and later; some data layers go back farther but these will not typically inform scores except as reference points.  This generated in `_plot_status_trend.Rmd`.
 
 ![](layers_data_years.png)
 

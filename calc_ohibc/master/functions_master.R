@@ -27,6 +27,34 @@ FIS <- function(layers) {
   f_fmsy_underfishing_penalty <- 0.25
   f_fmsy_overfishing_thresh   <- 2.00
 
+  ### Flesh out DFO catch layer to allow for weights beyond 2007-2015.  Use
+  ### a rolling mean window to generate 3-year mean; fill this forward and
+  ### back; then gapfill dfo_catch.  Early weights based on first 3 years;
+  ### later weights based on last three years.
+  dfo_catch_wts <- dfo_catch %>%
+    filter(!is.na(rgn_ass_catch_prop)) %>%
+    group_by(rgn_id, stockid) %>%
+    complete(year = 1996:2016) %>%
+    mutate(rollmean_ass_catch = zoo::rollmean(rgn_ass_catch_prop, 3, na.pad = TRUE)) %>%
+    fill(rollmean_ass_catch, .direction = 'up') %>%
+    fill(rollmean_ass_catch, .direction = 'down') %>%
+    mutate(rgn_ass_catch_prop = ifelse(is.na(rgn_ass_catch_prop),
+                                       rollmean_ass_catch, rgn_ass_catch_prop)) %>%
+    ungroup() %>%
+    select(rgn_id, year, stockid, rgn_ass_catch_prop)
+
+  rgn_catch_wts <- rgn_catch_sum %>%
+    filter(!is.na(ass_catch_prop)) %>%
+    group_by(rgn_id) %>%
+    complete(year = 1996:2016) %>%
+    mutate(rollmean_ass_catch = zoo::rollmean(ass_catch_prop, 3, na.pad = TRUE)) %>%
+    fill(rollmean_ass_catch, .direction = 'up') %>%
+    fill(rollmean_ass_catch, .direction = 'down') %>%
+    mutate(ass_catch_prop = ifelse(is.na(ass_catch_prop),
+                                       rollmean_ass_catch, ass_catch_prop)) %>%
+    ungroup() %>%
+    select(rgn_id, year, ass_catch_prop)
+
   ### Apply rolling mean to F/Fmsy
   ram_f_fmsy <- ram_f_fmsy %>%
     mutate(f_fmsy_raw = f_fmsy) %>%
@@ -143,12 +171,12 @@ FIS <- function(layers) {
   ### this is only done for assessed stocks. We incorporate a penalty for unassessed stocks later
 
   stock_score_catch <- stock_status_df %>%
-    left_join(dfo_catch, by = c("stockid", "year")) %>%
+    left_join(dfo_catch_wts, by = c("stockid", "year")) %>%
     filter(!is.na(score) & !is.na(rgn_id)) %>%    ### remove rows with no stock score or rgn_id
       ### write_csv("output/stock_scores.csv") %>%  ##not sure if we want this?
     mutate(score_weighted = score * rgn_ass_catch_prop * 100) %>%
     group_by(year, rgn_id) %>%
-    summarize(status_ass = sum(score_weighted)) %>%
+    summarize(status_ass = sum(score_weighted, na.rm = TRUE)) %>%
       ### status_ass is the status when using assessed species weighted by their catch proportion
     ungroup()
 
@@ -180,7 +208,7 @@ FIS <- function(layers) {
 
   ### calculate FIS status
   fis_status <- stock_score_catch %>%
-    left_join(rgn_catch_sum, by = c('year', 'rgn_id')) %>%
+    left_join(rgn_catch_wts, by = c('year', 'rgn_id')) %>%
     mutate(score = (status_ass + (status_ass * ass_catch_prop))/2) %>%
       ### multiply the status by the % of catch assessed (this acts as
       ### a penalty for unassessed catch)
@@ -406,7 +434,7 @@ FP <- function(layers, scores) {
                     w_MAR     = rep(.333, 8),
                     w_SAL     = rep(.333, 8))
 
-  message('getting FP scores')
+  # message'getting FP scores')
   ### scores
   fp_w_wts <- scores %>%
     filter(goal %in% c('FIS', 'MAR', 'SAL')) %>%
@@ -774,7 +802,7 @@ CPP <- function(layers) {
 
 }
 
-ES <- function(scores) {
+HS <- function(scores) {
 
   ### combines carbon storage and coastal protection subgoals with a simple
   ### of the two
@@ -786,7 +814,7 @@ ES <- function(scores) {
   s <- s  %>%
     group_by(region_id, dimension) %>%
     summarize(score = mean(score, na.rm=TRUE)) %>%
-    mutate(goal = 'ES') %>%
+    mutate(goal = 'HS') %>%
     ungroup() %>%
     select(region_id, goal, dimension, score) %>%
     data.frame()
@@ -828,7 +856,7 @@ TR <- function(layers) {
   ### year sequence, which affects reference points.
   vc_visits_ref <- vc_visits_adj %>%
     group_by(rgn_id) %>%
-    complete_rgn_years(status_yr_span) %>%
+    complete_rgn_years(status_yr_span, method = 'none') %>%
     arrange(region_id, year) %>%
     mutate(ref_pt = zoo::rollmean(visits, k = 5, fill = NA, align = 'right')) %>%
     ### reference point is mean of past five years (incl current)
@@ -837,7 +865,7 @@ TR <- function(layers) {
 
   park_visits_ref <- park_visits_adj %>%
     group_by(rgn_id) %>%
-    complete_rgn_years(status_yr_span) %>%
+    complete_rgn_years(status_yr_span, method = 'none') %>%
     arrange(region_id, year) %>%
     mutate(ref_pt = zoo::rollmean(visits, k = 5, fill = NA, align = 'right')) %>%
     ### reference point is mean of past five years (incl current)
@@ -860,12 +888,12 @@ TR <- function(layers) {
     left_join(park_scores, by = c('year', 'region_id')) %>%
     rowwise() %>%
     mutate(score = mean(c(vc_score, park_score), na.rm = TRUE),
-           score = round(100 * score, 5)) %>%
+           score = round(100 * score, 5),
+           score = ifelse(is.nan(score), NA, score)) %>%
     ungroup() %>%
     select(year, region_id, score) %>%
     mutate(goal = 'TR',
-           dimension = 'status') %>%
-    filter(!is.nan(score))
+           dimension = 'status')
 
   trend_years <- (data_year - 4) : data_year
   tr_trend <- calc_trend(tr_status, years = trend_years)
@@ -877,23 +905,25 @@ TR <- function(layers) {
     complete(region_id = 1:8) %>%
     ungroup()
 
+  # message'Returning from TR')
   return(tr_scores)
 
 }
 
-LE <- function(scores) {
+LV <- function(scores) {
+  # message'starting LV')
 
-  ### combines LEF (LE First Nations) and LEO (LE other) subgoals with a simple
+  ### combines LVF (LV First Nations) and LVO (LV other) subgoals with a simple
   ### of the two
 
   s <- scores %>%
-    filter(goal %in% c('LEF', 'LEO')) %>%
+    filter(goal %in% c('LVF', 'LVO')) %>%
     filter(!(dimension %in% c('pressures', 'resilience')))
 
   s <- s  %>%
     group_by(region_id, dimension) %>%
     summarize(score = mean(score, na.rm=TRUE)) %>%
-    mutate(goal = 'LE') %>%
+    mutate(goal = 'LV') %>%
     ungroup() %>%
     select(region_id, goal, dimension, score) %>%
     data.frame()
@@ -903,7 +933,8 @@ LE <- function(scores) {
 
 }
 
-LEF <- function(layers) {
+LVF <- function(layers) {
+  # message'starting LVF')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
@@ -922,9 +953,9 @@ LEF <- function(layers) {
   ### NOTE: the 0 score ref point will remain at 0 median wage and 0 employment;
   ### other options were explored in data_prep_le.Rmd but rejected for a simpler model.
 
-  empl_df <- layers$data[['le_unempl_fn']] %>%
+  empl_df <- layers$data[['lv_unempl_fn']] %>%
     select(-layer, fn_unempl = mean_unempl) %>%
-    full_join(layers$data[['le_unempl_nonfn']],
+    full_join(layers$data[['lv_unempl_nonfn']],
               by = c('year', 'rgn_id')) %>%
     select(-layer, nonfn_unempl = mean_unempl) %>%
     mutate(empl_rate_fn    = 1 - fn_unempl/100,
@@ -941,9 +972,9 @@ LEF <- function(layers) {
     ungroup() %>%
     select(region_id, year, empl_rate_fn, ref_pt)
 
-  income_df <- layers$data[['le_income_fn']] %>%
+  income_df <- layers$data[['lv_income_fn']] %>%
     select(-layer, med_income_fn = med_adj_income) %>%
-    left_join(layers$data[['le_income_nonfn']], by = c('year', 'rgn_id')) %>%
+    left_join(layers$data[['lv_income_nonfn']], by = c('year', 'rgn_id')) %>%
     select(-layer, med_income_nonfn = med_adj_income) %>%
     rowwise() %>%
     mutate(med_income_max = max(med_income_fn, med_income_nonfn)) %>%
@@ -957,7 +988,7 @@ LEF <- function(layers) {
   ### income is listed in equivalent dollars
 
   ### combine wages and jobs scores; calculate overall score
-  lef_status <- empl_df %>%
+  lvf_status <- empl_df %>%
     mutate(jobs_score = empl_rate_fn / ref_pt,
            jobs_score = ifelse(jobs_score > 1, 1, jobs_score)) %>%
     select(year, region_id, jobs_score) %>%
@@ -967,34 +998,35 @@ LEF <- function(layers) {
                 select(year, region_id, wages_score),
               by = c('year', 'region_id')) %>%
     mutate(score = 100 * (jobs_score + wages_score) / 2,
-           goal  = 'LEF',
+           goal  = 'LVF',
            dimension = 'status') %>%
     select(year, region_id, score, goal, dimension)
 
 
   trend_years <- (data_year - 4) : data_year
-  lef_trend   <- calc_trend(lef_status, trend_years)
+  lvf_trend   <- calc_trend(lvf_status, trend_years)
 
-  lef_scores <- lef_status %>%
+  lvf_scores <- lvf_status %>%
     filter(year == data_year) %>%
-    bind_rows(lef_trend) %>%
+    bind_rows(lvf_trend) %>%
     select(region_id, goal, dimension, score)
 
-  return(lef_scores)
+  return(lvf_scores)
 
 }
 
-LEO <- function(layers) {
+LVO <- function(layers) {
+  # message'starting LVO')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
-  ### See methods notes in LEF
+  ### See methods notes in LVF
 
-  empl_df <- layers$data[['le_unempl_fn']] %>%
+  empl_df <- layers$data[['lv_unempl_fn']] %>%
     select(-layer, fn_unempl = mean_unempl) %>%
-    full_join(layers$data[['le_unempl_nonfn']],
+    full_join(layers$data[['lv_unempl_nonfn']],
               by = c('year', 'rgn_id')) %>%
     select(-layer, nonfn_unempl = mean_unempl) %>%
     mutate(empl_rate_fn    = 1 - fn_unempl/100,
@@ -1011,9 +1043,9 @@ LEO <- function(layers) {
     ungroup() %>%
     select(region_id, year, empl_rate_nonfn, ref_pt)
 
-  income_df <- layers$data[['le_income_fn']] %>%
+  income_df <- layers$data[['lv_income_fn']] %>%
     select(-layer, med_income_fn = med_adj_income) %>%
-    left_join(layers$data[['le_income_nonfn']], by = c('year', 'rgn_id')) %>%
+    left_join(layers$data[['lv_income_nonfn']], by = c('year', 'rgn_id')) %>%
     select(-layer, med_income_nonfn = med_adj_income) %>%
     rowwise() %>%
     mutate(med_income_max = max(med_income_fn, med_income_nonfn)) %>%
@@ -1027,7 +1059,7 @@ LEO <- function(layers) {
   ### income is listed in equivalent dollars
 
   ### combine wages and jobs scores; calculate overall score
-  leo_status <- empl_df %>%
+  lvo_status <- empl_df %>%
     mutate(jobs_score = empl_rate_nonfn / ref_pt,
            jobs_score = ifelse(jobs_score > 1, 1, jobs_score)) %>%
     select(year, region_id, jobs_score) %>%
@@ -1037,20 +1069,20 @@ LEO <- function(layers) {
                 select(year, region_id, wages_score),
               by = c('year', 'region_id')) %>%
     mutate(score = 100 * (jobs_score + wages_score) / 2,
-           goal  = 'LEO',
+           goal  = 'LVO',
            dimension = 'status') %>%
     select(year, region_id, score, goal, dimension)
 
 
   trend_years <- (data_year - 4) : data_year
-  leo_trend   <- calc_trend(leo_status, trend_years)
+  lvo_trend   <- calc_trend(lvo_status, trend_years)
 
-  leo_scores <- leo_status %>%
+  lvo_scores <- lvo_status %>%
     filter(year == data_year) %>%
-    bind_rows(leo_trend) %>%
+    bind_rows(lvo_trend) %>%
     select(region_id, goal, dimension, score)
 
-  return(leo_scores)
+  return(lvo_scores)
 
 }
 

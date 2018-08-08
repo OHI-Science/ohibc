@@ -119,7 +119,7 @@ layers$data$status_year_span <- layers$data$scenario_data_years %>%
 status_years <- layers$data$status_year_span
 
 ### for testing:
-status_year <- 2007
+status_year <- 2001
 layers$data$scenario_year <- status_year
 
 ```

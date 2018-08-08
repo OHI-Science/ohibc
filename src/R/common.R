@@ -46,12 +46,18 @@ show_dupes <- function(x, y, na.rm = FALSE) {
   z <- x[x[[y]] %in% x[[y]][duplicated(x[[y]])], ]
 }
 
-get_rgn_names <- function() {
+get_rgn_names <- function(as_fct = FALSE) {
   x <- foreign::read.dbf('~/github/ohibc/prep/_spatial/ohibc_rgn.dbf', as.is = TRUE) %>%
     dplyr::select(rgn_id, rgn_name, rgn_code) %>%
     bind_rows(data.frame(rgn_id   = 0,
                          rgn_name = 'British Columbia',
-                         rgn_code = 'BC'))
+                         rgn_code = 'BC')) %>%
+    arrange(rgn_id)
+
+  if(as_fct) x <- x %>%
+    mutate(rgn_name = fct_inorder(rgn_name))
+
+  return(x)
 }
 
 clean_df_names <- function(df) {

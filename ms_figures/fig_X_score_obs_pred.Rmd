@@ -1,0 +1,91 @@
+---
+title: 'OHIBC: Plot scores for goals'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes:
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('~/github/ohibc/src/R/common.R')
+
+dir_ohibc <- '~/github/ohibc'
+dir_calc <- file.path(dir_ohibc, 'calc_ohibc')
+dir_figs <- file.path(dir_calc, 'ms_figures')
+
+source(file.path(dir_calc, 'calc_scores_fxns.R'))
+source(file.path(dir_figs, 'fig_fxns.R'))
+
+### provenance tracking
+# library(provRmd); prov_setup()
+
+```
+
+
+## Figure: Past "likely future status" compared to current "status"
+
+``` {r}
+
+status_obs_pred <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id != 0) %>%
+  filter(nchar(goal) == 2 | goal == 'Index') %>%
+  spread(dimension, score) %>%
+  group_by(goal, region_id) %>%
+  mutate(status = ifelse(goal == 'Index', 2 * score - future, status),
+         pred_future_status = lag(future, 5)) %>%
+  ungroup() %>%
+  mutate(goal_name = ifelse(goal == 'Index', 'Index', goal_labels[goal]),
+         goal_name = fct_inorder(goal_name),
+         goal_name = fct_relevel(goal_name, 'Index')) %>%
+  left_join(get_rgn_names(as_fct = TRUE), by = c('region_id' = 'rgn_id'))
+
+status_lm <- status_obs_pred %>%
+  filter(!is.na(status) & !is.na(future)) %>%
+  group_by(goal_name) %>%
+  do(mdl = summary(lm(status ~ future, data = .))) %>%
+  mutate(intcpt = mdl$coefficients[1],
+         slope  = mdl$coefficients[2],
+         adj_r2 = mdl$adj.r.squared,
+         
+         label  = sprintf('X_obs = %.3fX_pred + %.3f\nadj.R^2 = %.3f',
+                          slope, intcpt, adj_r2))
+
+
+score_compare_plot <- ggplot(status_obs_pred, 
+                             aes(x = pred_future_status, y = status)) +
+  ggtheme_plot() +
+  theme(strip.background = element_blank(),
+        strip.text = element_text(hjust = 0)) +
+  geom_abline(slope = 1, intercept = 0, color = 'darkred', size = .5, alpha = .5) +
+  geom_point(size = 2, alpha = .5) + 
+  geom_text(data = status_lm, x = 100, y = 0, 
+            hjust = 1, vjust = 0, aes(label = label),
+            size = 3, color = 'grey30') +
+  scale_x_continuous(limits = c(0, 100), expand = c(0, 3)) +
+  scale_y_continuous(limits = c(0, 150), expand = c(0, 3)) +
+  # geom_smooth(method = 'lm', na.rm = TRUE, fullrange = TRUE, 
+  #             color = 'grey30', fill = NA, size = .5, linetype = 'dashed') +
+  geom_abline(data = status_lm, aes(intercept = intcpt, slope = slope), fullrange = TRUE,
+              color = 'grey30', fill = NA, size = .5, linetype = 'dashed') +
+  labs(x = 'Status (predicted)', y = 'Status (observed)') +
+  facet_wrap ( ~ goal_name)
+
+score_compare_plot
+# plotly::ggplotly(score_compare_plot)
+```
+
+

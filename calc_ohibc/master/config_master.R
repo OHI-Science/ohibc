@@ -15,14 +15,14 @@ layer_region_areas      <- 'rgn_areas'
 ### For goals with elements, these data layers describe how to
 ### weight the contribution of each goal element to calculate the final goal
 ### pressure and resilience dimensions.
-resilience_element <- list('CS'  = 'element_wts_cs_km2_x_storage',
-                           'CP'  = 'element_wts_cp_km2_x_exposure_x_protection',
+resilience_element <- list('CSS'  = 'element_wts_cs_km2_x_storage',
+                           'CPP'  = 'element_wts_cp_km2_x_exposure_x_protection',
                            'HAB' = 'element_wts_hab_pres_abs',
                            'AO'  = 'element_wts_ao_components')
 
 pressures_element  <- list('AO'  = 'element_wts_ao_components',
-                           'CS'  = 'element_wts_cs_km2_x_storage',
-                           'CP'  = 'element_wts_cp_km2_x_exposure_x_protection',
+                           'CSS'  = 'element_wts_cs_km2_x_storage',
+                           'CPP'  = 'element_wts_cp_km2_x_exposure_x_protection',
                            'HAB' = 'element_wts_hab_pres_abs')
 
 ### constants
