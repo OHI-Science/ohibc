@@ -25,9 +25,8 @@ source('~/github/ohibc/src/R/common.R')
 
 dir_ohibc <- '~/github/ohibc'
 dir_calc <- file.path(dir_ohibc, 'calc_ohibc')
-dir_figs <- file.path(dir_calc, 'ms_figures')
+dir_figs <- file.path(dir_ohibc, 'ms_figures')
 
-source(file.path(dir_calc, 'calc_scores_fxns.R'))
 source(file.path(dir_figs, 'fig_fxns.R'))
 
 ### provenance tracking
@@ -62,6 +61,7 @@ rgn_carpet <- ggplot(rgn_scores, aes(x = year, y = rgn_name)) +
   geom_tile(aes(fill = score)) +
   geom_vline(data = timeline, aes(xintercept = year), 
              color = 'white', linetype = 'dashed') +
+  geom_hline(yintercept = 8.5, color = 'white', size = 1) +
   geom_text(data = timeline, aes(x = year, y = 1, label = label), 
             nudge_x = .1, hjust = 0, color = 'white') +
   scale_x_continuous(breaks = c(2001, 2006, 2011, 2016),
@@ -108,6 +108,7 @@ scores_plot <- ggplot(goal_scores,
   ggtheme_plot() +
   geom_tile(aes(fill = score)) +
   geom_vline(data = timeline, aes(xintercept = year), color = 'white', linetype = 'dashed') +
+  geom_hline(yintercept = 8.5, color = 'white', size = 1) +
   geom_text(data = timeline, aes(x = year, y = 1, label = label), 
             nudge_x = .1, hjust = 0, color = 'white') +
   scale_x_continuous(breaks = c(2001, 2006, 2011, 2016),

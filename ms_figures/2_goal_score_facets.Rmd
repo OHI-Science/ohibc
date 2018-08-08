@@ -25,9 +25,8 @@ source('~/github/ohibc/src/R/common.R')
 
 dir_ohibc <- '~/github/ohibc'
 dir_calc <- file.path(dir_ohibc, 'calc_ohibc')
-dir_figs <- file.path(dir_calc, 'ms_figures')
+dir_figs <- file.path(dir_ohibc, 'ms_figures')
 
-source(file.path(dir_calc, 'calc_scores_fxns.R'))
 source(file.path(dir_figs, 'fig_fxns.R'))
 
 ### provenance tracking
@@ -52,7 +51,7 @@ goal_scores <- scores %>%
 
 scores_plot <- ggplot(goal_scores %>% 
                         filter(region_id != 0), 
-                      aes(x = year, y = score, color = rgn_name)) +
+                      aes(x = year, y = score, color = rgn_code)) +
   ggtheme_plot() +
   geom_line(data = goal_scores %>% 
               filter(region_id == 0), 

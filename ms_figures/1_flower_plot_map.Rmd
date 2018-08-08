@@ -89,7 +89,7 @@ basemap <- ggplot() +
   geom_raster(data = etopo_df, aes(x, y, fill = elev), alpha = .5, show.legend = FALSE) +
   scale_fill_gradientn(colors = basemap_cols,
                        values = basemap_vals) +
-  geom_sf(data = bcland_sf, alpha = .5, color = 'grey50', fill = NA, size = .25) +
+  geom_sf(data = bcland_sf, alpha = .5, color = 'grey60', fill = NA, size = .25) +
   geom_sf(data = ohibc_sf,  alpha = .5, color = 'red', fill = NA, size = .5) +
   coord_sf(datum = NA) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0))
@@ -112,7 +112,13 @@ rgn_flowers <- vector('list', length = 8)
 rgn_names <- get_rgn_names()
 
 for(rgn in 1:8) { ### rgn <- 1
-  rgn_name <- rgn_names$rgn_name[rgn_names$rgn_id == rgn]
+  rgn_name <- sprintf('%s (%s)',
+                      rgn_names$rgn_name[rgn_names$rgn_id == rgn],
+                      rgn_names$rgn_code[rgn_names$rgn_id == rgn])
+  rgn_name <- rgn_name %>% str_replace('est V|orth V', '. V')
+    ### abbreviate West and North Vancouver Island (not North Coast)
+  rgn_name <- rgn_name %>% str_replace('Island', 'Is.')
+    ### abbreviate Island for those regions
   rgn_flowers[[rgn]] <- plot_flower(scores %>% filter(region_id == rgn),
                                     score_size = 6,
                                     plot_clean = TRUE, 
@@ -136,16 +142,16 @@ x <- ggdraw() +
   draw_plot(basemap, 0, 0, 1, 1) +
   draw_plot_ctr(overall_flower, .30, .30, lg_fl_size) +
   draw_plot_ctr(rgn_flowers[[1]], 0.55, 0.80, sm_fl_size) +
-  draw_plot_ctr(rgn_flowers[[2]], 0.37, 0.86, sm_fl_size) +
+  draw_plot_ctr(rgn_flowers[[2]], 0.37, 0.87, sm_fl_size) +
   draw_plot_ctr(rgn_flowers[[3]], 0.65, 0.58, sm_fl_size) +
   draw_plot_ctr(rgn_flowers[[4]], 0.82, 0.54, sm_fl_size) +
   draw_plot_ctr(rgn_flowers[[5]], 0.70, 0.17, sm_fl_size) +
   draw_plot_ctr(rgn_flowers[[6]], 0.88, 0.35, sm_fl_size) +
   draw_plot_ctr(rgn_flowers[[7]], 0.20, 0.65, sm_fl_size) +
-  draw_plot_ctr(rgn_flowers[[8]], 0.75, 0.75, sm_fl_size)
+  draw_plot_ctr(rgn_flowers[[8]], 0.72, 0.77, sm_fl_size)
 
-ggsave('tmp.png', height = 9, width = 10, dpi = 300)
+ggsave('flower_plot_map.png', height = 9, width = 10, dpi = 300)
 
 ```
 
-![](tmp.png)
+![](flower_plot_map.png)

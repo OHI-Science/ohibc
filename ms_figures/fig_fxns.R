@@ -184,7 +184,7 @@ plot_flower <- function(scores,
     plot_obj <- plot_obj +
       geom_bar(aes(x = pos, y = plot_NA),
                stat = 'identity',
-               color = light_line, fill = 'white', alpha = .5,
+               color = med_line, fill = med_fill, alpha = .4,
                size = .2)
   }
 
@@ -235,7 +235,7 @@ plot_flower <- function(scores,
           axis.line  = element_blank(),
           axis.text  = element_blank(),
           axis.title = element_blank()) +
-    theme(plot.title = element_text(hjust = .5))
+    theme(plot.title = element_text(hjust = .5, color = 'grey15'))
 
   ## add goal names
   if(!plot_clean) {
