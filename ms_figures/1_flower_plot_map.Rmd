@@ -57,16 +57,44 @@ if(!file.exists(file.path(dir_figs, 'etopo_rast.tif'))) {
   
   etopo <- etopo_raw %>%
     crop(extent(-140, -110, 45, 65)) %>%
-    projectRaster(crs = st_crs(ohibc_sf)$proj4string, res = 1000) %>%
+    projectRaster(crs = '+init=epsg:3005', res = 1000) %>%
     crop(extent(bbox))
   
+  bcland_sf <- read_sf(file.path(dir_ohibc, 'prep/_spatial/ohibc_land.shp')) %>%
+    st_set_crs(3005) %>%
+    st_crop(etopo)
+
+  bcland_rast <- etopo %>%
+    mask(bcland_sf %>% as('Spatial'))
+  ohibc_rast <- etopo %>%
+    mask(ohibc_sf %>% as('Spatial'))
+
+  values(etopo)[values(etopo) > -5 & 
+                  is.na(values(bcland_rast)) & 
+                  !is.na(values(ohibc_rast))] <- -5
+    ### values close (or above) zero that aren't "land" but are in OHIBC, 
+    ### set to a nice depth
+
   writeRaster(etopo, file.path(dir_figs, 'etopo_rast.tif'), overwrite = TRUE)
   
 } else {
   
   etopo <- raster(file.path(dir_figs, 'etopo_rast.tif'))
-  crs(etopo) <- st_crs(ohibc_sf)
+  crs(etopo) <- '+init=epsg:3005'
 }
+
+slope_raster <- terrain(etopo, opt = 'slope')
+aspect_raster <- terrain(etopo, opt = 'aspect')
+hill_raster <- hillShade(slope_raster, aspect_raster, 40, 270)
+hill_df <- rasterToPoints(hill_raster) %>%
+  as.data.frame() %>%
+  setNames(c('x', 'y', 'hill')) %>%
+  mutate(hill = ifelse(hill > .5, hill * 2 - 1, 0))
+    ### just emphasize the steep hills
+
+bcland_sf <- read_sf(file.path(dir_ohibc, 'prep/_spatial/ohibc_land.shp')) %>%
+  st_set_crs(3005) %>%
+  st_crop(etopo)
 
 etopo_df <- etopo %>%
   rasterToPoints() %>%
@@ -75,21 +103,21 @@ etopo_df <- etopo %>%
 
 elev_r <- range(etopo_df$elev, na.rm = TRUE)
 
-bcland_sf <- read_sf(file.path(dir_ohibc, 'prep/_spatial/ohibc_land.shp')) %>%
-  st_crop(etopo)
 
 # basemap_cols <- c(rev(brewer.pal(5, 'Blues')), terrain.colors(5))
 basemap_cols <- c(rev(brewer.pal(5, 'Blues')), 'forestgreen', 'green4', '#CCCCCC', '#EEEEEE', '#FFFFFF')
 ### set up values for where colors land, so zero matches up
-val_0 <- -elev_r[1] / (elev_r[2] - elev_r[1])
+val_0 <- (-elev_r[1]) / (elev_r[2] - elev_r[1])
 basemap_vals <- c(seq(0, val_0, length.out = 5), seq(val_0 + .001, 1, length.out = 5))
 
 basemap <- ggplot() +
   ggtheme_map() +
   geom_raster(data = etopo_df, aes(x, y, fill = elev), alpha = .5, show.legend = FALSE) +
+  geom_raster(data = hill_df, aes(x, y, alpha = hill), color = 'black', show.legend = FALSE) +
   scale_fill_gradientn(colors = basemap_cols,
                        values = basemap_vals) +
-  geom_sf(data = bcland_sf, alpha = .5, color = 'grey60', fill = NA, size = .25) +
+  scale_alpha_continuous(range = c(0, .5)) +
+  # geom_sf(data = bcland_sf, alpha = .5, color = 'grey60', fill = NA, size = .25) +
   geom_sf(data = ohibc_sf,  alpha = .5, color = 'red', fill = NA, size = .5) +
   coord_sf(datum = NA) +
   scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0))

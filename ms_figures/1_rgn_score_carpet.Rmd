@@ -54,9 +54,10 @@ scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
 rgn_scores <- scores %>%
   filter(goal == 'Index') %>%
   arrange(desc(region_id)) %>%
-  mutate(rgn_name = fct_inorder(rgn_name))
+  mutate(rgn_name = fct_inorder(rgn_name),
+         rgn_code = fct_inorder(rgn_code))
 
-rgn_carpet <- ggplot(rgn_scores, aes(x = year, y = rgn_name)) +
+rgn_carpet <- ggplot(rgn_scores, aes(x = year, y = rgn_code)) +
   ggtheme_plot() +
   geom_tile(aes(fill = score)) +
   geom_vline(data = timeline, aes(xintercept = year), 
