@@ -1361,12 +1361,12 @@ HAB <- function(layers) {
 
   sm_health   <- layers$data[['hab_sm_health']] %>%
     arrange(rgn_id, year) %>%
+    group_by(rgn_id) %>%
     mutate(habitat = 'salt_marsh',
            ref_pt  = first(sm_area_km2),
            ref_yr  = first(year),
            status  = sm_area_km2 / ref_pt,
            status  = ifelse(status > 1, 1, status)) %>%
-    group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
     ungroup()
 
@@ -1375,7 +1375,7 @@ HAB <- function(layers) {
 
   hab_status <- hab_components %>%
     group_by(region_id, year) %>%
-    summarize(score = mean(status)) %>%
+    summarize(score = mean(status, na.rm = TRUE)) %>%
     ungroup() %>%
     mutate(goal      = 'HAB',
            dimension = 'status',

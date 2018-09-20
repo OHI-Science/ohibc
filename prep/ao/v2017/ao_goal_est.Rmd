@@ -81,13 +81,14 @@ complete_years <- function(score_df, year_span) {
 closures <- read_csv(file.path(dir_goal, 'output/ao_closures.csv'))
 licenses <- read_csv(file.path(dir_goal, 'output/ao_licenses.csv'))
 shi      <- read_csv(file.path(dir_goal, 'output/ao_spawn_hab_index.csv'))
-# salmon   <- layers$data[['ao_salmon']]
+salmon_c <- read_csv(file.path(dir_git, 'prep/sal/v2017/output/ao_sal_catch.csv'))
+salmon_e <- read_csv(file.path(dir_git, 'prep/sal/v2017/output/ao_sal_escapes.csv'))
 
 ### assign weights to each layer
 component_wts <- c('shellfish_closures' = 1,
                    'first_nations_licenses' = 1,
                    'herring_spawn_hab_index' = 1,
-                   'salmon' = 0)
+                   'salmon' = 1)
 
 ### Calculate status for each component
 ### Closures:
@@ -128,35 +129,86 @@ shi_status <- shi %>%
          component = 'herring_spawn_hab_index') %>%
   select(year, region_id, status, component)
 
-### Salmon
-### * dummy for now
-# salmon_status <- salmon %>%
-#   complete_years(year_span) %>%
-#   mutate(status = 0,
-#          component = 'salmon') %>%
-#   select(year, region_id, status, component)
+``` 
 
+``` {r calc_salmon}
+### Salmon
+### Functions from functions.R
+calc_e_prime_ao <- function(E_Et) {
+  c_v_e <- 0.6 ### Coefficient of variation of E/E_target
+  m_e1 <- 1 / c_v_e
+  e_0_1 <- 1 - m_e1
+  e_prime <- case_when(E_Et < 1.0 - c_v_e      ~ 0,
+                       E_Et < 1.0                ~ e_0_1 + m_e1 * E_Et,
+                       TRUE                      ~ NA_real_)
+}
+
+### Function for converting C/C_target values into a 0 - 1 score
+calc_c_prime_ao <- function(C_Ct) {
+  c_prime <- case_when(C_Ct < 1.0            ~ 1.0,
+                       C_Ct < 2.0            ~ 2.0 - C_Ct,
+                       C_Ct >= 2.0           ~ 0,
+                       TRUE                  ~ NA_real_)
+}
+
+stocks <- salmon_c %>%
+  full_join(salmon_e, by = c('rgn_id', 'year', 'stock'))
+
+stocks_scored <- stocks %>%
+  rowwise() %>%
+  mutate(esc_score   = calc_e_prime_ao(E_Et),
+         catch_score = calc_c_prime_ao(C_Ct),
+         stock_score = ifelse(is.na(esc_score), catch_score, esc_score)) %>%
+  ungroup() %>%
+  select(region_id = rgn_id, stock, year,
+         stock_score)
+
+salmon_status <- stocks_scored %>%
+  group_by(region_id, year) %>%
+  summarize(status = mean(stock_score, na.rm = TRUE) * 100) %>%
+  ungroup() %>%
+  filter(!is.na(status)) %>%
+  mutate(component = 'salmon')
+### Yes, that is what we want - same score given to all regions
+
+```
+
+``` {r plot em}
 
 ### Combine all components by weighting
-ao_status <- bind_rows(closure_status, license_status, shi_status) %>% # , salmon_status) %>%
+ao_status <- bind_rows(closure_status, license_status, 
+                       shi_status, salmon_status) %>%
   mutate(comp_wt = component_wts[component]) %>%
   group_by(region_id, year) %>%
+  filter(region_id != 7) %>%
   summarize(score = sum(status * comp_wt, na.rm = TRUE) / sum(comp_wt),
             score = round(score, 5)) %>%
   ungroup() %>%
   mutate(goal = 'AO',
          dimension = 'status')
 
-ao_status_components <- bind_rows(closure_status, license_status, shi_status) %>%
+ao_status_components <- bind_rows(closure_status, license_status, 
+                                  shi_status, salmon_status) %>%
   filter(year %in% 2000:2017) %>%
   filter(!is.na(region_id)) %>%
+  filter(region_id != 7) %>%
   left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')) %>%
   left_join(ao_status, by = c('year', 'region_id'))
 
-ggplot(ao_status_components, aes(x = year, y = status, group = component, color = component)) +
+ggplot(ao_status_components, 
+       aes(x = year, y = status, 
+           group = component, color = component)) +
+  ggtheme_plot() +
   geom_line(aes(y = score), color = 'grey40', size = 1.5, alpha = .8) +
-  geom_line(size = 1, alpha = .8) +
+  geom_line(size = .5, alpha = .8) +
   facet_wrap( ~ rgn_name)
+
+ggplot(ao_status %>%
+         left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')), 
+       aes(x = year, y = score, color = rgn_name)) +
+  ggtheme_plot() +
+  geom_line(size = .5, alpha = .8) +
+  xlim(c(2000, 2017))
 
 
 ```
