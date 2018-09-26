@@ -64,7 +64,7 @@ po_nutrient_3nm,ohibc:prep/cw/v2017/output,po_nutrient_3nm.csv,TRUE,nutr_pressur
 po_pathogen,ohibc:prep/cw/v2017/output,po_pathogen.csv,TRUE,path_pressure
 po_trash,ohibc:prep/cw/v2017/output,po_trash.csv,TRUE,trash_pressure
 po_water,ohibc:calc_ohibc/master/dummy_layers,po_water_gl2016.csv,TRUE,resilience_score
-rgn_areas,ohibc:prep/_spatial/v2017/output,rgn_areas.csv,TRUE,area_km2
+rgn_areas,ohibc:prep/_spatial/v2017/output,rgn_areas_no_offshore.csv,TRUE,area_km2
 rgn_labels,ohibc:prep/_spatial/v2017/output,rgn_labels.csv,TRUE,rgn_name
 sal_catch,ohibc:prep/sal/v2017/output,sal_catch.csv,TRUE,C_Ct
 sal_escapes,ohibc:prep/sal/v2017/output,sal_escapes.csv,TRUE,E_Et

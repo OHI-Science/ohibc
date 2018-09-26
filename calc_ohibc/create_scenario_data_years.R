@@ -1,6 +1,5 @@
 ### Create scenario_data_years matrix
 library(tidyverse)
-library(stringr)
 
 dir_calc <- '~/github/ohibc/calc_ohibc'
 

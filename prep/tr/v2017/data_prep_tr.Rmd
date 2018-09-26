@@ -456,7 +456,7 @@ DT::datatable(park_rgn_totals %>%
 
 ### Map parks against OHIBC regions
 
-``` {r map_parks}
+``` {r map_parks, eval = FALSE}
 bc_rgns_layer <- file.path(dir_goal, 'spatial', 'ohibc_clipped_15km_inland')
 bc_rgns <- read_sf(dsn = dirname(bc_rgns_layer),
                    layer = basename(bc_rgns_layer))
@@ -670,7 +670,7 @@ print(park_plot)
 
 ```
 
-***
+------
 
 ``` {r provenance, results = 'asis'}
 

@@ -189,7 +189,7 @@ ss_cwbi_all,HAB,saltmarsh,pressure
 ss_cwbi_all,HAB,soft_bottom,pressure
 ss_cwbi_all,HAB,ebsa,pressure
 ss_cwbi_all,ICO,NA,pressure
-ss_cwbi_all,LEO,NA,pressure
+ss_cwbi_all,LVO,NA,pressure
 ss_cwbi_all,LSP,NA,pressure
 ss_cwbi_all,MAR,NA,pressure
 ss_cwbi_all,SAL,NA,pressure
@@ -199,7 +199,7 @@ ss_cwbi_fn,AO,shellfish_closures,pressure
 ss_cwbi_fn,AO,salmon,pressure
 ss_cwbi_fn,AO,fn_licenses,pressure
 ss_cwbi_fn,AO,herring_spawn,pressure
-ss_cwbi_fn,LEF,NA,pressure
+ss_cwbi_fn,LVF,NA,pressure
 po_water,CPP,saltmarsh,resilience
 po_water,CSS,saltmarsh,resilience
 po_water,CW,NA,resilience
@@ -306,7 +306,7 @@ cwbi_all,HAB,ebsa,resilience
 cwbi_all,HAB,soft_bottom,resilience
 cwbi_all,ICO,NA,resilience
 cwbi_all,SPP,NA,resilience
-cwbi_all,LEO,NA,resilience
+cwbi_all,LVO,NA,resilience
 cwbi_all,LSP,NA,resilience
 cwbi_all,MAR,NA,resilience
 cwbi_all,SAL,NA,resilience
@@ -315,7 +315,7 @@ cwbi_fn,AO,shellfish_closures,resilience
 cwbi_fn,AO,salmon,resilience
 cwbi_fn,AO,fn_licenses,resilience
 cwbi_fn,AO,herring_spawn,resilience
-cwbi_fn,LEF,NA,resilience
+cwbi_fn,LVF,NA,resilience
 ao_closures,AO,NA,status
 ao_licenses,AO,NA,status
 ao_licenses_fn_pop,AO,NA,status
@@ -336,10 +336,10 @@ hab_sm_health,HAB,NA,status
 ico_spp_presence,ICO,NA,status
 ico_spp_risk_score,ICO,NA,status
 ico_spp_trend,ICO,NA,status
-le_income_fn,LIV,NA,status
-le_unempl_fn,LIV,NA,status
-le_income_nonfn,LIV,NA,status
-le_unempl_nonfn,LIV,NA,status
+lv_income_fn,LVF,NA,status
+lv_unempl_fn,LVF,NA,status
+lv_income_nonfn,LVO,NA,status
+lv_unempl_nonfn,LVO,NA,status
 lsp_prot_area_inland_ws,LSP,NA,status
 lsp_prot_area_offshore3nm,LSP,NA,status
 lsp_tot_area_inland_ws,LSP,NA,status
