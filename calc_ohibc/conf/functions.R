@@ -167,23 +167,28 @@ FIS <- function(layers) {
     complete_years(status_yr_span, method = 'carry', dir = 'forward') %>%
     ungroup()
 
-  ### joing stock status data with dfo catch data then weighting stock scores with their proportional catch
-  ### this is only done for assessed stocks. We incorporate a penalty for unassessed stocks later
+  ### joing stock status data with dfo catch data then weighting stock
+  ### scores with their proportional catch
+  ### this is only done for assessed stocks. We incorporate a penalty
+  ### for unassessed stocks later
 
   stock_score_catch <- stock_status_df %>%
     left_join(dfo_catch_wts, by = c("stockid", "year")) %>%
-    filter(!is.na(score) & !is.na(rgn_id)) %>%    ### remove rows with no stock score or rgn_id
-      ### write_csv("output/stock_scores.csv") %>%  ##not sure if we want this?
+    filter(!is.na(score) & !is.na(rgn_id))
+
+  if(data_year == max(status_yr_span)) {
+    ### note, this contains all years, but only write it once
+    message('Writing stock score catch dataframe...')
+    write_csv(stock_score_catch, '~/github/ohibc/prep/fis/v2017/summary/fis_from_functions.csv')  ## JA: i'm no longer sure we want to be saving this?
+  }
+
+  stock_score_sum <- stock_score_catch %>%
     mutate(score_weighted = score * rgn_ass_catch_prop * 100) %>%
     group_by(year, rgn_id) %>%
     summarize(status_ass = sum(score_weighted, na.rm = TRUE)) %>%
       ### status_ass is the status when using assessed species weighted by their catch proportion
     ungroup()
 
-  if(data_year == max(status_yr_span)) {
-    ### note, this contains all years, but only write it once
-    write_csv(stock_score_catch, '~/github/ohibc/prep/fis/v2017/summary/fis_from_functions.csv')  ## JA: i'm no longer sure we want to be saving this?
-  }
 
   ### plotting fishery catch weighting by region
   # stock_plot_df <- stock_score_df %>%
@@ -207,7 +212,7 @@ FIS <- function(layers) {
   # }
 
   ### calculate FIS status
-  fis_status <- stock_score_catch %>%
+  fis_status <- stock_score_sum %>%
     left_join(rgn_catch_wts, by = c('year', 'rgn_id')) %>%
     mutate(score = (status_ass + (status_ass * ass_catch_prop))/2) %>%
       ### multiply the status by the % of catch assessed (this acts as
@@ -953,15 +958,23 @@ LVF <- function(layers) {
   ### NOTE: the 0 score ref point will remain at 0 median wage and 0 employment;
   ### other options were explored in data_prep_le.Rmd but rejected for a simpler model.
 
-  empl_df <- layers$data[['lv_unempl_fn']] %>%
-    select(-layer, fn_unempl = mean_unempl) %>%
-    full_join(layers$data[['lv_unempl_nonfn']],
+  lv_unempl_fn <- layers$data[['lv_unempl_fn']] %>%
+    select(-layer, fn_unempl = mean_unempl)
+  lv_unempl_nonfn <- layers$data[['lv_unempl_nonfn']] %>%
+    select(-layer, nonfn_unempl = mean_unempl)
+
+  lv_income_fn <- layers$data[['lv_income_fn']] %>%
+    select(-layer, med_income_fn = med_adj_income)
+  lv_income_nonfn <- layers$data[['lv_income_nonfn']] %>%
+    select(-layer, med_income_nonfn = med_adj_income)
+
+  empl_df <- lv_unempl_fn %>%
+    full_join(lv_unempl_nonfn,
               by = c('year', 'rgn_id')) %>%
-    select(-layer, nonfn_unempl = mean_unempl) %>%
     mutate(empl_rate_fn    = 1 - fn_unempl/100,
            empl_rate_nonfn = 1 - nonfn_unempl/100) %>%
     rowwise() %>%
-    mutate(empl_rate_max = max(empl_rate_nonfn, empl_rate_fn)) %>%
+    mutate(empl_rate_max = max(empl_rate_nonfn, empl_rate_fn, na.rm = TRUE)) %>%
     ungroup() %>%
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
@@ -969,15 +982,15 @@ LVF <- function(layers) {
     mutate(empl_rate_lag = lag(empl_rate_max, 1, default = first(empl_rate_max)),
               ### note: the default back-fills the first value, i.e. 1996 value
            ref_pt = zoo::rollmean(empl_rate_lag, k = 5, fill = NA, align = 'right')) %>%
-    ungroup() %>%
-    select(region_id, year, empl_rate_fn, ref_pt)
+    select(region_id, year, empl_rate_fn, ref_pt) %>%
+    fill(ref_pt, .direction = 'up') %>%
+    ungroup()
 
-  income_df <- layers$data[['lv_income_fn']] %>%
-    select(-layer, med_income_fn = med_adj_income) %>%
-    left_join(layers$data[['lv_income_nonfn']], by = c('year', 'rgn_id')) %>%
-    select(-layer, med_income_nonfn = med_adj_income) %>%
+  income_df <- lv_income_fn %>%
+    left_join(lv_income_nonfn, by = c('year', 'rgn_id')) %>%
     rowwise() %>%
-    mutate(med_income_max = max(med_income_fn, med_income_nonfn)) %>%
+    mutate(med_income_max = max(med_income_fn, med_income_nonfn,
+                                na.rm = TRUE)) %>%
     ungroup() %>%
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
@@ -1023,16 +1036,23 @@ LVO <- function(layers) {
   status_yr_span <- layers$data$status_year_span
 
   ### See methods notes in LVF
+  lv_unempl_fn <- layers$data[['lv_unempl_fn']] %>%
+    select(-layer, fn_unempl = mean_unempl)
+  lv_unempl_nonfn <- layers$data[['lv_unempl_nonfn']] %>%
+    select(-layer, nonfn_unempl = mean_unempl)
 
-  empl_df <- layers$data[['lv_unempl_fn']] %>%
-    select(-layer, fn_unempl = mean_unempl) %>%
-    full_join(layers$data[['lv_unempl_nonfn']],
+  lv_income_fn <- layers$data[['lv_income_fn']] %>%
+    select(-layer, med_income_fn = med_adj_income)
+  lv_income_nonfn <- layers$data[['lv_income_nonfn']] %>%
+    select(-layer, med_income_nonfn = med_adj_income)
+
+  empl_df <- lv_unempl_fn %>%
+    full_join(lv_unempl_nonfn,
               by = c('year', 'rgn_id')) %>%
-    select(-layer, nonfn_unempl = mean_unempl) %>%
     mutate(empl_rate_fn    = 1 - fn_unempl/100,
            empl_rate_nonfn = 1 - nonfn_unempl/100) %>%
     rowwise() %>%
-    mutate(empl_rate_max = max(empl_rate_nonfn, empl_rate_fn)) %>%
+    mutate(empl_rate_max = max(empl_rate_nonfn, empl_rate_fn, na.rm = TRUE)) %>%
     ungroup() %>%
     group_by(rgn_id) %>%
     complete_rgn_years(status_yr_span) %>%
@@ -1040,13 +1060,12 @@ LVO <- function(layers) {
     mutate(empl_rate_lag = lag(empl_rate_max, 1, default = first(empl_rate_max)),
            ### note: the default back-fills the first value, i.e. 1996 value
            ref_pt = zoo::rollmean(empl_rate_lag, k = 5, fill = NA, align = 'right')) %>%
-    ungroup() %>%
-    select(region_id, year, empl_rate_nonfn, ref_pt)
+    select(region_id, year, empl_rate_nonfn, ref_pt) %>%
+    fill(ref_pt, .direction = 'up') %>%
+    ungroup()
 
-  income_df <- layers$data[['lv_income_fn']] %>%
-    select(-layer, med_income_fn = med_adj_income) %>%
-    left_join(layers$data[['lv_income_nonfn']], by = c('year', 'rgn_id')) %>%
-    select(-layer, med_income_nonfn = med_adj_income) %>%
+  income_df <- lv_income_fn %>%
+    left_join(lv_income_nonfn, by = c('year', 'rgn_id')) %>%
     rowwise() %>%
     mutate(med_income_max = max(med_income_fn, med_income_nonfn)) %>%
     ungroup() %>%

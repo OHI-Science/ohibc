@@ -44,6 +44,10 @@ This script prepares a resilience layer based upon the presence, effectiveness, 
 
 $$resilience = \sqrt[3]{reg.presence \times reg.effectiveness \times reg.compliance}$$
 
+UPDATE: now we simply give credit for 1/3, 1/3, 1/3 for each of these components.  If a component is missing, no credit is due.  If a component is not binary, its 1/3 will be scaled according to a proportionality metric.
+
+$$resilience = \frac{reg.presence + reg.effectiveness + reg.compliance}{3}$$
+
 # Data
 
 * __Reference__: 
@@ -73,8 +77,10 @@ To determine vessel count, take the license data, filter to vessel-based license
 
 ``` {r}
 
-license_file <- file.path(dir_anx, '_raw_data/fishing_license/Pacific Region Commercial Fishing Licenses En.csv')
-metadata_file <- file.path(dir_anx, '_raw_data/fishing_license/Commercial License Meta Data EN (1).csv')
+license_file <- file.path(dir_anx, '_raw_data/fishing_license', 
+                          'Pacific Region Commercial Fishing Licenses En.csv')
+metadata_file <- file.path(dir_anx, '_raw_data/fishing_license', 
+                           'Commercial License Meta Data EN (1).csv')
 
 licensed_vessels <- read_csv(license_file) %>%
   setNames(tolower(names(.)) %>% str_replace_all('[\\s()]+', '_')) %>%
@@ -109,10 +115,12 @@ write_csv(reg_eff, file.path(dir_goal, 'int', 'fp_reg_effectiveness.csv'))
 ## Determining compliance
 
 ``` {r} 
-res_data_file <- file.path(dir_anx, '_raw_data/fisheries_resilience/fisheries_resilience.xlsx')
+res_data_file <- file.path(dir_anx, '_raw_data/fisheries_resilience', 
+                           'fisheries_resilience.xlsx')
 ### readxl::excel_sheets(res_data_file)
 ### [1] "GroundfishEnforcement" "GroundfishMonitoring"  "ProtectAreaPlans"      "ReferenceNotes"       
-reg_comp <- readxl::read_excel(res_data_file, sheet = 'GroundfishMonitoring') %>%
+reg_comp <- readxl::read_excel(res_data_file, 
+                               sheet = 'GroundfishMonitoring') %>%
   setNames(c('year', 'observers')) %>%
   mutate(comp_score = observers / max(observers, na.rm = TRUE))
 
@@ -134,8 +142,9 @@ reg_df <- reg_comp %>%
   select(year, component, score) %>%
   filter(!is.na(score)) %>%
   group_by(year) %>%
-  summarize(components = paste0(component, ' = ', score, collapse = ', '),
-            score = prod(score) ^ (1/n()))
+  summarize(components = paste0(component, ' = ', round(score, 3), collapse = ', '),
+            # score = prod(score) ^ (1/n()))
+            score = sum(score) / 3)
 
 write_csv(reg_df, file.path(dir_goal, 'output/fp_fishing_regs.csv'))
 

@@ -1,0 +1,69 @@
+---
+title: 'OHIBC: Resilience - MaPP social resilience'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+library(sf)
+
+dir_git <- '~/github/ohibc'
+source(file.path(dir_git, 'src/R/common.R'))
+
+dir_anx <- file.path(dir_M, 'git-annex/bcprep')
+dir_spatial <- path.expand(file.path(dir_git, 'prep/_spatial'))
+
+### goal specific folders and info
+goal      <- '_resilience'
+scenario  <- 'v2017'
+dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
+dir_goal_anx <- file.path(dir_M, 'git-annex/bcprep', goal, scenario)
+
+library(provRmd); prov_setup()
+
+```
+
+# Summary
+
+This pressure layer calculates social resilience based on the MaPP process.  
+
+$$resilience_{rgn} = \mathbb{1}_{rgn \in MaPP} \times \frac{process + enforcement + compliance}{3}$$
+
+From the start of the MaPP process, each region within MaPP will receive a resilience score of 1/3.  Enforcement and compliance would begin to contribute to the score once the MaPP plans are released in 2015, but since only two of the three parties (First Nations, province, but not DFO) each region will receive only partial credit.
+
+``` {r}
+
+df <- expand.grid(rgn_id = c(1:4, 8), year = 2001:2016) %>%
+  mutate(process = ifelse(year >= 2011, 1, 0),
+         enforce = ifelse(year >= 2015, 2/3, 0),
+         comply  = ifelse(year >= 2015, 2/3, 0)) %>%
+  group_by(rgn_id, year) %>%
+  summarize(mapp_resilience = (process + enforce + comply) / 3) %>%
+  ungroup()
+
+write_csv(df, file.path(dir_goal, 'output', 'mapp_score.csv'))
+
+```
+
+-----
+
+``` {r results = 'asis'}
+
+prov_wrapup(commit_outputs = FALSE)
+
+```

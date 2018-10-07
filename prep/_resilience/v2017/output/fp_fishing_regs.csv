@@ -1,23 +1,23 @@
 year,components,score
-1996,"comp_score = 1, reg_score = 1",1
-1997,"comp_score = 1, reg_score = 1",1
-1998,"comp_score = 1, reg_score = 1",1
-1999,"comp_score = 1, reg_score = 1",1
-2e3,"comp_score = 1, reg_score = 1",1
-2001,"comp_score = 1, eff_score = 0.751636988019216, reg_score = 1",0.9092208393240863
-2002,"comp_score = 1, eff_score = 0.788361549497848, reg_score = 1",0.9237940161871036
-2003,"comp_score = 1, eff_score = 0.800598337089129, reg_score = 1",0.9285491452771215
-2004,"comp_score = 1, eff_score = 0.802041906570903, reg_score = 1",0.92910690327148715
-2005,"comp_score = 1, eff_score = 0.821664572100377, reg_score = 1",0.9366230769698506
-2006,"comp_score = 1, eff_score = 0.844957685412932, reg_score = 1",0.9453914134610697
-2007,"comp_score = 1, eff_score = 0.864565115386256, reg_score = 1",0.9526482398033718
-2008,"comp_score = 1, eff_score = 0.994150755987198, reg_score = 1",0.9980464380767385
-2009,"comp_score = 1, eff_score = 0.877972709551657, reg_score = 1",0.957547526831377
-2010,"comp_score = 1, eff_score = 0.905872888173773, reg_score = 1",0.9675849113399337
-2011,"comp_score = 1, eff_score = 0.944234800838574, reg_score = 1",0.9810549519883458
+1996,"comp_score = 1, reg_score = 1",0.6666666666666666
+1997,"comp_score = 1, reg_score = 1",0.6666666666666666
+1998,"comp_score = 1, reg_score = 1",0.6666666666666666
+1999,"comp_score = 1, reg_score = 1",0.6666666666666666
+2e3,"comp_score = 1, reg_score = 1",0.6666666666666666
+2001,"comp_score = 1, eff_score = 0.752, reg_score = 1",0.9172123293397384
+2002,"comp_score = 1, eff_score = 0.788, reg_score = 1",0.9294538498326159
+2003,"comp_score = 1, eff_score = 0.801, reg_score = 1",0.9335327790297097
+2004,"comp_score = 1, eff_score = 0.802, reg_score = 1",0.9340139688569676
+2005,"comp_score = 1, eff_score = 0.822, reg_score = 1",0.9405548573667923
+2006,"comp_score = 1, eff_score = 0.845, reg_score = 1",0.9483192284709773
+2007,"comp_score = 1, eff_score = 0.865, reg_score = 1",0.9548550384620853
+2008,"comp_score = 1, eff_score = 0.994, reg_score = 1",0.9980502519957327
+2009,"comp_score = 1, eff_score = 0.878, reg_score = 1",0.9593242365172189
+2010,"comp_score = 1, eff_score = 0.906, reg_score = 1",0.9686242960579244
+2011,"comp_score = 1, eff_score = 0.944, reg_score = 1",0.9814116002795248
 2012,"comp_score = 1, eff_score = 1, reg_score = 1",1
-2013,"comp_score = 1, eff_score = 0.917058560807083, reg_score = 1",0.971551193901323
-2014,"comp_score = 1, eff_score = 0.926995086973841, reg_score = 1",0.9750475846068538
-2015,"comp_score = 1, eff_score = 0.952804694963832, reg_score = 1",0.9840140425609599
-2016,"comp_score = 1, eff_score = 0.964893852277753, reg_score = 1",0.9881582778838609
-2017,"comp_score = 1, reg_score = 1",1
+2013,"comp_score = 1, eff_score = 0.917, reg_score = 1",0.972352853602361
+2014,"comp_score = 1, eff_score = 0.927, reg_score = 1",0.9756650289912804
+2015,"comp_score = 1, eff_score = 0.953, reg_score = 1",0.9842682316546107
+2016,"comp_score = 1, eff_score = 0.965, reg_score = 1",0.9882979507592511
+2017,"comp_score = 1, reg_score = 1",0.6666666666666666

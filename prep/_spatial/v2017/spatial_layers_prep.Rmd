@@ -82,7 +82,11 @@ rgn_areas <- rgns %>%
   select(rgn_id, area_km2) %>%
   arrange(rgn_id)
 
+rgn_areas_no_PO <- rgn_areas %>%
+  mutate(area_km2 = ifelse(rgn_id == 7, 0, area_km2))
+
 write_csv(rgn_areas, file.path(dir_goal, 'output/rgn_areas.csv'))
+write_csv(rgn_areas_no_PO, file.path(dir_goal, 'output/rgn_areas_no_offshore.csv'))
 
 ```
 

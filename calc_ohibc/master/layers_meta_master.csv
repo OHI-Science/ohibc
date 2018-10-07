@@ -54,6 +54,7 @@ lsp_prot_area_inland_ws,LSP,Inland coastal protected areas,km2,Protected areas l
 lsp_prot_area_offshore3nm,LSP,Offshore coastal protected areas,km2,Protected areas located 3nm offshore
 lsp_tot_area_inland_ws,LSP,Inland area,km2,Inland area of OHI regions within 1km of shoreline
 lsp_tot_area_offshore3nm,LSP,Offshore area,km2,Offshore area of OHI regions within 3nm of shoreline
+mapp_resilience,resilience,MaPP Resilience,scaled 0-1,Resilience due to MaPP process and plans
 mar_harvest_tonnes,MAR,Mariculture harvest,tonnes,Tonnes of mariculture harvest
 mar_potential,MAR,Aquaculture production potential,tonnes per km2 per year,Aquaculture production potential for finh and shellh at different reference levels
 mar_tenure_areas,MAR,Aquaculture tenure area,km^2,DFO aquaculture tenures

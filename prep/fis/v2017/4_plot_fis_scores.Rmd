@@ -36,10 +36,6 @@ dir_spatial  <- file.path(dir_git, 'prep/_spatial')
 ### provenance tracking
 library(provRmd); prov_setup()
 
-### support scripts
-source(file.path(dir_git, 'src/R/rast_tools.R')) 
-source("~/github/ohibc/calc_ohibc/calc_scores_fxns.R")
-  ### raster plotting and analyzing scripts
 ```
 
 # Summary
@@ -53,29 +49,38 @@ This script takes the output from `functions.R` FIS model and plots individual s
 ## plotting fishery catch weighting by region
 stock_plot_df <- read_csv(file.path(dir_goal, 'summary/fis_from_functions.csv')) %>%
   filter(!is.na(score)) %>%
-  group_by(region_id, year) %>%
-  mutate(total_catch = sum(rgn_catch),
-         rgn_catch_pct = rgn_catch / total_catch,
-         total_score = sum(score * rgn_catch) / total_catch) %>%
-  ungroup() %>%
-  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id')) %>%
-  filter(rgn_catch > 0) %>%
+  # group_by(rgn_id, year) %>%
+  # mutate(total_catch = sum(rgn_catch),
+  #        rgn_catch_pct = rgn_catch / total_catch,
+  #        total_score = sum(score * rgn_catch) / total_catch) %>%
+  # ungroup() %>%
+  left_join(get_rgn_names(), by = 'rgn_id') %>%
+  filter(rgn_ass_catch_prop > 0) %>%
   filter(year > 1990)
+
+rgn_scores <- read_csv(file.path(dir_git, 'calc_ohibc/scores_all.csv')) %>%
+  filter(goal == 'FIS' & dimension == 'status') %>%
+  select(rgn_id = region_id, year, status = score) %>%
+  mutate(status = status / 100) %>%
+  filter(rgn_id != 0) %>%
+  left_join(get_rgn_names(), by = 'rgn_id')
 
 ```
 
 ``` {r plot_fis_scores}
 
 ggplot(stock_plot_df, aes(x = year, y = score)) +
-    ggtheme_plot() +
-    geom_line(aes(group = stock_id, color = stock_id,
-                  size = rgn_catch_pct),
-              lineend = 'round', alpha = .5) +
-    labs(color = 'Stock ID',
-         y     = 'Stock Score') +
-    guides(colour = guide_legend(override.aes = list(size = 3)),
-           size = 'none') +
-    facet_wrap(~rgn_name)
+  ggtheme_plot() +
+  geom_line(aes(group = stockid, color = stockid,
+                size = rgn_ass_catch_prop),
+            lineend = 'round', alpha = .5) +
+  geom_line(data = rgn_scores, aes(y = status), size = 1, color = 'grey20', alpha = .7) +
+  labs(color = 'Stock ID',
+       y     = 'Stock Score') +
+  guides(colour = guide_legend(override.aes = list(size = 3)),
+         size = 'none') +
+  scale_color_brewer(palette = 'Paired') +
+  facet_wrap(~rgn_name)
 
 ```
 
@@ -83,9 +88,9 @@ ggplot(stock_plot_df, aes(x = year, y = score)) +
 
 ```{r}
 hake <- stock_plot_df %>%
-  mutate(hake = ifelse(stock_id == "PHAKEPCOAST", "Hake", "Non-hake")) %>%
+  mutate(hake = ifelse(stockid == "PHAKEPCOAST", "Hake", "Non-hake")) %>%
   group_by(hake, year) %>%
-  summarize(catch = sum(rgn_catch)) %>%
+  summarize(catch = sum(rgn_ass_catch_prop)) %>%
   filter(year>1997)
 
 ggplot(hake, aes(x=year, y=catch, fill = hake)) +
@@ -100,9 +105,9 @@ ggplot(hake, aes(x=year, y=catch, fill = hake)) +
 
 ``` {r plot_catch}
 
-ggplot(stock_plot_df, aes(x = year, y = rgn_catch)) +
+ggplot(stock_plot_df, aes(x = year, y = rgn_ass_catch_prop)) +
     ggtheme_plot() +
-    geom_line(aes(group = stock_id, color = stock_id),
+    geom_line(aes(group = stockid, color = stockid),
               alpha = .5, size = 2) +
     labs(color = 'Stock ID',
          y     = 'Stock reported catch (tons)') +
@@ -116,15 +121,17 @@ ggplot(stock_plot_df, aes(x = year, y = rgn_catch)) +
 
 ``` {r plot_catch_no_hake}
 
-ggplot(filter(stock_plot_df, stock_id!="PHAKEPCOAST"), aes(x = year, y = rgn_catch)) +
+ggplot(stock_plot_df %>%
+         filter(stockid != "PHAKEPCOAST"), 
+       aes(x = year, y = rgn_ass_catch_prop)) +
     ggtheme_plot() +
-    geom_line(aes(group = stock_id, color = stock_id),
+    geom_line(aes(group = stockid, color = stockid),
               alpha = .5, size = 2) +
     labs(color = 'Stock ID',
-         y     = 'Stock reported catch (tons)') +
+         y     = 'Stock reported catch (proportion)') +
     guides(colour = guide_legend(override.aes = list(size = 3)),
            size = 'none') +
-  facet_wrap(~rgn_name)
+  facet_wrap(~ rgn_name)
 
 ```
 
@@ -147,19 +154,19 @@ I copied in the FIS function from functions.R and made small changes to read in 
   # status_yr_span <- layers$data$status_year_span
 
   ram_b_bmsy        <- read_csv("output/ram_b_bmsy.csv") %>%
-    rename(b_bmsy = value) %>%
+    rename(b_bmsy = value, stockid = stock_id) %>%
     select(-param)
   ram_f_fmsy        <- read_csv("output/ram_f_fmsy.csv") %>%
     rename(f_fmsy = value) %>%
-    select(stock_id, year, f_fmsy)
+    select(stockid = stock_id, year, f_fmsy)
   hake_catch        <- read_csv("output/hake_catch.csv")   #hake catch from DFO YOR
   ram_catch         <- read_csv("output/ram_catch.csv") %>%
     rename(catch = value) %>%
-    select(stock_id, year, catch) %>%
-    filter(stock_id != "PHAKEPCOAST") %>%     #we need to replace RAM Hake catch with catch from DFO
+    select(stockid, year, catch) %>%
+    filter(stockid != "PHAKEPCOAST") %>%     #we need to replace RAM Hake catch with catch from DFO
     bind_rows(hake_catch)
   rgn_stock_area  <- read_csv("output/ram_stock_area.csv") %>%
-    rename(region_id = rgn_id, stock_id = stockid)
+    rename(region_id = rgn_id)
   dfo_assessed_catch <- read_csv("output/dfo_assessed_catch_props.csv") %>%
     select(year, penalty = prop_land_ass)
   
@@ -199,13 +206,13 @@ ggplot(ts_ram, aes(x = year, y = b_bmsy, color = stock_name)) +
   ### Apply rolling mean to F/Fmsy
   ram_f_fmsy <- ram_f_fmsy %>%
     mutate(f_fmsy_raw = f_fmsy) %>%
-    arrange(stock_id, year) %>%
-    group_by(stock_id) %>%
+    arrange(stockid, year) %>%
+    group_by(stockid) %>%
     mutate(f_fmsy = zoo::rollmean(f_fmsy_raw, k = 4, align = 'right', fill = NA)) %>%
     ungroup()
 
   stock_status_layers <- ram_b_bmsy %>%
-    full_join(ram_f_fmsy, by = c('year', 'stock_id'))
+    full_join(ram_f_fmsy, by = c('year', 'stockid'))
 
   ########################################################.
   ##### run each fishery through the Kobe plot calcs #####
@@ -296,16 +303,16 @@ ggplot(ts_ram, aes(x = year, y = b_bmsy, color = stock_name)) +
                         fmin_val = f_fmsy_underfishing_penalty) %>%
     mutate(x_prod = ifelse(!is.na(fPrime), (fPrime * bPrime), bPrime),
            basis  = ifelse(!is.na(fPrime), 'F_Fmsy, B_Bmsy', 'B_Bmsy only')) %>%
-    dplyr::select(year, stock_id,
+    dplyr::select(year, stockid,
                   score = x_prod,
                   basis,
                   bPrime, fPrime,
                   b_bmsy, f_fmsy)  %>%
-    group_by(stock_id) %>%
+    group_by(stockid) %>%
     complete_years(status_yr_span, method = 'carry', dir = 'forward') %>%
     ungroup()
   
-ggplot(filter(stock_status_df, year > 1994), aes(x = year, y = score, color = stock_id)) +
+ggplot(filter(stock_status_df, year > 1994), aes(x = year, y = score, color = stockid)) +
   geom_line() +
   theme_bw() +
   ylab("Stock Score") +
@@ -325,8 +332,8 @@ Here are the scores with and without the penalty factor. The trends are very sim
 
   ### calculate weights within each region by regional catch
   catch_df <- ram_catch %>%
-    left_join(rgn_stock_area, by = 'stock_id') %>%
-    group_by(region_id, stock_id) %>%
+    left_join(rgn_stock_area, by = 'stockid') %>%
+    group_by(region_id, stockid) %>%
     complete_rgn_years(status_yr_span, method = 'carry', dir = 'forward') %>%
     ungroup() %>%
     mutate(rgn_catch = catch * a_prop,
@@ -334,13 +341,13 @@ Here are the scores with and without the penalty factor. The trends are very sim
 
   stock_score_df <- stock_status_df %>%
     filter(!is.na(score)) %>%
-    group_by(stock_id) %>%
-    arrange(stock_id, year) %>%
+    group_by(stockid) %>%
+    arrange(stockid, year) %>%
     fill(score, .direction = c('down')) %>%
     fill(score, .direction = c('up')) %>%
     ungroup() %>%
-    full_join(catch_df, by = c('stock_id', 'year')) %>%
-    select(region_id, year, stock_id, score, rgn_catch, basis) %>%
+    full_join(catch_df, by = c('stockid', 'year')) %>%
+    select(region_id, year, stockid, score, rgn_catch, basis) %>%
     filter(!is.na(region_id))
 
   # if(data_year == max(status_yr_span)) {

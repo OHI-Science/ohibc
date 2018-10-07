@@ -54,6 +54,7 @@ lsp_prot_area_inland_ws,ohibc:prep/lsp/v2017/output,lsp_protected_inland_ws.csv,
 lsp_prot_area_offshore3nm,ohibc:prep/lsp/v2017/output,lsp_protected_offshore3nm.csv,TRUE,a_prot_3nm
 lsp_tot_area_inland_ws,ohibc:prep/lsp/v2017/output,lsp_a_total_inland_ws.csv,TRUE,a_tot_inland
 lsp_tot_area_offshore3nm,ohibc:prep/lsp/v2017/output,lsp_a_total_offshore3nm.csv,TRUE,a_tot_3nm
+mapp_resilience,ohibc:prep/_resilience/v2017/output,mapp_score.csv,TRUE,mapp_resilience
 mar_harvest_tonnes,ohibc:prep/mar/v2017/output,aq_harvest.csv,TRUE,harvest_tonnes
 mar_potential,ohibc:prep/mar/v2017/output,aq_potential.csv,TRUE,potential
 mar_tenure_areas,ohibc:prep/mar/v2017/output,aq_areas.csv,TRUE,area_km2
