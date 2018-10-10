@@ -80,13 +80,15 @@ ggplot(stock_plot_df, aes(x = year, y = score)) +
   guides(colour = guide_legend(override.aes = list(size = 3)),
          size = 'none') +
   scale_color_brewer(palette = 'Paired') +
-  facet_wrap(~rgn_name)
+  facet_wrap( ~ rgn_name)
+
+
 
 ```
 
 ## Proportion of hake vs non hake catch over time
 
-```{r}
+``` {r, eval = FALSE}
 hake <- stock_plot_df %>%
   mutate(hake = ifelse(stockid == "PHAKEPCOAST", "Hake", "Non-hake")) %>%
   group_by(hake, year) %>%
@@ -103,7 +105,7 @@ ggplot(hake, aes(x=year, y=catch, fill = hake)) +
 
 ## Catch by stock and region
 
-``` {r plot_catch}
+``` {r plot_catch, eval = FALSE}
 
 ggplot(stock_plot_df, aes(x = year, y = rgn_ass_catch_prop)) +
     ggtheme_plot() +
@@ -119,7 +121,7 @@ ggplot(stock_plot_df, aes(x = year, y = rgn_ass_catch_prop)) +
 
 ### Without Hake
 
-``` {r plot_catch_no_hake}
+``` {r plot_catch_no_hake, eval = FALSE}
 
 ggplot(stock_plot_df %>%
          filter(stockid != "PHAKEPCOAST"), 
@@ -139,7 +141,7 @@ ggplot(stock_plot_df %>%
 
 I copied in the FIS function from functions.R and made small changes to read in the layers directly from the output folder in the fis/v2017 folder rather than layers.csv. 
 
-```{r}
+```{r, eval = FALSE}
 # 
 # FIS <- function(layers) {
 # 
@@ -159,12 +161,12 @@ I copied in the FIS function from functions.R and made small changes to read in 
   ram_f_fmsy        <- read_csv("output/ram_f_fmsy.csv") %>%
     rename(f_fmsy = value) %>%
     select(stockid = stock_id, year, f_fmsy)
-  hake_catch        <- read_csv("output/hake_catch.csv")   #hake catch from DFO YOR
+  # hake_catch        <- read_csv("output/hake_catch.csv")   #hake catch from DFO YOR
   ram_catch         <- read_csv("output/ram_catch.csv") %>%
     rename(catch = value) %>%
     select(stockid, year, catch) %>%
-    filter(stockid != "PHAKEPCOAST") %>%     #we need to replace RAM Hake catch with catch from DFO
-    bind_rows(hake_catch)
+    filter(stockid != "PHAKEPCOAST") # %>%     #we need to replace RAM Hake catch with catch from DFO
+    # bind_rows(hake_catch)
   rgn_stock_area  <- read_csv("output/ram_stock_area.csv") %>%
     rename(region_id = rgn_id)
   dfo_assessed_catch <- read_csv("output/dfo_assessed_catch_props.csv") %>%
@@ -181,7 +183,7 @@ ggplot(dfo_assessed_catch, aes(x = year, y = penalty, group = 1)) +
 
 We see a large dip in later years because many species only have stock assessments up until 2010-2014. Sablefish assessments end at 2010, Tuna and Bocaccio end in 2012, Ocean Perch ends in 2013, Soles, Halibut and Pacific and Ling cod end in 2014. Pacific Hake is the only stock with assessments through 2016. 
 
-```{r}
+```{r, eval = FALSE}
 
 ts_ram <- ram_b_bmsy %>%
   filter(year > 1997)
@@ -195,7 +197,7 @@ ggplot(ts_ram, aes(x = year, y = b_bmsy, color = stock_name)) +
 
 ```
 
-```{r}
+```{r, eval = FALSE}
   ### These parameters are based on conversation with Ian Perry, Karen Hunter,
   ### and Karin Bodtker on May 24 2017.
   b_bmsy_underexploit_penalty <- 0.25
@@ -325,7 +327,7 @@ This plot shows all stocks are given a stock score for every year, even beyond t
 
 Here are the scores with and without the penalty factor. The trends are very similar across time and regions since the penalty is simply a proportional decrease to the score, but it does change the story in, for example, 2000 and 2010.
 
-```{r}
+```{r, eval = FALSE}
   ##############################################################.
   ##### calculate distribution of fishery catch to regions #####
   ##############################################################.

@@ -18,7 +18,7 @@ output:
 
 ``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
 
-knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       echo = TRUE, message = FALSE, warning = FALSE)
 
 source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
@@ -199,8 +199,9 @@ ggplot(ao_status_components,
        aes(x = year, y = status, 
            group = component, color = component)) +
   ggtheme_plot() +
-  geom_line(aes(y = score), color = 'grey40', size = 1.5, alpha = .8) +
-  geom_line(size = .5, alpha = .8) +
+  geom_line(aes(y = score), color = 'grey40', size = 2, alpha = .8) +
+  geom_line(size = 1, alpha = .8) +
+  theme(axis.text.x = element_text(angle = 30, color = 'grey20')) +
   facet_wrap( ~ rgn_name)
 
 ggplot(ao_status %>%

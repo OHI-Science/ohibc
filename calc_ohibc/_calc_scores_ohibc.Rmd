@@ -262,7 +262,7 @@ scores_ohibc <- scores_w_index %>%
   filter(dimension %in% c('status', 'score', 'future')) %>%
   left_join(rgn_areas, by = c('region_id' = 'rgn_id')) %>%
   group_by(goal, year, dimension) %>%
-  summarize(score = weighted.mean(score, w = area_km2),
+  summarize(score = weighted.mean(score, w = area_km2, na.rm = TRUE),
             region_id = 0)
   
 scores_new_res <- scores_w_index %>%

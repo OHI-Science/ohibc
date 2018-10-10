@@ -122,8 +122,11 @@ Resilience will be calculated as a combination of several metrics.  For strong r
     
 Overall resilience score will be calculated as: 
 
-\[res_{AQ} = \sqrt[3]{(\text{reg exists})*(\text{reg enforced})*(\text{reg compliance})}\]
+$$res_{AQ} = \sqrt[3]{(\text{reg exists})*(\text{reg enforced})*(\text{reg compliance})}$$
 
+UPDATE: now just summing the components and assigning a value of 1/3 to each:
+
+$$res_{AQ} = \frac{reg.exists + reg.enforced + reg.compliance}{3}$$
 
 ``` {r calc_reg_enforcement}
 
@@ -182,7 +185,7 @@ yrs_rgns <- data.frame(year = rep(2011:2016, times = 7),
 resil_layer <- reg_comp %>%
   left_join(reg_enf, by = 'year') %>%
   mutate(reg_exists = 1) %>%
-  mutate(resilience_score = (reg_exists * reg_compliance * reg_enforcement) ^ (1/3)) %>%
+  mutate(resilience_score = (reg_exists + reg_compliance + reg_enforcement) / 3) %>%
   left_join(yrs_rgns, by = 'year')
 
 write_csv(resil_layer, file.path(dir_goal, 'output', 'res_aq_regulations.csv'))

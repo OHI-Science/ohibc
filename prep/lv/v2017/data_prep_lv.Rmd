@@ -831,14 +831,14 @@ income_layer <- read_csv(file.path(dir_goal, 'output', 'lv_income_fn.csv')) %>%
   gather(first_nations, median_income, contains('income')) %>%
   mutate(first_nations = !str_detect(first_nations, 'non_fn'))
 
-income_ref <- read_csv(file.path(dir_goal, 'output', 'lv_income_lower_ref.csv')) %>%
-  left_join(get_rgn_names(), by = 'rgn_id')
+# income_ref <- read_csv(file.path(dir_goal, 'output', 'lv_income_lower_ref.csv')) %>%
+#   left_join(get_rgn_names(), by = 'rgn_id')
 
 ggplot(income_layer, aes(x = year, y = median_income)) +
   ggtheme_plot() +
   geom_line(aes(group = first_nations, color = first_nations), alpha = .7, size = 1.5) +
-  geom_line(data = income_ref, aes(y = income_lower_ref, group = rgn_name),
-            color = 'red', linetype = 'dashed') +
+  # geom_line(data = income_ref, aes(y = income_lower_ref, group = rgn_name),
+  #           color = 'red', linetype = 'dashed') +
   scale_x_continuous(breaks = seq(1996, 2016, 5)) +
   theme(axis.text.x = element_text(angle = 75, hjust = 1)) +
   scale_y_continuous(limits = c(0, NA)) +
@@ -857,14 +857,14 @@ unempl_layer <- read_csv(file.path(dir_goal, 'output', 'lv_unempl_fn.csv')) %>%
   gather(first_nations, mean_unempl, contains('unempl')) %>%
   mutate(first_nations = !str_detect(first_nations, 'non_fn'))
 
-unempl_ref <- read_csv(file.path(dir_goal, 'output', 'lv_unempl_upper_ref.csv')) %>%
-  left_join(get_rgn_names(), by = 'rgn_id')
+# unempl_ref <- read_csv(file.path(dir_goal, 'output', 'lv_unempl_upper_ref.csv')) %>%
+#   left_join(get_rgn_names(), by = 'rgn_id')
 
 ggplot(unempl_layer, aes(x = year, y = mean_unempl, color = first_nations)) +
   ggtheme_plot() +
   geom_line(aes(group = first_nations), alpha = .7, size = 1.5) +
-  geom_line(data = unempl_ref, aes(y = unempl_upper_ref, group = rgn_name), 
-            color = 'red', linetype = 'dashed') +
+  # geom_line(data = unempl_ref, aes(y = unempl_upper_ref, group = rgn_name), 
+  #           color = 'red', linetype = 'dashed') +
   scale_x_continuous(breaks = seq(1996, 2016, 5)) +
   theme(axis.text.x = element_text(angle = 75, hjust = 1)) +
   scale_y_continuous(limits = c(0, NA)) +
