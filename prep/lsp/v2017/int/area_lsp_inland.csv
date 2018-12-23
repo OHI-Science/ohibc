@@ -24,8 +24,8 @@ year,rgn_id,n_cells,n_cells_tot,n_cells_cum,a_tot_km2,a_prot_km2,pct_prot,lsp_st
 2012,1,0,54958,10252,13739.5,2563,0.1865,0.62,North Coast,NC
 2013,1,0,54958,10252,13739.5,2563,0.1865,0.62,North Coast,NC
 2014,1,NA,54958,10252,13739.5,2563,0.1865,0.62,North Coast,NC
-2015,1,103,54958,10355,13739.5,2588.75,0.1884,0.63,North Coast,NC
-2016,1,NA,54958,10355,13739.5,2588.75,0.1884,0.63,North Coast,NC
+2015,1,NA,54958,10252,13739.5,2563,0.1865,0.62,North Coast,NC
+2016,1,NA,54958,10252,13739.5,2563,0.1865,0.62,North Coast,NC
 1990,2,0,31935,2226,7983.75,556.5,0.0697,0.23,Haida Gwaii,HG
 1991,2,0,31935,2226,7983.75,556.5,0.0697,0.23,Haida Gwaii,HG
 1992,2,0,31935,2226,7983.75,556.5,0.0697,0.23,Haida Gwaii,HG
@@ -51,7 +51,7 @@ year,rgn_id,n_cells,n_cells_tot,n_cells_cum,a_tot_km2,a_prot_km2,pct_prot,lsp_st
 2012,2,0,31935,16442,7983.75,4110.5,0.5149,1,Haida Gwaii,HG
 2013,2,0,31935,16442,7983.75,4110.5,0.5149,1,Haida Gwaii,HG
 2014,2,NA,31935,16442,7983.75,4110.5,0.5149,1,Haida Gwaii,HG
-2015,2,0,31935,16442,7983.75,4110.5,0.5149,1,Haida Gwaii,HG
+2015,2,NA,31935,16442,7983.75,4110.5,0.5149,1,Haida Gwaii,HG
 2016,2,NA,31935,16442,7983.75,4110.5,0.5149,1,Haida Gwaii,HG
 1990,3,0,51373,2440,12843.25,610,0.0475,0.16,Central Coast,CC
 1991,3,0,51373,2440,12843.25,610,0.0475,0.16,Central Coast,CC
@@ -78,7 +78,7 @@ year,rgn_id,n_cells,n_cells_tot,n_cells_cum,a_tot_km2,a_prot_km2,pct_prot,lsp_st
 2012,3,0,51373,19295,12843.25,4823.75,0.3756,1,Central Coast,CC
 2013,3,0,51373,19295,12843.25,4823.75,0.3756,1,Central Coast,CC
 2014,3,NA,51373,19295,12843.25,4823.75,0.3756,1,Central Coast,CC
-2015,3,0,51373,19295,12843.25,4823.75,0.3756,1,Central Coast,CC
+2015,3,NA,51373,19295,12843.25,4823.75,0.3756,1,Central Coast,CC
 2016,3,NA,51373,19295,12843.25,4823.75,0.3756,1,Central Coast,CC
 1990,4,22,50078,1171,12519.5,292.75,0.0234,0.08,North Vancouver Island,NV
 1991,4,0,50078,1171,12519.5,292.75,0.0234,0.08,North Vancouver Island,NV
@@ -105,8 +105,8 @@ year,rgn_id,n_cells,n_cells_tot,n_cells_cum,a_tot_km2,a_prot_km2,pct_prot,lsp_st
 2012,4,0,50078,3958,12519.5,989.5,0.079,0.26,North Vancouver Island,NV
 2013,4,4,50078,3962,12519.5,990.5,0.0791,0.26,North Vancouver Island,NV
 2014,4,NA,50078,3962,12519.5,990.5,0.0791,0.26,North Vancouver Island,NV
-2015,4,42,50078,4004,12519.5,1001,0.08,0.27,North Vancouver Island,NV
-2016,4,NA,50078,4004,12519.5,1001,0.08,0.27,North Vancouver Island,NV
+2015,4,NA,50078,3962,12519.5,990.5,0.0791,0.26,North Vancouver Island,NV
+2016,4,NA,50078,3962,12519.5,990.5,0.0791,0.26,North Vancouver Island,NV
 1990,5,0,33862,3412,8465.5,853,0.1008,0.34,West Vancouver Island,WV
 1991,5,564,33862,3976,8465.5,994,0.1174,0.39,West Vancouver Island,WV
 1992,5,0,33862,3976,8465.5,994,0.1174,0.39,West Vancouver Island,WV
@@ -132,7 +132,7 @@ year,rgn_id,n_cells,n_cells_tot,n_cells_cum,a_tot_km2,a_prot_km2,pct_prot,lsp_st
 2012,5,0,33862,6098,8465.5,1524.5,0.1801,0.6,West Vancouver Island,WV
 2013,5,0,33862,6098,8465.5,1524.5,0.1801,0.6,West Vancouver Island,WV
 2014,5,NA,33862,6098,8465.5,1524.5,0.1801,0.6,West Vancouver Island,WV
-2015,5,0,33862,6098,8465.5,1524.5,0.1801,0.6,West Vancouver Island,WV
+2015,5,NA,33862,6098,8465.5,1524.5,0.1801,0.6,West Vancouver Island,WV
 2016,5,NA,33862,6098,8465.5,1524.5,0.1801,0.6,West Vancouver Island,WV
 1990,6,12,42599,1245,10649.75,311.25,0.0292,0.1,Strait of Georgia,SG
 1991,6,6,42599,1251,10649.75,312.75,0.0294,0.1,Strait of Georgia,SG
@@ -159,7 +159,7 @@ year,rgn_id,n_cells,n_cells_tot,n_cells_cum,a_tot_km2,a_prot_km2,pct_prot,lsp_st
 2012,6,0,42599,2433,10649.75,608.25,0.0571,0.19,Strait of Georgia,SG
 2013,6,23,42599,2456,10649.75,614,0.0577,0.19,Strait of Georgia,SG
 2014,6,NA,42599,2456,10649.75,614,0.0577,0.19,Strait of Georgia,SG
-2015,6,0,42599,2456,10649.75,614,0.0577,0.19,Strait of Georgia,SG
+2015,6,NA,42599,2456,10649.75,614,0.0577,0.19,Strait of Georgia,SG
 2016,6,NA,42599,2456,10649.75,614,0.0577,0.19,Strait of Georgia,SG
 1990,8,0,4551,0,1137.75,0,0,0,Aristazabal Island,AZ
 1991,8,0,4551,0,1137.75,0,0,0,Aristazabal Island,AZ
@@ -186,5 +186,5 @@ year,rgn_id,n_cells,n_cells_tot,n_cells_cum,a_tot_km2,a_prot_km2,pct_prot,lsp_st
 2012,8,0,4551,1056,1137.75,264,0.232,0.77,Aristazabal Island,AZ
 2013,8,0,4551,1056,1137.75,264,0.232,0.77,Aristazabal Island,AZ
 2014,8,NA,4551,1056,1137.75,264,0.232,0.77,Aristazabal Island,AZ
-2015,8,0,4551,1056,1137.75,264,0.232,0.77,Aristazabal Island,AZ
+2015,8,NA,4551,1056,1137.75,264,0.232,0.77,Aristazabal Island,AZ
 2016,8,NA,4551,1056,1137.75,264,0.232,0.77,Aristazabal Island,AZ

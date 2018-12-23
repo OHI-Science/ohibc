@@ -1,0 +1,195 @@
+---
+title: 'OHIBC: Regress LFS against status, trend, prs, res'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes:
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(ohicore) ### devtools::install_github('ohi-science/ohicore')
+
+source('~/github/ohibc/src/R/common.R')
+
+dir_ohibc  <- '~/github/ohibc'
+dir_calc   <- file.path(dir_ohibc, 'calc_ohibc')
+dir_master <- file.path(dir_calc, 'master')
+
+source(file.path(dir_calc, 'calc_scores_fxns.R'))
+
+### provenance tracking
+# library(provRmd); prov_setup()
+
+```
+
+
+# Regression model
+
+For each goal, regress the future status (default is +5 years) against current status, trend, pressures, and resilience; this would give an idea of coefficients in the OHI LFS model; these may differ for each goal.  These do not apply to supragoals (since no pressures/resilience applied at this level), only standalone and subgoals.
+
+$$ Status_{future} = Status_{current} [1 + \beta T + (1 - \beta) (R - P)]$$
+Rearrange to
+$$ \frac{Status_{future}}{Status_{current}} = 1 + \beta T_t + (1 - \beta)(R_t - P_t)$$
+In the original OHI publication, the coefficient $\beta$ was set to 0.67, assuming that recent trend is a better predictor than pressures and resilience.  To ensure an intuitive comparison, adjust the values in `scores.csv` so that $T_t \in [-1, 1]$, and $R_t, P_t \in [0, 1]$.
+
+Framing as regression where resilience and pressure are estimated together, and assuming a five year horizon for likely future status:
+
+$$ X = \frac{Status_{t+5}}{Status_{t}} = \beta_0 + \beta_1 T_t + \beta_2 (P_t - R_t)$$
+The standard OHI LFS model should result in parameter estimates: $\beta_0 = 1, \beta_1 = .67, \beta_2 = .33$.
+
+Framing as a resilience-only model:
+
+$$ X = \frac{Status_{t+5}}{Status_{t}} = \beta_0 + \beta_1 R_t$$
+
+## Fixed effects
+
+Using a fixed effects model by year may compensate for exogenous unobserved variables (i.e. not included in the index calculations) that affect all regions equally in each time period, such as global economic conditions or an El Niño year.  
+<!--Using a fixed effects model by region may compensate for unobserved variables (i.e. not included in index calculations) related to interregional differences, such as total population, proportion of First Nations population, or geophysical differences.-->
+
+# Regress goal-by-goal
+
+Assuming region scores should follow roughly similar patterns, we can include all regions for each year in the regression.
+
+``` {r regress_lfs_coefficients}
+
+### Set up basic data frame - make sure prs and res are 0-1; status
+### range not important here since we'll take a ratio inside a loop.
+
+# scores_rgn <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %>%
+scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id != 0) %>%
+  spread(dimension, score) %>%
+  select(goal, region_id, year, 
+         pressures, resilience, 
+         status, trend) %>%
+  group_by(goal, region_id) %>%
+  arrange(year) %>%
+  mutate(pressures  = pressures  / 100,
+         resilience = resilience / 100,
+         res_minus_prs = resilience - pressures) %>%
+  filter(!is.na(pressures) & !is.na(resilience) &!is.na(trend))
+
+goals <-  c('AO',  
+            'FIS', 'SAL', # 'MAR', ### commented out - too few years
+            'CPP', 'CSS', 
+            'CW',
+            'HAB', 'SPP', 
+            'ICO', 'LSP', 
+            'LVF', 'LVO', 
+            'TR')
+
+lfs_trp <- data.frame()
+lfs_res <- data.frame()
+lfs_felm_yr <- data.frame()
+# library(lfe)
+# lfs2_all <- data.frame()
+# tr_only_all <- data.frame()
+
+
+for(goalname in goals) { # goalname <- goals[13]
+  # cat(goalname, ': lag =', lead_yr, '\n')
+  tmp_df <- scores_rgn %>%
+    filter(goal == goalname) %>%
+    mutate(obs_future_status = lead(status, 5),
+           lfs_ratio = obs_future_status/status) %>%
+    filter(!is.na(lfs_ratio))
+  
+  lfs_lm <- lm(lfs_ratio ~ trend + res_minus_prs, data = tmp_df) %>%
+    broom::tidy() %>%
+    mutate(goal  = goalname,
+           n_obs = nrow(tmp_df),
+           years = length(tmp_df$year %>% unique()))
+
+  lfs_res_lm <- lm(lfs_ratio ~ resilience, data = tmp_df) %>%
+    broom::tidy() %>%
+    mutate(goal  = goalname,
+           n_obs = nrow(tmp_df),
+           years = length(tmp_df$year %>% unique()))
+
+  if(length(tmp_df$year %>% unique()) > 1) {
+    lfs_felm_yr <- lm(lfs_ratio ~ trend + res_minus_prs + factor(year), data = tmp_df) %>%
+      broom::tidy() %>%
+      mutate(goal  = goalname,
+             n_obs = nrow(tmp_df),
+             years = length(tmp_df$year %>% unique()))
+  
+    lfs_felm_yr <- bind_rows(lfs_felm_yr, lfs_felm_yr)
+  }
+  lfs_trp <- bind_rows(lfs_trp, lfs_lm)
+  lfs_res <- bind_rows(lfs_res, lfs_res_lm)
+
+}
+
+# lfs2_all <- lfs2_all %>%
+#   mutate(estimate  = round(estimate, 4),
+#          std.error = round(std.error, 4),
+#          statistic = round(statistic, 4),
+#          p.value   = round(p.value, 4))
+#   
+# tr_only_all <- tr_only_all %>%
+#   mutate(estimate  = round(estimate, 4),
+#          std.error = round(std.error, 4),
+#          statistic = round(statistic, 4),
+#          p.value   = round(p.value, 4))
+
+write_csv(lfs_trp, 'int/lfs_trp.csv')
+write_csv(lfs_res, 'int/lfs_res.csv')
+write_csv(lfs_felm_yr, 'int/lfs_felm_yr.csv')
+# write_csv(lfs2_all, 'int/lfs2_all.csv')
+# write_csv(tr_only_all, 'int/trend_only_all.csv')
+
+lfs_trp <- lfs_trp %>%
+  mutate(estimate  = round(estimate, 4),
+         std.error = round(std.error, 4),
+         statistic = round(statistic, 4),
+         p.value   = round(p.value, 4))
+
+
+```
+
+## Res-Prs parameter estimates
+`r DT::datatable(lfs_trp)`
+
+<!-- ## Trend/(Pressure - Resilience) parameter estimates -->
+<!-- `r # DT::datatable(lfs2_all)` -->
+
+<!-- ## Trend-only parameter estimates -->
+
+<!-- `r # DT::datatable(tr_only_all)` -->
+
+# Plots
+
+## plots
+
+``` {r}
+
+scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id != 0) %>%
+  spread(dimension, score) %>%
+  mutate(pred_status = lag(future, 5),
+         obs_status = status) %>%
+  filter(nchar(goal) == 2)
+
+ggplot(scores, aes(x = pred_status, y = obs_status, color = goal)) +
+  geom_point() +
+  geom_abline(yintercept = 0, slope = 1) +
+  geom_smooth(method = 'lm', se = FALSE)
+
+regr_future <- scores %>%
+  group_by(goal) %>%
+  do(future_mdl = lm(obs_status ~ pred_status, data = .))
+```

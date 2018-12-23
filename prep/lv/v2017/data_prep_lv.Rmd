@@ -302,7 +302,7 @@ write_csv(pop_csd, file.path(dir_goal, 'int/pop_csd_yr.csv'))
 
 The R package `cancensus` provides census information for 2006, 2011, and 2016.  A comparison between the `cancensus` results and the downloaded data show consistency in both unemployment rate (see note below) and income, when comparing median total household income (as opposed to individual or family income!)
 
-For consistency we will use the `cancensus` reported median household income results for 2006 and 2011 (as well as 2016).
+For consistency we will use the `cancensus` reported median household income results for 2006, 2011, and 2016.
 
 Unemployment results are similar across all, though there are some large percentage discrepancies for some communities - note that these tend to be very small communities where a change in reporting for a few individuals may make a significant change in the percent unemployment.  We will use `cancensus` reported unemployment rates for 2006, 2011, and 2016.
 

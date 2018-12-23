@@ -150,7 +150,7 @@ for (status_year in status_years) {
 
 }
 
-write_csv(scores_all, file.path(dir_calc, 'scores_all.csv'))
+write_csv(scores_all, file.path(dir_calc, 'scores_all_uncapped_res.csv'))
 
 ```
 
@@ -162,7 +162,7 @@ This chunk manually recalculates Likely Future State by capping resilience value
 
 ``` {r cap resilience}
 
-scores_all <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+scores_all <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %>%
   select(-yr_text)
 
 beta <- .67; delta <- 1
@@ -268,15 +268,15 @@ scores_ohibc <- scores_w_index %>%
 scores_new_res <- scores_w_index %>%
   bind_rows(scores_ohibc)
 
-write_csv(scores_new_res, file.path(dir_calc, 'scores_all_new_res.csv'))
+write_csv(scores_new_res, file.path(dir_calc, 'scores_all.csv'))
 
 ```
 
 ``` {r}
 
-scores_orig <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+scores_orig <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %>%
   rename(score_orig = score)
-scores_new <- read_csv(file.path(dir_calc, 'scores_all_new_res.csv')) %>%
+scores_new <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
   rename(score_new = score)
 
 scores_compare <- scores_orig %>%

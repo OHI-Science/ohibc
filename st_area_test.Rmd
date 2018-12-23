@@ -1,0 +1,70 @@
+---
+title: '`st_area` testing'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(sf)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+```
+
+Compare area calculations from BC Albers, Mollweide, WGS84, using `st_area()`.
+
+```{r}
+bc_rgn_file <- 
+### use the original (BC Albers) as the "correct" reference
+bc_alb <- read_sf('prep/_spatial/ohibc_rgn.shp')
+st_crs(bc_alb) <- 3005
+
+wgs84 <- bc_alb %>%
+  st_transform(4326)
+
+moll <- bc_alb %>% 
+  st_transform('+proj=moll +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m')
+### for some reason, epsg 54009 returned an error?
+
+merc <- bc_alb %>%
+  st_transform(3395)
+
+web_merc <- bc_alb %>%
+  st_transform(3857)
+
+gallpeters <- bc_alb %>%
+  st_transform('+proj=cea +lon_0=0 +lat_ts=45 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs')
+
+x <- data.frame(bc_ref  = st_area(bc_alb),
+                wgs84   = st_area(wgs84),
+                moll    = st_area(moll),
+                merc    = st_area(merc),
+                webmerc = st_area(web_merc),
+                gallp   = st_area(gallpeters)) %>%
+  gather(proj, area_calc, -bc_ref) %>%
+  mutate(diff = abs(as.numeric((bc_ref - area_calc) / bc_ref)))
+
+ggplot(x, aes(x = proj, y = diff)) +
+  ggtheme_plot() +
+  geom_point() +
+  scale_y_log10() +
+  labs(x = 'Projection', y = 'Proportional difference')
+```
+
+

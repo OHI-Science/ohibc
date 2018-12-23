@@ -106,11 +106,14 @@ The PEP data does not seem to have year data, so WDPA will be the priority datas
 wdpa_bc_shp_file  <- file.path(dir_goal_anx, 'int', 'wdpa_bc_bcalb.shp')
 wdpa_bc_rast_file <- file.path(dir_rast, 'rast_wdpa_bc_500m.tif')
 
-wdpa_sf <- read_sf(wdpa_bc_shp_file)
-rast_wdpa <- fasterize::fasterize(wdpa_sf, rast_base,
-                                  field = 'STATUS_YR',
-                                  fun = 'min')
-writeRaster(rast_wdpa, wdpa_bc_rast_file, overwrite = TRUE)
+reload <- FALSE
+if(!file.exists(wdpa_bc_rast_file) | reload) {
+  wdpa_sf <- read_sf(wdpa_bc_shp_file)
+  rast_wdpa <- fasterize::fasterize(wdpa_sf, rast_base,
+                                    field = 'STATUS_YR',
+                                    fun = 'min')
+  writeRaster(rast_wdpa, wdpa_bc_rast_file, overwrite = TRUE)
+}
 
 ```
 
@@ -123,6 +126,7 @@ Note that no "year" column exists in the PEP shapefile.  This raster will supple
 pep_bc_shp_file  <- file.path(dir_anx, '_raw_data/databc', 
                               'prot_ecol_areas/d2017/TA_PARK_ECORES_PA_SVW',
                               'TA_PEP_SVW_polygon.shp')
+
 # foreign::read.dbf(str_replace(pep_bc_shp_file, '.shp$', '.dbf')) %>%
 #   head()
 #   ADMIN_AREA OBJECTID ORC_PRIMRY ORC_SCNDRY SRV_GEN_PL                          PROT_NAME
@@ -141,13 +145,16 @@ pep_bc_shp_file  <- file.path(dir_anx, '_raw_data/databc',
 # 6    PROVINCIAL PARK        PP    Class A FA02550271    NA
 pep_bc_rast_file <- file.path(dir_rast, 'rast_pep_bc_500m.tif')
 
-pep_sf <- read_sf(pep_bc_shp_file)
-rast_pep <- fasterize::fasterize(pep_sf, rast_base,
-                                  field = 'OBJECTID',
-                                  fun = 'min')
-
-values(rast_pep)[!is.na(values(rast_pep))] <- -1
-writeRaster(rast_pep, pep_bc_rast_file, overwrite = TRUE)
+if(!file.exists(pep_bc_rast_file) | reload) {
+  
+  pep_sf <- read_sf(pep_bc_shp_file)
+  rast_pep <- fasterize::fasterize(pep_sf, rast_base,
+                                    field = 'OBJECTID',
+                                    fun = 'min')
+  
+  values(rast_pep)[!is.na(values(rast_pep))] <- -1
+  writeRaster(rast_pep, pep_bc_rast_file, overwrite = TRUE)
+}
 
 ```
 
@@ -179,16 +186,18 @@ tribal_shp_file  <- file.path(dir_anx, '_raw_data/tribal_parks',
 
 tribal_rast_file <- file.path(dir_rast, 'rast_tribal_500m.tif')
 
-### No numeric field available; create a dummy attribute for rasterization
-shp_tribal <- read_sf(tribal_shp_file)
-shp_tribal$tmp_id <- -2
+if(!file.exists(tribal_rast_file) | reload) {
 
-rast_tribal <- fasterize::fasterize(shp_tribal, rast_base,
-                                  field = 'tmp_id',
-                                  fun = 'min')
-
-writeRaster(rast_tribal, tribal_rast_file, overwrite = TRUE)
-
+  ### No numeric field available; create a dummy attribute for rasterization
+  shp_tribal <- read_sf(tribal_shp_file)
+  shp_tribal$tmp_id <- -2
+  
+  rast_tribal <- fasterize::fasterize(shp_tribal, rast_base,
+                                    field = 'tmp_id',
+                                    fun = 'min')
+  
+  writeRaster(rast_tribal, tribal_rast_file, overwrite = TRUE)
+}
 ```
 
 ### Rasterize MaPP zones
@@ -208,73 +217,74 @@ mapp_shp_files  <- list.files(file.path(dir_anx, '_raw_data/mapp',
 lsp_mapp_shp_file <- file.path(dir_goal_anx, 'shp/mapp_lsp_zones.shp')
 mpa_mapp_shp_file <- file.path(dir_goal_anx, 'shp/mapp_mpa_zones.shp')
 
-####################################=
-### Start with MaPP MPA zones
-####################################=
-mapps <- lapply(mapp_shp_files, 
-                FUN = function(x) {
-                  sf::read_sf(x)
-                }) %>%
-  setNames(basename(mapp_shp_files) %>% str_replace('_.+', ''))
-
-mapp_nc <- mapps[['NorthCoast']]
-mapp_nc <- mapp_nc %>%
-  select(rgn = SubRegion, type = Type, mgmt = Management, 
-         obj = Objective, name = Name)
-mapp_nc <- mapp_nc %>%
-  filter(is.na(mgmt) | 
-           !str_detect(tolower(mgmt), 
-                       'renewable|aquaculture|future planning'))
-
-mapp_hg <- mapps[['HaidaGwaii']]
-mapp_hg <- mapp_hg %>%
-  select(rgn = SubRegion, type = Type, mgmt = Management, 
-         obj = Objective, name = Name)
-mapp_hg <- mapp_hg %>%
-  filter(is.na(mgmt) | 
-           !str_detect(tolower(mgmt), 
-                       'alt.energy|shellfish aq'))
-
-mapp_cc <- mapps[['CentralCoast']]
-mapp_cc <- mapp_cc %>%
-  select(rgn = SubRegion, type = Type, mgmt = ZoneType, 
-         obj = AreaDecri, name = Group_)
-mapp_cc <- mapp_cc %>%
-  filter(is.na(mgmt) | 
-           !str_detect(tolower(mgmt), 
-                       'renewable|aquaculture'))
-
-mapp_nvi <- mapps[['NorthVancouverIsland']]
-mapp_nvi <- mapp_nvi %>%
-  select(rgn = SubRegion, type = Type, mgmt = Management, 
-         obj = AreaDescri, name = Name)
-mapp_nvi <- mapp_nvi %>%
-  filter(is.na(mgmt) | 
-           !str_detect(tolower(mgmt), 
-                       'renewable|aquaculture'))
-
-
-mapp_mpas <- rbind(mapp_nc, mapp_hg, mapp_cc, mapp_nvi) %>%
-  mutate(year = 2015) %>%
-  st_zm()
-  ### st_zm() drops z and m dimensions
-
-st_write(mapp_mpas, mpa_mapp_shp_file, driver = 'ESRI Shapefile',
-         delete_layer = TRUE)
-
-####################################=
-### Now for LSP zones
-####################################=
-lsp_keywords <- c('tradition', 'cultur', 'historic', 
-                  'first n', 'recreat', 'haida')
+if(any(!file.exists(c(lsp_mapp_shp_file, mpa_mapp_shp_file))) | reload) {
+  ####################################=
+  ### Start with MaPP MPA zones
+  ####################################=
+  mapps <- lapply(mapp_shp_files, 
+                  FUN = function(x) {
+                    sf::read_sf(x)
+                  }) %>%
+    setNames(basename(mapp_shp_files) %>% str_replace('_.+', ''))
   
-mapp_lsp <- mapp_mpas %>%
-  filter(str_detect(tolower(obj), paste(lsp_keywords, collapse = '|')))
+  mapp_nc <- mapps[['NorthCoast']]
+  mapp_nc <- mapp_nc %>%
+    select(rgn = SubRegion, type = Type, mgmt = Management, 
+           obj = Objective, name = Name)
+  mapp_nc <- mapp_nc %>%
+    filter(is.na(mgmt) | 
+             !str_detect(tolower(mgmt), 
+                         'renewable|aquaculture|future planning'))
   
-
-st_write(mapp_lsp, lsp_mapp_shp_file, driver = 'ESRI Shapefile',
-         delete_layer = TRUE)
-
+  mapp_hg <- mapps[['HaidaGwaii']]
+  mapp_hg <- mapp_hg %>%
+    select(rgn = SubRegion, type = Type, mgmt = Management, 
+           obj = Objective, name = Name)
+  mapp_hg <- mapp_hg %>%
+    filter(is.na(mgmt) | 
+             !str_detect(tolower(mgmt), 
+                         'alt.energy|shellfish aq'))
+  
+  mapp_cc <- mapps[['CentralCoast']]
+  mapp_cc <- mapp_cc %>%
+    select(rgn = SubRegion, type = Type, mgmt = ZoneType, 
+           obj = AreaDecri, name = Group_)
+  mapp_cc <- mapp_cc %>%
+    filter(is.na(mgmt) | 
+             !str_detect(tolower(mgmt), 
+                         'renewable|aquaculture'))
+  
+  mapp_nvi <- mapps[['NorthVancouverIsland']]
+  mapp_nvi <- mapp_nvi %>%
+    select(rgn = SubRegion, type = Type, mgmt = Management, 
+           obj = AreaDescri, name = Name)
+  mapp_nvi <- mapp_nvi %>%
+    filter(is.na(mgmt) | 
+             !str_detect(tolower(mgmt), 
+                         'renewable|aquaculture'))
+  
+  
+  mapp_mpas <- rbind(mapp_nc, mapp_hg, mapp_cc, mapp_nvi) %>%
+    mutate(year = 2015) %>%
+    st_zm()
+    ### st_zm() drops z and m dimensions
+  
+  st_write(mapp_mpas, mpa_mapp_shp_file, driver = 'ESRI Shapefile',
+           delete_layer = TRUE)
+  
+  ####################################=
+  ### Now for LSP zones
+  ####################################=
+  lsp_keywords <- c('tradition', 'cultur', 'historic', 
+                    'first n', 'recreat', 'haida')
+    
+  mapp_lsp <- mapp_mpas %>%
+    filter(str_detect(tolower(obj), paste(lsp_keywords, collapse = '|')))
+    
+  
+  st_write(mapp_lsp, lsp_mapp_shp_file, driver = 'ESRI Shapefile',
+           delete_layer = TRUE)
+}
 ```
 
 ``` {r rasterize_MaPP_lsp}
@@ -301,22 +311,40 @@ rast_mapp   <- raster(file.path(dir_rast, 'rast_mapp_lsp_500m.tif'))
 rast_tribal <- raster(file.path(dir_rast, 'rast_tribal_500m.tif'))
 rast_pep    <- raster(file.path(dir_rast, 'rast_pep_bc_500m.tif'))
 
-rast_lsp_file <- file.path(dir_rast, 'rast_lsp_500m.tif')
+rast_lsp_w_mapp_file <- file.path(dir_rast, 'rast_lsp_500m_w_mapp.tif')
 
-rast_lsp <- rast_wdpa
+if(!file.exists(rast_lsp_w_mapp_file) | reload) {
+  rast_lsp <- rast_wdpa
+  
+  ### The logic here: all rasters should line up.  An NA cell in the top-level
+  ### raster gets replaced by the matching cell in the next-level raster,
+  ### whether that's an NA or a new value.  And so on.
+  values(rast_lsp)[is.na(values(rast_lsp))] <-
+    values(rast_mapp)[is.na(values(rast_lsp))]
+  values(rast_lsp)[is.na(values(rast_lsp))] <- 
+    values(rast_tribal)[is.na(values(rast_lsp))]
+  values(rast_lsp)[is.na(values(rast_lsp))] <- 
+    values(rast_pep)[is.na(values(rast_lsp))]
+  
+  writeRaster(rast_lsp, rast_lsp_w_mapp_file, 
+              overwrite = TRUE)
+}
+  
+  ### repeat for non-MaPP version
+  
+rast_lsp_no_mapp_file <- file.path(dir_rast, 'rast_lsp_500m_no_mapp.tif')
 
-### The logic here: all rasters should line up.  An NA cell in the top-level
-### raster gets replaced by the matching cell in the next-level raster,
-### whether that's an NA or a new value.  And so on.
-values(rast_lsp)[is.na(values(rast_lsp))] <-
-  values(rast_mapp)[is.na(values(rast_lsp))]
-values(rast_lsp)[is.na(values(rast_lsp))] <- 
-  values(rast_tribal)[is.na(values(rast_lsp))]
-values(rast_lsp)[is.na(values(rast_lsp))] <- 
-  values(rast_pep)[is.na(values(rast_lsp))]
-
-writeRaster(rast_lsp, rast_lsp_file, 
-            overwrite = TRUE)
+if(!file.exists(rast_lsp_no_mapp_file) | reload) {
+  rast_lsp_no_mapp <- rast_wdpa
+  
+  values(rast_lsp_no_mapp)[is.na(values(rast_lsp_no_mapp))] <- 
+    values(rast_tribal)[is.na(values(rast_lsp_no_mapp))]
+  values(rast_lsp_no_mapp)[is.na(values(rast_lsp_no_mapp))] <- 
+    values(rast_pep)[is.na(values(rast_lsp_no_mapp))]
+  
+  writeRaster(rast_lsp_no_mapp, rast_lsp_no_mapp_file, 
+              overwrite = TRUE)
+}
 
 ```
 
@@ -327,7 +355,7 @@ writeRaster(rast_lsp, rast_lsp_file,
 Buffer shapefiles are located in `github/ohibc/prep/_spatial`.  Global LSP uses 1 km inland and 3nm offshore buffers, while resilience requires analysis over the entire EEZ.  For OHI Howe Sound, we used the inland extent of the entire Squamish watershed.  For OHIBC, we make a compromise: include coastal sub-watersheds that intersect with the 1 km buffer.
 
 * Rasterize the watersheds using the value of watershed ID to 500 m
-* Crosstabulate with the 500 m 1 km inland buffer to identify watersheds that intersect with the coastline
+* Crosstabulate with the 500m 1km inland buffer to identify watersheds that intersect with the coastline
 * create a raster of these features, with a rgn_id value to reflect the region ID with the greatest amount of overlap.
 
 The buffer rasters are created in a separate .R script: `r file.path(dir_spatial, '_rasterize_buffers.r')`.
@@ -336,34 +364,40 @@ The buffer rasters are created in a separate .R script: `r file.path(dir_spatial
 
 ``` {r plot raster}
 
-poly_3nm <- sf::read_sf(dsn = dir_spatial,
-                        layer = 'ohibc_offshore_3nm')
-map_ext <- st_bbox(poly_3nm)[c(1, 3, 2, 4)] %>%
-  extent()
-poly_land <- sf::read_sf(dsn = dir_spatial,
-                         layer = 'ohibc_us_can')
+map_file <- file.path(dir_goal, 'figs', 'protected_area_map.png')
 
-rast_inland <- raster(file.path(dir_spatial, 'watershed/ohibc_coastal_watersheds_500m.tif')) %>%
-  rasterToPoints() %>%
-  data.frame()  %>%
-  left_join(get_rgn_names(), by = c('ohibc_coastal_watersheds_500m' = 'rgn_id'))
-rast_lsp   <- raster(file.path(dir_rast, 'rast_lsp_500m.tif')) %>%
-  crop(map_ext) %>%
-  rasterToPoints() %>%
-  data.frame()
-
-ggplot() +
-  ggtheme_plot() +
-  geom_sf(data = poly_land, fill = 'grey80', size = .1, color = 'grey96') +
-  geom_raster(data = rast_inland, aes(x = x, y = y, fill = rgn_name)) +
-  geom_sf(data = poly_3nm, aes(fill = rgn_name), size = .1, color = 'grey96') +
-  geom_raster(data = rast_lsp,   aes(x = x, y = y), fill = 'red', alpha = .25) +
-  scale_fill_brewer(palette = 'Blues') +
-  theme(axis.title = element_blank())
-
-ggsave(file.path(dir_goal, 'figs', 'protected_area_map.png'), height = 5)
+if(!file.exists(map_file) | reload) {
+  poly_3nm <- sf::read_sf(dsn = dir_spatial,
+                          layer = 'ohibc_offshore_3nm')
+  map_ext <- st_bbox(poly_3nm)[c(1, 3, 2, 4)] %>%
+    extent()
+  poly_land <- sf::read_sf(dsn = dir_spatial,
+                           layer = 'ohibc_us_can')
+  
+  rast_inland <- raster(file.path(dir_spatial, 'watershed/ohibc_coastal_watersheds_500m.tif')) %>%
+    rasterToPoints() %>%
+    data.frame()  %>%
+    left_join(get_rgn_names(), by = c('ohibc_coastal_watersheds_500m' = 'rgn_id'))
+  rast_lsp   <- raster(file.path(dir_rast, 'rast_lsp_500m_no_mapp.tif')) %>%
+    crop(map_ext) %>%
+    rasterToPoints() %>%
+    data.frame()
+  
+  x <- ggplot() +
+    ggtheme_plot() +
+    geom_sf(data = poly_land, fill = 'grey80', size = .1, color = 'grey96') +
+    geom_raster(data = rast_inland, aes(x = x, y = y, fill = rgn_name)) +
+    geom_sf(data = poly_3nm, aes(fill = rgn_name), size = .1, color = 'grey96') +
+    geom_raster(data = rast_lsp,   aes(x = x, y = y), fill = 'red', alpha = .25) +
+    scale_fill_brewer(palette = 'Blues') +
+    theme(axis.title = element_blank())
+  
+  ggsave(map_file, height = 5)
+}
 
 ```
+
+![](figs/protected_area_map.png)
 
 -----
 
@@ -371,47 +405,96 @@ ggsave(file.path(dir_goal, 'figs', 'protected_area_map.png'), height = 5)
 
 ``` {r lsp_zonal_stats}
 
-zonal_3nm_file    <- file.path(dir_goal, 'int', 'zonal_stats_3nm.csv')
-zonal_inland_file <- file.path(dir_goal, 'int', 'zonal_stats_inland.csv')
+zonal_3nm_file    <- file.path(dir_goal, 'int', 'zonal_stats_3nm_no_mapp.csv')
+zonal_inland_file <- file.path(dir_goal, 'int', 'zonal_stats_inland_no_mapp.csv')
 
-rast_3nm_file    <- file.path(dir_spatial, 
-                              'raster/ohibc_offshore_3nm_raster_500m.tif')
-rast_inland_file <- file.path(dir_spatial, 
-                              'watershed/ohibc_coastal_watersheds_500m.tif')
-rast_lsp_file   <- file.path(dir_rast, 'rast_lsp_500m.tif')
+if(any(!file.exists(c(zonal_3nm_file, zonal_inland_file))) | reload) {
+  
+  rast_3nm_file    <- file.path(dir_spatial, 
+                                'raster/ohibc_offshore_3nm_raster_500m.tif')
+  rast_inland_file <- file.path(dir_spatial, 
+                                'watershed/ohibc_coastal_watersheds_500m.tif')
+  rast_lsp_file   <- file.path(dir_rast, 'rast_lsp_500m_no_mapp.tif')
+  
+  rast_3nm    <- raster(rast_3nm_file)
+  rast_inland <- raster(rast_inland_file)
+  rast_lsp    <- raster(rast_lsp_file)
+  
+  
+  ### NOTE: The crosstab function returns this warning - does it affect the
+  ### outcomes, or does the function coerce the correct outcome?
+      # Warning message:
+      # In FUN(X[[i]], ...) : integer overflow - use sum(as.numeric(.))
+  
+  ptm <- proc.time()
+  stats_3nm <- raster::crosstab(rast_lsp, rast_3nm, useNA = TRUE, 
+                                progress = 'text') %>%
+    as.data.frame() %>%
+    setNames(c('year', 'rgn_id', 'n_cells')) %>%
+    mutate(year   = as.integer(as.character(year)),
+           rgn_id = as.integer(as.character(rgn_id))) %>%
+    arrange(rgn_id, year)
+  
+  stats_inland <- raster::crosstab(rast_lsp, rast_inland, useNA = TRUE, 
+                                   progress = 'text') %>%
+    as.data.frame() %>%
+    setNames(c('year', 'rgn_id', 'n_cells')) %>%
+    mutate(year   = as.integer(as.character(year)),
+           rgn_id = as.integer(as.character(rgn_id))) %>%
+    arrange(rgn_id, year)
+  
+  message('Elapsed: ', (proc.time() - ptm)[3], ' sec')
+  
+  write_csv(stats_3nm, zonal_3nm_file)
+  write_csv(stats_inland, zonal_inland_file)
+}
+```
 
-rast_3nm    <- raster(rast_3nm_file)
-rast_inland <- raster(rast_inland_file)
-rast_lsp    <- raster(rast_lsp_file)
+``` {r lsp_zonal_stats_with_mapp}
 
+zonal_3nm_file_w_mapp    <- file.path(dir_goal, 'int', 'zonal_stats_3nm_w_mapp.csv')
+zonal_inland_file_w_mapp <- file.path(dir_goal, 'int', 'zonal_stats_inland_w_mapp.csv')
 
-### NOTE: The crosstab function returns this warning - does it affect the
-### outcomes, or does the function coerce the correct outcome?
-    # Warning message:
-    # In FUN(X[[i]], ...) : integer overflow - use sum(as.numeric(.))
+if(any(!file.exists(c(zonal_3nm_file_w_mapp, zonal_inland_file_w_mapp))) | reload) {
 
-ptm <- proc.time()
-stats_3nm <- raster::crosstab(rast_lsp, rast_3nm, useNA = TRUE, 
-                              progress = 'text') %>%
-  as.data.frame() %>%
-  setNames(c('year', 'rgn_id', 'n_cells')) %>%
-  mutate(year   = as.integer(as.character(year)),
-         rgn_id = as.integer(as.character(rgn_id))) %>%
-  arrange(rgn_id, year)
-
-stats_inland <- raster::crosstab(rast_lsp, rast_inland, useNA = TRUE, 
-                                 progress = 'text') %>%
-  as.data.frame() %>%
-  setNames(c('year', 'rgn_id', 'n_cells')) %>%
-  mutate(year   = as.integer(as.character(year)),
-         rgn_id = as.integer(as.character(rgn_id))) %>%
-  arrange(rgn_id, year)
-
-message('Elapsed: ', (proc.time() - ptm)[3], ' sec')
-
-write_csv(stats_3nm, zonal_3nm_file)
-write_csv(stats_inland, zonal_inland_file)
-
+  rast_3nm_file    <- file.path(dir_spatial, 
+                                'raster/ohibc_offshore_3nm_raster_500m.tif')
+  rast_inland_file <- file.path(dir_spatial, 
+                                'watershed/ohibc_coastal_watersheds_500m.tif')
+  rast_lsp_file   <- file.path(dir_rast, 'rast_lsp_500m_w_mapp.tif')
+  
+  rast_3nm    <- raster(rast_3nm_file)
+  rast_inland <- raster(rast_inland_file)
+  rast_lsp    <- raster(rast_lsp_file)
+  
+  
+  ### NOTE: The crosstab function returns this warning - does it affect the
+  ### outcomes, or does the function coerce the correct outcome?
+      # Warning message:
+      # In FUN(X[[i]], ...) : integer overflow - use sum(as.numeric(.))
+  
+  ptm <- proc.time()
+  stats_3nm <- raster::crosstab(rast_lsp, rast_3nm, useNA = TRUE, 
+                                progress = 'text') %>%
+    as.data.frame() %>%
+    setNames(c('year', 'rgn_id', 'n_cells')) %>%
+    mutate(year   = as.integer(as.character(year)),
+           rgn_id = as.integer(as.character(rgn_id))) %>%
+    arrange(rgn_id, year)
+  
+  stats_inland <- raster::crosstab(rast_lsp, rast_inland, useNA = TRUE, 
+                                   progress = 'text') %>%
+    as.data.frame() %>%
+    setNames(c('year', 'rgn_id', 'n_cells')) %>%
+    mutate(year   = as.integer(as.character(year)),
+           rgn_id = as.integer(as.character(rgn_id))) %>%
+    arrange(rgn_id, year)
+  
+  message('Elapsed: ', (proc.time() - ptm)[3], ' sec')
+  
+  write_csv(stats_3nm, zonal_3nm_file_w_mapp)
+  write_csv(stats_inland, zonal_inland_file_w_mapp)
+}
 ```
 
 Once the WDPA raster is cross-tabulated against the OHI region rasters (both 3 nm offshore and 1 km inland) we have the number of protected cells, identified by year of protection, within each region.  NA values are unprotected cells.  The total of NA and valued cells gives total area of each region.
@@ -441,10 +524,7 @@ Since the cells are 500 m on a side, we can easily calculate area by multiplying
 Finally we can calculate the status of a region for any given year by finding the ratio of protected:total and normalizing by the goal's target of 30% protected area.
 
 
-``` {r summarize_zonal_stats}
-
-zonal_3nm_file    <- file.path(dir_goal, 'int', 'zonal_stats_lsp_3nm.csv')
-zonal_inland_file <- file.path(dir_goal, 'int', 'zonal_stats_lsp_inland.csv')
+``` {r summarize_zonal_stats_no_mapp}
 
 lsp_thresh <- 0.30
 
@@ -495,6 +575,56 @@ write_csv(lsp_inland, file.path(dir_goal, 'int', 'area_lsp_inland.csv'))
 
 ```
 
+``` {r summarize_zonal_stats_w_mapp}
+
+lsp_thresh <- 0.30
+
+rgn_names <- get_rgn_names()
+
+stats_3nm    <- read_csv(zonal_3nm_file_w_mapp)
+stats_inland <- read_csv(zonal_inland_file_w_mapp)
+
+### Determine total cells per region (n_cells_tot) and then a cumulative
+### total of cells per region.
+lsp_inland <- stats_inland %>%
+  group_by(rgn_id) %>%
+  arrange(rgn_id, year) %>%
+  mutate(n_cells_tot = sum(n_cells),
+         n_cells_cum = cumsum(n_cells),
+         a_tot_km2   = n_cells_tot / 4,
+         a_prot_km2  = n_cells_cum / 4) %>%
+  complete(year = full_seq(1990:2016, 1), nesting(rgn_id)) %>%
+  fill(-year, -rgn_id, -n_cells) %>%
+  filter(!is.na(rgn_id)) %>%
+  ungroup() %>%
+  mutate(pct_prot   = round(n_cells_cum / n_cells_tot, 4),
+         lsp_status = round(ifelse(pct_prot > lsp_thresh, 1, (pct_prot / lsp_thresh)), 2)) %>%
+  left_join(rgn_names, by = 'rgn_id') %>%
+  distinct()
+
+lsp_3nm <- stats_3nm %>%
+  group_by(rgn_id) %>%
+  arrange(rgn_id, year) %>%
+  mutate(n_cells_tot = sum(n_cells),
+         n_cells_cum = cumsum(n_cells),
+         a_tot_km2   = n_cells_tot / 4,
+         a_prot_km2  = n_cells_cum / 4) %>%
+  complete(year = full_seq(1990:2016, 1), nesting(rgn_id)) %>%
+  fill(-year, -rgn_id, -n_cells) %>%
+  filter(!is.na(rgn_id)) %>%
+  ungroup() %>%
+  filter(!is.na(year))  %>% 
+    ### this ditches non-protected cell counts but already 
+    ### counted in n_cells_tot
+  mutate(pct_prot   = round(n_cells_cum / n_cells_tot, 4),
+         lsp_status = round(ifelse(pct_prot > lsp_thresh, 1, (pct_prot / lsp_thresh)), 2)) %>%
+  left_join(rgn_names, by = 'rgn_id') %>%
+  distinct()
+
+write_csv(lsp_3nm, file.path(dir_goal, 'int', 'area_lsp_3nm_w_mapp.csv'))
+write_csv(lsp_inland, file.path(dir_goal, 'int', 'area_lsp_inland_w_mapp.csv'))
+
+```
 
 ### Protected areas and status (3 nm offshore, 2010+ only):
 
@@ -570,7 +700,57 @@ write_csv(lsp_df %>%
 
 ```
 
-We save outputs for the following layers:
+``` {r combine_inland_and_offshore_w_mapp}
+
+lsp_3nm1 <- read_csv(file.path(dir_goal, 'int', 'area_lsp_3nm_w_mapp.csv'))
+lsp_inland1 <- read_csv(file.path(dir_goal, 'int', 'area_lsp_inland_w_mapp.csv'))
+
+lsp_df1 <- lsp_inland1 %>%
+  dplyr::select(rgn_id, year, rgn_name,
+                lsp_st_inland = lsp_status,
+                a_prot_inland = a_prot_km2,
+                a_tot_inland  = a_tot_km2) %>%
+  full_join(lsp_3nm1 %>% 
+              dplyr::select(rgn_id, year, rgn_name,
+                            lsp_st_3nm = lsp_status,
+                            a_prot_3nm = a_prot_km2,
+                            a_tot_3nm  = a_tot_km2),
+            by = c('rgn_id', 'rgn_name', 'year')) %>%
+  mutate(lsp_st_inland = ifelse(is.na(lsp_st_inland), 0, lsp_st_inland),
+         lsp_st_3nm = ifelse(is.na(lsp_st_3nm), 0, lsp_st_3nm),
+         lsp_status = (lsp_st_inland + lsp_st_3nm) / 2) %>%
+  distinct()
+
+write_csv(lsp_df1, file.path(dir_goal, 'int', 'area_lsp_total_w_mapp.csv'))
+
+a_lsp_inland_file   <- file.path(dir_goal, 'output', 
+                                  'lsp_protected_inland_ws_w_mapp.csv')
+a_lsp_offshore_file <- file.path(dir_goal, 'output', 
+                                  'lsp_protected_offshore3nm_w_mapp.csv')
+a_tot_inland_file    <- file.path(dir_goal, 'output', 
+                                  'lsp_a_total_inland_ws_w_mapp.csv')
+a_tot_offshore_file  <- file.path(dir_goal, 'output', 
+                                  'lsp_a_total_offshore3nm_w_mapp.csv')
+
+write_csv(lsp_df1 %>% 
+            select(rgn_id, year, a_prot_inland), 
+          a_lsp_inland_file)
+
+write_csv(lsp_df1 %>% 
+            select(rgn_id, year, a_prot_3nm), 
+          a_lsp_offshore_file)
+
+write_csv(lsp_df1 %>% 
+            select(rgn_id, year, a_tot_inland), 
+          a_tot_inland_file)
+
+write_csv(lsp_df1 %>% 
+            select(rgn_id, year, a_tot_3nm), 
+          a_tot_offshore_file)
+
+```
+
+We save outputs for the following layers (also versions with MaPP regions for later comparison):
 
 * ``r a_lsp_inland_file``: inland protected area (km^2^) for each region (since 1980)
 * ``r a_lsp_offshore_file``: offshore protected area  (km^2^) for each region (since 1980)
@@ -620,6 +800,46 @@ write_csv(lsp_status_trend_summary, file.path(dir_goal, 'summary', 'lsp_status_t
 
 ```
 
+``` {r estimate status and trend by year w mapp}
+
+lsp_df <- read_csv(file.path(dir_goal, 'int', 'area_lsp_total_w_mapp.csv'))
+
+status_df <- lsp_df %>% 
+  select(rgn_id, year, lsp_status)
+
+trend_span <- 10
+
+trend_df <- data.frame()
+for (i in 1990:2016) { # i <- 2013
+  tmp_status <- status_df %>%
+    filter(year <= i & year > (i - trend_span))
+  tmp_trend <- tmp_status %>%
+    group_by(rgn_id) %>%
+    do(trend_lm = lm(lsp_status ~ year, data = .)$coefficients[2]) %>%
+    mutate(year     = i,
+           trend_lm = unlist(trend_lm))
+
+  trend_df <- trend_df %>%
+    bind_rows(tmp_trend)
+}
+
+trend_df1 <- status_df %>%
+  left_join(trend_df, by = c('rgn_id', 'year')) %>%
+  mutate(lsp_trend = round(trend_lm / lag(lsp_status, trend_span), 5) * 5,
+         lsp_trend = ifelse(lsp_trend < -1, -1, lsp_trend),
+         lsp_trend = ifelse(lsp_trend > 1, 1, lsp_trend)) %>% ### clip to +/- 1
+  filter(!is.na(lsp_trend)) %>%
+  select(-lsp_status, -trend_lm)
+
+lsp_status_trend_summary <- rgn_names %>% 
+  left_join(status_df, by = 'rgn_id') %>% 
+  left_join(trend_df1, by = c('rgn_id', 'year')) %>%
+  arrange(desc(year), rgn_id) %>%
+  filter(year >= 1990)
+
+write_csv(lsp_status_trend_summary, file.path(dir_goal, 'summary', 'lsp_status_trend_w_mapp.csv'))
+
+```
 
 ### Status and trend estimates:
 
@@ -647,6 +867,40 @@ status_ts_plot <- ggplot(lsp_status_trend_summary %>%
   labs(x = 'year',
        y = 'LSP status',
        title = 'LSP status over time',
+       color = 'Region')
+
+print(status_ts_plot)
+
+trend_ts_plot <- ggplot(lsp_status_trend_summary %>%
+                           filter(!is.na(year) &!is.na(lsp_trend)),
+                         aes(x = year, y = lsp_trend, color = rgn_name, group = rgn_name)) +
+  ggtheme_plot() +
+  geom_line(size = 2, alpha = .6) +
+  scale_color_brewer(palette = 'Dark2') +
+  labs(x = 'year',
+       y = 'LSP trend',
+       title = 'LSP trend over time',
+       color = 'Region')
+
+print(trend_ts_plot)
+
+```
+
+### scores over time with MaPP included
+
+``` {r spp_plot_scores_over_time_w_mapp, fig.height = 4, fig.width = 6, fig.align = 'center'}
+
+lsp_status_trend_summary <- read_csv(file.path(dir_goal, 'summary', 'lsp_status_trend_w_mapp.csv'))
+
+status_ts_plot <- ggplot(lsp_status_trend_summary %>%
+                           filter(!is.na(year)),
+                         aes(x = year, y = lsp_status, color = rgn_name, group = rgn_name)) +
+  ggtheme_plot() +
+  geom_line(size = 2, alpha = .6) +
+  scale_color_brewer(palette = 'Dark2') +
+  labs(x = 'year',
+       y = 'LSP status',
+       title = 'LSP status over time, incl MaPP',
        color = 'Region')
 
 print(status_ts_plot)
