@@ -22,6 +22,7 @@ knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       echo = TRUE, message = FALSE, warning = FALSE)
 
 source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+source('https://raw.githubusercontent.com/oharac/src/master/R/common.R')
 
 library(lubridate)
 
@@ -47,7 +48,7 @@ p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 
 This data is incorporated into the OHI British Columbia Clean Waters (CW) goal and the Artisanal Opportunities (AO) goal.
 
-***
+-----
 
 # Data Source
 
@@ -58,7 +59,7 @@ This data is incorporated into the OHI British Columbia Clean Waters (CW) goal a
 * __Time range__: [e.g., 1880-1899, monthly data provided for each year] 
 * __Format__:  [e.g. NetCDF]
 
-***
+-----
 
 # Methods
 
@@ -546,10 +547,9 @@ write_csv(closures_by_year_and_type, file.path('int/closures_by_year_and_type.cs
 
 <!-- ### Maps of closures -->
 
-``` {r plot_closures, eval = FALSE}
+``` {r plot_closures}
 
-library(tmap)
-library(rgdal)
+library(sf)
 
 closures_yr <- read_csv(file.path('int/closures_by_year.csv')) %>%
   filter(year == 2015) %>%
@@ -559,50 +559,42 @@ closures_yr_noseasonal <- read_csv(file.path('int/closures_by_year_excl_seasonal
   filter(year == 2015) %>%
   rename(days_closed_no_seasonal = total_days_closed) %>%
   select(-year)
-                                   
-area_map <- readOGR(dsn = file.path(dir_anx, '_raw_data/dfo_khunter', 
-                              'd2016/management_boundaries',
-                              'pac_fishery_mgmt_subareas'),
-                    layer = 'DFO_BC_PFMA_SUBAREAS_50K_V3_1')
 
-area_map@data <- area_map@data %>%
-  setNames(tolower(names(area_map@data))) %>%
+dfo_subareas_shp <- file.path(dir_anx, '_raw_data/dfo_khunter', 
+                              'management_boundaries/d2016',
+                              'pac_fishery_mgmt_subareas',
+                              'DFO_BC_PFMA_SUBAREAS_50K_V3_1.shp')
+                                 
+area_map <- read_sf(dfo_subareas_shp) %>%
+  setNames(tolower(names(.))) %>%
   left_join(closures_yr, by = c('mgnt_area' = 'area', 'subarea_' = 'subarea')) %>%
   left_join(closures_yr_noseasonal, by = c('mgnt_area' = 'area', 'subarea_' = 'subarea'))
     
-area_map_plot <- tm_shape(area_map) +
-  tm_polygons(col = 'days_closed_all',
-              palette = 'Reds',
-              border.alpha = 0,
-              breaks = c(0, 10, 50, 100, 200, 350, 365),
-              showNA = FALSE,
-              title = 'Days closed (including seasonal closures)')
+map_closures_all <- ggplot(area_map) +
+  ggtheme_map() +
+  geom_sf(aes(fill = days_closed_all), size = .1) +
+  coord_sf(datum = NA) +
+  scale_fill_viridis_c(breaks = c(0, 10, 50, 100, 200, 350, 365)) +
+  labs(title = 'Days closed (including seasonal closures)',
+       fill = 'Days closed')
 
-area_map_plot2 <- tm_shape(area_map) +
-  tm_polygons(col = 'days_closed_no_seasonal',
-              palette = 'Reds',
-              border.alpha = 0,
-              breaks = c(0, 10, 50, 100, 200, 350, 365),
-              showNA = FALSE,
-              title = 'Days closed (excluding seasonal closures)')
+ggsave(file.path(dir_goal, 'int/map_closures_all.png'), width = 5, height = 4, dpi = 300)
 
-print(area_map_plot)
+map_closures_no_seasonal <- ggplot(area_map) +
+  ggtheme_map() +
+  geom_sf(aes(fill = days_closed_no_seasonal), size = .1) +
+  coord_sf(datum = NA) +
+  scale_fill_viridis_c(breaks = c(0, 10, 50, 100, 200, 350, 365)) +
+  labs(title = 'Days closed (excluding seasonal closures)',
+       fill = 'Days closed')
 
-print(area_map_plot2)
-
-save_tmap(area_map_plot +
-  tm_layout(legend.title.size = .3,
-            legend.text.size = .25), 
-  file.path(dir_goal, 'int/map_closures_all.png'),
-  width = 500)
-
-save_tmap(area_map_plot2 +
-  tm_layout(legend.title.size = .3,
-            legend.text.size = .25), 
-  file.path(dir_goal, 'int/map_closures_no_seasonal.png'),
-  width = 500)
+ggsave(file.path(dir_goal, 'int/map_closures_no_seasonal.png'), width = 5, height = 4, dpi = 300)
 
 ```
+
+![](int/map_closures_all.png)
+
+![](int/map_closures_no_seasonal.png)
 
 ## Assign area-weighted closures to OHIBC regions
 
@@ -721,8 +713,42 @@ ggplot(closures_rgn_yr, aes(x = year, y = days_avg, group = rgn_id)) +
 
 ```
 
+### Closures incl/excl seasonal, effects on scores
 
-***
+``` {r} 
+
+pfmsa_3nm_df <- read_csv(file.path(dir_goal, 'int/closure_pfmsa_to_rgn.csv')) %>%
+  separate(pfmsa_id, c('area', 'subarea'), sep = '-', convert = TRUE)
+
+# closures_yr <- read_csv(file.path('int/closures_by_year_excl_seasonal.csv')) %>%
+closures_yr_incl <- read_csv(file.path('int/closures_by_year.csv')) %>%
+  rename(days_incl = total_days_closed)
+closures_yr_excl <- read_csv(file.path('int/closures_by_year_excl_seasonal.csv')) %>%
+  rename(days_excl = total_days_closed)
+
+closures_yr <- closures_yr_incl %>%
+  left_join(closures_yr_excl, by = c('area', 'subarea', 'year')) %>%
+  left_join(pfmsa_3nm_df, by = c('area', 'subarea'))
+
+closures_rgn_yr <- closures_yr %>%
+  group_by(rgn_id, year) %>%
+  summarize(included = sum(days_incl * area_km2 / a_tot_km2),
+            excluded = sum(days_excl * area_km2 / a_tot_km2)) %>%
+  ungroup() %>%
+  filter(year %in% c(2009:2015)) %>%
+  filter(!is.na(rgn_id)) %>%
+  gather(seasonal, days, ends_with('cluded'))
+
+ggplot(closures_rgn_yr, aes(x = year, y = days, color = seasonal)) +
+  ggtheme_plot() +
+  geom_line(aes(linetype = seasonal)) +
+  geom_point() +
+  ylim(c(0, 365)) +
+  facet_wrap( ~ rgn_id)
+
+```
+
+-----
 
 ``` {r prov_footer, results = 'asis'}
 prov_wrapup()

@@ -231,6 +231,35 @@ ggplot(shi_rgn, aes(x = year, y = date_mean, group = area)) +
 
 ```
 
+``` {r}
+
+shi_df1 <- read_csv(file.path(dir_goal, 'int/shi_data.csv')) %>%
+  filter(str_detect(area, 'Section')) %>%
+  mutate(area_fct = fct_inorder(area))
+
+section_plot <- ggplot(shi_df1, aes(x = area_fct, y = spawn_hab_index)) +
+  ggtheme_plot() +
+  geom_point(aes(color = year), show.legend = FALSE) +
+  geom_violin(color = 'red', fill = 'red', alpha = .5) +
+  theme(axis.text.x = element_text(angle = 90)) +
+  labs(title = 'Distribution of SHI by section')
+
+shi_df1_summary <- shi_df1 %>%
+  group_by(area) %>%
+  summarize(shi_mean = mean(spawn_hab_index),
+            shi_sd   = sd(spawn_hab_index),
+            shi_cv   = shi_sd / shi_mean)
+
+section_dist <- ggplot(shi_df1_summary, aes(x = shi_mean, y = shi_cv)) +
+  ggtheme_plot() +
+  geom_point() +
+  geom_hline(yintercept = 1) +
+  ylim(c(0, NA)) +
+  scale_x_log10()
+```
+
+Areas with higher mean SHI have lower coefficient of variance around the mean.
+
 ### Spatialize Spawn Habitat Index data
 
 Most herring sections fall squarely within one of the existing OHIBC regions.  However, a few sections cross between two OHIBC regions (Sections 67, 135, and 136); to spatialize SHI data from these, we explored two methods.
