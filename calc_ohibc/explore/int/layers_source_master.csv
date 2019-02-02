@@ -8,7 +8,7 @@ ao_spawn_hab_index.csv,ao_spawn_hab_index,Tue Apr 18 15:28:14 2017 -0700,ohibc:p
 prs_aq_benthic.csv,aq_benthic,Wed Sep 6 16:52:42 2017 -0700,ohibc:prep/mar/v2017/data_prep_aq_prs_res.Rmd,ohibc:prep/mar/v2017/output
 prs_aq_incidental.csv,aq_incidental,Wed Sep 6 16:52:42 2017 -0700,ohibc:prep/mar/v2017/data_prep_aq_prs_res.Rmd,ohibc:prep/mar/v2017/output
 prs_aq_mammals.csv,aq_mammals,Wed Sep 6 16:52:42 2017 -0700,ohibc:prep/mar/v2017/data_prep_aq_prs_res.Rmd,ohibc:prep/mar/v2017/output
-res_aq_regulations.csv,aq_regulation,Wed Sep 6 16:52:42 2017 -0700,ohibc:prep/mar/v2017/data_prep_aq_prs_res.Rmd,ohibc:prep/mar/v2017/output
+res_aq_regulations.csv,aq_regulation,Mon Oct 8 18:02:46 2018 -0700,ohibc:prep/mar/v2017/data_prep_aq_prs_res.Rmd,ohibc:prep/mar/v2017/output
 prs_oa_layer.csv,cc_acid,Wed Jul 19 12:14:33 2017 -0700,ohibc:prep/_pressures/v2017/pressures_oa_prep.Rmd,ohibc:prep/_pressures/v2017/output
 prs_slr_layer.csv,cc_slr,Mon Jul 31 17:23:53 2017 -0700,ohibc:prep/_pressures/v2017/pressures_slr_prep.Rmd,ohibc:prep/_pressures/v2017/output
 prs_sst_layer.csv,cc_sst,Wed Jul 19 19:46:33 2017,ohibc:prep/_pressures/v2017/pressures_sst_prep.Rmd,ohibc:prep/_pressures/v2017/output
@@ -28,16 +28,16 @@ rgn_catch_summary.csv,fis_rgn_catch_summary,Fri Jun 29 13:56:44 2018 -0700,ohibc
 prs_discards_fish_layer.csv,fp_fis_discards,Thu Oct 5 16:20:39 2017 -0700,ohibc:prep/_pressures/v2017/pressures_fishing_prep.Rmd,ohibc:prep/_pressures/v2017/output
 prs_landings_fish_layer.csv,fp_fis_landings,Thu Oct 5 16:20:39 2017 -0700,ohibc:prep/_pressures/v2017/pressures_fishing_prep.Rmd,ohibc:prep/_pressures/v2017/output
 fp_fishing_regs.csv,fp_biomass_removal,Wed Oct 25 12:40:38 2017 -0700,ohibc:prep/_resilience/v2017/data_prep_fp_biomass_resilience.Rmd,ohibc:prep/_resilience/v2017/output
-mpa_pct_3nm.csv,fp_mpa_coast,Wed Oct 25 12:40:38 2017 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
-mpa_pct_eez.csv,fp_mpa_eez,Wed Oct 25 12:40:38 2017 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
+mpa_pct_3nm.csv,fp_mpa_coast,Sun Oct 7 13:44:45 2018 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
+mpa_pct_eez.csv,fp_mpa_eez,Sun Oct 7 13:44:45 2018 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
 hab_ebsa_trawl.csv,hab_ebsa_health,Wed Aug 23 11:30:55 2017 -0700,ohibc:prep/hab_cs_cp/v2017/3_data_prep_hab_ebsa_sb.Rmd,ohibc:prep/hab_cs_cp/v2017/output
 hab_ebsa_trawl.csv,hab_ebsa_health,Thu Apr 6 09:10:31 2017 -0700,ohibc:prep/hab_cs_cp/v2017/data_prep_hab_ebsa_sb.Rmd,ohibc:prep/hab_cs_cp/v2017/output
 hab_soft_btm_trawl.csv,hab_sb_health,Wed Aug 23 11:30:55 2017 -0700,ohibc:prep/hab_cs_cp/v2017/3_data_prep_hab_ebsa_sb.Rmd,ohibc:prep/hab_cs_cp/v2017/output
 hab_sm_area.csv,hab_sm_health,Tue Aug 22 16:36:27 2017 -0700,ohibc:prep/hab_cs_cp/v2017/2_data_prep_hab_sm_cf.Rmd,ohibc:prep/hab_cs_cp/v2017/output
 hab_sm_area.csv,hab_sm_health,Thu Apr 6 09:10:31 2017 -0700,ohibc:prep/hab_cs_cp/v2017/data_prep_hab_sm_cf.Rmd,ohibc:prep/hab_cs_cp/v2017/output
 prs_hd_intertidal.csv,hd_intertidal,Mon Aug 28 17:32:30 2017 -0700,ohibc:prep/_pressures/v2017/pressures_hd_intertidal_prep.Rmd,ohibc:prep/_pressures/v2017/output
-mpa_pct_3nm.csv,hd_mpa_coast,Wed Oct 25 12:40:38 2017 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
-mpa_pct_eez.csv,hd_mpa_eez,Wed Oct 25 12:40:38 2017 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
+mpa_pct_3nm.csv,hd_mpa_coast,Sun Oct 7 13:44:45 2018 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
+mpa_pct_eez.csv,hd_mpa_eez,Sun Oct 7 13:44:45 2018 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
 prs_hd_soft_btm.csv,hd_subtidal_sb,Mon Aug 28 17:32:30 2017 -0700,ohibc:prep/_pressures/v2017/pressures_hd_intertidal_prep.Rmd,ohibc:prep/_pressures/v2017/output
 prs_mining.csv,hd_mining,Fri Dec 22 16:18:33 2017 -0800,ohibc:prep/_pressures/v2017/pressures_logging_prep.Rmd,ohibc:prep/_pressures/v2017/output
 prs_logging.csv,hd_logging,Sat Dec 2 13:31:03 2017 -0800,ohibc:prep/_pressures/v2017/pressures_logging_prep.Rmd,ohibc:prep/_pressures/v2017/output
@@ -48,13 +48,13 @@ lv_income_fn.csv,lv_income_fn,Wed Aug 8 08:16:44 2018 -0700,ohibc:prep/lv/v2017/
 lv_unempl_fn.csv,lv_unempl_fn,Wed Aug 8 08:16:44 2018 -0700,ohibc:prep/lv/v2017/data_prep_lv.Rmd,ohibc:prep/lv/v2017/output
 lv_income_nonfn.csv,lv_income_nonfn,Wed Aug 8 08:16:44 2018 -0700,ohibc:prep/lv/v2017/data_prep_lv.Rmd,ohibc:prep/lv/v2017/output
 lv_unempl_nonfn.csv,lv_unempl_nonfn,Wed Aug 8 08:16:44 2018 -0700,ohibc:prep/lv/v2017/data_prep_lv.Rmd,ohibc:prep/lv/v2017/output
-lsp_protected_inland_ws.csv,lsp_prot_area_inland_ws,Mon Jul 3 13:32:11 2017 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
+lsp_protected_inland_ws.csv,lsp_prot_area_inland_ws,Sun Oct 7 13:44:45 2018 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
 lsp_protected_inland_ws.csv,lsp_prot_area_inland_ws,Fri Jan 13 14:30:49 2017,ohibc:prep/lsp/v2017/goal_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
-lsp_protected_offshore3nm.csv,lsp_prot_area_offshore3nm,Mon Jul 3 13:32:11 2017 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
+lsp_protected_offshore3nm.csv,lsp_prot_area_offshore3nm,Sun Oct 7 13:44:45 2018 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
 lsp_protected_offshore3nm.csv,lsp_prot_area_offshore3nm,Thu Jan 5 17:32:42 2017 -0800,ohibc:prep/lsp/v2017/goal_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
-lsp_a_total_inland_ws.csv,lsp_tot_area_inland_ws,Mon Jul 3 13:32:11 2017 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
+lsp_a_total_inland_ws.csv,lsp_tot_area_inland_ws,Sun Oct 7 13:44:45 2018 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
 lsp_a_total_inland_ws.csv,lsp_tot_area_inland_ws,Fri Jan 13 14:30:49 2017,ohibc:prep/lsp/v2017/goal_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
-lsp_a_total_offshore3nm.csv,lsp_tot_area_offshore3nm,Mon Jul 3 13:32:11 2017 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
+lsp_a_total_offshore3nm.csv,lsp_tot_area_offshore3nm,Sun Oct 7 13:44:45 2018 -0700,ohibc:prep/lsp/v2017/data_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
 lsp_a_total_offshore3nm.csv,lsp_tot_area_offshore3nm,Thu Jan 5 17:32:42 2017 -0800,ohibc:prep/lsp/v2017/goal_prep_lsp.Rmd,ohibc:prep/lsp/v2017/output
 mapp_score.csv,mapp_resilience,Sun Oct  7 11:37:25 2018,ohibc:prep/_resilience/v2017/data_prep_mapp_resilience.Rmd,ohibc:prep/_resilience/v2017/output
 aq_harvest.csv,mar_harvest_tonnes,Wed Jun 28 10:56:54 2017 -0700,ohibc:prep/mar/v2017/data_prep_mar.Rmd,ohibc:prep/mar/v2017/output

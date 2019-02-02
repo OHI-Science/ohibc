@@ -1,0 +1,203 @@
+---
+title: 'OHIBC: Regression causal chain model'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes:
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('https://raw.githubusercontent.com/oharac/src/master/R/common.R')
+
+dir_ohibc  <- '~/github/ohibc'
+dir_calc   <- file.path(dir_ohibc, 'calc_ohibc')
+dir_master <- file.path(dir_calc, 'master')
+
+source(file.path(dir_calc, 'calc_scores_fxns.R'))
+
+### provenance tracking
+# library(provRmd); prov_setup()
+
+```
+
+
+# Regression model
+
+## Change in pressure vs. resilience
+
+The first link in the chain connects a management action now (time $t$) to changes in pressures in the future (time $t + \lambda$).  Framing this as proportional change in pressure, $\frac{p_{t+\lambda}}{p_{t}}$, examine the coefficient and significance of regulatory resilience.
+
+$$\frac{p_{t+\lambda}}{p_{t}} = \alpha + \beta r_{gov,t}$$
+$$\frac{p_{t+\lambda}}{p_{t}} = \alpha + \beta_1 r_{gov,t} + \beta_2 r_{soc,t} + \beta_3 r_{ecol,t}$$
+
+``` {r regress_prs_coefficients_res_components}
+
+### Set up basic data frame - make sure prs and res are 0-1; status
+### range not important here since we'll take a ratio inside a loop.
+
+res_reg <- read_csv(file.path(dir_calc, 'res_reg_only.csv')) %>%
+  select(goal, region_id, year, res_reg = score)
+res_soc <- read_csv(file.path(dir_calc, 'res_soc_only.csv')) %>%
+  select(goal, region_id, year, res_soc = score)
+res_ecol <- read_csv(file.path(dir_calc, 'res_ecol_only.csv')) %>%
+  select(goal, region_id, year, res_ecol = score)
+res_nonreg <- read_csv(file.path(dir_calc, 'res_nonreg_only.csv')) %>%
+  select(goal, region_id, year, res_nonreg = score)
+
+scores_rgn <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %>%
+# scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id != 0) %>%
+  spread(dimension, score) %>%
+  select(goal, region_id, year, status, trend, pressures) %>%
+  left_join(res_reg, by = c('goal', 'region_id', 'year')) %>%
+  left_join(res_soc, by = c('goal', 'region_id', 'year')) %>%
+  left_join(res_ecol, by = c('goal', 'region_id', 'year')) %>%
+  left_join(res_nonreg, by = c('goal', 'region_id', 'year')) %>%
+  group_by(goal, region_id) %>%
+  arrange(year) %>%
+  mutate(res_reg   = res_reg / 100,
+         res_soc   = res_soc / 100,
+         res_ecol  = res_ecol / 100,
+         res_nonreg = res_nonreg / 100,
+         pressures = pressures / 100) %>%
+  filter(!all(is.na(res_reg), is.na(res_soc), is.na(res_ecol)))
+
+scores_rgn <- scores_rgn %>%
+  filter(!is.na(res_reg))
+  
+goals <- scores_rgn$goal %>% 
+  unique() %>%
+  .[. != 'MAR'] ### remove MAR since too short of time span
+
+prs_res_reg <- data.frame()
+prs_res_all <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+    # cat(goalname, ', lag = ', yr_lag, '\n')
+    tmp_df <- scores_rgn %>%
+      filter(goal == goalname) %>%
+      mutate(obs_future_prs = lead(pressures, yr_lag),
+             prs_ratio = obs_future_prs/pressures) %>%
+      filter(!is.na(prs_ratio))
+    
+    tmp_mdl <- lm(prs_ratio ~ res_reg, data = tmp_df)
+    prs_res_reg_lm <- tmp_mdl %>%
+      broom::tidy() %>%
+      mutate(goal  = goalname,
+             n_obs = nrow(tmp_df),
+             years = length(tmp_df$year %>% unique()),
+             yr_lag = yr_lag,
+             r_squared = summary(tmp_mdl)$adj.r.squared)
+  
+    ### Where possible, separate ecol and soc resil; if not possible
+    ### (i.e. one is all NAs) use combined non-reg resil.
+    if(all(is.na(tmp_df$res_ecol)) | all(is.na(tmp_df$res_soc))) {
+      tmp_mdl <- lm(prs_ratio ~ res_reg + res_nonreg, 
+                    data = tmp_df)
+    } else {
+      tmp_mdl <- lm(prs_ratio ~ res_reg + res_soc + res_ecol, 
+                    data = tmp_df)
+    }
+    prs_res_all_lm <- tmp_mdl %>%
+      broom::tidy() %>%
+      mutate(goal  = goalname,
+             n_obs = nrow(tmp_df),
+             years = length(tmp_df$year %>% unique()),
+             yr_lag = yr_lag,
+             r_squared = summary(tmp_mdl)$adj.r.squared)
+
+    prs_res_reg <- bind_rows(prs_res_reg, prs_res_reg_lm)
+    prs_res_all <- bind_rows(prs_res_all, prs_res_all_lm)
+  }
+}
+
+write_csv(prs_res_reg,     'int/prs_res_reg_only.csv')
+write_csv(prs_res_all,     'int/prs_res_all.csv')
+
+```
+
+#### Change in pressure vs. regulatory resilience
+
+`r DT::datatable(prs_res_reg %>% mutate_if(is.double, ~ round(., 4)))`
+
+#### Change in pressure vs. all resilience
+
+`r DT::datatable(prs_res_all %>% mutate_if(is.double, ~ round(., 4)))`
+
+
+
+## Change in status vs. pressure
+
+The second link in the causal chain connects a change in pressure now (time $t$) to changes in status in the future (time $t + \lambda$).  Framing this as proportional change in status, $\frac{x_{t+\lambda}}{x_{t}}$, examine the coefficient and significance of pressure.
+
+$$\frac{x_{t+\lambda}}{x_{t}} = \alpha + \beta p_{t}$$
+
+``` {r regress_lfs_coefficients_prs}
+
+### Set up basic data frame - make sure prs and res are 0-1; status
+### range not important here since we'll take a ratio inside a loop.
+
+scores_rgn <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %>%
+# scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id != 0) %>%
+  spread(dimension, score) %>%
+  select(goal, region_id, year, status, pressures) %>%
+  group_by(goal, region_id) %>%
+  arrange(year) %>%
+  mutate(pressures = pressures / 100) %>%
+  filter(!is.na(pressures))
+
+goals <- scores_rgn$goal %>% 
+  unique() %>%
+  .[. != 'MAR'] ### remove MAR since too short of time span
+
+lfs_prs <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+    # cat(goalname, ', lag = ', yr_lag, '\n')
+    tmp_df <- scores_rgn %>%
+      filter(goal == goalname) %>%
+      mutate(obs_future_status = lead(status, yr_lag),
+             lfs_ratio = obs_future_status/status) %>%
+      filter(!is.na(lfs_ratio))
+    
+    tmp_mdl <- lm(lfs_ratio ~ pressures, data = tmp_df)
+    lfs_prs_lm <- tmp_mdl %>%
+      broom::tidy() %>%
+      mutate(goal  = goalname,
+             n_obs = nrow(tmp_df),
+             years = length(tmp_df$year %>% unique()),
+             yr_lag = yr_lag,
+             r_squared = summary(tmp_mdl)$adj.r.squared)
+
+    lfs_prs <- bind_rows(lfs_prs, lfs_prs_lm)
+  }
+}
+
+write_csv(lfs_prs,     'int/lfs_prs.csv')
+
+```
+
+#### Change in status vs. pressure
+
+`r DT::datatable(lfs_prs %>% mutate_if(is.double, ~ round(., 4)))`
+
+
