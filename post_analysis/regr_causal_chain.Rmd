@@ -39,10 +39,10 @@ source(file.path(dir_calc, 'calc_scores_fxns.R'))
 
 ## Change in pressure vs. resilience
 
-The first link in the chain connects a management action now (time $t$) to changes in pressures in the future (time $t + \lambda$).  Framing this as proportional change in pressure, $\frac{p_{t+\lambda}}{p_{t}}$, examine the coefficient and significance of regulatory resilience.
+The first link in the chain connects a management action now (time $t$) to changes in pressures in the future (time $t + \lambda$).  Framing this as proportional change in pressure, $\frac{p_{t+\lambda} - p_t}{p_{t}}$, examine the coefficient and significance of regulatory resilience.
 
-$$\frac{p_{t+\lambda}}{p_{t}} = \alpha + \beta r_{gov,t}$$
-$$\frac{p_{t+\lambda}}{p_{t}} = \alpha + \beta_1 r_{gov,t} + \beta_2 r_{soc,t} + \beta_3 r_{ecol,t}$$
+$$\%\Delta p_t = \frac{p_{t+\lambda} - p_t}{p_{t}} = \alpha + \beta r_{reg,t}$$
+$$\%\Delta p_t = \frac{p_{t+\lambda} - p_t}{p_{t}} = \alpha + \beta_1 r_{reg,t} + \beta_2 r_{soc,t} + \beta_3 r_{ecol,t}$$
 
 ``` {r regress_prs_coefficients_res_components}
 
@@ -83,7 +83,115 @@ goals <- scores_rgn$goal %>%
   unique() %>%
   .[. != 'MAR'] ### remove MAR since too short of time span
 
+
+```
+
+``` {r}
+
 prs_res_reg <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+    # cat(goalname, ', lag = ', yr_lag, '\n')
+    tmp_df <- scores_rgn %>%
+      filter(goal == goalname) %>%
+      mutate(obs_future_prs = lead(pressures, yr_lag),
+             d_prs = (obs_future_prs - pressures) / pressures) %>%
+      filter(!is.na(d_prs))
+    
+    ### just regulatory resilience
+    tmp_mdl <- lm(d_prs ~ res_reg, data = tmp_df)
+    prs_res_reg_lm <- tmp_mdl %>%
+      broom::tidy() %>%
+      mutate(goal  = goalname,
+             n_obs = nrow(tmp_df),
+             years = length(tmp_df$year %>% unique()),
+             yr_lag = yr_lag,
+             r_squared = summary(tmp_mdl)$adj.r.squared,
+             aic = AIC(tmp_mdl),
+             bic = BIC(tmp_mdl))
+    
+    prs_res_reg      <- bind_rows(prs_res_reg, prs_res_reg_lm)
+  }
+}
+
+write_csv(prs_res_reg, 'int/prs_res_reg_only.csv')
+
+```
+
+``` {r}
+
+prs_res_reg_soc  <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+    # cat(goalname, ', lag = ', yr_lag, '\n')
+    tmp_df <- scores_rgn %>%
+      filter(goal == goalname) %>%
+      mutate(obs_future_prs = lead(pressures, yr_lag),
+             d_prs = (obs_future_prs - pressures) / pressures) %>%
+      filter(!is.na(d_prs))
+    
+    ### just regulatory and social resilience
+    tmp_mdl <- lm(d_prs ~ res_reg + res_soc, data = tmp_df)
+    prs_res_reg_soc_lm <- tmp_mdl %>%
+      broom::tidy() %>%
+      mutate(goal  = goalname,
+             n_obs = nrow(tmp_df),
+             years = length(tmp_df$year %>% unique()),
+             yr_lag = yr_lag,
+             r_squared = summary(tmp_mdl)$adj.r.squared,
+             aic = AIC(tmp_mdl),
+             bic = BIC(tmp_mdl))
+    
+    prs_res_reg_soc  <- bind_rows(prs_res_reg_soc, prs_res_reg_soc_lm)
+  }
+}
+
+write_csv(prs_res_reg_soc,     'int/prs_res_reg_soc.csv')
+
+```
+
+``` {r res_reg and res_ecol}
+
+prs_res_reg_ecol <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+    # cat(goalname, ', lag = ', yr_lag, '\n')
+    tmp_df <- scores_rgn %>%
+      filter(goal == goalname) %>%
+      mutate(obs_future_prs = lead(pressures, yr_lag),
+             d_prs = (obs_future_prs - pressures) / pressures) %>%
+      filter(!is.na(d_prs))
+    
+    if(all(is.na(tmp_df$res_ecol))) next()
+    
+    ### just regulatory and ecological resilience
+    tmp_mdl <- lm(d_prs ~ res_reg + res_ecol, data = tmp_df)
+    prs_res_reg_ecol_lm <- tmp_mdl %>%
+      broom::tidy() %>%
+      mutate(goal  = goalname,
+             n_obs = nrow(tmp_df),
+             years = length(tmp_df$year %>% unique()),
+             yr_lag = yr_lag,
+             r_squared = summary(tmp_mdl)$adj.r.squared,
+             aic = AIC(tmp_mdl),
+             bic = BIC(tmp_mdl))
+
+    prs_res_reg_ecol <- bind_rows(prs_res_reg_ecol, prs_res_reg_ecol_lm)
+  }
+}
+
+write_csv(prs_res_reg_ecol, 'int/prs_res_reg_ecol.csv')
+
+```
+
+``` {r res_all}
+
 prs_res_all <- data.frame()
 
 for(yr_lag in 1:6) {
@@ -93,42 +201,29 @@ for(yr_lag in 1:6) {
     tmp_df <- scores_rgn %>%
       filter(goal == goalname) %>%
       mutate(obs_future_prs = lead(pressures, yr_lag),
-             prs_ratio = obs_future_prs/pressures) %>%
-      filter(!is.na(prs_ratio))
+             d_prs = (obs_future_prs - pressures) / pressures) %>%
+      filter(!is.na(d_prs))
     
-    tmp_mdl <- lm(prs_ratio ~ res_reg, data = tmp_df)
-    prs_res_reg_lm <- tmp_mdl %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()),
-             yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared)
-  
+    ### all resilience aspects.
     ### Where possible, separate ecol and soc resil; if not possible
     ### (i.e. one is all NAs) use combined non-reg resil.
-    if(all(is.na(tmp_df$res_ecol)) | all(is.na(tmp_df$res_soc))) {
-      tmp_mdl <- lm(prs_ratio ~ res_reg + res_nonreg, 
-                    data = tmp_df)
-    } else {
-      tmp_mdl <- lm(prs_ratio ~ res_reg + res_soc + res_ecol, 
-                    data = tmp_df)
-    }
+    if(all(is.na(tmp_df$res_ecol))) next()
+    tmp_mdl <- lm(d_prs ~ res_reg + res_ecol + res_soc, data = tmp_df)
     prs_res_all_lm <- tmp_mdl %>%
       broom::tidy() %>%
       mutate(goal  = goalname,
              n_obs = nrow(tmp_df),
              years = length(tmp_df$year %>% unique()),
              yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared)
+             r_squared = summary(tmp_mdl)$adj.r.squared,
+             aic = AIC(tmp_mdl),
+             bic = BIC(tmp_mdl))
 
-    prs_res_reg <- bind_rows(prs_res_reg, prs_res_reg_lm)
     prs_res_all <- bind_rows(prs_res_all, prs_res_all_lm)
   }
 }
 
-write_csv(prs_res_reg,     'int/prs_res_reg_only.csv')
-write_csv(prs_res_all,     'int/prs_res_all.csv')
+write_csv(prs_res_all, 'int/prs_res_all.csv')
 
 ```
 
@@ -146,7 +241,7 @@ write_csv(prs_res_all,     'int/prs_res_all.csv')
 
 The second link in the causal chain connects a change in pressure now (time $t$) to changes in status in the future (time $t + \lambda$).  Framing this as proportional change in status, $\frac{x_{t+\lambda}}{x_{t}}$, examine the coefficient and significance of pressure.
 
-$$\frac{x_{t+\lambda}}{x_{t}} = \alpha + \beta p_{t}$$
+$$\%\Delta X_t = \frac{x_{t+\lambda} - x_t}{x_{t}} = \alpha + \beta p_{t}$$
 
 ``` {r regress_lfs_coefficients_prs}
 
@@ -176,28 +271,89 @@ for(yr_lag in 1:6) {
     tmp_df <- scores_rgn %>%
       filter(goal == goalname) %>%
       mutate(obs_future_status = lead(status, yr_lag),
-             lfs_ratio = obs_future_status/status) %>%
-      filter(!is.na(lfs_ratio))
+             d_status = (obs_future_status - status) /status) %>%
+      filter(!is.na(d_status))
     
-    tmp_mdl <- lm(lfs_ratio ~ pressures, data = tmp_df)
+    tmp_mdl <- lm(d_status ~ pressures, data = tmp_df)
     lfs_prs_lm <- tmp_mdl %>%
       broom::tidy() %>%
       mutate(goal  = goalname,
              n_obs = nrow(tmp_df),
              years = length(tmp_df$year %>% unique()),
              yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared)
+             r_squared = summary(tmp_mdl)$adj.r.squared,
+             aic = AIC(tmp_mdl),
+             bic = BIC(tmp_mdl))
 
     lfs_prs <- bind_rows(lfs_prs, lfs_prs_lm)
   }
 }
 
-write_csv(lfs_prs,     'int/lfs_prs.csv')
+write_csv(lfs_prs,     'int/lfs_prs_only.csv')
 
 ```
 
 #### Change in status vs. pressure
 
 `r DT::datatable(lfs_prs %>% mutate_if(is.double, ~ round(., 4)))`
+
+
+# Comparing models
+
+## Notes about AIC and BIC:
+
+From https://methodology.psu.edu/AIC-vs-BIC:
+
+> So what’s the bottom line? In general, it might be best to use AIC and BIC together in model selection. For example, in selecting the number of latent classes in a model, if BIC points to a three-class model and AIC points to a five-class model, it makes sense to select from models with 3, 4 and 5 latent classes. AIC is better in situations when a false negative finding would be considered more misleading than a false positive, and BIC is better in situations where a false positive is as misleading as, or more misleading than, a false negative.
+
+from https://robjhyndman.com/hyndsight/aic/:
+
+> The AIC does not require nested models. One of the neat things about the AIC is that you can compare very different models. However, make sure the likelihoods are computed on the same data. For example, you cannot compare an ARIMA model with differencing to an ARIMA model without differencing, because you lose one or more observations via differencing. That is why auto.arima uses a unit root test to choose the order of differencing, and only uses the AIC to select the orders of the AR and MA components.
+
+Seems like AIC (and BIC?) should be fine with a standard linear model using OLS?  We're not assuming anything fancy about the data.  BUT: the lag relationship will mean AIC comparing lag 4 vs. lag 5 (e.g.) are looking at different data.  So: use AIC to choose the best model for each goal for a specific lag, but then look at the lags separately.  If they're all saying the same model form, then use a different criterion to choose the best lag model.
+
+## Pull in all pressure ~ resilience models
+
+Bring in each model from the CSV; spread the coefficients, clean the dataframe a bit, and then bind all together to readily compare AICs for models within goals and lag years.
+
+```{r}
+
+prs_csvs <- list.files('int', pattern = '^prs', full.names = TRUE)
+
+prs_mdl <- lapply(prs_csvs, read_csv) %>%
+  setNames(basename(prs_csvs)) %>%
+  bind_rows(.id = 'model') %>%
+  mutate(est_text = as.character(round(estimate, 5)),
+         est_text = case_when(p.value < .001 ~ paste(est_text, '***'),
+                              p.value <  .01 ~ paste(est_text, '**'),
+                              p.value <  .05 ~ paste(est_text, '*'),
+                              p.value <  .10 ~ paste(est_text, '.'),
+                              TRUE ~ est_text)) %>%
+  select(goal, yr_lag, r_squared, aic, term, est_text, model) %>%
+  spread(term, est_text) %>%
+  clean_df_names() %>%
+  group_by(goal, yr_lag) %>%
+  mutate(best_model = (aic == min(aic))) %>%
+  ungroup()
+
+best_models <- prs_mdl %>%
+  filter(best_model) %>%
+  select(-best_model) %>%
+  group_by(goal) %>%
+  mutate(best_rsquared = (r_squared == max(r_squared))) %>%
+  ungroup()
+
+```
+
+## But do the pressures and resilience change much?
+
+```{r, eval = FALSE}
+coef_var <- scores_rgn %>%
+  group_by(goal, region_id) %>%
+  summarize(cv_status = sd(status, na.rm = TRUE) / mean(status, na.rm = TRUE),
+            cv_resreg = sd(res_reg) / mean(res_reg),
+            cv_pressures = sd(pressures) / mean(pressures)) %>%
+  ungroup()
+```
 
 

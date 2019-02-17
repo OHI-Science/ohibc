@@ -37,28 +37,29 @@ source(file.path(dir_calc, 'calc_scores_fxns.R'))
 
 # Regression model
 
-For each goal, regress the future status (default is +5 years) against current status, trend, pressures, and resilience; this would give an idea of coefficients in the OHI LFS model; these may differ for each goal.  These do not apply to supragoals (since no pressures/resilience applied at this level), only standalone and subgoals.  Regressions will be based on the composition of the Likely Future Status calculation, using observed future state at some lag $\lambda$ rather than predicted future state.
+For each goal, regress the percent change in status (future status (default is +5 years) against current status) against trend, pressures, and resilience. This would give an idea of coefficients in the OHI LFS model; these may differ for each goal.  These do not apply to supragoals (since no pressures/resilience applied at this level), only standalone and subgoals.  Regressions will be based on the composition of the Likely Future Status calculation, using observed future state at some lag $\lambda$ rather than predicted future state.
 
 $$ X_{future} = X_{current} [1 + \beta T + (1 - \beta) (R - P)]$$
 Rearrange to
-$$ Y = \frac{X_{future}}{X_{current}} = 1 + \beta T_t + (1 - \beta)(r_t - p_t)$$
+$$\%\Delta X_t = \frac{X_{future} - X_{current}}{X_{current}} = \alpha + \beta T_t + (1 - \beta)(r_t - p_t)$$
 In the original OHI publication, the coefficient $\beta$ was set to 0.67, assuming that recent trend is a better predictor than pressures and resilience.  To ensure an intuitive comparison of coefficients, adjust the values in `scores.csv` so that $T_t \in [-1, 1]$, and $r_t, p_t \in [0, 1]$.
 
 Framing as regression where resilience and pressure are estimated together, and using a time horizon of $\lambda$ for likely future status:
 
-$$ Y_t = \frac{X_{t+\lambda}}{X_{t}} = \alpha + \beta_1 T_t + \beta_2 (r_t - p_t)$$
+$$\%\Delta X_t = \frac{X_{t+\lambda} - X_t}{X_{t}} = \alpha + \beta_1 T_t + \beta_2 (r_t - p_t)$$
 
 However, if resilience and pressures are challenging to compare directly, perhaps each gets its own coefficient:
-$$ Y_t = \frac{X_{t+\lambda}}{X_{t}} = \alpha + \beta_1 T_t + \beta_2 r_t + \beta_3 p_t$$
+$$ Y_t = \frac{X_{t+\lambda} - X_t}{X_{t}} = \alpha + \beta_1 T_t + \beta_2 r_t + \beta_3 p_t$$
+
 ## How to understand effects of governance?
 
 Management action and governance appear in the OHI framework as specific resilience, embedded within overall resilience.  If we can split these (either into general and specific, or social, ecological, and governance) we can examine the coefficient on each separately.
 
-$$ Y_t = \frac{X_{t+\lambda}}{X_{t}} = \alpha + \beta_1 T_t + \beta_2 r_{spec,t} + \beta_3 r_{gen,t} + \beta_4 p_t$$
+$$\%\Delta X_t = \frac{X_{t+\lambda} - X_t}{X_{t}} = \alpha + \beta_1 T_t + \beta_2 r_{spec,t} + \beta_3 r_{gen,t} + \beta_4 p_t$$
 
 or:
 
-$$ Y_t = \frac{X_{t+\lambda}}{X_{t}} = \alpha + \beta_1 T_t + \beta_2 r_{soc,t} + \beta_3 r_{ecol,t} + \beta_4 r_{gov,t} + \beta_5 p_t$$
+$$\%\Delta X_t =  \frac{X_{t+\lambda} - X_t}{X_{t}} = \alpha + \beta_1 T_t + \beta_2 r_{soc,t} + \beta_3 r_{ecol,t} + \beta_4 r_{gov,t} + \beta_5 p_t$$
 
 ## Fixed effects
 
@@ -110,23 +111,23 @@ for(goalname in goals) { # goalname <- goals[13]
   tmp_df <- scores_rgn %>%
     filter(goal == goalname) %>%
     mutate(obs_future_status = lead(status, 5),
-           lfs_ratio = obs_future_status/status) %>%
-    filter(!is.na(lfs_ratio))
+           d_status = (obs_future_status - status)/status) %>%
+    filter(!is.na(d_status))
   
-  lfs_lm <- lm(lfs_ratio ~ trend + res_minus_prs, data = tmp_df) %>%
+  lfs_lm <- lm(d_status ~ trend + res_minus_prs, data = tmp_df) %>%
     broom::tidy() %>%
     mutate(goal  = goalname,
            n_obs = nrow(tmp_df),
            years = length(tmp_df$year %>% unique()))
 
-  lfs_res_lm <- lm(lfs_ratio ~ resilience, data = tmp_df) %>%
+  lfs_res_lm <- lm(d_status ~ resilience, data = tmp_df) %>%
     broom::tidy() %>%
     mutate(goal  = goalname,
            n_obs = nrow(tmp_df),
            years = length(tmp_df$year %>% unique()))
 
   if(length(tmp_df$year %>% unique()) > 1) {
-    lfs_felm_yr <- lm(lfs_ratio ~ trend + res_minus_prs + factor(year), 
+    lfs_felm_yr <- lm(d_status ~ trend + res_minus_prs + factor(year), 
                       data = tmp_df) %>%
       broom::tidy() %>%
       mutate(goal  = goalname,
@@ -227,10 +228,10 @@ for(yr_lag in 1:6) {
     tmp_df <- scores_rgn %>%
       filter(goal == goalname) %>%
       mutate(obs_future_status = lead(status, yr_lag),
-             lfs_ratio = obs_future_status/status) %>%
-      filter(!is.na(lfs_ratio))
+             d_status = (obs_future_status - status)/status) %>%
+      filter(!is.na(d_status))
     
-    tmp_mdl <- lm(lfs_ratio ~ res_reg, data = tmp_df)
+    tmp_mdl <- lm(d_status ~ res_reg, data = tmp_df)
     lfs_res_reg_lm <- tmp_mdl %>%
       broom::tidy() %>%
       mutate(goal  = goalname,
@@ -239,7 +240,7 @@ for(yr_lag in 1:6) {
              yr_lag = yr_lag,
              r_squared = summary(tmp_mdl)$adj.r.squared)
   
-    tmp_mdl <- lm(lfs_ratio ~ res_reg + pressures, data = tmp_df)
+    tmp_mdl <- lm(d_status ~ res_reg + pressures, data = tmp_df)
     lfs_res_reg_prs_lm <- tmp_mdl %>%
       broom::tidy() %>%
       mutate(goal  = goalname,
@@ -251,10 +252,10 @@ for(yr_lag in 1:6) {
     ### Where possible, separate ecol and soc resil; if not possible
     ### (i.e. one is all NAs) use combined non-reg resil.
     if(all(is.na(tmp_df$res_ecol)) | all(is.na(tmp_df$res_soc))) {
-      tmp_mdl <- lm(lfs_ratio ~ trend + res_reg + res_nonreg + pressures, 
+      tmp_mdl <- lm(d_status ~ trend + res_reg + res_nonreg + pressures, 
                     data = tmp_df)
     } else {
-      tmp_mdl <- lm(lfs_ratio ~ trend + res_reg + res_soc + res_ecol + pressures, 
+      tmp_mdl <- lm(d_status ~ trend + res_reg + res_soc + res_ecol + pressures, 
                     data = tmp_df)
     }
     lfs_res_all_lm <- tmp_mdl %>%

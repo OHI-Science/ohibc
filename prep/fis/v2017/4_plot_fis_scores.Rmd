@@ -82,8 +82,6 @@ ggplot(stock_plot_df, aes(x = year, y = score)) +
   scale_color_brewer(palette = 'Paired') +
   facet_wrap( ~ rgn_name)
 
-
-
 ```
 
 ## Proportion of hake vs non hake catch over time
