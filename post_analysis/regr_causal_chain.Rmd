@@ -58,8 +58,8 @@ res_ecol <- read_csv(file.path(dir_calc, 'res_ecol_only.csv')) %>%
 res_nonreg <- read_csv(file.path(dir_calc, 'res_nonreg_only.csv')) %>%
   select(goal, region_id, year, res_nonreg = score)
 
-scores_rgn <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %>%
-# scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+scores_rgn_res <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %>%
+# scores_rgn_res <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
   filter(region_id != 0) %>%
   spread(dimension, score) %>%
   select(goal, region_id, year, status, trend, pressures) %>%
@@ -76,10 +76,10 @@ scores_rgn <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %>%
          pressures = pressures / 100) %>%
   filter(!all(is.na(res_reg), is.na(res_soc), is.na(res_ecol)))
 
-scores_rgn <- scores_rgn %>%
+scores_rgn_res <- scores_rgn_res %>%
   filter(!is.na(res_reg))
   
-goals <- scores_rgn$goal %>% 
+goals <- scores_rgn_res$goal %>% 
   unique() %>%
   .[. != 'MAR'] ### remove MAR since too short of time span
 
@@ -94,7 +94,7 @@ for(yr_lag in 1:6) {
   # yr_lag <- 2
   for(goalname in goals) { # goalname <- 'LSP'
     # cat(goalname, ', lag = ', yr_lag, '\n')
-    tmp_df <- scores_rgn %>%
+    tmp_df <- scores_rgn_res %>%
       filter(goal == goalname) %>%
       mutate(obs_future_prs = lead(pressures, yr_lag),
              d_prs = (obs_future_prs - pressures) / pressures) %>%
@@ -128,7 +128,7 @@ for(yr_lag in 1:6) {
   # yr_lag <- 2
   for(goalname in goals) { # goalname <- 'LSP'
     # cat(goalname, ', lag = ', yr_lag, '\n')
-    tmp_df <- scores_rgn %>%
+    tmp_df <- scores_rgn_res %>%
       filter(goal == goalname) %>%
       mutate(obs_future_prs = lead(pressures, yr_lag),
              d_prs = (obs_future_prs - pressures) / pressures) %>%
@@ -162,7 +162,7 @@ for(yr_lag in 1:6) {
   # yr_lag <- 2
   for(goalname in goals) { # goalname <- 'LSP'
     # cat(goalname, ', lag = ', yr_lag, '\n')
-    tmp_df <- scores_rgn %>%
+    tmp_df <- scores_rgn_res %>%
       filter(goal == goalname) %>%
       mutate(obs_future_prs = lead(pressures, yr_lag),
              d_prs = (obs_future_prs - pressures) / pressures) %>%
@@ -198,7 +198,7 @@ for(yr_lag in 1:6) {
   # yr_lag <- 2
   for(goalname in goals) { # goalname <- 'LSP'
     # cat(goalname, ', lag = ', yr_lag, '\n')
-    tmp_df <- scores_rgn %>%
+    tmp_df <- scores_rgn_res %>%
       filter(goal == goalname) %>%
       mutate(obs_future_prs = lead(pressures, yr_lag),
              d_prs = (obs_future_prs - pressures) / pressures) %>%
@@ -248,7 +248,7 @@ $$\%\Delta X_t = \frac{x_{t+\lambda} - x_t}{x_{t}} = \alpha + \beta p_{t}$$
 ### Set up basic data frame - make sure prs and res are 0-1; status
 ### range not important here since we'll take a ratio inside a loop.
 
-scores_rgn <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %>%
+scores_rgn_lfs <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %>%
 # scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
   filter(region_id != 0) %>%
   spread(dimension, score) %>%
@@ -258,7 +258,7 @@ scores_rgn <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %>%
   mutate(pressures = pressures / 100) %>%
   filter(!is.na(pressures))
 
-goals <- scores_rgn$goal %>% 
+goals <- scores_rgn_lfs$goal %>% 
   unique() %>%
   .[. != 'MAR'] ### remove MAR since too short of time span
 
@@ -268,7 +268,7 @@ for(yr_lag in 1:6) {
   # yr_lag <- 2
   for(goalname in goals) { # goalname <- 'LSP'
     # cat(goalname, ', lag = ', yr_lag, '\n')
-    tmp_df <- scores_rgn %>%
+    tmp_df <- scores_rgn_lfs %>%
       filter(goal == goalname) %>%
       mutate(obs_future_status = lead(status, yr_lag),
              d_status = (obs_future_status - status) /status) %>%
@@ -336,6 +336,8 @@ prs_mdl <- lapply(prs_csvs, read_csv) %>%
   mutate(best_model = (aic == min(aic))) %>%
   ungroup()
 
+write_csv(prs_mdl, 'int/model_compare.csv')
+
 best_models <- prs_mdl %>%
   filter(best_model) %>%
   select(-best_model) %>%
@@ -347,13 +349,17 @@ best_models <- prs_mdl %>%
 
 ## But do the pressures and resilience change much?
 
-```{r, eval = FALSE}
-coef_var <- scores_rgn %>%
+```{r}
+coef_var <- scores_rgn_res %>%
   group_by(goal, region_id) %>%
-  summarize(cv_status = sd(status, na.rm = TRUE) / mean(status, na.rm = TRUE),
-            cv_resreg = sd(res_reg) / mean(res_reg),
-            cv_pressures = sd(pressures) / mean(pressures)) %>%
+  summarize(cv_status  = sd(status, na.rm = TRUE)   / mean(status, na.rm = TRUE),
+            cv_resreg  = sd(res_reg, na.rm = TRUE)  / mean(res_reg, na.rm = TRUE),
+            cv_resecol = sd(res_ecol, na.rm = TRUE) / mean(res_ecol, na.rm = TRUE),
+            cv_ressoc  = sd(res_soc, na.rm = TRUE)  / mean(res_soc, na.rm = TRUE),
+            cv_pressures = sd(pressures, na.rm = TRUE) / mean(pressures, na.rm = TRUE)) %>%
   ungroup()
+
+DT::datatable(coef_var %>% mutate_if(is.double, ~ round(., 4)))
 ```
 
 
