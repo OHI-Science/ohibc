@@ -336,7 +336,7 @@ prs_mdl <- lapply(prs_csvs, read_csv) %>%
   mutate(best_model = (aic == min(aic))) %>%
   ungroup()
 
-write_csv(prs_mdl, 'int/model_compare.csv')
+write_csv(prs_mdl, 'int/prs_res_model_compare.csv')
 
 best_models <- prs_mdl %>%
   filter(best_model) %>%

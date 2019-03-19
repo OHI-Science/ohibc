@@ -334,14 +334,68 @@ scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
   spread(dimension, score) %>%
   mutate(pred_status = lag(future, 5),
          obs_status = status) %>%
-  filter(nchar(goal) == 2)
+  filter(!is.na(pred_status) & !is.na(obs_status)) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
 
-ggplot(scores, aes(x = pred_status, y = obs_status, color = goal)) +
-  geom_point() +
-  geom_abline(yintercept = 0, slope = 1) +
-  geom_smooth(method = 'lm', se = FALSE)
+# ggplot(scores, aes(x = pred_status, y = obs_status, color = goal)) +
+#   geom_point() +
+#   geom_abline(yintercept = 0, slope = 1) +
+#   geom_smooth(method = 'lm', se = FALSE)
+goals <- scores$goal %>% unique()
 
-regr_future <- scores %>%
-  group_by(goal) %>%
-  do(future_mdl = lm(obs_status ~ pred_status, data = .))
+collect_df <- data.frame()
+
+for(goalname in goals) { ### goalname <- goals[1]
+  tmp_df <- scores %>%
+    filter(goal == goalname)
+  
+  mdl_rgn_fe <- lm(obs_status ~ pred_status + rgn_name, data = tmp_df)
+  
+  regr_future_rgn <- mdl_rgn_fe %>%
+    broom::tidy() %>%
+    mutate(goal  = goalname,
+           n_obs = nrow(tmp_df),
+           years = length(tmp_df$year %>% unique()),
+           r_squared = summary(mdl_rgn_fe)$adj.r.squared,
+           aic = AIC(mdl_rgn_fe),
+           bic = BIC(mdl_rgn_fe),
+           fixed_effects = 'region')
+  
+  mdl_clean <- lm(obs_status ~ pred_status, data = tmp_df)
+  
+  regr_future <- mdl_clean %>%
+    broom::tidy() %>%
+    mutate(goal  = goalname,
+           n_obs = nrow(tmp_df),
+           years = length(tmp_df$year %>% unique()),
+           r_squared = summary(mdl_clean)$adj.r.squared,
+           aic = AIC(mdl_clean),
+           bic = BIC(mdl_clean),
+           fixed_effects = 'none')
+
+  regr_lfs <- bind_rows(regr_future, regr_future_rgn)
+  collect_df <- bind_rows(collect_df, regr_lfs)
+
+}
+
+write_csv(collect_df, 'int/lfs_status.csv')
+
+```
+
+
+```{r}
+
+lfs_mdl <- read_csv('int/lfs_status.csv') %>%
+  mutate(est_text = as.character(round(estimate, 5)),
+         est_text = case_when(p.value < .001 ~ paste(est_text, '***'),
+                              p.value <  .01 ~ paste(est_text, '**'),
+                              p.value <  .05 ~ paste(est_text, '*'),
+                              p.value <  .10 ~ paste(est_text, '.'),
+                              TRUE ~ est_text)) %>%
+  select(goal, r_squared, aic, term, est_text, fixed_effects) %>%
+  spread(term, est_text) %>%
+  clean_df_names()
+
+write_csv(lfs_mdl, 'int/lfs_model_compare.csv')
+
 ```
