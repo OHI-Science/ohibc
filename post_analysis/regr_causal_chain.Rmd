@@ -255,7 +255,7 @@ scores_rgn_lfs <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %
   select(goal, region_id, year, status, pressures) %>%
   group_by(goal, region_id) %>%
   arrange(year) %>%
-  mutate(pressures = pressures / 100) %>%
+  # mutate(pressures = pressures / 100) %>%
   filter(!is.na(pressures))
 
 goals <- scores_rgn_lfs$goal %>% 
@@ -323,11 +323,11 @@ prs_csvs <- list.files('int', pattern = '^prs', full.names = TRUE)
 prs_mdl <- lapply(prs_csvs, read_csv) %>%
   setNames(basename(prs_csvs)) %>%
   bind_rows(.id = 'model') %>%
-  mutate(est_text = as.character(round(estimate, 5)),
-         est_text = case_when(p.value < .001 ~ paste(est_text, '***'),
-                              p.value <  .01 ~ paste(est_text, '**'),
-                              p.value <  .05 ~ paste(est_text, '*'),
-                              p.value <  .10 ~ paste(est_text, '.'),
+  mutate(est_text = formatC(round(estimate, 4), digits = 4, format = 'f'),
+         est_text = case_when(p.value < .001 ~ paste0(est_text, '***'),
+                              p.value <  .01 ~ paste0(est_text, '**'),
+                              p.value <  .05 ~ paste0(est_text, '*'),
+                              p.value <  .10 ~ paste0(est_text, '°'),
                               TRUE ~ est_text)) %>%
   select(goal, yr_lag, r_squared, aic, term, est_text, model) %>%
   spread(term, est_text) %>%
@@ -336,7 +336,7 @@ prs_mdl <- lapply(prs_csvs, read_csv) %>%
   mutate(best_model = (aic == min(aic))) %>%
   ungroup()
 
-write_csv(prs_mdl, 'int/prs_res_model_compare.csv')
+write_csv(prs_mdl, 'int/model_compare_prs_res.csv')
 
 best_models <- prs_mdl %>%
   filter(best_model) %>%

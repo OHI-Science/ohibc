@@ -290,9 +290,9 @@ lfs_tbl <- lfs_res_all %>%
   mutate(sig = case_when(p.value < .0001 ~ '***',
                          p.value < .001 ~ '**',
                          p.value < .05 ~ '*',
-                         p.value < .1  ~ '.',
+                         p.value < .1  ~ '°',
                          TRUE ~ ''),
-         val = paste0(round(estimate, 5), sig, ' (', round(std.error, 4), ')'),
+         val = paste0(round(estimate, 4), sig, ' (', round(std.error, 4), ')'),
          r_squared = round(r_squared, 4)) %>%
   select(term, val, goal, yr_lag, r_squared) %>%
   spread(term, val)
@@ -311,9 +311,9 @@ lfs_tbl <- lfs_res_prs %>%
   mutate(sig = case_when(p.value < .0001 ~ '***',
                          p.value < .001 ~ '**',
                          p.value < .05 ~ '*',
-                         p.value < .1  ~ '.',
+                         p.value < .1  ~ '°',
                          TRUE ~ ''),
-         val = paste0(round(estimate, 5), sig, ' (', round(std.error, 5), ')'),
+         val = paste0(round(estimate, 4), sig, ' (', round(std.error, 5), ')'),
          r_squared = round(r_squared, 4)) %>%
   select(term, val, goal, yr_lag, r_squared) %>%
   spread(term, val)
@@ -386,16 +386,16 @@ write_csv(collect_df, 'int/lfs_status.csv')
 ```{r}
 
 lfs_mdl <- read_csv('int/lfs_status.csv') %>%
-  mutate(est_text = as.character(round(estimate, 5)),
-         est_text = case_when(p.value < .001 ~ paste(est_text, '***'),
-                              p.value <  .01 ~ paste(est_text, '**'),
-                              p.value <  .05 ~ paste(est_text, '*'),
-                              p.value <  .10 ~ paste(est_text, '.'),
+  mutate(est_text = formatC(round(estimate, 4), digits = 4, format = 'f'),
+         est_text = case_when(p.value < .001 ~ paste0(est_text, '***'),
+                              p.value <  .01 ~ paste0(est_text, '**'),
+                              p.value <  .05 ~ paste0(est_text, '*'),
+                              p.value <  .10 ~ paste0(est_text, '°'),
                               TRUE ~ est_text)) %>%
   select(goal, r_squared, aic, term, est_text, fixed_effects) %>%
   spread(term, est_text) %>%
   clean_df_names()
 
-write_csv(lfs_mdl, 'int/lfs_model_compare.csv')
+write_csv(lfs_mdl, 'int/model_compare_lfs_status.csv')
 
 ```
