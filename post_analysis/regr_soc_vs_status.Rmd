@@ -1,0 +1,108 @@
+---
+title: 'OHIBC: Regress social resilience against status'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes:
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('https://raw.githubusercontent.com/oharac/src/master/R/common.R')
+
+dir_ohibc  <- '~/github/ohibc'
+dir_calc   <- file.path(dir_ohibc, 'calc_ohibc')
+dir_master <- file.path(dir_calc, 'master')
+
+source(file.path(dir_calc, 'calc_scores_fxns.R'))
+
+### provenance tracking
+# library(provRmd); prov_setup()
+
+```
+
+
+## Do high status scores correlate with high social resilience?
+
+Regress overall Index scores against social resilience for all regions and years; then put fixed effect on region.
+
+``` {r regress_lfs_coefficients}
+
+### Set up basic data frame - make sure prs and res are 0-1; status
+### range not important here since we'll take a ratio inside a loop.
+
+res_soc <- read_csv(file.path(dir_calc, 'res_soc_only.csv')) %>%
+  select(goal, region_id, year, res_soc = score) %>%
+  group_by(region_id, year, res_soc) %>%
+  summarize(goals = paste(goal, collapse = ', ')) %>% 
+    ### this groups into FN and non-FN components
+  ungroup() %>%
+  mutate(fn = str_detect(goals, 'AO')) %>%
+  filter(!is.na(res_soc)) %>%
+  select(-goals)
+
+scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id != 0) %>%
+  spread(dimension, score) %>%
+  select(goal, region_id, year, status) %>%
+  left_join(res_soc, by = c('region_id', 'year'))
+
+goals <-  scores_rgn$goal %>% unique()
+goals <- goals[nchar(goals) == 2 | goals == 'Index']
+  ### drop subgoals
+
+res_soc_df <- data.frame()
+
+for(goalname in goals) { # goalname <- goals[3]
+  
+  fn_df <- scores_rgn %>%
+    filter(goal == goalname) %>%
+    filter(!is.na(status)) %>%
+    filter(fn)
+  
+  fn_soc_lm <- lm(status ~ res_soc, data = fn_df) 
+  
+  fn_soc_lm_df <- fn_soc_lm %>%
+    broom::tidy() %>%
+    mutate(goal  = goalname,
+           n_obs = nrow(fn_df),
+           years = length(fn_df$year %>% unique()),
+           r_sq  = fn_soc_lm %>% summary %>% .$adj.r.squared,
+           fn = TRUE)
+
+  nonfn_df <- scores_rgn %>%
+    filter(goal == goalname) %>%
+    filter(!is.na(status)) %>%
+    filter(!fn)
+  
+  nonfn_soc_lm <- lm(status ~ res_soc, data = nonfn_df) 
+  
+  nonfn_soc_lm_df <- nonfn_soc_lm %>%
+    broom::tidy() %>%
+    mutate(goal  = goalname,
+           n_obs = nrow(nonfn_df),
+           years = length(nonfn_df$year %>% unique()),
+           r_sq  = nonfn_soc_lm %>% summary %>% .$adj.r.squared,
+           fn = FALSE)
+
+  res_soc_df <- bind_rows(res_soc_df, fn_soc_lm_df, nonfn_soc_lm_df)
+
+}
+
+write_csv(res_soc_df, 'int/soc_res_vs_status.csv')
+
+DT::datatable(res_soc_df)
+```
