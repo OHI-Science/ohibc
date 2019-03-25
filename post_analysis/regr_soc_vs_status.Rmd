@@ -37,34 +37,30 @@ source(file.path(dir_calc, 'calc_scores_fxns.R'))
 
 ## Do high status scores correlate with high social resilience?
 
-Regress overall Index scores against social resilience for all regions and years; then put fixed effect on region.
+Regress overall Index scores against CWBI for all regions and years; then put fixed effect on region.
 
 ``` {r regress_lfs_coefficients}
 
-### Set up basic data frame - make sure prs and res are 0-1; status
-### range not important here since we'll take a ratio inside a loop.
+cwb_fn <- read_csv(file.path(dir_ohibc, 'prep/_resilience/v2017', 
+                             'output/cwb_score_fn.csv')) %>%
+  mutate(fn = TRUE)
+cwb_nonfn <- read_csv(file.path(dir_ohibc, 'prep/_resilience/v2017', 
+                                'output/cwb_score_all.csv')) %>%
+  mutate(fn = FALSE)
 
-res_soc <- read_csv(file.path(dir_calc, 'res_soc_only.csv')) %>%
-  select(goal, region_id, year, res_soc = score) %>%
-  group_by(region_id, year, res_soc) %>%
-  summarize(goals = paste(goal, collapse = ', ')) %>% 
-    ### this groups into FN and non-FN components
-  ungroup() %>%
-  mutate(fn = str_detect(goals, 'AO')) %>%
-  filter(!is.na(res_soc)) %>%
-  select(-goals)
+cwbi <- bind_rows(cwb_fn, cwb_nonfn)
 
 scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
   filter(region_id != 0) %>%
   spread(dimension, score) %>%
   select(goal, region_id, year, status) %>%
-  left_join(res_soc, by = c('region_id', 'year'))
+  left_join(cwbi, by = c('region_id' = 'rgn_id', 'year'))
 
 goals <-  scores_rgn$goal %>% unique()
 goals <- goals[nchar(goals) == 2 | goals == 'Index']
   ### drop subgoals
 
-res_soc_df <- data.frame()
+cwb_status_df <- data.frame()
 
 for(goalname in goals) { # goalname <- goals[3]
   
@@ -73,7 +69,7 @@ for(goalname in goals) { # goalname <- goals[3]
     filter(!is.na(status)) %>%
     filter(fn)
   
-  fn_soc_lm <- lm(status ~ res_soc, data = fn_df) 
+  fn_soc_lm <- lm(status ~ cwb_score, data = fn_df) 
   
   fn_soc_lm_df <- fn_soc_lm %>%
     broom::tidy() %>%
@@ -88,7 +84,7 @@ for(goalname in goals) { # goalname <- goals[3]
     filter(!is.na(status)) %>%
     filter(!fn)
   
-  nonfn_soc_lm <- lm(status ~ res_soc, data = nonfn_df) 
+  nonfn_soc_lm <- lm(status ~ cwb_score, data = nonfn_df) 
   
   nonfn_soc_lm_df <- nonfn_soc_lm %>%
     broom::tidy() %>%
@@ -98,11 +94,78 @@ for(goalname in goals) { # goalname <- goals[3]
            r_sq  = nonfn_soc_lm %>% summary %>% .$adj.r.squared,
            fn = FALSE)
 
-  res_soc_df <- bind_rows(res_soc_df, fn_soc_lm_df, nonfn_soc_lm_df)
+  cwb_status_df <- bind_rows(cwb_status_df, fn_soc_lm_df, nonfn_soc_lm_df)
 
 }
 
-write_csv(res_soc_df, 'int/soc_res_vs_status.csv')
+write_csv(cwb_status_df, 'int/cwb_vs_status.csv')
 
-DT::datatable(res_soc_df)
+DT::datatable(cwb_status_df)
+```
+
+### again with region fixed effects
+
+``` {r regress_lfs_coefficients_fixed_effects}
+
+cwb_fn <- read_csv(file.path(dir_ohibc, 'prep/_resilience/v2017', 
+                             'output/cwb_score_fn.csv')) %>%
+  mutate(fn = TRUE)
+cwb_nonfn <- read_csv(file.path(dir_ohibc, 'prep/_resilience/v2017', 
+                                'output/cwb_score_all.csv')) %>%
+  mutate(fn = FALSE)
+
+cwbi <- bind_rows(cwb_fn, cwb_nonfn)
+
+scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id != 0) %>%
+  spread(dimension, score) %>%
+  select(goal, region_id, year, status) %>%
+  left_join(cwbi, by = c('region_id' = 'rgn_id', 'year')) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
+
+goals <-  scores_rgn$goal %>% unique()
+goals <- goals[nchar(goals) == 2 | goals == 'Index']
+  ### drop subgoals
+
+cwb_status_df <- data.frame()
+
+for(goalname in goals) { # goalname <- goals[3]
+  
+  fn_df <- scores_rgn %>%
+    filter(goal == goalname) %>%
+    filter(!is.na(status)) %>%
+    filter(fn)
+  
+  fn_soc_lm <- lm(status ~ cwb_score + rgn_name, data = fn_df) 
+  
+  fn_soc_lm_df <- fn_soc_lm %>%
+    broom::tidy() %>%
+    mutate(goal  = goalname,
+           n_obs = nrow(fn_df),
+           years = length(fn_df$year %>% unique()),
+           r_sq  = fn_soc_lm %>% summary %>% .$adj.r.squared,
+           fn = TRUE)
+
+  nonfn_df <- scores_rgn %>%
+    filter(goal == goalname) %>%
+    filter(!is.na(status)) %>%
+    filter(!fn)
+  
+  nonfn_soc_lm <- lm(status ~ cwb_score + rgn_name, data = nonfn_df) 
+  
+  nonfn_soc_lm_df <- nonfn_soc_lm %>%
+    broom::tidy() %>%
+    mutate(goal  = goalname,
+           n_obs = nrow(nonfn_df),
+           years = length(nonfn_df$year %>% unique()),
+           r_sq  = nonfn_soc_lm %>% summary %>% .$adj.r.squared,
+           fn = FALSE)
+
+  cwb_status_df <- bind_rows(cwb_status_df, fn_soc_lm_df, nonfn_soc_lm_df)
+
+}
+
+write_csv(cwb_status_df, 'int/cwb_vs_status_FE.csv')
+
+DT::datatable(cwb_status_df)
 ```
