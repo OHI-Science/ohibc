@@ -40,6 +40,8 @@ FIS <- function(layers) {
     fill(rollmean_ass_catch, .direction = 'down') %>%
     mutate(rgn_ass_catch_prop = ifelse(is.na(rgn_ass_catch_prop),
                                        rollmean_ass_catch, rgn_ass_catch_prop)) %>%
+    group_by(rgn_id, year) %>%
+    mutate(rgn_ass_catch_prop = rgn_ass_catch_prop / sum(rgn_ass_catch_prop)) %>%
     ungroup() %>%
     select(rgn_id, year, stockid, rgn_ass_catch_prop)
 

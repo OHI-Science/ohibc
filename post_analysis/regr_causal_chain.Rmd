@@ -55,27 +55,29 @@ res_soc <- read_csv(file.path(dir_calc, 'res_soc_only.csv')) %>%
   select(goal, region_id, year, res_soc = score)
 res_ecol <- read_csv(file.path(dir_calc, 'res_ecol_only.csv')) %>%
   select(goal, region_id, year, res_ecol = score)
+prs_no_social <- read_csv(file.path(dir_calc, 'prs_no_social.csv')) %>%
+  select(goal, region_id, year, pressures = score)
 
 scores_rgn_res <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
 # scores_rgn_res <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
   filter(region_id != 0) %>%
   spread(dimension, score) %>%
-  select(goal, region_id, year, status, trend, pressures) %>%
+  select(goal, region_id, year, status, trend) %>%
   left_join(res_reg, by = c('goal', 'region_id', 'year')) %>%
   left_join(res_soc, by = c('goal', 'region_id', 'year')) %>%
   left_join(res_ecol, by = c('goal', 'region_id', 'year')) %>%
+  left_join(prs_no_social, by = c('goal', 'region_id', 'year')) %>%
   group_by(goal, region_id) %>%
   arrange(year) %>%
   mutate(res_reg   = res_reg / 100,
          res_soc   = res_soc / 100,
          res_ecol  = res_ecol / 100,
          pressures = pressures / 100) %>%
-  filter(!all(is.na(res_reg), is.na(res_soc), is.na(res_ecol)))
+  filter(!all(is.na(res_reg), is.na(res_soc), is.na(res_ecol))) %>%
+  filter(!is.na(pressures))
 
 goals <- scores_rgn_res$goal %>% 
-  unique() # %>%
-  # .[. != 'MAR'] ### remove MAR since too short of time span
-
+  unique() 
 
 ```
 
@@ -376,7 +378,7 @@ The second link in the causal chain connects a change in pressure now (time $t$)
 
 $$\%\Delta X_t = \frac{x_{t+\lambda} - x_t}{x_{t}} = \alpha + \beta p_{t}$$
 
-``` {r regress_lfs_coefficients_prs}
+``` {r setup d status vs pressures}
 
 ### Set up basic data frame - make sure prs and res are 0-1; status
 ### range not important here since we'll take a ratio inside a loop.
@@ -386,26 +388,32 @@ scores_rgn_lfs <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
   filter(region_id != 0) %>%
   spread(dimension, score) %>%
   select(goal, region_id, year, status, pressures) %>%
+  left_join(prs_no_social %>%
+              rename(prs_no_soc = pressures), 
+            by = c('goal', 'region_id', 'year')) %>%
   group_by(goal, region_id) %>%
   arrange(year) %>%
   # mutate(pressures = pressures / 100) %>%
   filter(!is.na(pressures))
 
 goals <- scores_rgn_lfs$goal %>% 
-  unique() # %>%
-  # .[. != 'MAR'] ### remove MAR since too short of time span
+  unique()
 
+```
+
+``` {r regress d status vs pressures all}
 lfs_prs <- data.frame()
 
 for(yr_lag in 1:6) {
-  # yr_lag <- 2
-  for(goalname in goals) { # goalname <- 'LSP'
+  # yr_lag <- 1
+  for(goalname in goals) { # goalname <- 'FIS'
     # cat(goalname, ', lag = ', yr_lag, '\n')
     tmp_df <- scores_rgn_lfs %>%
       filter(goal == goalname) %>%
       mutate(obs_future_status = lead(status, yr_lag),
              d_status = (obs_future_status - status) /status) %>%
-      filter(!is.na(d_status))
+      filter(!is.na(d_status)) %>%
+      filter(!is.infinite(d_status))
     
     if(nrow(tmp_df) == 0) next()
     
@@ -425,6 +433,42 @@ for(yr_lag in 1:6) {
 }
 
 write_csv(lfs_prs,     'int/lfs_prs_only.csv')
+
+```
+
+``` {r regress d status vs pressures no social}
+lfs_prs <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+    # cat(goalname, ', lag = ', yr_lag, '\n')
+    tmp_df <- scores_rgn_lfs %>%
+      filter(goal == goalname) %>%
+      mutate(obs_future_status = lead(status, yr_lag),
+             d_status = (obs_future_status - status) /status) %>%
+      filter(!is.na(d_status)) %>%
+      filter(!is.infinite(d_status))
+    
+    if(nrow(tmp_df) == 0) next()
+    if(all(is.na(tmp_df$prs_no_soc))) next()
+    
+    tmp_mdl <- lm(d_status ~ prs_no_soc, data = tmp_df)
+    lfs_prs_lm <- tmp_mdl %>%
+      broom::tidy() %>%
+      mutate(goal  = goalname,
+             n_obs = nrow(tmp_df),
+             years = length(tmp_df$year %>% unique()),
+             yr_lag = yr_lag,
+             r_squared = summary(tmp_mdl)$adj.r.squared,
+             aic = AIC(tmp_mdl),
+             bic = BIC(tmp_mdl))
+
+    lfs_prs <- bind_rows(lfs_prs, lfs_prs_lm)
+  }
+}
+
+write_csv(lfs_prs, 'int/lfs_prs_no_soc.csv')
 
 ```
 

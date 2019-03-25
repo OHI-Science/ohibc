@@ -306,6 +306,8 @@ ggplot(scores_compare %>%
 
 Here we do not need to recalculate all the scores, but just the goal-specific resilience (these will be compared to status, as calculated above).  To do this, I will rerun the whole process, but rename (in the copied layers folder, not master) `resilience_matrix_reg_master.csv` -> `resilience_matrix.csv`.  Then all scores except resilience will be deleted, and the new .csv saved.  Repeat this for `resilience_matrix_soc_master.csv` and `resilience_matrix_ecol_master.csv`.
 
+Note also the CWB needs to be removed from the pressures (eliminating social pressures! hrrrmm) to avoid collinearity with the social resilience layer (which includes CWB).  This is performed in the first block.
+
 ``` {r reg resilience}
 
 message('Calculating governance-only resilience...')
@@ -314,10 +316,13 @@ message('Calculating governance-only resilience...')
 file.copy(from = file.path(dir_calc, 'master', 'resilience_matrix_reg_master.csv'),
           to   = file.path(dir_calc, 'conf', 'resilience_matrix.csv'),
           overwrite = TRUE)
+file.copy(from = file.path(dir_calc, 'master', 'pressures_matrix_no_cwb_master.csv'),
+          to   = file.path(dir_calc, 'conf', 'pressures_matrix.csv'),
+          overwrite = TRUE)
 
 conf   <- Conf(file.path(dir_calc, 'conf'))
 
-res_scores_all <- data.frame() ### initialize scores
+scores_all <- data.frame() ### initialize scores
 
 for (status_year in status_years) {
   
@@ -336,19 +341,24 @@ for (status_year in status_years) {
     file = 'delete_this.txt')
   unlink('delete_this.txt')
 
-  res_scores_all <- res_scores_all %>%
+  scores_all <- scores_all %>%
     bind_rows(scores)
 
 }
 
-res_scores_all <- res_scores_all %>%
+prs_scores_all <- scores_all %>%
+  filter(dimension == 'pressures')
+res_scores_all <- scores_all %>%
   filter(dimension == 'resilience')
 
 tmp <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
   spread(dimension, score) %>%
   left_join(res_scores_all %>% mutate(dimension = 'res_reg') %>% spread(dimension, score))
+tmp <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  spread(dimension, score) %>%
+  left_join(prs_scores_all %>% mutate(dimension = 'prs_no_social') %>% spread(dimension, score))
 
-
+write_csv(prs_scores_all, file.path(dir_calc, 'prs_no_social.csv'))
 write_csv(res_scores_all, file.path(dir_calc, 'res_reg_only.csv'))
 
 ```
@@ -356,7 +366,7 @@ write_csv(res_scores_all, file.path(dir_calc, 'res_reg_only.csv'))
 ``` {r soc resilience}
 
 message('Calculating social-only resilience...')
-### copy governance resilience csv to overwrite overall resilience matrix
+### copy social resilience csv to overwrite overall resilience matrix
 ### (rewriting the conf copy, not the master copy!)
 file.copy(from = file.path(dir_calc, 'master', 'resilience_matrix_soc_master.csv'),
           to   = file.path(dir_calc, 'conf', 'resilience_matrix.csv'),
@@ -403,7 +413,7 @@ write_csv(res_scores_all, file.path(dir_calc, 'res_soc_only.csv'))
 ``` {r ecol resilience}
 
 message('Calculating ecological-only resilience...')
-### copy governance resilience csv to overwrite overall resilience matrix
+### copy ecological resilience csv to overwrite overall resilience matrix
 ### (rewriting the conf copy, not the master copy!)
 file.copy(from = file.path(dir_calc, 'master', 'resilience_matrix_ecol_master.csv'),
           to   = file.path(dir_calc, 'conf', 'resilience_matrix.csv'),
@@ -443,52 +453,6 @@ tmp <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
   left_join(res_scores_all %>% mutate(dimension = 'res_ecol') %>% spread(dimension, score))
 
 write_csv(res_scores_all, file.path(dir_calc, 'res_ecol_only.csv'))
-
-```
-
-``` {r nonreg resilience}
-
-message('Calculating non-governance resilience...')
-### copy governance resilience csv to overwrite overall resilience matrix
-### (rewriting the conf copy, not the master copy!)
-file.copy(from = file.path(dir_calc, 'master', 'resilience_matrix_nonreg_master.csv'),
-          to   = file.path(dir_calc, 'conf', 'resilience_matrix.csv'),
-          overwrite = TRUE)
-
-conf   <- Conf(file.path(dir_calc, 'conf'))
-
-res_scores_all <- data.frame() ### initialize scores
-
-for (status_year in status_years) {
-  
-  message('Calculating scores for ', status_year)
-
-  ### For each run through loop, assign status_year inside
-  ###   the layers object/env't so it is accessible to functions.R
-  layers$data$scenario_year <- status_year
-
-  capture.output( ### the function prints crap to screen
-    {
-      scores <- CalculateAll(conf, layers) %>%
-        mutate(yr_text = status_year,
-               year    = as.integer(str_replace_all(status_year, '[^0-9]', '')))
-    },
-    file = 'delete_this.txt')
-  unlink('delete_this.txt')
-
-  res_scores_all <- res_scores_all %>%
-    bind_rows(scores)
-
-}
-
-res_scores_all <- res_scores_all %>%
-  filter(dimension == 'resilience')
-
-tmp <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
-  spread(dimension, score) %>%
-  left_join(res_scores_all %>% mutate(dimension = 'res_nonreg') %>% spread(dimension, score))
-
-write_csv(res_scores_all, file.path(dir_calc, 'res_nonreg_only.csv'))
 
 ```
 
