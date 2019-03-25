@@ -547,7 +547,7 @@ prs_mdl <- lapply(prs_csvs, read_csv) %>%
                               TRUE ~ est_text)) %>%
   select(goal, yr_lag, r_squared, aic, term, est_text, model) %>%
   spread(term, est_text) %>%
-  filter(!(is.na(res_reg) & is.na(res_ecol) & is.na(res_soc))) %>%
+  # filter(!(is.na(res_reg) & is.na(res_ecol) & is.na(res_soc))) %>%
     ### eliminate intercept-only models
   clean_df_names() %>%
   group_by(goal, yr_lag) %>%
