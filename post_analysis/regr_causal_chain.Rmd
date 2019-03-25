@@ -362,6 +362,43 @@ write_csv(prs_res_all, 'int/prs_res_all.csv')
 
 ```
 
+``` {r prs_intercept_only}
+
+prs_res_all <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+    # cat(goalname, ', lag = ', yr_lag, '\n')
+    tmp_df <- scores_rgn_res %>%
+      filter(goal == goalname) %>%
+      mutate(obs_future_prs = lead(pressures, yr_lag),
+             d_prs = (obs_future_prs - pressures) / pressures) %>%
+      filter(!is.na(d_prs))
+    
+    if(nrow(tmp_df) == 0) next()
+   
+    ### Intercept only model - no components
+    
+    tmp_mdl <- lm(d_prs ~ 1, data = tmp_df)
+    prs_res_all_lm <- tmp_mdl %>%
+      broom::tidy() %>%
+      mutate(goal  = goalname,
+             n_obs = nrow(tmp_df),
+             years = length(tmp_df$year %>% unique()),
+             yr_lag = yr_lag,
+             r_squared = summary(tmp_mdl)$adj.r.squared,
+             aic = AIC(tmp_mdl),
+             bic = BIC(tmp_mdl))
+
+    prs_res_all <- bind_rows(prs_res_all, prs_res_all_lm)
+  }
+}
+
+write_csv(prs_res_all, 'int/prs_intercept_only.csv')
+
+```
+
 #### Change in pressure vs. regulatory resilience
 
 `r DT::datatable(prs_res_reg %>% mutate_if(is.double, ~ round(., 4)))`
@@ -432,7 +469,7 @@ for(yr_lag in 1:6) {
   }
 }
 
-write_csv(lfs_prs,     'int/lfs_prs_only.csv')
+write_csv(lfs_prs, 'int/lfs_prs_only.csv')
 
 ```
 
