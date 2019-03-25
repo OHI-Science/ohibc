@@ -56,7 +56,7 @@ res_soc <- read_csv(file.path(dir_calc, 'res_soc_only.csv')) %>%
 res_ecol <- read_csv(file.path(dir_calc, 'res_ecol_only.csv')) %>%
   select(goal, region_id, year, res_ecol = score)
 
-scores_rgn_res <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %>%
+scores_rgn_res <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
 # scores_rgn_res <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
   filter(region_id != 0) %>%
   spread(dimension, score) %>%
@@ -72,12 +72,9 @@ scores_rgn_res <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %
          pressures = pressures / 100) %>%
   filter(!all(is.na(res_reg), is.na(res_soc), is.na(res_ecol)))
 
-scores_rgn_res <- scores_rgn_res %>%
-  filter(!is.na(res_reg))
-  
 goals <- scores_rgn_res$goal %>% 
-  unique() %>%
-  .[. != 'MAR'] ### remove MAR since too short of time span
+  unique() # %>%
+  # .[. != 'MAR'] ### remove MAR since too short of time span
 
 
 ```
@@ -90,13 +87,19 @@ for(yr_lag in 1:6) {
   # yr_lag <- 2
   for(goalname in goals) { # goalname <- 'LSP'
     # cat(goalname, ', lag = ', yr_lag, '\n')
+
     tmp_df <- scores_rgn_res %>%
       filter(goal == goalname) %>%
       mutate(obs_future_prs = lead(pressures, yr_lag),
              d_prs = (obs_future_prs - pressures) / pressures) %>%
       filter(!is.na(d_prs))
-    
+
+    if(nrow(tmp_df) == 0) next()
+   
     ### just regulatory resilience
+    ### Check that there are values for each component, otherwise devolves to different model:
+    if(all(is.na(tmp_df$res_reg))) next()
+
     tmp_mdl <- lm(d_prs ~ res_reg, data = tmp_df)
     prs_res_reg_lm <- tmp_mdl %>%
       broom::tidy() %>%
@@ -108,7 +111,7 @@ for(yr_lag in 1:6) {
              aic = AIC(tmp_mdl),
              bic = BIC(tmp_mdl))
     
-    prs_res_reg      <- bind_rows(prs_res_reg, prs_res_reg_lm)
+    prs_res_reg <- bind_rows(prs_res_reg, prs_res_reg_lm)
   }
 }
 
@@ -130,7 +133,13 @@ for(yr_lag in 1:6) {
              d_prs = (obs_future_prs - pressures) / pressures) %>%
       filter(!is.na(d_prs))
     
+    if(nrow(tmp_df) == 0) next()
+   
     ### just regulatory and social resilience
+    ### Check that there are values for each component, otherwise devolves to different model:
+    if(all(is.na(tmp_df$res_soc))) next()
+    if(all(is.na(tmp_df$res_reg))) next()
+
     tmp_mdl <- lm(d_prs ~ res_reg + res_soc, data = tmp_df)
     prs_res_reg_soc_lm <- tmp_mdl %>%
       broom::tidy() %>%
@@ -166,7 +175,13 @@ for(yr_lag in 1:6) {
     
     if(all(is.na(tmp_df$res_ecol))) next()
     
+    if(nrow(tmp_df) == 0) next()
+   
     ### just regulatory and ecological resilience
+    ### Check that there are values for each component, otherwise devolves to different model:
+    if(all(is.na(tmp_df$res_ecol))) next()
+    if(all(is.na(tmp_df$res_reg))) next()
+
     tmp_mdl <- lm(d_prs ~ res_reg + res_ecol, data = tmp_df)
     prs_res_reg_ecol_lm <- tmp_mdl %>%
       broom::tidy() %>%
@@ -192,7 +207,7 @@ prs_res <- data.frame()
 
 for(yr_lag in 1:6) {
   # yr_lag <- 2
-  for(goalname in goals) { # goalname <- 'LSP'
+  for(goalname in goals) { # goalname <- 'LVO'
     # cat(goalname, ', lag = ', yr_lag, '\n')
     tmp_df <- scores_rgn_res %>%
       filter(goal == goalname) %>%
@@ -200,10 +215,12 @@ for(yr_lag in 1:6) {
              d_prs = (obs_future_prs - pressures) / pressures) %>%
       filter(!is.na(d_prs))
     
-    ### all resilience aspects.
-    ### Where possible, separate ecol and soc resil; if not possible
-    ### (i.e. one is all NAs) use combined non-reg resil.
-    if(all(is.na(tmp_df$res_ecol))) next()
+    if(nrow(tmp_df) == 0) next()
+   
+    ### social only
+    ### Check that there are values for each component, otherwise devolves to different model:
+    if(all(is.na(tmp_df$res_soc))) next()
+
     tmp_mdl <- lm(d_prs ~ res_soc, data = tmp_df)
     prs_res_lm <- tmp_mdl %>%
       broom::tidy() %>%
@@ -237,10 +254,13 @@ for(yr_lag in 1:6) {
              d_prs = (obs_future_prs - pressures) / pressures) %>%
       filter(!is.na(d_prs))
     
-    ### all resilience aspects.
-    ### Where possible, separate ecol and soc resil; if not possible
-    ### (i.e. one is all NAs) use combined non-reg resil.
+    if(nrow(tmp_df) == 0) next()
+   
+    ### social and ecological resilience only
+    ### Check that there are values for each component, otherwise devolves to different model:
     if(all(is.na(tmp_df$res_ecol))) next()
+    if(all(is.na(tmp_df$res_soc))) next()
+
     tmp_mdl <- lm(d_prs ~ res_soc + res_ecol, data = tmp_df)
     prs_res_lm <- tmp_mdl %>%
       broom::tidy() %>%
@@ -274,10 +294,12 @@ for(yr_lag in 1:6) {
              d_prs = (obs_future_prs - pressures) / pressures) %>%
       filter(!is.na(d_prs))
     
-    ### all resilience aspects.
-    ### Where possible, separate ecol and soc resil; if not possible
-    ### (i.e. one is all NAs) use combined non-reg resil.
+    if(nrow(tmp_df) == 0) next()
+   
+    ### ecological resilience only
+    ### Check that there are values for each component, otherwise devolves to different model:
     if(all(is.na(tmp_df$res_ecol))) next()
+    
     tmp_mdl <- lm(d_prs ~ res_ecol, data = tmp_df)
     prs_res_lm <- tmp_mdl %>%
       broom::tidy() %>%
@@ -311,10 +333,14 @@ for(yr_lag in 1:6) {
              d_prs = (obs_future_prs - pressures) / pressures) %>%
       filter(!is.na(d_prs))
     
+    if(nrow(tmp_df) == 0) next()
+   
     ### all resilience aspects.
-    ### Where possible, separate ecol and soc resil; if not possible
-    ### (i.e. one is all NAs) use combined non-reg resil.
+    ### Check that there are values for each component, otherwise devolves to different model:
     if(all(is.na(tmp_df$res_ecol))) next()
+    if(all(is.na(tmp_df$res_soc))) next()
+    if(all(is.na(tmp_df$res_reg))) next()
+    
     tmp_mdl <- lm(d_prs ~ res_reg + res_ecol + res_soc, data = tmp_df)
     prs_res_all_lm <- tmp_mdl %>%
       broom::tidy() %>%
@@ -355,7 +381,7 @@ $$\%\Delta X_t = \frac{x_{t+\lambda} - x_t}{x_{t}} = \alpha + \beta p_{t}$$
 ### Set up basic data frame - make sure prs and res are 0-1; status
 ### range not important here since we'll take a ratio inside a loop.
 
-scores_rgn_lfs <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %>%
+scores_rgn_lfs <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
 # scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
   filter(region_id != 0) %>%
   spread(dimension, score) %>%
@@ -366,8 +392,8 @@ scores_rgn_lfs <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %
   filter(!is.na(pressures))
 
 goals <- scores_rgn_lfs$goal %>% 
-  unique() %>%
-  .[. != 'MAR'] ### remove MAR since too short of time span
+  unique() # %>%
+  # .[. != 'MAR'] ### remove MAR since too short of time span
 
 lfs_prs <- data.frame()
 
@@ -380,6 +406,8 @@ for(yr_lag in 1:6) {
       mutate(obs_future_status = lead(status, yr_lag),
              d_status = (obs_future_status - status) /status) %>%
       filter(!is.na(d_status))
+    
+    if(nrow(tmp_df) == 0) next()
     
     tmp_mdl <- lm(d_status ~ pressures, data = tmp_df)
     lfs_prs_lm <- tmp_mdl %>%
@@ -438,12 +466,11 @@ prs_mdl <- lapply(prs_csvs, read_csv) %>%
                               TRUE ~ est_text)) %>%
   select(goal, yr_lag, r_squared, aic, term, est_text, model) %>%
   spread(term, est_text) %>%
-  mutate(incl_reg = !is.na(res_reg)) %>%
+  filter(!(is.na(res_reg) & is.na(res_ecol) & is.na(res_soc))) %>%
+    ### eliminate intercept-only models
   clean_df_names() %>%
-  group_by(goal, yr_lag, incl_reg) %>%
-  mutate(best_model = (aic == min(aic))) %>%
   group_by(goal, yr_lag) %>%
-  mutate(best_model_overall = (aic == min(aic))) %>%
+  mutate(best_model = (aic == min(aic))) %>%
   ungroup()
 
 write_csv(prs_mdl, 'int/model_compare_prs_res.csv')
