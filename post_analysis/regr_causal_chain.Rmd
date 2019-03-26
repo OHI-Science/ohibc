@@ -81,6 +81,42 @@ goals <- scores_rgn_res$goal %>%
 
 ```
 
+```{r helper functions}
+
+calc_d_prs <- function(goalname, scores_df, yr_lag) {
+  d_prs_df <- scores_df %>%
+    filter(goal == goalname) %>%
+    mutate(obs_future_prs = lead(pressures, yr_lag),
+           d_prs = (obs_future_prs - pressures) / pressures) %>%
+    filter(!is.na(d_prs))
+  return(d_prs_df)
+}
+
+calc_d_status <- function(goalname, scores_df, yr_lag) {
+  d_stat_df <- scores_df %>%
+      filter(goal == goalname) %>%
+      mutate(obs_future_status = lead(status, yr_lag),
+             d_status = (obs_future_status - status) /status) %>%
+      filter(!is.na(d_status)) %>%
+      filter(!is.infinite(d_status))
+  return(d_stat_df)
+}
+
+tidy_model <- function(mdl, d_prs_df) {
+  mdl_df <- mdl %>%
+    broom::tidy() %>%
+    mutate(goal  = goalname,
+           n_obs = nrow(d_prs_df),
+           years = length(d_prs_df$year %>% unique()),
+           yr_lag = yr_lag,
+           r_squared = summary(mdl)$adj.r.squared,
+           aic = AIC(mdl),
+           bic = BIC(mdl))
+  return(mdl_df)
+}
+
+```
+
 ``` {r prs_res_reg_only}
 
 prs_res_reg <- data.frame()
@@ -90,34 +126,22 @@ for(yr_lag in 1:6) {
   for(goalname in goals) { # goalname <- 'LSP'
     # cat(goalname, ', lag = ', yr_lag, '\n')
 
-    tmp_df <- scores_rgn_res %>%
-      filter(goal == goalname) %>%
-      mutate(obs_future_prs = lead(pressures, yr_lag),
-             d_prs = (obs_future_prs - pressures) / pressures) %>%
-      filter(!is.na(d_prs))
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag)
 
-    if(nrow(tmp_df) == 0) next()
+    if(nrow(d_prs_df) == 0) next()
    
     ### just regulatory resilience
     ### Check that there are values for each component, otherwise devolves to different model:
-    if(all(is.na(tmp_df$res_reg))) next()
+    if(all(is.na(d_prs_df$res_reg))) next()
 
-    tmp_mdl <- lm(d_prs ~ res_reg, data = tmp_df)
-    prs_res_reg_lm <- tmp_mdl %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()),
-             yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared,
-             aic = AIC(tmp_mdl),
-             bic = BIC(tmp_mdl))
+    d_prs_mdl <- lm(d_prs ~ res_reg, data = d_prs_df)
+    prs_res_reg_lm <- tidy_model(d_prs_mdl, d_prs_df)
     
     prs_res_reg <- bind_rows(prs_res_reg, prs_res_reg_lm)
   }
 }
 
-write_csv(prs_res_reg, 'int/prs_res_reg_only.csv')
+write_csv(prs_res_reg, 'int/prs_v_res_reg_only.csv')
 
 ```
 
@@ -129,35 +153,23 @@ for(yr_lag in 1:6) {
   # yr_lag <- 2
   for(goalname in goals) { # goalname <- 'LSP'
     # cat(goalname, ', lag = ', yr_lag, '\n')
-    tmp_df <- scores_rgn_res %>%
-      filter(goal == goalname) %>%
-      mutate(obs_future_prs = lead(pressures, yr_lag),
-             d_prs = (obs_future_prs - pressures) / pressures) %>%
-      filter(!is.na(d_prs))
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag)
     
-    if(nrow(tmp_df) == 0) next()
+    if(nrow(d_prs_df) == 0) next()
    
     ### just regulatory and social resilience
     ### Check that there are values for each component, otherwise devolves to different model:
-    if(all(is.na(tmp_df$res_soc))) next()
-    if(all(is.na(tmp_df$res_reg))) next()
+    if(all(is.na(d_prs_df$res_soc))) next()
+    if(all(is.na(d_prs_df$res_reg))) next()
 
-    tmp_mdl <- lm(d_prs ~ res_reg + res_soc, data = tmp_df)
-    prs_res_reg_soc_lm <- tmp_mdl %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()),
-             yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared,
-             aic = AIC(tmp_mdl),
-             bic = BIC(tmp_mdl))
+    d_prs_mdl <- lm(d_prs ~ res_reg + res_soc, data = d_prs_df)
+    prs_res_reg_soc_lm <- tidy_model(d_prs_mdl, d_prs_df)
     
     prs_res_reg_soc  <- bind_rows(prs_res_reg_soc, prs_res_reg_soc_lm)
   }
 }
 
-write_csv(prs_res_reg_soc,     'int/prs_res_reg_soc.csv')
+write_csv(prs_res_reg_soc, 'int/prs_v_res_reg_soc.csv')
 
 ```
 
@@ -169,37 +181,25 @@ for(yr_lag in 1:6) {
   # yr_lag <- 2
   for(goalname in goals) { # goalname <- 'LSP'
     # cat(goalname, ', lag = ', yr_lag, '\n')
-    tmp_df <- scores_rgn_res %>%
-      filter(goal == goalname) %>%
-      mutate(obs_future_prs = lead(pressures, yr_lag),
-             d_prs = (obs_future_prs - pressures) / pressures) %>%
-      filter(!is.na(d_prs))
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag)
     
-    if(all(is.na(tmp_df$res_ecol))) next()
+    if(all(is.na(d_prs_df$res_ecol))) next()
     
-    if(nrow(tmp_df) == 0) next()
+    if(nrow(d_prs_df) == 0) next()
    
     ### just regulatory and ecological resilience
     ### Check that there are values for each component, otherwise devolves to different model:
-    if(all(is.na(tmp_df$res_ecol))) next()
-    if(all(is.na(tmp_df$res_reg))) next()
+    if(all(is.na(d_prs_df$res_ecol))) next()
+    if(all(is.na(d_prs_df$res_reg))) next()
 
-    tmp_mdl <- lm(d_prs ~ res_reg + res_ecol, data = tmp_df)
-    prs_res_reg_ecol_lm <- tmp_mdl %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()),
-             yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared,
-             aic = AIC(tmp_mdl),
-             bic = BIC(tmp_mdl))
+    d_prs_mdl <- lm(d_prs ~ res_reg + res_ecol, data = d_prs_df)
+    prs_res_reg_ecol_lm <- tidy_model(d_prs_mdl, d_prs_df)
 
     prs_res_reg_ecol <- bind_rows(prs_res_reg_ecol, prs_res_reg_ecol_lm)
   }
 }
 
-write_csv(prs_res_reg_ecol, 'int/prs_res_reg_ecol.csv')
+write_csv(prs_res_reg_ecol, 'int/prs_v_res_reg_ecol.csv')
 
 ```
 
@@ -210,35 +210,23 @@ prs_res <- data.frame()
 for(yr_lag in 1:6) {
   # yr_lag <- 2
   for(goalname in goals) { # goalname <- 'LVO'
-    # cat(goalname, ', lag = ', yr_lag, '\n')
-    tmp_df <- scores_rgn_res %>%
-      filter(goal == goalname) %>%
-      mutate(obs_future_prs = lead(pressures, yr_lag),
-             d_prs = (obs_future_prs - pressures) / pressures) %>%
-      filter(!is.na(d_prs))
+
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag)
     
-    if(nrow(tmp_df) == 0) next()
+    if(nrow(d_prs_df) == 0) next()
    
     ### social only
     ### Check that there are values for each component, otherwise devolves to different model:
-    if(all(is.na(tmp_df$res_soc))) next()
+    if(all(is.na(d_prs_df$res_soc))) next()
 
-    tmp_mdl <- lm(d_prs ~ res_soc, data = tmp_df)
-    prs_res_lm <- tmp_mdl %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()),
-             yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared,
-             aic = AIC(tmp_mdl),
-             bic = BIC(tmp_mdl))
+    d_prs_mdl <- lm(d_prs ~ res_soc, data = d_prs_df)
+    prs_res_lm <- tidy_model(d_prs_mdl, d_prs_df)
 
     prs_res <- bind_rows(prs_res, prs_res_lm)
   }
 }
 
-write_csv(prs_res, 'int/prs_res_soc_only.csv')
+write_csv(prs_res, 'int/prs_v_res_soc_only.csv')
 
 ```
 
@@ -249,36 +237,24 @@ prs_res <- data.frame()
 for(yr_lag in 1:6) {
   # yr_lag <- 2
   for(goalname in goals) { # goalname <- 'LSP'
-    # cat(goalname, ', lag = ', yr_lag, '\n')
-    tmp_df <- scores_rgn_res %>%
-      filter(goal == goalname) %>%
-      mutate(obs_future_prs = lead(pressures, yr_lag),
-             d_prs = (obs_future_prs - pressures) / pressures) %>%
-      filter(!is.na(d_prs))
+
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag)
     
-    if(nrow(tmp_df) == 0) next()
+    if(nrow(d_prs_df) == 0) next()
    
     ### social and ecological resilience only
     ### Check that there are values for each component, otherwise devolves to different model:
-    if(all(is.na(tmp_df$res_ecol))) next()
-    if(all(is.na(tmp_df$res_soc))) next()
+    if(all(is.na(d_prs_df$res_ecol))) next()
+    if(all(is.na(d_prs_df$res_soc))) next()
 
-    tmp_mdl <- lm(d_prs ~ res_soc + res_ecol, data = tmp_df)
-    prs_res_lm <- tmp_mdl %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()),
-             yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared,
-             aic = AIC(tmp_mdl),
-             bic = BIC(tmp_mdl))
+    d_prs_mdl <- lm(d_prs ~ res_soc + res_ecol, data = d_prs_df)
+    prs_res_lm <- tidy_model(d_prs_mdl, d_prs_df)
 
     prs_res <- bind_rows(prs_res, prs_res_lm)
   }
 }
 
-write_csv(prs_res, 'int/prs_res_soc_ecol.csv')
+write_csv(prs_res, 'int/prs_v_res_soc_ecol.csv')
 
 ```
 
@@ -289,35 +265,23 @@ prs_res <- data.frame()
 for(yr_lag in 1:6) {
   # yr_lag <- 2
   for(goalname in goals) { # goalname <- 'LSP'
-    # cat(goalname, ', lag = ', yr_lag, '\n')
-    tmp_df <- scores_rgn_res %>%
-      filter(goal == goalname) %>%
-      mutate(obs_future_prs = lead(pressures, yr_lag),
-             d_prs = (obs_future_prs - pressures) / pressures) %>%
-      filter(!is.na(d_prs))
+
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag)
     
-    if(nrow(tmp_df) == 0) next()
+    if(nrow(d_prs_df) == 0) next()
    
     ### ecological resilience only
     ### Check that there are values for each component, otherwise devolves to different model:
-    if(all(is.na(tmp_df$res_ecol))) next()
+    if(all(is.na(d_prs_df$res_ecol))) next()
     
-    tmp_mdl <- lm(d_prs ~ res_ecol, data = tmp_df)
-    prs_res_lm <- tmp_mdl %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()),
-             yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared,
-             aic = AIC(tmp_mdl),
-             bic = BIC(tmp_mdl))
+    d_prs_mdl <- lm(d_prs ~ res_ecol, data = d_prs_df)
+    prs_res_lm <- tidy_model(d_prs_mdl, d_prs_df)
 
     prs_res <- bind_rows(prs_res, prs_res_lm)
   }
 }
 
-write_csv(prs_res, 'int/prs_res_ecol_only.csv')
+write_csv(prs_res, 'int/prs_v_res_ecol_only.csv')
 
 ```
 
@@ -328,37 +292,25 @@ prs_res_all <- data.frame()
 for(yr_lag in 1:6) {
   # yr_lag <- 2
   for(goalname in goals) { # goalname <- 'LSP'
-    # cat(goalname, ', lag = ', yr_lag, '\n')
-    tmp_df <- scores_rgn_res %>%
-      filter(goal == goalname) %>%
-      mutate(obs_future_prs = lead(pressures, yr_lag),
-             d_prs = (obs_future_prs - pressures) / pressures) %>%
-      filter(!is.na(d_prs))
+
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag)
     
-    if(nrow(tmp_df) == 0) next()
+    if(nrow(d_prs_df) == 0) next()
    
     ### all resilience aspects.
     ### Check that there are values for each component, otherwise devolves to different model:
-    if(all(is.na(tmp_df$res_ecol))) next()
-    if(all(is.na(tmp_df$res_soc))) next()
-    if(all(is.na(tmp_df$res_reg))) next()
+    if(all(is.na(d_prs_df$res_ecol))) next()
+    if(all(is.na(d_prs_df$res_soc))) next()
+    if(all(is.na(d_prs_df$res_reg))) next()
     
-    tmp_mdl <- lm(d_prs ~ res_reg + res_ecol + res_soc, data = tmp_df)
-    prs_res_all_lm <- tmp_mdl %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()),
-             yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared,
-             aic = AIC(tmp_mdl),
-             bic = BIC(tmp_mdl))
+    d_prs_mdl <- lm(d_prs ~ res_reg + res_ecol + res_soc, data = d_prs_df)
+    prs_res_all_lm <- tidy_model(d_prs_mdl, d_prs_df)
 
     prs_res_all <- bind_rows(prs_res_all, prs_res_all_lm)
   }
 }
 
-write_csv(prs_res_all, 'int/prs_res_all.csv')
+write_csv(prs_res_all, 'int/prs_v_res_all.csv')
 
 ```
 
@@ -369,150 +321,23 @@ prs_res_all <- data.frame()
 for(yr_lag in 1:6) {
   # yr_lag <- 2
   for(goalname in goals) { # goalname <- 'LSP'
-    # cat(goalname, ', lag = ', yr_lag, '\n')
-    tmp_df <- scores_rgn_res %>%
-      filter(goal == goalname) %>%
-      mutate(obs_future_prs = lead(pressures, yr_lag),
-             d_prs = (obs_future_prs - pressures) / pressures) %>%
-      filter(!is.na(d_prs))
+
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag)
     
-    if(nrow(tmp_df) == 0) next()
+    if(nrow(d_prs_df) == 0) next()
    
     ### Intercept only model - no components
     
-    tmp_mdl <- lm(d_prs ~ 1, data = tmp_df)
-    prs_res_all_lm <- tmp_mdl %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()),
-             yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared,
-             aic = AIC(tmp_mdl),
-             bic = BIC(tmp_mdl))
+    d_prs_mdl <- lm(d_prs ~ 1, data = d_prs_df)
+    prs_res_all_lm <- tidy_model(d_prs_mdl, d_prs_df)
 
     prs_res_all <- bind_rows(prs_res_all, prs_res_all_lm)
   }
 }
 
-write_csv(prs_res_all, 'int/prs_intercept_only.csv')
+write_csv(prs_res_all, 'int/prs_v_res_intercept_only.csv')
 
 ```
-
-#### Change in pressure vs. regulatory resilience
-
-`r DT::datatable(prs_res_reg %>% mutate_if(is.double, ~ round(., 4)))`
-
-#### Change in pressure vs. all resilience
-
-`r DT::datatable(prs_res_all %>% mutate_if(is.double, ~ round(., 4)))`
-
-
-
-## Change in status vs. pressure
-
-The second link in the causal chain connects a change in pressure now (time $t$) to changes in status in the future (time $t + \lambda$).  Framing this as proportional change in status, $\frac{x_{t+\lambda}}{x_{t}}$, examine the coefficient and significance of pressure.
-
-$$\%\Delta X_t = \frac{x_{t+\lambda} - x_t}{x_{t}} = \alpha + \beta p_{t}$$
-
-``` {r setup d status vs pressures}
-
-### Set up basic data frame - make sure prs and res are 0-1; status
-### range not important here since we'll take a ratio inside a loop.
-
-scores_rgn_lfs <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
-# scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
-  filter(region_id != 0) %>%
-  spread(dimension, score) %>%
-  select(goal, region_id, year, status, pressures) %>%
-  left_join(prs_no_social %>%
-              rename(prs_no_soc = pressures), 
-            by = c('goal', 'region_id', 'year')) %>%
-  group_by(goal, region_id) %>%
-  arrange(year) %>%
-  # mutate(pressures = pressures / 100) %>%
-  filter(!is.na(pressures))
-
-goals <- scores_rgn_lfs$goal %>% 
-  unique()
-
-```
-
-``` {r regress d status vs pressures all}
-lfs_prs <- data.frame()
-
-for(yr_lag in 1:6) {
-  # yr_lag <- 1
-  for(goalname in goals) { # goalname <- 'FIS'
-    # cat(goalname, ', lag = ', yr_lag, '\n')
-    tmp_df <- scores_rgn_lfs %>%
-      filter(goal == goalname) %>%
-      mutate(obs_future_status = lead(status, yr_lag),
-             d_status = (obs_future_status - status) /status) %>%
-      filter(!is.na(d_status)) %>%
-      filter(!is.infinite(d_status))
-    
-    if(nrow(tmp_df) == 0) next()
-    
-    tmp_mdl <- lm(d_status ~ pressures, data = tmp_df)
-    lfs_prs_lm <- tmp_mdl %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()),
-             yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared,
-             aic = AIC(tmp_mdl),
-             bic = BIC(tmp_mdl))
-
-    lfs_prs <- bind_rows(lfs_prs, lfs_prs_lm)
-  }
-}
-
-write_csv(lfs_prs, 'int/lfs_prs_only.csv')
-
-```
-
-``` {r regress d status vs pressures no social}
-lfs_prs <- data.frame()
-
-for(yr_lag in 1:6) {
-  # yr_lag <- 2
-  for(goalname in goals) { # goalname <- 'LSP'
-    # cat(goalname, ', lag = ', yr_lag, '\n')
-    tmp_df <- scores_rgn_lfs %>%
-      filter(goal == goalname) %>%
-      mutate(obs_future_status = lead(status, yr_lag),
-             d_status = (obs_future_status - status) /status) %>%
-      filter(!is.na(d_status)) %>%
-      filter(!is.infinite(d_status))
-    
-    if(nrow(tmp_df) == 0) next()
-    if(all(is.na(tmp_df$prs_no_soc))) next()
-    
-    tmp_mdl <- lm(d_status ~ prs_no_soc, data = tmp_df)
-    lfs_prs_lm <- tmp_mdl %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()),
-             yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared,
-             aic = AIC(tmp_mdl),
-             bic = BIC(tmp_mdl))
-
-    lfs_prs <- bind_rows(lfs_prs, lfs_prs_lm)
-  }
-}
-
-write_csv(lfs_prs, 'int/lfs_prs_no_soc.csv')
-
-```
-
-#### Change in status vs. pressure
-
-`r DT::datatable(lfs_prs %>% mutate_if(is.double, ~ round(., 4)))`
-
 
 # Comparing models
 
@@ -564,6 +389,88 @@ best_models <- prs_mdl %>%
   ungroup()
 
 ```
+
+### Change in pressure vs. resilience components
+
+`r DT::datatable(prs_mdl %>% mutate_if(is.double, ~ round(., 4)))`
+
+
+## Change in status vs. pressure
+
+The second link in the causal chain connects a change in pressure now (time $t$) to changes in status in the future (time $t + \lambda$).  Framing this as proportional change in status, $\frac{x_{t+\lambda}}{x_{t}}$, examine the coefficient and significance of pressure.
+
+$$\%\Delta X_t = \frac{x_{t+\lambda} - x_t}{x_{t}} = \alpha + \beta p_{t}$$
+
+``` {r setup d status vs pressures}
+
+### Set up basic data frame - make sure prs and res are 0-1; status
+### range not important here since we'll take a ratio inside a loop.
+
+scores_rgn_d_status <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+# scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id != 0) %>%
+  spread(dimension, score) %>%
+  select(goal, region_id, year, status, pressures) %>%
+  left_join(prs_no_social %>% rename(prs_omit_soc = pressures), 
+            by = c('goal', 'region_id', 'year')) %>%
+  group_by(goal, region_id) %>%
+  arrange(year) %>%
+  filter(!is.na(pressures))
+
+goals <- scores_rgn_d_status$goal %>% 
+  unique()
+
+```
+
+``` {r regress d status vs pressures all}
+d_status_prs <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 1
+  for(goalname in goals) { # goalname <- 'FIS'
+
+    d_status_df <- calc_d_status(goalname, scores_rgn_d_status, yr_lag)
+    
+    if(nrow(d_status_df) == 0) next()
+    
+    d_status_mdl <- lm(d_status ~ pressures, data = d_status_df)
+    d_status_prs_lm <- tidy_model(d_status_mdl, d_status_df)
+
+    d_status_prs <- bind_rows(d_status_prs, d_status_prs_lm)
+  }
+}
+
+write_csv(d_status_prs, 'int/status_v_prs_incl_soc.csv')
+
+```
+
+``` {r regress d status vs pressures no social}
+d_status_prs <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+
+    d_status_df <- calc_d_status(goalname, scores_rgn_d_status, yr_lag)
+    
+    if(nrow(d_status_df) == 0) next()
+    if(all(is.na(d_status_df$prs_no_soc))) next()
+    
+    d_status_mdl <- lm(d_status ~ prs_omit_soc, data = d_status_df)
+    d_status_prs_lm <- tidy_model(d_status_mdl, d_status_df)
+
+    d_status_prs <- bind_rows(d_status_prs, d_status_prs_lm)
+  }
+}
+
+write_csv(d_status_prs, 'int/status_v_prs_no_soc.csv')
+
+```
+
+#### Change in status vs. pressure
+
+`r DT::datatable(d_status_prs %>% mutate_if(is.double, ~ round(., 4)))`
+
 
 ## But do the pressures and resilience change much?
 
