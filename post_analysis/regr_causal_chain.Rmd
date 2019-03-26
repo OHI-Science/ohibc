@@ -454,7 +454,7 @@ for(yr_lag in 1:6) {
     d_status_df <- calc_d_status(goalname, scores_rgn_d_status, yr_lag)
     
     if(nrow(d_status_df) == 0) next()
-    if(all(is.na(d_status_df$prs_no_soc))) next()
+    if(all(is.na(d_status_df$prs_omit_soc))) next()
     
     d_status_mdl <- lm(d_status ~ prs_omit_soc, data = d_status_df)
     d_status_prs_lm <- tidy_model(d_status_mdl, d_status_df)
