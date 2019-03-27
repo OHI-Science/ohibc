@@ -379,6 +379,12 @@ prs_mdl <- lapply(prs_csvs, read_csv) %>%
   mutate(best_model = (aic == min(aic))) %>%
   ungroup()
 
+prs_mdl_excl_intercept <- prs_mdl %>%
+  filter(!str_detect(model, 'intercept')) %>%
+  group_by(goal, yr_lag) %>%
+  mutate(best_model = (aic == min(aic))) %>%
+  ungroup()
+
 write_csv(prs_mdl, 'int/model_compare_prs_res.csv')
 
 best_models <- prs_mdl %>%

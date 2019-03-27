@@ -66,266 +66,11 @@ $$\%\Delta X_t =  \frac{X_{t+\lambda} - X_t}{X_{t}} = \alpha + \beta_1 T_t + \be
 Using a fixed effects model by year may compensate for exogenous unobserved variables (i.e. not included in the index calculations) that affect all regions equally in each time period, such as global economic conditions or an El Niño year.  
 <!--Using a fixed effects model by region may compensate for unobserved variables (i.e. not included in index calculations) related to interregional differences, such as total population, proportion of First Nations population, or geophysical differences.-->
 
-# Regress goal-by-goal
+# Regress predicted vs observed status
 
-Assuming region scores should follow roughly similar patterns, we can include all regions for each year in the regression.
+Goal by goal, regress likely future state in time $t$ against observed status in time $t + 5$.  Fixed effects on region as well as no fixed effects.
 
-``` {r regress_lfs_coefficients}
-
-### Set up basic data frame - make sure prs and res are 0-1; status
-### range not important here since we'll take a ratio inside a loop.
-
-# scores_rgn <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %>%
-scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
-  filter(region_id != 0) %>%
-  spread(dimension, score) %>%
-  select(goal, region_id, year, 
-         pressures, resilience, 
-         status, trend) %>%
-  group_by(goal, region_id) %>%
-  arrange(year) %>%
-  mutate(pressures  = pressures  / 100,
-         resilience = resilience / 100,
-         res_minus_prs = resilience - pressures) %>%
-  filter(!is.na(pressures) & !is.na(resilience) &!is.na(trend))
-
-goals <-  c('AO',  
-            'FIS', 'SAL', # 'MAR', ### commented out - too few years
-            'CPP', 'CSS', 
-            'CW',
-            'HAB', 'SPP', 
-            'ICO', 'LSP', 
-            'LVF', 'LVO', 
-            'TR')
-
-lfs_trp <- data.frame()
-lfs_res <- data.frame()
-lfs_felm_yr <- data.frame()
-# library(lfe)
-# lfs2_all <- data.frame()
-# tr_only_all <- data.frame()
-
-
-for(goalname in goals) { # goalname <- goals[13]
-  # cat(goalname, ': lag =', lead_yr, '\n')
-  tmp_df <- scores_rgn %>%
-    filter(goal == goalname) %>%
-    mutate(obs_future_status = lead(status, 5),
-           d_status = (obs_future_status - status)/status) %>%
-    filter(!is.na(d_status))
-  
-  lfs_lm <- lm(d_status ~ trend + res_minus_prs, data = tmp_df) %>%
-    broom::tidy() %>%
-    mutate(goal  = goalname,
-           n_obs = nrow(tmp_df),
-           years = length(tmp_df$year %>% unique()))
-
-  lfs_res_lm <- lm(d_status ~ resilience, data = tmp_df) %>%
-    broom::tidy() %>%
-    mutate(goal  = goalname,
-           n_obs = nrow(tmp_df),
-           years = length(tmp_df$year %>% unique()))
-
-  if(length(tmp_df$year %>% unique()) > 1) {
-    lfs_felm_yr <- lm(d_status ~ trend + res_minus_prs + factor(year), 
-                      data = tmp_df) %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()))
-  
-    lfs_felm_yr <- bind_rows(lfs_felm_yr, lfs_felm_yr)
-  }
-  lfs_trp <- bind_rows(lfs_trp, lfs_lm)
-  lfs_res <- bind_rows(lfs_res, lfs_res_lm)
-
-}
-
-write_csv(lfs_trp, 'int/lfs_trp.csv')
-write_csv(lfs_res, 'int/lfs_res.csv')
-write_csv(lfs_felm_yr, 'int/lfs_felm_yr.csv')
-
-lfs_trp <- lfs_trp %>%
-  mutate_if(is.double, ~ round(., 4))
-
-```
-
-## Res-Prs parameter estimates
-`r DT::datatable(lfs_trp)`
-
-<!-- ## Trend/(Pressure - Resilience) parameter estimates -->
-<!-- `r # DT::datatable(lfs2_all)` -->
-
-<!-- ## Trend-only parameter estimates -->
-
-<!-- `r # DT::datatable(tr_only_all)` -->
-
-# Examine resilience components
-
-``` {r regress_lfs_coefficients_res_components}
-
-### Set up basic data frame - make sure prs and res are 0-1; status
-### range not important here since we'll take a ratio inside a loop.
-
-res_reg <- read_csv(file.path(dir_calc, 'res_reg_only.csv')) %>%
-  select(goal, region_id, year, res_reg = score)
-res_soc <- read_csv(file.path(dir_calc, 'res_soc_only.csv')) %>%
-  select(goal, region_id, year, res_soc = score)
-res_ecol <- read_csv(file.path(dir_calc, 'res_ecol_only.csv')) %>%
-  select(goal, region_id, year, res_ecol = score)
-res_nonreg <- read_csv(file.path(dir_calc, 'res_nonreg_only.csv')) %>%
-  select(goal, region_id, year, res_nonreg = score)
-
-# scores_rgn <- read_csv(file.path(dir_calc, 'scores_all_uncapped_res.csv')) %>%
-scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
-  filter(region_id != 0) %>%
-  spread(dimension, score) %>%
-  select(goal, region_id, year, status, trend, pressures) %>%
-  left_join(res_reg, by = c('goal', 'region_id', 'year')) %>%
-  left_join(res_soc, by = c('goal', 'region_id', 'year')) %>%
-  left_join(res_ecol, by = c('goal', 'region_id', 'year')) %>%
-  left_join(res_nonreg, by = c('goal', 'region_id', 'year')) %>%
-  group_by(goal, region_id) %>%
-  arrange(year) %>%
-  mutate(res_reg   = res_reg / 100,
-         res_soc   = res_soc / 100,
-         res_ecol  = res_ecol / 100,
-         res_nonreg = res_nonreg / 100,
-         pressures = pressures / 100) %>%
-  filter(!all(is.na(res_reg), is.na(res_soc), is.na(res_ecol)))
-
-tmp_df <- scores_rgn %>% group_by(goal, year) %>%
-  summarize(status = mean(status, na.rm = TRUE), 
-            res_reg = 100 * mean(res_reg, na.rm = TRUE),
-            res_soc = 100 * mean(res_soc, na.rm = TRUE),
-            res_ecol = 100 * mean(res_ecol, na.rm = TRUE),
-            res_nonreg = 100 * mean(res_nonreg, na.rm = TRUE),
-            pressures = 100 * mean(pressures, na.rm = TRUE)) %>%
-  gather(dimension, value, -goal, -year)
-ggplot(tmp_df, aes(x = year, y = value, color = dimension)) +
-  geom_line() +
-  facet_wrap( ~ goal)
-
-```
-
-``` {r}
-
-scores_rgn <- scores_rgn %>%
-  filter(!is.na(res_reg))
-  
-goals <- scores_rgn$goal %>% 
-  unique() %>%
-  .[. != 'MAR'] ### remove MAR since too short of time span
-
-lfs_res_reg <- data.frame()
-lfs_res_reg_prs <- data.frame()
-lfs_res_all <- data.frame()
-
-for(yr_lag in 1:6) {
-  # yr_lag <- 2
-  for(goalname in goals) { # goalname <- 'LSP'
-    # cat(goalname, ', lag = ', yr_lag, '\n')
-    tmp_df <- scores_rgn %>%
-      filter(goal == goalname) %>%
-      mutate(obs_future_status = lead(status, yr_lag),
-             d_status = (obs_future_status - status)/status) %>%
-      filter(!is.na(d_status))
-    
-    tmp_mdl <- lm(d_status ~ res_reg, data = tmp_df)
-    lfs_res_reg_lm <- tmp_mdl %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()),
-             yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared)
-  
-    tmp_mdl <- lm(d_status ~ res_reg + pressures, data = tmp_df)
-    lfs_res_reg_prs_lm <- tmp_mdl %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()),
-             yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared)
-  
-    ### Where possible, separate ecol and soc resil; if not possible
-    ### (i.e. one is all NAs) use combined non-reg resil.
-    if(all(is.na(tmp_df$res_ecol)) | all(is.na(tmp_df$res_soc))) {
-      tmp_mdl <- lm(d_status ~ trend + res_reg + res_nonreg + pressures, 
-                    data = tmp_df)
-    } else {
-      tmp_mdl <- lm(d_status ~ trend + res_reg + res_soc + res_ecol + pressures, 
-                    data = tmp_df)
-    }
-    lfs_res_all_lm <- tmp_mdl %>%
-      broom::tidy() %>%
-      mutate(goal  = goalname,
-             n_obs = nrow(tmp_df),
-             years = length(tmp_df$year %>% unique()),
-             yr_lag = yr_lag,
-             r_squared = summary(tmp_mdl)$adj.r.squared)
-
-    lfs_res_reg <- bind_rows(lfs_res_reg, lfs_res_reg_lm)
-    lfs_res_reg_prs <- bind_rows(lfs_res_reg_prs, lfs_res_reg_prs_lm)
-    lfs_res_all <- bind_rows(lfs_res_all, lfs_res_all_lm)
-  }
-}
-
-write_csv(lfs_res_reg,     'int/lfs_res_reg_only.csv')
-write_csv(lfs_res_reg_prs, 'int/lfs_res_reg_prs.csv')
-write_csv(lfs_res_all,     'int/lfs_res_all.csv')
-
-DT::datatable(lfs_res_all %>% mutate_if(is.double, ~ round(., 4)))
-```
-
-# make a printable table?
-
-## res all components
-
-``` {r}
-lfs_res_all <- read_csv('int/lfs_res_all.csv')
-
-lfs_tbl <- lfs_res_all %>%
-  mutate(sig = case_when(p.value < .0001 ~ '***',
-                         p.value < .001 ~ '**',
-                         p.value < .05 ~ '*',
-                         p.value < .1  ~ '°',
-                         TRUE ~ ''),
-         val = paste0(round(estimate, 4), sig, ' (', round(std.error, 4), ')'),
-         r_squared = round(r_squared, 4)) %>%
-  select(term, val, goal, yr_lag, r_squared) %>%
-  spread(term, val)
-
-DT::datatable(lfs_tbl)
-
-write_csv(lfs_tbl, 'int/lfs_res_all_formatted.csv')
-```
-
-## res_reg and prs
-
-``` {r}
-lfs_res_prs <- read_csv('int/lfs_res_reg_prs.csv')
-
-lfs_tbl <- lfs_res_prs %>%
-  mutate(sig = case_when(p.value < .0001 ~ '***',
-                         p.value < .001 ~ '**',
-                         p.value < .05 ~ '*',
-                         p.value < .1  ~ '°',
-                         TRUE ~ ''),
-         val = paste0(round(estimate, 4), sig, ' (', round(std.error, 5), ')'),
-         r_squared = round(r_squared, 4)) %>%
-  select(term, val, goal, yr_lag, r_squared) %>%
-  spread(term, val)
-
-DT::datatable(lfs_tbl)
-
-write_csv(lfs_tbl, 'int/lfs_res_prs_formatted.csv')
-```
-
-# Plots
-
-## plot predicted vs observed status
+Because the regression of resilience on pressures is so weak, we won't worry about components in this regression - just the calculated LFS vs. the observed status.
 
 ``` {r}
 
@@ -337,10 +82,13 @@ scores <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
   filter(!is.na(pred_status) & !is.na(obs_status)) %>%
   left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
 
-# ggplot(scores, aes(x = pred_status, y = obs_status, color = goal)) +
-#   geom_point() +
-#   geom_abline(yintercept = 0, slope = 1) +
-#   geom_smooth(method = 'lm', se = FALSE)
+lfs_plot <- ggplot(scores, aes(x = pred_status, y = obs_status, color = goal)) +
+  geom_point() +
+  geom_abline(yintercept = 0, slope = 1) +
+  geom_smooth(method = 'lm', se = FALSE)
+
+print(lfs_plot)
+
 goals <- scores$goal %>% unique()
 
 collect_df <- data.frame()
@@ -397,5 +145,7 @@ lfs_mdl <- read_csv('int/lfs_status.csv') %>%
   clean_df_names()
 
 write_csv(lfs_mdl, 'int/model_compare_lfs_status.csv')
+
+DT::datatable(lfs_mdl)
 
 ```

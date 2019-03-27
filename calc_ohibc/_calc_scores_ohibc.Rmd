@@ -405,7 +405,6 @@ tmp <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
   spread(dimension, score) %>%
   left_join(res_scores_all %>% mutate(dimension = 'res_soc') %>% spread(dimension, score))
 
-
 write_csv(res_scores_all, file.path(dir_calc, 'res_soc_only.csv'))
 
 ```
