@@ -2,7 +2,7 @@ sciname,comname,iucn_sid,am_sid,spp_group,map_iucn_sid,map_subpop,pr_score,pop_t
 Ammodytes hexapterus,Pacific Sand Lance,NA,Fis-29620,NA,NA,NA,NA,NA,am,NA,NE,NA,NA,NA,NA
 Ardea herodias,Great Blue Heron,22696998,NA,BOTW_marine,22696998,NA,0.4,increasing,iucn,1988,LC,0.4,NA,NA,NA
 Ardea herodias,Great Blue Heron,22696998,NA,BOTW_marine,22696998,NA,0.4,increasing,iucn,1994,LC,0.4,NA,NA,NA
-Ardea herodias,Great Blue Heron,22696998,NA,BOTW_marine,22696998,NA,0.4,increasing,iucn,2e3,LC,0.4,NA,NA,NA
+Ardea herodias,Great Blue Heron,22696998,NA,BOTW_marine,22696998,NA,0.4,increasing,iucn,2000,LC,0.4,NA,NA,NA
 Ardea herodias,Great Blue Heron,22696998,NA,BOTW_marine,22696998,NA,0.4,increasing,iucn,2004,LC,0.4,NA,NA,NA
 Ardea herodias,Great Blue Heron,22696998,NA,BOTW_marine,22696998,NA,0.4,increasing,iucn,2008,LC,0.4,NA,NA,NA
 Ardea herodias,Great Blue Heron,22696998,NA,BOTW_marine,22696998,NA,0.4,increasing,iucn,2009,LC,0.4,NA,NA,NA
@@ -29,7 +29,7 @@ Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,MARINE_MAMMALS,2478,NA,0.6,u
 Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,MARINE_MAMMALS,2478,NA,0.6,unknown,iucn,1996,EN,0.6,Fin Whale Pacific population,-0.05555,NA
 Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,MARINE_MAMMALS,2478,NA,0.6,unknown,iucn,2008,EN,0.6,Fin Whale Pacific population,-0.05555,NA
 Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,MARINE_MAMMALS,2478,NA,0.6,unknown,iucn,2013,EN,0.6,Fin Whale Pacific population,-0.05555,NA
-Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,BOTW_marine,22694870,NA,0.4,decreasing,iucn,2e3,VU,0.4,Marbled Murrelet,-0,NA
+Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,BOTW_marine,22694870,NA,0.4,decreasing,iucn,2000,VU,0.4,Marbled Murrelet,-0,NA
 Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,BOTW_marine,22694870,NA,0.4,decreasing,iucn,2004,EN,0.4,Marbled Murrelet,-0,NA
 Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,BOTW_marine,22694870,NA,0.4,decreasing,iucn,2005,EN,0.4,Marbled Murrelet,-0,NA
 Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,BOTW_marine,22694870,NA,0.4,decreasing,iucn,2008,EN,0.4,Marbled Murrelet,-0,NA
@@ -42,13 +42,13 @@ Branta canadensis,Canada Goose,22679935,NA,BOTW,22679935,NA,0,NA,iucn,2009,LC,0,
 Branta canadensis,Canada Goose,22679935,NA,BOTW,22679935,NA,0,NA,iucn,2012,LC,0,NA,NA,Least Concern
 Branta canadensis,Canada Goose,22679935,NA,BOTW,22679935,NA,0,NA,iucn,2016,LC,0,NA,NA,Least Concern
 Cetorhinus maximus,Basking Shark,4292,Fis-22747,CHONDRICHTHYES,4292,NA,NA,decreasing,iucn,1996,VU,0.4,Basking Shark Pacific population,NA,NA
-Cetorhinus maximus,Basking Shark,4292,Fis-22747,CHONDRICHTHYES,4292,NA,NA,decreasing,iucn,2e3,VU,0.4,Basking Shark Pacific population,NA,NA
+Cetorhinus maximus,Basking Shark,4292,Fis-22747,CHONDRICHTHYES,4292,NA,NA,decreasing,iucn,2000,VU,0.4,Basking Shark Pacific population,NA,NA
 Cetorhinus maximus,Basking Shark,4292,Fis-22747,CHONDRICHTHYES,4292,NA,NA,decreasing,iucn,2005,VU,0.4,Basking Shark Pacific population,NA,NA
 Clupea pallasii,Pacific Herring,NA,Fis-153539,NA,NA,NA,NA,NA,am,NA,NE,NA,NA,NA,NA
 Delphinus delphis,Common Dophin,6336,ITS-Mam-180438,MARINE_MAMMALS,6336,NA,NA,unknown,iucn,1996,LC,0,Short-beaked Common Dolphin,NA,NA
 Delphinus delphis,Common Dophin,6336,ITS-Mam-180438,MARINE_MAMMALS,6336,NA,NA,unknown,iucn,2008,LC,0,Short-beaked Common Dolphin,NA,NA
 Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,TERRESTRIAL_MAMMALS_marine,7750,NA,0.4,decreasing,iucn,1996,LC,0.4,Sea Otter,0.0735,NA
-Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,TERRESTRIAL_MAMMALS_marine,7750,NA,0.4,decreasing,iucn,2e3,EN,0.4,Sea Otter,0.0735,NA
+Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,TERRESTRIAL_MAMMALS_marine,7750,NA,0.4,decreasing,iucn,2000,EN,0.4,Sea Otter,0.0735,NA
 Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,TERRESTRIAL_MAMMALS_marine,7750,NA,0.4,decreasing,iucn,2008,EN,0.4,Sea Otter,0.0735,NA
 Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,TERRESTRIAL_MAMMALS_marine,7750,NA,0.4,decreasing,iucn,2011,EN,0.4,Sea Otter,0.0735,NA
 Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,TERRESTRIAL_MAMMALS_marine,7750,NA,0.4,decreasing,iucn,2015,EN,0.4,Sea Otter,0.0735,NA
@@ -63,7 +63,7 @@ Eumetopias jubatus,Steller Sea Lion,8239,ITS-Mam-180625,MARINE_MAMMALS,8239,NA,0
 Eumetopias jubatus,Steller Sea Lion,8239,ITS-Mam-180625,MARINE_MAMMALS,8239,NA,0.4,increasing,iucn,2016,NT,0.4,Steller Sea Lion,-0.0814,NA
 Gavia immer,Common Loon,22697842,NA,BOTW_marine,22697842,NA,0,stable,iucn,1988,LC,0,Common Loon,NA,NA
 Gavia immer,Common Loon,22697842,NA,BOTW_marine,22697842,NA,0,stable,iucn,1994,LC,0,Common Loon,NA,NA
-Gavia immer,Common Loon,22697842,NA,BOTW_marine,22697842,NA,0,stable,iucn,2e3,LC,0,Common Loon,NA,NA
+Gavia immer,Common Loon,22697842,NA,BOTW_marine,22697842,NA,0,stable,iucn,2000,LC,0,Common Loon,NA,NA
 Gavia immer,Common Loon,22697842,NA,BOTW_marine,22697842,NA,0,stable,iucn,2004,LC,0,Common Loon,NA,NA
 Gavia immer,Common Loon,22697842,NA,BOTW_marine,22697842,NA,0,stable,iucn,2008,LC,0,Common Loon,NA,NA
 Gavia immer,Common Loon,22697842,NA,BOTW_marine,22697842,NA,0,stable,iucn,2009,LC,0,Common Loon,NA,NA
@@ -74,7 +74,7 @@ Grampus griseus,Risso's Dolphin,9461,ITS-Mam-180457,MARINE_MAMMALS,9461,NA,0.2,u
 Grampus griseus,Risso's Dolphin,9461,ITS-Mam-180457,MARINE_MAMMALS,9461,NA,0.2,unknown,iucn,2012,LC,0.2,Risso's Dolphin,NA,NA
 Haliaeetus leucocephalus,Bald Eagle,22695144,NA,BOTW_marine,22695144,NA,0,increasing,iucn,1988,LC,0,Bald Eagle,NA,NA
 Haliaeetus leucocephalus,Bald Eagle,22695144,NA,BOTW_marine,22695144,NA,0,increasing,iucn,1994,LC,0,Bald Eagle,NA,NA
-Haliaeetus leucocephalus,Bald Eagle,22695144,NA,BOTW_marine,22695144,NA,0,increasing,iucn,2e3,LC,0,Bald Eagle,NA,NA
+Haliaeetus leucocephalus,Bald Eagle,22695144,NA,BOTW_marine,22695144,NA,0,increasing,iucn,2000,LC,0,Bald Eagle,NA,NA
 Haliaeetus leucocephalus,Bald Eagle,22695144,NA,BOTW_marine,22695144,NA,0,increasing,iucn,2004,LC,0,Bald Eagle,NA,NA
 Haliaeetus leucocephalus,Bald Eagle,22695144,NA,BOTW_marine,22695144,NA,0,increasing,iucn,2008,LC,0,Bald Eagle,NA,NA
 Haliaeetus leucocephalus,Bald Eagle,22695144,NA,BOTW_marine,22695144,NA,0,increasing,iucn,2009,LC,0,Bald Eagle,NA,NA
@@ -120,7 +120,7 @@ Physeter macrocephalus,Sperm Whale,41755,ITS-Mam-180488,MARINE_MAMMALS,41755,NA,
 Pseudorca crassidens,False Killer Whale,18596,ITS-Mam-180463,MARINE_MAMMALS,18596,NA,NA,NA,iucn,1996,LC,0,False Killer Whale,NA,NA
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,1988,LC,0.4,Cassin's Auklet,NA,NA
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,1994,LC,0.4,Cassin's Auklet,NA,NA
-Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,2e3,LC,0.4,Cassin's Auklet,NA,NA
+Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,2000,LC,0.4,Cassin's Auklet,NA,NA
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,2004,LC,0.4,Cassin's Auklet,NA,NA
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,2008,LC,0.4,Cassin's Auklet,NA,NA
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,BOTW_marine,22694903,NA,0.4,decreasing,iucn,2009,LC,0.4,Cassin's Auklet,NA,NA

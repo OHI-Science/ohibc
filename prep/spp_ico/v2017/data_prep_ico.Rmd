@@ -34,7 +34,7 @@ dir_rgn  <- file.path(dir_git, 'prep/spatial')
 dir_goal_anx        <- file.path(dir_M, 'git-annex/bcprep', goal, scenario) 
 dir_goal_anx_global <- file.path(dir_M, 'git-annex/globalprep', goal, scenario)
 
-library(provRmd); prov_setup()
+# library(provRmd); prov_setup()
 
 source(file.path(dir_goal, 'spp_fxn.R'))
 
@@ -228,7 +228,7 @@ The most recent assessment info for OHIBC Iconic Species:
 
 `r DT::datatable(ico_info_ts %>% filter(is.na(year) | year == max(year, na.rm = TRUE)))`
 
-***
+-----
 
 ## Write layers
 
@@ -285,7 +285,7 @@ write_csv(spp_rgn, file.path(dir_goal, 'output', 'ico_spp_by_rgn.csv'))
 
 ```
 
-***
+-----
 
 # Visualize ICO health by region
 
@@ -393,7 +393,7 @@ ggsave(file.path(dir_goal, 'Figs/ico_heatmap_lo_res.png'),
        width = 6, height = 6, units = 'in', dpi = 100)
 ```
 
-![](Figs/ico_heatmap_lo_res.png)
+![](Figs/ico_heatmap.png)
 
 ``` {r plot_ico_cat_legend}
 
@@ -443,12 +443,21 @@ ggsave(file.path(dir_goal, 'Figs/spp_ico_legend_lo_res.png'),
        height = 2.3, width = 2.2, units = 'in', dpi = 100)
 ```
 
-![](Figs/spp_ico_legend_lo_res.png)
+![](Figs/spp_ico_legend.png)
 
-***
+```{r}
+library(cowplot)
+dualplot <- plot_grid(ico_heatmap, ico_legend, align = 'h', nrow = 1, ncol = 2, rel_widths = c(5, 1))
+
+ggsave(plot = dualplot, filename = 'Figs/ico_heatmap_with_legend.png', height = 6, width = 9, dpi = 300)
+```
+
+![](Figs/ico_heatmap_with_legend.png)
+
+-----
 
 ``` {r provenance, results = 'asis'}
 
-prov_wrapup()
+# prov_wrapup()
 
 ```

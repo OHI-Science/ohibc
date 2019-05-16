@@ -228,14 +228,8 @@ hd_mpa_eez,SPP,NA,resilience
 hd_mpa_eez,SAL,NA,resilience
 hd_trawl_reduction,AO,shellfish_closures,resilience
 hd_trawl_reduction,AO,salmon,resilience
-hd_trawl_reduction,AO,fn_licenses,resilience
 hd_trawl_reduction,AO,herring_spawn,resilience
-hd_trawl_reduction,CPP,coastal_forest,resilience
-hd_trawl_reduction,CPP,saltmarsh,resilience
-hd_trawl_reduction,CSS,coastal_forest,resilience
-hd_trawl_reduction,CSS,saltmarsh,resilience
 hd_trawl_reduction,FIS,NA,resilience
-hd_trawl_reduction,HAB,saltmarsh,resilience
 hd_trawl_reduction,HAB,ebsa,resilience
 hd_trawl_reduction,HAB,soft_bottom,resilience
 hd_trawl_reduction,ICO,NA,resilience

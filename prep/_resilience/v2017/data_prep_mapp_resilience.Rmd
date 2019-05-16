@@ -40,7 +40,7 @@ library(provRmd); prov_setup()
 
 # Summary
 
-This pressure layer calculates social resilience based on the MaPP process.  
+This layer calculates social resilience based on the MaPP process.  
 
 $$resilience_{rgn} = \mathbb{1}_{rgn \in MaPP} \times \frac{process + enforcement + compliance}{3}$$
 

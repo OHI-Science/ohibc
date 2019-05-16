@@ -55,11 +55,7 @@ This data is incorporated into the OHI British Columbia First Nations Resource A
 __Fishing licenses__
 
 * __Reference__: From Karen Hunter, DFO
-* __Downloaded__: Aug 7, 2017 from:
-    * http://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2016-eng.cfm (2016 census subdivisions)
-* __Description__:  Census subdivision administrative boundaries; choose "English", "ArcGIS", census subdivisions, cartographic boundary file option)
-* __Native data resolution__: Census subdivision
-* __Format__:  ESRI shapefile (or Arc e00 file for 2001)
+* __Downloaded__:
 
 __Fishery Management Area boundaries__
 
@@ -100,18 +96,21 @@ Read in licenses files.
 
 lic_clean_file <- file.path(dir_goal_anx, 'int/licenses_clean.csv')
 
-license_file <- file.path(dir_anx, '_raw_data/fishing_license/Pacific Region Commercial Fishing Licenses En.csv')
-metadata_file <- file.path(dir_anx, '_raw_data/fishing_license/Commercial License Meta Data EN (1).csv')
+license_file <- file.path(dir_anx, '_raw_data/fishing_license', 
+                          'Pacific Region Commercial Fishing Licenses En.csv')
+metadata_file <- file.path(dir_anx, '_raw_data/fishing_license', 
+                           'Commercial License Meta Data EN (1).csv')
 
 if(!file.exists(lic_clean_file)) {
   
-  licenses_raw <- read_csv(license_file) %>%
+  licenses_raw <- read_csv(license_file, col_types = cols(.default = 'c')) %>%
     setNames(tolower(names(.)) %>% str_replace_all('[\\s()]+', '_'))
   
   
   for(tmp in names(licenses_raw)) {
     ### tmpname <- names(x)[1]
-    licenses_raw[[tmp]] <- ifelse(is.na(licenses_raw[[tmp]]) & class(licenses_raw[[tmp]]) == 'character', 
+    licenses_raw[[tmp]] <- ifelse(is.na(licenses_raw[[tmp]]) & 
+                                    class(licenses_raw[[tmp]]) == 'character', 
                                   '', 
                                   licenses_raw[[tmp]])
   }
@@ -123,12 +122,18 @@ if(!file.exists(lic_clean_file)) {
     left_join(metadata, by = c('licence_prefix' = 'prefix')) %>%
     mutate(lic_holder = ifelse(licence_holder_type == 'VESSEL',
                                paste('vessel', licence_holder_vessel),
-                               paste(licence_holder_first_name, licence_holder_midddle_name, licence_holder_last_name)),
+                               paste(licence_holder_first_name, 
+                                     licence_holder_midddle_name, 
+                                     licence_holder_last_name)),
            lic_oper   = ifelse(licence_holder_type == 'VESSEL',
                                paste('vessel', licence_operator_vessel),
-                               paste(licence_operator_first_name, licence_operator_midddle_name, licence_operator_last_name)),
+                               paste(licence_operator_first_name, 
+                                     licence_operator_midddle_name, 
+                                     licence_operator_last_name)),
            vessel_own = ifelse(licence_holder_type == 'VESSEL',
-                               paste(vessel_owner_first_name, vessel_owner_midddle_name, vessel_owner_last_name),
+                               paste(vessel_owner_first_name, 
+                                     vessel_owner_midddle_name, 
+                                     vessel_owner_last_name),
                                NA)) %>%
     mutate(year = licence_suffix,
            fn = str_detect(tolower(prefix_description), 'aborig|northern native|northernnative'),
@@ -169,7 +174,10 @@ This bar chart shows the proportion of licenses allocated to First Nations for e
 
 ``` {r collate_fishery_groups}
 
-lic_clean <- read_csv(lic_clean_file)
+lic_clean <- read_csv(lic_clean_file, 
+                      col_types = cols(.default = 'c')) %>%
+  mutate(year = as.integer(year),
+         fn   = as.logical(fn))
 
 license_fn_yr <- lic_clean %>%
   select(year,
@@ -200,7 +208,6 @@ bar_by_gp <- license_fn_yr %>%
     theme(axis.text.x = element_text(angle = 75, hjust = 1))
 
 print(bar_by_gp)
-
 ```
 
 ## First Nations license ownership 
@@ -209,14 +216,17 @@ This examines the total fishing license allocation to First Nations across all l
 
 ``` {r total_licenses}
 
-lic_clean <- read_csv(lic_clean_file)
+lic_clean <- read_csv(lic_clean_file, 
+                      col_types = cols(.default = 'c')) %>%
+  mutate(year = as.integer(year),
+         fn   = as.logical(fn))
 
 license_fn_yr1 <- lic_clean %>%
   select(year,
          prefix_desc, 
          fn,
-          lic_prefix,
-          fishery_group) %>%
+         lic_prefix,
+         fishery_group) %>%
   mutate(fishery_group = tolower(fishery_group)) %>%
   group_by(year) %>%
   summarize(n_total = n(),
@@ -256,10 +266,12 @@ Clean up area and subarea calls from the cleaned data.  No need to keep the lice
 
 ``` {r}
 
-lic_area_all <- read_csv(lic_clean_file) %>%
+lic_area_all <- read_csv(lic_clean_file,
+                         col_types = cols(.default = 'c')) %>%
   select(area, year) %>%
   group_by(area) %>%
-  mutate(year_1 = min(year, na.rm = TRUE),
+  mutate(year   = as.integer(year),
+         year_1 = min(year, na.rm = TRUE),
          year_n = max(year, na.rm = TRUE)) %>%
   ungroup() %>%
   select(-year) %>%
@@ -373,8 +385,11 @@ write_csv(lic_lookup_rgn, file.path(dir_goal, 'int/lic_lookup_rgn.csv'))
 lic_lookup_rgn <- read_csv(file.path(dir_goal, 'int/lic_lookup_rgn.csv')) %>%
   filter(!is.na(rgn_id))
 
-lic_clean <- read_csv(lic_clean_file) %>%
-  mutate(area = tolower(area))
+lic_clean <- read_csv(lic_clean_file, 
+                      col_types = cols(.default = 'c')) %>%
+  mutate(year = as.integer(year),
+         fn   = as.logical(fn),
+         area = tolower(area))
 
 lic_fn_by_rgn <- lic_clean %>%
   inner_join(lic_lookup_rgn, by = c('area' = 'lic_area')) %>%
@@ -384,7 +399,7 @@ lic_fn_by_rgn <- lic_clean %>%
 x <- lic_clean %>%
   group_by(area) %>%
   mutate(year_1 = min(year, na.rm = TRUE),
-            year_n = max(year, na.rm = TRUE)) %>%
+         year_n = max(year, na.rm = TRUE)) %>%
   ungroup()
 
 y <- x %>%
@@ -716,8 +731,11 @@ ggsave(file.path(dir_goal, 'int/ao_licenses_vessel_lengths.png'))
 lic_lookup_rgn <- read_csv(file.path(dir_goal, 'int/lic_lookup_rgn.csv')) %>%
   filter(!is.na(rgn_id))
 
-lic_clean <- read_csv(file.path(dir_goal_anx, 'int/licenses_clean.csv')) %>%
-  mutate(area = tolower(area))
+lic_clean <- read_csv(lic_clean_file, 
+                      col_types = cols(.default = 'c')) %>%
+  mutate(year = as.integer(year),
+         fn   = as.logical(fn),
+         area = tolower(area))
 
 lic_by_pfma_all <- lic_clean %>%
   inner_join(lic_lookup_rgn, by = c('area' = 'lic_area')) %>%
