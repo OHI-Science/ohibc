@@ -324,7 +324,7 @@ MAR <- function(layers) {
     bind_rows(mar_trend) %>%
     select(region_id, goal, dimension, score)
 
-  # message('Returning from MAR')
+  message('Returning from MAR')
   return(mar_scores)
 
 }
@@ -333,7 +333,7 @@ SAL <- function(layers) {
 
   ##### Gather parameters and layers #####
   ### * sal_catch, sal_escapes
-  # message('Now starting SAL')
+  message('Now starting SAL')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
@@ -341,11 +341,11 @@ SAL <- function(layers) {
 
   sal_C        <- layers$data[['sal_catch']] %>%
     select(-layer)
-  sal_E        <- layers$data[['sal_escapes']] %>%
-    select(-layer)
+  # sal_E        <- layers$data[['sal_escapes']] %>%
+  #   select(-layer)
 
-  stocks <- sal_C %>%
-    full_join(sal_E, by = c('rgn_id', 'year', 'stock'))
+  stocks <- sal_C # %>%
+    # full_join(sal_E, by = c('rgn_id', 'year', 'stock'))
 
   #############################################################.
   ##### run each salmon stock through the E' and C' calcs #####
@@ -485,7 +485,7 @@ AO <- function(layers) {
   licenses <- layers$data[['ao_licenses']] %>% select(-layer)
   licenses_ref <- layers$data[['ao_licenses_fn_pop']] %>% select(-layer)
   shi      <- layers$data[['ao_spawn_hab_index']] %>% select(-layer)
-  sal_C    <- layers$data[['ao_sal_catch']] %>% select(-layer)
+  # sal_C    <- layers$data[['ao_sal_catch']] %>% select(-layer)
   sal_E    <- layers$data[['ao_sal_escapes']] %>% select(-layer)
 
 
@@ -564,8 +564,8 @@ AO <- function(layers) {
   ###   status based on Catch
   ### * Escapes not penalized for overescapement
   ### * Catch not penalized for underharvest
-  stocks <- sal_C %>%
-    full_join(sal_E, by = c('rgn_id', 'year', 'stock'))
+  stocks <- sal_E # %>%
+    # full_join(sal_C, by = c('rgn_id', 'year', 'stock'))
 
   ##### run each salmon stock through the E' and C' calcs #####
   ### Function for converting E/E_target values into a 0 - 1 score
