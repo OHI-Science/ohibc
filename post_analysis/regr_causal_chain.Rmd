@@ -74,7 +74,8 @@ scores_rgn_res <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
          res_ecol  = res_ecol / 100,
          pressures = pressures / 100) %>%
   filter(!all(is.na(res_reg), is.na(res_soc), is.na(res_ecol))) %>%
-  filter(!is.na(pressures))
+  filter(!is.na(pressures)) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
 
 goals <- scores_rgn_res$goal %>% 
   unique() 
@@ -134,7 +135,7 @@ for(yr_lag in 1:6) {
     ### Check that there are values for each component, otherwise devolves to different model:
     if(all(is.na(d_prs_df$res_reg))) next()
 
-    d_prs_mdl <- lm(d_prs ~ res_reg, data = d_prs_df)
+    d_prs_mdl <- lm(d_prs ~ res_reg + factor(rgn_code), data = d_prs_df)
     prs_res_reg_lm <- tidy_model(d_prs_mdl, d_prs_df)
     
     prs_res_reg <- bind_rows(prs_res_reg, prs_res_reg_lm)
@@ -162,7 +163,7 @@ for(yr_lag in 1:6) {
     if(all(is.na(d_prs_df$res_soc))) next()
     if(all(is.na(d_prs_df$res_reg))) next()
 
-    d_prs_mdl <- lm(d_prs ~ res_reg + res_soc, data = d_prs_df)
+    d_prs_mdl <- lm(d_prs ~ res_reg + res_soc + factor(rgn_code), data = d_prs_df)
     prs_res_reg_soc_lm <- tidy_model(d_prs_mdl, d_prs_df)
     
     prs_res_reg_soc  <- bind_rows(prs_res_reg_soc, prs_res_reg_soc_lm)
@@ -192,7 +193,7 @@ for(yr_lag in 1:6) {
     if(all(is.na(d_prs_df$res_ecol))) next()
     if(all(is.na(d_prs_df$res_reg))) next()
 
-    d_prs_mdl <- lm(d_prs ~ res_reg + res_ecol, data = d_prs_df)
+    d_prs_mdl <- lm(d_prs ~ res_reg + res_ecol + factor(rgn_code), data = d_prs_df)
     prs_res_reg_ecol_lm <- tidy_model(d_prs_mdl, d_prs_df)
 
     prs_res_reg_ecol <- bind_rows(prs_res_reg_ecol, prs_res_reg_ecol_lm)
@@ -219,7 +220,7 @@ for(yr_lag in 1:6) {
     ### Check that there are values for each component, otherwise devolves to different model:
     if(all(is.na(d_prs_df$res_soc))) next()
 
-    d_prs_mdl <- lm(d_prs ~ res_soc, data = d_prs_df)
+    d_prs_mdl <- lm(d_prs ~ res_soc + factor(rgn_code), data = d_prs_df)
     prs_res_lm <- tidy_model(d_prs_mdl, d_prs_df)
 
     prs_res <- bind_rows(prs_res, prs_res_lm)
@@ -247,7 +248,7 @@ for(yr_lag in 1:6) {
     if(all(is.na(d_prs_df$res_ecol))) next()
     if(all(is.na(d_prs_df$res_soc))) next()
 
-    d_prs_mdl <- lm(d_prs ~ res_soc + res_ecol, data = d_prs_df)
+    d_prs_mdl <- lm(d_prs ~ res_soc + res_ecol + factor(rgn_code), data = d_prs_df)
     prs_res_lm <- tidy_model(d_prs_mdl, d_prs_df)
 
     prs_res <- bind_rows(prs_res, prs_res_lm)
@@ -274,7 +275,7 @@ for(yr_lag in 1:6) {
     ### Check that there are values for each component, otherwise devolves to different model:
     if(all(is.na(d_prs_df$res_ecol))) next()
     
-    d_prs_mdl <- lm(d_prs ~ res_ecol, data = d_prs_df)
+    d_prs_mdl <- lm(d_prs ~ res_ecol + factor(rgn_code), data = d_prs_df)
     prs_res_lm <- tidy_model(d_prs_mdl, d_prs_df)
 
     prs_res <- bind_rows(prs_res, prs_res_lm)
@@ -303,7 +304,7 @@ for(yr_lag in 1:6) {
     if(all(is.na(d_prs_df$res_soc))) next()
     if(all(is.na(d_prs_df$res_reg))) next()
     
-    d_prs_mdl <- lm(d_prs ~ res_reg + res_ecol + res_soc, data = d_prs_df)
+    d_prs_mdl <- lm(d_prs ~ res_reg + res_ecol + res_soc + factor(rgn_code), data = d_prs_df)
     prs_res_all_lm <- tidy_model(d_prs_mdl, d_prs_df)
 
     prs_res_all <- bind_rows(prs_res_all, prs_res_all_lm)
@@ -328,7 +329,7 @@ for(yr_lag in 1:6) {
    
     ### Intercept only model - no components
     
-    d_prs_mdl <- lm(d_prs ~ 1, data = d_prs_df)
+    d_prs_mdl <- lm(d_prs ~ 1 + factor(rgn_code), data = d_prs_df)
     prs_res_all_lm <- tidy_model(d_prs_mdl, d_prs_df)
 
     prs_res_all <- bind_rows(prs_res_all, prs_res_all_lm)
@@ -421,7 +422,8 @@ scores_rgn_d_status <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
             by = c('goal', 'region_id', 'year')) %>%
   group_by(goal, region_id) %>%
   arrange(year) %>%
-  filter(!is.na(pressures))
+  filter(!is.na(pressures)) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
 
 goals <- scores_rgn_d_status$goal %>% 
   unique()
@@ -439,7 +441,7 @@ for(yr_lag in 1:6) {
     
     if(nrow(d_status_df) == 0) next()
     
-    d_status_mdl <- lm(d_status ~ pressures, data = d_status_df)
+    d_status_mdl <- lm(d_status ~ pressures + factor(rgn_code), data = d_status_df)
     d_status_prs_lm <- tidy_model(d_status_mdl, d_status_df)
 
     d_status_prs <- bind_rows(d_status_prs, d_status_prs_lm)
@@ -462,7 +464,7 @@ for(yr_lag in 1:6) {
     if(nrow(d_status_df) == 0) next()
     if(all(is.na(d_status_df$prs_omit_soc))) next()
     
-    d_status_mdl <- lm(d_status ~ prs_omit_soc, data = d_status_df)
+    d_status_mdl <- lm(d_status ~ prs_omit_soc + factor(rgn_code), data = d_status_df)
     d_status_prs_lm <- tidy_model(d_status_mdl, d_status_df)
 
     d_status_prs <- bind_rows(d_status_prs, d_status_prs_lm)

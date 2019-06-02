@@ -1,16 +1,16 @@
 sciname,comname,am_sid,iucn_sid,map_iucn_sid,include
 Balaenoptera edeni,Bryde's Whale,ITS-Mam-180525,2476.0,2476.0,TRUE
 Physeter macrocephalus,Sperm Whale,ITS-Mam-180488,41755.0,41755.0,TRUE
-Kogia breviceps,Pygmy Sperm Whale,ITS-Mam-180491,11047.0,11047.0,TRUE
+Kogia breviceps,Pygmy Sperm Whale,ITS-Mam-180491,11047.0,11047.0,FALSE
 Ziphius cavirostris,Cuvier's Beaked Whale,ITS-Mam-180498,23211.0,23211.0,TRUE
 Mesoplodon densirostris,Blainville's Beaked Whale,ITS-Mam-180517,13244.0,13244.0,TRUE
 Orcinus orca,Killer Whale,ITS-Mam-180469,15421.0,15421.0,TRUE
 Pseudorca crassidens,False Killer Whale,ITS-Mam-180463,18596.0,18596.0,TRUE
-Globicephala macrorhynchus,Short-Finned Pilot Whale,ITS-Mam-180466,9249.0,9249.0,TRUE
+Globicephala macrorhynchus,Short-Finned Pilot Whale,ITS-Mam-180466,9249.0,9249.0,FALSE
 Grampus griseus,Risso's Dolphin,ITS-Mam-180457,9461.0,9461.0,TRUE
-Stenella coeruleoalba,Striped Dolphin,ITS-Mam-180434,20731.0,20731.0,TRUE
+Stenella coeruleoalba,Striped Dolphin,ITS-Mam-180434,20731.0,20731.0,FALSE
 Delphinus delphis,Common Dophin,ITS-Mam-180438,6336.0,6336.0,TRUE
-Tursiops truncatus,Bottlenose Dolphin,ITS-Mam-180426,22563.0,22563.0,TRUE
+Tursiops truncatus,Bottlenose Dolphin,ITS-Mam-180426,22563.0,22563.0,FALSE
 Balaenoptera musculus,Blue Whale,ITS-Mam-180528,2477.0,2477.0,TRUE
 Balaenoptera physalus,Fin Whale,ITS-Mam-180527,2478.0,2478.0,TRUE
 Eschrichtius robustus,Gray Whale,ITS-Mam-180521,8097.0,8097.0,TRUE
@@ -27,6 +27,6 @@ Rhincodon typus,Whale Shark,Fis-30583,19488.0,19488.0,FALSE
 Galeocerdo cuvier,Tiger Shark,Fis-23129,39378.0,39378.0,FALSE
 Alopias vulpinus,Thresher Shark,Fis-23899,39339.0,39339.0,FALSE
 Eretmochelys imbricata,Hawksbill Turtle,Rep-5181,8005.0,8005.0,FALSE
-Dermochelys coriacea,Leatherback Turtle,Rep-4381,46967817.0,6494.0,FALSE
+Dermochelys coriacea,Leatherback Turtle,Rep-4381,46967817.0,6494.0,TRUE
 Caretta caretta,Loggerhead Turtle,Rep-2666,3897.0,3897.0,FALSE
 Lepidochelys olivacea,Olive Ridley Turtle,Rep-6936,11534.0,11534.0,FALSE

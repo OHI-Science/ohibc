@@ -1,5 +1,5 @@
 ---
-title: 'OHIBC: Habitat goal - EBSA layer prep'
+title: 'OHIBC: Habitat goal - EBSA and soft bottom layer prep'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -59,7 +59,9 @@ rast_base_file <- file.path(dir_spatial, 'raster/ohibc_rgn_raster_500m.tif')
 
 # Summary
 
-Create habitat info layer for EBSAs - ecologically and biologically significant areas.  The goal will be calculated based upon trawl pressure in the EBSAs.
+Create habitat info layer for EBSAs - ecologically and biologically significant areas - and soft bottom habitats.  The goal will be calculated based upon trawl pressure in each habitat type.
+
+In addition, this will create a layer to represent the industry/ENGO trawl management agreement that was implemented in 2012 to reduce impacts of bottom trawling on deep water coral and sponge habitats.
 
 -----
 
@@ -676,6 +678,20 @@ write_csv(sb_trawl_rgn_sum, file.path(dir_goal, 'int', 'soft_btm_trawl_rgn_summa
 # x <- read_csv(file.path(dir_goal, 'int', 'soft_btm_trawl_rgn_summary.csv'))
 
 ```
+
+-----
+
+## Calculate trawl reduction resilience layer
+
+To represent the implementation of the ENGO/industry trawl habitat agreement, this will simply be a layer of year and region, with a score of 1 for all regions for 2012 and later, and a score of zero before.
+
+```{r}
+trawl_reduction <- crossing(rgn_id = 1:8, year = 2001:2016) %>%
+  mutate(trawl_reduction = ifelse(year >= 2012, 1, 0))
+
+write_csv(trawl_reduction, file.path(dir_goal, 'output/hd_trawl_reduction.csv'))
+```
+
 
 -----
 

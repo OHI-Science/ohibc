@@ -49,7 +49,7 @@ Framing as regression where resilience and pressure are estimated together, and 
 $$\%\Delta X_t = \frac{X_{t+\lambda} - X_t}{X_{t}} = \alpha + \beta_1 T_t + \beta_2 (r_t - p_t)$$
 
 However, if resilience and pressures are challenging to compare directly, perhaps each gets its own coefficient:
-$$ Y_t = \frac{X_{t+\lambda} - X_t}{X_{t}} = \alpha + \beta_1 T_t + \beta_2 r_t + \beta_3 p_t$$
+$$\%\Delta X_t = \frac{X_{t+\lambda} - X_t}{X_{t}} = \alpha + \beta_1 T_t + \beta_2 r_t + \beta_3 p_t$$
 
 ## How to understand effects of governance?
 

@@ -2,7 +2,7 @@ sciname,comname,iucn_sid,am_sid,year,risk_score,risk_source,cat_ts
 Ammodytes hexapterus,Pacific Sand Lance,NA,Fis-29620,NA,NA,iucn,NE
 Ardea herodias,Great Blue Heron,22696998,NA,1988,0.4,bc,LC
 Ardea herodias,Great Blue Heron,22696998,NA,1994,0.4,bc,LC
-Ardea herodias,Great Blue Heron,22696998,NA,2e3,0.4,bc,LC
+Ardea herodias,Great Blue Heron,22696998,NA,2000,0.4,bc,LC
 Ardea herodias,Great Blue Heron,22696998,NA,2004,0.4,bc,LC
 Ardea herodias,Great Blue Heron,22696998,NA,2008,0.4,bc,LC
 Ardea herodias,Great Blue Heron,22696998,NA,2009,0.4,bc,LC
@@ -29,7 +29,7 @@ Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,1994,0.6,bc,VU
 Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,1996,0.6,bc,EN
 Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,2008,0.6,bc,EN
 Balaenoptera physalus,Fin Whale,2478,ITS-Mam-180527,2013,0.6,bc,EN
-Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,2e3,0.4,bc,VU
+Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,2000,0.4,bc,VU
 Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,2004,0.4,bc,EN
 Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,2005,0.4,bc,EN
 Brachyramphus marmoratus,Marbled Murrelet,22694870,ITS-176996,2008,0.4,bc,EN
@@ -42,13 +42,14 @@ Branta canadensis,Canada Goose,22679935,NA,2009,0,bc,LC
 Branta canadensis,Canada Goose,22679935,NA,2012,0,bc,LC
 Branta canadensis,Canada Goose,22679935,NA,2016,0,bc,LC
 Cetorhinus maximus,Basking Shark,4292,Fis-22747,1996,0.4,iucn,VU
-Cetorhinus maximus,Basking Shark,4292,Fis-22747,2e3,0.4,iucn,VU
+Cetorhinus maximus,Basking Shark,4292,Fis-22747,2000,0.4,iucn,VU
 Cetorhinus maximus,Basking Shark,4292,Fis-22747,2005,0.4,iucn,VU
 Clupea pallasii,Pacific Herring,NA,Fis-153539,NA,NA,iucn,NE
 Delphinus delphis,Common Dophin,6336,ITS-Mam-180438,1996,0,iucn,LC
 Delphinus delphis,Common Dophin,6336,ITS-Mam-180438,2008,0,iucn,LC
+Dermochelys coriacea,Leatherback Turtle,46967817,Rep-4381,2013,0.7,bc,CR
 Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,1996,0.4,bc,LC
-Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,2e3,0.4,bc,EN
+Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,2000,0.4,bc,EN
 Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,2008,0.4,bc,EN
 Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,2011,0.4,bc,EN
 Enhydra lutris,Sea Otter,7750,ITS-Mam-180547,2015,0.4,bc,EN
@@ -63,18 +64,17 @@ Eumetopias jubatus,Steller Sea Lion,8239,ITS-Mam-180625,2012,0.4,bc,NT
 Eumetopias jubatus,Steller Sea Lion,8239,ITS-Mam-180625,2016,0.4,bc,NT
 Gavia immer,Common Loon,22697842,NA,1988,0,bc,LC
 Gavia immer,Common Loon,22697842,NA,1994,0,bc,LC
-Gavia immer,Common Loon,22697842,NA,2e3,0,bc,LC
+Gavia immer,Common Loon,22697842,NA,2000,0,bc,LC
 Gavia immer,Common Loon,22697842,NA,2004,0,bc,LC
 Gavia immer,Common Loon,22697842,NA,2008,0,bc,LC
 Gavia immer,Common Loon,22697842,NA,2009,0,bc,LC
 Gavia immer,Common Loon,22697842,NA,2012,0,bc,LC
 Gavia immer,Common Loon,22697842,NA,2016,0,bc,LC
-Globicephala macrorhynchus,Short-Finned Pilot Whale,9249,ITS-Mam-180466,1996,0.4,iucn,VU
 Grampus griseus,Risso's Dolphin,9461,ITS-Mam-180457,2008,0.2,bc,LC
 Grampus griseus,Risso's Dolphin,9461,ITS-Mam-180457,2012,0.2,bc,LC
 Haliaeetus leucocephalus,Bald Eagle,22695144,NA,1988,0,bc,LC
 Haliaeetus leucocephalus,Bald Eagle,22695144,NA,1994,0,bc,LC
-Haliaeetus leucocephalus,Bald Eagle,22695144,NA,2e3,0,bc,LC
+Haliaeetus leucocephalus,Bald Eagle,22695144,NA,2000,0,bc,LC
 Haliaeetus leucocephalus,Bald Eagle,22695144,NA,2004,0,bc,LC
 Haliaeetus leucocephalus,Bald Eagle,22695144,NA,2008,0,bc,LC
 Haliaeetus leucocephalus,Bald Eagle,22695144,NA,2009,0,bc,LC
@@ -83,7 +83,6 @@ Haliaeetus leucocephalus,Bald Eagle,22695144,NA,2016,0,bc,LC
 Haliotis kamtschatkana,Northern Abalone,61743,W-Msc-405014,2006,0.6,bc,EN
 Hippoglossus stenolepis,Halibut,NA,Fis-29418,NA,NA,iucn,NE
 Hypomesus pretiosus,Surf Smelt,NA,Fis-22880,NA,NA,iucn,NE
-Kogia breviceps,Pygmy Sperm Whale,11047,ITS-Mam-180491,1996,0,iucn,LC
 Lagenorhynchus obliquidens,White-Sided Dolphin,11145,ITS-Mam-180444,1996,0.1,bc,LC
 Lagenorhynchus obliquidens,White-Sided Dolphin,11145,ITS-Mam-180444,2008,0.1,bc,LC
 Lagenorhynchus obliquidens,White-Sided Dolphin,11145,ITS-Mam-180444,2012,0.1,bc,LC
@@ -114,7 +113,7 @@ Physeter macrocephalus,Sperm Whale,41755,ITS-Mam-180488,2008,0.3,bc,VU
 Pseudorca crassidens,False Killer Whale,18596,ITS-Mam-180463,1996,0,iucn,LC
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,1988,0.4,bc,LC
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,1994,0.4,bc,LC
-Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,2e3,0.4,bc,LC
+Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,2000,0.4,bc,LC
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,2004,0.4,bc,LC
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,2008,0.4,bc,LC
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,2009,0.4,bc,LC
@@ -122,11 +121,7 @@ Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,2012,0.4,bc,LC
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,2015,0.4,bc,NT
 Ptychoramphus aleuticus,Cassin's Auklet,22694903,ITS-177013,2016,0.4,bc,NT
 Squalus suckleyi,Spiny Dogfish,195488,Fis-164793,2016,0,iucn,LC
-Stenella coeruleoalba,Striped Dolphin,20731,ITS-Mam-180434,1996,0.4,iucn,VU
-Stenella coeruleoalba,Striped Dolphin,20731,ITS-Mam-180434,2008,0,iucn,LC
 Thaleichthys pacificus,Eulachon,202415,Fis-22963,2013,0.5,bc,LC
-Tursiops truncatus,Bottlenose Dolphin,22563,ITS-Mam-180426,2008,0,iucn,LC
-Tursiops truncatus,Bottlenose Dolphin,22563,ITS-Mam-180426,2012,0,iucn,LC
 Zalophus californianus,California Sea Lion,41666,ITS-Mam-180621,1965,0,bc,CR
 Zalophus californianus,California Sea Lion,41666,ITS-Mam-180621,1996,0,bc,LC
 Zalophus californianus,California Sea Lion,41666,ITS-Mam-180621,2008,0,bc,LC

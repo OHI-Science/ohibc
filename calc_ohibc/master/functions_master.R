@@ -352,22 +352,22 @@ SAL <- function(layers) {
   #############################################################.
 
   ### Function for converting E/E_target values into a 0 - 1 score
-  calc_e_prime <- function(E_Et) {
-    delta_e <- .25 ### max overescape penalty
-    c_v_e <- 0.6 ### Coefficient of variation of E/E_target
-
-    m_e1 <- 1 / c_v_e
-    m_e2 <- - (1 - delta_e)/(c_v_e)
-    e_0_1 <- 1 - m_e1
-    e_0_2 <- 1 - m_e2 * (1 + c_v_e)
-
-    e_prime <- case_when(E_Et < 1.0 - c_v_e      ~ 0,
-                         E_Et < 1.0                ~ e_0_1 + m_e1 * E_Et,
-                         E_Et < 1.0 + c_v_e      ~ 1,
-                         E_Et < 1.0 + 2 * c_v_e  ~ e_0_2 + m_e2 * E_Et,
-                         E_Et >= 1.0 + 2 * c_v_e ~ delta_e,
-                         TRUE                      ~ NA_real_)
-  }
+  # calc_e_prime <- function(E_Et) {
+  #   delta_e <- .25 ### max overescape penalty
+  #   c_v_e <- 0.6 ### Coefficient of variation of E/E_target
+  #
+  #   m_e1 <- 1 / c_v_e
+  #   m_e2 <- - (1 - delta_e)/(c_v_e)
+  #   e_0_1 <- 1 - m_e1
+  #   e_0_2 <- 1 - m_e2 * (1 + c_v_e)
+  #
+  #   e_prime <- case_when(E_Et < 1.0 - c_v_e      ~ 0,
+  #                        E_Et < 1.0                ~ e_0_1 + m_e1 * E_Et,
+  #                        E_Et < 1.0 + c_v_e      ~ 1,
+  #                        E_Et < 1.0 + 2 * c_v_e  ~ e_0_2 + m_e2 * E_Et,
+  #                        E_Et >= 1.0 + 2 * c_v_e ~ delta_e,
+  #                        TRUE                      ~ NA_real_)
+  # }
 
   ### Function for converting C/C_target values into a 0 - 1 score
   calc_c_prime <- function(C_Ct) {
@@ -384,12 +384,20 @@ SAL <- function(layers) {
                          TRUE                  ~ NA_real_)
   }
 
+  # stocks_scored <- stocks %>%
+  #   rowwise() %>%
+  #   mutate(esc_score   = calc_e_prime(E_Et),
+  #          catch_score = calc_c_prime(C_Ct),
+  #          stock_score = prod(c(esc_score, catch_score), na.rm = TRUE)) %>%
+  #   filter(!(is.na(esc_score) & is.na(catch_score))) %>% ### if both esc_score and catch_score are NA, drop the row
+  #   ungroup() %>%
+  #   select(rgn_id, stock, year,
+  #          stock_score)
+
   stocks_scored <- stocks %>%
     rowwise() %>%
-    mutate(esc_score   = calc_e_prime(E_Et),
-           catch_score = calc_c_prime(C_Ct),
-           stock_score = prod(c(esc_score, catch_score), na.rm = TRUE)) %>%
-    filter(!(is.na(esc_score) & is.na(catch_score))) %>% ### if both esc_score and catch_score are NA, drop the row
+    mutate(stock_score = calc_c_prime(C_Ct)) %>%
+    filter(!is.na(stock_score)) %>% ### if both esc_score and catch_score are NA, drop the row
     ungroup() %>%
     select(rgn_id, stock, year,
            stock_score)
@@ -570,19 +578,26 @@ AO <- function(layers) {
                          TRUE                      ~ NA_real_)
   }
 
-  ### Function for converting C/C_target values into a 0 - 1 score
-  calc_c_prime_ao <- function(C_Ct) {
-    c_prime <- case_when(C_Ct < 1.0            ~ 1.0,
-                         C_Ct < 2.0            ~ 2.0 - C_Ct,
-                         C_Ct >= 2.0           ~ 0,
-                         TRUE                  ~ NA_real_)
-  }
+  # ### Function for converting C/C_target values into a 0 - 1 score
+  # calc_c_prime_ao <- function(C_Ct) {
+  #   c_prime <- case_when(C_Ct < 1.0            ~ 1.0,
+  #                        C_Ct < 2.0            ~ 2.0 - C_Ct,
+  #                        C_Ct >= 2.0           ~ 0,
+  #                        TRUE                  ~ NA_real_)
+  # }
+
+  # stocks_scored <- stocks %>%
+  #   mutate(esc_score   = calc_e_prime_ao(E_Et),
+  #          catch_score = calc_c_prime_ao(C_Ct),
+  #          stock_score = ifelse(is.na(esc_score), catch_score, esc_score)) %>%
+  #   ungroup() %>%
+  #   select(rgn_id, stock, year,
+  #          stock_score)
 
   stocks_scored <- stocks %>%
     rowwise() %>%
-    mutate(esc_score   = calc_e_prime_ao(E_Et),
-           catch_score = calc_c_prime_ao(C_Ct),
-           stock_score = ifelse(is.na(esc_score), catch_score, esc_score)) %>%
+    mutate(stock_score = calc_e_prime_ao(E_Et)) %>%
+    filter(!is.na(stock_score)) %>%
     ungroup() %>%
     select(rgn_id, stock, year,
            stock_score)

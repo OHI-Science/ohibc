@@ -91,6 +91,14 @@ Delphinus delphis,Common Dophin,0,iucn,4
 Delphinus delphis,Common Dophin,0,iucn,5
 Delphinus delphis,Common Dophin,0,iucn,6
 Delphinus delphis,Common Dophin,0,iucn,7
+Dermochelys coriacea,Leatherback Turtle,0.7,bc,1
+Dermochelys coriacea,Leatherback Turtle,0.7,bc,2
+Dermochelys coriacea,Leatherback Turtle,0.7,bc,3
+Dermochelys coriacea,Leatherback Turtle,0.7,bc,4
+Dermochelys coriacea,Leatherback Turtle,0.7,bc,5
+Dermochelys coriacea,Leatherback Turtle,0.7,bc,6
+Dermochelys coriacea,Leatherback Turtle,0.7,bc,7
+Dermochelys coriacea,Leatherback Turtle,0.7,bc,8
 Enhydra lutris,Sea Otter,0.4,bc,4
 Enhydra lutris,Sea Otter,0.4,bc,5
 Enhydra lutris,Sea Otter,0.4,bc,7
@@ -126,14 +134,6 @@ Gavia immer,Common Loon,0,bc,5
 Gavia immer,Common Loon,0,bc,6
 Gavia immer,Common Loon,0,bc,7
 Gavia immer,Common Loon,0,bc,8
-Globicephala macrorhynchus,Short-Finned Pilot Whale,0.4,iucn,1
-Globicephala macrorhynchus,Short-Finned Pilot Whale,0.4,iucn,2
-Globicephala macrorhynchus,Short-Finned Pilot Whale,0.4,iucn,3
-Globicephala macrorhynchus,Short-Finned Pilot Whale,0.4,iucn,4
-Globicephala macrorhynchus,Short-Finned Pilot Whale,0.4,iucn,5
-Globicephala macrorhynchus,Short-Finned Pilot Whale,0.4,iucn,6
-Globicephala macrorhynchus,Short-Finned Pilot Whale,0.4,iucn,7
-Globicephala macrorhynchus,Short-Finned Pilot Whale,0.4,iucn,8
 Grampus griseus,Risso's Dolphin,0.2,bc,1
 Grampus griseus,Risso's Dolphin,0.2,bc,2
 Grampus griseus,Risso's Dolphin,0.2,bc,3
@@ -174,8 +174,6 @@ Hypomesus pretiosus,Surf Smelt,NA,iucn,5
 Hypomesus pretiosus,Surf Smelt,NA,iucn,6
 Hypomesus pretiosus,Surf Smelt,NA,iucn,7
 Hypomesus pretiosus,Surf Smelt,NA,iucn,8
-Kogia breviceps,Pygmy Sperm Whale,0,iucn,5
-Kogia breviceps,Pygmy Sperm Whale,0,iucn,7
 Lagenorhynchus obliquidens,White-Sided Dolphin,0.1,bc,1
 Lagenorhynchus obliquidens,White-Sided Dolphin,0.1,bc,2
 Lagenorhynchus obliquidens,White-Sided Dolphin,0.1,bc,3
@@ -328,9 +326,6 @@ Squalus suckleyi,Spiny Dogfish,0,iucn,5
 Squalus suckleyi,Spiny Dogfish,0,iucn,6
 Squalus suckleyi,Spiny Dogfish,0,iucn,7
 Squalus suckleyi,Spiny Dogfish,0,iucn,8
-Stenella coeruleoalba,Striped Dolphin,0,iucn,5
-Stenella coeruleoalba,Striped Dolphin,0,iucn,6
-Stenella coeruleoalba,Striped Dolphin,0,iucn,7
 Thaleichthys pacificus,Eulachon,0.5,bc,1
 Thaleichthys pacificus,Eulachon,0.5,bc,2
 Thaleichthys pacificus,Eulachon,0.5,bc,3
@@ -339,14 +334,6 @@ Thaleichthys pacificus,Eulachon,0.5,bc,5
 Thaleichthys pacificus,Eulachon,0.5,bc,6
 Thaleichthys pacificus,Eulachon,0.5,bc,7
 Thaleichthys pacificus,Eulachon,0.5,bc,8
-Tursiops truncatus,Bottlenose Dolphin,0,iucn,1
-Tursiops truncatus,Bottlenose Dolphin,0,iucn,2
-Tursiops truncatus,Bottlenose Dolphin,0,iucn,3
-Tursiops truncatus,Bottlenose Dolphin,0,iucn,4
-Tursiops truncatus,Bottlenose Dolphin,0,iucn,5
-Tursiops truncatus,Bottlenose Dolphin,0,iucn,6
-Tursiops truncatus,Bottlenose Dolphin,0,iucn,7
-Tursiops truncatus,Bottlenose Dolphin,0,iucn,8
 Zalophus californianus,California Sea Lion,0,bc,1
 Zalophus californianus,California Sea Lion,0,bc,2
 Zalophus californianus,California Sea Lion,0,bc,3

@@ -43,6 +43,14 @@ iucn_sid,am_sid,rgn_id,sciname,comname
 6336,ITS-Mam-180438,5,Delphinus delphis,Common Dophin
 6336,ITS-Mam-180438,6,Delphinus delphis,Common Dophin
 6336,ITS-Mam-180438,7,Delphinus delphis,Common Dophin
+46967817,Rep-4381,1,Dermochelys coriacea,Leatherback Turtle
+46967817,Rep-4381,2,Dermochelys coriacea,Leatherback Turtle
+46967817,Rep-4381,3,Dermochelys coriacea,Leatherback Turtle
+46967817,Rep-4381,4,Dermochelys coriacea,Leatherback Turtle
+46967817,Rep-4381,5,Dermochelys coriacea,Leatherback Turtle
+46967817,Rep-4381,6,Dermochelys coriacea,Leatherback Turtle
+46967817,Rep-4381,7,Dermochelys coriacea,Leatherback Turtle
+46967817,Rep-4381,8,Dermochelys coriacea,Leatherback Turtle
 7750,ITS-Mam-180547,4,Enhydra lutris,Sea Otter
 7750,ITS-Mam-180547,5,Enhydra lutris,Sea Otter
 7750,ITS-Mam-180547,7,Enhydra lutris,Sea Otter
@@ -62,14 +70,6 @@ iucn_sid,am_sid,rgn_id,sciname,comname
 8239,ITS-Mam-180625,6,Eumetopias jubatus,Steller Sea Lion
 8239,ITS-Mam-180625,7,Eumetopias jubatus,Steller Sea Lion
 8239,ITS-Mam-180625,8,Eumetopias jubatus,Steller Sea Lion
-9249,ITS-Mam-180466,1,Globicephala macrorhynchus,Short-Finned Pilot Whale
-9249,ITS-Mam-180466,2,Globicephala macrorhynchus,Short-Finned Pilot Whale
-9249,ITS-Mam-180466,3,Globicephala macrorhynchus,Short-Finned Pilot Whale
-9249,ITS-Mam-180466,4,Globicephala macrorhynchus,Short-Finned Pilot Whale
-9249,ITS-Mam-180466,5,Globicephala macrorhynchus,Short-Finned Pilot Whale
-9249,ITS-Mam-180466,6,Globicephala macrorhynchus,Short-Finned Pilot Whale
-9249,ITS-Mam-180466,7,Globicephala macrorhynchus,Short-Finned Pilot Whale
-9249,ITS-Mam-180466,8,Globicephala macrorhynchus,Short-Finned Pilot Whale
 9461,ITS-Mam-180457,1,Grampus griseus,Risso's Dolphin
 9461,ITS-Mam-180457,2,Grampus griseus,Risso's Dolphin
 9461,ITS-Mam-180457,3,Grampus griseus,Risso's Dolphin
@@ -78,8 +78,6 @@ iucn_sid,am_sid,rgn_id,sciname,comname
 9461,ITS-Mam-180457,6,Grampus griseus,Risso's Dolphin
 9461,ITS-Mam-180457,7,Grampus griseus,Risso's Dolphin
 9461,ITS-Mam-180457,8,Grampus griseus,Risso's Dolphin
-11047,ITS-Mam-180491,5,Kogia breviceps,Pygmy Sperm Whale
-11047,ITS-Mam-180491,7,Kogia breviceps,Pygmy Sperm Whale
 11145,ITS-Mam-180444,1,Lagenorhynchus obliquidens,White-Sided Dolphin
 11145,ITS-Mam-180444,2,Lagenorhynchus obliquidens,White-Sided Dolphin
 11145,ITS-Mam-180444,3,Lagenorhynchus obliquidens,White-Sided Dolphin
@@ -160,9 +158,6 @@ iucn_sid,am_sid,rgn_id,sciname,comname
 18596,ITS-Mam-180463,6,Pseudorca crassidens,False Killer Whale
 18596,ITS-Mam-180463,7,Pseudorca crassidens,False Killer Whale
 18596,ITS-Mam-180463,8,Pseudorca crassidens,False Killer Whale
-20731,ITS-Mam-180434,5,Stenella coeruleoalba,Striped Dolphin
-20731,ITS-Mam-180434,6,Stenella coeruleoalba,Striped Dolphin
-20731,ITS-Mam-180434,7,Stenella coeruleoalba,Striped Dolphin
 23211,ITS-Mam-180498,1,Ziphius cavirostris,Cuvier's Beaked Whale
 23211,ITS-Mam-180498,2,Ziphius cavirostris,Cuvier's Beaked Whale
 23211,ITS-Mam-180498,3,Ziphius cavirostris,Cuvier's Beaked Whale
@@ -309,14 +304,6 @@ NA,Fis-29620,5,Ammodytes hexapterus,Pacific Sand Lance
 NA,Fis-29620,6,Ammodytes hexapterus,Pacific Sand Lance
 NA,Fis-29620,7,Ammodytes hexapterus,Pacific Sand Lance
 NA,Fis-29620,8,Ammodytes hexapterus,Pacific Sand Lance
-22563,ITS-Mam-180426,1,Tursiops truncatus,Bottlenose Dolphin
-22563,ITS-Mam-180426,2,Tursiops truncatus,Bottlenose Dolphin
-22563,ITS-Mam-180426,3,Tursiops truncatus,Bottlenose Dolphin
-22563,ITS-Mam-180426,4,Tursiops truncatus,Bottlenose Dolphin
-22563,ITS-Mam-180426,5,Tursiops truncatus,Bottlenose Dolphin
-22563,ITS-Mam-180426,6,Tursiops truncatus,Bottlenose Dolphin
-22563,ITS-Mam-180426,7,Tursiops truncatus,Bottlenose Dolphin
-22563,ITS-Mam-180426,8,Tursiops truncatus,Bottlenose Dolphin
 13244,ITS-Mam-180517,1,Mesoplodon densirostris,Blainville's Beaked Whale
 13244,ITS-Mam-180517,2,Mesoplodon densirostris,Blainville's Beaked Whale
 13244,ITS-Mam-180517,3,Mesoplodon densirostris,Blainville's Beaked Whale
