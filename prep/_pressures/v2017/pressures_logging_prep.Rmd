@@ -75,7 +75,7 @@ In addition to the spatial information contained in `geometry`, these fields see
 * `DSTRBSTDT`	(DISTURBANCE_START_DATE) is derived from the data source. RESULTS describes it as; derived from the first reported disturbance activity reporting. This date is used to calculate the silviculture obligation milestones.
 * `DSTRBEDDT`	(DISTURBANCE_END_DATE) is derived from the data source. RESULTS describes it as; derived from the last disturbance activity reporting record based on the disturbance activity's completion date.
 
-Assuming a 20-year period for full regrowth, we cut out any forestry blocks with no activity later than 1981.  From updated BC CHI: "As in Ban et al (2010), forest cutblocks included were those for the past 20 years but the date range advanced (1993-2013). All records retired before 1993 were removed from the dataset as they were considered functionally restored (Anderson 1996)."
+Assuming a 20-year period for functional regrowth, we cut out any forestry blocks with no activity later than 1981.  From updated BC CHI: "As in Ban et al (2010), forest cutblocks included were those for the past 20 years but the date range advanced (1993-2013). All records retired before 1993 were removed from the dataset as they were considered functionally restored (Anderson 1996)."
 
 ``` {r read_spatial_filter_years_and_intersect_to_ohibc}
 

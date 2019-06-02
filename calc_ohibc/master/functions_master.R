@@ -935,11 +935,11 @@ TR <- function(layers) {
 LV <- function(scores) {
   # message'starting LV')
 
-  ### combines LVF (LV First Nations) and LVO (LV other) subgoals with a simple
+  ### combines LVF (LV First Nations) and LVN (LV non-First Nations) subgoals with a simple
   ### of the two
 
   s <- scores %>%
-    filter(goal %in% c('LVF', 'LVO')) %>%
+    filter(goal %in% c('LVF', 'LVN')) %>%
     filter(!(dimension %in% c('pressures', 'resilience')))
 
   s <- s  %>%
@@ -1045,8 +1045,8 @@ LVF <- function(layers) {
 
 }
 
-LVO <- function(layers) {
-  # message'starting LVO')
+LVN <- function(layers) {
+  # message'starting LVN')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
@@ -1095,7 +1095,7 @@ LVO <- function(layers) {
   ### income is listed in equivalent dollars
 
   ### combine wages and jobs scores; calculate overall score
-  lvo_status <- empl_df %>%
+  lvn_status <- empl_df %>%
     mutate(jobs_score = empl_rate_nonfn / ref_pt,
            jobs_score = ifelse(jobs_score > 1, 1, jobs_score)) %>%
     select(year, region_id, jobs_score) %>%
@@ -1105,20 +1105,20 @@ LVO <- function(layers) {
                 select(year, region_id, wages_score),
               by = c('year', 'region_id')) %>%
     mutate(score = 100 * (jobs_score + wages_score) / 2,
-           goal  = 'LVO',
+           goal  = 'LVN',
            dimension = 'status') %>%
     select(year, region_id, score, goal, dimension)
 
 
   trend_years <- (data_year - 4) : data_year
-  lvo_trend   <- calc_trend(lvo_status, trend_years)
+  lvn_trend   <- calc_trend(lvn_status, trend_years)
 
-  lvo_scores <- lvo_status %>%
+  lvn_scores <- lvn_status %>%
     filter(year == data_year) %>%
-    bind_rows(lvo_trend) %>%
+    bind_rows(lvn_trend) %>%
     select(region_id, goal, dimension, score)
 
-  return(lvo_scores)
+  return(lvn_scores)
 
 }
 

@@ -23,7 +23,6 @@ knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
 
 library(raster)
 library(sf)
-library(tmap)
 
 
 source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
@@ -423,53 +422,53 @@ Note that for North Coast Vancouver Island, the OHIBC region wraps around to the
 dir_mapp <- file.path(dir_data_bc, 'mapp/MarineSpatialPlanZones')
 
 mapp_hg   <- read_sf(dir_mapp, 'HaidaGwaii_Subregion_Oct_2014')
-    # "SubRegion"  "Type"       "Management" "Area_Ha"    "Area_Km"    "Objective"  "Name"       
-    # "Haida_Name" "Shape_Leng" "Shape_Area"
-    # mapp_hg$Management %>% unique()
-    # [1] "SMZ - Shellfish Aq" "IUCN - Type Ib"     "IUCN - Type IV"     "IUCN - Type II"    
-    # [5] "IUCN - Type III"    "IUCN - Type V"      "IUCN - Type VI"     "SMZ - Alt. Energy" 
-    mapp_hg_aq <- mapp_hg %>%
-      filter(Management == 'SMZ - Shellfish Aq') %>%
-      mutate(area = st_area(geometry)) %>%
-      as.data.frame() %>%
-      dplyr::select(name = Name, area, desc = Management) %>%
-      mutate(rgn_id = 2)
+# "SubRegion"  "Type"       "Management" "Area_Ha"    "Area_Km"    "Objective"  "Name"       
+# "Haida_Name" "Shape_Leng" "Shape_Area"
+# mapp_hg$Management %>% unique()
+# [1] "SMZ - Shellfish Aq" "IUCN - Type Ib"     "IUCN - Type IV"     "IUCN - Type II"    
+# [5] "IUCN - Type III"    "IUCN - Type V"      "IUCN - Type VI"     "SMZ - Alt. Energy" 
+mapp_hg_aq <- mapp_hg %>%
+  filter(Management == 'SMZ - Shellfish Aq') %>%
+  mutate(area = st_area(geometry)) %>%
+  as.data.frame() %>%
+  dplyr::select(name = Name, area, desc = Management) %>%
+  mutate(rgn_id = 2)
 mapp_nc   <- read_sf(dir_mapp, 'NorthCoast_Subregion_June2015')
-    # "SubRegion"  "Type"       "Management" "Area_Ha"    "Area_Km"    "Objective"  "AreaDescri" 
-    # "Name"       "Unit_No"    "Grouping"   "ZoneType"   "Shape_Leng" "Shape_Area"
-    # mapp_nc$Management %>% unique()
-    # [1] "II"                                      "IV"                                     
-    # [3] "Renewable Energy"                        "Aquaculture"                            
-    # [5] "Tourism and Recreation"                  "Areas for future planning consideration"
-    # [7] "Ib"                                      "Cultural" 
-    mapp_nc_aq <- mapp_nc %>%
-      filter(Management == 'Aquaculture') %>%
-      mutate(area = st_area(geometry)) %>%
-      as.data.frame() %>%
-      dplyr::select(name = Name, area, desc = Management) %>%
-      mutate(rgn_id = 1)
+# "SubRegion"  "Type"       "Management" "Area_Ha"    "Area_Km"    "Objective"  "AreaDescri" 
+# "Name"       "Unit_No"    "Grouping"   "ZoneType"   "Shape_Leng" "Shape_Area"
+# mapp_nc$Management %>% unique()
+# [1] "II"                                      "IV"                                     
+# [3] "Renewable Energy"                        "Aquaculture"                            
+# [5] "Tourism and Recreation"                  "Areas for future planning consideration"
+# [7] "Ib"                                      "Cultural" 
+mapp_nc_aq <- mapp_nc %>%
+  filter(Management == 'Aquaculture') %>%
+  mutate(area = st_area(geometry)) %>%
+  as.data.frame() %>%
+  dplyr::select(name = Name, area, desc = Management) %>%
+  mutate(rgn_id = 1)
 mapp_cc   <- read_sf(dir_mapp, 'CentralCoast_Subregion_Ver9')
-    # "SubRegion"  "Type"       "Area_Ha"    "Area_Km"    "Unit_New"   "Unit"       "Group_"    
-    # "IUCN_Categ" "ZoneType"   "Edited"     "Unit_Old"   "AreaDecri"  "Shape_Leng" "Shape_Area"
-    # mapp_cc$ZoneType %>% unique()
-    # [1] NA                       "Renewable Energy"       "Aquaculture"           
-    # [4] "Recreation and Tourism"
-    mapp_cc_aq <- mapp_cc %>%
-      filter(ZoneType == 'Aquaculture') %>%
-      mutate(area = st_area(geometry)) %>%
-      as.data.frame() %>%
-      dplyr::select(name = AreaDecri, area, desc = ZoneType) %>%
-      mutate(rgn_id = 3)
+# "SubRegion"  "Type"       "Area_Ha"    "Area_Km"    "Unit_New"   "Unit"       "Group_"    
+# "IUCN_Categ" "ZoneType"   "Edited"     "Unit_Old"   "AreaDecri"  "Shape_Leng" "Shape_Area"
+# mapp_cc$ZoneType %>% unique()
+# [1] NA                       "Renewable Energy"       "Aquaculture"           
+# [4] "Recreation and Tourism"
+mapp_cc_aq <- mapp_cc %>%
+  filter(ZoneType == 'Aquaculture') %>%
+  mutate(area = st_area(geometry)) %>%
+  as.data.frame() %>%
+  dplyr::select(name = AreaDecri, area, desc = ZoneType) %>%
+  mutate(rgn_id = 3)
 mapp_ncvi <- read_sf(dir_mapp, 'NorthVancouverIsland_Subregion_Oct3_2014')
-    # "SubRegion"  "Type"       "Management" "Area_Ha"    "Area_Km"    "AreaDescri" "Name"      
-    # "Unit_No"    "Shape_Leng" "Shape_Area"
-    # mapp_ncvi$AreaDescri %>% unique()
-    mapp_ncvi_aq <- mapp_ncvi %>%
-      filter(str_detect(tolower(AreaDescri), 'aquaculture')) %>%
-      mutate(area = st_area(geometry)) %>%
-      as.data.frame() %>%
-      dplyr::select(name = Name, area, desc = AreaDescri) %>%
-      mutate(rgn_id = 4)
+# "SubRegion"  "Type"       "Management" "Area_Ha"    "Area_Km"    "AreaDescri" "Name"      
+# "Unit_No"    "Shape_Leng" "Shape_Area"
+# mapp_ncvi$AreaDescri %>% unique()
+mapp_ncvi_aq <- mapp_ncvi %>%
+  filter(str_detect(tolower(AreaDescri), 'aquaculture')) %>%
+  mutate(area = st_area(geometry)) %>%
+  as.data.frame() %>%
+  dplyr::select(name = Name, area, desc = AreaDescri) %>%
+  mutate(rgn_id = 4)
     # [1] "SMZ Cultural/Economic Emphasis Areas are intended to reinforce their high value to First Nations, on a seasonal and year-round basis, for cultural value protection, Aboriginal economic development opportunities, and food security. This value includes con"
     #  [2] "Significant ecological values due to major upwelling of nutrients creating a rich, diverse marine ecosystem.  There are key First Nation cultural/economic interests and local resident scenic values. Safeguarding the integrity of this interaction between" 
     #  [3] "SMZ Recreation/Tourism Emphasis Areas are intended to reinforce their high value to existing commercial tourism operations, particularly during the months of late May to early October. Other uses and activities in SMZ Recreation/Tourism Emphasis Areas sh"
@@ -490,7 +489,7 @@ mapp_aq_area_df <- bind_rows(mapp_hg_aq,
                              mapp_nc_aq, 
                              mapp_ncvi_aq) %>%
   mutate(area_km2 = round(area / 1e6, 3)) %>%
-  select(-area)
+  dplyr::select(-area)
 
 write_csv(mapp_aq_area_df, file.path(dir_goal, 'int/mapp_aq_smz_areas.csv'))
 

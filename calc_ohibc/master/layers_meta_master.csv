@@ -46,8 +46,8 @@ ico_spp_risk_score,ICO,IUCN or BCSEE extinction risk score,IUCN or BCSEE risk ca
 ico_spp_trend,ICO,IUCN and COSEWIC trend,IUCN and COSEWIC trend,IUCN text field of population trend OR COSEWIC species health time series trend
 lv_income_fn,LVF,Median household income (First Nations),CPI-adjusted 2016 Canadian dollars,Population-weighted mean of median household income for First Nations communities
 lv_unempl_fn,LVF,Unemployment rate (First Nations),proportion unemployed 0-1,Mean unemployment rate for First Nations communities
-lv_income_nonfn,LVO,Median household income (non-FN),CPI-adjusted 2016 Canadian dollars,Population-weighted mean of median household income for non-FN communities
-lv_unempl_nonfn,LVO,Unemployment rate (non-FN),proportion unemployed 0-1,Mean unemployment rate for non-FN communities
+lv_income_nonfn,LVN,Median household income (non-FN),CPI-adjusted 2016 Canadian dollars,Population-weighted mean of median household income for non-FN communities
+lv_unempl_nonfn,LVN,Unemployment rate (non-FN),proportion unemployed 0-1,Mean unemployment rate for non-FN communities
 lsp_prot_area_inland_ws,LSP,Inland coastal protected areas,km2,Protected areas located 1 km inland
 lsp_prot_area_offshore3nm,LSP,Offshore coastal protected areas,km2,Protected areas located 3nm offshore
 lsp_tot_area_inland_ws,LSP,Total inland watershed area,km2,Inland area of OHI regions within 1km of shoreline
