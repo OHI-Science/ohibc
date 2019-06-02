@@ -2,7 +2,6 @@ layer,dir_prep,fn_data,ingest,name_data_fld
 ao_closures,ohibc:prep/ao/v2017/output,ao_closures.csv,TRUE,days_avg
 ao_licenses,ohibc:prep/ao/v2017/output,ao_licenses.csv,TRUE,pct_fn
 ao_licenses_fn_pop,ohibc:prep/ao/v2017/output,ao_licenses_fn_pop.csv,TRUE,pct_fn_pop
-ao_sal_catch,ohibc:prep/sal/v2017/output,ao_sal_catch.csv,TRUE,C_Ct
 ao_sal_escapes,ohibc:prep/sal/v2017/output,ao_sal_escapes.csv,TRUE,E_Et
 ao_spawn_hab_index,ohibc:prep/ao/v2017/output,ao_spawn_hab_index.csv,TRUE,shi_tot
 aq_benthic,ohibc:prep/mar/v2017/output,prs_aq_benthic.csv,TRUE,prs_benthic
@@ -65,7 +64,6 @@ po_trash,ohibc:prep/cw/v2017/output,po_trash.csv,TRUE,trash_pressure
 rgn_areas,ohibc:prep/_spatial/v2017/output,rgn_areas_no_offshore.csv,TRUE,area_km2
 rgn_labels,ohibc:prep/_spatial/v2017/output,rgn_labels.csv,TRUE,rgn_name
 sal_catch,ohibc:prep/sal/v2017/output,sal_catch.csv,TRUE,C_Ct
-sal_escapes,ohibc:prep/sal/v2017/output,sal_escapes.csv,TRUE,E_Et
 sp_alien,ohibc:prep/_pressures/v2017/output,prs_inv_spp.csv,TRUE,pressure
 sp_genetic,ohibc:prep/_pressures/v2017/output,prs_genesc.csv,TRUE,pressure
 species_diversity_3nm,ohibc:prep/spp_ico/v2017/output,spp_status_3nm.csv,TRUE,status

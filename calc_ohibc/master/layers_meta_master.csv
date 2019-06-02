@@ -2,8 +2,7 @@ layer,targets,name,units,description
 ao_closures,AO,Shellfish closure days,area-weighted closure days,Shellfish closure days area-weighted by region as a proxy for access to shellfish gardens
 ao_licenses,AO,FN Commercial fishing licenses,percent,Commercial fishing licenses allocated to First Nations (as proportion of total licenses) as a measure of access to commercial fisheries
 ao_licenses_fn_pop,AO,FN Commercial fishing licenses,percent,Commercial fishing licenses allocated to First Nations (proportion relative to FN percent population) as a measure of access to commercial fisheries
-ao_sal_catch,AO,Salmon catch/catch target (AO),C/Ct,Salmon catch relative to catch target as proxy for ensuring that commercial harvest leaves a healthy fishery for First Nations FSC access
-ao_sal_escapes,AO,Salmon escapements/escape target (AO),E/Et,Salmon escapements relative to escapements target as a proxy for sustainable biomass for First Nations FSC access
+ao_sal_escapes,AO,Salmon escapements/escape target,E/Et,Salmon escapements relative to escapements target as a proxy for sustainable biomass for First Nations FSC access
 ao_spawn_hab_index,AO,Herring Spawn Habitat Index,SHI,Herring spawn habitat index as a proxy for opportunity to collect herring spawn
 aq_benthic,pressures,Aquaculture benthic pressures,scaled 0-1,Rescaled harvest-weighted benthic impacts due to aquaculture
 aq_incidental,pressures,Aquaculture incidental harvest,scaled 0-1,Rescaled harvest-weighted incidental take of fish species due to aquaculture
@@ -13,11 +12,11 @@ cc_acid,pressure,Ocean acidification,scaled 0-1,Ocean acidification pressure sca
 cc_slr,pressure,Sea level rise,scaled 0-1,Sea level rise pressure
 cc_sst,pressure,Sea surface temperature anomolies,scaled 0-1,Sea surface temperature anomolies
 cc_uv,pressure,UV radiation pressure,scaled 0-1,Modeled UV radiation based on Erythemal UV Irradiance data provided by GES DISC.
-cp_cf_health,CPP,Exposure-weighted coastal forest habitat condition,proportion,Current condition of coastal forest habitat relative to historical condition weighted by exposure
-cp_sm_health,CPP,Exposure-weighted saltmarsh habitat condition,proportion,Current condition of saltmarsh habitat relative to historical condition weighted by exposure
-cs_cf_health,CSS,Coastal forest habitat condition,proportion,Current condition of coastal forest habitat relative to historical condition
-cs_sm_health,CSS,Saltmarsh habitat condition (CSS),proportion,Current condition of saltmarsh habitat relative to historical condition
-cwbi_all,resilience,Community Well-Being Index( all), scaled 0-1,Community Well-Being Index across all OHIBC census subdivisions reporting on four components and overall index
+cp_cf_health,CPP,Exposure-weighted coastal forest extent,proportion,Current extent of coastal forest habitat relative to historical extent weighted by exposure
+cp_sm_health,CPP,Exposure-weighted saltmarsh extent,proportion,Current extent of saltmarsh habitat relative to historical extent weighted by exposure
+cs_cf_health,CSS,Coastal forest extent,proportion,Current extent of coastal forest habitat relative to historical extent
+cs_sm_health,CSS,Saltmarsh extent,proportion,Current extent of saltmarsh habitat relative to historical extent
+cwbi_all,resilience,Community Well-Being Index (all), scaled 0-1,Community Well-Being Index across all OHIBC census subdivisions reporting on four components and overall index
 cwbi_fn,resilience,Community Well-Being Index (First Nations), scaled 0-1,Community Well-Being Index across OHIBC First Nations census subdivisions reporting on four components and overall index
 element_wts_ao_components,pressure resilience,Weights of FN Resource Access Opportunities components,scaled 0-1,Status of each component
 element_wts_cp_km2_x_exposure_x_protection,pressure resilience,Coastal protection weights,extent*exposure*protection,"Habitat extent multiplied by habitat protection rank for: coral, mangrove (offshore and inland 1km), saltmarsh, sea ice (shoreline), and seagrass"
@@ -64,8 +63,7 @@ po_pathogen,CW pressure,Pathogen pollution,scaled 0-1,population density without
 po_trash,CW pressure,Marine plastics,scaled 0-1,Global marine plastics
 rgn_areas,spatial,Region areas based on EEZ boundaries,km2,Area of OHIBC regions modified from MaPP boundaries within BC exclusive economic zone
 rgn_labels,spatial,Regions,region name,Region names by region ID
-sal_catch,SAL,Salmon catch/catch target (SAL),C/Ct,Salmon catch relative to catch target as proxy for maximizing sustainable yield for commercial fishing purposes
-sal_escapes,SAL,Salmon escapements/escape target (SAL),E/Et,Salmon escapements relative to escapements target as a proxy for sustainable biomass for commercial fishing purposes
+sal_catch,SAL,Salmon catch/catch target,C/Ct,Salmon catch relative to catch target as proxy for maximizing sustainable yield for commercial fishing purposes
 sp_alien,pressure,Nonindigenous species,scaled 0-1,Measure of harmful invasive species
 sp_genetic,pressure,Genetic escapes,scaled 0-1,Introduced mariculture species (Mariculture Sustainability Index) as a proxy for genetic escapes
 species_diversity_3nm,resilience,Measure of coastal ecological integrity,scaled 0-1,Marine species condition (same calculation and data as the species subgoal status score)  calculated within 3 nm of shoreline as a proxy for ecological integrity
@@ -76,4 +74,4 @@ spp_risk_scores,SPP,Species risk category score,rescaled category score,Species 
 ss_cwbi_all,pressures,Weakness of Community Well-Being Index all, scaled 0-1,(1 - Community Well-Being Index) across all OHIBC census subdivisions reporting on four components and overall index
 ss_cwbi_fn,pressures,Weakness of Community Well-Being Index First Nations, scaled 0-1,(1 - Community Well-Being Index) across OHIBC First Nations census subdivisions reporting on four components and overall index
 tr_park_visits,TR,Number of park visitors,count,Number of visitors to provincial parks in OHIBC regions
-tr_vis_ctr_visits,TR,Number of visitors center visitors,count,Number of visitors to visitor centers in OHIBC regions
+tr_vis_ctr_visits,TR,Number of visitor center visitors,count,Number of visitors to visitor centers in OHIBC regions

@@ -334,7 +334,6 @@ mapp_resilience,TR,NA,resilience
 ao_closures,AO,NA,status
 ao_licenses,AO,NA,status
 ao_licenses_fn_pop,AO,NA,status
-ao_sal_catch,AO,NA,status
 ao_sal_escapes,AO,NA,status
 ao_spawn_hab_index,AO,NA,status
 cp_cf_health,CPP,NA,status
@@ -369,7 +368,6 @@ po_trash,CW,NA,status
 rgn_areas,spatial,NA,status
 rgn_labels,spatial,NA,status
 sal_catch,SAL,NA,status
-sal_escapes,SAL,NA,status
 spp_pop_trends,SPP,NA,status
 spp_range_areas,SPP,NA,status
 spp_risk_scores,SPP,NA,status
