@@ -1,0 +1,535 @@
+---
+title: 'OHIBC: Regression causal chain model - random effects'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes:
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('https://raw.githubusercontent.com/oharac/src/master/R/common.R')
+
+dir_ohibc  <- '~/github/ohibc'
+dir_calc   <- file.path(dir_ohibc, 'calc_ohibc')
+dir_master <- file.path(dir_calc, 'master')
+
+source(file.path(dir_calc, 'calc_scores_fxns.R'))
+
+### provenance tracking
+# library(provRmd); prov_setup()
+
+```
+
+
+# Regression model
+
+## Change in pressure vs. resilience
+
+The first link in the chain connects a management action now (time $t$) to changes in pressures in the future (time $t + \lambda$).  Framing this as proportional change in pressure, $\frac{p_{t+\lambda} - p_t}{p_{t}}$, examine the coefficient and significance of regulatory resilience.
+
+$$\%\Delta p_t = \frac{p_{t+\lambda} - p_t}{p_{t}} = \alpha + \beta r_{reg,t}$$
+$$\%\Delta p_t = \frac{p_{t+\lambda} - p_t}{p_{t}} = \alpha + \beta_1 r_{reg,t} + \beta_2 r_{soc,t} + \beta_3 r_{ecol,t}$$
+
+``` {r regress_prs_coefficients_res_components}
+
+### Set up basic data frame - make sure prs and res are 0-1; status
+### range not important here since we'll take a ratio inside a loop.
+
+res_reg <- read_csv(file.path(dir_calc, 'res_reg_only.csv')) %>%
+  select(goal, region_id, year, res_reg = score)
+res_soc <- read_csv(file.path(dir_calc, 'res_soc_only.csv')) %>%
+  select(goal, region_id, year, res_soc = score)
+res_ecol <- read_csv(file.path(dir_calc, 'res_ecol_only.csv')) %>%
+  select(goal, region_id, year, res_ecol = score)
+prs_no_social <- read_csv(file.path(dir_calc, 'prs_no_social.csv')) %>%
+  select(goal, region_id, year, pressures = score)
+
+scores_rgn_res <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+# scores_rgn_res <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id != 0) %>%
+  spread(dimension, score) %>%
+  select(goal, region_id, year, status, trend) %>%
+  left_join(res_reg, by = c('goal', 'region_id', 'year')) %>%
+  left_join(res_soc, by = c('goal', 'region_id', 'year')) %>%
+  left_join(res_ecol, by = c('goal', 'region_id', 'year')) %>%
+  left_join(prs_no_social, by = c('goal', 'region_id', 'year')) %>%
+  group_by(goal, region_id) %>%
+  arrange(year) %>%
+  mutate(res_reg   = res_reg / 100,
+         res_soc   = res_soc / 100,
+         res_ecol  = res_ecol / 100,
+         pressures = pressures / 100) %>%
+  filter(!all(is.na(res_reg), is.na(res_soc), is.na(res_ecol))) %>%
+  filter(!is.na(pressures)) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
+
+goals <- scores_rgn_res$goal %>% 
+  unique() 
+
+```
+
+```{r helper functions}
+
+calc_d_prs <- function(goalname, scores_df, yr_lag) {
+  d_prs_df <- scores_df %>%
+    filter(goal == goalname) %>%
+    mutate(obs_future_prs = lead(pressures, yr_lag),
+           d_prs = (obs_future_prs - pressures) / pressures) %>%
+    filter(!is.na(d_prs))
+  return(d_prs_df)
+}
+
+calc_d_status <- function(goalname, scores_df, yr_lag) {
+  d_stat_df <- scores_df %>%
+      filter(goal == goalname) %>%
+      mutate(obs_future_status = lead(status, yr_lag),
+             d_status = (obs_future_status - status) /status) %>%
+      filter(!is.na(d_status)) %>%
+      filter(!is.infinite(d_status))
+  return(d_stat_df)
+}
+
+tidy_model <- function(mdl, d_prs_df) {
+  mdl_df <- mdl %>%
+    broom::tidy(effects = 'fixed') %>%
+    mutate(goal  = goalname,
+           n_obs = nrow(d_prs_df),
+           years = length(d_prs_df$year %>% unique()),
+           yr_lag = yr_lag,
+           r_squared = summary(mdl)$corFixed[2, 1]^2,
+           aic = AIC(mdl),
+           bic = BIC(mdl))
+  return(mdl_df)
+}
+
+```
+
+``` {r prs_res_reg_only}
+
+prs_res_reg <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 5
+  for(goalname in goals) { # goalname <- 'CW'
+    # cat(goalname, ', lag = ', yr_lag, '\n')
+
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag)
+
+    if(nrow(d_prs_df) == 0) next()
+    if(length(unique(d_prs_df$res_reg)) == 1) next()
+   
+    ### just regulatory resilience
+    ### Check that there are values for each component, otherwise devolves to different model:
+    if(all(is.na(d_prs_df$res_reg))) next()
+
+    d_prs_mdl <- nlme::lme(d_prs ~ 1 + res_reg, random = ~1 | rgn_code, 
+                           data = d_prs_df, method = 'REML')
+    prs_res_reg_lm <- tidy_model(d_prs_mdl, d_prs_df)
+    
+    prs_res_reg <- bind_rows(prs_res_reg, prs_res_reg_lm)
+  }
+}
+
+write_csv(prs_res_reg, 'int/random/prs_v_res_reg_only_RE.csv')
+
+```
+
+``` {r prs_res_reg_soc}
+
+prs_res_reg_soc  <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag) %>%
+      filter(!is.na(res_soc))
+    
+    if(nrow(d_prs_df) == 0) next()
+    if(length(unique(d_prs_df$res_reg)) == 1) next()
+    if(length(unique(d_prs_df$res_soc)) == 1) next()
+   
+    ### just regulatory and social resilience
+    ### Check that there are values for each component, otherwise devolves to different model:
+    if(all(is.na(d_prs_df$res_soc))) next()
+    if(all(is.na(d_prs_df$res_reg))) next()
+
+    d_prs_mdl <- nlme::lme(d_prs ~ 1 + res_reg + res_soc, 
+                           random = ~1 | rgn_code, 
+                           data = d_prs_df, method = 'REML')
+    prs_res_reg_soc_lm <- tidy_model(d_prs_mdl, d_prs_df)
+    
+    prs_res_reg_soc  <- bind_rows(prs_res_reg_soc, prs_res_reg_soc_lm)
+  }
+}
+
+write_csv(prs_res_reg_soc, 'int/random/prs_v_res_reg_soc_RE.csv')
+
+```
+
+``` {r prs_res_reg_ecol}
+
+prs_res_reg_ecol <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag)
+    
+    if(all(is.na(d_prs_df$res_ecol))) next()
+    
+    if(nrow(d_prs_df) == 0) next()
+    if(length(unique(d_prs_df$res_reg)) == 1) next()
+    if(length(unique(d_prs_df$res_ecol)) == 1) next()
+   
+    ### just regulatory and ecological resilience
+    ### Check that there are values for each component, otherwise devolves to different model:
+    if(all(is.na(d_prs_df$res_ecol))) next()
+    if(all(is.na(d_prs_df$res_reg))) next()
+
+    d_prs_mdl <- nlme::lme(d_prs ~ res_reg + res_ecol, 
+                           random = ~1 | rgn_code, 
+                           data = d_prs_df, method = 'REML')
+    prs_res_reg_ecol_lm <- tidy_model(d_prs_mdl, d_prs_df)
+
+    prs_res_reg_ecol <- bind_rows(prs_res_reg_ecol, prs_res_reg_ecol_lm)
+  }
+}
+
+write_csv(prs_res_reg_ecol, 'int/random/prs_v_res_reg_ecol_RE.csv')
+
+```
+
+``` {r prs_res_soc_only}
+
+prs_res <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LVO'
+
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag) %>%
+      filter(!is.na(res_soc))
+    
+    if(nrow(d_prs_df) == 0) next()
+    if(length(unique(d_prs_df$res_soc)) == 1) next()
+   
+    ### social only
+    ### Check that there are values for each component, otherwise devolves to different model:
+    if(all(is.na(d_prs_df$res_soc))) next()
+
+    d_prs_mdl <- nlme::lme(d_prs ~ res_soc, 
+                           random = ~1 | rgn_code, 
+                           data = d_prs_df, method = 'REML')
+    prs_res_lm <- tidy_model(d_prs_mdl, d_prs_df)
+
+    prs_res <- bind_rows(prs_res, prs_res_lm)
+  }
+}
+
+write_csv(prs_res, 'int/random/prs_v_res_soc_only_RE.csv')
+
+```
+
+``` {r prs_res_soc_ecol}
+
+prs_res <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag) %>%
+      filter(!is.na(res_soc))
+    
+    if(nrow(d_prs_df) == 0) next()
+    if(length(unique(d_prs_df$res_soc)) == 1) next()
+    if(length(unique(d_prs_df$res_ecol)) == 1) next()
+   
+    ### social and ecological resilience only
+    ### Check that there are values for each component, otherwise devolves to different model:
+    if(all(is.na(d_prs_df$res_ecol))) next()
+    if(all(is.na(d_prs_df$res_soc))) next()
+
+    d_prs_mdl <- nlme::lme(d_prs ~ res_soc + res_ecol, 
+                           random = ~1 | rgn_code, 
+                           data = d_prs_df, method = 'REML')
+    prs_res_lm <- tidy_model(d_prs_mdl, d_prs_df)
+
+    prs_res <- bind_rows(prs_res, prs_res_lm)
+  }
+}
+
+write_csv(prs_res, 'int/random/prs_v_res_soc_ecol_RE.csv')
+
+```
+
+``` {r prs_res_ecol_only}
+
+prs_res <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag)
+    
+    if(nrow(d_prs_df) == 0) next()
+    if(length(unique(d_prs_df$res_ecol)) == 1) next()
+   
+    ### ecological resilience only
+    ### Check that there are values for each component, otherwise devolves to different model:
+    if(all(is.na(d_prs_df$res_ecol))) next()
+    
+    d_prs_mdl <- nlme::lme(d_prs ~ res_ecol, 
+                           random = ~1 | rgn_code, 
+                           data = d_prs_df, method = 'REML')
+    prs_res_lm <- tidy_model(d_prs_mdl, d_prs_df)
+
+    prs_res <- bind_rows(prs_res, prs_res_lm)
+  }
+}
+
+write_csv(prs_res, 'int/random/prs_v_res_ecol_only_RE.csv')
+
+```
+
+``` {r prs_res_reg_soc_ecol}
+
+prs_res_all <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag) %>%
+      filter(!is.na(res_soc))
+    
+    if(nrow(d_prs_df) == 0) next()
+    if(length(unique(d_prs_df$res_reg)) == 1) next()
+    if(length(unique(d_prs_df$res_soc)) == 1) next()
+    if(length(unique(d_prs_df$res_ecol)) == 1) next()
+   
+    ### all resilience aspects.
+    ### Check that there are values for each component, otherwise devolves to different model:
+    if(all(is.na(d_prs_df$res_ecol))) next()
+    if(all(is.na(d_prs_df$res_soc))) next()
+    if(all(is.na(d_prs_df$res_reg))) next()
+    
+    d_prs_mdl <- nlme::lme(d_prs ~ res_reg + res_ecol + res_soc, 
+                           random = ~1 | rgn_code, 
+                           data = d_prs_df, method = 'REML')
+    prs_res_all_lm <- tidy_model(d_prs_mdl, d_prs_df)
+
+    prs_res_all <- bind_rows(prs_res_all, prs_res_all_lm)
+  }
+}
+
+write_csv(prs_res_all, 'int/random/prs_v_res_all_RE.csv')
+
+```
+
+``` {r prs_intercept_only, eval = FALSE}
+
+prs_res_all <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+    cat(goalname, ', lag = ', yr_lag, '\n')
+
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag)
+    
+    if(nrow(d_prs_df) == 0) next()
+   
+    ### Intercept only model - no components
+    
+    d_prs_mdl <- nlme::lme(d_prs ~ 1, 
+                           random = ~1 | rgn_code, 
+                           data = d_prs_df, method = 'REML')
+    prs_res_all_lm <- tidy_model(d_prs_mdl, d_prs_df)
+
+    prs_res_all <- bind_rows(prs_res_all, prs_res_all_lm)
+  }
+}
+
+write_csv(prs_res_all, 'int/random/prs_v_res_intercept_only_RE.csv')
+
+```
+
+# Comparing models
+
+## Notes about AIC and BIC:
+
+From https://methodology.psu.edu/AIC-vs-BIC:
+
+> So what’s the bottom line? In general, it might be best to use AIC and BIC together in model selection. For example, in selecting the number of latent classes in a model, if BIC points to a three-class model and AIC points to a five-class model, it makes sense to select from models with 3, 4 and 5 latent classes. AIC is better in situations when a false negative finding would be considered more misleading than a false positive, and BIC is better in situations where a false positive is as misleading as, or more misleading than, a false negative.
+
+from https://robjhyndman.com/hyndsight/aic/:
+
+> The AIC does not require nested models. One of the neat things about the AIC is that you can compare very different models. However, make sure the likelihoods are computed on the same data. For example, you cannot compare an ARIMA model with differencing to an ARIMA model without differencing, because you lose one or more observations via differencing. That is why auto.arima uses a unit root test to choose the order of differencing, and only uses the AIC to select the orders of the AR and MA components.
+
+Seems like AIC (and BIC?) should be fine with a standard linear model using OLS?  We're not assuming anything fancy about the data.  BUT: the lag relationship will mean AIC comparing lag 4 vs. lag 5 (e.g.) are looking at different data.  So: use AIC to choose the best model for each goal for a specific lag, but then look at the lags separately.  If they're all saying the same model form, then use a different criterion to choose the best lag model.
+
+## Pull in all pressure ~ resilience models
+
+Bring in each model from the CSV; spread the coefficients, clean the dataframe a bit, and then bind all together to readily compare AICs for models within goals and lag years.
+
+```{r}
+
+prs_csvs <- list.files('int/random', pattern = '^prs_.+_RE', full.names = TRUE)
+
+prs_mdl <- lapply(prs_csvs, read_csv) %>%
+  setNames(basename(prs_csvs)) %>%
+  bind_rows(.id = 'model') %>%
+  mutate(est_text = formatC(round(estimate, 4), digits = 4, format = 'f'),
+         est_text = case_when(p.value < .001 ~ paste0(est_text, '***'),
+                              p.value <  .01 ~ paste0(est_text, '**'),
+                              p.value <  .05 ~ paste0(est_text, '*'),
+                              p.value <  .10 ~ paste0(est_text, '°'),
+                              TRUE ~ est_text)) %>%
+  select(goal, yr_lag, r_squared, aic, term, est_text, model) %>%
+  spread(term, est_text) %>%
+  # filter(!(is.na(res_reg) & is.na(res_ecol) & is.na(res_soc))) %>%
+    ### eliminate intercept-only models
+  clean_df_names() %>%
+  group_by(goal, yr_lag) %>%
+  mutate(best_model = (aic == min(aic))) %>%
+  ungroup()
+
+prs_mdl_excl_intercept <- prs_mdl %>%
+  filter(!str_detect(model, 'intercept')) %>%
+  group_by(goal, yr_lag) %>%
+  mutate(best_model = (aic == min(aic))) %>%
+  ungroup()
+
+write_csv(prs_mdl, 'int/random/model_compare_prs_res_RE.csv')
+
+best_models <- prs_mdl %>%
+  filter(best_model) %>%
+  select(-best_model) %>%
+  group_by(goal) %>%
+  mutate(best_rsquared = (r_squared == max(r_squared))) %>%
+  ungroup()
+
+```
+
+### Change in pressure vs. resilience components
+
+`r DT::datatable(prs_mdl %>% mutate_if(is.double, ~ round(., 4)))`
+
+
+## Change in status vs. pressure
+
+The second link in the causal chain connects a change in pressure now (time $t$) to changes in status in the future (time $t + \lambda$).  Framing this as proportional change in status, $\frac{x_{t+\lambda}}{x_{t}}$, examine the coefficient and significance of pressure.
+
+$$\%\Delta X_t = \frac{x_{t+\lambda} - x_t}{x_{t}} = \alpha + \beta p_{t}$$
+
+``` {r setup d status vs pressures}
+
+### Set up basic data frame - make sure prs and res are 0-1; status
+### range not important here since we'll take a ratio inside a loop.
+
+scores_rgn_d_status <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+# scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id != 0) %>%
+  spread(dimension, score) %>%
+  select(goal, region_id, year, status, pressures) %>%
+  left_join(prs_no_social %>% rename(prs_omit_soc = pressures), 
+            by = c('goal', 'region_id', 'year')) %>%
+  group_by(goal, region_id) %>%
+  arrange(year) %>%
+  filter(!is.na(pressures)) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
+
+goals <- scores_rgn_d_status$goal %>% 
+  unique()
+
+```
+
+``` {r regress d status vs pressures all}
+d_status_prs <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 1
+  for(goalname in goals) { # goalname <- 'FIS'
+    # cat(goalname, ', lag = ', yr_lag, '\n')
+
+    d_status_df <- calc_d_status(goalname, scores_rgn_d_status, yr_lag)
+    
+    if(nrow(d_status_df) == 0) next()
+    if(length(unique(d_status_df$d_status)) == 1) next()
+    
+    d_status_mdl <- nlme::lme(d_status ~ pressures, 
+                           random = ~1 | rgn_code, 
+                           data = d_status_df, method = 'REML')
+    d_status_prs_lm <- tidy_model(d_status_mdl, d_status_df)
+
+    d_status_prs <- bind_rows(d_status_prs, d_status_prs_lm)
+  }
+}
+
+write_csv(d_status_prs, 'int/random/status_v_prs_incl_soc_RE.csv')
+
+```
+
+``` {r regress d status vs pressures no social}
+d_status_prs <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+
+    d_status_df <- calc_d_status(goalname, scores_rgn_d_status, yr_lag)
+    
+    if(nrow(d_status_df) == 0) next()
+    if(all(is.na(d_status_df$prs_omit_soc))) next()
+    if(length(unique(d_status_df$d_status)) == 1) next()
+    
+    d_status_mdl <- nlme::lme(d_status ~ prs_omit_soc, 
+                           random = ~1 | rgn_code, 
+                           data = d_status_df, method = 'REML')
+    d_status_prs_lm <- tidy_model(d_status_mdl, d_status_df)
+
+    d_status_prs <- bind_rows(d_status_prs, d_status_prs_lm)
+  }
+}
+
+write_csv(d_status_prs, 'int/random/status_v_prs_no_soc_RE.csv')
+
+```
+
+#### Change in status vs. pressure
+
+`r DT::datatable(d_status_prs %>% mutate_if(is.double, ~ round(., 4)))`
+
+
+## But do the pressures and resilience change much?
+
+```{r}
+coef_var <- scores_rgn_res %>%
+  group_by(goal, region_id) %>%
+  summarize(cv_status  = sd(status, na.rm = TRUE)   / mean(status, na.rm = TRUE),
+            cv_resreg  = sd(res_reg, na.rm = TRUE)  / mean(res_reg, na.rm = TRUE),
+            cv_resecol = sd(res_ecol, na.rm = TRUE) / mean(res_ecol, na.rm = TRUE),
+            cv_ressoc  = sd(res_soc, na.rm = TRUE)  / mean(res_soc, na.rm = TRUE),
+            cv_pressures = sd(pressures, na.rm = TRUE) / mean(pressures, na.rm = TRUE)) %>%
+  ungroup()
+
+DT::datatable(coef_var %>% mutate_if(is.double, ~ round(., 4)))
+```
+
+

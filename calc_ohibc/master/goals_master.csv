@@ -1,7 +1,7 @@
 order_color,order_hierarchy,order_calculate,goal,parent,name,name_flower,description,weight,preindex_function,postindex_function
-1.1,1.1,1,FIS,FP,Fisheries,Fisheries,"This subgoal model aims to assess the amount of wild-caught seafood that can be sustainably harvested, with sustainability defined by multi-species yield, and with penalties assigned for both over- and under-harvesting.",0.34,FIS(layers),
+1.1,1.1,1,FIS,FP,Wild-Capture Fisheries,Wild-Capture\nFisheries,"This subgoal model aims to assess the amount of wild-caught seafood that can be sustainably harvested, with sustainability defined by multi-species yield, and with penalties assigned for both over- and under-harvesting.",0.34,FIS(layers),
 1.2,1.2,2,MAR,FP,Mariculture,Mariculture,This subgoal measures the ability to obtain maximal seafood yield from farm-raised facilities without damaging the ocean's ability to continue providing fish for people in the future.,0.33,MAR(layers),
-1.3,1.3,3,SAL,FP,Salmon,Salmon,This subgoal measures the ability to obtain maximal sustainable yield of wild-caught Pacific salmon.,0.33,SAL(layers),
+1.3,1.3,3,SAL,FP,Wild-Capture Salmon,Wild-Capture\nSalmon,This subgoal measures the ability to obtain maximal sustainable yield of wild-caught Pacific salmon.,0.33,SAL(layers),
 2,2,4,AO,,First Nations Resource Access Opportunities,First Nations Resource\nAccess Opportunities,"This goal captures the access First Nations members have to coastal resources for food, social, and ceremonial purposes, regardless of actual resource exploitation.",1,AO(layers),
 4.1,4.1,5,CSS,HS,Carbon Storage,Carbon\nStorage,This goal captures the carbon stored in natural coastal ecosystems that absorb and sequester carbon in large amounts.,0.5,CSS(layers),
 4.3,4.2,6,CPP,HS,Coastal Protection,Coastal\nProtection,This goal measures the amount of protection certain coastal habitats provide by measuring the current area they cover relative to the area they covered in the recent past.,0.5,CPP(layers),
@@ -15,6 +15,6 @@ order_color,order_hierarchy,order_calculate,goal,parent,name,name_flower,descrip
 10.3,10.2,14,SPP,BD,Species,Species,This subgoal aims to estimate how successfully the richness and variety of marine life is being maintained.,0.5,SPP(layers),
 1.2,1,15,FP,,Food Provision,Food Provision,"This goal measures the amount of seafood sustainably harvested in a given region through any means for use primarily in human consumption and thus includes wild-caught commercial, artisanal-scale, and recreational fisheries including salmon, and bivalve and finfish aquaculture.",1,,"FP(layers, scores)"
 4.2,4,16,HS,,Habitat Services,Habitat Services,This goal aims to capture the level of provision of services from natural coastal ecosystem habitats.,1,,HS(scores)
-7.2,7,17,LV,,Livelihoods,Livelihoods,This goal evaluates the benefits people obtain from the oceans in the form of jobs and wages.,1,,LV(scores)
+7.2,7,17,LV,,Coastal Livelihoods,Coastal\nLivelihoods,This goal evaluates the benefits people obtain from the oceans in the form of jobs and wages.,1,,LV(scores)
 8.2,8,18,SP,,Sense of Place,Sense of Place,This goal aims to capture the level of protection for aspects of the coastal and marine system that contribute to a person's sense of cultural identity.,1,,SP(scores)
 10.2,10,19,BD,,Biodiversity,Biodiversity,This goal captures the conservation status of marine species.,1,,BD(scores)
