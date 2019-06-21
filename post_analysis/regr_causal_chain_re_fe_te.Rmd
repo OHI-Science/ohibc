@@ -1,0 +1,524 @@
+---
+title: 'OHIBC: Regression causal chain model'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes:
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library('plm') ### before Tidyverse - 'lead' and 'lag' function conflict
+source('https://raw.githubusercontent.com/oharac/src/master/R/common.R')
+
+dir_ohibc  <- '~/github/ohibc'
+dir_calc   <- file.path(dir_ohibc, 'calc_ohibc')
+dir_master <- file.path(dir_calc, 'master')
+
+source(file.path(dir_calc, 'calc_scores_fxns.R'))
+
+### provenance tracking
+# library(provRmd); prov_setup()
+
+```
+
+
+# Regression model
+
+## Change in pressure vs. resilience
+
+The first link in the chain connects a management action now (time $t$) to changes in pressures in the future (time $t + \lambda$).  Framing this as proportional change in pressure, $\frac{p_{t+\lambda} - p_t}{p_{t}}$, examine the coefficient and significance of regulatory resilience.
+
+$$\%\Delta p_t = \frac{p_{t+\lambda} - p_t}{p_{t}} = \alpha + \beta r_{reg,t}$$
+$$\%\Delta p_t = \frac{p_{t+\lambda} - p_t}{p_{t}} = \alpha + \beta_1 r_{reg,t} + \beta_2 r_{soc,t} + \beta_3 r_{ecol,t}$$
+
+### Complications
+
+Should we use a fixed effects (on region) or random effects (on region)?  And then should we use a time effect?  [This presentation](https://dss.princeton.edu/training/Panel101R.pdf) has information on how to use the `plm` package to do Hausman test to determine whether to use random or fixed effects, and to test whether time effects should be used.
+
+To enable testing of all these, set up a data structure of lists within lists.
+
+* List level 1: goal (x8?)
+    * List level 2: lag year (x6)
+        * list level 3: nested model variant (x8)
+            * list level 4: fixed effect and random effect (x2)
+``` {r regress_prs_coefficients_res_components}
+
+### Set up basic data frame - make sure prs and res are 0-1; status
+### range not important here since we'll take a ratio inside a loop.
+
+res_reg <- read_csv(file.path(dir_calc, 'res_reg_only.csv')) %>%
+  select(goal, region_id, year, res_reg = score)
+res_soc <- read_csv(file.path(dir_calc, 'res_soc_only.csv')) %>%
+  select(goal, region_id, year, res_soc = score)
+res_ecol <- read_csv(file.path(dir_calc, 'res_ecol_only.csv')) %>%
+  select(goal, region_id, year, res_ecol = score)
+prs_no_social <- read_csv(file.path(dir_calc, 'prs_no_social.csv')) %>%
+  select(goal, region_id, year, pressures = score)
+
+scores_rgn_res <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+# scores_rgn_res <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id != 0) %>%
+  spread(dimension, score) %>%
+  select(goal, region_id, year, status, trend) %>%
+  left_join(res_reg, by = c('goal', 'region_id', 'year')) %>%
+  left_join(res_soc, by = c('goal', 'region_id', 'year')) %>%
+  left_join(res_ecol, by = c('goal', 'region_id', 'year')) %>%
+  left_join(prs_no_social, by = c('goal', 'region_id', 'year')) %>%
+  group_by(goal, region_id) %>%
+  arrange(year) %>%
+  mutate(res_reg   = res_reg / 100,
+         res_soc   = res_soc / 100,
+         res_ecol  = res_ecol / 100,
+         pressures = pressures / 100) %>%
+  filter(!all(is.na(res_reg), is.na(res_soc), is.na(res_ecol))) %>%
+  filter(!is.na(pressures)) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
+
+goals <- scores_rgn_res$goal %>% 
+  unique() 
+
+```
+
+```{r helper functions}
+
+calc_d_prs <- function(goalname, scores_df, yr_lag) {
+  d_prs_df <- scores_df %>%
+    filter(goal == goalname) %>%
+    mutate(obs_future_prs = lead(pressures, yr_lag),
+           d_prs = (obs_future_prs - pressures) / pressures,
+           intercept = 1) %>%
+    filter(!is.na(d_prs))
+  return(d_prs_df)
+}
+
+calc_d_status <- function(goalname, scores_df, yr_lag) {
+  d_stat_df <- scores_df %>%
+      filter(goal == goalname) %>%
+      mutate(obs_future_status = lead(status, yr_lag),
+             d_status = (obs_future_status - status) /status) %>%
+      filter(!is.na(d_status)) %>%
+      filter(!is.infinite(d_status))
+  return(d_stat_df)
+}
+
+tidy_model <- function(mdl, d_prs_df) {
+  mdl_df <- mdl %>%
+    broom::tidy() %>%
+    mutate(goal  = goalname,
+           n_obs = nrow(d_prs_df),
+           years = length(d_prs_df$year %>% unique()),
+           yr_lag = yr_lag,
+           r_squared = summary(mdl)$adj.r.squared,
+           aic = AIC(mdl),
+           bic = BIC(mdl))
+  return(mdl_df)
+}
+
+```
+
+``` {r resilience regr function}
+
+calc_res_regr <- function(df) {
+  ### For a given dataframe filtered to goal and lag year, loop over all
+  ### combinations of resilience regression models (except intercept only).
+  ### For each base model, calculate fixed and random effects on region, and
+  ### for each of those, calculate with and without time effect.
+  
+  res_mdls <- list(reg  = c('res_reg'),
+                   ecol = c('res_ecol'),
+                   soc  = c('res_soc'),
+                   reg_ecol = c('res_reg', 'res_ecol'),
+                   reg_soc  = c('res_reg', 'res_soc'),
+                   ecol_soc = c('res_ecol', 'res_soc'),
+                   reg_ecol_soc = c('res_reg', 'res_ecol', 'res_soc'))
+
+  ### initialize list for this combo of goal and lag
+  res_mdl_list <- vector('list', length = length(res_mdls))
+
+  ### This loop calculates all the permutations of the resilience component
+  ### model.  
+  for(i in seq_along(res_mdls)) {
+    ### i <- 1
+    
+    ### create text versions of the regression formulas for the base regression
+    ### (fixed or random effect determined in plm call) and regression with time
+    ### effects.
+    base_mdl <- sprintf('d_prs ~ %s', paste(res_mdls[[i]], collapse = ' + '))
+    teff_mdl <- sprintf('d_prs ~ %s + factor(year)', paste(res_mdls[[i]], collapse = ' + '))
+
+    cat('  ', i, ':', base_mdl, '\n')
+    names(res_mdl_list)[i] <- base_mdl
+
+    ### Check that there are values for each component, otherwise devolves to different model:
+    if(any(colSums(is.na(df[ , res_mdls[[i]]])) == nrow(df))) {
+      cat('Model', base_mdl, 'has NA columns - setting to "NA model"!\n')
+      res_mdl_list[[i]] <- 'NA model'
+      next()
+    }
+  
+    ### Check that model columns have some variation over time to avoid
+    ### degenerate models.  Compare range of each column to sqrt of machine precision
+    ### (could also just compare to a small regular number...)
+    if(any(sapply(res_mdls[[i]], 
+                  FUN = function(x) {
+                    diff(range(df[[x]], na.rm = TRUE)) < .Machine$double.eps^.5
+                    }
+                  ))) {
+      cat('Model', base_mdl, 'has degenerate columns - setting to "degenerate model"!\n')
+      res_mdl_list[[i]] <- 'degenerate model'
+      next()
+    }
+    
+    
+    mdl_fe <- plm(as.formula(base_mdl), data = df, 
+                        index = c('rgn_code', 'year'),
+                        model = 'within')
+    mdl_fe_t <- plm(as.formula(teff_mdl), data = df, 
+                          index = c('rgn_code', 'year'),
+                          model = 'within')
+    mdl_re <- plm(as.formula(base_mdl), data = df, 
+                        index = c('rgn_code', 'year'),
+                        model = 'random')
+    mdl_re_t <- plm(as.formula(teff_mdl), data = df, 
+                          index = c('rgn_code', 'year'),
+                          model = 'random')
+    
+    res_mdl_list[[i]] <- list(fe = mdl_fe,
+                                   fe_te = mdl_fe_t,
+                                   re = mdl_re,
+                                   re_te = mdl_re_t)
+  }
+  return(res_mdl_list)
+}
+```
+
+``` {r loop over resilience regressions}
+
+goal_regr_list <- vector('list', length = length(goals))
+names(goal_regr_list) <- goals
+
+for(goalname in goals) {
+  # goalname <- 'CW'
+  
+  yr_lag_regr_list <- vector('list', length = 6)
+  names(yr_lag_regr_list) <- paste0('lag', 1:6)
+  
+  for(yr_lag in 1:6) {
+    # yr_lag <- 5
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag)
+    
+    if(nrow(d_prs_df) == 0) next() ### skip degenerate case
+    
+    cat('Calculating', goalname, 'at lag', yr_lag, '\n')
+    tmp <- calc_res_regr(d_prs_df)
+    
+    yr_lag_regr_list[[yr_lag]] <- tmp
+  }
+  
+  goal_regr_list[[goalname]] <- yr_lag_regr_list
+}
+
+```
+
+``` {r prs_intercept_only}
+
+prs_res_all <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+
+    d_prs_df <- calc_d_prs(goalname, scores_rgn_res, yr_lag)
+    
+    if(nrow(d_prs_df) == 0) next()
+   
+    ### Intercept only model - no components
+    
+    d_prs_mdl <- lm(d_prs ~ 1 + factor(rgn_code), data = d_prs_df)
+    prs_res_all_lm <- tidy_model(d_prs_mdl, d_prs_df)
+
+    prs_res_all <- bind_rows(prs_res_all, prs_res_all_lm)
+  }
+}
+
+write_csv(prs_res_all, 'int/prs_v_res_intercept_only.csv')
+
+```
+
+# Comparing models
+
+## Notes about AIC and BIC:
+
+From https://methodology.psu.edu/AIC-vs-BIC:
+
+> So what’s the bottom line? In general, it might be best to use AIC and BIC together in model selection. For example, in selecting the number of latent classes in a model, if BIC points to a three-class model and AIC points to a five-class model, it makes sense to select from models with 3, 4 and 5 latent classes. AIC is better in situations when a false negative finding would be considered more misleading than a false positive, and BIC is better in situations where a false positive is as misleading as, or more misleading than, a false negative.
+
+from https://robjhyndman.com/hyndsight/aic/:
+
+> The AIC does not require nested models. One of the neat things about the AIC is that you can compare very different models. However, make sure the likelihoods are computed on the same data. For example, you cannot compare an ARIMA model with differencing to an ARIMA model without differencing, because you lose one or more observations via differencing. That is why auto.arima uses a unit root test to choose the order of differencing, and only uses the AIC to select the orders of the AR and MA components.
+
+Seems like AIC (and BIC?) should be fine with a standard linear model using OLS?  We're not assuming anything fancy about the data.  BUT: the lag relationship will mean AIC comparing lag 4 vs. lag 5 (e.g.) are looking at different data.  So: use AIC to choose the best model for each goal for a specific lag, but then look at the lags separately.  If they're all saying the same model form, then use a different criterion to choose the best lag model.
+
+## Compare all pressure ~ resilience models
+
+From the `goal_regr_list` list of lists, sort through to answer the following:
+
+1) For each goal/lag year/model combination:
+    a) Does a Hausmann test indicate that random effects is better, or is fixed effects adequate?
+    b) Should a time effects model be used, or is fixed/random on region adequate?
+    c) From this, examine the general consensus across all models (for that goal/lag year combo) - can we choose one method for all models (to better compare AICs)
+    d) Then from that, compare preferred methods across all goal/lag year combos to see if there is a general consensus for analysis.
+2) For each goal/lag year (using fixed/random and time effects as determined by (1) above), determine best model by comparing AIC.
+3) For each goal, compare lag year models using R^2^.
+
+### Hausmann and time effect tests
+
+For each loop, assemble a dataframe with results by model; bind together by lag year and goal.  Maybe not memory efficient but whatevs.
+
+```{r}
+AIC_adj <- function(mod){
+  # Number of observations
+  n.N   <- nrow(mod$model)
+  # Residuals vector
+  u.hat <- residuals(mod)
+  # Variance estimation
+  s.sq  <- log( (sum(u.hat^2)/(n.N)))
+  # Number of parameters (incl. constant) + one additional for variance estimation
+  p     <-  length(coef(mod)) + 1
+
+  # Note: minus sign cancels in log likelihood
+  aic <- 2*p  +  n.N * (  log(2*pi) + s.sq  + 1 ) 
+
+  return(aic)
+}
+```
+
+```{r}
+
+### initialize dataframe over all goals, lag years, and models
+mdls_df <- data.frame()
+
+for(goalname in goals) {
+  # goalname <- goals[1]
+  
+  ### initialize dataframe for this goal over all lag years and models
+  mdls_goal_df <- data.frame()
+  
+  for(yr_lag in 1:6) {
+    # yr_lag <- 1
+    lag_txt <- paste0('lag', yr_lag)
+    
+    ### select models list for this goal and lag year combo
+    mdls_to_test <- goal_regr_list[[goalname]][[lag_txt]]
+    
+    ### initialize dataframe for this goal and lag year over all models
+    mdls_goal_lag_df <- data.frame()
+    for(test_mdl in names(mdls_to_test)) {
+      # test_mdl <- names(mdls_to_test)[1]
+    
+      mdl_being_tested <- mdls_to_test[[test_mdl]]
+      
+      if(class(mdl_being_tested) == 'character') {
+        ### test if NA model or degenerate model
+        tmp_df <- data.frame(goal  = goalname, 
+                             model = test_mdl,
+                             lag   = yr_lag, 
+                             model_error = mdl_being_tested)
+      } else {
+        mdl_fe   <- mdl_being_tested$fe
+        mdl_fe_t <- mdl_being_tested$fe_t
+        mdl_re   <- mdl_being_tested$re
+        mdl_re_t <- mdl_being_tested$re_t
+        
+        hausman_p <- phtest(mdl_fe, mdl_re)$p.value
+        time_fe_p <- pFtest(mdl_fe_t, mdl_fe)$p.value
+        time_re_p <- pFtest(mdl_re_t, mdl_re)$p.value
+        aic_fe_t  <- mdl_being_tested$fe_t %>% AIC_adj()
+        aic_re_t  <- mdl_being_tested$re_t %>% AIC_adj()
+        
+        tmp_df <- data.frame(goal  = goalname, 
+                             model = test_mdl,
+                             lag   = yr_lag, 
+                             hausman_p, 
+                             time_fe_p, 
+                             time_re_p,
+                             aic_fe_t,
+                             aic_re_t)
+      }
+      
+      mdls_goal_lag_df <- mdls_goal_lag_df %>%
+        bind_rows(tmp_df)
+    }
+    
+    mdls_goal_df <- mdls_goal_df %>%
+      bind_rows(mdls_goal_lag_df)
+  }
+  
+  mdls_df <- mdls_df %>%
+    bind_rows(mdls_goal_df)
+}
+
+write_csv(mdls_df, 'int/model_testing_fixed_random_time_effects.csv')
+```
+
+#### examine random, fixed, and time effects across all regressions
+
+```{r}
+mdls_df <- read_csv('int/model_testing_fixed_random_time_effects.csv')
+
+effects_summary <- mdls_df %>%
+  group_by(goal) %>%
+  summarize(random_effect = sum(hausman_p > .05, na.rm = TRUE) / sum(!is.na(hausman_p)),
+            fe_time_eff  = sum(time_fe_p < .05, na.rm = TRUE) / sum(!is.na(time_fe_p)),
+            re_time_eff  = sum(time_re_p < .05, na.rm = TRUE) / sum(!is.na(time_re_p)))
+
+knitr::kable(effects_summary)
+```
+
+By this analysis (looking at the proportion of significant results across all models and time lags), only the CW goal seems to indicate that time effects are not significant.  So we will include time effects for all models (for simplicity of comparison).
+
+Under a Hausman test, the null hypothesis indicates a preference for random effects due to higher efficiency while still being consistent, while an alternative hypothesis indicates preference for fixed effects because it is at least as consistent though less efficient.  I guess the null indicates that the random effects is both efficient AND consistent, while the alternative indicates that random effects are less consistent than fixed effects.
+
+By this analysis, however, random effects seem to be indicated for some goals and models (i.e. p value of Hausman test is greater than 0.05, failing to reject the null, indicating that random and fixed effects are similar in consistency), while fixed effects are indicated for others (p value is less than 0.05, rejecting the null, indicating that random effects is significantly less consistent than fixed effect).
+
+Based on feedback from Doug Steigerwald and Kyle Meng, fixed effects is generally the preferred method in econometrics studies, with Kyle indicating that the Hausman test has fallen out of favor in recent years.
+
+```{r}
+mdls_df <- read_csv('int/model_testing_fixed_random_time_effects.csv')
+
+effects_summary_2 <- mdls_df %>%
+  group_by(goal, lag) %>%
+  summarize(random_effect = sum(hausman_p > .05, na.rm = TRUE) / sum(!is.na(hausman_p)))
+
+ggplot(effects_summary_2, aes(x = goal, y = lag, size = random_effect)) +
+  geom_point()
+```
+
+Assuming we will time effects models in all cases (even CW), let's identify for each goal/lag/model whether it should be fixed or random effect.  Let's also catch the AIC for each even if I probably need to use conditional AIC (or something else entirely?) to compare among similar models across fixed and random effects.
+
+```{r}
+mdls_df <- read_csv('int/model_testing_fixed_random_time_effects.csv') %>%
+  filter(!is.na(hausman_p)) %>%
+  select(-starts_with('time'), -model_error) %>%
+  mutate(effect = ifelse(hausman_p < 0.05, 'fixed', 'random'),
+         aic = ifelse(hausman_p < 0.05, aic_fe_t, aic_re_t)) %>%
+  group_by(goal, lag) %>%
+  mutate(best_model = aic == min(aic),
+         all_similar = sum(hausman_p < 0.05) %in% c(n(), 0)) %>%
+  ungroup()
+
+```
+
+
+
+
+
+
+## Change in status vs. pressure
+
+The second link in the causal chain connects a change in pressure now (time $t$) to changes in status in the future (time $t + \lambda$).  Framing this as proportional change in status, $\frac{x_{t+\lambda}}{x_{t}}$, examine the coefficient and significance of pressure.
+
+$$\%\Delta X_t = \frac{x_{t+\lambda} - x_t}{x_{t}} = \alpha + \beta p_{t}$$
+
+``` {r setup d status vs pressures}
+
+### Set up basic data frame - make sure prs and res are 0-1; status
+### range not important here since we'll take a ratio inside a loop.
+
+scores_rgn_d_status <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+# scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id != 0) %>%
+  spread(dimension, score) %>%
+  select(goal, region_id, year, status, pressures) %>%
+  left_join(prs_no_social %>% rename(prs_omit_soc = pressures), 
+            by = c('goal', 'region_id', 'year')) %>%
+  group_by(goal, region_id) %>%
+  arrange(year) %>%
+  filter(!is.na(pressures)) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
+
+goals <- scores_rgn_d_status$goal %>% 
+  unique()
+
+```
+
+``` {r regress d status vs pressures all}
+d_status_prs <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 1
+  for(goalname in goals) { # goalname <- 'FIS'
+
+    d_status_df <- calc_d_status(goalname, scores_rgn_d_status, yr_lag)
+    
+    if(nrow(d_status_df) == 0) next()
+    
+    d_status_mdl <- lm(d_status ~ pressures + factor(rgn_code), data = d_status_df)
+    d_status_prs_lm <- tidy_model(d_status_mdl, d_status_df)
+
+    d_status_prs <- bind_rows(d_status_prs, d_status_prs_lm)
+  }
+}
+
+write_csv(d_status_prs, 'int/status_v_prs_incl_soc.csv')
+
+```
+
+``` {r regress d status vs pressures no social}
+d_status_prs <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+
+    d_status_df <- calc_d_status(goalname, scores_rgn_d_status, yr_lag)
+    
+    if(nrow(d_status_df) == 0) next()
+    if(all(is.na(d_status_df$prs_omit_soc))) next()
+    
+    d_status_mdl <- lm(d_status ~ prs_omit_soc + factor(rgn_code), data = d_status_df)
+    d_status_prs_lm <- tidy_model(d_status_mdl, d_status_df)
+
+    d_status_prs <- bind_rows(d_status_prs, d_status_prs_lm)
+  }
+}
+
+write_csv(d_status_prs, 'int/status_v_prs_no_soc.csv')
+
+```
+
+#### Change in status vs. pressure
+
+`r DT::datatable(d_status_prs %>% mutate_if(is.double, ~ round(., 4)))`
+
+
+## But do the pressures and resilience change much?
+
+```{r}
+coef_var <- scores_rgn_res %>%
+  group_by(goal, region_id) %>%
+  summarize(cv_status  = sd(status, na.rm = TRUE)   / mean(status, na.rm = TRUE),
+            cv_resreg  = sd(res_reg, na.rm = TRUE)  / mean(res_reg, na.rm = TRUE),
+            cv_resecol = sd(res_ecol, na.rm = TRUE) / mean(res_ecol, na.rm = TRUE),
+            cv_ressoc  = sd(res_soc, na.rm = TRUE)  / mean(res_soc, na.rm = TRUE),
+            cv_pressures = sd(pressures, na.rm = TRUE) / mean(pressures, na.rm = TRUE)) %>%
+  ungroup()
+
+DT::datatable(coef_var %>% mutate_if(is.double, ~ round(., 4)))
+```
+
+

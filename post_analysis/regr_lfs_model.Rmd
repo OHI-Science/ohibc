@@ -1,5 +1,5 @@
 ---
-title: 'OHIBC: Regress LFS against status, trend, prs, res'
+title: 'OHIBC: Regress observed vs. predicted status'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output:
   html_document:
@@ -35,37 +35,6 @@ source(file.path(dir_calc, 'calc_scores_fxns.R'))
 ```
 
 
-# Regression model
-
-For each goal, regress the percent change in status (future status (default is +5 years) against current status) against trend, pressures, and resilience. This would give an idea of coefficients in the OHI LFS model; these may differ for each goal.  These do not apply to supragoals (since no pressures/resilience applied at this level), only standalone and subgoals.  Regressions will be based on the composition of the Likely Future Status calculation, using observed future state at some lag $\lambda$ rather than predicted future state.
-
-$$ X_{future} = X_{current} [1 + \beta T + (1 - \beta) (R - P)]$$
-Rearrange to
-$$\%\Delta X_t = \frac{X_{future} - X_{current}}{X_{current}} = \alpha + \beta T_t + (1 - \beta)(r_t - p_t)$$
-In the original OHI publication, the coefficient $\beta$ was set to 0.67, assuming that recent trend is a better predictor than pressures and resilience.  To ensure an intuitive comparison of coefficients, adjust the values in `scores.csv` so that $T_t \in [-1, 1]$, and $r_t, p_t \in [0, 1]$.
-
-Framing as regression where resilience and pressure are estimated together, and using a time horizon of $\lambda$ for likely future status:
-
-$$\%\Delta X_t = \frac{X_{t+\lambda} - X_t}{X_{t}} = \alpha + \beta_1 T_t + \beta_2 (r_t - p_t)$$
-
-However, if resilience and pressures are challenging to compare directly, perhaps each gets its own coefficient:
-$$\%\Delta X_t = \frac{X_{t+\lambda} - X_t}{X_{t}} = \alpha + \beta_1 T_t + \beta_2 r_t + \beta_3 p_t$$
-
-## How to understand effects of governance?
-
-Management action and governance appear in the OHI framework as specific resilience, embedded within overall resilience.  If we can split these (either into general and specific, or social, ecological, and governance) we can examine the coefficient on each separately.
-
-$$\%\Delta X_t = \frac{X_{t+\lambda} - X_t}{X_{t}} = \alpha + \beta_1 T_t + \beta_2 r_{spec,t} + \beta_3 r_{gen,t} + \beta_4 p_t$$
-
-or:
-
-$$\%\Delta X_t =  \frac{X_{t+\lambda} - X_t}{X_{t}} = \alpha + \beta_1 T_t + \beta_2 r_{soc,t} + \beta_3 r_{ecol,t} + \beta_4 r_{gov,t} + \beta_5 p_t$$
-
-## Fixed effects
-
-Using a fixed effects model by year may compensate for exogenous unobserved variables (i.e. not included in the index calculations) that affect all regions equally in each time period, such as global economic conditions or an El Niño year.  
-<!--Using a fixed effects model by region may compensate for unobserved variables (i.e. not included in index calculations) related to interregional differences, such as total population, proportion of First Nations population, or geophysical differences.-->
-
 # Regress predicted vs observed status
 
 Goal by goal, regress likely future state in time $t$ against observed status in time $t + 5$.  Fixed effects on region as well as no fixed effects.
@@ -97,55 +66,40 @@ for(goalname in goals) { ### goalname <- goals[1]
   tmp_df <- scores %>%
     filter(goal == goalname)
   
-  mdl_rgn_fe <- lm(obs_status ~ pred_status + rgn_name, data = tmp_df)
+  mdl_rgn_yr_fe <- lm(obs_status ~ pred_status + factor(rgn_name) + factor(year), data = tmp_df)
   
-  regr_future_rgn <- mdl_rgn_fe %>%
+  regr_future <- mdl_rgn_yr_fe %>%
     broom::tidy() %>%
     mutate(goal  = goalname,
            n_obs = nrow(tmp_df),
            years = length(tmp_df$year %>% unique()),
-           r_squared = summary(mdl_rgn_fe)$adj.r.squared,
-           aic = AIC(mdl_rgn_fe),
-           bic = BIC(mdl_rgn_fe),
-           fixed_effects = 'region')
+           adj_r_squared = summary(mdl_rgn_yr_fe)$adj.r.squared,
+           aic = AIC(mdl_rgn_yr_fe))
   
-  mdl_clean <- lm(obs_status ~ pred_status, data = tmp_df)
-  
-  regr_future <- mdl_clean %>%
-    broom::tidy() %>%
-    mutate(goal  = goalname,
-           n_obs = nrow(tmp_df),
-           years = length(tmp_df$year %>% unique()),
-           r_squared = summary(mdl_clean)$adj.r.squared,
-           aic = AIC(mdl_clean),
-           bic = BIC(mdl_clean),
-           fixed_effects = 'none')
-
-  regr_lfs <- bind_rows(regr_future, regr_future_rgn)
-  collect_df <- bind_rows(collect_df, regr_lfs)
+  collect_df <- bind_rows(collect_df, regr_future)
 
 }
 
-write_csv(collect_df, 'int/lfs_status.csv')
+write_csv(collect_df, 'int/lfs_status_fe.csv')
 
 ```
 
 
 ```{r}
 
-lfs_mdl <- read_csv('int/lfs_status.csv') %>%
+lfs_mdl <- read_csv('int/lfs_status_fe.csv') %>%
   mutate(est_text = formatC(round(estimate, 4), digits = 4, format = 'f'),
          est_text = case_when(p.value < .001 ~ paste0(est_text, '***'),
                               p.value <  .01 ~ paste0(est_text, '**'),
                               p.value <  .05 ~ paste0(est_text, '*'),
                               p.value <  .10 ~ paste0(est_text, '°'),
                               TRUE ~ est_text)) %>%
-  select(goal, r_squared, aic, term, est_text, fixed_effects) %>%
+  select(goal, adj_r_squared, aic, term, est_text) %>%
   spread(term, est_text) %>%
   clean_df_names()
 
-write_csv(lfs_mdl, 'int/model_compare_lfs_status.csv')
+write_csv(lfs_mdl, 'int/lfs_status_fe_formatted_p.csv')
 
-DT::datatable(lfs_mdl)
+DT::datatable(lfs_mdl %>% mutate_if(is.numeric, ~ round(., 4)))
 
 ```
