@@ -98,7 +98,7 @@ lfs_mdl <- read_csv('int/lfs_status_fe.csv') %>%
   spread(term, est_text) %>%
   clean_df_names()
 
-write_csv(lfs_mdl, 'int/lfs_status_fe_formatted_p.csv')
+write_csv(lfs_mdl, 'tables/lfs_status_fe_formatted_p.csv')
 
 DT::datatable(lfs_mdl %>% mutate_if(is.numeric, ~ round(., 4)))
 

@@ -1,0 +1,264 @@
+---
+title: 'OHIBC: Regression causal chain model with fixed effects: status vs pressure'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes:
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library('plm') ### before Tidyverse - 'lead' and 'lag' function conflict
+source('https://raw.githubusercontent.com/oharac/src/master/R/common.R')
+library(caret) ### for cross validation
+
+dir_ohibc  <- '~/github/ohibc'
+dir_calc   <- file.path(dir_ohibc, 'calc_ohibc')
+dir_master <- file.path(dir_calc, 'master')
+
+source(file.path(dir_calc, 'calc_scores_fxns.R'))
+
+### provenance tracking
+# library(provRmd); prov_setup()
+
+```
+
+
+## Change in status vs. pressure
+
+The second link in the causal chain connects a change in pressure now (time $t$) to changes in status in the future (time $t + \lambda$).  Framing this as proportional change in status, $\frac{x_{t+\lambda}}{x_{t}}$, examine the coefficient and significance of pressure.
+
+$$\%\Delta X_t = \frac{x_{t+\lambda} - x_t}{x_{t}} = \alpha + \beta p_{t}$$
+
+```{r helper functions}
+
+calc_d_status <- function(goalname, scores_df, yr_lag) {
+  d_stat_df <- scores_df %>%
+      filter(goal == goalname) %>%
+      mutate(obs_future_status = lead(status, yr_lag),
+             d_status = (obs_future_status - status) /status) %>%
+      filter(!is.na(d_status)) %>%
+      filter(!is.infinite(d_status))
+  return(d_stat_df)
+}
+
+tidy_model <- function(mdl) {
+  mdl_df <- mdl %>%
+    broom::tidy() %>%
+    mutate(adj_r_squared = summary(mdl)$adj.r.squared,
+           aic    = AIC(mdl), 
+           yrs    = sum(str_detect(term, 'year')),
+           rgns   = sum(str_detect(term, 'rgn')),
+           params = rgns + yrs + n() - 1)
+  return(mdl_df)
+}
+
+```
+
+## Regress changes in status vs. all pressures
+
+### set up dataframe
+
+``` {r setup d status vs pressures}
+
+### Set up basic data frame - make sure prs and res are 0-1; status
+### range not important here since we'll take a ratio inside a loop.
+
+prs_no_social <- read_csv(file.path(dir_calc, 'prs_no_social.csv')) %>%
+  select(goal, region_id, year, pressures = score)
+
+scores_rgn_d_status <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+# scores_rgn <- read_csv(file.path(dir_calc, 'scores_all.csv')) %>%
+  filter(region_id != 0) %>%
+  spread(dimension, score) %>%
+  select(goal, region_id, year, status, pressures) %>%
+  left_join(prs_no_social %>% rename(prs_omit_soc = pressures), 
+            by = c('goal', 'region_id', 'year')) %>%
+  group_by(goal, region_id) %>%
+  arrange(year) %>%
+  filter(!is.na(pressures)) %>%
+  left_join(get_rgn_names(), by = c('region_id' = 'rgn_id'))
+
+goals <- scores_rgn_d_status$goal %>% 
+  unique()
+
+```
+
+### Run regression for all goals, all lags
+
+Include a cross validation step.
+
+``` {r regress d status vs pressures all}
+
+### Define training control
+set.seed(123)
+k <- 5
+reps <- 5
+train.control <- trainControl(method = "repeatedcv", number = k, repeats = reps)
+
+### initialize dataframes
+d_status_prs <- data.frame()
+crossval_df  <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 1
+  for(goalname in goals) { # goalname <- 'FIS'
+
+    d_status_df <- calc_d_status(goalname, scores_rgn_d_status, yr_lag)
+    
+    if(nrow(d_status_df) == 0) next()
+    if(length(unique(d_status_df$year)) <= 1) next()
+    
+    test_df <- d_status_df %>%
+      group_by(rgn_code) %>%
+      summarize(range_vals = max(status) - min(status))
+    if(all(test_df$range_vals == 0)) {
+      d_status_prs_lm <- data.frame(goal = goalname, lag = yr_lag, model_error = 'no change in status')
+      crossval_results <- d_status_prs_lm
+    } else {
+    
+      d_status_mdl <- lm(d_status ~ pressures + factor(rgn_code) + factor(year), data = d_status_df)
+      d_status_prs_lm <- tidy_model(d_status_mdl) %>%
+        mutate(goal   = goalname,
+               lag    = yr_lag)
+      
+      cross_val_mdl <- train(d_status ~ pressures + factor(year) + factor(rgn_code), data = d_status_df, 
+                             method = "lm",
+                             trControl = train.control)
+      crossval_results <- cross_val_mdl$results %>%
+        mutate(goal   = goalname,
+               lag    = yr_lag) %>%
+        clean_df_names()
+    }
+
+    d_status_prs <- bind_rows(d_status_prs, d_status_prs_lm)
+    crossval_df <- bind_rows(crossval_df, crossval_results)
+  }
+}
+
+write_csv(d_status_prs, 'int/status_prs_results_incl_soc.csv')
+write_csv(crossval_df, 'int/status_prs_crossval_incl_soc.csv')
+
+```
+
+### Clean up results
+
+```{r}
+
+crossval_df <- read_csv('int/status_prs_crossval_incl_soc.csv') %>%
+  select(-intercept, -model_error)
+
+st_prs_mdl <- read_csv('int/status_prs_results_incl_soc.csv') %>%
+  mutate(est_text = formatC(round(estimate, 4), digits = 4, format = 'f'),
+         est_text = case_when(p.value < .001 ~ paste0(est_text, '***'),
+                              p.value <  .01 ~ paste0(est_text, '**'),
+                              p.value <  .05 ~ paste0(est_text, '*'),
+                              p.value <  .10 ~ paste0(est_text, '°'),
+                              TRUE ~ est_text)) %>%
+  select(goal, lag, yrs, rgns, adj_r_squared, aic, term, est_text) %>%
+  spread(term, est_text) %>%
+  left_join(crossval_df, by = c('goal', 'lag')) %>%
+  clean_df_names()
+
+write_csv(st_prs_mdl, 'tables/status_prs_results_incl_soc_formatted_p.csv')
+
+DT::datatable(st_prs_mdl %>% mutate_if(is.numeric, ~ round(., 4)))
+
+```
+
+## Repeat the above for data with social pressures excluded
+
+### run regression across all goals and lags
+
+including a cross validation
+
+``` {r regress d status vs pressures no social}
+### initialize dataframes
+d_status_prs <- data.frame()
+crossval_df  <- data.frame()
+
+for(yr_lag in 1:6) {
+  # yr_lag <- 2
+  for(goalname in goals) { # goalname <- 'LSP'
+
+    d_status_df <- calc_d_status(goalname, scores_rgn_d_status, yr_lag)
+    
+    if(nrow(d_status_df) == 0) next()
+    if(length(unique(d_status_df$year)) <= 1) next()
+    if(all(is.na(d_status_df$prs_omit_soc))) next()
+    test_df <- d_status_df %>%
+      group_by(rgn_code) %>%
+      summarize(range_vals = max(status) - min(status))
+    
+    if(all(test_df$range_vals == 0)) {
+      
+      d_status_prs_lm <- data.frame(goal = goalname, lag = yr_lag, model_error = 'no change in status')
+      crossval_results <- d_status_prs_lm
+      
+    } else {
+      
+      d_status_mdl <- lm(d_status ~ prs_omit_soc + factor(rgn_code) + factor(year), data = d_status_df)
+      d_status_prs_lm <- tidy_model(d_status_mdl) %>%
+        mutate(goal  = goalname,
+               lag   = yr_lag)
+  
+      cross_val_mdl <- train(d_status ~ prs_omit_soc + factor(year) + factor(rgn_code), data = d_status_df, 
+                             method = "lm",
+                             trControl = train.control)
+      crossval_results <- cross_val_mdl$results %>%
+        mutate(goal   = goalname,
+               lag    = yr_lag) %>%
+        clean_df_names()    
+      
+    }
+
+    d_status_prs <- bind_rows(d_status_prs, d_status_prs_lm)
+    crossval_df <- bind_rows(crossval_df, crossval_results)
+  }
+}
+
+write_csv(d_status_prs, 'int/status_prs_results_no_soc.csv')
+write_csv(crossval_df, 'int/status_prs_crossval_no_soc.csv')
+
+```
+
+### clean up results
+
+```{r}
+
+crossval_df <- read_csv('int/status_prs_crossval_no_soc.csv') %>%
+  select(-intercept, -model_error)
+
+st_prs_mdl <- read_csv('int/status_prs_results_no_soc.csv') %>%
+  mutate(est_text = formatC(round(estimate, 4), digits = 4, format = 'f'),
+         est_text = case_when(p.value < .001 ~ paste0(est_text, '***'),
+                              p.value <  .01 ~ paste0(est_text, '**'),
+                              p.value <  .05 ~ paste0(est_text, '*'),
+                              p.value <  .10 ~ paste0(est_text, '°'),
+                              TRUE ~ est_text)) %>%
+  select(goal, lag, yrs, rgns, adj_r_squared, aic, term, est_text) %>%
+  spread(term, est_text) %>%
+  left_join(crossval_df, by = c('goal', 'lag')) %>%
+  rename(pressures = prs_omit_soc) %>%
+  clean_df_names()
+
+write_csv(st_prs_mdl, 'tables/status_prs_results_no_soc_formatted_p.csv')
+
+DT::datatable(st_prs_mdl %>% mutate_if(is.numeric, ~ round(., 4)))
+
+```
+
+

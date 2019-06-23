@@ -1,0 +1,110 @@
+---
+title: 'OHIBC: model selection: causal chain model with fixed effects'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes:
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+# library(plm) ### before Tidyverse - 'lead' and 'lag' function conflict
+source('https://raw.githubusercontent.com/oharac/src/master/R/common.R')
+library(caret) ### for cross validation
+
+dir_calc  <- '~/github/ohibc/calc_ohibc'
+
+source(file.path(dir_calc, 'calc_scores_fxns.R'))
+
+### provenance tracking
+# library(provRmd); prov_setup()
+
+```
+
+## read tables from regression scripts
+
+```{r pressures vs resilience}
+
+prs_res_mdl <- read_csv('tables/prs_res_results_fixed_effects_formatted_p.csv') %>%
+  filter(is.na(model_error)) %>%
+  select(-model_error)
+
+prs_mdl_sel <- prs_res_mdl %>%
+  select(-contains('factor')) %>%
+  group_by(goal, lag) %>%
+  filter(aic == min(aic, na.rm = TRUE)) %>%
+  group_by(goal) %>%
+  filter(rmse == min(rmse)) %>%
+  ungroup()
+### note - the lm adj r squared ranks in same order as the cross val r squared
+### and mae ranks the same "best" as rmse
+
+prs_table_clean <- prs_mdl_sel %>%
+  select(goal, lag, adj_r_squared,
+         intercept, res_ecol, res_reg, res_soc)
+
+write_csv(prs_table_clean, 'tables/prs_res_results_selected.csv')
+
+DT::datatable(prs_table_clean %>% mutate_if(is.double, ~round(., 4)))
+```
+
+```{r status vs pressure incl soc pressures}
+
+status_prs_mdl <- read_csv('tables/status_prs_results_incl_soc_formatted_p.csv') %>%
+  filter(!is.na(pressures))
+
+status_mdl_sel <- status_prs_mdl %>%
+  select(-contains('factor')) %>%
+  # group_by(goal, lag) %>%
+  # filter(aic == min(aic, na.rm = TRUE)) %>%
+  group_by(goal) %>%
+  filter(rmse == min(rmse)) %>%
+  ungroup()
+### note - the lm adj r squared ranks in same order as the cross val r squared
+### and mae ranks the same "best" as rmse
+
+status_table_clean <- status_mdl_sel %>%
+  select(goal, lag, adj_r_squared,
+         intercept, pressures)
+
+write_csv(status_table_clean, 'tables/status_prs_results_incl_soc_selected.csv')
+DT::datatable(status_table_clean %>% mutate_if(is.double, ~round(., 4)))
+
+```
+
+```{r status vs pressure excl soc pressures}
+
+status_prs_mdl <- read_csv('tables/status_prs_results_no_soc_formatted_p.csv') %>%
+  filter(!is.na(pressures))
+
+status_mdl_sel <- status_prs_mdl %>%
+  select(-contains('factor')) %>%
+  # group_by(goal, lag) %>%
+  # filter(aic == min(aic, na.rm = TRUE)) %>%
+  group_by(goal) %>%
+  filter(rmse == min(rmse)) %>%
+  ungroup()
+### note - the lm adj r squared ranks in same order as the cross val r squared
+### and mae ranks the same "best" as rmse
+
+status_table_clean <- status_mdl_sel %>%
+  select(goal, lag, adj_r_squared,
+         intercept, pressures)
+
+write_csv(status_table_clean, 'tables/status_prs_results_no_soc_selected.csv')
+DT::datatable(status_table_clean %>% mutate_if(is.double, ~round(., 4)))
+
+```
