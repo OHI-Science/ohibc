@@ -101,98 +101,41 @@ goals <- scores_rgn_d_status$goal %>%
 
 Include a cross validation step.
 
-``` {r regress d status vs pressures all}
+``` {r set up functions and train control}
 
+regress_status <- function(df, regr_formula, train_control) {
+  d_status_mdl <- lm(regr_formula, data = df)
+  d_status_df <- tidy_model(d_status_mdl) %>%
+    mutate(aic = AIC(d_status_mdl))
+
+  cross_val_mdl <- train(regr_formula, 
+                       data = df, method = "lm",
+                       trControl = train_control)
+  crossval_df <- cross_val_mdl$results %>%
+    clean_df_names()
+  
+  full_df <- cbind(d_status_df, crossval_df)
+  
+}
 ### Define training control
 set.seed(123)
 k <- 5
 reps <- 5
-train.control <- trainControl(method = "repeatedcv", number = k, repeats = reps)
-
-### initialize dataframes
-d_status_prs <- data.frame()
-crossval_df  <- data.frame()
-
-for(yr_lag in 1:6) {
-  # yr_lag <- 1
-  for(goalname in goals) { # goalname <- 'FIS'
-
-    d_status_df <- calc_d_status(goalname, scores_rgn_d_status, yr_lag)
-    
-    if(nrow(d_status_df) == 0) next()
-    if(length(unique(d_status_df$year)) <= 1) next()
-    
-    test_df <- d_status_df %>%
-      group_by(rgn_code) %>%
-      summarize(range_vals = max(status) - min(status))
-    if(all(test_df$range_vals == 0)) {
-      d_status_prs_lm <- data.frame(goal = goalname, lag = yr_lag, model_error = 'no change in status')
-      crossval_results <- d_status_prs_lm
-    } else {
-    
-      d_status_mdl <- lm(d_status ~ pressures + factor(rgn_code) + factor(year), data = d_status_df)
-      d_status_prs_lm <- tidy_model(d_status_mdl) %>%
-        mutate(goal   = goalname,
-               lag    = yr_lag)
-      
-      cross_val_mdl <- train(d_status ~ pressures + factor(year) + factor(rgn_code), data = d_status_df, 
-                             method = "lm",
-                             trControl = train.control)
-      crossval_results <- cross_val_mdl$results %>%
-        mutate(goal   = goalname,
-               lag    = yr_lag) %>%
-        clean_df_names()
-    }
-
-    d_status_prs <- bind_rows(d_status_prs, d_status_prs_lm)
-    crossval_df <- bind_rows(crossval_df, crossval_results)
-  }
-}
-
-write_csv(d_status_prs, 'int/status_prs_results_incl_soc.csv')
-write_csv(crossval_df, 'int/status_prs_crossval_incl_soc.csv')
+train_control <- trainControl(method = "repeatedcv", number = k, repeats = reps)
 
 ```
-
-### Clean up results
-
-```{r}
-
-crossval_df <- read_csv('int/status_prs_crossval_incl_soc.csv') %>%
-  select(-intercept, -model_error)
-
-st_prs_mdl <- read_csv('int/status_prs_results_incl_soc.csv') %>%
-  mutate(est_text = formatC(round(estimate, 4), digits = 4, format = 'f'),
-         est_text = case_when(p.value < .001 ~ paste0(est_text, '***'),
-                              p.value <  .01 ~ paste0(est_text, '**'),
-                              p.value <  .05 ~ paste0(est_text, '*'),
-                              p.value <  .10 ~ paste0(est_text, '°'),
-                              TRUE ~ est_text)) %>%
-  select(goal, lag, yrs, rgns, adj_r_squared, aic, term, est_text) %>%
-  spread(term, est_text) %>%
-  left_join(crossval_df, by = c('goal', 'lag')) %>%
-  clean_df_names()
-
-write_csv(st_prs_mdl, 'tables/status_prs_results_incl_soc_formatted_p.csv')
-
-DT::datatable(st_prs_mdl %>% mutate_if(is.numeric, ~ round(., 4)))
-
-```
-
-## Repeat the above for data with social pressures excluded
 
 ### run regression across all goals and lags
 
 including a cross validation
 
-``` {r regress d status vs pressures no social}
-### initialize dataframes
-d_status_prs <- data.frame()
-crossval_df  <- data.frame()
+``` {r regress d status vs pressures}
+### initialize dataframe
+regr_results_lag <- data.frame()
 
 for(yr_lag in 1:6) {
-  # yr_lag <- 2
-  for(goalname in goals) { # goalname <- 'LSP'
+  # yr_lag <- 1
+  for(goalname in goals) { # goalname <- 'FIS'
 
     d_status_df <- calc_d_status(goalname, scores_rgn_d_status, yr_lag)
     
@@ -205,33 +148,36 @@ for(yr_lag in 1:6) {
     
     if(all(test_df$range_vals == 0)) {
       
-      d_status_prs_lm <- data.frame(goal = goalname, lag = yr_lag, model_error = 'no change in status')
-      crossval_results <- d_status_prs_lm
-      
+      regr_results_goal <- data.frame(goal = goalname, lag = yr_lag, model_error = 'no change in status')
+
     } else {
       
-      d_status_mdl <- lm(d_status ~ prs_omit_soc + factor(rgn_code) + factor(year), data = d_status_df)
-      d_status_prs_lm <- tidy_model(d_status_mdl) %>%
-        mutate(goal  = goalname,
-               lag   = yr_lag)
-  
-      cross_val_mdl <- train(d_status ~ prs_omit_soc + factor(year) + factor(rgn_code), data = d_status_df, 
-                             method = "lm",
-                             trControl = train.control)
-      crossval_results <- cross_val_mdl$results %>%
-        mutate(goal   = goalname,
-               lag    = yr_lag) %>%
-        clean_df_names()    
+      prs_ecol_df <- regress_status(df = d_status_df, 
+                               regr_formula = d_status ~ prs_omit_soc + factor(rgn_code) + factor(year), 
+                               train_control) %>%
+        mutate(model = 'prs_ecol_only')
+      
+      prs_all_df <- regress_status(df = d_status_df, 
+                              regr_formula = d_status ~ prs_omit_soc + factor(rgn_code) + factor(year), 
+                              train_control) %>%
+        mutate(model = 'prs_ecol_soc')
+
+      prs_int_only_df <- regress_status(df = d_status_df, 
+                              regr_formula = d_status ~ 1 + factor(rgn_code) + factor(year), 
+                              train_control) %>%
+        mutate(model = 'intercept only')
+      
+      regr_results_goal <- bind_rows(prs_ecol_df, prs_all_df, prs_int_only_df) %>%
+        mutate(goal = goalname, 
+               lag = yr_lag)
       
     }
 
-    d_status_prs <- bind_rows(d_status_prs, d_status_prs_lm)
-    crossval_df <- bind_rows(crossval_df, crossval_results)
+    regr_results_lag <- bind_rows(regr_results_lag, regr_results_goal)
   }
 }
 
-write_csv(d_status_prs, 'int/status_prs_results_no_soc.csv')
-write_csv(crossval_df, 'int/status_prs_crossval_no_soc.csv')
+write_csv(regr_results_lag, 'int/status_prs_results.csv')
 
 ```
 
@@ -239,23 +185,21 @@ write_csv(crossval_df, 'int/status_prs_crossval_no_soc.csv')
 
 ```{r}
 
-crossval_df <- read_csv('int/status_prs_crossval_no_soc.csv') %>%
-  select(-intercept, -model_error)
-
-st_prs_mdl <- read_csv('int/status_prs_results_no_soc.csv') %>%
+st_prs_mdl <- read_csv('int/status_prs_results.csv') %>%
   mutate(est_text = formatC(round(estimate, 4), digits = 4, format = 'f'),
          est_text = case_when(p.value < .001 ~ paste0(est_text, '***'),
                               p.value <  .01 ~ paste0(est_text, '**'),
                               p.value <  .05 ~ paste0(est_text, '*'),
                               p.value <  .10 ~ paste0(est_text, '°'),
-                              TRUE ~ est_text)) %>%
-  select(goal, lag, yrs, rgns, adj_r_squared, aic, term, est_text) %>%
+                              TRUE ~ est_text),
+         term = ifelse(str_detect(term, '^prs'), 'pressures', term)) %>%
+  select(-std.error, -statistic, -p.value, -intercept, -estimate,
+         -rsquared, -mae, -rmsesd, -rsquaredsd, -maesd) %>%
   spread(term, est_text) %>%
-  left_join(crossval_df, by = c('goal', 'lag')) %>%
-  rename(pressures = prs_omit_soc) %>%
-  clean_df_names()
+  clean_df_names() %>%
+  select(-na)
 
-write_csv(st_prs_mdl, 'tables/status_prs_results_no_soc_formatted_p.csv')
+write_csv(st_prs_mdl, 'tables/status_prs_results_formatted_p.csv')
 
 DT::datatable(st_prs_mdl %>% mutate_if(is.numeric, ~ round(., 4)))
 

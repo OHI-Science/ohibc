@@ -61,15 +61,16 @@ write_csv(prs_table_clean, 'tables/prs_res_results_selected.csv')
 DT::datatable(prs_table_clean %>% mutate_if(is.double, ~round(., 4)))
 ```
 
-```{r status vs pressure incl soc pressures}
+```{r status vs pressure ecol and soc pressures}
 
-status_prs_mdl <- read_csv('tables/status_prs_results_incl_soc_formatted_p.csv') %>%
-  filter(!is.na(pressures))
+status_prs_mdl <- read_csv('tables/status_prs_results_formatted_p.csv') %>%
+  filter(model %in% c('prs_ecol_soc', 'intercept only')) %>%
+  filter(is.na(model_error)) %>%
+  select(-model, -model_error, -contains('factor'))
 
 status_mdl_sel <- status_prs_mdl %>%
-  select(-contains('factor')) %>%
-  # group_by(goal, lag) %>%
-  # filter(aic == min(aic, na.rm = TRUE)) %>%
+  group_by(goal, lag) %>%
+  filter(aic == min(aic, na.rm = TRUE)) %>%
   group_by(goal) %>%
   filter(rmse == min(rmse)) %>%
   ungroup()
@@ -80,20 +81,21 @@ status_table_clean <- status_mdl_sel %>%
   select(goal, lag, adj_r_squared,
          intercept, pressures)
 
-write_csv(status_table_clean, 'tables/status_prs_results_incl_soc_selected.csv')
+write_csv(status_table_clean, 'tables/status_prs_results_ecol_soc_selected.csv')
 DT::datatable(status_table_clean %>% mutate_if(is.double, ~round(., 4)))
 
 ```
 
-```{r status vs pressure excl soc pressures}
+```{r status vs pressure ecol pressures only}
 
-status_prs_mdl <- read_csv('tables/status_prs_results_no_soc_formatted_p.csv') %>%
-  filter(!is.na(pressures))
+status_prs_mdl <- read_csv('tables/status_prs_results_formatted_p.csv') %>%
+  filter(model %in% c('prs_ecol_only', 'intercept only')) %>%
+  filter(is.na(model_error)) %>%
+  select(-model, -model_error, -contains('factor'))
 
 status_mdl_sel <- status_prs_mdl %>%
-  select(-contains('factor')) %>%
-  # group_by(goal, lag) %>%
-  # filter(aic == min(aic, na.rm = TRUE)) %>%
+  group_by(goal, lag) %>%
+  filter(aic == min(aic, na.rm = TRUE)) %>%
   group_by(goal) %>%
   filter(rmse == min(rmse)) %>%
   ungroup()
@@ -104,7 +106,7 @@ status_table_clean <- status_mdl_sel %>%
   select(goal, lag, adj_r_squared,
          intercept, pressures)
 
-write_csv(status_table_clean, 'tables/status_prs_results_no_soc_selected.csv')
+write_csv(status_table_clean, 'tables/status_prs_results_ecol_only_selected.csv')
 DT::datatable(status_table_clean %>% mutate_if(is.double, ~round(., 4)))
 
 ```
