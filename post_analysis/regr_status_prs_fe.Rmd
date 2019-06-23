@@ -158,7 +158,7 @@ for(yr_lag in 1:6) {
         mutate(model = 'prs_ecol_only')
       
       prs_all_df <- regress_status(df = d_status_df, 
-                              regr_formula = d_status ~ prs_omit_soc + factor(rgn_code) + factor(year), 
+                              regr_formula = d_status ~ pressures + factor(rgn_code) + factor(year), 
                               train_control) %>%
         mutate(model = 'prs_ecol_soc')
 
