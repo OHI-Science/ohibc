@@ -677,10 +677,10 @@ AO <- function(layers) {
   ### write element weights to layers object for pressures/resilience calculations
   ao_weights <- ao_status_components %>%
     filter(year == status_year) %>%
-    mutate(layer = 'element_wts_ao_components') %>%
+    mutate(layer = 'element_wts_ao') %>%
     select(rgn_id = region_id, component, ao_comp_status = status, layer)
 
-  layers$data$element_wts_ao_components <- ao_weights
+  layers$data$element_wts_ao <- ao_weights
 
   ### reference points
   write_ref_pts(goal   = 'AO',
@@ -765,10 +765,10 @@ CSS <- function(layers) {
   cs_weights <- cs_components %>%
     filter(year == status_year) %>%
     mutate(cs_km2_x_storage = area_hab * cbr,
-           layer = 'element_wts_cs_km2_x_storage') %>%
+           layer = 'element_wts_cs') %>%
     select(rgn_id = region_id, habitat, cs_km2_x_storage, layer)
 
-  layers$data$element_wts_cs_km2_x_storage <- cs_weights
+  layers$data$element_wts_cs <- cs_weights
 
   ### prepare scores (status and trend) for current status year
 
@@ -846,10 +846,10 @@ CPP <- function(layers) {
   cp_weights <- cp_components %>%
     filter(year == status_year) %>%
     mutate(cp_km2_x_exposure_x_protection = expos_area_tot * prot,
-           layer = 'element_wts_cp_km2_x_exposure_x_protection') %>%
+           layer = 'element_wts_cp') %>%
     select(rgn_id = region_id, habitat, cp_km2_x_exposure_x_protection, layer)
 
-  layers$data$element_wts_cp_km2_x_exposure_x_protection <- cp_weights
+  layers$data$element_wts_cp <- cp_weights
 
   ### reference points
   write_ref_pts(goal   = 'CP',
@@ -1503,10 +1503,10 @@ HAB <- function(layers) {
     complete(habitat = unique(hab_components$habitat)) %>%
     ungroup() %>%
     mutate(hab_presence = !is.na(status)) %>%
-    mutate(layer = 'element_wts_hab_pres_abs') %>%
+    mutate(layer = 'element_wts_hab') %>%
     select(rgn_id = region_id, habitat, hab_presence, layer)
 
-  layers$data$element_wts_hab_pres_abs <- hab_weights
+  layers$data$element_wts_hab <- hab_weights
 
   ### prepare scores (status and trend) for current status year
   trend_years <- (data_year - 4) : data_year
