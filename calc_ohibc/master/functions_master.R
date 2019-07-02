@@ -41,7 +41,7 @@ FIS <- function(layers) {
     mutate(rgn_ass_catch_prop = ifelse(is.na(rgn_ass_catch_prop),
                                        rollmean_ass_catch, rgn_ass_catch_prop)) %>%
     group_by(rgn_id, year) %>%
-    mutate(rgn_ass_catch_prop = rgn_ass_catch_prop / sum(rgn_ass_catch_prop)) %>%
+    mutate(rgn_ass_catch_prop = rgn_ass_catch_prop / sum(rgn_ass_catch_prop, na.rm = TRUE)) %>%
     ungroup() %>%
     select(rgn_id, year, stockid, rgn_ass_catch_prop)
 
@@ -90,9 +90,11 @@ FIS <- function(layers) {
     ### extends beyond bmax, to create a gradient where bmax_val occurs at bmax.
 
     fish_stat_df <- fish_stat_df %>%
-      # group_by(stock) %>% ### grouping by stock will set b_max by max per stock, instead of max overall
-      mutate(b_max     = max(b_bmsy, na.rm = TRUE)) %>%
-      ungroup() %>%
+      # # group_by(stock) %>% ### grouping by stock will set b_max by max per stock, instead of max overall
+      # mutate(b_max_obs = max(b_bmsy, na.rm = TRUE)) %>%
+      # ungroup() %>%
+      rowwise() %>%
+        ### the rowwise() is so that the min() term below is stock/year specific
       mutate(bPrime = NA,
              bPrime = ifelse(b_bmsy < overfished_th,  ### overfished stock
                              b_bmsy / overfished_th,
@@ -101,9 +103,12 @@ FIS <- function(layers) {
                              1,                       ### appropriately fished stock
                              bPrime),
              bPrime = ifelse(b_bmsy >= underfished_th,
-                             (bmax_adj - b_bmsy) / (bmax_adj - underfished_th), ### underfished stock
+                             (bmax_adj - min(b_bmsy, bmax)) / (bmax_adj - underfished_th), ### underfished stock
                              bPrime),
-             bPrime = ifelse(bPrime < 0, 0, bPrime))
+               ### the min(b_bmsy, bmax_adj) is so we limit b_bmsy to bmax
+             bPrime = ifelse(bPrime < 0, 0, bPrime)) %>%
+      ungroup()
+
     return(fish_stat_df)
   }
 
@@ -181,8 +186,41 @@ FIS <- function(layers) {
   if(data_year == max(status_yr_span)) {
     ### note, this contains all years, but only write it once
     message('Writing stock score catch dataframe...')
-    write_csv(stock_score_catch, '~/github/ohibc/prep/fis/v2017/summary/fis_from_functions.csv')  ## JA: i'm no longer sure we want to be saving this?
+    write_csv(stock_score_catch, '~/github/ohibc/prep/fis/v2017/summary/fis_from_functions.csv')
   }
+
+  stock_plot_df <- stock_score_catch %>%
+    # filter(!is.na(score)) %>%
+    # group_by(rgn_id, year) %>%
+    # mutate(total_catch = sum(rgn_catch),
+    #        rgn_catch_pct = rgn_catch / total_catch,
+    #        total_score = sum(score * rgn_catch) / total_catch) %>%
+    # ungroup() %>%
+    left_join(get_rgn_names(), by = 'rgn_id') %>%
+    # filter(rgn_ass_catch_prop > 0) %>%
+    filter(year > 1990)
+
+  rgn_scores <- read_csv(file.path(dir_ohibc, 'calc_ohibc/scores_all.csv')) %>%
+    filter(goal == 'FIS' & dimension == 'status') %>%
+    select(rgn_id = region_id, year, status = score) %>%
+    mutate(status = status / 100) %>%
+    filter(rgn_id != 0) %>%
+    left_join(get_rgn_names(), by = 'rgn_id')
+
+
+  ggplot(stock_plot_df, aes(x = year, y = score)) +
+    ggtheme_plot() +
+    geom_line(aes(group = stockid, color = stockid,
+                  size = rgn_ass_catch_prop),
+              lineend = 'round', alpha = .5) +
+    geom_line(data = rgn_scores, aes(y = status), size = 1, color = 'grey20', alpha = .7) +
+    labs(color = 'Stock ID',
+         y     = 'Stock Score') +
+    guides(colour = guide_legend(override.aes = list(size = 3)),
+           size = 'none') +
+    scale_color_brewer(palette = 'Paired') +
+    facet_wrap( ~ rgn_name)
+
 
   stock_score_sum <- stock_score_catch %>%
     mutate(score_weighted = score * rgn_ass_catch_prop * 100) %>%

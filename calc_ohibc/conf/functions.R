@@ -1326,16 +1326,17 @@ CW <- function(layers) {
 
 
   cw_pressure_df <- bind_rows(chem_prs, nutr_prs, trash_prs, patho_prs) %>%
+    filter(!is.na(pressure)) %>%
+    mutate(component_score = 1 - pressure) %>%
     rename(component = layer)
   ### that last bit is because somewhere the layer dfs get a layer name column... ???
 
   if(data_year == max(status_yr_span)) {
+
     write_csv(cw_pressure_df, '~/github/ohibc/prep/cw/v2017/summary/cw_from_functions.csv')
   }
 
   cw_score_summary <- cw_pressure_df %>%
-    filter(!is.na(pressure)) %>%
-    mutate(component_score = 1 - pressure) %>%
     group_by(year, region_id) %>%
     summarize(n_components = n(),
               status    = prod(component_score)^(1/n_components), ### this finishes our geometric mean
