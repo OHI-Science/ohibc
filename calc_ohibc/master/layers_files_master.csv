@@ -18,10 +18,10 @@ cs_cf_health,ohibc:prep/hab_cs_cp/v2017/output,cs_cf_area.csv,TRUE,cf_area_km2
 cs_sm_health,ohibc:prep/hab_cs_cp/v2017/output,cs_sm_area.csv,TRUE,sm_area_km2
 cwbi_all,ohibc:prep/_resilience/v2017/output,cwb_score_all.csv,TRUE,cwb_score
 cwbi_fn,ohibc:prep/_resilience/v2017/output,cwb_score_fn.csv,TRUE,cwb_score
-element_wts_ao_components,ohibc:calc_ohibc/master/dummy_layers,element_wts_ao_components.csv,TRUE,ao_comp_status
-element_wts_cp_km2_x_exposure_x_protection,ohibc:calc_ohibc/master/dummy_layers,element_wts_cp_km2_x_exposure_x_protection.csv,TRUE,cp_km2_x_exposure_x_protection
-element_wts_cs_km2_x_storage,ohibc:calc_ohibc/master/dummy_layers,element_wts_cs_km2_x_storage.csv,TRUE,cs_km2_x_storage
-element_wts_hab_pres_abs,ohibc:calc_ohibc/master/dummy_layers,element_wts_hab_pres_abs.csv,TRUE,hab_presence
+element_wts_ao,ohibc:calc_ohibc/master/dummy_layers,element_wts_ao.csv,TRUE,ao_comp_status
+element_wts_cp,ohibc:calc_ohibc/master/dummy_layers,element_wts_cp.csv,TRUE,cp_km2_x_exposure_x_protection
+element_wts_cs,ohibc:calc_ohibc/master/dummy_layers,element_wts_cs.csv,TRUE,cs_km2_x_storage
+element_wts_hab,ohibc:calc_ohibc/master/dummy_layers,element_wts_hab.csv,TRUE,hab_presence
 fis_ram_b_bmsy,ohibc:prep/fis/v2017/output,ram_b_bmsy.csv,TRUE,value
 fis_dfo_catch,ohibc:prep/fis/v2017/output,dfo_catch.csv,TRUE,rgn_ass_catch_prop
 fis_ram_f_fmsy,ohibc:prep/fis/v2017/output,ram_f_fmsy.csv,TRUE,value

@@ -341,11 +341,8 @@ SAL <- function(layers) {
 
   sal_C        <- layers$data[['sal_catch']] %>%
     select(-layer)
-  # sal_E        <- layers$data[['sal_escapes']] %>%
-  #   select(-layer)
 
-  stocks <- sal_C # %>%
-    # full_join(sal_E, by = c('rgn_id', 'year', 'stock'))
+  stocks <- sal_C
 
   #############################################################.
   ##### run each salmon stock through the E' and C' calcs #####
@@ -631,10 +628,6 @@ AO <- function(layers) {
 
   if(data_year == max(status_yr_span)) {
     write_csv(ao_status_components, '~/github/ohibc/prep/ao/v2017/summary/ao_from_functions.csv')
-    # ggplot(ao_status_components, aes(x = year, y = status, group = component, color = component)) +
-    #   geom_line(aes(y = score), color = 'grey40', size = 1.5, alpha = .8) +
-    #   geom_line(size = 1, alpha = .8) +
-    #   facet_wrap( ~ rgn_name)
   }
 
   ### write element weights to layers object for pressures/resilience calculations
@@ -1335,6 +1328,10 @@ CW <- function(layers) {
   cw_pressure_df <- bind_rows(chem_prs, nutr_prs, trash_prs, patho_prs) %>%
     rename(component = layer)
   ### that last bit is because somewhere the layer dfs get a layer name column... ???
+
+  if(data_year == max(status_yr_span)) {
+    write_csv(cw_pressure_df, '~/github/ohibc/prep/cw/v2017/summary/cw_from_functions.csv')
+  }
 
   cw_score_summary <- cw_pressure_df %>%
     filter(!is.na(pressure)) %>%

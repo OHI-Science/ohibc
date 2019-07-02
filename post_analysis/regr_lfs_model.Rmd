@@ -37,9 +37,7 @@ source(file.path(dir_calc, 'calc_scores_fxns.R'))
 
 # Regress predicted vs observed status
 
-Goal by goal, regress likely future state in time $t$ against observed status in time $t + 5$.  Fixed effects on region as well as no fixed effects.
-
-Because the regression of resilience on pressures is so weak, we won't worry about components in this regression - just the calculated LFS vs. the observed status.
+Goal by goal, regress likely future state in time $t$ against observed status in time $t + 5$.  Fixed effects on region.
 
 ``` {r}
 
@@ -66,7 +64,7 @@ for(goalname in goals) { ### goalname <- goals[1]
   tmp_df <- scores %>%
     filter(goal == goalname)
   
-  mdl_rgn_yr_fe <- lm(obs_status ~ pred_status + factor(rgn_name) + factor(year), data = tmp_df)
+  mdl_rgn_yr_fe <- lm(obs_status ~ pred_status + factor(rgn_name), data = tmp_df)
   
   regr_future <- mdl_rgn_yr_fe %>%
     broom::tidy() %>%
