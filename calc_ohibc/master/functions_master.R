@@ -5,7 +5,7 @@ FIS <- function(layers) {
   ### * rgn_stock_wt_uniform, _saup, _dfo
   ### * ram_dfo_saup_lookup.csv
 
-  # message('Starting FIS')
+  message('Starting FIS')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
@@ -189,38 +189,37 @@ FIS <- function(layers) {
     write_csv(stock_score_catch, '~/github/ohibc/prep/fis/v2017/summary/fis_from_functions.csv')
   }
 
-  stock_plot_df <- stock_score_catch %>%
-    # filter(!is.na(score)) %>%
-    # group_by(rgn_id, year) %>%
-    # mutate(total_catch = sum(rgn_catch),
-    #        rgn_catch_pct = rgn_catch / total_catch,
-    #        total_score = sum(score * rgn_catch) / total_catch) %>%
-    # ungroup() %>%
-    left_join(get_rgn_names(), by = 'rgn_id') %>%
-    # filter(rgn_ass_catch_prop > 0) %>%
-    filter(year > 1990)
-
-  rgn_scores <- read_csv(file.path(dir_ohibc, 'calc_ohibc/scores_all.csv')) %>%
-    filter(goal == 'FIS' & dimension == 'status') %>%
-    select(rgn_id = region_id, year, status = score) %>%
-    mutate(status = status / 100) %>%
-    filter(rgn_id != 0) %>%
-    left_join(get_rgn_names(), by = 'rgn_id')
-
-
-  ggplot(stock_plot_df, aes(x = year, y = score)) +
-    ggtheme_plot() +
-    geom_line(aes(group = stockid, color = stockid,
-                  size = rgn_ass_catch_prop),
-              lineend = 'round', alpha = .5) +
-    geom_line(data = rgn_scores, aes(y = status), size = 1, color = 'grey20', alpha = .7) +
-    labs(color = 'Stock ID',
-         y     = 'Stock Score') +
-    guides(colour = guide_legend(override.aes = list(size = 3)),
-           size = 'none') +
-    scale_color_brewer(palette = 'Paired') +
-    facet_wrap( ~ rgn_name)
-
+  # stock_plot_df <- stock_score_catch %>%
+  #   # filter(!is.na(score)) %>%
+  #   # group_by(rgn_id, year) %>%
+  #   # mutate(total_catch = sum(rgn_catch),
+  #   #        rgn_catch_pct = rgn_catch / total_catch,
+  #   #        total_score = sum(score * rgn_catch) / total_catch) %>%
+  #   # ungroup() %>%
+  #   left_join(get_rgn_names(), by = 'rgn_id') %>%
+  #   # filter(rgn_ass_catch_prop > 0) %>%
+  #   filter(year > 1990)
+  #
+  # rgn_scores <- read_csv(file.path(dir_ohibc, 'calc_ohibc/scores_all.csv')) %>%
+  #   filter(goal == 'FIS' & dimension == 'status') %>%
+  #   select(rgn_id = region_id, year, status = score) %>%
+  #   mutate(status = status / 100) %>%
+  #   filter(rgn_id != 0) %>%
+  #   left_join(get_rgn_names(), by = 'rgn_id')
+  #
+  #
+  # ggplot(stock_plot_df, aes(x = year, y = score)) +
+  #   ggtheme_plot() +
+  #   geom_line(aes(group = stockid, color = stockid,
+  #                 size = rgn_ass_catch_prop),
+  #             lineend = 'round', alpha = .5) +
+  #   geom_line(data = rgn_scores, aes(y = status), size = 1, color = 'grey20', alpha = .7) +
+  #   labs(color = 'Stock ID',
+  #        y     = 'Stock Score') +
+  #   guides(colour = guide_legend(override.aes = list(size = 3)),
+  #          size = 'none') +
+  #   scale_color_brewer(palette = 'Paired') +
+  #   facet_wrap( ~ rgn_name)
 
   stock_score_sum <- stock_score_catch %>%
     mutate(score_weighted = score * rgn_ass_catch_prop * 100) %>%
@@ -280,13 +279,15 @@ FIS <- function(layers) {
     bind_rows(fis_trend) %>%
     select(goal, dimension, region_id, score)
 
-  # message('returning from FIS')
+  message('returning from FIS')
 
   return(fis_scores)
 
 }
 
 MAR <- function(layers) {
+
+  message('calculating MAR')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
@@ -368,6 +369,8 @@ MAR <- function(layers) {
 }
 
 SAL <- function(layers) {
+
+  message('calculating SAL')
 
   ##### Gather parameters and layers #####
   ### * sal_catch, sal_escapes
@@ -457,7 +460,7 @@ SAL <- function(layers) {
     bind_rows(sal_trend) %>%
     select(goal, dimension, region_id, score)
 
-  # message('returning from SAL')
+  message('returning from SAL')
 
   return(sal_scores)
 
@@ -478,13 +481,14 @@ FP <- function(layers, scores) {
   ### will equally contribute to the overall FP score (e.g. when MAR is NA,
   ### FIS and SAL scores will each contribute half of the FP score).
 
+  message('calculating FP')
 
   wts <- data.frame(region_id = c(1:8),
                     w_FIS     = rep(.333, 8),
                     w_MAR     = rep(.333, 8),
                     w_SAL     = rep(.333, 8))
 
-  # message'getting FP scores')
+  message('getting FP scores')
   ### scores
   fp_w_wts <- scores %>%
     filter(goal %in% c('FIS', 'MAR', 'SAL')) %>%
@@ -502,6 +506,8 @@ FP <- function(layers, scores) {
     select(region_id, goal, dimension, score) %>%
     data.frame()
 
+  message('returning from FP')
+
   ### return all scores
   return(rbind(scores, fp_combined))
 
@@ -509,7 +515,7 @@ FP <- function(layers, scores) {
 
 AO <- function(layers) {
 
-  ### Salt marsh, coastal forest based on extent from 30-meter rasters
+  message('calculating AO')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
@@ -692,11 +698,15 @@ AO <- function(layers) {
     bind_rows(ao_trend) %>%
     select(region_id, goal, dimension, score)
 
+  message('returning from AO')
+
   return(ao_scores)
 
 }
 
 CSS <- function(layers) {
+
+  message('calculating CSS')
 
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
 
@@ -770,6 +780,8 @@ CSS <- function(layers) {
     bind_rows(cs_trend) %>%
     select(region_id, goal, dimension, score)
 
+  message('returning from CSS')
+
   return(cs_scores)
 
   # ## set ranks for each habitat ### WHERE ARE THESE NUMBERS FROM
@@ -781,6 +793,8 @@ CSS <- function(layers) {
 }
 
 CPP <- function(layers) {
+
+  message('calculating CPP')
 
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
   status_year    <- layers$data$scenario_year
@@ -851,11 +865,15 @@ CPP <- function(layers) {
     bind_rows(cp_trend) %>%
     select(region_id, goal, dimension, score)
 
+  message('returning from CPP')
+
   return(cp_scores)
 
 }
 
 HS <- function(scores) {
+
+  message('calculating HS')
 
   ### combines carbon storage and coastal protection subgoals with a simple
   ### of the two
@@ -872,12 +890,16 @@ HS <- function(scores) {
     select(region_id, goal, dimension, score) %>%
     data.frame()
 
+  message('returning from HS')
+
   ### return all scores: attach means to existing scores dataframe
   return(rbind(scores, s))
 
 }
 
 TR <- function(layers) {
+
+  message('calculating TR')
 
   ### TR model includes Tourism Center visits and Park visits; these are
   ### summed per region and adjusted by changes in the province-wide
@@ -958,13 +980,13 @@ TR <- function(layers) {
     complete(region_id = 1:8) %>%
     ungroup()
 
-  # message'Returning from TR')
+  message('Returning from TR')
   return(tr_scores)
 
 }
 
 LV <- function(scores) {
-  # message'starting LV')
+  message('starting LV')
 
   ### combines LVF (LV First Nations) and LVN (LV non-First Nations) subgoals with a simple
   ### of the two
@@ -987,7 +1009,7 @@ LV <- function(scores) {
 }
 
 LVF <- function(layers) {
-  # message'starting LVF')
+  message('starting LVF')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
@@ -1077,7 +1099,7 @@ LVF <- function(layers) {
 }
 
 LVN <- function(layers) {
-  # message'starting LVN')
+  message('starting LVN')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
@@ -1155,6 +1177,8 @@ LVN <- function(layers) {
 
 
 ICO <- function(layers) {
+
+  message('calculating ICO')
 
   ### in goals.csv, allow status year to be NULL, so it can be reassigned
   ### for each iteration through calculate loop
@@ -1250,12 +1274,15 @@ ICO <- function(layers) {
   scores_ico <- bind_rows(rgn_ico_status, rgn_ico_trend) %>%
     select(goal, dimension, region_id, score)
 
+  message('returning from ICO')
 
   return(scores_ico)
 
 }
 
 LSP <- function(layers, ref_pct_cmpa = 30, ref_pct_cp = 30) {
+
+  message('calculating LSP')
 
   status_year <- layers$data$scenario_year
   data_year   <- status_year
@@ -1307,11 +1334,15 @@ LSP <- function(layers, ref_pct_cmpa = 30, ref_pct_cp = 30) {
     bind_rows(rgn_trend) %>%
     select(goal, dimension, region_id, score)
 
+  message('returning from LSP')
+
   return(scores_lsp)
 
 }
 
 SP <- function(scores) {
+
+  message('calculating SP')
 
   ### to calculate the four SP dimesions, average those dimensions for ICO and LSP
   sp_scores <- scores %>%
@@ -1327,10 +1358,14 @@ SP <- function(scores) {
   ### return all scores
   scores_sp <- bind_rows(scores, sp_scores)
 
+  message('returning from SP')
+
   return(scores_sp)
 }
 
 CW <- function(layers) {
+
+  message('calculating CW')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
@@ -1404,6 +1439,8 @@ CW <- function(layers) {
     bind_rows(rgn_trend) %>%
     select(goal, dimension, region_id, score)
 
+  message('returning from CW')
+
   return(scores_cw)
 }
 
@@ -1412,6 +1449,7 @@ HAB <- function(layers) {
   ### EBSA, soft bottom habitats based on trawl pressures
   ### Coastal forests excluded
 
+  message('calculating HAB')
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
@@ -1479,11 +1517,15 @@ HAB <- function(layers) {
     bind_rows(hab_trend) %>%
     select(region_id, goal, dimension, score)
 
+  message('returning from HAB')
+
   return(hab_scores)
 
 }
 
 SPP <- function(layers) {
+
+  message('calculating SPP')
 
   status_year <- layers$data$scenario_year
   data_year   <- status_year
@@ -1566,10 +1608,13 @@ SPP <- function(layers) {
     bind_rows(spp_trend) %>%
     select(region_id, goal, dimension, score)
 
+  message('returning from SPP')
+
   return(spp_scores)
 }
 
 BD <- function(scores) {
+  message('calculating BD')
 
   bd_scores <- scores %>%
     filter(goal %in% c('HAB', 'SPP')) %>%
@@ -1579,6 +1624,8 @@ BD <- function(scores) {
     mutate(goal = 'BD') %>%
     data.frame() %>%
     select(region_id, goal, dimension, score)
+
+  message('returning from BD')
 
   # return all scores
   return(rbind(scores, bd_scores))
