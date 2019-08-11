@@ -37,7 +37,7 @@ dir_goal <- file.path(dir_git, 'prep', goal, scenario)
 dir_goal_anx <- file.path(dir_anx, goal, scenario)
 
 ### provenance tracking
-library(provRmd); prov_setup()
+# library(provRmd); prov_setup()
 
 ### set up the default BC projection to be BC Albers
 p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
@@ -119,6 +119,7 @@ if(!file.exists(lic_clean_file)) {
     setNames(tolower(names(.)) %>% str_replace_all(' ', '_'))
   
   licenses_clean <- licenses_raw %>%
+    mutate(licence_prefix = ifelse(licence_prefix == 'ATBRF', 'FATBR', licence_prefix)) %>%
     left_join(metadata, by = c('licence_prefix' = 'prefix')) %>%
     mutate(lic_holder = ifelse(licence_holder_type == 'VESSEL',
                                paste('vessel', licence_holder_vessel),
@@ -137,7 +138,9 @@ if(!file.exists(lic_clean_file)) {
                                NA)) %>%
     mutate(year = licence_suffix,
            fn = str_detect(tolower(prefix_description), 'aborig|northern native|northernnative'),
-           fn = ifelse(is.na(fn), str_detect(tolower(licence_holder_type), 'aborig'), fn)) %>%
+           fn = ifelse(is.na(fn), FALSE, fn)) %>%
+           # fn = ifelse(fn == FALSE, str_detect(tolower(licence_holder_type), 'aborig'), fn)) %>%
+              ### This assignment removed - don't assign FN based on ownership, but designation
     select(year, 
            lic_prefix = licence_prefix, 
            prefix_desc = prefix_description,
@@ -153,8 +156,8 @@ if(!file.exists(lic_clean_file)) {
   write_csv(licenses_clean, lic_clean_file)
 } else {
   message('File exists: ', lic_clean_file)
-  git_prov(c(license_file, metadata_file), 'input')
-  git_prov(lic_clean_file, 'output')
+  # git_prov(c(license_file, metadata_file), 'input')
+  # git_prov(lic_clean_file, 'output')
 }
 
 ```
@@ -380,6 +383,8 @@ write_csv(lic_lookup_rgn, file.path(dir_goal, 'int/lic_lookup_rgn.csv'))
 
 `r DT::datatable(lic_lookup_all)`
 
+Assume licenses with `NA` area are unrestricted - assign to BC coast wide
+
 ``` {r check_areas_vs_licenses}
 
 lic_lookup_rgn <- read_csv(file.path(dir_goal, 'int/lic_lookup_rgn.csv')) %>%
@@ -389,7 +394,8 @@ lic_clean <- read_csv(lic_clean_file,
                       col_types = cols(.default = 'c')) %>%
   mutate(year = as.integer(year),
          fn   = as.logical(fn),
-         area = tolower(area))
+         area = tolower(area),
+         area = ifelse(is.na(area), 'bc coast wide', area))
 
 lic_fn_by_rgn <- lic_clean %>%
   inner_join(lic_lookup_rgn, by = c('area' = 'lic_area')) %>%
@@ -803,7 +809,7 @@ ggsave(file.path(dir_goal, 'figs/licenses/lic_by_year_and_taxa.png'))
 
 ```
 
-``` {r map_lic_by_pfma_and_year}
+``` {r map_lic_by_pfma_and_year, eval = FALSE}
 
 lic_by_pfma_tot <- read_csv(file.path(dir_goal, 'int/lic_by_pfma.csv')) %>%
   filter(year >= 2000 & year <= 2016) %>%
@@ -893,7 +899,7 @@ for(taxa_sel in unique(pfma_lic_sf$taxa)) {
 
 -----
 
-``` {r prov_footer, results = 'asis', eval = TRUE}
+``` {r prov_footer, results = 'asis', eval = FALSE}
 
 prov_wrapup(commit_outputs = FALSE)
 

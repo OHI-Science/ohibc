@@ -36,16 +36,25 @@ source(file.path(dir_calc, 'calc_scores_fxns.R'))
 
 ## read tables from regression scripts
 
+Focus on models that omit ecological resilience - changes are too small, and driven by changes in global-scale assessments rather than local-scale assessments, so not likely to be an accurate predictor of changes in pressure.
+
 ```{r pressures vs resilience}
 
 prs_res_mdl <- read_csv('tables/prs_res_results_fixed_effects_formatted_p.csv') %>%
   filter(is.na(model_error)) %>%
-  select(-model_error)
+  select(-model_error) %>%
+  filter(!str_detect(model, 'res_ecol'))
+  
 
 prs_mdl_sel <- prs_res_mdl %>%
   select(-contains('factor')) %>%
+  select(goal, lag, adj_r_squared,
+         intercept, res_reg, res_soc, aicc, rmse) %>%
   group_by(goal, lag) %>%
-  filter(aic == min(aic, na.rm = TRUE)) %>%
+  mutate(aicc_diff    = round(aicc - min(aicc), 3),
+         close_by_aicc = sum(aicc_diff < 2) - 1,
+         rmse_diff    = rmse - min(rmse), 
+         close_by_rmse = sum(rmse_diff < 0.0025) - 1) %>%
   group_by(goal) %>%
   filter(rmse == min(rmse)) %>%
   ungroup()
@@ -54,11 +63,17 @@ prs_mdl_sel <- prs_res_mdl %>%
 
 prs_table_clean <- prs_mdl_sel %>%
   select(goal, lag, adj_r_squared,
-         intercept, res_ecol, res_reg, res_soc)
+         intercept, res_reg, res_soc)
 
 write_csv(prs_table_clean, 'tables/prs_res_results_selected.csv')
 
 DT::datatable(prs_table_clean %>% mutate_if(is.double, ~round(., 4)))
+```
+
+```{r, eval = FALSE, include = FALSE}
+ggplot(prs_res_mdl, aes(x = lag, y = rmse)) +
+  geom_point() +
+  geom_smooth(aes(color = goal), method = 'lm')
 ```
 
 ```{r status vs pressure ecol and soc pressures}
@@ -69,8 +84,6 @@ status_prs_mdl <- read_csv('tables/status_prs_results_formatted_p.csv') %>%
   select(-model, -model_error, -contains('factor'))
 
 status_mdl_sel <- status_prs_mdl %>%
-  group_by(goal, lag) %>%
-  filter(aic == min(aic, na.rm = TRUE)) %>%
   group_by(goal) %>%
   filter(rmse == min(rmse)) %>%
   ungroup()
@@ -94,8 +107,6 @@ status_prs_mdl <- read_csv('tables/status_prs_results_formatted_p.csv') %>%
   select(-model, -model_error, -contains('factor'))
 
 status_mdl_sel <- status_prs_mdl %>%
-  group_by(goal, lag) %>%
-  filter(aic == min(aic, na.rm = TRUE)) %>%
   group_by(goal) %>%
   filter(rmse == min(rmse)) %>%
   ungroup()
