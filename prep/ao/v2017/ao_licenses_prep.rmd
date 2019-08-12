@@ -101,6 +101,9 @@ license_file <- file.path(dir_anx, '_raw_data/fishing_license',
 metadata_file <- file.path(dir_anx, '_raw_data/fishing_license', 
                            'Commercial License Meta Data EN (1).csv')
 
+metadata <- read_csv(metadata_file, skip = 54) %>%
+  setNames(tolower(names(.)) %>% str_replace_all(' ', '_'))
+
 if(!file.exists(lic_clean_file)) {
   
   licenses_raw <- read_csv(license_file, col_types = cols(.default = 'c')) %>%
@@ -114,9 +117,6 @@ if(!file.exists(lic_clean_file)) {
                                   '', 
                                   licenses_raw[[tmp]])
   }
-  
-  metadata <- read_csv(metadata_file, skip = 54) %>%
-    setNames(tolower(names(.)) %>% str_replace_all(' ', '_'))
   
   licenses_clean <- licenses_raw %>%
     mutate(licence_prefix = ifelse(licence_prefix == 'ATBRF', 'FATBR', licence_prefix)) %>%
@@ -390,6 +390,22 @@ Assume licenses with `NA` area are unrestricted - assign to BC coast wide
 lic_lookup_rgn <- read_csv(file.path(dir_goal, 'int/lic_lookup_rgn.csv')) %>%
   filter(!is.na(rgn_id))
 
+### look into the NA problem:
+lic_area_nas <- read_csv(lic_clean_file, 
+                      col_types = cols(.default = 'c')) %>%
+  mutate(year = as.integer(year),
+         fn   = as.logical(fn),
+         area = tolower(area)) %>%
+  filter(is.na(area)) %>%
+  filter(year > 1995)
+check <- data.frame(table(lic_area_nas$lic_prefix)) %>%
+  setNames(c('prefix', 'frequency')) %>%
+  left_join(metadata, by = 'prefix') %>%
+  arrange(desc(frequency)) %>%
+  mutate(com_pct_of_nas = cumsum(frequency) / sum(frequency))
+write_csv(check, file.path(dir_goal, 'int/ao_license_na_check.csv'))
+
+### For now assume NAs are unrestricted:
 lic_clean <- read_csv(lic_clean_file, 
                       col_types = cols(.default = 'c')) %>%
   mutate(year = as.integer(year),
