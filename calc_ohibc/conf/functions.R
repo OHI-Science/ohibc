@@ -285,33 +285,33 @@ FIS <- function(layers) {
 
 }
 
-MAR <- function(layers) {
+AQC <- function(layers) {
 
-  message('calculating MAR')
+  message('calculating AQC')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
-  mar_harvest   <- layers$data[['mar_harvest_tonnes']] %>%
+  aqc_harvest   <- layers$data[['aqc_harvest_tonnes']] %>%
     select(-layer)
-  mar_areas     <- layers$data[['mar_tenure_areas']] %>%
+  aqc_areas     <- layers$data[['aqc_tenure_areas']] %>%
     select(-layer)
-  mar_potential <- layers$data[['mar_potential']] %>%
+  aqc_potential <- layers$data[['aqc_potential']] %>%
     select(-layer)
 
-  mar_all <- mar_areas %>%
-    left_join(mar_potential, by = c('rgn_id', 'aq_type')) %>%
-    left_join(mar_harvest, by = c('rgn_id', 'aq_type')) %>%
+  aqc_all <- aqc_areas %>%
+    left_join(aqc_potential, by = c('rgn_id', 'aq_type')) %>%
+    left_join(aqc_harvest, by = c('rgn_id', 'aq_type')) %>%
     mutate(ref_pt = area_km2 * potential) %>%
     left_join(get_rgn_names(), by = 'rgn_id') %>%
     filter(source == 'dfo')
 
-  mar_f_df <- mar_all %>%
+  aqc_f_df <- aqc_all %>%
     filter(aq_type == 'finfish') %>%
     select(year, region_id = rgn_id, harvest_tonnes, ref, ref_pt, aq_type)
 
-  mar_f_score <- mar_f_df %>%
+  aqc_f_score <- aqc_f_df %>%
     spread(key = ref, value = ref_pt) %>%
     mutate(f_score = harvest_tonnes / lowR_prod,
            f_score = ifelse(harvest_tonnes > lowR_prod, 1, f_score)) %>%
@@ -322,11 +322,11 @@ MAR <- function(layers) {
     ungroup()
 
 
-  mar_b_df <- mar_all %>%
+  aqc_b_df <- aqc_all %>%
     filter(aq_type == 'shellfish') %>%
     select(year, region_id = rgn_id, ref, harvest_tonnes, ref_pt, aq_type)
 
-  mar_b_score <- mar_b_df %>%
+  aqc_b_score <- aqc_b_df %>%
     spread(key = ref, value = ref_pt) %>%
     mutate(b_score = harvest_tonnes / lowR_prod,
            b_score = ifelse(harvest_tonnes > lowR_prod, 1, b_score)) %>%
@@ -336,7 +336,7 @@ MAR <- function(layers) {
     complete_rgn_years(status_yr_span, method = 'none') %>%
     ungroup()
 
-  mar_status <- bind_rows(mar_f_score, mar_b_score) %>%
+  aqc_status <- bind_rows(aqc_f_score, aqc_b_score) %>%
     group_by(region_id, year) %>%
     summarize(score_wt    = sum(score * harvest_tonnes, na.rm = TRUE),
               harvest_tot = sum(harvest_tonnes, na.rm = TRUE),
@@ -348,23 +348,23 @@ MAR <- function(layers) {
            dimension = 'status')
 
   ## reference points
-  write_ref_pts(goal   = 'MAR',
+  write_ref_pts(goal   = 'AQC',
                 method = 'XXXXXXXX',
                 ref_pt = NA)
 
   ### prepare scores (status and trend) for current status year
 
   trend_years <- (data_year - 4) : data_year
-  mar_trend   <- calc_trend(mar_status, trend_years)
+  aqc_trend   <- calc_trend(aqc_status, trend_years)
 
-  mar_scores <- mar_status %>%
+  aqc_scores <- aqc_status %>%
     filter(!is.na(region_id)) %>%
     filter(year == data_year) %>%
-    bind_rows(mar_trend) %>%
+    bind_rows(aqc_trend) %>%
     select(region_id, goal, dimension, score)
 
-  message('Returning from MAR')
-  return(mar_scores)
+  message('Returning from AQC')
+  return(aqc_scores)
 
 }
 
@@ -478,24 +478,24 @@ FP <- function(layers, scores) {
   ### emphasizes the outsize importance of all three in BC's ability
   ### to provide sustainable seafood to its citizens and the globe.
   ### NOTE: for years in which any one subgoal score is NA, the other scores
-  ### will equally contribute to the overall FP score (e.g. when MAR is NA,
+  ### will equally contribute to the overall FP score (e.g. when AQC is NA,
   ### FIS and SAL scores will each contribute half of the FP score).
 
   message('calculating FP')
 
   wts <- data.frame(region_id = c(1:8),
                     w_FIS     = rep(.333, 8),
-                    w_MAR     = rep(.333, 8),
+                    w_AQC     = rep(.333, 8),
                     w_SAL     = rep(.333, 8))
 
   message('getting FP scores')
   ### scores
   fp_w_wts <- scores %>%
-    filter(goal %in% c('FIS', 'MAR', 'SAL')) %>%
+    filter(goal %in% c('FIS', 'AQC', 'SAL')) %>%
     filter(!(dimension %in% c('pressures', 'resilience'))) %>%
     left_join(wts, by='region_id')  %>%
     mutate(weight = case_when(goal == 'FIS' ~ w_FIS,
-                              goal == 'MAR' ~ w_MAR,
+                              goal == 'AQC' ~ w_AQC,
                               goal == 'SAL' ~ w_SAL))
 
   fp_combined <- fp_w_wts  %>%

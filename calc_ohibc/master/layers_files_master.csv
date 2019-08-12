@@ -52,9 +52,9 @@ lsp_prot_area_offshore3nm,ohibc:prep/lsp/v2017/output,lsp_protected_offshore3nm.
 lsp_tot_area_inland_ws,ohibc:prep/lsp/v2017/output,lsp_a_total_inland_ws.csv,TRUE,a_tot_inland
 lsp_tot_area_offshore3nm,ohibc:prep/lsp/v2017/output,lsp_a_total_offshore3nm.csv,TRUE,a_tot_3nm
 mapp_resilience,ohibc:prep/_resilience/v2017/output,mapp_score.csv,TRUE,mapp_resilience
-mar_harvest_tonnes,ohibc:prep/mar/v2017/output,aq_harvest.csv,TRUE,harvest_tonnes
-mar_potential,ohibc:prep/mar/v2017/output,aq_potential.csv,TRUE,potential
-mar_tenure_areas,ohibc:prep/mar/v2017/output,aq_areas.csv,TRUE,area_km2
+aqc_harvest_tonnes,ohibc:prep/mar/v2017/output,aq_harvest.csv,TRUE,harvest_tonnes
+aqc_potential,ohibc:prep/mar/v2017/output,aq_potential.csv,TRUE,potential
+aqc_tenure_areas,ohibc:prep/mar/v2017/output,aq_areas.csv,TRUE,area_km2
 po_chemical,ohibc:prep/cw/v2017/output,po_chemical.csv,TRUE,chem_pressure
 po_chemical_3nm,ohibc:prep/cw/v2017/output,po_chemical_3nm.csv,TRUE,chem_pressure
 po_nutrient,ohibc:prep/cw/v2017/output,po_nutrient.csv,TRUE,nutr_pressure

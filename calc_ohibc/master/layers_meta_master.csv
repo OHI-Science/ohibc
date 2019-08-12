@@ -52,9 +52,9 @@ lsp_prot_area_offshore3nm,LSP,Offshore coastal protected areas,km²,Protected ar
 lsp_tot_area_inland_ws,LSP,Total inland watershed area,km²,Inland area of OHI regions within 1km of shoreline
 lsp_tot_area_offshore3nm,LSP,Total offshore 3 nm area,km²,Offshore area of OHI regions within 3nm of shoreline
 mapp_resilience,resilience,MaPP Resilience,scaled 0-1,Resilience due to MaPP process and plans
-mar_harvest_tonnes,MAR,Mariculture harvest,tonnes,Tonnes of mariculture harvest,DFO
-mar_potential,MAR,Aquaculture production potential,t/km²/year,Aquaculture production potential for finh and shellh at different reference levels
-mar_tenure_areas,MAR,Aquaculture tenure area,km²,DFO aquaculture tenures,DFO
+aqc_harvest_tonnes,AQC,Mariculture harvest,tonnes,Tonnes of mariculture harvest,DFO
+aqc_potential,AQC,Aquaculture production potential,t/km²/year,Aquaculture production potential for finh and shellh at different reference levels
+aqc_tenure_areas,AQC,Aquaculture tenure area,km²,DFO aquaculture tenures,DFO
 po_chemical,pressures,Chemical pollution,scaled 0-1,"Modeled chemical pollution from commercial shipping traffic, ports and harbors, and pesticide use",
 po_chemical_3nm,CW pressures,Coastal chemical pollution,scaled 0-1,"Modeled chemical pollution from commercial shipping traffic, ports and harbors, land-based pesticide use (organic pollution), and urban runoff (inorganic pollution)",
 po_nutrient,pressures,Nutrient pollution,scaled 0-1,Modeled data based on fertilizer consumption from the Food and Agricultural Organization,
