@@ -344,7 +344,7 @@ AQC <- function(layers) {
               score = round(100 * score, 5)) %>%
     ungroup() %>%
     select(region_id, year, score) %>%
-    mutate(goal = 'MAR',
+    mutate(goal = 'AQC',
            dimension = 'status')
 
   ## reference points
