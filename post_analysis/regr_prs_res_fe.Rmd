@@ -46,13 +46,13 @@ $$\%\Delta p_t = \frac{p_{t+\lambda} - p_t}{p_{t}} = \alpha + \beta_1 r_{reg,t} 
 
 We will include fixed effects on region and year.  Time effects were shown to be significant for all goals except for Clean Waters; for simplicity we will include time effects on all goals.  Fixed effects and random effects in various combinations were also shown to be significant for most goals; again, for simplicity (though not parsimony) we will include fixed effects for all goals.  Note: Econometricians Doug Steigerwald and Kyle Meng both recommended fixed effects in general over random effects.  See `regr_causal_chain_re_fe_te.Rmd` for details of testing time effects and random/fixed effects.
 
-**K-fold cross validation runs:**  We will include repeated K-fold cross validation on each (valid) run as well... based on [this helpful page](http://www.sthda.com/english/articles/38-regression-model-validation/157-cross-validation-essentials-in-r/).
+**Leave-one-out cross validation runs:**  We will include leave-one-out cross validation on each (valid) run as well... based on [this helpful page](http://www.sthda.com/english/articles/38-regression-model-validation/157-cross-validation-essentials-in-r/).
 
 To enable testing of all these combinations of goal/lag year/model variant, we will set up a data structure of lists within lists.
 
 * List level 1: goal/subgoal (x12)
     * List level 2: lag year (x6)
-        * list level 3: nested model variant (x8) (7 plus intercept only?)
+        * list level 3: nested model variant (x4) (3 plus intercept only)
             * list level 4: resulting model, results of cross-validation
         
 ``` {r regress_prs_coefficients_res_components}
@@ -110,7 +110,7 @@ tidy_model <- function(mdl) {
   mdl_df <- mdl %>%
     broom::tidy() %>%
     mutate(adj_r_squared = summary(mdl)$adj.r.squared,
-           aic    = AIC(mdl), 
+           aicc   = AICcmodavg::AICc(mdl), 
            yrs    = sum(str_detect(term, 'year')),
            rgns   = sum(str_detect(term, 'rgn')),
            params = rgns + yrs + n() - 1)
@@ -123,19 +123,22 @@ tidy_model <- function(mdl) {
 
 ``` {r resilience regr function}
 
-calc_res_regr <- function(df, train.control) {
+calc_res_regr <- function(df, train_control) {
   ### For a given dataframe filtered to goal and lag year, loop over all
   ### combinations of resilience regression models (except intercept only).
   ### For each base model, calculate fixed and random effects on region, and
   ### for each of those, calculate with and without time effect.
   
+  ### UPDATE: omitting models with reg_ecol, as it changes very little and then
+  ### only due to global-scale assessments rather than changes in local
+  ### species conservation status.
   res_mdls <- list(reg  = c('res_reg'),
-                   ecol = c('res_ecol'),
+                   # ecol = c('res_ecol'),
                    soc  = c('res_soc'),
-                   reg_ecol = c('res_reg', 'res_ecol'),
-                   reg_soc  = c('res_reg', 'res_soc'),
-                   ecol_soc = c('res_ecol', 'res_soc'),
-                   reg_ecol_soc = c('res_reg', 'res_ecol', 'res_soc'))
+                   # reg_ecol = c('res_reg', 'res_ecol'),
+                   reg_soc  = c('res_reg', 'res_soc'))
+                   # ecol_soc = c('res_ecol', 'res_soc'),
+                   # reg_ecol_soc = c('res_reg', 'res_ecol', 'res_soc'))
 
   ### initialize list for this combo of goal and lag
   res_mdl_list <- vector('list', length = length(res_mdls) + 1)
@@ -146,7 +149,7 @@ calc_res_regr <- function(df, train.control) {
     ### i <- 3
     
     ### create text versions of the regression formulas
-    mdl_text <- sprintf('d_prs ~ %s + factor(year) + factor(rgn_code)', paste(res_mdls[[i]], collapse = ' + '))
+    mdl_text <- sprintf('d_prs ~ 1 + %s + factor(year) + factor(rgn_code)', paste(res_mdls[[i]], collapse = ' + '))
 
     message('  ', i, ': ', mdl_text)
     names(res_mdl_list)[i] <- mdl_text
@@ -179,7 +182,7 @@ calc_res_regr <- function(df, train.control) {
     cross_val_mdl <- train(as.formula(mdl_text), data = df, 
                            method = "lm",
                            na.action = na.omit,
-                           trControl = train.control)
+                           trControl = train_control)
     
     res_mdl_list[[i]] <- list('mdl' = mdl_fe, 'crossval' = cross_val_mdl$results)
   }
@@ -187,8 +190,9 @@ calc_res_regr <- function(df, train.control) {
   ### add intercept only model; index is i+1:
   message('  ', i + 1, ': intercept only')
   mdl_fe <- lm(d_prs ~ 1 + factor(year) + factor(rgn_code), data = df)
-  cross_val_mdl <- train(d_prs ~ 1 + factor(year) + factor(rgn_code), data = df, method = "lm",
-                         trControl = train.control)
+  cross_val_mdl <- train(d_prs ~ 1 + factor(year) + factor(rgn_code), data = df, 
+                         method = "lm",
+                         trControl = train_control)
   
   res_mdl_list[[i+1]] <- list('mdl' = mdl_fe, 'crossval' = cross_val_mdl$results)
   
@@ -208,7 +212,7 @@ names(goal_regr_list) <- goals
 set.seed(123)
 k <- 5
 reps <- 5
-train.control <- trainControl(method = "repeatedcv", number = k, repeats = reps)
+train_control <- trainControl(method = "LOOCV")
 
 
 for(goalname in goals) {
@@ -224,7 +228,7 @@ for(goalname in goals) {
     if(nrow(d_prs_df) == 0) next() ### skip degenerate case
     
     message('Calculating ', goalname, ' at lag ', yr_lag)
-    tmp <- calc_res_regr(d_prs_df, train.control)
+    tmp <- calc_res_regr(d_prs_df, train_control)
     
     yr_lag_regr_list[[yr_lag]] <- tmp
   }
@@ -249,14 +253,11 @@ from https://robjhyndman.com/hyndsight/aic/:
 
 Seems like AIC (and BIC?) should be fine with a standard linear model using OLS?  We're not assuming anything fancy about the data.  BUT: the lag relationship will mean AIC comparing lag 4 vs. lag 5 (e.g.) are looking at different data.  So: use AIC to choose the best model for each goal for a specific lag, but then choose among the lags in some other manner.  If they're all saying the same model form, then use a different criterion to choose the best lag model.
 
+Additionally, we should be using AICc, corrected for small samples as in this case.  To do this, we will use the `AICcmodavg` package.
+
 ## Compare all pressure ~ resilience models
 
-From the `goal_regr_list` list of lists, sort through to answer the following:
-
-1) For each goal/lag year (using fixed effects on region and time), determine best model by comparing AIC.
-2) For each goal, compare lag year models using R^2^ as a heuristic.
-
-For each loop, assemble a dataframe with results by model; bind together by lag year and goal.  Maybe not memory efficient but whatevs.
+From the `goal_regr_list` list of lists: For each loop, assemble a dataframe with results by model; bind together by lag year and goal.  Maybe not memory efficient but whatevs.
 
 ```{r}
 
@@ -334,6 +335,8 @@ write_csv(cv_results_df, 'int/prs_res_crossval_fixed_effects.csv')
 
 ## Pretty up the outputs
 
+add codes for p-value significance, for later reference, and spread estimates into their own columns (one row for each model).
+
 ```{r}
 
 cv_results  <- read_csv('int/prs_res_crossval_fixed_effects.csv') %>%
@@ -346,7 +349,7 @@ prs_res_mdl <- read_csv('int/prs_res_results_fixed_effects.csv') %>%
                               p.value <  .05 ~ paste0(est_text, '*'),
                               p.value <  .10 ~ paste0(est_text, '°'),
                               TRUE ~ est_text)) %>%
-  select(goal, model, lag, yrs, rgns, adj_r_squared, aic, term, est_text, model_error) %>%
+  select(goal, model, lag, yrs, rgns, adj_r_squared, aicc, term, est_text, model_error) %>%
   spread(term, est_text) %>%
   clean_df_names() %>%
   left_join(cv_results, by = c('goal', 'model', 'lag')) %>%

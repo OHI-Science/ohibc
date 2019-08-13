@@ -5,7 +5,7 @@ FIS <- function(layers) {
   ### * rgn_stock_wt_uniform, _saup, _dfo
   ### * ram_dfo_saup_lookup.csv
 
-  # message('Starting FIS')
+  message('Starting FIS')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
@@ -41,7 +41,7 @@ FIS <- function(layers) {
     mutate(rgn_ass_catch_prop = ifelse(is.na(rgn_ass_catch_prop),
                                        rollmean_ass_catch, rgn_ass_catch_prop)) %>%
     group_by(rgn_id, year) %>%
-    mutate(rgn_ass_catch_prop = rgn_ass_catch_prop / sum(rgn_ass_catch_prop)) %>%
+    mutate(rgn_ass_catch_prop = rgn_ass_catch_prop / sum(rgn_ass_catch_prop, na.rm = TRUE)) %>%
     ungroup() %>%
     select(rgn_id, year, stockid, rgn_ass_catch_prop)
 
@@ -90,9 +90,11 @@ FIS <- function(layers) {
     ### extends beyond bmax, to create a gradient where bmax_val occurs at bmax.
 
     fish_stat_df <- fish_stat_df %>%
-      # group_by(stock) %>% ### grouping by stock will set b_max by max per stock, instead of max overall
-      mutate(b_max     = max(b_bmsy, na.rm = TRUE)) %>%
-      ungroup() %>%
+      # # group_by(stock) %>% ### grouping by stock will set b_max by max per stock, instead of max overall
+      # mutate(b_max_obs = max(b_bmsy, na.rm = TRUE)) %>%
+      # ungroup() %>%
+      rowwise() %>%
+        ### the rowwise() is so that the min() term below is stock/year specific
       mutate(bPrime = NA,
              bPrime = ifelse(b_bmsy < overfished_th,  ### overfished stock
                              b_bmsy / overfished_th,
@@ -101,9 +103,12 @@ FIS <- function(layers) {
                              1,                       ### appropriately fished stock
                              bPrime),
              bPrime = ifelse(b_bmsy >= underfished_th,
-                             (bmax_adj - b_bmsy) / (bmax_adj - underfished_th), ### underfished stock
+                             (bmax_adj - min(b_bmsy, bmax)) / (bmax_adj - underfished_th), ### underfished stock
                              bPrime),
-             bPrime = ifelse(bPrime < 0, 0, bPrime))
+               ### the min(b_bmsy, bmax_adj) is so we limit b_bmsy to bmax
+             bPrime = ifelse(bPrime < 0, 0, bPrime)) %>%
+      ungroup()
+
     return(fish_stat_df)
   }
 
@@ -181,8 +186,40 @@ FIS <- function(layers) {
   if(data_year == max(status_yr_span)) {
     ### note, this contains all years, but only write it once
     message('Writing stock score catch dataframe...')
-    write_csv(stock_score_catch, '~/github/ohibc/prep/fis/v2017/summary/fis_from_functions.csv')  ## JA: i'm no longer sure we want to be saving this?
+    write_csv(stock_score_catch, '~/github/ohibc/prep/fis/v2017/summary/fis_from_functions.csv')
   }
+
+  # stock_plot_df <- stock_score_catch %>%
+  #   # filter(!is.na(score)) %>%
+  #   # group_by(rgn_id, year) %>%
+  #   # mutate(total_catch = sum(rgn_catch),
+  #   #        rgn_catch_pct = rgn_catch / total_catch,
+  #   #        total_score = sum(score * rgn_catch) / total_catch) %>%
+  #   # ungroup() %>%
+  #   left_join(get_rgn_names(), by = 'rgn_id') %>%
+  #   # filter(rgn_ass_catch_prop > 0) %>%
+  #   filter(year > 1990)
+  #
+  # rgn_scores <- read_csv(file.path(dir_ohibc, 'calc_ohibc/scores_all.csv')) %>%
+  #   filter(goal == 'FIS' & dimension == 'status') %>%
+  #   select(rgn_id = region_id, year, status = score) %>%
+  #   mutate(status = status / 100) %>%
+  #   filter(rgn_id != 0) %>%
+  #   left_join(get_rgn_names(), by = 'rgn_id')
+  #
+  #
+  # ggplot(stock_plot_df, aes(x = year, y = score)) +
+  #   ggtheme_plot() +
+  #   geom_line(aes(group = stockid, color = stockid,
+  #                 size = rgn_ass_catch_prop),
+  #             lineend = 'round', alpha = .5) +
+  #   geom_line(data = rgn_scores, aes(y = status), size = 1, color = 'grey20', alpha = .7) +
+  #   labs(color = 'Stock ID',
+  #        y     = 'Stock Score') +
+  #   guides(colour = guide_legend(override.aes = list(size = 3)),
+  #          size = 'none') +
+  #   scale_color_brewer(palette = 'Paired') +
+  #   facet_wrap( ~ rgn_name)
 
   stock_score_sum <- stock_score_catch %>%
     mutate(score_weighted = score * rgn_ass_catch_prop * 100) %>%
@@ -242,37 +279,39 @@ FIS <- function(layers) {
     bind_rows(fis_trend) %>%
     select(goal, dimension, region_id, score)
 
-  # message('returning from FIS')
+  message('returning from FIS')
 
   return(fis_scores)
 
 }
 
-MAR <- function(layers) {
+AQC <- function(layers) {
+
+  message('calculating AQC')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
 
-  mar_harvest   <- layers$data[['mar_harvest_tonnes']] %>%
+  aqc_harvest   <- layers$data[['aqc_harvest_tonnes']] %>%
     select(-layer)
-  mar_areas     <- layers$data[['mar_tenure_areas']] %>%
+  aqc_areas     <- layers$data[['aqc_tenure_areas']] %>%
     select(-layer)
-  mar_potential <- layers$data[['mar_potential']] %>%
+  aqc_potential <- layers$data[['aqc_potential']] %>%
     select(-layer)
 
-  mar_all <- mar_areas %>%
-    left_join(mar_potential, by = c('rgn_id', 'aq_type')) %>%
-    left_join(mar_harvest, by = c('rgn_id', 'aq_type')) %>%
+  aqc_all <- aqc_areas %>%
+    left_join(aqc_potential, by = c('rgn_id', 'aq_type')) %>%
+    left_join(aqc_harvest, by = c('rgn_id', 'aq_type')) %>%
     mutate(ref_pt = area_km2 * potential) %>%
     left_join(get_rgn_names(), by = 'rgn_id') %>%
     filter(source == 'dfo')
 
-  mar_f_df <- mar_all %>%
+  aqc_f_df <- aqc_all %>%
     filter(aq_type == 'finfish') %>%
     select(year, region_id = rgn_id, harvest_tonnes, ref, ref_pt, aq_type)
 
-  mar_f_score <- mar_f_df %>%
+  aqc_f_score <- aqc_f_df %>%
     spread(key = ref, value = ref_pt) %>%
     mutate(f_score = harvest_tonnes / lowR_prod,
            f_score = ifelse(harvest_tonnes > lowR_prod, 1, f_score)) %>%
@@ -283,11 +322,11 @@ MAR <- function(layers) {
     ungroup()
 
 
-  mar_b_df <- mar_all %>%
+  aqc_b_df <- aqc_all %>%
     filter(aq_type == 'shellfish') %>%
     select(year, region_id = rgn_id, ref, harvest_tonnes, ref_pt, aq_type)
 
-  mar_b_score <- mar_b_df %>%
+  aqc_b_score <- aqc_b_df %>%
     spread(key = ref, value = ref_pt) %>%
     mutate(b_score = harvest_tonnes / lowR_prod,
            b_score = ifelse(harvest_tonnes > lowR_prod, 1, b_score)) %>%
@@ -297,7 +336,7 @@ MAR <- function(layers) {
     complete_rgn_years(status_yr_span, method = 'none') %>%
     ungroup()
 
-  mar_status <- bind_rows(mar_f_score, mar_b_score) %>%
+  aqc_status <- bind_rows(aqc_f_score, aqc_b_score) %>%
     group_by(region_id, year) %>%
     summarize(score_wt    = sum(score * harvest_tonnes, na.rm = TRUE),
               harvest_tot = sum(harvest_tonnes, na.rm = TRUE),
@@ -305,31 +344,33 @@ MAR <- function(layers) {
               score = round(100 * score, 5)) %>%
     ungroup() %>%
     select(region_id, year, score) %>%
-    mutate(goal = 'MAR',
+    mutate(goal = 'AQC',
            dimension = 'status')
 
   ## reference points
-  write_ref_pts(goal   = 'MAR',
+  write_ref_pts(goal   = 'AQC',
                 method = 'XXXXXXXX',
                 ref_pt = NA)
 
   ### prepare scores (status and trend) for current status year
 
   trend_years <- (data_year - 4) : data_year
-  mar_trend   <- calc_trend(mar_status, trend_years)
+  aqc_trend   <- calc_trend(aqc_status, trend_years)
 
-  mar_scores <- mar_status %>%
+  aqc_scores <- aqc_status %>%
     filter(!is.na(region_id)) %>%
     filter(year == data_year) %>%
-    bind_rows(mar_trend) %>%
+    bind_rows(aqc_trend) %>%
     select(region_id, goal, dimension, score)
 
-  message('Returning from MAR')
-  return(mar_scores)
+  message('Returning from AQC')
+  return(aqc_scores)
 
 }
 
 SAL <- function(layers) {
+
+  message('calculating SAL')
 
   ##### Gather parameters and layers #####
   ### * sal_catch, sal_escapes
@@ -341,11 +382,8 @@ SAL <- function(layers) {
 
   sal_C        <- layers$data[['sal_catch']] %>%
     select(-layer)
-  # sal_E        <- layers$data[['sal_escapes']] %>%
-  #   select(-layer)
 
-  stocks <- sal_C # %>%
-    # full_join(sal_E, by = c('rgn_id', 'year', 'stock'))
+  stocks <- sal_C
 
   #############################################################.
   ##### run each salmon stock through the E' and C' calcs #####
@@ -422,7 +460,7 @@ SAL <- function(layers) {
     bind_rows(sal_trend) %>%
     select(goal, dimension, region_id, score)
 
-  # message('returning from SAL')
+  message('returning from SAL')
 
   return(sal_scores)
 
@@ -440,23 +478,24 @@ FP <- function(layers, scores) {
   ### emphasizes the outsize importance of all three in BC's ability
   ### to provide sustainable seafood to its citizens and the globe.
   ### NOTE: for years in which any one subgoal score is NA, the other scores
-  ### will equally contribute to the overall FP score (e.g. when MAR is NA,
+  ### will equally contribute to the overall FP score (e.g. when AQC is NA,
   ### FIS and SAL scores will each contribute half of the FP score).
 
+  message('calculating FP')
 
   wts <- data.frame(region_id = c(1:8),
                     w_FIS     = rep(.333, 8),
-                    w_MAR     = rep(.333, 8),
+                    w_AQC     = rep(.333, 8),
                     w_SAL     = rep(.333, 8))
 
-  # message'getting FP scores')
+  message('getting FP scores')
   ### scores
   fp_w_wts <- scores %>%
-    filter(goal %in% c('FIS', 'MAR', 'SAL')) %>%
+    filter(goal %in% c('FIS', 'AQC', 'SAL')) %>%
     filter(!(dimension %in% c('pressures', 'resilience'))) %>%
     left_join(wts, by='region_id')  %>%
     mutate(weight = case_when(goal == 'FIS' ~ w_FIS,
-                              goal == 'MAR' ~ w_MAR,
+                              goal == 'AQC' ~ w_AQC,
                               goal == 'SAL' ~ w_SAL))
 
   fp_combined <- fp_w_wts  %>%
@@ -467,6 +506,8 @@ FP <- function(layers, scores) {
     select(region_id, goal, dimension, score) %>%
     data.frame()
 
+  message('returning from FP')
+
   ### return all scores
   return(rbind(scores, fp_combined))
 
@@ -474,7 +515,7 @@ FP <- function(layers, scores) {
 
 AO <- function(layers) {
 
-  ### Salt marsh, coastal forest based on extent from 30-meter rasters
+  message('calculating AO')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
@@ -631,19 +672,15 @@ AO <- function(layers) {
 
   if(data_year == max(status_yr_span)) {
     write_csv(ao_status_components, '~/github/ohibc/prep/ao/v2017/summary/ao_from_functions.csv')
-    # ggplot(ao_status_components, aes(x = year, y = status, group = component, color = component)) +
-    #   geom_line(aes(y = score), color = 'grey40', size = 1.5, alpha = .8) +
-    #   geom_line(size = 1, alpha = .8) +
-    #   facet_wrap( ~ rgn_name)
   }
 
   ### write element weights to layers object for pressures/resilience calculations
   ao_weights <- ao_status_components %>%
     filter(year == status_year) %>%
-    mutate(layer = 'element_wts_ao_components') %>%
+    mutate(layer = 'element_wts_ao') %>%
     select(rgn_id = region_id, component, ao_comp_status = status, layer)
 
-  layers$data$element_wts_ao_components <- ao_weights
+  layers$data$element_wts_ao <- ao_weights
 
   ### reference points
   write_ref_pts(goal   = 'AO',
@@ -661,11 +698,15 @@ AO <- function(layers) {
     bind_rows(ao_trend) %>%
     select(region_id, goal, dimension, score)
 
+  message('returning from AO')
+
   return(ao_scores)
 
 }
 
 CSS <- function(layers) {
+
+  message('calculating CSS')
 
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
 
@@ -724,10 +765,10 @@ CSS <- function(layers) {
   cs_weights <- cs_components %>%
     filter(year == status_year) %>%
     mutate(cs_km2_x_storage = area_hab * cbr,
-           layer = 'element_wts_cs_km2_x_storage') %>%
+           layer = 'element_wts_cs') %>%
     select(rgn_id = region_id, habitat, cs_km2_x_storage, layer)
 
-  layers$data$element_wts_cs_km2_x_storage <- cs_weights
+  layers$data$element_wts_cs <- cs_weights
 
   ### prepare scores (status and trend) for current status year
 
@@ -738,6 +779,8 @@ CSS <- function(layers) {
     filter(year == data_year) %>%
     bind_rows(cs_trend) %>%
     select(region_id, goal, dimension, score)
+
+  message('returning from CSS')
 
   return(cs_scores)
 
@@ -750,6 +793,8 @@ CSS <- function(layers) {
 }
 
 CPP <- function(layers) {
+
+  message('calculating CPP')
 
   ### Salt marsh, coastal forest based on extent from 30-meter rasters
   status_year    <- layers$data$scenario_year
@@ -801,10 +846,10 @@ CPP <- function(layers) {
   cp_weights <- cp_components %>%
     filter(year == status_year) %>%
     mutate(cp_km2_x_exposure_x_protection = expos_area_tot * prot,
-           layer = 'element_wts_cp_km2_x_exposure_x_protection') %>%
+           layer = 'element_wts_cp') %>%
     select(rgn_id = region_id, habitat, cp_km2_x_exposure_x_protection, layer)
 
-  layers$data$element_wts_cp_km2_x_exposure_x_protection <- cp_weights
+  layers$data$element_wts_cp <- cp_weights
 
   ### reference points
   write_ref_pts(goal   = 'CP',
@@ -820,11 +865,15 @@ CPP <- function(layers) {
     bind_rows(cp_trend) %>%
     select(region_id, goal, dimension, score)
 
+  message('returning from CPP')
+
   return(cp_scores)
 
 }
 
 HS <- function(scores) {
+
+  message('calculating HS')
 
   ### combines carbon storage and coastal protection subgoals with a simple
   ### of the two
@@ -841,12 +890,16 @@ HS <- function(scores) {
     select(region_id, goal, dimension, score) %>%
     data.frame()
 
+  message('returning from HS')
+
   ### return all scores: attach means to existing scores dataframe
   return(rbind(scores, s))
 
 }
 
 TR <- function(layers) {
+
+  message('calculating TR')
 
   ### TR model includes Tourism Center visits and Park visits; these are
   ### summed per region and adjusted by changes in the province-wide
@@ -927,13 +980,13 @@ TR <- function(layers) {
     complete(region_id = 1:8) %>%
     ungroup()
 
-  # message'Returning from TR')
+  message('Returning from TR')
   return(tr_scores)
 
 }
 
 LV <- function(scores) {
-  # message'starting LV')
+  message('starting LV')
 
   ### combines LVF (LV First Nations) and LVN (LV non-First Nations) subgoals with a simple
   ### of the two
@@ -956,7 +1009,7 @@ LV <- function(scores) {
 }
 
 LVF <- function(layers) {
-  # message'starting LVF')
+  message('starting LVF')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
@@ -1046,7 +1099,7 @@ LVF <- function(layers) {
 }
 
 LVN <- function(layers) {
-  # message'starting LVN')
+  message('starting LVN')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
@@ -1124,6 +1177,8 @@ LVN <- function(layers) {
 
 
 ICO <- function(layers) {
+
+  message('calculating ICO')
 
   ### in goals.csv, allow status year to be NULL, so it can be reassigned
   ### for each iteration through calculate loop
@@ -1219,12 +1274,15 @@ ICO <- function(layers) {
   scores_ico <- bind_rows(rgn_ico_status, rgn_ico_trend) %>%
     select(goal, dimension, region_id, score)
 
+  message('returning from ICO')
 
   return(scores_ico)
 
 }
 
 LSP <- function(layers, ref_pct_cmpa = 30, ref_pct_cp = 30) {
+
+  message('calculating LSP')
 
   status_year <- layers$data$scenario_year
   data_year   <- status_year
@@ -1276,11 +1334,15 @@ LSP <- function(layers, ref_pct_cmpa = 30, ref_pct_cp = 30) {
     bind_rows(rgn_trend) %>%
     select(goal, dimension, region_id, score)
 
+  message('returning from LSP')
+
   return(scores_lsp)
 
 }
 
 SP <- function(scores) {
+
+  message('calculating SP')
 
   ### to calculate the four SP dimesions, average those dimensions for ICO and LSP
   sp_scores <- scores %>%
@@ -1296,10 +1358,14 @@ SP <- function(scores) {
   ### return all scores
   scores_sp <- bind_rows(scores, sp_scores)
 
+  message('returning from SP')
+
   return(scores_sp)
 }
 
 CW <- function(layers) {
+
+  message('calculating CW')
 
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
@@ -1333,12 +1399,17 @@ CW <- function(layers) {
 
 
   cw_pressure_df <- bind_rows(chem_prs, nutr_prs, trash_prs, patho_prs) %>%
+    filter(!is.na(pressure)) %>%
+    mutate(component_score = 1 - pressure) %>%
     rename(component = layer)
   ### that last bit is because somewhere the layer dfs get a layer name column... ???
 
+  if(data_year == max(status_yr_span)) {
+
+    write_csv(cw_pressure_df, '~/github/ohibc/prep/cw/v2017/summary/cw_from_functions.csv')
+  }
+
   cw_score_summary <- cw_pressure_df %>%
-    filter(!is.na(pressure)) %>%
-    mutate(component_score = 1 - pressure) %>%
     group_by(year, region_id) %>%
     summarize(n_components = n(),
               status    = prod(component_score)^(1/n_components), ### this finishes our geometric mean
@@ -1368,6 +1439,8 @@ CW <- function(layers) {
     bind_rows(rgn_trend) %>%
     select(goal, dimension, region_id, score)
 
+  message('returning from CW')
+
   return(scores_cw)
 }
 
@@ -1376,6 +1449,7 @@ HAB <- function(layers) {
   ### EBSA, soft bottom habitats based on trawl pressures
   ### Coastal forests excluded
 
+  message('calculating HAB')
   status_year    <- layers$data$scenario_year
   data_year      <- status_year
   status_yr_span <- layers$data$status_year_span
@@ -1429,10 +1503,10 @@ HAB <- function(layers) {
     complete(habitat = unique(hab_components$habitat)) %>%
     ungroup() %>%
     mutate(hab_presence = !is.na(status)) %>%
-    mutate(layer = 'element_wts_hab_pres_abs') %>%
+    mutate(layer = 'element_wts_hab') %>%
     select(rgn_id = region_id, habitat, hab_presence, layer)
 
-  layers$data$element_wts_hab_pres_abs <- hab_weights
+  layers$data$element_wts_hab <- hab_weights
 
   ### prepare scores (status and trend) for current status year
   trend_years <- (data_year - 4) : data_year
@@ -1443,11 +1517,15 @@ HAB <- function(layers) {
     bind_rows(hab_trend) %>%
     select(region_id, goal, dimension, score)
 
+  message('returning from HAB')
+
   return(hab_scores)
 
 }
 
 SPP <- function(layers) {
+
+  message('calculating SPP')
 
   status_year <- layers$data$scenario_year
   data_year   <- status_year
@@ -1530,10 +1608,13 @@ SPP <- function(layers) {
     bind_rows(spp_trend) %>%
     select(region_id, goal, dimension, score)
 
+  message('returning from SPP')
+
   return(spp_scores)
 }
 
 BD <- function(scores) {
+  message('calculating BD')
 
   bd_scores <- scores %>%
     filter(goal %in% c('HAB', 'SPP')) %>%
@@ -1543,6 +1624,8 @@ BD <- function(scores) {
     mutate(goal = 'BD') %>%
     data.frame() %>%
     select(region_id, goal, dimension, score)
+
+  message('returning from BD')
 
   # return all scores
   return(rbind(scores, bd_scores))

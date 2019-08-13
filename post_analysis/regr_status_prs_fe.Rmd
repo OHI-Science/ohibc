@@ -59,7 +59,7 @@ tidy_model <- function(mdl) {
   mdl_df <- mdl %>%
     broom::tidy() %>%
     mutate(adj_r_squared = summary(mdl)$adj.r.squared,
-           aic    = AIC(mdl), 
+           aicc   = AICcmodavg::AICc(mdl), 
            yrs    = sum(str_detect(term, 'year')),
            rgns   = sum(str_detect(term, 'rgn')),
            params = rgns + yrs + n() - 1)
@@ -105,8 +105,7 @@ Include a cross validation step.
 
 regress_status <- function(df, regr_formula, train_control) {
   d_status_mdl <- lm(regr_formula, data = df)
-  d_status_df <- tidy_model(d_status_mdl) %>%
-    mutate(aic = AIC(d_status_mdl))
+  d_status_df <- tidy_model(d_status_mdl)
 
   cross_val_mdl <- train(regr_formula, 
                        data = df, method = "lm",
@@ -119,9 +118,7 @@ regress_status <- function(df, regr_formula, train_control) {
 }
 ### Define training control
 set.seed(123)
-k <- 5
-reps <- 5
-train_control <- trainControl(method = "repeatedcv", number = k, repeats = reps)
+train_control <- trainControl(method = "LOOCV")
 
 ```
 
@@ -194,7 +191,7 @@ st_prs_mdl <- read_csv('int/status_prs_results.csv') %>%
                               TRUE ~ est_text),
          term = ifelse(str_detect(term, '^prs'), 'pressures', term)) %>%
   select(-std.error, -statistic, -p.value, -intercept, -estimate,
-         -rsquared, -mae, -rmsesd, -rsquaredsd, -maesd) %>%
+         -rsquared, -mae) %>%
   spread(term, est_text) %>%
   clean_df_names() %>%
   select(-na)
