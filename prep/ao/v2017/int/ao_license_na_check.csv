@@ -1,77 +1,47 @@
 prefix,frequency,prefix_description,com_pct_of_nas
-L,8257,Halibut by Hook and Line,0.15415204241654842
-C,5882,Schedule II Species by Hook and Line,0.2639646030916287
-S,4797,Shrimp by Trawl,0.3535210215816593
-W,4517,Prawn and Shrimp by Trap,0.4378500485400642
-HG,3873,Herring Roe by Gill Net,0.51015607497573
-C0,3812,Schedule II Species,0.5813232768277201
-T,2867,Groundfish Trawl,0.6348480322604735
-D,2493,Packing,0.6813904861474125
-USA68,1485,Section 68 - Albacore Tuna in USA waters,0.7091143305204989
-CA,1206,Schedule II by Hook and Line - Special Issue,0.7316294526174296
-ZA,1026,Green Sea Urchin by Dive,0.7507841087297439
-CT,1021,Schedule II Species - Tuna,0.7698454185647077
-K,916,Sablefish by Longline or Trap,0.7869464565753118
-HS,876,Herring Roe by Seine,0.8033007243671122
-FL,773,Halibut by Hook and Line - Aboriginal,0.8177320588454933
-J,742,Herring Spawn on Kelp by Purse Seine,0.8315846464043014
-ZP,713,Octopus by Trap,0.8448958255544768
-ZY1,683,Herring Bait - Sport,0.8576469270405497
-EEZ,666,Foreign Fishing Vessel,0.8700806511836308
-FH,535,Herring Roe by Gill Net - Aboriginal,0.88006870286013
-ZX,424,Herring Bait,0.8879844671794489
-FW,401,Prawn and Shrimp by Trap - Aboriginal,0.8954708386229557
-G,362,Geoduck and Horse Clam by Dive,0.9022291091031289
-ZE,362,Opal Squid by Hook and Line or Seine,0.9089873795833022
-ZF,360,Euphausiid by Pelagic Trawl,0.9157083115525353
-ZS,358,Sardine by Seine,0.9223919050108281
-Z8,328,Smelt by Gill Net or Setnet,0.9285154208050183
-I,320,Import,0.9344895825554477
-ZSF,269,Pacific Sardine - Aboriginal,0.9395116122769024
-ZU,268,Eulachon by Gill Net,0.944514972742887
-ZG,252,Octopus by Dive,0.9492196251213502
-ZWO,235,"Oysters, Pacific",0.9536069001568217
-SEC68,216,"Section 68 - High Seas, in international waters",0.9576394593383616
-ZL,215,Surf & Pile Perch by Net,0.9616533492644314
-TA,205,Groundfish Trawl - Option A,0.9654805466358002
-AT,193,Salmon by Troll,0.9690837129415278
-Z6,164,Goose neck Barnacle,0.9721454708386229
-ZM,153,Herring Bait - Lottery,0.975001866925547
-ZR,133,Pink and Spiny Scallops by Trawl,0.9774848779030693
-ZI,123,Pink and Spiny Scallops by Dive,0.9797811963258906
-CS,118,Contaminated Shellfish,0.9819841684713614
-AG,105,Salmon by Gill Net,0.983944440295721
-ZK,95,Anchovy by Seine,0.9857180195653797
-ZY2,91,Herring Bait - Commercial,0.9874169218131581
-TB,78,Groundfish Trawl - Option B,0.9888731237398253
-ZY3,72,Herring Bait - Domestic Food,0.9902173101336719
-FJ,55,Herring Spawn on Kelpby Purse Seine - Aboriginal,0.9912441191845269
-FK,51,Sablefish by Longline or Trap - Aboriginal,0.9921962512135016
-CSO,47,Contaminated Shellfish,0.9930737062205959
-ZZA,45,Atlantic Salmon,0.9939138227167501
-AS,39,Salmon by Seine,0.9946419236800836
-FHS,33,Herring Roe by Seine - Aboriginal,0.9952580091105967
-ZY6,32,Herring Bait - Charity,0.9958554252856396
-YH,26,Export - Herring,0.996340825927862
-FS,24,Shrimp by Trawl - Aboriginal,0.9967888880591442
-YS,23,Export - Salmon,0.9972182809349563
-FC,21,Schedule II Species by Hook and Line - Aboriginal,0.9976103352998282
-ZY4,20,Herring Bait - Zoo/Aquarium,0.9979837204092301
-R,19,Crab by Trap,0.9983384362631619
-FG,18,Geoduck and Horse Clam by Dive - Aboriginal,0.9986744828616235
-FC0,17,Schedule II Species,0.9989918602046151
-FCA,16,Schedule II by Hook and Line - Special Issue - Aboriginal,0.9992905682921365
-FT,11,Groundfish Trawl - Aboriginal,0.9994959301023075
-Z,5,Herring,0.999589276379658
-ZZ,4,Transporting,0.9996639534015384
-FZS,3,Pacific Sardine - Aboriginal,0.9997199611679486
-Z9,3,Eulachon,0.9997759689343589
-FZA,2,NA,0.9998133074452991
-PR,2,Processing - Groundfish,0.9998506459562393
-ZY5,2,Herring Bait - Research,0.9998879844671794
-CSS,1,Contaminated Shellfish,0.9999066537226495
-FP,1,Shrimp by Trawl - Aboriginal - Processing,0.9999253229781196
-PD,1,Processing - Dogfish,0.9999439922335898
-PK,1,Processing - Skate,0.9999626614890598
-Z2,1,Clam by Hand Picking or Hand Digging,0.9999813307445299
+HG,3873,Herring Roe by Gill Net,0.18965770530336418
+C0,3812,Schedule II Species,0.3763282895059008
+USA68,1485,Section 68 - Albacore Tuna in USA waters,0.44904754909162137
+CA,1206,Schedule II by Hook and Line - Special Issue,0.5081044023309338
+ZA,1026,Green Sea Urchin by Dive,0.5583467998628863
+CT,1021,Schedule II Species - Tuna,0.6083443514029675
+HS,876,Herring Roe by Seine,0.6512413691787865
+J,742,Herring Spawn on Kelp by Purse Seine,0.6875765143724597
+ZP,713,Octopus by Trap,0.7224915528132805
+FH,535,Herring Roe by Gill Net - Aboriginal,0.7486900739434895
+ZX,424,Herring Bait,0.7694530140541599
+G,362,Geoduck and Horse Clam by Dive,0.7871798638656285
+ZE,362,Opal Squid by Hook and Line or Seine,0.8049067136770971
+ZF,360,Euphausiid by Pelagic Trawl,0.8225356250918172
+ZS,358,Sardine by Seine,0.8400665981097889
+Z8,328,Smelt by Gill Net or Setnet,0.856128495176534
+ZSF,269,Pacific Sardine - Aboriginal,0.8693012095391999
+ZU,268,Eulachon by Gill Net,0.8824249547034915
+ZG,252,Octopus by Dive,0.8947651926937956
+ZWO,235,"Oysters, Pacific",0.9062729543117379
+ZL,215,Surf & Pile Perch by Net,0.9168013319621958
+TA,205,Groundfish Trawl - Option A,0.9268400176289114
+AT,193,Salmon by Troll,0.9362910729151364
+Z6,164,Goose neck Barnacle,0.9443220214485089
+ZM,153,Herring Bait - Lottery,0.9518143087997649
+ZR,133,Pink and Spiny Scallops by Trawl,0.9583272121835366
+ZI,123,Pink and Spiny Scallops by Dive,0.9643504235835659
+AG,105,Salmon by Gill Net,0.9694921894128593
+ZK,95,Anchovy by Seine,0.9741442632584104
+ZY2,91,Herring Bait - Commercial,0.9786004603104648
+TB,78,Groundfish Trawl - Option B,0.982420057783654
+ZY3,72,Herring Bait - Domestic Food,0.9859458400665981
+FJ,55,Herring Spawn on Kelpby Purse Seine - Aboriginal,0.9886391459771804
+ZZA,45,Atlantic Salmon,0.9908427599040204
+AS,39,Salmon by Seine,0.9927525586406151
+FHS,33,Herring Roe by Seine - Aboriginal,0.9943685421869644
+ZY6,32,Herring Bait - Charity,0.9959355565349395
+R,19,Crab by Trap,0.9968659713040497
+FG,18,Geoduck and Horse Clam by Dive - Aboriginal,0.9977474168747857
+FC0,17,Schedule II Species,0.9985798932471476
+FCA,16,Schedule II by Hook and Line - Special Issue - Aboriginal,0.9993634004211351
+Z,5,Herring,0.9996082464130063
+FZS,3,Pacific Sardine - Aboriginal,0.9997551540081289
+Z9,3,Eulachon,0.9999020616032516
+Z2,1,Clam by Hand Picking or Hand Digging,0.9999510308016257
 Z2ACL,1,Clam by Hand Picking or Hand Digging - Aboriginal,1

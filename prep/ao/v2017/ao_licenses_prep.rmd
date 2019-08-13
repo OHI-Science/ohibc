@@ -118,7 +118,7 @@ if(!file.exists(lic_clean_file)) {
                                   licenses_raw[[tmp]])
   }
   
-  licenses_clean <- licenses_raw %>%
+  lic_processed <- licenses_raw %>%
     mutate(licence_prefix = ifelse(licence_prefix == 'ATBRF', 'FATBR', licence_prefix)) %>%
     left_join(metadata, by = c('licence_prefix' = 'prefix')) %>%
     mutate(lic_holder = ifelse(licence_holder_type == 'VESSEL',
@@ -138,9 +138,20 @@ if(!file.exists(lic_clean_file)) {
                                NA)) %>%
     mutate(year = licence_suffix,
            fn = str_detect(tolower(prefix_description), 'aborig|northern native|northernnative'),
-           fn = ifelse(is.na(fn), FALSE, fn)) %>%
+           fn = ifelse(is.na(fn), FALSE, fn),
+           area = ifelse(area == '', NA, area))
            # fn = ifelse(fn == FALSE, str_detect(tolower(licence_holder_type), 'aborig'), fn)) %>%
               ### This assignment removed - don't assign FN based on ownership, but designation
+  
+  area_fix_df <- read_csv(file.path(dir_goal, 'raw/license_na_lookup.csv'))
+    ### This was assembled by Karen Hunter based on license prefixes
+    ### with no area assigned
+  
+  lic_clean <- lic_processed %>%
+    left_join(area_fix_df, by = c('licence_prefix' = 'prefix')) %>%
+    mutate(area = ifelse(is.na(area), area_override, area)) %>%
+    filter(is.na(area) | area != 'remove') %>%
+      ### the is.na(area) keeps any undefined areas for now
     select(year, 
            lic_prefix = licence_prefix, 
            prefix_desc = prefix_description,
@@ -153,7 +164,7 @@ if(!file.exists(lic_clean_file)) {
            lic_holder, lic_oper, vessel_own,
            vessel_length_m = vessel_length_mr_)
   
-  write_csv(licenses_clean, lic_clean_file)
+  write_csv(lic_clean, lic_clean_file)
 } else {
   message('File exists: ', lic_clean_file)
   # git_prov(c(license_file, metadata_file), 'input')
@@ -403,6 +414,7 @@ check <- data.frame(table(lic_area_nas$lic_prefix)) %>%
   left_join(metadata, by = 'prefix') %>%
   arrange(desc(frequency)) %>%
   mutate(com_pct_of_nas = cumsum(frequency) / sum(frequency))
+  ### 20421 licenses still NA; was 53564
 write_csv(check, file.path(dir_goal, 'int/ao_license_na_check.csv'))
 
 ### For now assume NAs are unrestricted:
@@ -410,8 +422,7 @@ lic_clean <- read_csv(lic_clean_file,
                       col_types = cols(.default = 'c')) %>%
   mutate(year = as.integer(year),
          fn   = as.logical(fn),
-         area = tolower(area),
-         area = ifelse(is.na(area), 'bc coast wide', area))
+         area = tolower(area))
 
 lic_fn_by_rgn <- lic_clean %>%
   inner_join(lic_lookup_rgn, by = c('area' = 'lic_area')) %>%
