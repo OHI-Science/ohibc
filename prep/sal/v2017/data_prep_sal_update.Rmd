@@ -1,0 +1,154 @@
+---
+title: 'OHIBC data prep: Salmon'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohibc/src/templates/ohibc_hdr1.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+library(raster)
+library(sf)
+
+source('~/github/ohibc/src/R/common.R')  ### an OHIBC specific version of common.R
+
+scenario <- 'v2017'
+goal     <- 'sal'
+dir_git  <- path.expand('~/github/ohibc')
+dir_goal <- file.path(dir_git, 'prep', goal, scenario)
+dir_spatial <- file.path(dir_git, 'prep/_spatial')
+
+dir_data_bc  <- file.path(dir_M, 'git-annex/bcprep', '_raw_data')
+
+library(provRmd); prov_setup()
+
+reload <- FALSE
+
+
+```
+
+# Summary: OHIBC Salmon
+
+This script prepares layers Salmon sub-goals for food provision and First Nations Resource Access Opportunity in British Columbia's coastal regions.  
+
+-----
+
+# Data sources
+
+* DFO Salmon catch and escapement data
+
+-----
+
+# Methods
+
+## Extract catch and escapement info
+
+This is from Karen's cleaned salmon data spreadsheet.
+
+``` {r}
+
+salmon_cleaned_file <- file.path(dir_goal, 'int/salmon_data_cleaned.csv')
+
+
+salmon_xls  <- file.path(dir_data_bc, 'dfo_salmon/salmon_data_cleaned_KLH_Aug12.xlsx')
+
+salmon_df <- readxl::read_excel(salmon_xls) %>%
+  clean_df_names() %>%
+  filter(!is.na(stock)) %>%
+  transmute(year, 
+            stock, 
+            esc      = as.numeric(escapement),
+            esc_tgt  = as.numeric(escapement_target),
+            c_er     = as.numeric(realized_catch_or_exploitation_rate),
+            c_er_tgt = as.numeric(harvest_target_or_exploitation_rate)) %>%
+  group_by(stock) %>%
+  mutate(esc_avail = sum(!is.na(esc) & !is.na(esc_tgt)),
+         catch_avail = sum(!is.na(c_er) & !is.na(c_er_tgt))) %>%
+  ungroup()
+  
+write_csv(salmon_df, salmon_cleaned_file)
+
+```
+
+### Exclude stocks with inadequate data
+
+From the raw salmon data, we will include only stocks with at least five observations for (realized catch/expl rate AND harvest/expl rate target) and/or (escapement AND escapement target).  Stocks with neither will be dropped.
+
+``` {r identify stocks with inadequate data}
+
+salmon_data_df <- read_csv(salmon_cleaned_file)
+
+stocks_dropped <- salmon_data_df %>%
+  filter(esc_avail < 5 & catch_avail < 5) %>%
+  select(stock) %>% distinct()
+
+knitr::kable(stocks_dropped, caption = 'Stocks dropped due to inadequate data')
+
+```
+
+
+## Write output layers
+
+Output layers for `functions.R` will be simply the year, stock, E/Et, C/Ct; these will each be assigned equally across all regions.
+
+* `sal_catch.csv`
+* `sal_escapes.csv`
+* `ao_sal_catch.csv` is a dupe of `sal_catch` but treated as a separate layer in case of future changes that differentiate between FP and AO purposes.
+* `ao_sal_escapes.csv` is similarly a dupe of `sal_escapes`
+
+
+``` {r}
+
+stocks <- read_csv(file.path(dir_goal, 'int/salmon_data_cleaned.csv'))
+
+yrs <- stocks$year %>% unique() %>% sort()
+rgn_yrs <- data.frame(rgn_id = rep(c(1:6, 8), times = length(yrs)),
+                      year   = rep(yrs, each = 7))
+
+stock_layers <- stocks %>%
+  mutate(E_Et = (esc / esc_tgt) %>% round(5),
+         C_Ct = (c_er / c_er_tgt) %>% round(5),
+         C_Ct = ifelse(is.infinite(C_Ct), NA, C_Ct))
+
+catch_layer <- stock_layers %>%
+  filter(catch_avail >= 5) %>% 
+    ### arbitrary data quality threshold for keeping a stock
+  filter(!is.na(C_Ct)) %>%
+  select(year, stock, C_Ct) %>%
+  left_join(rgn_yrs, by = 'year')
+
+escapes_layer <- stock_layers %>%
+  filter(esc_avail >= 5) %>% 
+    ### arbitrary data quality threshold for keeping a stock
+  filter(!is.na(E_Et)) %>%
+  select(year, stock, E_Et) %>%
+  left_join(rgn_yrs, by = 'year')
+
+write_csv(catch_layer,   file.path(dir_goal, 'output', 'sal_catch.csv'))
+write_csv(escapes_layer, file.path(dir_goal, 'output', 'sal_escapes.csv'))
+write_csv(catch_layer,   file.path(dir_goal, 'output', 'ao_sal_catch.csv'))
+write_csv(escapes_layer, file.path(dir_goal, 'output', 'ao_sal_escapes.csv'))
+
+```
+
+-----
+
+``` {r provenance, results = 'asis'}
+
+prov_wrapup()
+
+```

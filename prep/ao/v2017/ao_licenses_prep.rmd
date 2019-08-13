@@ -44,7 +44,7 @@ p4s_bcalb <- c('bcalb' = '+init=epsg:3005')
 
 ```
 
-#Summary
+# Summary
 
 This data is incorporated into the OHI British Columbia First Nations Resource Access and Opportunities (AO) goal.
 
@@ -140,12 +140,11 @@ if(!file.exists(lic_clean_file)) {
            fn = str_detect(tolower(prefix_description), 'aborig|northern native|northernnative'),
            fn = ifelse(is.na(fn), FALSE, fn),
            area = ifelse(area == '', NA, area))
-           # fn = ifelse(fn == FALSE, str_detect(tolower(licence_holder_type), 'aborig'), fn)) %>%
-              ### This assignment removed - don't assign FN based on ownership, but designation
   
   area_fix_df <- read_csv(file.path(dir_goal, 'raw/license_na_lookup.csv'))
     ### This was assembled by Karen Hunter based on license prefixes
-    ### with no area assigned
+    ### with no area assigned - manually coded as "bc coast wide", "remove",
+    ### or left as NA for unknown.
   
   lic_clean <- lic_processed %>%
     left_join(area_fix_df, by = c('licence_prefix' = 'prefix')) %>%
