@@ -145,10 +145,22 @@ write_csv(escapes_layer, file.path(dir_goal, 'output', 'ao_sal_escapes.csv'))
 
 ```
 
+### Which stocks for which indicator?
+
+```{r}
+stock_by_indicator <- stock_layers %>%
+  select(stock, esc_avail, catch_avail) %>%
+  mutate(esc_avail = esc_avail >= 5,
+         catch_avail = catch_avail >= 5) %>%
+  distinct()
+
+knitr::kable(stock_by_indicator)
+```
+
 -----
 
 ``` {r provenance, results = 'asis'}
 
-prov_wrapup()
+prov_wrapup(commit_outputs = FALSE)
 
 ```

@@ -612,11 +612,12 @@ AO <- function(layers) {
   ### Function for converting E/E_target values into a 0 - 1 score
   calc_e_prime_ao <- function(E_Et) {
     c_v_e <- 0.6 ### Coefficient of variation of E/E_target
-    m_e1 <- 1 / c_v_e
+    m_e1  <- 1 / c_v_e
     e_0_1 <- 1 - m_e1
-    e_prime <- case_when(E_Et < 1.0 - c_v_e      ~ 0,
-                         E_Et < 1.0                ~ e_0_1 + m_e1 * E_Et,
-                         TRUE                      ~ NA_real_)
+    e_prime <- case_when(E_Et < (1.0 - c_v_e) ~ 0,
+                         E_Et < 1.0           ~ e_0_1 + m_e1 * E_Et,
+                         E_Et >= 1.0          ~ 1,
+                         TRUE                 ~ NA_real_)
   }
 
   # ### Function for converting C/C_target values into a 0 - 1 score

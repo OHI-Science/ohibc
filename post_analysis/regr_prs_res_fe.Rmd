@@ -210,8 +210,6 @@ names(goal_regr_list) <- goals
 
 # Define training control
 set.seed(123)
-k <- 5
-reps <- 5
 train_control <- trainControl(method = "LOOCV")
 
 

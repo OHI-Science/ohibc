@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Compiled on Tue Jul 2 14:29:05 2019 by ohara" />
+<meta name="author" content="Compiled on Tue Aug 13 19:22:51 2019 by ohara" />
 
 
 <title>OHIBC: model selection: causal chain model with fixed effects</title>
@@ -3989,7 +3989,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">OHIBC: model selection: causal chain model with fixed effects</h1>
-<h4 class="author"><em>Compiled on Tue Jul 2 14:29:05 2019 by ohara</em></h4>
+<h4 class="author"><em>Compiled on Tue Aug 13 19:22:51 2019 by ohara</em></h4>
 
 </div>
 
@@ -4009,73 +4009,77 @@ div.tocify {
 <a class="sourceLine" id="cb1-13" title="13"><span class="co"># library(provRmd); prov_setup()</span></a></code></pre></div>
 <div id="read-tables-from-regression-scripts" class="section level2">
 <h2><span class="header-section-number">0.1</span> read tables from regression scripts</h2>
+<p>Focus on models that omit ecological resilience - changes are too small, and driven by changes in global-scale assessments rather than local-scale assessments, so not likely to be an accurate predictor of changes in pressure.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">prs_res_mdl &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;tables/prs_res_results_fixed_effects_formatted_p.csv&#39;</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">is.na</span>(model_error)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>model_error)</a>
-<a class="sourceLine" id="cb2-4" title="4"></a>
-<a class="sourceLine" id="cb2-5" title="5">prs_mdl_sel &lt;-<span class="st"> </span>prs_res_mdl <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-6" title="6"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span><span class="kw">contains</span>(<span class="st">&#39;factor&#39;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="st">  </span><span class="kw">group_by</span>(goal, lag) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="st">  </span><span class="kw">filter</span>(aic <span class="op">==</span><span class="st"> </span><span class="kw">min</span>(aic, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-9" title="9"><span class="st">  </span><span class="kw">group_by</span>(goal) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-10" title="10"><span class="st">  </span><span class="kw">filter</span>(rmse <span class="op">==</span><span class="st"> </span><span class="kw">min</span>(rmse)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="st">  </span><span class="kw">ungroup</span>()</a>
-<a class="sourceLine" id="cb2-12" title="12"><span class="co">### note - the lm adj r squared ranks in same order as the cross val r squared</span></a>
-<a class="sourceLine" id="cb2-13" title="13"><span class="co">### and mae ranks the same &quot;best&quot; as rmse</span></a>
-<a class="sourceLine" id="cb2-14" title="14"></a>
-<a class="sourceLine" id="cb2-15" title="15">prs_table_clean &lt;-<span class="st"> </span>prs_mdl_sel <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-16" title="16"><span class="st">  </span><span class="kw">select</span>(goal, lag, adj_r_squared,</a>
-<a class="sourceLine" id="cb2-17" title="17">         intercept, res_ecol, res_reg, res_soc)</a>
-<a class="sourceLine" id="cb2-18" title="18"></a>
-<a class="sourceLine" id="cb2-19" title="19"><span class="kw">write_csv</span>(prs_table_clean, <span class="st">&#39;tables/prs_res_results_selected.csv&#39;</span>)</a>
-<a class="sourceLine" id="cb2-20" title="20"></a>
-<a class="sourceLine" id="cb2-21" title="21">DT<span class="op">::</span><span class="kw">datatable</span>(prs_table_clean <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate_if</span>(is.double, <span class="op">~</span><span class="kw">round</span>(., <span class="dv">4</span>)))</a></code></pre></div>
-<div id="htmlwidget-d7bbad654200d94770d0" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d7bbad654200d94770d0">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12"],["AO","CPP","CSS","CW","FIS","HAB","ICO","LSP","MAR","SAL","SPP","TR"],[1,1,1,1,1,1,1,1,1,1,1,1],[0.3184,0.6394,0.6394,0.1242,0.5089,0.2435,0.2177,0.316,0.6457,0.4469,0.4802,0.4958],["-0.0603°","0.4048*","0.4048*","-0.0014","-0.0438*","-0.0277","-0.0063","-0.0101","-0.0630**","0.0013","0.0124","-0.0227°"],[null,null,null,null,null,null,null,null,null,null,null,null],["-0.0715","-0.0795*","-0.0795*","0.0026","-0.2209*",null,null,null,null,"-0.1237°","-0.1494",null],[null,"-0.7165*","-0.7165*",null,null,null,null,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>goal<\/th>\n      <th>lag<\/th>\n      <th>adj_r_squared<\/th>\n      <th>intercept<\/th>\n      <th>res_ecol<\/th>\n      <th>res_reg<\/th>\n      <th>res_soc<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<a class="sourceLine" id="cb2-3" title="3"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>model_error) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">str_detect</span>(model, <span class="st">&#39;res_ecol&#39;</span>))</a>
+<a class="sourceLine" id="cb2-5" title="5">  </a>
+<a class="sourceLine" id="cb2-6" title="6"></a>
+<a class="sourceLine" id="cb2-7" title="7">prs_mdl_sel &lt;-<span class="st"> </span>prs_res_mdl <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span><span class="kw">contains</span>(<span class="st">&#39;factor&#39;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="st">  </span><span class="kw">select</span>(goal, lag, adj_r_squared,</a>
+<a class="sourceLine" id="cb2-10" title="10">         intercept, res_reg, res_soc, aicc, rmse) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="st">  </span><span class="kw">group_by</span>(goal, lag) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">aicc_diff    =</span> <span class="kw">round</span>(aicc <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(aicc), <span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb2-13" title="13">         <span class="dt">close_by_aicc =</span> <span class="kw">sum</span>(aicc_diff <span class="op">&lt;</span><span class="st"> </span><span class="dv">2</span>) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb2-14" title="14">         <span class="dt">rmse_diff    =</span> rmse <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(rmse), </a>
+<a class="sourceLine" id="cb2-15" title="15">         <span class="dt">close_by_rmse =</span> <span class="kw">sum</span>(rmse_diff <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.0025</span>) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-16" title="16"><span class="st">  </span><span class="kw">group_by</span>(goal) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-17" title="17"><span class="st">  </span><span class="kw">filter</span>(rmse <span class="op">==</span><span class="st"> </span><span class="kw">min</span>(rmse)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-18" title="18"><span class="st">  </span><span class="kw">ungroup</span>()</a>
+<a class="sourceLine" id="cb2-19" title="19"><span class="co">### note - the lm adj r squared ranks in same order as the cross val r squared</span></a>
+<a class="sourceLine" id="cb2-20" title="20"><span class="co">### and mae ranks the same &quot;best&quot; as rmse</span></a>
+<a class="sourceLine" id="cb2-21" title="21"></a>
+<a class="sourceLine" id="cb2-22" title="22">prs_table_clean &lt;-<span class="st"> </span>prs_mdl_sel <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-23" title="23"><span class="st">  </span><span class="kw">select</span>(goal, lag, adj_r_squared,</a>
+<a class="sourceLine" id="cb2-24" title="24">         intercept, res_reg, res_soc)</a>
+<a class="sourceLine" id="cb2-25" title="25"></a>
+<a class="sourceLine" id="cb2-26" title="26"><span class="kw">write_csv</span>(prs_table_clean, <span class="st">&#39;tables/prs_res_results_selected.csv&#39;</span>)</a>
+<a class="sourceLine" id="cb2-27" title="27"></a>
+<a class="sourceLine" id="cb2-28" title="28">DT<span class="op">::</span><span class="kw">datatable</span>(prs_table_clean <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate_if</span>(is.double, <span class="op">~</span><span class="kw">round</span>(., <span class="dv">4</span>)))</a></code></pre></div>
+<div id="htmlwidget-38550eb98b8bd2a88838" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-38550eb98b8bd2a88838">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13"],["AO","AQC","CPP","CSS","CW","CW","FIS","HAB","ICO","LSP","SAL","SPP","TR"],[1,1,1,1,1,1,1,1,1,1,1,1,1],[0.3295,0.611,0.6394,0.6394,0.1242,0.1242,0.5089,0.2435,0.2177,0.316,0.4469,0.4913,0.4958],["-0.2188","-0.0600**","0.4048*","0.4048*","-0.0014","0.0004","-0.0438*","-0.0277","-0.0063","-0.0101","0.0013","-0.0783","-0.0227°"],[null,null,"-0.0795*","-0.0795*","0.0026",null,"-0.2209*",null,null,null,"-0.1237°",null,null],["0.2381",null,"-0.7165*","-0.7165*",null,null,null,null,null,null,null,"0.0779",null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>goal<\/th>\n      <th>lag<\/th>\n      <th>adj_r_squared<\/th>\n      <th>intercept<\/th>\n      <th>res_reg<\/th>\n      <th>res_soc<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">status_prs_mdl &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;tables/status_prs_results_formatted_p.csv&#39;</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="st">  </span><span class="kw">filter</span>(model <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;prs_ecol_soc&#39;</span>, <span class="st">&#39;intercept only&#39;</span>)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-3" title="3"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">is.na</span>(model_error)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-4" title="4"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>model, <span class="op">-</span>model_error, <span class="op">-</span><span class="kw">contains</span>(<span class="st">&#39;factor&#39;</span>))</a>
 <a class="sourceLine" id="cb3-5" title="5"></a>
 <a class="sourceLine" id="cb3-6" title="6">status_mdl_sel &lt;-<span class="st"> </span>status_prs_mdl <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="st">  </span><span class="kw">group_by</span>(goal, lag) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-8" title="8"><span class="st">  </span><span class="kw">filter</span>(aic <span class="op">==</span><span class="st"> </span><span class="kw">min</span>(aic, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="st">  </span><span class="kw">group_by</span>(goal) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-10" title="10"><span class="st">  </span><span class="kw">filter</span>(rmse <span class="op">==</span><span class="st"> </span><span class="kw">min</span>(rmse)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-11" title="11"><span class="st">  </span><span class="kw">ungroup</span>()</a>
-<a class="sourceLine" id="cb3-12" title="12"><span class="co">### note - the lm adj r squared ranks in same order as the cross val r squared</span></a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="co">### and mae ranks the same &quot;best&quot; as rmse</span></a>
-<a class="sourceLine" id="cb3-14" title="14"></a>
-<a class="sourceLine" id="cb3-15" title="15">status_table_clean &lt;-<span class="st"> </span>status_mdl_sel <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-16" title="16"><span class="st">  </span><span class="kw">select</span>(goal, lag, adj_r_squared,</a>
-<a class="sourceLine" id="cb3-17" title="17">         intercept, pressures)</a>
-<a class="sourceLine" id="cb3-18" title="18"></a>
-<a class="sourceLine" id="cb3-19" title="19"><span class="kw">write_csv</span>(status_table_clean, <span class="st">&#39;tables/status_prs_results_ecol_soc_selected.csv&#39;</span>)</a>
-<a class="sourceLine" id="cb3-20" title="20">DT<span class="op">::</span><span class="kw">datatable</span>(status_table_clean <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate_if</span>(is.double, <span class="op">~</span><span class="kw">round</span>(., <span class="dv">4</span>)))</a></code></pre></div>
-<div id="htmlwidget-df6303a7ee38c5bd7cd1" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-df6303a7ee38c5bd7cd1">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11"],["AO","CPP","CSS","CW","FIS","HAB","LSP","SPP","TR","MAR","SAL"],[1,1,1,1,1,1,1,1,1,2,3],[0.8245,0.5397,0.5533,0.1517,0.076,0.0444,0.2105,0.7811,-0.0451,0.4325,1],["-0.0048","-0.0002","-0.0001","-0.0227*","-0.0699","0.0009","0.0792","-0.0007***","0.0024","-0.2589","-0.1356***"],[null,null,null,"0.0007*",null,null,null,null,null,null,"0.0000"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>goal<\/th>\n      <th>lag<\/th>\n      <th>adj_r_squared<\/th>\n      <th>intercept<\/th>\n      <th>pressures<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<a class="sourceLine" id="cb3-7" title="7"><span class="st">  </span><span class="kw">group_by</span>(goal) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="st">  </span><span class="kw">filter</span>(rmse <span class="op">==</span><span class="st"> </span><span class="kw">min</span>(rmse)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="st">  </span><span class="kw">ungroup</span>()</a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="co">### note - the lm adj r squared ranks in same order as the cross val r squared</span></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="co">### and mae ranks the same &quot;best&quot; as rmse</span></a>
+<a class="sourceLine" id="cb3-12" title="12"></a>
+<a class="sourceLine" id="cb3-13" title="13">status_table_clean &lt;-<span class="st"> </span>status_mdl_sel <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="st">  </span><span class="kw">select</span>(goal, lag, adj_r_squared,</a>
+<a class="sourceLine" id="cb3-15" title="15">         intercept, pressures)</a>
+<a class="sourceLine" id="cb3-16" title="16"></a>
+<a class="sourceLine" id="cb3-17" title="17"><span class="kw">write_csv</span>(status_table_clean, <span class="st">&#39;tables/status_prs_results_ecol_soc_selected.csv&#39;</span>)</a>
+<a class="sourceLine" id="cb3-18" title="18">DT<span class="op">::</span><span class="kw">datatable</span>(status_table_clean <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate_if</span>(is.double, <span class="op">~</span><span class="kw">round</span>(., <span class="dv">4</span>)))</a></code></pre></div>
+<div id="htmlwidget-efb9c51694726341b7c8" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-efb9c51694726341b7c8">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11"],["AO","CPP","CSS","CW","FIS","LSP","SPP","TR","AQC","SAL","HAB"],[1,1,1,1,1,1,1,1,2,2,4],[0.4857,0.5397,0.5533,0.1517,0.076,0.2105,0.7811,-0.0379,0.4325,1,0.252],["0.0006","-0.0002","-0.0001","-0.0227*","-0.0699","0.0792","-0.0007***","-0.4966","-0.2589","0.4682***","-0.0632*"],[null,null,null,"0.0007*",null,null,null,"0.0180",null,"0.0000","0.0063**"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>goal<\/th>\n      <th>lag<\/th>\n      <th>adj_r_squared<\/th>\n      <th>intercept<\/th>\n      <th>pressures<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">status_prs_mdl &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;tables/status_prs_results_formatted_p.csv&#39;</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb4-2" title="2"><span class="st">  </span><span class="kw">filter</span>(model <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;prs_ecol_only&#39;</span>, <span class="st">&#39;intercept only&#39;</span>)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb4-3" title="3"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">is.na</span>(model_error)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb4-4" title="4"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>model, <span class="op">-</span>model_error, <span class="op">-</span><span class="kw">contains</span>(<span class="st">&#39;factor&#39;</span>))</a>
 <a class="sourceLine" id="cb4-5" title="5"></a>
 <a class="sourceLine" id="cb4-6" title="6">status_mdl_sel &lt;-<span class="st"> </span>status_prs_mdl <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="st">  </span><span class="kw">group_by</span>(goal, lag) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="st">  </span><span class="kw">filter</span>(aic <span class="op">==</span><span class="st"> </span><span class="kw">min</span>(aic, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="st">  </span><span class="kw">group_by</span>(goal) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="st">  </span><span class="kw">filter</span>(rmse <span class="op">==</span><span class="st"> </span><span class="kw">min</span>(rmse)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="st">  </span><span class="kw">ungroup</span>()</a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">### note - the lm adj r squared ranks in same order as the cross val r squared</span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co">### and mae ranks the same &quot;best&quot; as rmse</span></a>
-<a class="sourceLine" id="cb4-14" title="14"></a>
-<a class="sourceLine" id="cb4-15" title="15">status_table_clean &lt;-<span class="st"> </span>status_mdl_sel <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-16" title="16"><span class="st">  </span><span class="kw">select</span>(goal, lag, adj_r_squared,</a>
-<a class="sourceLine" id="cb4-17" title="17">         intercept, pressures)</a>
-<a class="sourceLine" id="cb4-18" title="18"></a>
-<a class="sourceLine" id="cb4-19" title="19"><span class="kw">write_csv</span>(status_table_clean, <span class="st">&#39;tables/status_prs_results_ecol_only_selected.csv&#39;</span>)</a>
-<a class="sourceLine" id="cb4-20" title="20">DT<span class="op">::</span><span class="kw">datatable</span>(status_table_clean <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate_if</span>(is.double, <span class="op">~</span><span class="kw">round</span>(., <span class="dv">4</span>)))</a></code></pre></div>
-<div id="htmlwidget-0e7d0b4d821a3dd50f27" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0e7d0b4d821a3dd50f27">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11"],["AO","CPP","CSS","CW","FIS","HAB","LSP","SPP","TR","MAR","SAL"],[1,1,1,1,1,1,1,1,1,2,3],[0.8245,0.5824,0.5797,0.4227,0.076,0.0444,0.2105,0.7811,-0.0033,0.4325,1],["-0.0048","-0.0006°","-0.0001°","-0.0789***","-0.0699","0.0009","0.0792","-0.0007***","-0.4727","-0.2589","-0.1356***"],[null,"0.0001**","0.0000*","0.0025***",null,null,null,null,"0.0204",null,"0.0000°"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>goal<\/th>\n      <th>lag<\/th>\n      <th>adj_r_squared<\/th>\n      <th>intercept<\/th>\n      <th>pressures<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<a class="sourceLine" id="cb4-7" title="7"><span class="st">  </span><span class="kw">group_by</span>(goal) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="st">  </span><span class="kw">filter</span>(rmse <span class="op">==</span><span class="st"> </span><span class="kw">min</span>(rmse)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="st">  </span><span class="kw">ungroup</span>()</a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">### note - the lm adj r squared ranks in same order as the cross val r squared</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">### and mae ranks the same &quot;best&quot; as rmse</span></a>
+<a class="sourceLine" id="cb4-12" title="12"></a>
+<a class="sourceLine" id="cb4-13" title="13">status_table_clean &lt;-<span class="st"> </span>status_mdl_sel <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="st">  </span><span class="kw">select</span>(goal, lag, adj_r_squared,</a>
+<a class="sourceLine" id="cb4-15" title="15">         intercept, pressures)</a>
+<a class="sourceLine" id="cb4-16" title="16"></a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="kw">write_csv</span>(status_table_clean, <span class="st">&#39;tables/status_prs_results_ecol_only_selected.csv&#39;</span>)</a>
+<a class="sourceLine" id="cb4-18" title="18">DT<span class="op">::</span><span class="kw">datatable</span>(status_table_clean <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate_if</span>(is.double, <span class="op">~</span><span class="kw">round</span>(., <span class="dv">4</span>)))</a></code></pre></div>
+<div id="htmlwidget-e4a8609a1b1b9ae6292e" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e4a8609a1b1b9ae6292e">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11"],["AO","CPP","CSS","CW","FIS","LSP","SPP","TR","AQC","SAL","HAB"],[1,1,1,1,1,1,1,1,2,2,4],[0.4857,0.5824,0.5797,0.4227,0.076,0.2124,0.7811,-0.0451,0.4325,1,0.1951],["0.0006","-0.0006°","-0.0001°","-0.0789***","-0.0699","1.7810","-0.0007***","0.0024","-0.2589","0.4682***","0.0712"],[null,"0.0001**","0.0000*","0.0025***",null,"-0.0803",null,null,null,"0.0000","-0.0059"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>goal<\/th>\n      <th>lag<\/th>\n      <th>adj_r_squared<\/th>\n      <th>intercept<\/th>\n      <th>pressures<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 
 

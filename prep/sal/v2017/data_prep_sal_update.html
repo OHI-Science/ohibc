@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Compiled on Tue Aug 13 16:51:29 2019 by ohara" />
+<meta name="author" content="Compiled on Tue Aug 13 16:59:21 2019 by ohara" />
 
 
 <title>OHIBC data prep: Salmon</title>
@@ -3989,7 +3989,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">OHIBC data prep: Salmon</h1>
-<h4 class="author"><em>Compiled on Tue Aug 13 16:51:29 2019 by ohara</em></h4>
+<h4 class="author"><em>Compiled on Tue Aug 13 16:59:21 2019 by ohara</em></h4>
 
 </div>
 
@@ -4113,15 +4113,116 @@ div.tocify {
 <a class="sourceLine" id="cb4-27" title="27"><span class="kw">write_csv</span>(escapes_layer, <span class="kw">file.path</span>(dir_goal, <span class="st">&#39;output&#39;</span>, <span class="st">&#39;sal_escapes.csv&#39;</span>))</a>
 <a class="sourceLine" id="cb4-28" title="28"><span class="kw">write_csv</span>(catch_layer,   <span class="kw">file.path</span>(dir_goal, <span class="st">&#39;output&#39;</span>, <span class="st">&#39;ao_sal_catch.csv&#39;</span>))</a>
 <a class="sourceLine" id="cb4-29" title="29"><span class="kw">write_csv</span>(escapes_layer, <span class="kw">file.path</span>(dir_goal, <span class="st">&#39;output&#39;</span>, <span class="st">&#39;ao_sal_escapes.csv&#39;</span>))</a></code></pre></div>
+<div id="which-stocks-for-which-indicator" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Which stocks for which indicator?</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">stock_by_indicator &lt;-<span class="st"> </span>stock_layers <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="kw">select</span>(stock, esc_avail, catch_avail) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">esc_avail =</span> esc_avail <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb5-4" title="4">         <span class="dt">catch_avail =</span> catch_avail <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="st">  </span><span class="kw">distinct</span>()</a>
+<a class="sourceLine" id="cb5-6" title="6"></a>
+<a class="sourceLine" id="cb5-7" title="7">knitr<span class="op">::</span><span class="kw">kable</span>(stock_by_indicator)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">stock</th>
+<th align="left">esc_avail</th>
+<th align="left">catch_avail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CH AABM NC</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="left">CH AABM WCVI</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="left">FRS ES</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="left">FRS ESum</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="left">FRS Sum</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="left">FRS Late</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="left">Pink FR</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="left">S Stikine - Tahltan</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="left">S Stikine - Non-Tahltan</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td align="left">S Skeena</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="odd">
+<td align="left">Chum FR</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td align="left">Chum southern</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="left">Chum JS</td>
+<td align="left">FALSE</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="left">S WCVI</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="left">Pink 6</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td align="left">Coho inside F</td>
+<td align="left">TRUE</td>
+<td align="left">TRUE</td>
+</tr>
+</tbody>
+</table>
 <hr />
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">prov_wrapup</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">prov_wrapup</span>(<span class="dt">commit_outputs =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+</div>
 </div>
 </div>
 <div id="provenance" class="section level1">
 <h1><span class="header-section-number">4</span> Provenance</h1>
 <ul>
-<li><em>Run ID: 3 (4a12193); run tag: “standard run”</em></li>
-<li><em>Run elapsed time: 2.945 seconds; run memory usage: 43.6 MB</em></li>
+<li><em>Run ID: 4 (f54adf9); run tag: “standard run”</em></li>
+<li><em>Run elapsed time: 5.621 seconds; run memory usage: 34.6 MB</em></li>
 <li><em>System info: </em>
 <ul>
 <li><em>System: Linux, Release: 4.4.0-148-generic. Machine: x86_64. User: ohara.</em></li>
@@ -4184,45 +4285,45 @@ div.tocify {
 <title>
 6
 </title>
-<g id="a_node1"><a xlink:title="New commit: https://github.com/OHI-Science/ohibc/commit/ddf126b7471576e7d051d9be044e9fec7904b816"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="84" cy="-176.4" rx="18" ry="18"></ellipse> <text text-anchor="middle" x="84" y="-174.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">salmon_data_cleaned.csv</text> </a> </g> </g> <!-- 7 --> <g id="node2" class="node">
+<g id="a_node1"><a xlink:title="Previous commit: https://github.com/OHI-Science/ohibc/commit/ddf126b7471576e7d051d9be044e9fec7904b816"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="84" cy="-176.4" rx="18" ry="18"></ellipse> <text text-anchor="middle" x="84" y="-174.6" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">salmon_data_cleaned.csv</text> </a> </g> </g> <!-- 7 --> <g id="node2" class="node">
 <title>
 7
 </title>
-<g id="a_node2"><a xlink:title="New commit: https://github.com/OHI-Science/ohibc/commit/ddf126b7471576e7d051d9be044e9fec7904b816"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="18" cy="-18" rx="18" ry="18"></ellipse> <text text-anchor="middle" x="18" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">sal_catch.csv</text> </a> </g> </g> <!-- 8 --> <g id="node3" class="node">
+<g id="a_node2"><a xlink:title="Previous commit: https://github.com/OHI-Science/ohibc/commit/ddf126b7471576e7d051d9be044e9fec7904b816"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="18" cy="-18" rx="18" ry="18"></ellipse> <text text-anchor="middle" x="18" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">sal_catch.csv</text> </a> </g> </g> <!-- 8 --> <g id="node3" class="node">
 <title>
 8
 </title>
-<g id="a_node3"><a xlink:title="New commit: https://github.com/OHI-Science/ohibc/commit/ddf126b7471576e7d051d9be044e9fec7904b816"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="87" cy="-18" rx="18" ry="18"></ellipse> <text text-anchor="middle" x="87" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">sal_escapes.csv</text> </a> </g> </g> <!-- 9 --> <g id="node4" class="node">
+<g id="a_node3"><a xlink:title="Previous commit: https://github.com/OHI-Science/ohibc/commit/ddf126b7471576e7d051d9be044e9fec7904b816"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="87" cy="-18" rx="18" ry="18"></ellipse> <text text-anchor="middle" x="87" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">sal_escapes.csv</text> </a> </g> </g> <!-- 9 --> <g id="node4" class="node">
 <title>
 9
 </title>
-<g id="a_node4"><a xlink:title="New commit: https://github.com/OHI-Science/ohibc/commit/ddf126b7471576e7d051d9be044e9fec7904b816"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="156" cy="-18" rx="18" ry="18"></ellipse> <text text-anchor="middle" x="156" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">ao_sal_catch.csv</text> </a> </g> </g> <!-- 10 --> <g id="node5" class="node">
+<g id="a_node4"><a xlink:title="Previous commit: https://github.com/OHI-Science/ohibc/commit/ddf126b7471576e7d051d9be044e9fec7904b816"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="156" cy="-18" rx="18" ry="18"></ellipse> <text text-anchor="middle" x="156" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">ao_sal_catch.csv</text> </a> </g> </g> <!-- 10 --> <g id="node5" class="node">
 <title>
 10
 </title>
-<g id="a_node5"><a xlink:title="New commit: https://github.com/OHI-Science/ohibc/commit/ddf126b7471576e7d051d9be044e9fec7904b816"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="225" cy="-18" rx="18" ry="18"></ellipse> <text text-anchor="middle" x="225" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">ao_sal_escapes.csv</text> </a> </g> </g> <!-- 1 --> <g id="node6" class="node">
+<g id="a_node5"><a xlink:title="Previous commit: https://github.com/OHI-Science/ohibc/commit/ddf126b7471576e7d051d9be044e9fec7904b816"> <ellipse fill="#9ce68a" stroke="#6bb359" stroke-width="2" cx="225" cy="-18" rx="18" ry="18"></ellipse> <text text-anchor="middle" x="225" y="-16.2" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">ao_sal_escapes.csv</text> </a> </g> </g> <!-- 1 --> <g id="node6" class="node">
 <title>
 1
 </title>
-<g id="a_node6"><a xlink:title="no version control info found"> <polygon fill="#e6c18a" stroke="#ff0000" stroke-width="3" points="144,-352.8 108,-352.8 108,-316.8 144,-316.8 144,-352.8"></polygon> <text text-anchor="middle" x="126" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">data_prep_sal_update.Rmd</text> </a> </g> </g> <!-- 4 --> <g id="node7" class="node">
+<g id="a_node6"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/8f7e5294de05ac992e66b19395d871b0d82b9281"> <polygon fill="#e6c18a" stroke="#ffff00" stroke-width="3" points="144,-352.8 108,-352.8 108,-316.8 144,-316.8 144,-352.8"></polygon> <text text-anchor="middle" x="126" y="-333" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">data_prep_sal_update.Rmd</text> </a> </g> </g> <!-- 4 --> <g id="node7" class="node">
 <title>
 4
 </title>
-<g id="a_node7"><a xlink:title="no version control info found"> <polygon fill="#e6c18a" stroke="#ff0000" stroke-width="3" points="105,-273.6 69,-273.6 69,-237.6 105,-237.6 105,-273.6"></polygon> <text text-anchor="middle" x="87" y="-253.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">data_prep_sal_update.Rmd#unnamed-chunk-1</text> </a> </g> </g> <!-- 2 --> <g id="node8" class="node">
+<g id="a_node7"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/8f7e5294de05ac992e66b19395d871b0d82b9281"> <polygon fill="#e6c18a" stroke="#ffff00" stroke-width="3" points="105,-273.6 69,-273.6 69,-237.6 105,-237.6 105,-273.6"></polygon> <text text-anchor="middle" x="87" y="-253.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">data_prep_sal_update.Rmd#unnamed-chunk-1</text> </a> </g> </g> <!-- 2 --> <g id="node8" class="node">
 <title>
 2
 </title>
-<g id="a_node8"><a xlink:title="no version control info found"> <polygon fill="#e6c18a" stroke="#ff0000" stroke-width="3" points="78,-115.2 42,-115.2 42,-79.2 78,-79.2 78,-115.2"></polygon> <text text-anchor="middle" x="60" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">data_prep_sal_update.Rmd#identify_stocks_with_inadequate_data</text> </a> </g> </g> <!-- 5 --> <g id="node9" class="node">
+<g id="a_node8"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/8f7e5294de05ac992e66b19395d871b0d82b9281"> <polygon fill="#e6c18a" stroke="#ffff00" stroke-width="3" points="78,-115.2 42,-115.2 42,-79.2 78,-79.2 78,-115.2"></polygon> <text text-anchor="middle" x="60" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">data_prep_sal_update.Rmd#identify_stocks_with_inadequate_data</text> </a> </g> </g> <!-- 5 --> <g id="node9" class="node">
 <title>
 5
 </title>
-<g id="a_node9"><a xlink:title="no version control info found"> <polygon fill="#e6c18a" stroke="#ff0000" stroke-width="3" points="139,-115.2 103,-115.2 103,-79.2 139,-79.2 139,-115.2"></polygon> <text text-anchor="middle" x="121" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">data_prep_sal_update.Rmd#unnamed-chunk-2</text> </a> </g> </g> <!-- 3 --> <g id="node10" class="node">
+<g id="a_node9"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/8f7e5294de05ac992e66b19395d871b0d82b9281"> <polygon fill="#e6c18a" stroke="#ffff00" stroke-width="3" points="139,-115.2 103,-115.2 103,-79.2 139,-79.2 139,-115.2"></polygon> <text text-anchor="middle" x="121" y="-95.4" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">data_prep_sal_update.Rmd#unnamed-chunk-2</text> </a> </g> </g> <!-- 3 --> <g id="node10" class="node">
 <title>
 3
 </title>
-<p><g id="a_node10"><a xlink:title="no version control info found"> <polygon fill="#e6c18a" stroke="#ff0000" stroke-width="3" points="217,-273.6 181,-273.6 181,-237.6 217,-237.6 217,-273.6"></polygon> <text text-anchor="middle" x="199" y="-253.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">data_prep_sal_update.Rmd#provenance</text> </a> </g> </g> </g> </svg></p>
-<div id="htmlwidget-255147b85771966cee91" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-255147b85771966cee91">{"x":{"filter":"none","caption":"<caption>Provenance summary for run 3 (4a12193): standard run (Tue Aug 13 16:51:33 2019)<\/caption>","data":[[0,0,0,0,0,1,2,3,4,5,6,7],["data_prep_sal_update.Rmd","data_prep_sal_update.Rmd#identify_stocks_with_inadequate_data","data_prep_sal_update.Rmd#provenance","data_prep_sal_update.Rmd#unnamed-chunk-1","data_prep_sal_update.Rmd#unnamed-chunk-2","salmon_data_cleaned.csv","salmon_data_cleaned.csv","salmon_data_cleaned.csv","sal_catch.csv","sal_escapes.csv","ao_sal_catch.csv","ao_sal_escapes.csv"],["provenance","identify_stocks_with_inadequate_data","provenance","unnamed-chunk-1","unnamed-chunk-2","unnamed-chunk-1","identify_stocks_with_inadequate_data","unnamed-chunk-2","unnamed-chunk-2","unnamed-chunk-2","unnamed-chunk-2","unnamed-chunk-2"],["~/github/ohibc/prep/sal/v2017","~/github/ohibc/prep/sal/v2017","~/github/ohibc/prep/sal/v2017","~/github/ohibc/prep/sal/v2017","~/github/ohibc/prep/sal/v2017","~/github/ohibc/prep/sal/v2017/int","~/github/ohibc/prep/sal/v2017/int","~/github/ohibc/prep/sal/v2017/int","~/github/ohibc/prep/sal/v2017/output","~/github/ohibc/prep/sal/v2017/output","~/github/ohibc/prep/sal/v2017/output","~/github/ohibc/prep/sal/v2017/output"],["parent_script","parent_chunk","parent_chunk","parent_chunk","parent_chunk","output","input","input","output","output","output","output"],[null,null,null,null,null,false,false,false,false,false,false,false],[null,null,null,null,null,"ddf126b","ddf126b","ddf126b","ddf126b","ddf126b","ddf126b","ddf126b"]],"container":"<table class=\"stripe hover compact\">\n  <thead>\n    <tr>\n      <th>sequence<\/th>\n      <th>file_name<\/th>\n      <th>parent_chunk<\/th>\n      <th>file_dir<\/th>\n      <th>filetype<\/th>\n      <th>uncomm_chgs<\/th>\n      <th>commit_hash_short<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"tp","columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><g id="a_node10"><a xlink:title="https://github.com/OHI-Science/ohibc/commit/8f7e5294de05ac992e66b19395d871b0d82b9281"> <polygon fill="#e6c18a" stroke="#ffff00" stroke-width="3" points="217,-273.6 181,-273.6 181,-237.6 217,-237.6 217,-273.6"></polygon> <text text-anchor="middle" x="199" y="-253.8" font-family="Helvetica,sans-Serif" font-size="6.00" fill="#333333">data_prep_sal_update.Rmd#provenance</text> </a> </g> </g> </g> </svg></p>
+<div id="htmlwidget-341c097d323040dde6c9" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-341c097d323040dde6c9">{"x":{"filter":"none","caption":"<caption>Provenance summary for run 4 (f54adf9): standard run (Tue Aug 13 16:59:28 2019)<\/caption>","data":[[0,0,0,0,0,1,2,3,4,5,6,7],["data_prep_sal_update.Rmd","data_prep_sal_update.Rmd#identify_stocks_with_inadequate_data","data_prep_sal_update.Rmd#provenance","data_prep_sal_update.Rmd#unnamed-chunk-1","data_prep_sal_update.Rmd#unnamed-chunk-2","salmon_data_cleaned.csv","salmon_data_cleaned.csv","salmon_data_cleaned.csv","sal_catch.csv","sal_escapes.csv","ao_sal_catch.csv","ao_sal_escapes.csv"],["provenance","identify_stocks_with_inadequate_data","provenance","unnamed-chunk-1","unnamed-chunk-2","unnamed-chunk-1","identify_stocks_with_inadequate_data","unnamed-chunk-2","unnamed-chunk-2","unnamed-chunk-2","unnamed-chunk-2","unnamed-chunk-2"],["~/github/ohibc/prep/sal/v2017","~/github/ohibc/prep/sal/v2017","~/github/ohibc/prep/sal/v2017","~/github/ohibc/prep/sal/v2017","~/github/ohibc/prep/sal/v2017","~/github/ohibc/prep/sal/v2017/int","~/github/ohibc/prep/sal/v2017/int","~/github/ohibc/prep/sal/v2017/int","~/github/ohibc/prep/sal/v2017/output","~/github/ohibc/prep/sal/v2017/output","~/github/ohibc/prep/sal/v2017/output","~/github/ohibc/prep/sal/v2017/output"],["parent_script","parent_chunk","parent_chunk","parent_chunk","parent_chunk","output","input","input","output","output","output","output"],[true,true,true,true,true,false,false,false,false,false,false,false],["8f7e529","8f7e529","8f7e529","8f7e529","8f7e529","ddf126b","ddf126b","ddf126b","ddf126b","ddf126b","ddf126b","ddf126b"]],"container":"<table class=\"stripe hover compact\">\n  <thead>\n    <tr>\n      <th>sequence<\/th>\n      <th>file_name<\/th>\n      <th>parent_chunk<\/th>\n      <th>file_dir<\/th>\n      <th>filetype<\/th>\n      <th>uncomm_chgs<\/th>\n      <th>commit_hash_short<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"tp","columnDefs":[{"className":"dt-right","targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 
 
