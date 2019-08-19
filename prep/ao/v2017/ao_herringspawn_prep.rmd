@@ -51,12 +51,11 @@ This data is incorporated into the OHI British Columbia First Nations Resource A
 
 # Data Source
 
-* __Reference__: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
-* __Downloaded__: [date downloaded or received]
-* __Description__:  [e.g., surface aragonite state]
-* __Native data resolution__: [e.g., 1 degree, 30 m, etc.]   
-* __Time range__: [e.g., 1880-1899, monthly data provided for each year] 
-* __Format__:  [e.g. NetCDF]
+* Fisheries and Oceans Canada. Herring section spawn tables (1940-2016) Tableaux de Pontes de sections de hareng [Internet]. 2016 [cited 2019 Aug 19]. Available from: http://www.pac.dfo-mpo.gc.ca/science/species-especes/pelagic-pelagique/herring-hareng/herspawn/tabsbkm2-eng.html
+* __Description__:  Herring spawn index in herring sections
+* __Native data resolution__: DFO Herring section
+* __Time range__: 1940-2016 
+* __Format__:  text
 
 -----
 
