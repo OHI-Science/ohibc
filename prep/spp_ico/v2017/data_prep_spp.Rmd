@@ -214,7 +214,7 @@ if(!file.exists(am_spp_rgn_file) | reload) {
 ### collect IUCN species local to BC
 
 iucn_spp_cells_file <- file.path(dir_goal, 'int/iucn_spp_cells_bc.csv')
-iucn_spp_rgn_file <- file.path(dir_goal, 'int/iucn_spp_area_by_rgn.csv')
+iucn_spp_rgn_file   <- file.path(dir_goal, 'int/iucn_spp_area_by_rgn.csv')
 
 if(!file.exists(iucn_spp_rgn_file) | reload) {
   
@@ -429,7 +429,8 @@ cosewic_history <- cosewic_df %>%
   unnest(stat_hist) %>%
   mutate(year = str_extract(stat_hist, '[0-9]{4}') %>% as.integer(),
            ### get year
-         status_text = str_extract(stat_hist, paste(names(cosewic_risk_lookup), collapse = '|'))) %>%
+         status_text = str_extract(stat_hist, paste(names(cosewic_risk_lookup), 
+                                                    collapse = '|'))) %>%
            ### get text that matches one of the COSEWIC categories
   filter(stat_hist != '') %>%                  
     ### ditch empty lines
