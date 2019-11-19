@@ -31,6 +31,8 @@ $$X_{LSP} = frac{frac{pA_{CMPA}}{pA_{refCMPA}} + frac{pA_{CP}}{pA_{refCP}}}{2}$$
 
 *pA* = percent of area within the inland or offshore buffer; *CMPA* = coastal marine protected area (3nm offshore); *CP* = coastline protected (coastal watersheds inland); and *refCMPA* = *refCP* = 30% reference point for both measures.
 
-Future changes may incorporate other data sets and MaPP planning zones.
+For BC, these calculations include additional layers: Tribal Parks layer from West Coast Vancouver Island and MaPP Special Management Zones allocated to cultural/historic/First Nations use.
+
+This data prep script also prepares resilience layers for MPA coverage as % of 3 nm coastal zone and entire EEZ, including WDPA, Tribal Parks, and all MaPP zones except energy and aquaculture.
 
 

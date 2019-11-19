@@ -1,25 +1,86 @@
 dir,text_block_all,dir_short,internal_files,goal_dir,goal_name,goal_url
-/home/ohara/github/ohibc,"## 
+/home/ohara/github/ohibc,"## `st_area` testing
 
-* __Rmd file:__ no Rmd present 
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/st_area_test.Rmd 
 * __HTML file:__ no HTML present
 
 ### Summary:
 
-NA",,"* calc_ohibc/calc_scores_ohibc.html
-* calc_ohibc/calc_scores_ohibc.Rmd
-* calc_ohibc/plot_scores_ohibc.Rmd
+NA",,"* calc_ohibc/_calc_scores_ohibc.html
+* calc_ohibc/_calc_scores_ohibc.Rmd
+* calc_ohibc/explore/_plot_flowers.html
+* calc_ohibc/explore/_plot_flowers.Rmd
+* calc_ohibc/explore/_plot_prs_res.html
+* calc_ohibc/explore/_plot_prs_res.Rmd
+* calc_ohibc/explore/_plot_status_trend.html
+* calc_ohibc/explore/_plot_status_trend.Rmd
+* calc_ohibc/explore/_plot_status_vs_score.html
+* calc_ohibc/explore/_plot_status_vs_score.Rmd
+* calc_ohibc/explore/assemble_layers_info.html
+* calc_ohibc/explore/assemble_layers_info.Rmd
+* calc_ohibc/explore/plot_st_tr_prs_res.html
+* calc_ohibc/explore/plot_st_tr_prs_res.Rmd
 * calc_ohibc/prov/calc_scores_ohibc.Rmd_workflow.html
-* calc_ohibc/region2016/conf/goals.Rmd
-* calc_ohibc/region2017/conf/goals.Rmd
-* miscR/bcmca/1_bcmca_filenames.Rmd
-* miscR/bcmca/2_bcmca_shp_fixes.Rmd
-* miscR/bcmca/3_bcmca_rasterize.Rmd
-* miscR/bcmca/bcmca_filenames.html
-* miscR/rdme_gen/rdme_generator.html
-* miscR/rdme_gen/rdme_generator.Rmd
-* miscR/sf_vs_sp.html
-* miscR/sf_vs_sp.Rmd
+* post_analysis/model_selection.html
+* post_analysis/model_selection.Rmd
+* post_analysis/old_regr_causal_chain_re_fe_te.Rmd
+* post_analysis/old_regr_causal_chain.Rmd
+* post_analysis/regr_lfs_model.html
+* post_analysis/regr_lfs_model.Rmd
+* post_analysis/regr_prs_res_fe.html
+* post_analysis/regr_prs_res_fe.Rmd
+* post_analysis/regr_status_prs_fe.html
+* post_analysis/regr_status_prs_fe.Rmd
+* prep/_pressures/pressures_list.Rmd
+* prep/_pressures/v2017/fish_compare_saup_watson.html
+* prep/_pressures/v2017/fish_compare_saup_watson.Rmd
+* prep/_pressures/v2017/habitats/1_hab_zone_prep.Rmd
+* prep/_pressures/v2017/habitats/2_hab_layer_prep.Rmd
+* prep/_pressures/v2017/habitats/3_hab_layer_assemble.Rmd
+* prep/_pressures/v2017/habitats/bc_pres_hab.html
+* prep/_pressures/v2017/habitats/layer_prep_pressures_habs.html
+* prep/_pressures/v2017/pressures_alien_spp.html
+* prep/_pressures/v2017/pressures_alien_spp.Rmd
+* prep/_pressures/v2017/pressures_fishing_prep_old.html
+* prep/_pressures/v2017/pressures_fishing_prep_old.Rmd
+* prep/_pressures/v2017/pressures_fishing_prep.html
+* prep/_pressures/v2017/pressures_fishing_prep.Rmd
+* prep/_pressures/v2017/pressures_gen_escapes.html
+* prep/_pressures/v2017/pressures_gen_escapes.Rmd
+* prep/_pressures/v2017/pressures_hd_intertidal_prep.html
+* prep/_pressures/v2017/pressures_hd_intertidal_prep.Rmd
+* prep/_pressures/v2017/pressures_logging_prep.html
+* prep/_pressures/v2017/pressures_logging_prep.Rmd
+* prep/_pressures/v2017/pressures_oa_prep.html
+* prep/_pressures/v2017/pressures_oa_prep.Rmd
+* prep/_pressures/v2017/pressures_slr_prep.html
+* prep/_pressures/v2017/pressures_slr_prep.Rmd
+* prep/_pressures/v2017/pressures_sst_prep.html
+* prep/_pressures/v2017/pressures_sst_prep.Rmd
+* prep/_pressures/v2017/pressures_uv_prep.html
+* prep/_pressures/v2017/pressures_uv_prep.Rmd
+* prep/_pressures/v2017/prov/pressures_alien_spp.Rmd_workflow.html
+* prep/_pressures/v2017/prov/pressures_fishing_prep.Rmd_workflow.html
+* prep/_pressures/v2017/prov/pressures_gen_escapes.Rmd_workflow.html
+* prep/_pressures/v2017/prov/pressures_hd_intertidal_prep.Rmd_workflow.html
+* prep/_pressures/v2017/prov/pressures_logging_prep.Rmd_workflow.html
+* prep/_pressures/v2017/prov/pressures_oa_prep.Rmd_workflow.html
+* prep/_pressures/v2017/prov/pressures_pathogens.Rmd_workflow.html
+* prep/_pressures/v2017/prov/pressures_slr_prep.Rmd_workflow.html
+* prep/_pressures/v2017/prov/pressures_sst_prep.Rmd_workflow.html
+* prep/_pressures/v2017/prov/pressures_uv_prep.Rmd_workflow.html
+* prep/_resilience/v2017/data_prep_cwb.html
+* prep/_resilience/v2017/data_prep_cwb.Rmd
+* prep/_resilience/v2017/data_prep_fp_biomass_resilience.html
+* prep/_resilience/v2017/data_prep_fp_biomass_resilience.Rmd
+* prep/_resilience/v2017/data_prep_mapp_resilience.html
+* prep/_resilience/v2017/data_prep_mapp_resilience.Rmd
+* prep/_resilience/v2017/prov/data_prep_cwb.Rmd_workflow.html
+* prep/_resilience/v2017/prov/data_prep_fp_biomass_resilience.Rmd_workflow.html
+* prep/_resilience/v2017/prov/data_prep_mapp_resilience.Rmd_workflow.html
+* prep/_spatial/v2017/prov/spatial_layers_prep.Rmd_workflow.html
+* prep/_spatial/v2017/spatial_layers_prep.html
+* prep/_spatial/v2017/spatial_layers_prep.Rmd
 * prep/ao/v2017/ao_closures_prep.html
 * prep/ao/v2017/ao_closures_prep.rmd
 * prep/ao/v2017/ao_goal_est.html
@@ -31,68 +92,76 @@ NA",,"* calc_ohibc/calc_scores_ohibc.html
 * prep/ao/v2017/prov/ao_closures_prep.rmd_workflow.html
 * prep/ao/v2017/prov/ao_herringspawn_prep.rmd_workflow.html
 * prep/ao/v2017/prov/ao_licenses_prep.rmd_workflow.html
-* prep/cw/v2017/cw_chem_prep.html
-* prep/cw/v2017/cw_chem_prep.rmd
+* prep/cw/v2017/cw_chem_rast_prep.html
+* prep/cw/v2017/cw_chem_rast_prep.rmd
 * prep/cw/v2017/cw_goal_est.html
 * prep/cw/v2017/cw_goal_est.rmd
-* prep/cw/v2017/cw_nutrient_prep.html
-* prep/cw/v2017/cw_nutrient_prep.rmd
-* prep/cw/v2017/cw_pathogens.html
-* prep/cw/v2017/cw_pathogens.Rmd
-* prep/cw/v2017/cw_trash_prep.html
-* prep/cw/v2017/cw_trash_prep.rmd
+* prep/cw/v2017/cw_nutrient_rast_prep.html
+* prep/cw/v2017/cw_nutrient_rast_prep.rmd
+* prep/cw/v2017/cw_pathogens_prep.html
+* prep/cw/v2017/cw_pathogens_prep.Rmd
+* prep/cw/v2017/cw_trash_rast_prep.html
+* prep/cw/v2017/cw_trash_rast_prep.rmd
+* prep/cw/v2017/prov/cw_chem_rast_prep.rmd_workflow.html
 * prep/cw/v2017/prov/cw_closures_prep.rmd_workflow.html
 * prep/cw/v2017/prov/cw_goal_est.rmd_workflow.html
 * prep/cw/v2017/prov/cw_goal_prep.rmd_workflow.html
+* prep/cw/v2017/prov/cw_nutrient_rast_prep.rmd_workflow.html
+* prep/cw/v2017/prov/cw_pathogens_prep.Rmd_workflow.html
 * prep/cw/v2017/prov/cw_pathogens.Rmd_workflow.html
 * prep/cw/v2017/prov/cw_trash_prep.rmd_workflow.html
+* prep/cw/v2017/prov/cw_trash_rast_prep.rmd_workflow.html
+* prep/fis/calc_cmsy_bc_stocks_ja.html
+* prep/fis/calc_cmsy_bc_stocks_ja.Rmd
+* prep/fis/exploring_fis_scores_ja.html
+* prep/fis/exploring_fis_scores_ja.Rmd
+* prep/fis/hake_spatial_dist.Rmd
 * prep/fis/kobe/kobe.html
 * prep/fis/kobe/kobe.Rmd
 * prep/fis/v2017/1_data_prep_fis_ram.html
 * prep/fis/v2017/1_data_prep_fis_ram.Rmd
-* prep/fis/v2017/2_data_prep_fis_ram_spatial.html
-* prep/fis/v2017/2_data_prep_fis_ram_spatial.Rmd
-* prep/fis/v2017/3_plot_fis_scores.html
-* prep/fis/v2017/3_plot_fis_scores.Rmd
+* prep/fis/v2017/2_data_prep_fis_dfo.html
+* prep/fis/v2017/2_data_prep_fis_dfo.Rmd
+* prep/fis/v2017/3a_data_prep_fis_mar_sal_weighting.html
+* prep/fis/v2017/3a_data_prep_fis_mar_sal_weighting.Rmd
+* prep/fis/v2017/4_plot_fis_scores.html
+* prep/fis/v2017/4_plot_fis_scores.Rmd
+* prep/fis/v2017/archive/2_data_prep_fis_ram_spatial.html
+* prep/fis/v2017/archive/2_data_prep_fis_ram_spatial.Rmd
+* prep/fis/v2017/archive/3_data_prep_annual_catch_prop_assessed.html
+* prep/fis/v2017/archive/3_data_prep_annual_catch_prop_assessed.Rmd
+* prep/fis/v2017/archive/data_prep_fis_dfo.html
+* prep/fis/v2017/archive/data_prep_fis_dfo.Rmd
+* prep/fis/v2017/archive/data_prep_fis_ram_modeled.html
+* prep/fis/v2017/archive/data_prep_fis_saup.html
+* prep/fis/v2017/archive/data_prep_fis_spatial_old.Rmd
 * prep/fis/v2017/data_explore/bmax_explore_ram.html
 * prep/fis/v2017/data_explore/bmax_explore_ram.Rmd
 * prep/fis/v2017/data_explore/data_explore_fis_ram.html
 * prep/fis/v2017/data_explore/data_explore_fis_ram.Rmd
 * prep/fis/v2017/data_explore/data_explore_fis_saup.html
 * prep/fis/v2017/data_explore/data_explore_fis_saup.Rmd
-* prep/fis/v2017/data_prep_fis_dfo.html
-* prep/fis/v2017/data_prep_fis_dfo.Rmd
-* prep/fis/v2017/data_prep_fis_ram_modeled.html
-* prep/fis/v2017/data_prep_fis_saup.html
-* prep/fis/v2017/data_prep_fis_spatial_old.Rmd
 * prep/fis/v2017/old_scripts/prep_bmsy_csv.Rmd
 * prep/fis/v2017/old_scripts/prep_fish_spatial.Rmd
 * prep/fis/v2017/old_scripts/prep_mgmt_areas.Rmd
 * prep/fis/v2017/prov/1_data_prep_fis_ram.Rmd_workflow.html
-* prep/fis/v2017/prov/2a_plot_saup.Rmd_workflow.html
-* prep/fis/v2017/prov/2_data_prep_fis_ram_spatial.Rmd_workflow.html
-* prep/fis/v2017/prov/2_data_prep_fis_saup.Rmd_workflow.html
-* prep/fis/v2017/prov/3_data_prep_fis_ram_spatial.Rmd_workflow.html
-* prep/fis/v2017/prov/3_plot_fis_scores.Rmd_workflow.html
+* prep/fis/v2017/prov/2_data_prep_fis_dfo.Rmd_workflow.html
 * prep/fis/v2017/prov/4_plot_fis_scores.Rmd_workflow.html
-* prep/fis/v2017/prov/data_prep_fis_dfo.Rmd_workflow.html
-* prep/fis/v2017/prov/data_prep_fis_ram.Rmd_workflow.html
-* prep/fis/v2017/prov/data_prep_fis_saup.Rmd_workflow.html
-* prep/fis/v2017/x_data_prep_fis_saup.html
-* prep/fis/v2017/x_data_prep_fis_saup.Rmd
-* prep/fis/v2017/x_plot_saup.html
-* prep/fis/v2017/x_plot_saup.Rmd
 * prep/fis/vHS/data_prep_fis_hs.html
 * prep/fis/vHS/data_prep_fis_hs.Rmd
-* prep/hab_cs_cp/v2017/data_prep_hab_ebsa_sb.html
-* prep/hab_cs_cp/v2017/data_prep_hab_ebsa_sb.Rmd
-* prep/hab_cs_cp/v2017/data_prep_hab_sm_cf.html
-* prep/hab_cs_cp/v2017/data_prep_hab_sm_cf.Rmd
-* prep/hab_cs_cp/v2017/data_prep_landuse_rasters.Rmd
+* prep/hab_cs_cp/v2017/1_data_prep_landuse_rasters.html
+* prep/hab_cs_cp/v2017/1_data_prep_landuse_rasters.Rmd
+* prep/hab_cs_cp/v2017/2_data_prep_hab_sm_cf.html
+* prep/hab_cs_cp/v2017/2_data_prep_hab_sm_cf.Rmd
+* prep/hab_cs_cp/v2017/3_data_prep_hab_ebsa_sb.html
+* prep/hab_cs_cp/v2017/3_data_prep_hab_ebsa_sb.Rmd
 * prep/hab_cs_cp/v2017/goal_model_cp_cs.html
 * prep/hab_cs_cp/v2017/goal_model_cp_cs.Rmd
 * prep/hab_cs_cp/v2017/goal_model_hab.html
 * prep/hab_cs_cp/v2017/goal_model_hab.Rmd
+* prep/hab_cs_cp/v2017/prov/1_data_prep_landuse_rasters.Rmd_workflow.html
+* prep/hab_cs_cp/v2017/prov/2_data_prep_hab_sm_cf.Rmd_workflow.html
+* prep/hab_cs_cp/v2017/prov/3_data_prep_hab_ebsa_sb.Rmd_workflow.html
 * prep/hab_cs_cp/v2017/prov/data_prep_hab_ebsa_sb.Rmd_workflow.html
 * prep/hab_cs_cp/v2017/prov/data_prep_hab_sm_cf.Rmd_workflow.html
 * prep/hab_cs_cp/v2017/prov/goal_prep_cp_cs.Rmd_workflow.html
@@ -105,10 +174,6 @@ NA",,"* calc_ohibc/calc_scores_ohibc.html
 * prep/hab_cs_cp/vHS/goal_prep_cp_cs_hs.Rmd
 * prep/hab_cs_cp/vHS/goal_prep_hab_hs.html
 * prep/hab_cs_cp/vHS/goal_prep_hab_hs.Rmd
-* prep/le/v2017/data_prep_liv.html
-* prep/le/v2017/data_prep_liv.Rmd
-* prep/le/v2017/prov/data_prep_le.Rmd_workflow.html
-* prep/le/v2017/prov/data_prep_liv.Rmd_workflow.html
 * prep/lsp/v2017/data_prep_lsp.html
 * prep/lsp/v2017/data_prep_lsp.Rmd
 * prep/lsp/v2017/prov/data_prep_lsp.Rmd_workflow.html
@@ -116,35 +181,21 @@ NA",,"* calc_ohibc/calc_scores_ohibc.html
 * prep/lsp/vHS/goal_prep_lsp.html
 * prep/lsp/vHS/goal_prep_lsp.Rmd
 * prep/lsp/vHS/prov/goal_prep_lsp.Rmd_workflow.html
-* prep/mar/v2017/data_explore_mar.html
-* prep/mar/v2017/data_explore_mar.Rmd
+* prep/lv/v2017/data_prep_lv.html
+* prep/lv/v2017/data_prep_lv.Rmd
+* prep/lv/v2017/prov/data_prep_lv.Rmd_workflow.html
+* prep/mar/v2017/data_prep_aq_prs_res.html
+* prep/mar/v2017/data_prep_aq_prs_res.Rmd
 * prep/mar/v2017/data_prep_mar.html
 * prep/mar/v2017/data_prep_mar.Rmd
+* prep/mar/v2017/prov/data_prep_aq_prs_res.Rmd_workflow.html
 * prep/mar/v2017/prov/data_prep_mar.Rmd_workflow.html
-* prep/_pressures/pressures_list.Rmd
-* prep/_pressures/v2017/habitats/1_hab_zone_prep.Rmd
-* prep/_pressures/v2017/habitats/2_hab_layer_prep.Rmd
-* prep/_pressures/v2017/habitats/3_hab_layer_assemble.Rmd
-* prep/_pressures/v2017/habitats/bc_pres_hab.html
-* prep/_pressures/v2017/habitats/layer_prep_pressures_habs.html
-* prep/_pressures/v2017/pressures_alien_spp.html
-* prep/_pressures/v2017/pressures_alien_spp.Rmd
-* prep/_pressures/v2017/pressures_gen_escapes.html
-* prep/_pressures/v2017/pressures_gen_escapes.Rmd
-* prep/_pressures/v2017/pressures_oa_prep.html
-* prep/_pressures/v2017/pressures_oa_prep.Rmd
-* prep/_pressures/v2017/pressures_slr_prep.html
-* prep/_pressures/v2017/pressures_slr_prep.Rmd
-* prep/_pressures/v2017/pressures_sst_prep.html
-* prep/_pressures/v2017/pressures_sst_prep.Rmd
-* prep/_pressures/v2017/pressures_uv_prep.html
-* prep/_pressures/v2017/pressures_uv_prep.Rmd
-* prep/_pressures/v2017/prov/pressures_alien_spp.Rmd_workflow.html
-* prep/_pressures/v2017/prov/pressures_gen_escapes.Rmd_workflow.html
-* prep/_pressures/v2017/prov/pressures_oa_prep.Rmd_workflow.html
-* prep/_pressures/v2017/prov/pressures_pathogens.Rmd_workflow.html
-* prep/_pressures/v2017/prov/pressures_slr_prep.Rmd_workflow.html
-* prep/_pressures/v2017/prov/pressures_sst_prep.Rmd_workflow.html
+* prep/sal/v2017/data_prep_sal_old.html
+* prep/sal/v2017/data_prep_sal_old.Rmd
+* prep/sal/v2017/data_prep_sal_update.html
+* prep/sal/v2017/data_prep_sal_update.Rmd
+* prep/sal/v2017/prov/data_prep_sal_update.Rmd_workflow.html
+* prep/sal/v2017/prov/data_prep_sal.Rmd_workflow.html
 * prep/spp_ico/api_testing/api_scripts.Rmd
 * prep/spp_ico/iucn_to_ns.html
 * prep/spp_ico/iucn_to_ns.Rmd
@@ -171,14 +222,75 @@ NA",,"* calc_ohibc/calc_scores_ohibc.html
 * regionHoweSound/ohibc_howesound_2016.html
 * regionHoweSound/ohibc_howesound_2016.Rmd
 * regionHoweSound/prov/ohibc_howesound_2016.Rmd_workflow.html
+* src/miscR/bcmca/1_bcmca_filenames.Rmd
+* src/miscR/bcmca/2_bcmca_shp_fixes.Rmd
+* src/miscR/bcmca/3_bcmca_rasterize.Rmd
+* src/miscR/bcmca/bcmca_filenames.html
+* src/miscR/rdme_gen/rdme_generator.html
+* src/miscR/rdme_gen/rdme_generator.Rmd
+* src/miscR/sf_vs_sp.html
+* src/miscR/sf_vs_sp.Rmd
+* src/templates/ohibc_hdr.Rmd
 * src/templates/ohibc_hdr1.html
 * src/templates/ohibc_hdr2.html
-* src/templates/ohibc_hdr.Rmd
-* src/templates/template_for_rmd.Rmd",NA,NA,NA
+* src/templates/template_for_rmd.Rmd
+* st_area_test.Rmd",NA,NA,NA
 /home/ohara/github/ohibc/calc_ohibc,"## OHIBC: Calculate All Scores
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/calc_ohibc/calc_scores_ohibc.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/calc_ohibc/calc_scores_ohibc.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/calc_ohibc/_calc_scores_ohibc.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/calc_ohibc/_calc_scores_ohibc.html
+
+### Summary:
+
+NA",/calc_ohibc,"* _calc_scores_ohibc.html
+* _calc_scores_ohibc.Rmd
+* explore/_plot_flowers.html
+* explore/_plot_flowers.Rmd
+* explore/_plot_prs_res.html
+* explore/_plot_prs_res.Rmd
+* explore/_plot_status_trend.html
+* explore/_plot_status_trend.Rmd
+* explore/_plot_status_vs_score.html
+* explore/_plot_status_vs_score.Rmd
+* explore/assemble_layers_info.html
+* explore/assemble_layers_info.Rmd
+* explore/plot_st_tr_prs_res.html
+* explore/plot_st_tr_prs_res.Rmd
+* prov/calc_scores_ohibc.Rmd_workflow.html",NA,NA,NA
+/home/ohara/github/ohibc/calc_ohibc/conf,"## /calc_ohibc/conf
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/calc_ohibc/conf,,NA,NA,NA
+/home/ohara/github/ohibc/calc_ohibc/explore,"## OHIBC: Plot Scores
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/calc_ohibc/explore/_plot_flowers.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/calc_ohibc/explore/_plot_flowers.html
+
+### Summary:
+
+NA
+
+-----
+
+## OHIBC: Plot Pressures/Resilience
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/calc_ohibc/explore/_plot_prs_res.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/calc_ohibc/explore/_plot_prs_res.html
+
+### Summary:
+
+NA
+
+-----
+
+## OHIBC: Plot Status and Trend
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/calc_ohibc/explore/_plot_status_trend.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/calc_ohibc/explore/_plot_status_trend.html
 
 ### Summary:
 
@@ -188,25 +300,61 @@ NA
 
 ## OHIBC: Plot Scores
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/calc_ohibc/plot_scores_ohibc.Rmd 
-* __HTML file:__ no HTML present
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/calc_ohibc/explore/_plot_status_vs_score.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/calc_ohibc/explore/_plot_status_vs_score.html
 
 ### Summary:
 
-NA",/calc_ohibc,"* calc_scores_ohibc.html
-* calc_scores_ohibc.Rmd
-* plot_scores_ohibc.Rmd
-* prov/calc_scores_ohibc.Rmd_workflow.html
-* region2016/conf/goals.Rmd
-* region2017/conf/goals.Rmd",NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/conf,"## /calc_ohibc/conf
+NA
+
+-----
+
+## OHIBC: Layer check helper
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/calc_ohibc/explore/assemble_layers_info.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/calc_ohibc/explore/assemble_layers_info.html
+
+### Summary:
+
+Check layers used in toolbox (layers_files, layers_meta, layers_source, layers_targets) to make sure all layers are present and accounted for.
+
+-----
+
+## OHIBC: Plot Status, Trend, Pressures, Resilience
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/calc_ohibc/explore/plot_st_tr_prs_res.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/calc_ohibc/explore/plot_st_tr_prs_res.html
+
+### Summary:
+
+NA",/calc_ohibc/explore,"* _plot_flowers.html
+* _plot_flowers.Rmd
+* _plot_prs_res.html
+* _plot_prs_res.Rmd
+* _plot_status_trend.html
+* _plot_status_trend.Rmd
+* _plot_status_vs_score.html
+* _plot_status_vs_score.Rmd
+* assemble_layers_info.html
+* assemble_layers_info.Rmd
+* plot_st_tr_prs_res.html
+* plot_st_tr_prs_res.Rmd",NA,NA,NA
+/home/ohara/github/ohibc/calc_ohibc/explore/Figs,"## /calc_ohibc/explore/Figs
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
 
 ### Summary:
 
-NA",/calc_ohibc/conf,,NA,NA,NA
+NA",/calc_ohibc/explore/Figs,,NA,NA,NA
+/home/ohara/github/ohibc/calc_ohibc/explore/int,"## /calc_ohibc/explore/int
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/calc_ohibc/explore/int,,NA,NA,NA
 /home/ohara/github/ohibc/calc_ohibc/Figs,"## /calc_ohibc/Figs
 
 * __Rmd file:__ no Rmd present 
@@ -263,118 +411,38 @@ NA",/calc_ohibc/prov,* calc_scores_ohibc.Rmd_workflow.html,NA,NA,NA
 ### Summary:
 
 NA",/calc_ohibc/prov/calc_scores_ohibc.Rmd_workflow_files,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/region2016,"## /calc_ohibc/region2016
+/home/ohara/github/ohibc/calc_ohibc/shiny_bcscores,"## /calc_ohibc/shiny_bcscores
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
 
 ### Summary:
 
-NA",/calc_ohibc/region2016,* conf/goals.Rmd,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/region2016/conf,"## goals.Rmd
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/calc_ohibc/region2016/conf/goals.Rmd 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/calc_ohibc/region2016/conf,* goals.Rmd,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/region2016/layers,"## /calc_ohibc/region2016/layers
+NA",/calc_ohibc/shiny_bcscores,,NA,NA,NA
+/home/ohara/github/ohibc/calc_ohibc/shiny_bcscores/data,"## /calc_ohibc/shiny_bcscores/data
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
 
 ### Summary:
 
-NA",/calc_ohibc/region2016/layers,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/region2016/reports,"## /calc_ohibc/region2016/reports
+NA",/calc_ohibc/shiny_bcscores/data,,NA,NA,NA
+/home/ohara/github/ohibc/calc_ohibc/shiny_bcscores/pages,"## /calc_ohibc/shiny_bcscores/pages
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
 
 ### Summary:
 
-NA",/calc_ohibc/region2016/reports,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/region2016/spatial,"## /calc_ohibc/region2016/spatial
+NA",/calc_ohibc/shiny_bcscores/pages,,NA,NA,NA
+/home/ohara/github/ohibc/calc_ohibc/shiny_bcscores/rsconnect,"## /calc_ohibc/shiny_bcscores/rsconnect
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
 
 ### Summary:
 
-NA",/calc_ohibc/region2016/spatial,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/region2016/temp,"## /calc_ohibc/region2016/temp
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/calc_ohibc/region2016/temp,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/region2016/tmp,"## /calc_ohibc/region2016/tmp
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/calc_ohibc/region2016/tmp,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/region2017,"## /calc_ohibc/region2017
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/calc_ohibc/region2017,* conf/goals.Rmd,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/region2017/conf,"## goals.Rmd
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/calc_ohibc/region2017/conf/goals.Rmd 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/calc_ohibc/region2017/conf,* goals.Rmd,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/region2017/layers,"## /calc_ohibc/region2017/layers
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/calc_ohibc/region2017/layers,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/region2017/reports,"## /calc_ohibc/region2017/reports
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/calc_ohibc/region2017/reports,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/region2017/spatial,"## /calc_ohibc/region2017/spatial
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/calc_ohibc/region2017/spatial,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/region2017/temp,"## /calc_ohibc/region2017/temp
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/calc_ohibc/region2017/temp,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/region2017/tmp,"## /calc_ohibc/region2017/tmp
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/calc_ohibc/region2017/tmp,,NA,NA,NA
+NA",/calc_ohibc/shiny_bcscores/rsconnect,,NA,NA,NA
 /home/ohara/github/ohibc/calc_ohibc/spatial,"## /calc_ohibc/spatial
 
 * __Rmd file:__ no Rmd present 
@@ -383,41 +451,10 @@ NA",/calc_ohibc/region2017/tmp,,NA,NA,NA
 ### Summary:
 
 NA",/calc_ohibc/spatial,,NA,NA,NA
-/home/ohara/github/ohibc/Figs,"## /Figs
+/home/ohara/github/ohibc/post_analysis,"## OHIBC: model selection: causal chain model with fixed effects
 
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/Figs,,NA,NA,NA
-/home/ohara/github/ohibc/miscR,"## sf vs sp spatial packages
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/miscR/sf_vs_sp.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/miscR/sf_vs_sp.html
-
-### Summary:
-
-NA",/miscR,"* bcmca/1_bcmca_filenames.Rmd
-* bcmca/2_bcmca_shp_fixes.Rmd
-* bcmca/3_bcmca_rasterize.Rmd
-* bcmca/bcmca_filenames.html
-* rdme_gen/rdme_generator.html
-* rdme_gen/rdme_generator.Rmd
-* sf_vs_sp.html
-* sf_vs_sp.Rmd",NA,NA,NA
-/home/ohara/github/ohibc/miscR/aquamaps_testing,"## /miscR/aquamaps_testing
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/miscR/aquamaps_testing,,NA,NA,NA
-/home/ohara/github/ohibc/miscR/bcmca,"## bcmca_filenames.html
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/miscR/bcmca/bcmca_filenames.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/post_analysis/model_selection.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/post_analysis/model_selection.html
 
 ### Summary:
 
@@ -425,10 +462,10 @@ NA
 
 -----
 
-## BCMCA datasets: import, raster, display
+## OHIBC: Regress observed vs. predicted status
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/miscR/bcmca/1_bcmca_filenames.Rmd 
-* __HTML file:__ no HTML present
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/post_analysis/regr_lfs_model.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/post_analysis/regr_lfs_model.html
 
 ### Summary:
 
@@ -436,9 +473,31 @@ NA
 
 -----
 
-## BCMCA datasets: import, raster, display
+## OHIBC: Regression causal chain model with fixed effects: pressure vs resilience
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/miscR/bcmca/2_bcmca_shp_fixes.Rmd 
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/post_analysis/regr_prs_res_fe.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/post_analysis/regr_prs_res_fe.html
+
+### Summary:
+
+NA
+
+-----
+
+## OHIBC: Regression causal chain model with fixed effects: status vs pressure
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/post_analysis/regr_status_prs_fe.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/post_analysis/regr_status_prs_fe.html
+
+### Summary:
+
+NA
+
+-----
+
+## OHIBC: Regression causal chain model
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/post_analysis/old_regr_causal_chain_re_fe_te.Rmd 
 * __HTML file:__ no HTML present
 
 ### Summary:
@@ -447,50 +506,47 @@ NA
 
 -----
 
-## BCMCA datasets: import, raster, display
+## OHIBC: Regression causal chain model
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/miscR/bcmca/3_bcmca_rasterize.Rmd 
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/post_analysis/old_regr_causal_chain.Rmd 
 * __HTML file:__ no HTML present
 
 ### Summary:
 
-NA",/miscR/bcmca,"* 1_bcmca_filenames.Rmd
-* 2_bcmca_shp_fixes.Rmd
-* 3_bcmca_rasterize.Rmd
-* bcmca_filenames.html",NA,NA,NA
-/home/ohara/github/ohibc/miscR/bcmca/mod_layers,"## /miscR/bcmca/mod_layers
+NA",/post_analysis,"* model_selection.html
+* model_selection.Rmd
+* old_regr_causal_chain_re_fe_te.Rmd
+* old_regr_causal_chain.Rmd
+* regr_lfs_model.html
+* regr_lfs_model.Rmd
+* regr_prs_res_fe.html
+* regr_prs_res_fe.Rmd
+* regr_status_prs_fe.html
+* regr_status_prs_fe.Rmd",NA,NA,NA
+/home/ohara/github/ohibc/post_analysis/Figs,"## /post_analysis/Figs
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
 
 ### Summary:
 
-NA",/miscR/bcmca/mod_layers,,NA,NA,NA
-/home/ohara/github/ohibc/miscR/bcmca/prov,"## /miscR/bcmca/prov
+NA",/post_analysis/Figs,,NA,NA,NA
+/home/ohara/github/ohibc/post_analysis/int,"## /post_analysis/int
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
 
 ### Summary:
 
-NA",/miscR/bcmca/prov,,NA,NA,NA
-/home/ohara/github/ohibc/miscR/rdme_gen,"## OHIBC: readme.md generator
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/miscR/rdme_gen/rdme_generator.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/miscR/rdme_gen/rdme_generator.html
-
-### Summary:
-
-Walks through file structure of OHIBC and checks to see whether folders have a readme.  Eventually, will generate a readme for each folder based on a template.",/miscR/rdme_gen,"* rdme_generator.html
-* rdme_generator.Rmd",NA,NA,NA
-/home/ohara/github/ohibc/miscR/sf_sp_testing,"## /miscR/sf_sp_testing
+NA",/post_analysis/int,,NA,NA,NA
+/home/ohara/github/ohibc/post_analysis/tables,"## /post_analysis/tables
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
 
 ### Summary:
 
-NA",/miscR/sf_sp_testing,,NA,NA,NA
+NA",/post_analysis/tables,,NA,NA,NA
 /home/ohara/github/ohibc/prep,"## /prep
 
 * __Rmd file:__ no Rmd present 
@@ -498,7 +554,57 @@ NA",/miscR/sf_sp_testing,,NA,NA,NA
 
 ### Summary:
 
-NA",/prep,"* ao/v2017/ao_closures_prep.html
+NA",/prep,"* _pressures/pressures_list.Rmd
+* _pressures/v2017/fish_compare_saup_watson.html
+* _pressures/v2017/fish_compare_saup_watson.Rmd
+* _pressures/v2017/habitats/1_hab_zone_prep.Rmd
+* _pressures/v2017/habitats/2_hab_layer_prep.Rmd
+* _pressures/v2017/habitats/3_hab_layer_assemble.Rmd
+* _pressures/v2017/habitats/bc_pres_hab.html
+* _pressures/v2017/habitats/layer_prep_pressures_habs.html
+* _pressures/v2017/pressures_alien_spp.html
+* _pressures/v2017/pressures_alien_spp.Rmd
+* _pressures/v2017/pressures_fishing_prep_old.html
+* _pressures/v2017/pressures_fishing_prep_old.Rmd
+* _pressures/v2017/pressures_fishing_prep.html
+* _pressures/v2017/pressures_fishing_prep.Rmd
+* _pressures/v2017/pressures_gen_escapes.html
+* _pressures/v2017/pressures_gen_escapes.Rmd
+* _pressures/v2017/pressures_hd_intertidal_prep.html
+* _pressures/v2017/pressures_hd_intertidal_prep.Rmd
+* _pressures/v2017/pressures_logging_prep.html
+* _pressures/v2017/pressures_logging_prep.Rmd
+* _pressures/v2017/pressures_oa_prep.html
+* _pressures/v2017/pressures_oa_prep.Rmd
+* _pressures/v2017/pressures_slr_prep.html
+* _pressures/v2017/pressures_slr_prep.Rmd
+* _pressures/v2017/pressures_sst_prep.html
+* _pressures/v2017/pressures_sst_prep.Rmd
+* _pressures/v2017/pressures_uv_prep.html
+* _pressures/v2017/pressures_uv_prep.Rmd
+* _pressures/v2017/prov/pressures_alien_spp.Rmd_workflow.html
+* _pressures/v2017/prov/pressures_fishing_prep.Rmd_workflow.html
+* _pressures/v2017/prov/pressures_gen_escapes.Rmd_workflow.html
+* _pressures/v2017/prov/pressures_hd_intertidal_prep.Rmd_workflow.html
+* _pressures/v2017/prov/pressures_logging_prep.Rmd_workflow.html
+* _pressures/v2017/prov/pressures_oa_prep.Rmd_workflow.html
+* _pressures/v2017/prov/pressures_pathogens.Rmd_workflow.html
+* _pressures/v2017/prov/pressures_slr_prep.Rmd_workflow.html
+* _pressures/v2017/prov/pressures_sst_prep.Rmd_workflow.html
+* _pressures/v2017/prov/pressures_uv_prep.Rmd_workflow.html
+* _resilience/v2017/data_prep_cwb.html
+* _resilience/v2017/data_prep_cwb.Rmd
+* _resilience/v2017/data_prep_fp_biomass_resilience.html
+* _resilience/v2017/data_prep_fp_biomass_resilience.Rmd
+* _resilience/v2017/data_prep_mapp_resilience.html
+* _resilience/v2017/data_prep_mapp_resilience.Rmd
+* _resilience/v2017/prov/data_prep_cwb.Rmd_workflow.html
+* _resilience/v2017/prov/data_prep_fp_biomass_resilience.Rmd_workflow.html
+* _resilience/v2017/prov/data_prep_mapp_resilience.Rmd_workflow.html
+* _spatial/v2017/prov/spatial_layers_prep.Rmd_workflow.html
+* _spatial/v2017/spatial_layers_prep.html
+* _spatial/v2017/spatial_layers_prep.Rmd
+* ao/v2017/ao_closures_prep.html
 * ao/v2017/ao_closures_prep.rmd
 * ao/v2017/ao_goal_est.html
 * ao/v2017/ao_goal_est.Rmd
@@ -509,68 +615,76 @@ NA",/prep,"* ao/v2017/ao_closures_prep.html
 * ao/v2017/prov/ao_closures_prep.rmd_workflow.html
 * ao/v2017/prov/ao_herringspawn_prep.rmd_workflow.html
 * ao/v2017/prov/ao_licenses_prep.rmd_workflow.html
-* cw/v2017/cw_chem_prep.html
-* cw/v2017/cw_chem_prep.rmd
+* cw/v2017/cw_chem_rast_prep.html
+* cw/v2017/cw_chem_rast_prep.rmd
 * cw/v2017/cw_goal_est.html
 * cw/v2017/cw_goal_est.rmd
-* cw/v2017/cw_nutrient_prep.html
-* cw/v2017/cw_nutrient_prep.rmd
-* cw/v2017/cw_pathogens.html
-* cw/v2017/cw_pathogens.Rmd
-* cw/v2017/cw_trash_prep.html
-* cw/v2017/cw_trash_prep.rmd
+* cw/v2017/cw_nutrient_rast_prep.html
+* cw/v2017/cw_nutrient_rast_prep.rmd
+* cw/v2017/cw_pathogens_prep.html
+* cw/v2017/cw_pathogens_prep.Rmd
+* cw/v2017/cw_trash_rast_prep.html
+* cw/v2017/cw_trash_rast_prep.rmd
+* cw/v2017/prov/cw_chem_rast_prep.rmd_workflow.html
 * cw/v2017/prov/cw_closures_prep.rmd_workflow.html
 * cw/v2017/prov/cw_goal_est.rmd_workflow.html
 * cw/v2017/prov/cw_goal_prep.rmd_workflow.html
+* cw/v2017/prov/cw_nutrient_rast_prep.rmd_workflow.html
+* cw/v2017/prov/cw_pathogens_prep.Rmd_workflow.html
 * cw/v2017/prov/cw_pathogens.Rmd_workflow.html
 * cw/v2017/prov/cw_trash_prep.rmd_workflow.html
+* cw/v2017/prov/cw_trash_rast_prep.rmd_workflow.html
+* fis/calc_cmsy_bc_stocks_ja.html
+* fis/calc_cmsy_bc_stocks_ja.Rmd
+* fis/exploring_fis_scores_ja.html
+* fis/exploring_fis_scores_ja.Rmd
+* fis/hake_spatial_dist.Rmd
 * fis/kobe/kobe.html
 * fis/kobe/kobe.Rmd
 * fis/v2017/1_data_prep_fis_ram.html
 * fis/v2017/1_data_prep_fis_ram.Rmd
-* fis/v2017/2_data_prep_fis_ram_spatial.html
-* fis/v2017/2_data_prep_fis_ram_spatial.Rmd
-* fis/v2017/3_plot_fis_scores.html
-* fis/v2017/3_plot_fis_scores.Rmd
+* fis/v2017/2_data_prep_fis_dfo.html
+* fis/v2017/2_data_prep_fis_dfo.Rmd
+* fis/v2017/3a_data_prep_fis_mar_sal_weighting.html
+* fis/v2017/3a_data_prep_fis_mar_sal_weighting.Rmd
+* fis/v2017/4_plot_fis_scores.html
+* fis/v2017/4_plot_fis_scores.Rmd
+* fis/v2017/archive/2_data_prep_fis_ram_spatial.html
+* fis/v2017/archive/2_data_prep_fis_ram_spatial.Rmd
+* fis/v2017/archive/3_data_prep_annual_catch_prop_assessed.html
+* fis/v2017/archive/3_data_prep_annual_catch_prop_assessed.Rmd
+* fis/v2017/archive/data_prep_fis_dfo.html
+* fis/v2017/archive/data_prep_fis_dfo.Rmd
+* fis/v2017/archive/data_prep_fis_ram_modeled.html
+* fis/v2017/archive/data_prep_fis_saup.html
+* fis/v2017/archive/data_prep_fis_spatial_old.Rmd
 * fis/v2017/data_explore/bmax_explore_ram.html
 * fis/v2017/data_explore/bmax_explore_ram.Rmd
 * fis/v2017/data_explore/data_explore_fis_ram.html
 * fis/v2017/data_explore/data_explore_fis_ram.Rmd
 * fis/v2017/data_explore/data_explore_fis_saup.html
 * fis/v2017/data_explore/data_explore_fis_saup.Rmd
-* fis/v2017/data_prep_fis_dfo.html
-* fis/v2017/data_prep_fis_dfo.Rmd
-* fis/v2017/data_prep_fis_ram_modeled.html
-* fis/v2017/data_prep_fis_saup.html
-* fis/v2017/data_prep_fis_spatial_old.Rmd
 * fis/v2017/old_scripts/prep_bmsy_csv.Rmd
 * fis/v2017/old_scripts/prep_fish_spatial.Rmd
 * fis/v2017/old_scripts/prep_mgmt_areas.Rmd
 * fis/v2017/prov/1_data_prep_fis_ram.Rmd_workflow.html
-* fis/v2017/prov/2a_plot_saup.Rmd_workflow.html
-* fis/v2017/prov/2_data_prep_fis_ram_spatial.Rmd_workflow.html
-* fis/v2017/prov/2_data_prep_fis_saup.Rmd_workflow.html
-* fis/v2017/prov/3_data_prep_fis_ram_spatial.Rmd_workflow.html
-* fis/v2017/prov/3_plot_fis_scores.Rmd_workflow.html
+* fis/v2017/prov/2_data_prep_fis_dfo.Rmd_workflow.html
 * fis/v2017/prov/4_plot_fis_scores.Rmd_workflow.html
-* fis/v2017/prov/data_prep_fis_dfo.Rmd_workflow.html
-* fis/v2017/prov/data_prep_fis_ram.Rmd_workflow.html
-* fis/v2017/prov/data_prep_fis_saup.Rmd_workflow.html
-* fis/v2017/x_data_prep_fis_saup.html
-* fis/v2017/x_data_prep_fis_saup.Rmd
-* fis/v2017/x_plot_saup.html
-* fis/v2017/x_plot_saup.Rmd
 * fis/vHS/data_prep_fis_hs.html
 * fis/vHS/data_prep_fis_hs.Rmd
-* hab_cs_cp/v2017/data_prep_hab_ebsa_sb.html
-* hab_cs_cp/v2017/data_prep_hab_ebsa_sb.Rmd
-* hab_cs_cp/v2017/data_prep_hab_sm_cf.html
-* hab_cs_cp/v2017/data_prep_hab_sm_cf.Rmd
-* hab_cs_cp/v2017/data_prep_landuse_rasters.Rmd
+* hab_cs_cp/v2017/1_data_prep_landuse_rasters.html
+* hab_cs_cp/v2017/1_data_prep_landuse_rasters.Rmd
+* hab_cs_cp/v2017/2_data_prep_hab_sm_cf.html
+* hab_cs_cp/v2017/2_data_prep_hab_sm_cf.Rmd
+* hab_cs_cp/v2017/3_data_prep_hab_ebsa_sb.html
+* hab_cs_cp/v2017/3_data_prep_hab_ebsa_sb.Rmd
 * hab_cs_cp/v2017/goal_model_cp_cs.html
 * hab_cs_cp/v2017/goal_model_cp_cs.Rmd
 * hab_cs_cp/v2017/goal_model_hab.html
 * hab_cs_cp/v2017/goal_model_hab.Rmd
+* hab_cs_cp/v2017/prov/1_data_prep_landuse_rasters.Rmd_workflow.html
+* hab_cs_cp/v2017/prov/2_data_prep_hab_sm_cf.Rmd_workflow.html
+* hab_cs_cp/v2017/prov/3_data_prep_hab_ebsa_sb.Rmd_workflow.html
 * hab_cs_cp/v2017/prov/data_prep_hab_ebsa_sb.Rmd_workflow.html
 * hab_cs_cp/v2017/prov/data_prep_hab_sm_cf.Rmd_workflow.html
 * hab_cs_cp/v2017/prov/goal_prep_cp_cs.Rmd_workflow.html
@@ -583,10 +697,6 @@ NA",/prep,"* ao/v2017/ao_closures_prep.html
 * hab_cs_cp/vHS/goal_prep_cp_cs_hs.Rmd
 * hab_cs_cp/vHS/goal_prep_hab_hs.html
 * hab_cs_cp/vHS/goal_prep_hab_hs.Rmd
-* le/v2017/data_prep_liv.html
-* le/v2017/data_prep_liv.Rmd
-* le/v2017/prov/data_prep_le.Rmd_workflow.html
-* le/v2017/prov/data_prep_liv.Rmd_workflow.html
 * lsp/v2017/data_prep_lsp.html
 * lsp/v2017/data_prep_lsp.Rmd
 * lsp/v2017/prov/data_prep_lsp.Rmd_workflow.html
@@ -594,35 +704,21 @@ NA",/prep,"* ao/v2017/ao_closures_prep.html
 * lsp/vHS/goal_prep_lsp.html
 * lsp/vHS/goal_prep_lsp.Rmd
 * lsp/vHS/prov/goal_prep_lsp.Rmd_workflow.html
-* mar/v2017/data_explore_mar.html
-* mar/v2017/data_explore_mar.Rmd
+* lv/v2017/data_prep_lv.html
+* lv/v2017/data_prep_lv.Rmd
+* lv/v2017/prov/data_prep_lv.Rmd_workflow.html
+* mar/v2017/data_prep_aq_prs_res.html
+* mar/v2017/data_prep_aq_prs_res.Rmd
 * mar/v2017/data_prep_mar.html
 * mar/v2017/data_prep_mar.Rmd
+* mar/v2017/prov/data_prep_aq_prs_res.Rmd_workflow.html
 * mar/v2017/prov/data_prep_mar.Rmd_workflow.html
-* _pressures/pressures_list.Rmd
-* _pressures/v2017/habitats/1_hab_zone_prep.Rmd
-* _pressures/v2017/habitats/2_hab_layer_prep.Rmd
-* _pressures/v2017/habitats/3_hab_layer_assemble.Rmd
-* _pressures/v2017/habitats/bc_pres_hab.html
-* _pressures/v2017/habitats/layer_prep_pressures_habs.html
-* _pressures/v2017/pressures_alien_spp.html
-* _pressures/v2017/pressures_alien_spp.Rmd
-* _pressures/v2017/pressures_gen_escapes.html
-* _pressures/v2017/pressures_gen_escapes.Rmd
-* _pressures/v2017/pressures_oa_prep.html
-* _pressures/v2017/pressures_oa_prep.Rmd
-* _pressures/v2017/pressures_slr_prep.html
-* _pressures/v2017/pressures_slr_prep.Rmd
-* _pressures/v2017/pressures_sst_prep.html
-* _pressures/v2017/pressures_sst_prep.Rmd
-* _pressures/v2017/pressures_uv_prep.html
-* _pressures/v2017/pressures_uv_prep.Rmd
-* _pressures/v2017/prov/pressures_alien_spp.Rmd_workflow.html
-* _pressures/v2017/prov/pressures_gen_escapes.Rmd_workflow.html
-* _pressures/v2017/prov/pressures_oa_prep.Rmd_workflow.html
-* _pressures/v2017/prov/pressures_pathogens.Rmd_workflow.html
-* _pressures/v2017/prov/pressures_slr_prep.Rmd_workflow.html
-* _pressures/v2017/prov/pressures_sst_prep.Rmd_workflow.html
+* sal/v2017/data_prep_sal_old.html
+* sal/v2017/data_prep_sal_old.Rmd
+* sal/v2017/data_prep_sal_update.html
+* sal/v2017/data_prep_sal_update.Rmd
+* sal/v2017/prov/data_prep_sal_update.Rmd_workflow.html
+* sal/v2017/prov/data_prep_sal.Rmd_workflow.html
 * spp_ico/api_testing/api_scripts.Rmd
 * spp_ico/iucn_to_ns.html
 * spp_ico/iucn_to_ns.Rmd
@@ -646,6 +742,408 @@ NA",/prep,"* ao/v2017/ao_closures_prep.html
 * tr/v2017/data_prep_tr.html
 * tr/v2017/data_prep_tr.Rmd
 * tr/v2017/prov/data_prep_tr.Rmd_workflow.html",NA,NA,NA
+/home/ohara/github/ohibc/prep/_pressures,"## OHIBC: Pressures overview
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/pressures_list.Rmd 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/prep/_pressures,"* pressures_list.Rmd
+* v2017/fish_compare_saup_watson.html
+* v2017/fish_compare_saup_watson.Rmd
+* v2017/habitats/1_hab_zone_prep.Rmd
+* v2017/habitats/2_hab_layer_prep.Rmd
+* v2017/habitats/3_hab_layer_assemble.Rmd
+* v2017/habitats/bc_pres_hab.html
+* v2017/habitats/layer_prep_pressures_habs.html
+* v2017/pressures_alien_spp.html
+* v2017/pressures_alien_spp.Rmd
+* v2017/pressures_fishing_prep_old.html
+* v2017/pressures_fishing_prep_old.Rmd
+* v2017/pressures_fishing_prep.html
+* v2017/pressures_fishing_prep.Rmd
+* v2017/pressures_gen_escapes.html
+* v2017/pressures_gen_escapes.Rmd
+* v2017/pressures_hd_intertidal_prep.html
+* v2017/pressures_hd_intertidal_prep.Rmd
+* v2017/pressures_logging_prep.html
+* v2017/pressures_logging_prep.Rmd
+* v2017/pressures_oa_prep.html
+* v2017/pressures_oa_prep.Rmd
+* v2017/pressures_slr_prep.html
+* v2017/pressures_slr_prep.Rmd
+* v2017/pressures_sst_prep.html
+* v2017/pressures_sst_prep.Rmd
+* v2017/pressures_uv_prep.html
+* v2017/pressures_uv_prep.Rmd
+* v2017/prov/pressures_alien_spp.Rmd_workflow.html
+* v2017/prov/pressures_fishing_prep.Rmd_workflow.html
+* v2017/prov/pressures_gen_escapes.Rmd_workflow.html
+* v2017/prov/pressures_hd_intertidal_prep.Rmd_workflow.html
+* v2017/prov/pressures_logging_prep.Rmd_workflow.html
+* v2017/prov/pressures_oa_prep.Rmd_workflow.html
+* v2017/prov/pressures_pathogens.Rmd_workflow.html
+* v2017/prov/pressures_slr_prep.Rmd_workflow.html
+* v2017/prov/pressures_sst_prep.Rmd_workflow.html
+* v2017/prov/pressures_uv_prep.Rmd_workflow.html",_pressures,Pressures,http://ohi-science.org/goals
+/home/ohara/github/ohibc/prep/_pressures/v2017,"## Comparing Watson and SAUP data
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/fish_compare_saup_watson.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/fish_compare_saup_watson.html
+
+### Summary:
+
+NA
+
+-----
+
+## OHIBC: Alien Species Pressure layers prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_alien_spp.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_alien_spp.html
+
+### Summary:
+
+This pressure layer evaluates invasive species pressure on BC regions using the same method as OHI Global and California Current.  From Molnar (2008) data, we have data on the number of invasive species (and number of harmful invasives) found within each Marine Ecoregion of the World (MEOW) region.  For the global assessment and California Current, score is determined based on the proportion of invasives relative to the global maximum.  For OHIBC, we will instead use a species-by-species pressure based on three criteria: _invasive potential_, _ecological impact_, and _management difficulty_.  In Molnar 2008, each of these (as well as _scope_) is ranked on a 1 to 4 scale, with 1 being minimal and 4 being intense.  Invasive pressure of a species is a geometric mean (rescaled to max = 1) of these threat criteria:
+
+$$pressure_{spp} = P_{spp} = \frac{\prod_{T=1}^N(threat_T)^{1/N}}{4}$$
+where T is a threat criterion, N is number of threat criteria scores for that species (excluding NAs).
+
+Scores for each OHIBC region are the area-weighted total species pressure from each ecoregion present.  This assumes that invasive species are uniformly distributed throughout the ecoregion.
+
+$$X_{invasive} = \frac{\sum_{ecorgn=1}^{N}((\sum_{spp=1}^M P_{spp})  * A_{ecorgn})}{\sum_{ecorgn=1}^N A_{ecorgn}}$$
+where $N$ is the number of ecoregions falling within an OHIBC region; $M$ is the number of species found within that ecoregion; $P_{spp}$ is the pressure score for each species in the ecoregion; and $A_{rgn}$ is the area of the OHIBC region allocated to that ecoregion (so $\sum_{rgn=1}^NA_{ecorgn}$ becomes the total OHIBC region area).
+
+The data has no time scale.
+
+-----
+
+## OHIBC: Commercial Fishing Pressure layers prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_fishing_prep_old.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_fishing_prep_old.html
+
+### Summary:
+
+The commercial fishing pressure layers are created from spatialized catch by gear data provided by Watson (2017), and net primary production data from the Vertically Generalized Production Model [(VGPM)](http://www.science.oregonstate.edu/ocean.productivity/) as described in [Behrenfeld and Falkowski (1997)](http://www.science.oregonstate.edu/ocean.productivity/references/L&O%201997a.pdf).
+
+Two layers are created here, commercial fishing pressure from **high bycatch** gear and **low bycatch** gear. The raw spatial catch data provides information about species catch per cell along with information on the type of gear used. Each gear type was categorized into high and low bycatch gears based on the global Cumulative Human Impacts study (Halpern et al. 2008) and was done using [this script](https://github.com/OHI-Science/impact_acceleration/blob/master/stressors/comm_fish/watson_gear_matching.Rmd).
+
+The layers created here are derived from the layers used for the global OHI assessment. The main difference, aside from only using data within the BC region, is the decision to not log transform the values. When using the full global extent of the data in the global assessment, we log transform to account for skew. Since we are using this data at a much smaller scale, we have decided not to log transform.
+
+-----
+
+## OHIBC: Commercial Fishing Pressure layers prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_fishing_prep.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_fishing_prep.html
+
+### Summary:
+
+The commercial fishing pressure layers are created from spatialized catch by gear data provided by Watson (2017).
+
+Two layers are created here:
+
+1. __Landings__ - representing the pressure that targeted catch exerts on the system
+2. __Discards__ - representing the pressure that non-targeted catch exerts on the system
+
+The reference point used for each is 110% of the maximum catch rate (tons/km2) within each sub region found across the entire time series (1950 - 2014).
+
+-----
+
+## OHIBC: Genetic Escapes Pressure layers prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_gen_escapes.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_gen_escapes.html
+
+### Summary:
+
+This pressure layer calculates the pressure due to genetic escapes from aquaculture.  The Mariculture Sustatinability Index ranks aquaculture species in different regions with a score from 1-10 for potential for genetic pollution.  For OHIBC we will follow a similar method as OHI Global and CC, rescaling genetic escape pressure from 0-1 for each species and calculating a harvest-weighted average of genetic escape pressure for each region.
+
+$$pressure_{gen.escapes} = \frac{\sum_{spp=1}^N (MSI_{spp} * harvest_{spp})}{\sum_{spp=1}^N harvest_{spp}}$$
+
+The MSI scores are not time-dependent, but harvest data is reported annually.
+
+-----
+
+## OHIBC: Habitat Destruction Pressure layers prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_hd_intertidal_prep.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_hd_intertidal_prep.html
+
+### Summary:
+
+This script calculates potential for intertidal habitat destruction from trampling.  As a proxy for trampling damage we use the population density (based on census subdivisions) of the coastal area within 10 km of the shore.
+
+$$pressure_{hd.intertidal} = \frac{Pop_{10km}}{Area_{10km}}$$
+
+Much of this analysis is similar to the calculations for population densities calculated in the Clean Waters/Pathogens component.  However, since the regional boundaries are different (10 km buffer rather than entire inland region) we will simply recalculate.
+
+As an added bonus, it also copies over the HAB Soft Bottom Trawl layer over as a soft-bottom trawl habitat destruction layer.
+
+-----
+
+## OHIBC: Pressures for logging and mining
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_logging_prep.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_logging_prep.html
+
+### Summary:
+
+Generates pressures layers for logging activity.
+
+Also generates a layer for mining activity which will be set to zeros for all observations, but preserves a placeholder for future mining pressures.
+
+-----
+
+## OHIBC: Ocean Acidification Pressure layers prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_oa_prep.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_oa_prep.html
+
+### Summary:
+
+This layer will determine ocean acidification values from the global rate of change layers; these layers already scale OA pressures appropriately.  The rescaling is based on the changes in aragonite saturation state according to:
+
+$$\Delta \Omega_{year} = \frac{(\Omega_{base} - \Omega_{year})}{(\Omega_{base} - 1)}$$
+    
+In the global analysis, pressures for 2011-2016 are available with this rescaling; however, for this OHIBC analysis, we will begin with the global rasters for annual mean aragonite saturation state values, crop to BC, interpolate using inverse distance weighting, and then reproject to approx 1 km resolution (from CHI).
+
+-----
+
+## OHIBC: Sea Level Rise Pressure layers prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_slr_prep.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_slr_prep.html
+
+### Summary:
+
+There are two parts to creating this layer:
+  
+  1. Data prep to get raw data into the correct format:
+  
+    * If necessary, read .nc.gz files from aviso: ftp://ftp.aviso.altimetry.fr/global/delayed-time/grids/climatology/monthly_mean/
+    * unzip .gz files and then delete .gz 
+    * Read monthly mean sea level data as rasters
+
+  2. Creating the pressure layers for OHI Global:  
+  
+    * Clip all monthly rasters to the coast using a 3 nautical mile offshore buffer
+    * Calculate annual mean sea level anomaly rasters from monthly data
+    * Determine a reference point as the 99.99th quantile of the data across all years (1993 - 2015)
+    * Rescale values from 0 to 1 using the reference point
+    * Set to zero all negative values, indicating decreases in mean sea level
+    * Resample raster to ~ 1km2 and reproject to Molleweide
+
+This process is completed within the Global OHI 2017 prep script.  
+
+For OHIBC, we modify the OHI 2017 script to process the data within the BC region, in BC Albers projection, using a 1000 meter raster of the 3 nautical mile buffer.
+
+-----
+
+## OHIBC: Sea Surface Temperature Pressure layers prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_sst_prep.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_sst_prep.html
+
+### Summary:
+
+For OHI Global Assessments, we calculated a climatology from 1982-2012 per cell using weekly data from CorTAD. We then calculated the number of times a given cell's weekly SST was greater than the climatological mean for that week (an anomalous week: mean temp greater than historical mean + one standard deviation) and summed the number of anomalous weeks in a single year. The maximum value a cell could have is 52 which would mean that cell had anomalous SST temperatures for each week of the year.
+
+To account for annual variation, we look at Sea Surface Temperature anomalous weeks in 5 year periods, so the maximum value possible per cell is 260 anomalous weeks. To rescale the values from 0 to 1 we set a reference point. Previously, the reference point for SST has just been the maximum difference in anomalous weeks between the most recent time period and a historical reference period (1985-1989).
+
+This time we have decided to use a reference point that represents a regime shift. Once a given cell is anomalous for more than 50% of a five-year period, it has shifted into a new regime. All cells that have a value greater than 130 weeks (51% of a 5 year time period) are assigned a 1. The rest of the cells are scaled to this reference point by dividing by 130.
+
+-----
+
+## OHIBC: Ultraviolet Anomalies Pressure layers prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_uv_prep.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_uv_prep.html
+
+### Summary:
+
+For Global OHI 2017: 
+
+>the Ultraviolet Radiation pressure layer is generated from daily data on Local Noon Erythemal UV Irradiance (mW/m2) derived from satellite observations. 
+
+>1. Average the data for each week/year/cell  
+>2. For each week/year/cell, calculate the mean and sd, so each cell would have ~624 (12*52) values (2004-2016)  
+>3. Determine which of these were anomalous, defined as greater than the mean plus 1 standard deviation  
+>4. Sum weekly anomalies for each year/cell (for a total of 52 possible anomalies per year/cell)  
+>5. Calculate the total number of anomalies in the reference period (in our case, 2004-2009, for a total of 52*5 anomalies per cell) 
+>6. Calculate the total number of anomalies in the most recent 5 year period (2011-2015)    
+>7. then for each cell, get the difference between current anomalies and reference anomolies    
+>8. Rescale the data to be between 0-1 by using the 99.99th quantile as a reference point
+
+For OHIBC, we will use the global prepared data from steps 1-4, then clip to BC regions, interpolate to fill gaps, resample to OHIBC, and determine the pressure based on a reference point of 50% of weeks being higher than the climatological norms (mean + 1 standard deviation).  This 50% reference point represents a threshold to a ""new normal"" or a regime shift.  
+
+While reference point is based on a five-year mean, annual scores will be based on the year in question only.  We will calculate a score for all years, including the reference point years.",/prep/_pressures/v2017,"* fish_compare_saup_watson.html
+* fish_compare_saup_watson.Rmd
+* habitats/1_hab_zone_prep.Rmd
+* habitats/2_hab_layer_prep.Rmd
+* habitats/3_hab_layer_assemble.Rmd
+* habitats/bc_pres_hab.html
+* habitats/layer_prep_pressures_habs.html
+* pressures_alien_spp.html
+* pressures_alien_spp.Rmd
+* pressures_fishing_prep_old.html
+* pressures_fishing_prep_old.Rmd
+* pressures_fishing_prep.html
+* pressures_fishing_prep.Rmd
+* pressures_gen_escapes.html
+* pressures_gen_escapes.Rmd
+* pressures_hd_intertidal_prep.html
+* pressures_hd_intertidal_prep.Rmd
+* pressures_logging_prep.html
+* pressures_logging_prep.Rmd
+* pressures_oa_prep.html
+* pressures_oa_prep.Rmd
+* pressures_slr_prep.html
+* pressures_slr_prep.Rmd
+* pressures_sst_prep.html
+* pressures_sst_prep.Rmd
+* pressures_uv_prep.html
+* pressures_uv_prep.Rmd
+* prov/pressures_alien_spp.Rmd_workflow.html
+* prov/pressures_fishing_prep.Rmd_workflow.html
+* prov/pressures_gen_escapes.Rmd_workflow.html
+* prov/pressures_hd_intertidal_prep.Rmd_workflow.html
+* prov/pressures_logging_prep.Rmd_workflow.html
+* prov/pressures_oa_prep.Rmd_workflow.html
+* prov/pressures_pathogens.Rmd_workflow.html
+* prov/pressures_slr_prep.Rmd_workflow.html
+* prov/pressures_sst_prep.Rmd_workflow.html
+* prov/pressures_uv_prep.Rmd_workflow.html",_pressures,Pressures,http://ohi-science.org/goals
+/home/ohara/github/ohibc/prep/_resilience,"## /prep/_resilience
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/prep/_resilience,"* v2017/data_prep_cwb.html
+* v2017/data_prep_cwb.Rmd
+* v2017/data_prep_fp_biomass_resilience.html
+* v2017/data_prep_fp_biomass_resilience.Rmd
+* v2017/data_prep_mapp_resilience.html
+* v2017/data_prep_mapp_resilience.Rmd
+* v2017/prov/data_prep_cwb.Rmd_workflow.html
+* v2017/prov/data_prep_fp_biomass_resilience.Rmd_workflow.html
+* v2017/prov/data_prep_mapp_resilience.Rmd_workflow.html",_resilience,Resilience,http://ohi-science.org/goals
+/home/ohara/github/ohibc/prep/_resilience/v2017,"## OHIBC: Resilience - Community Well Being Index prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_resilience/v2017/data_prep_cwb.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_resilience/v2017/data_prep_cwb.html
+
+### Summary:
+
+This pressure layer calculates the social resilience of communities based on the Community Well-Being Index.  Here we calculate resilience scores for each of the four components (income, education, housing, and labor force activity) as well as the composite CWB.  We calculate this for overall population (non-indigenous and First Nations combined) and First Nations, using an area-weighted mean of scores by census district. 
+
+$$resilience_{rgn} = \frac{\sum_{i=1}^N (CWB_{csd} * pop_{csd})}{\sum_{i=1}^N pop_{csd}}$$
+
+where $CWB_{csd}$ is the CWB score (component or total) for each of $N$ census subdivisions within the OHIBC region, and pop_{csd} is the portion of the population of that CSD within the OHIBC region.
+
+-----
+
+## OHIBC: Resilience - Food provision biomass removal resilience prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_resilience/v2017/data_prep_fp_biomass_resilience.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_resilience/v2017/data_prep_fp_biomass_resilience.html
+
+### Summary:
+
+This script prepares a resilience layer based upon the presence, effectiveness, and compliance with fishing management regulations.  As in several other resilience layers, it is a geometric mean of three components: 
+
+$$resilience = \sqrt[3]{reg.presence \times reg.effectiveness \times reg.compliance}$$
+
+UPDATE: now we simply give credit for 1/3, 1/3, 1/3 for each of these components.  If a component is missing, no credit is due.  If a component is not binary, its 1/3 will be scaled according to a proportionality metric.
+
+$$resilience = \frac{reg.presence + reg.effectiveness + reg.compliance}{3}$$
+
+-----
+
+## OHIBC: Resilience - MaPP social resilience
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_resilience/v2017/data_prep_mapp_resilience.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_resilience/v2017/data_prep_mapp_resilience.html
+
+### Summary:
+
+This layer calculates social resilience based on the MaPP process.  
+
+$$resilience_{rgn} = \mathbb{1}_{rgn \in MaPP} \times \frac{process + enforcement + compliance}{3}$$
+
+From the start of the MaPP process, each region within MaPP will receive a resilience score of 1/3.  Enforcement and compliance would begin to contribute to the score once the MaPP plans are released in 2015, but since only two of the three parties (First Nations, province, but not DFO) each region will receive only partial credit.",/prep/_resilience/v2017,"* data_prep_cwb.html
+* data_prep_cwb.Rmd
+* data_prep_fp_biomass_resilience.html
+* data_prep_fp_biomass_resilience.Rmd
+* data_prep_mapp_resilience.html
+* data_prep_mapp_resilience.Rmd
+* prov/data_prep_cwb.Rmd_workflow.html
+* prov/data_prep_fp_biomass_resilience.Rmd_workflow.html
+* prov/data_prep_mapp_resilience.Rmd_workflow.html",_resilience,Resilience,http://ohi-science.org/goals
+/home/ohara/github/ohibc/prep/_spatial,"## /prep/_spatial
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/prep/_spatial,"* v2017/prov/spatial_layers_prep.Rmd_workflow.html
+* v2017/spatial_layers_prep.html
+* v2017/spatial_layers_prep.Rmd",_spatial,NA,NA
+/home/ohara/github/ohibc/prep/_spatial/_img,"## /prep/_spatial/_img
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/prep/_spatial/_img,,_spatial,NA,NA
+/home/ohara/github/ohibc/prep/_spatial/howe_sound,"## /prep/_spatial/howe_sound
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/prep/_spatial/howe_sound,,_spatial,NA,NA
+/home/ohara/github/ohibc/prep/_spatial/raster,"## /prep/_spatial/raster
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/prep/_spatial/raster,,_spatial,NA,NA
+/home/ohara/github/ohibc/prep/_spatial/simple,"## /prep/_spatial/simple
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/prep/_spatial/simple,,_spatial,NA,NA
+/home/ohara/github/ohibc/prep/_spatial/v2017,"## OHIBC: Prep spatial layers for toolbox
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_spatial/v2017/spatial_layers_prep.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_spatial/v2017/spatial_layers_prep.html
+
+### Summary:
+
+Prep rgn_labels and rgn_areas layers for toolbox",/prep/_spatial/v2017,"* prov/spatial_layers_prep.Rmd_workflow.html
+* spatial_layers_prep.html
+* spatial_layers_prep.Rmd",_spatial,NA,NA
+/home/ohara/github/ohibc/prep/_spatial/watershed,"## /prep/_spatial/watershed
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/prep/_spatial/watershed,,_spatial,NA,NA
 /home/ohara/github/ohibc/prep/ao,"## /prep/ao
 
 * __Rmd file:__ no Rmd present 
@@ -722,31 +1220,35 @@ This data is incorporated into the OHI British Columbia First Nations Resource A
 
 ### Summary:
 
-NA",/prep/cw,"* v2017/cw_chem_prep.html
-* v2017/cw_chem_prep.rmd
+NA",/prep/cw,"* v2017/cw_chem_rast_prep.html
+* v2017/cw_chem_rast_prep.rmd
 * v2017/cw_goal_est.html
 * v2017/cw_goal_est.rmd
-* v2017/cw_nutrient_prep.html
-* v2017/cw_nutrient_prep.rmd
-* v2017/cw_pathogens.html
-* v2017/cw_pathogens.Rmd
-* v2017/cw_trash_prep.html
-* v2017/cw_trash_prep.rmd
+* v2017/cw_nutrient_rast_prep.html
+* v2017/cw_nutrient_rast_prep.rmd
+* v2017/cw_pathogens_prep.html
+* v2017/cw_pathogens_prep.Rmd
+* v2017/cw_trash_rast_prep.html
+* v2017/cw_trash_rast_prep.rmd
+* v2017/prov/cw_chem_rast_prep.rmd_workflow.html
 * v2017/prov/cw_closures_prep.rmd_workflow.html
 * v2017/prov/cw_goal_est.rmd_workflow.html
 * v2017/prov/cw_goal_prep.rmd_workflow.html
+* v2017/prov/cw_nutrient_rast_prep.rmd_workflow.html
+* v2017/prov/cw_pathogens_prep.Rmd_workflow.html
 * v2017/prov/cw_pathogens.Rmd_workflow.html
-* v2017/prov/cw_trash_prep.rmd_workflow.html",cw,Clean Waters,http://ohi-science.org/goals/#clean-waters
+* v2017/prov/cw_trash_prep.rmd_workflow.html
+* v2017/prov/cw_trash_rast_prep.rmd_workflow.html",cw,Clean Waters,http://ohi-science.org/goals/#clean-waters
 /home/ohara/github/ohibc/prep/cw/v2017,"## OHIBC: CW chemical layers prep
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_chem_prep.rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_chem_prep.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_chem_rast_prep.rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_chem_rast_prep.html
 
 ### Summary:
 
 These data were prepared for the global 2016 assessment.  For each layer, we are simply reprojecting the data to the BC EEZ and rescaling to the local 99.99th percentile.
 
-The Status of chemical pollution was measured via four global datasets: land-based organic from agricultural pesticide use (reported to FAO), inorganic pollution from runoff from impervious surfaces, and ocean-based pollution from commercial shipping and ports.
+The Status of chemical pollution was measured via three global datasets: land-based organic from agricultural pesticide use (reported to FAO), inorganic pollution from runoff from impervious surfaces, and ocean-based pollution from commercial shipping and ports.
 
 The shipping, ports and harbors, and inorganic pollution have not changed over time.  However, the organic (pesticide) pollution is updated yearly, with the most recent data from 2013.  The raw shipping, ports and harbors, and inorganic pollution data are located [here](https://knb.ecoinformatics.org/
 
@@ -795,14 +1297,14 @@ This script pulls together data from the four components of Clean Waters and out
         * coord. ref : NA
         * values     : 2.319416e-06 to 0.126338567
 
-This script pulls in finalized raster layers for each component, determines a score for each component by OHIBC region, then determines the overall score using a geometric mean calculation.
+This script pulls in finalized raster layers for each component, determines a score for each component by OHIBC region, then estimates the overall score using a geometric mean calculation.
 
 -----
 
-## OHIBC: CW nutrient/fertilizer layers prep
+## OHIBC: CW nutrient/fertilizer raster layers prep
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_nutrient_prep.rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_nutrient_prep.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_nutrient_rast_prep.rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_nutrient_rast_prep.html
 
 ### Summary:
 
@@ -812,8 +1314,8 @@ This data was used in the Clean Waters goal in OHI 2015
 
 ## OHIBC: Pathogens Pressure layers prep
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_pathogens.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_pathogens.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_pathogens_prep.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_pathogens_prep.html
 
 ### Summary:
 
@@ -830,71 +1332,97 @@ $$\delta_{all,max} = (Population_{all} / A_{rgn})_{max}$$
 
 -----
 
-## OHIBC: CW trash layers prep
+## OHIBC: CW trash raster layers prep
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_trash_prep.rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_trash_prep.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_trash_rast_prep.rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_trash_rast_prep.html
 
 ### Summary:
 
-This data is incorporated into the OHI British Columbia Clean Waters (CW) goal.",/prep/cw/v2017,"* cw_chem_prep.html
-* cw_chem_prep.rmd
+This data is incorporated into the OHI British Columbia Clean Waters (CW) goal.",/prep/cw/v2017,"* cw_chem_rast_prep.html
+* cw_chem_rast_prep.rmd
 * cw_goal_est.html
 * cw_goal_est.rmd
-* cw_nutrient_prep.html
-* cw_nutrient_prep.rmd
-* cw_pathogens.html
-* cw_pathogens.Rmd
-* cw_trash_prep.html
-* cw_trash_prep.rmd
+* cw_nutrient_rast_prep.html
+* cw_nutrient_rast_prep.rmd
+* cw_pathogens_prep.html
+* cw_pathogens_prep.Rmd
+* cw_trash_rast_prep.html
+* cw_trash_rast_prep.rmd
+* prov/cw_chem_rast_prep.rmd_workflow.html
 * prov/cw_closures_prep.rmd_workflow.html
 * prov/cw_goal_est.rmd_workflow.html
 * prov/cw_goal_prep.rmd_workflow.html
+* prov/cw_nutrient_rast_prep.rmd_workflow.html
+* prov/cw_pathogens_prep.Rmd_workflow.html
 * prov/cw_pathogens.Rmd_workflow.html
-* prov/cw_trash_prep.rmd_workflow.html",cw,Clean Waters,http://ohi-science.org/goals/#clean-waters
-/home/ohara/github/ohibc/prep/fis,"## /prep/fis
+* prov/cw_trash_prep.rmd_workflow.html
+* prov/cw_trash_rast_prep.rmd_workflow.html",cw,Clean Waters,http://ohi-science.org/goals/#clean-waters
+/home/ohara/github/ohibc/prep/fis,"## CMSY for BC stocks
 
-* __Rmd file:__ no Rmd present 
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/calc_cmsy_bc_stocks_ja.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/calc_cmsy_bc_stocks_ja.html
+
+### Summary:
+
+NA
+
+-----
+
+## Exploring fisheries data
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/exploring_fis_scores_ja.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/exploring_fis_scores_ja.html
+
+### Summary:
+
+NA
+
+-----
+
+## Hake spatial distribution
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/hake_spatial_dist.Rmd 
 * __HTML file:__ no HTML present
 
 ### Summary:
 
-NA",/prep/fis,"* kobe/kobe.html
+NA",/prep/fis,"* calc_cmsy_bc_stocks_ja.html
+* calc_cmsy_bc_stocks_ja.Rmd
+* exploring_fis_scores_ja.html
+* exploring_fis_scores_ja.Rmd
+* hake_spatial_dist.Rmd
+* kobe/kobe.html
 * kobe/kobe.Rmd
 * v2017/1_data_prep_fis_ram.html
 * v2017/1_data_prep_fis_ram.Rmd
-* v2017/2_data_prep_fis_ram_spatial.html
-* v2017/2_data_prep_fis_ram_spatial.Rmd
-* v2017/3_plot_fis_scores.html
-* v2017/3_plot_fis_scores.Rmd
+* v2017/2_data_prep_fis_dfo.html
+* v2017/2_data_prep_fis_dfo.Rmd
+* v2017/3a_data_prep_fis_mar_sal_weighting.html
+* v2017/3a_data_prep_fis_mar_sal_weighting.Rmd
+* v2017/4_plot_fis_scores.html
+* v2017/4_plot_fis_scores.Rmd
+* v2017/archive/2_data_prep_fis_ram_spatial.html
+* v2017/archive/2_data_prep_fis_ram_spatial.Rmd
+* v2017/archive/3_data_prep_annual_catch_prop_assessed.html
+* v2017/archive/3_data_prep_annual_catch_prop_assessed.Rmd
+* v2017/archive/data_prep_fis_dfo.html
+* v2017/archive/data_prep_fis_dfo.Rmd
+* v2017/archive/data_prep_fis_ram_modeled.html
+* v2017/archive/data_prep_fis_saup.html
+* v2017/archive/data_prep_fis_spatial_old.Rmd
 * v2017/data_explore/bmax_explore_ram.html
 * v2017/data_explore/bmax_explore_ram.Rmd
 * v2017/data_explore/data_explore_fis_ram.html
 * v2017/data_explore/data_explore_fis_ram.Rmd
 * v2017/data_explore/data_explore_fis_saup.html
 * v2017/data_explore/data_explore_fis_saup.Rmd
-* v2017/data_prep_fis_dfo.html
-* v2017/data_prep_fis_dfo.Rmd
-* v2017/data_prep_fis_ram_modeled.html
-* v2017/data_prep_fis_saup.html
-* v2017/data_prep_fis_spatial_old.Rmd
 * v2017/old_scripts/prep_bmsy_csv.Rmd
 * v2017/old_scripts/prep_fish_spatial.Rmd
 * v2017/old_scripts/prep_mgmt_areas.Rmd
 * v2017/prov/1_data_prep_fis_ram.Rmd_workflow.html
-* v2017/prov/2a_plot_saup.Rmd_workflow.html
-* v2017/prov/2_data_prep_fis_ram_spatial.Rmd_workflow.html
-* v2017/prov/2_data_prep_fis_saup.Rmd_workflow.html
-* v2017/prov/3_data_prep_fis_ram_spatial.Rmd_workflow.html
-* v2017/prov/3_plot_fis_scores.Rmd_workflow.html
+* v2017/prov/2_data_prep_fis_dfo.Rmd_workflow.html
 * v2017/prov/4_plot_fis_scores.Rmd_workflow.html
-* v2017/prov/data_prep_fis_dfo.Rmd_workflow.html
-* v2017/prov/data_prep_fis_ram.Rmd_workflow.html
-* v2017/prov/data_prep_fis_saup.Rmd_workflow.html
-* v2017/x_data_prep_fis_saup.html
-* v2017/x_data_prep_fis_saup.Rmd
-* v2017/x_plot_saup.html
-* v2017/x_plot_saup.Rmd
 * vHS/data_prep_fis_hs.html
 * vHS/data_prep_fis_hs.Rmd",fis,Wild-Capture Fisheries,http://ohi-science.org/goals/#food-provision
 /home/ohara/github/ohibc/prep/fis/kobe,"## OHIBC: Fisheries modified Kobe plots
@@ -921,145 +1449,70 @@ NA",/prep/fis/kobe_shiny,,fis,Wild-Capture Fisheries,http://ohi-science.org/goal
 
 ### Summary:
 
-Process RAM database for British Columbia fisheries stock status and harvest levels.  Each RAM stock will be filtered to the RAM stock ID and RAM area (to separate region-specific stocks), and then the stock status parameters B/Bmsy and F/Fmsy for that stock for each year reported.
+Process RAM database for British Columbia fisheries stock status.  Each RAM stock will be filtered to the RAM stock ID and RAM area (to separate region-specific stocks), and then the stock status parameters B/Bmsy and F/Fmsy for that stock for each year reported.
 
-Total catch data for each stock for each year will be used to determine final weightings.  Since the distribution of catch data is not differentiated within the reporting region, we will use SAUP and/or DFO spatial catch data to determine the distribution and allocate the total catch proportionally.
+Total catch data for each stock for each year will be used to determine final weightings.  We will use DFO data to weight by catch.
 
 -----
 
-## OHIBC: data prep for wild-capture fisheries: spatializing RAM stocks
+## OHIBC: data prep for wild-capture fisheries: DFO catch data
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/v2017/2_data_prep_fis_ram_spatial.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/v2017/2_data_prep_fis_ram_spatial.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/v2017/2_data_prep_fis_dfo.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/v2017/2_data_prep_fis_dfo.html
 
 ### Summary:
 
-This script collects spatial boundaries for RAM stocks, using stock IDs from the RAM prep script and the boundaries created by Chris Free: https://marine.rutgers.edu/~cfree/ram-legacy-stock-boundary-database/
+This script preps the DFO catch data for use in the BC Fisheries model.
 
-From this, we generate for each stock a region-by-region proportional area to apportion RAM catch to OHIBC regions.
+-----
+
+## Calculating FIS, MAR, and SAL weights from DFOs Year in Review reports
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/v2017/3a_data_prep_fis_mar_sal_weighting.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/v2017/3a_data_prep_fis_mar_sal_weighting.html
+
+### Summary:
+
+NA
 
 -----
 
 ## OHIBC: plot FIS scores by stock and region
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/v2017/3_plot_fis_scores.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/v2017/3_plot_fis_scores.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/v2017/4_plot_fis_scores.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/v2017/4_plot_fis_scores.html
 
 ### Summary:
 
-This script takes the output from `functions.R` FIS model and plots individual stock scores by year and relative contribution to score.
-
------
-
-## OHIBC: data prep for wild-capture fisheries: DFO fisheries datasets
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/v2017/data_prep_fis_dfo.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/v2017/data_prep_fis_dfo.html
-
-### Summary:
-
-Processing BC DFO fisheries spatial data, to help determine allocation of total catch (from RAM catch values) to each OHIBC region.
-
------
-
-## data_prep_fis_ram_modeled.html
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/v2017/data_prep_fis_ram_modeled.html
-
-### Summary:
-
-NA
-
------
-
-## data_prep_fis_saup.html
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/v2017/data_prep_fis_saup.html
-
-### Summary:
-
-NA
-
------
-
-## OHIBC: data prep for wild-capture fisheries: Sea Around Us data
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/v2017/x_data_prep_fis_saup.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/v2017/x_data_prep_fis_saup.html
-
-### Summary:
-
-Process Sea Around Us data for British Columbia, to determine spatial distribution of catch for each species in BC.  The catch levels are used to weight the scores for fisheries stock status scores.  Stock status will be determined using RAM data for B/Bmsy and F/Fmsy.
-
-This script will identify OHIBC-relevant stocks included in SAUP and extracting cell-by-cell values of catch for these fisheries.  Further spatialization (in `3_data_prep_fis_spatial.Rmd`) will allocate SAUP catch to RAM stocks and OHIBC regions.
-
-Within this script we will also create a SAUP cell to OHIBC region lookup table with area-weighted allocations of cells to regions.
-
------
-
-## OHIBC: data explore for wild-capture fisheries: Sea Around Us data
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/v2017/x_plot_saup.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/v2017/x_plot_saup.html
-
-### Summary:
-
-NA
-
------
-
-## OHIBC: data prep for wild-capture fisheries: spatializing RAM and SAUP stocks
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/v2017/data_prep_fis_spatial_old.Rmd 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-This script collects spatial boundaries for RAM stocks, using stock IDs from the RAM prep script and the boundaries created by Chris Free: https://marine.rutgers.edu/~cfree/ram-legacy-stock-boundary-database/
-
-The basic idea is to attribute each SAUP cell to an OHIBC region (or proportionally divide it across OHIBC regions) and to RAM stock regions. For each RAM-identified stock, we assign a SAUP surrogate stock by species or by closest taxon.
-
-* First, SAUP catch data for the RAM stock is narrowed to just those cells that fall within the RAM stock region 
-    * e.g. for West Coast Vancouver Island herring, we identify the SAUP cells that fall within the WCVanI region, and assign herring catches within those cells to that stock.
-    * other SAUP herring cells are assigned to other RAM herring stocks accordingly.
-* Once the stock-specific cells are identified, those cells are then assigned to OHIBC regions proportionally.
-
-The final layer is a dataframe containing: year, OHIBC region, RAM area, SAUP info (taxonkey,sector,catch_type,reported), RAM stock ID, and then the total SAUP-reported catch for those parameters.",/prep/fis/v2017,"* 1_data_prep_fis_ram.html
+This script takes the output from `functions.R` FIS model and plots individual stock scores by year and relative contribution to score.",/prep/fis/v2017,"* 1_data_prep_fis_ram.html
 * 1_data_prep_fis_ram.Rmd
-* 2_data_prep_fis_ram_spatial.html
-* 2_data_prep_fis_ram_spatial.Rmd
-* 3_plot_fis_scores.html
-* 3_plot_fis_scores.Rmd
+* 2_data_prep_fis_dfo.html
+* 2_data_prep_fis_dfo.Rmd
+* 3a_data_prep_fis_mar_sal_weighting.html
+* 3a_data_prep_fis_mar_sal_weighting.Rmd
+* 4_plot_fis_scores.html
+* 4_plot_fis_scores.Rmd
+* archive/2_data_prep_fis_ram_spatial.html
+* archive/2_data_prep_fis_ram_spatial.Rmd
+* archive/3_data_prep_annual_catch_prop_assessed.html
+* archive/3_data_prep_annual_catch_prop_assessed.Rmd
+* archive/data_prep_fis_dfo.html
+* archive/data_prep_fis_dfo.Rmd
+* archive/data_prep_fis_ram_modeled.html
+* archive/data_prep_fis_saup.html
+* archive/data_prep_fis_spatial_old.Rmd
 * data_explore/bmax_explore_ram.html
 * data_explore/bmax_explore_ram.Rmd
 * data_explore/data_explore_fis_ram.html
 * data_explore/data_explore_fis_ram.Rmd
 * data_explore/data_explore_fis_saup.html
 * data_explore/data_explore_fis_saup.Rmd
-* data_prep_fis_dfo.html
-* data_prep_fis_dfo.Rmd
-* data_prep_fis_ram_modeled.html
-* data_prep_fis_saup.html
-* data_prep_fis_spatial_old.Rmd
 * old_scripts/prep_bmsy_csv.Rmd
 * old_scripts/prep_fish_spatial.Rmd
 * old_scripts/prep_mgmt_areas.Rmd
 * prov/1_data_prep_fis_ram.Rmd_workflow.html
-* prov/2a_plot_saup.Rmd_workflow.html
-* prov/2_data_prep_fis_ram_spatial.Rmd_workflow.html
-* prov/2_data_prep_fis_saup.Rmd_workflow.html
-* prov/3_data_prep_fis_ram_spatial.Rmd_workflow.html
-* prov/3_plot_fis_scores.Rmd_workflow.html
-* prov/4_plot_fis_scores.Rmd_workflow.html
-* prov/data_prep_fis_dfo.Rmd_workflow.html
-* prov/data_prep_fis_ram.Rmd_workflow.html
-* prov/data_prep_fis_saup.Rmd_workflow.html
-* x_data_prep_fis_saup.html
-* x_data_prep_fis_saup.Rmd
-* x_plot_saup.html
-* x_plot_saup.Rmd",fis,Wild-Capture Fisheries,http://ohi-science.org/goals/#food-provision
+* prov/2_data_prep_fis_dfo.Rmd_workflow.html
+* prov/4_plot_fis_scores.Rmd_workflow.html",fis,Wild-Capture Fisheries,http://ohi-science.org/goals/#food-provision
 /home/ohara/github/ohibc/prep/fis/vHS,"## OHIBC Howe Sound: Wild capture fisheries
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/vHS/data_prep_fis_hs.Rmd 
@@ -1076,15 +1529,19 @@ The Fisheries goal for Howe Sound will be calculated based on only important loc
 
 ### Summary:
 
-NA",/prep/hab_cs_cp,"* v2017/data_prep_hab_ebsa_sb.html
-* v2017/data_prep_hab_ebsa_sb.Rmd
-* v2017/data_prep_hab_sm_cf.html
-* v2017/data_prep_hab_sm_cf.Rmd
-* v2017/data_prep_landuse_rasters.Rmd
+NA",/prep/hab_cs_cp,"* v2017/1_data_prep_landuse_rasters.html
+* v2017/1_data_prep_landuse_rasters.Rmd
+* v2017/2_data_prep_hab_sm_cf.html
+* v2017/2_data_prep_hab_sm_cf.Rmd
+* v2017/3_data_prep_hab_ebsa_sb.html
+* v2017/3_data_prep_hab_ebsa_sb.Rmd
 * v2017/goal_model_cp_cs.html
 * v2017/goal_model_cp_cs.Rmd
 * v2017/goal_model_hab.html
 * v2017/goal_model_hab.Rmd
+* v2017/prov/1_data_prep_landuse_rasters.Rmd_workflow.html
+* v2017/prov/2_data_prep_hab_sm_cf.Rmd_workflow.html
+* v2017/prov/3_data_prep_hab_ebsa_sb.Rmd_workflow.html
 * v2017/prov/data_prep_hab_ebsa_sb.Rmd_workflow.html
 * v2017/prov/data_prep_hab_sm_cf.Rmd_workflow.html
 * v2017/prov/goal_prep_cp_cs.Rmd_workflow.html
@@ -1097,27 +1554,40 @@ NA",/prep/hab_cs_cp,"* v2017/data_prep_hab_ebsa_sb.html
 * vHS/goal_prep_cp_cs_hs.Rmd
 * vHS/goal_prep_hab_hs.html
 * vHS/goal_prep_hab_hs.Rmd",hab_cs_cp,"Habitats, Carbon Storage, Coastal Protection",http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,"## OHIBC: Habitat goal - EBSA layer prep
+/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,"## OHIBC: land use raster prep
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/hab_cs_cp/v2017/data_prep_hab_ebsa_sb.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/hab_cs_cp/v2017/data_prep_hab_ebsa_sb.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/hab_cs_cp/v2017/1_data_prep_landuse_rasters.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/hab_cs_cp/v2017/1_data_prep_landuse_rasters.html
 
 ### Summary:
 
-Create habitat info layer for EBSAs - ecologically and biologically significant areas.  The goal will be calculated based upon trawl pressure in the EBSAs.
+Merge landuse rasters, convert to BC Albers projection, and crop to BC extents
 
 -----
 
 ## OHIBC: Habitat goals - saltmarsh and coastal forest layers prep
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/hab_cs_cp/v2017/data_prep_hab_sm_cf.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/hab_cs_cp/v2017/data_prep_hab_sm_cf.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/hab_cs_cp/v2017/2_data_prep_hab_sm_cf.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/hab_cs_cp/v2017/2_data_prep_hab_sm_cf.html
 
 ### Summary:
 
 Prepare existing habitat layers (salt marsh and forest raster land use raster) for HAB, CP, CS goals for OHIBC assessment.  For CP, calculate values based on exposure, elevation, and protective potential weighting as required for different protective habitats.  For CS, calculate values based on carbon storage potential.
 
 Assessment areas for both habitats will be limited to the coastal watersheds, i.e. BC subwatersheds that intersect a 1 km buffer from the coastline.  For coastal protection, these will further be limited by an exposure band only 2 km wide.
+
+-----
+
+## OHIBC: Habitat goal - EBSA and soft bottom layer prep
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/hab_cs_cp/v2017/3_data_prep_hab_ebsa_sb.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/hab_cs_cp/v2017/3_data_prep_hab_ebsa_sb.html
+
+### Summary:
+
+Create habitat info layer for EBSAs - ecologically and biologically significant areas - and soft bottom habitats.  The goal will be calculated based upon trawl pressure in each habitat type.
+
+In addition, this will create a layer to represent the industry/ENGO trawl management agreement that was implemented in 2012 to reduce impacts of bottom trawling on deep water coral and sponge habitats.
 
 -----
 
@@ -1139,26 +1609,19 @@ Pull data layers for Salt Marsh and Coastal Forests to calculate Howe Sound goal
 
 ### Summary:
 
-Process individual habitat scores for each of the habitats in HAB subgoal.  Combine scores to determine overall status and trend for HAB subgoal.
-
------
-
-## OHIBC: land use raster prep
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/hab_cs_cp/v2017/data_prep_landuse_rasters.Rmd 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-Merge landuse rasters, convert to BC Albers projection, and crop to BC extents",/prep/hab_cs_cp/v2017,"* data_prep_hab_ebsa_sb.html
-* data_prep_hab_ebsa_sb.Rmd
-* data_prep_hab_sm_cf.html
-* data_prep_hab_sm_cf.Rmd
-* data_prep_landuse_rasters.Rmd
+Process individual habitat scores for each of the habitats in HAB subgoal.  Combine scores to determine overall status and trend for HAB subgoal.",/prep/hab_cs_cp/v2017,"* 1_data_prep_landuse_rasters.html
+* 1_data_prep_landuse_rasters.Rmd
+* 2_data_prep_hab_sm_cf.html
+* 2_data_prep_hab_sm_cf.Rmd
+* 3_data_prep_hab_ebsa_sb.html
+* 3_data_prep_hab_ebsa_sb.Rmd
 * goal_model_cp_cs.html
 * goal_model_cp_cs.Rmd
 * goal_model_hab.html
 * goal_model_hab.Rmd
+* prov/1_data_prep_landuse_rasters.Rmd_workflow.html
+* prov/2_data_prep_hab_sm_cf.Rmd_workflow.html
+* prov/3_data_prep_hab_ebsa_sb.Rmd_workflow.html
 * prov/data_prep_hab_ebsa_sb.Rmd_workflow.html
 * prov/data_prep_hab_sm_cf.Rmd_workflow.html
 * prov/goal_prep_cp_cs.Rmd_workflow.html
@@ -1230,47 +1693,6 @@ Pull data layers to calculate Howe Sound Habitats goal
 * goal_prep_cp_cs_hs.Rmd
 * goal_prep_hab_hs.html
 * goal_prep_hab_hs.Rmd",hab_cs_cp,"Habitats, Carbon Storage, Coastal Protection",http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/le,"## /prep/le
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/prep/le,"* v2017/data_prep_liv.html
-* v2017/data_prep_liv.Rmd
-* v2017/prov/data_prep_le.Rmd_workflow.html
-* v2017/prov/data_prep_liv.Rmd_workflow.html",le,Livelihoods and Economies,http://ohi-science.org/goals/#livelihoods-and-economies
-/home/ohara/github/ohibc/prep/le/v2017,"## OHIBC data prep: Livelihoods
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/le/v2017/data_prep_liv.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/le/v2017/data_prep_liv.html
-
-### Summary:
-
-OHIBC Livelihoods
-
-This script prepares layers (employment rates and median income) for Livelihoods goal in 
-British Columbia's coastal regions.  
-
-From Halpern et al. (2014) (OHI California Current):
-
->Livelihood sub-goal: As was done in the global analysis, coastal livelihoods is measured by two equally weighted sub-components, the number of jobs (j), which is a proxy for livelihood quantity, and the median annual household wages (g), which is a proxy for job quality. For jobs and wages we used a no-net loss reference point. 
-
-For British Columbia, we do not currently have sector-specific unemployment and wage information.  As such we will analyze Livelihoods according to the model:
-
-$x_{LIV} = \frac{j' + g'}{2}$
-
-$j' = \frac{j_c / j_{ref}}{M_c / M_{ref}}$
-
-where M is each region’s employment rate (1 - unemployment) as a percent at current (c) and reference (ref) time periods, and:
-
-$g' = \frac{g_c / g_{ref}}{W_c / W_{ref}}$
-
-where W is each State’s average annual per capita wage at current (c) and reference (ref) time periods.",/prep/le/v2017,"* data_prep_liv.html
-* data_prep_liv.Rmd
-* prov/data_prep_le.Rmd_workflow.html
-* prov/data_prep_liv.Rmd_workflow.html",le,Livelihoods and Economies,http://ohi-science.org/goals/#livelihoods-and-economies
 /home/ohara/github/ohibc/prep/lsp,"## /prep/lsp
 
 * __Rmd file:__ no Rmd present 
@@ -1300,7 +1722,9 @@ $$X_{LSP} = \frac{\frac{pA_{CMPA}}{pA_{refCMPA}} + \frac{pA_{CP}}{pA_{refCP}}}{2
 
 *pA* = percent of area within the inland or offshore buffer; *CMPA* = coastal marine protected area (3nm offshore); *CP* = coastline protected (coastal watersheds inland); and *refCMPA* = *refCP* = 30% reference point for both measures.
 
-Future changes may incorporate other data sets and MaPP planning zones.",/prep/lsp/v2017,"* data_prep_lsp.html
+For BC, these calculations include additional layers: Tribal Parks layer from West Coast Vancouver Island and MaPP Special Management Zones allocated to cultural/historic/First Nations use.
+
+This data prep script also prepares resilience layers for MPA coverage as % of 3 nm coastal zone and entire EEZ, including WDPA, Tribal Parks, and all MaPP zones except energy and aquaculture.",/prep/lsp/v2017,"* data_prep_lsp.html
 * data_prep_lsp.Rmd
 * prov/data_prep_lsp.Rmd_workflow.html
 * prov/goal_prep_lsp.Rmd_workflow.html",lsp,Lasting Special Places,http://ohi-science.org/goals/#sense-of-place
@@ -1324,26 +1748,24 @@ For Howe Sound, based upon conversations with Andrew Day and Karin Bodtker, the 
 An alternative will also examine protected areas within the entire watershed that feeds Howe Sound, rather than simply a 1 km inland buffer.",/prep/lsp/vHS,"* goal_prep_lsp.html
 * goal_prep_lsp.Rmd
 * prov/goal_prep_lsp.Rmd_workflow.html",lsp,Lasting Special Places,http://ohi-science.org/goals/#sense-of-place
-/home/ohara/github/ohibc/prep/mar,"## /prep/mar
+/home/ohara/github/ohibc/prep/lv,"## /prep/lv
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
 
 ### Summary:
 
-NA",/prep/mar,"* v2017/data_explore_mar.html
-* v2017/data_explore_mar.Rmd
-* v2017/data_prep_mar.html
-* v2017/data_prep_mar.Rmd
-* v2017/prov/data_prep_mar.Rmd_workflow.html",mar,Mariculture,http://ohi-science.org/goals/#food-provision
-/home/ohara/github/ohibc/prep/mar/v2017,"## OHIBC data exploration: Mariculture
+NA",/prep/lv,"* v2017/data_prep_lv.html
+* v2017/data_prep_lv.Rmd
+* v2017/prov/data_prep_lv.Rmd_workflow.html",lv,NA,NA
+/home/ohara/github/ohibc/prep/lv/v2017,"## OHIBC data prep: Livelihoods
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/mar/v2017/data_explore_mar.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/mar/v2017/data_explore_mar.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/lv/v2017/data_prep_lv.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/lv/v2017/data_prep_lv.html
 
 ### Summary:
 
-OHIBC Mariculture
+OHIBC Livelihoods
 
 This script prepares layers (employment rates and median income) for Livelihoods goal in 
 British Columbia's coastal regions.  
@@ -1362,7 +1784,32 @@ where M is each region’s employment rate (1 - unemployment) as a percent at cu
 
 $g' = \frac{g_c / g_{ref}}{W_c / W_{ref}}$
 
-where W is each State’s average annual per capita wage at current (c) and reference (ref) time periods.
+where W is each region’s average annual per capita wage at current (c) and reference (ref) time periods.",/prep/lv/v2017,"* data_prep_lv.html
+* data_prep_lv.Rmd
+* prov/data_prep_lv.Rmd_workflow.html",lv,NA,NA
+/home/ohara/github/ohibc/prep/mar,"## /prep/mar
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/prep/mar,"* v2017/data_prep_aq_prs_res.html
+* v2017/data_prep_aq_prs_res.Rmd
+* v2017/data_prep_mar.html
+* v2017/data_prep_mar.Rmd
+* v2017/prov/data_prep_aq_prs_res.Rmd_workflow.html
+* v2017/prov/data_prep_mar.Rmd_workflow.html",mar,Mariculture,http://ohi-science.org/goals/#food-provision
+/home/ohara/github/ohibc/prep/mar/v2017,"## OHIBC data prep: Aquaculture pressures and resilience
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/mar/v2017/data_prep_aq_prs_res.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/mar/v2017/data_prep_aq_prs_res.html
+
+### Summary:
+
+OHIBC Aquaculture pressures and resilience
+
+This script prepares pressures and resilience layers related to aquaculture production in British Columbia.
 
 -----
 
@@ -1385,14 +1832,13 @@ In addition, a sustainability factor is included for the global OHI calculations
 
 For British Columbia, we will leverage Gentry, Froehlich et al. (2017) to determine aquaculture potential for both shellfish and finfish in BC waters.  For each OHIBC region, the $\Phi'$ value based on a generic portfolio of 120 finfish and 60 bivalves is converted into a time-to-harvest value for each 1-km^2 cell.  These in turn are converted to a potential harvest rate $P_c$ as a function of $\Phi'$.
 
-To determine a reference point, we will create a rescaled harvest potential similar to the $B' = f(B/B_{MSY})$ score for the FIS subgoal.  A score of 1 will reflect a harvest value greater than $\bar{P}(\Phi' - \sigma_{\Phi'})$.  Below the lower bound value, the score tapers linearly to zero (at a harvest of zero) for under-production.  For finfish, harvests above the the maximum observed potential $P(\Phi')_{max}$ are considered unsustainable, the score tapers linearly to zero at $2.0\bar{P}(\Phi')$, as a sustainability penalty.
+To determine a reference point, we will create a rescaled harvest potential similar to the $B' = f(B/B_{MSY})$ score for the FIS subgoal.  A score of 1 will reflect a harvest value greater than $\bar{P}(\Phi' - \sigma_{\Phi'})$.  Below the lower bound value, the score tapers linearly to zero (at a harvest of zero) for under-production.  While finfish aquaculture can create environmental problems, we will not impose a sustainability penalty on overproduction as the impact of BC's finfish aquaculture seems to be very low.
 
 The reference point for each region is the product of this rescaled potential harvest rate and the area of existing aquaculture tenures ($A_f$ and $A_s$ for finfish and shellfish respectively) within the region.  Note that MaPP has identified large areas in HG, NC, CC, and NCVI regions for aquaculture, but analogous proposals are not available for WCVI or SG regions.
 
 $$H_{lowR} = \bar{P}(\Phi' - \sigma_{\Phi'}) * A_{tenure}$$
-$$H_{highR} = P(\Phi')_{max} * A_{tenure}$$
-$$H_{max} = 2.0\bar{P}(\Phi') * A_{tenure}$$
-where $H_{lowR}$ is calculated separately for finfish and shellfish aquaculture classes; $H_{highR}$ and $H_{max}$ are calculated only for finfish to determine sustainability limits.  Exceeding production potential for shellfish is highly unlikely and does not create the same problems of effluent that finfish aquaculture overproduction would create.
+
+where $H_{lowR}$ is calculated separately for finfish and shellfish aquaculture classes.
 
 Mariculture score $x_c$ for harvest $H_c$, calculated separately for each aquaculture class $c$:
 
@@ -1401,243 +1847,57 @@ Mariculture score $x_c$ for harvest $H_c$, calculated separately for each aquacu
 | $x_{shellfish} = H/H_{lowR}$ | when | $0 \leq H_{shellfish} < H_{lowR}$ |
 | $x_{shellfish} = 1$ | when | $H_{shellfish} \geq H_{lowR}$ |
 | $x_{finfish} = H/H_{lowR}$ | when | $0 \leq H_{finfish} < H_{lowR}$ |
-| $x_{finfish} = 1$ | when | $H_{lowR} \leq H_{finfish} \leq H_{highR}$ |
-| $x_{finfish} = 1 - \frac{H_f - H_{highR}}{H_{max} - H_{highR}}$ | when | $H_{highR} < H_{finfish} \leq H_{max}$ |
-| $x_{finfish} = 0$ | when | $H_{finfish} > H_{max}$ |
+| $x_{finfish} = 1$ | when | $H_{finfish} \geq H_{lowR}$ |
 
 The Mariculture score will be the harvest-weighted average of $x_{finfish}$ and $x_{shellfish}$.
 
-$$x_{MAR} = \frac{x_{finfish} * H_{finfish} + x_{shellfish} * H_{shellfish}}{H_{finfish} + H_{shellfish}}$$",/prep/mar/v2017,"* data_explore_mar.html
-* data_explore_mar.Rmd
+$$x_{MAR} = \frac{x_{finfish} * H_{finfish} + x_{shellfish} * H_{shellfish}}{H_{finfish} + H_{shellfish}}$$",/prep/mar/v2017,"* data_prep_aq_prs_res.html
+* data_prep_aq_prs_res.Rmd
 * data_prep_mar.html
 * data_prep_mar.Rmd
+* prov/data_prep_aq_prs_res.Rmd_workflow.html
 * prov/data_prep_mar.Rmd_workflow.html",mar,Mariculture,http://ohi-science.org/goals/#food-provision
-/home/ohara/github/ohibc/prep/_pressures,"## OHIBC: Pressures overview
+/home/ohara/github/ohibc/prep/sal,"## /prep/sal
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/pressures_list.Rmd 
+* __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
 
 ### Summary:
 
-NA",/prep/_pressures,"* pressures_list.Rmd
-* v2017/habitats/1_hab_zone_prep.Rmd
-* v2017/habitats/2_hab_layer_prep.Rmd
-* v2017/habitats/3_hab_layer_assemble.Rmd
-* v2017/habitats/bc_pres_hab.html
-* v2017/habitats/layer_prep_pressures_habs.html
-* v2017/pressures_alien_spp.html
-* v2017/pressures_alien_spp.Rmd
-* v2017/pressures_gen_escapes.html
-* v2017/pressures_gen_escapes.Rmd
-* v2017/pressures_oa_prep.html
-* v2017/pressures_oa_prep.Rmd
-* v2017/pressures_slr_prep.html
-* v2017/pressures_slr_prep.Rmd
-* v2017/pressures_sst_prep.html
-* v2017/pressures_sst_prep.Rmd
-* v2017/pressures_uv_prep.html
-* v2017/pressures_uv_prep.Rmd
-* v2017/prov/pressures_alien_spp.Rmd_workflow.html
-* v2017/prov/pressures_gen_escapes.Rmd_workflow.html
-* v2017/prov/pressures_oa_prep.Rmd_workflow.html
-* v2017/prov/pressures_pathogens.Rmd_workflow.html
-* v2017/prov/pressures_slr_prep.Rmd_workflow.html
-* v2017/prov/pressures_sst_prep.Rmd_workflow.html",_pressures,Pressures,http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/_pressures/v2017,"## OHIBC: Alien Species Pressure layers prep
+NA",/prep/sal,"* v2017/data_prep_sal_old.html
+* v2017/data_prep_sal_old.Rmd
+* v2017/data_prep_sal_update.html
+* v2017/data_prep_sal_update.Rmd
+* v2017/prov/data_prep_sal_update.Rmd_workflow.html
+* v2017/prov/data_prep_sal.Rmd_workflow.html",sal,NA,NA
+/home/ohara/github/ohibc/prep/sal/v2017,"## OHIBC data prep: Salmon
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_alien_spp.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_alien_spp.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/sal/v2017/data_prep_sal_old.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/sal/v2017/data_prep_sal_old.html
 
 ### Summary:
 
-This pressure layer evaluates invasive species pressure on BC regions using the same method as OHI Global and California Current.  From Molnar (2008) data, we have data on the number of invasive species (and number of harmful invasives) found within each Marine Ecoregion of the World (MEOW) region.  For the global assessment and California Current, score is determined based on the proportion of invasives relative to the global maximum.  For OHIBC, we will instead use a species-by-species pressure based on three criteria: _invasive potential_, _ecological impact_, and _management difficulty_.  In Molnar 2008, each of these (as well as _scope_) is ranked on a 1 to 4 scale, with 1 being minimal and 4 being intense.  Invasive pressure of a species is a geometric mean (rescaled to max = 1) of these threat criteria:
+OHIBC Salmon
 
-$$pressure_{spp} = P_{spp} = \frac{\prod_{T=1}^N(threat_T)^{1/N}}{4}$$
-where T is a threat criterion, N is number of threat criteria scores for that species (excluding NAs).
-
-Scores for each OHIBC region are the area-weighted total species pressure from each ecoregion present.  This assumes that invasive species are uniformly distributed throughout the ecoregion.
-
-$$X_{invasive} = \frac{\sum_{ecorgn=1}^{N}((\sum_{spp=1}^M P_{spp})  * A_{ecorgn})}{\sum_{ecorgn=1}^N A_{ecorgn}}$$
-where $N$ is the number of ecoregions falling within an OHIBC region; $M$ is the number of species found within that ecoregion; $P_{spp}$ is the pressure score for each species in the ecoregion; and $A_{rgn}$ is the area of the OHIBC region allocated to that ecoregion (so $\sum_{rgn=1}^NA_{ecorgn}$ becomes the total OHIBC region area).
-
-The data has no time scale.
+This script prepares layers Salmon sub-goals for food provision and First Nations Resource Access Opportunity in British Columbia's coastal regions.
 
 -----
 
-## OHIBC: Genetic Escapes Pressure layers prep
+## OHIBC data prep: Salmon
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_gen_escapes.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_gen_escapes.html
-
-### Summary:
-
-This pressure layer calculates the pressure due to genetic escapes from aquaculture.  The Mariculture Sustatinability Index ranks aquaculture species in different regions with a score from 1-10 for potential for genetic pollution.  For OHIBC we will follow a similar method as OHI Global and CC, rescaling genetic escape pressure from 0-1 for each species and calculating a harvest-weighted average of genetic escape pressure for each region.
-
-$$pressure_{gen.escapes} = \frac{\sum_{spp=1}^N (MSI_{spp} * harvest_{spp})}{\sum_{spp=1}^N harvest_{spp}}$$
-
-The genetic escapes scores are not time-dependent, but harvest data is reported annually.
-
------
-
-## OHIBC: Ocean Acidification Pressure layers prep
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_oa_prep.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_oa_prep.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/sal/v2017/data_prep_sal_update.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/sal/v2017/data_prep_sal_update.html
 
 ### Summary:
 
-This layer will determine ocean acidification values from the global rate of change layers; these layers already scale OA pressures appropriately.  The rescaling is based on the changes in aragonite saturation state according to:
+OHIBC Salmon
 
-$$\Delta \Omega_{year} = \frac{(\Omega_{base} - \Omega_{year})}{(\Omega_{base} - 1)}$$
-    
-In the global analysis, pressures for 2011-2016 are available with this rescaling; however, for this OHIBC analysis, we will begin with the global rasters for annual mean aragonite saturation state values, crop to BC, interpolate using inverse distance weighting, and then reproject to approx 1 km resolution (from CHI).
-
------
-
-## OHIBC: Sea Level Rise Pressure layers prep
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_slr_prep.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_slr_prep.html
-
-### Summary:
-
-There are two parts to creating this layer:
-  
-  1. Data prep to get raw data into the correct format:
-  
-    * If necessary, read .nc.gz files from aviso: ftp://ftp.aviso.altimetry.fr/global/delayed-time/grids/climatology/monthly_mean/
-    * unzip .gz files and then delete .gz 
-    * Read monthly mean sea level data as rasters
-
-  2. Creating the pressure layers for OHI Global:  
-  
-    * Clip all monthly rasters to the coast using a 3 nautical mile offshore buffer
-    * Calculate annual mean sea level anomaly rasters from monthly data
-    * Determine a reference point as the 99.99th quantile of the data across all years (1993 - 2015)
-    * Rescale values from 0 to 1 using the reference point
-    * Set to zero all negative values, indicating decreases in mean sea level
-    * Resample raster to ~ 1km2 and reproject to Molleweide
-
-This process is completed within the Global OHI 2017 prep script.
-
-For OHIBC these pressure layers are read in and cropped to BC extents for pressure calculations.
-
------
-
-## OHIBC: Sea Surface Temperature Pressure layers prep
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_sst_prep.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_sst_prep.html
-
-### Summary:
-
-For OHI Global Assessments, we calculated a climatology from 1982-2012 per cell using weekly data from CorTAD. We then calculated the number of times a given cell's weekly SST was greater than the climatological mean for that week (an anomalous week: mean temp greater than historical mean + one standard deviation) and summed the number of anomalous weeks in a single year. The maximum value a cell could have is 52 which would mean that cell had anomalous SST temperatures for each week of the year.
-
-To account for annual variation, we look at Sea Surface Temperature anomalous weeks in 5 year periods, so the maximum value possible per cell is 260 anomalous weeks. To rescale the values from 0 to 1 we set a reference point. Previously, the reference point for SST has just been the maximum difference in anomalous weeks between the most recent time period and a historical reference period (1985-1989).
-
-This time we have decided to use a reference point that represents a regime shift. Once a given cell is anomalous for more than 50% of a five-year period, it has shifted into a new regime. All cells that have a value greater than 130 weeks (51% of a 5 year time period) are assigned a 1. The rest of the cells are scaled to this reference point by dividing by 130.
-
------
-
-## OHIBC: Ultraviolet Anomalies Pressure layers prep
-
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/pressures_uv_prep.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/pressures_uv_prep.html
-
-### Summary:
-
-There are two parts to creating this layer:
-
-1. Data prep to get raw data into the correct format:
-    * Read anomalies data as raster for 1997-2001 and 2010-2014.
-    * Clip rasters to extents of OHIBC region, and reproject into BC Albers projection.
-2. Creating the pressure layers for OHIBC:
-    * Determine change in anomalies since baseline.
-    * Set negative values to zero (only interested in increases).
-    * Resample to 1 km.
-    * Log transform results.
-    * Interpolate to coastline at 1 km resolution.
-    * Rescale zero to 1, where 1 is 99.99%ile
-    
-This process is completed entirely within this script.",/prep/_pressures/v2017,"* habitats/1_hab_zone_prep.Rmd
-* habitats/2_hab_layer_prep.Rmd
-* habitats/3_hab_layer_assemble.Rmd
-* habitats/bc_pres_hab.html
-* habitats/layer_prep_pressures_habs.html
-* pressures_alien_spp.html
-* pressures_alien_spp.Rmd
-* pressures_gen_escapes.html
-* pressures_gen_escapes.Rmd
-* pressures_oa_prep.html
-* pressures_oa_prep.Rmd
-* pressures_slr_prep.html
-* pressures_slr_prep.Rmd
-* pressures_sst_prep.html
-* pressures_sst_prep.Rmd
-* pressures_uv_prep.html
-* pressures_uv_prep.Rmd
-* prov/pressures_alien_spp.Rmd_workflow.html
-* prov/pressures_gen_escapes.Rmd_workflow.html
-* prov/pressures_oa_prep.Rmd_workflow.html
-* prov/pressures_pathogens.Rmd_workflow.html
-* prov/pressures_slr_prep.Rmd_workflow.html
-* prov/pressures_sst_prep.Rmd_workflow.html",_pressures,Pressures,http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/_resilience,"## /prep/_resilience
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/prep/_resilience,,_resilience,Resilience,http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/_spatial,"## /prep/_spatial
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/prep/_spatial,,_spatial,NA,NA
-/home/ohara/github/ohibc/prep/_spatial/howe_sound,"## /prep/_spatial/howe_sound
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/prep/_spatial/howe_sound,,_spatial,NA,NA
-/home/ohara/github/ohibc/prep/_spatial/_img,"## /prep/_spatial/_img
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/prep/_spatial/_img,,_spatial,NA,NA
-/home/ohara/github/ohibc/prep/_spatial/raster,"## /prep/_spatial/raster
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/prep/_spatial/raster,,_spatial,NA,NA
-/home/ohara/github/ohibc/prep/_spatial/simple,"## /prep/_spatial/simple
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/prep/_spatial/simple,,_spatial,NA,NA
-/home/ohara/github/ohibc/prep/_spatial/watershed,"## /prep/_spatial/watershed
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/prep/_spatial/watershed,,_spatial,NA,NA
+This script prepares layers Salmon sub-goals for food provision and First Nations Resource Access Opportunity in British Columbia's coastal regions.",/prep/sal/v2017,"* data_prep_sal_old.html
+* data_prep_sal_old.Rmd
+* data_prep_sal_update.html
+* data_prep_sal_update.Rmd
+* prov/data_prep_sal_update.Rmd_workflow.html
+* prov/data_prep_sal.Rmd_workflow.html",sal,NA,NA
 /home/ohara/github/ohibc/prep/spp_ico,"## IUCN vs NatureServe conservation status ranks
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/iucn_to_ns.Rmd 
@@ -1916,13 +2176,13 @@ British Columbia's coastal regions.
 
 We will analyze Livelihoods according to the model:
 
-$x_{TR} = \frac{P' + V'}{2}$
+$$x_{TR} = \frac{P' + V'}{2}$$
 
-$P' = \frac{P_c / P_{ref}}$
+$$P' = \frac{P_c}{P_{ref}}$$
 
 where P is total visitation to tourism centers found within each BC coastal region, compared to a reference period over the prior five years, and
 
-$V' = \frac{V_c / V_{ref}}$
+$$V' = \frac{V_c}{V_{ref}}$$
 
 where V is total visitation to parks found within each coastal region, compared to a reference period over the prior five years.",/prep/tr/v2017,"* data_prep_tr.html
 * data_prep_tr.Rmd
@@ -1992,9 +2252,17 @@ NA",/regionHoweSound/prov/ohibc_howesound_2016.Rmd_workflow_files,,NA,NA,NA
 
 ### Summary:
 
-NA",/src,"* templates/ohibc_hdr1.html
-* templates/ohibc_hdr2.html
+NA",/src,"* miscR/bcmca/1_bcmca_filenames.Rmd
+* miscR/bcmca/2_bcmca_shp_fixes.Rmd
+* miscR/bcmca/3_bcmca_rasterize.Rmd
+* miscR/bcmca/bcmca_filenames.html
+* miscR/rdme_gen/rdme_generator.html
+* miscR/rdme_gen/rdme_generator.Rmd
+* miscR/sf_vs_sp.html
+* miscR/sf_vs_sp.Rmd
 * templates/ohibc_hdr.Rmd
+* templates/ohibc_hdr1.html
+* templates/ohibc_hdr2.html
 * templates/template_for_rmd.Rmd",NA,NA,NA
 /home/ohara/github/ohibc/src/image_work,"## /src/image_work
 
@@ -2004,6 +2272,90 @@ NA",/src,"* templates/ohibc_hdr1.html
 ### Summary:
 
 NA",/src/image_work,,NA,NA,NA
+/home/ohara/github/ohibc/src/miscR,"## sf vs sp spatial packages
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/src/miscR/sf_vs_sp.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/src/miscR/sf_vs_sp.html
+
+### Summary:
+
+NA",/src/miscR,"* bcmca/1_bcmca_filenames.Rmd
+* bcmca/2_bcmca_shp_fixes.Rmd
+* bcmca/3_bcmca_rasterize.Rmd
+* bcmca/bcmca_filenames.html
+* rdme_gen/rdme_generator.html
+* rdme_gen/rdme_generator.Rmd
+* sf_vs_sp.html
+* sf_vs_sp.Rmd",NA,NA,NA
+/home/ohara/github/ohibc/src/miscR/aquamaps_testing,"## /src/miscR/aquamaps_testing
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/src/miscR/aquamaps_testing,,NA,NA,NA
+/home/ohara/github/ohibc/src/miscR/bcmca,"## bcmca_filenames.html
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/src/miscR/bcmca/bcmca_filenames.html
+
+### Summary:
+
+NA
+
+-----
+
+## BCMCA datasets: import, raster, display
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/src/miscR/bcmca/1_bcmca_filenames.Rmd 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA
+
+-----
+
+## BCMCA datasets: import, raster, display
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/src/miscR/bcmca/2_bcmca_shp_fixes.Rmd 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA
+
+-----
+
+## BCMCA datasets: import, raster, display
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/src/miscR/bcmca/3_bcmca_rasterize.Rmd 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/src/miscR/bcmca,"* 1_bcmca_filenames.Rmd
+* 2_bcmca_shp_fixes.Rmd
+* 3_bcmca_rasterize.Rmd
+* bcmca_filenames.html",NA,NA,NA
+/home/ohara/github/ohibc/src/miscR/rdme_gen,"## OHIBC: readme.md generator
+
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/src/miscR/rdme_gen/rdme_generator.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/src/miscR/rdme_gen/rdme_generator.html
+
+### Summary:
+
+Walks through file structure of OHIBC and checks to see whether folders have a readme.  Eventually, will generate a readme for each folder based on a template.",/src/miscR/rdme_gen,"* rdme_generator.html
+* rdme_generator.Rmd",NA,NA,NA
+/home/ohara/github/ohibc/src/miscR/sf_sp_testing,"## /src/miscR/sf_sp_testing
+
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
+
+### Summary:
+
+NA",/src/miscR/sf_sp_testing,,NA,NA,NA
 /home/ohara/github/ohibc/src/R,"## /src/R
 
 * __Rmd file:__ no Rmd present 
@@ -2052,9 +2404,9 @@ NA
 
 ### Summary:
 
-[general description: What data are being generated? Why (what project, etc.)? Upstream/downstream processing information that might be helpful?  Other information?]",/src/templates,"* ohibc_hdr1.html
+[general description: What data are being generated? Why (what project, etc.)? Upstream/downstream processing information that might be helpful?  Other information?]",/src/templates,"* ohibc_hdr.Rmd
+* ohibc_hdr1.html
 * ohibc_hdr2.html
-* ohibc_hdr.Rmd
 * template_for_rmd.Rmd",NA,NA,NA
 /home/ohara/github/ohibc/src/templates/imgs,"## /src/templates/imgs
 

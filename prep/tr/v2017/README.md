@@ -30,13 +30,13 @@ British Columbia's coastal regions.
 
 We will analyze Livelihoods according to the model:
 
-$x_{TR} = frac{P' + V'}{2}$
+$$x_{TR} = frac{P' + V'}{2}$$
 
-$P' = frac{P_c / P_{ref}}$
+$$P' = frac{P_c}{P_{ref}}$$
 
 where P is total visitation to tourism centers found within each BC coastal region, compared to a reference period over the prior five years, and
 
-$V' = frac{V_c / V_{ref}}$
+$$V' = frac{V_c}{V_{ref}}$$
 
 where V is total visitation to parks found within each coastal region, compared to a reference period over the prior five years.
 

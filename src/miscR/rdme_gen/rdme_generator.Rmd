@@ -312,7 +312,7 @@ for(i in seq_along(readme_df$dir)) {
   }
   
   ### write out the readme.md to the appropriate directory
-  readr::write_file(readme_text, file.path(readme_df$dir[i], 'README_test.md'))
+  readr::write_file(readme_text, file.path(readme_df$dir[i], 'README.md'))
   
 }
 
@@ -320,7 +320,7 @@ for(i in seq_along(readme_df$dir)) {
 
 ``` {r delete old readmes if needed, eval = FALSE}
 
-# x <- list.files(dir_git, recursive = TRUE, pattern = 'readme_test.md', full.names = TRUE, ignore.case = TRUE)
+# x <- list.files(dir_git, recursive = TRUE, pattern = 'readme_old.md', full.names = TRUE, ignore.case = TRUE)
 # unlink(x)
 
 ```

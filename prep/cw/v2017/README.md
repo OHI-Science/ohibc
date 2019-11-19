@@ -18,14 +18,14 @@ This directory includes R/Rmd scripts and .html files, as well as subdirectories
 
 ## OHIBC: CW chemical layers prep
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_chem_prep.rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_chem_prep.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_chem_rast_prep.rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_chem_rast_prep.html
 
 ### Summary:
 
 These data were prepared for the global 2016 assessment.  For each layer, we are simply reprojecting the data to the BC EEZ and rescaling to the local 99.99th percentile.
 
-The Status of chemical pollution was measured via four global datasets: land-based organic from agricultural pesticide use (reported to FAO), inorganic pollution from runoff from impervious surfaces, and ocean-based pollution from commercial shipping and ports.
+The Status of chemical pollution was measured via three global datasets: land-based organic from agricultural pesticide use (reported to FAO), inorganic pollution from runoff from impervious surfaces, and ocean-based pollution from commercial shipping and ports.
 
 The shipping, ports and harbors, and inorganic pollution have not changed over time.  However, the organic (pesticide) pollution is updated yearly, with the most recent data from 2013.  The raw shipping, ports and harbors, and inorganic pollution data are located [here](https://knb.ecoinformatics.org/
 
@@ -74,14 +74,14 @@ This script pulls together data from the four components of Clean Waters and out
         * coord. ref : NA
         * values     : 2.319416e-06 to 0.126338567
 
-This script pulls in finalized raster layers for each component, determines a score for each component by OHIBC region, then determines the overall score using a geometric mean calculation.
+This script pulls in finalized raster layers for each component, determines a score for each component by OHIBC region, then estimates the overall score using a geometric mean calculation.
 
 -----
 
-## OHIBC: CW nutrient/fertilizer layers prep
+## OHIBC: CW nutrient/fertilizer raster layers prep
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_nutrient_prep.rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_nutrient_prep.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_nutrient_rast_prep.rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_nutrient_rast_prep.html
 
 ### Summary:
 
@@ -91,8 +91,8 @@ This data was used in the Clean Waters goal in OHI 2015
 
 ## OHIBC: Pathogens Pressure layers prep
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_pathogens.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_pathogens.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_pathogens_prep.Rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_pathogens_prep.html
 
 ### Summary:
 
@@ -109,10 +109,10 @@ $$delta_{all,max} = (Population_{all} / A_{rgn})_{max}$$
 
 -----
 
-## OHIBC: CW trash layers prep
+## OHIBC: CW trash raster layers prep
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_trash_prep.rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_trash_prep.html
+* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_trash_rast_prep.rmd 
+* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_trash_rast_prep.html
 
 ### Summary:
 

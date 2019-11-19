@@ -8,7 +8,7 @@ Welcome to the repository for code and data related to __Changes in ocean health
 
 Here is an overview of the organization of files and data (for more details on general OHI practices and principles [see here](https://ohi-science.org/manual/#file-system-organization):
 
-This `prep` directory contains scripts and outputs for all data cleaning, preparation, and calculation of data layers for the primary OHIBC assessment.
+This `calc_ohibc` directory contains scripts to gather output data layers and process these layers into OHIBC scores and results.
 
 ## For additional information about the Ocean Health Index
 
