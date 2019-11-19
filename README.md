@@ -10,7 +10,7 @@ O'Hara, C et al. 2020.  Changes in ocean health in British Columbia from 2001 to
 
 ## Code
 
-Here is an overview of the organization of files and data (for more details on general OHI practices and principles [see here](https://ohi-science.org/manual/#file-system-organization):
+Here is an overview of the organization of files and data.  For more details on general OHI practices and principles [see here](https://ohi-science.org/manual/#file-system-organization):
 
 * The `prep` directory contains scripts and outputs for all data cleaning, preparation, and calculation of data layers for the primary OHIBC assessment.
 * The `regionHoweSound` directory contains scripts and outputs for data cleaning, preparation, and calculation of data layers for the prototype OHIBC Howe Sound assessment.
