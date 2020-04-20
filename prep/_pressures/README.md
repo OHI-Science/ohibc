@@ -2,6 +2,8 @@
 
 This folder describes the methods used to prepare data for Pressures for the OHIBC assessment.
 
+More information about this goal is available [here](http://ohi-science.org/goals).
+
 ## Data management and citation info
 
 Our [data managment SOP](https://rawgit.com/OHI-Science/ohiprep/master/src/dataOrganization_SOP.html) describes how we manage OHI global data, including a description of the file structure.

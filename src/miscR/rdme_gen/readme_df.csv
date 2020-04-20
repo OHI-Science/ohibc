@@ -1,7 +1,7 @@
 dir,text_block_all,dir_short,internal_files,goal_dir,goal_name,goal_url
-/home/ohara/github/ohibc,"## `st_area` testing
+/Users/ohara/github/ohibc,"## 
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/st_area_test.Rmd 
+* __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
 
 ### Summary:
@@ -228,14 +228,11 @@ NA",,"* calc_ohibc/_calc_scores_ohibc.html
 * src/miscR/bcmca/bcmca_filenames.html
 * src/miscR/rdme_gen/rdme_generator.html
 * src/miscR/rdme_gen/rdme_generator.Rmd
-* src/miscR/sf_vs_sp.html
-* src/miscR/sf_vs_sp.Rmd
 * src/templates/ohibc_hdr.Rmd
 * src/templates/ohibc_hdr1.html
 * src/templates/ohibc_hdr2.html
-* src/templates/template_for_rmd.Rmd
-* st_area_test.Rmd",NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc,"## OHIBC: Calculate All Scores
+* src/templates/template_for_rmd.Rmd",NA,NA,NA
+/Users/ohara/github/ohibc/calc_ohibc,"## OHIBC: Calculate All Scores
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/calc_ohibc/_calc_scores_ohibc.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/calc_ohibc/_calc_scores_ohibc.html
@@ -257,7 +254,7 @@ NA",/calc_ohibc,"* _calc_scores_ohibc.html
 * explore/plot_st_tr_prs_res.html
 * explore/plot_st_tr_prs_res.Rmd
 * prov/calc_scores_ohibc.Rmd_workflow.html",NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/conf,"## /calc_ohibc/conf
+/Users/ohara/github/ohibc/calc_ohibc/conf,"## /calc_ohibc/conf
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -265,7 +262,7 @@ NA",/calc_ohibc,"* _calc_scores_ohibc.html
 ### Summary:
 
 NA",/calc_ohibc/conf,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/explore,"## OHIBC: Plot Scores
+/Users/ohara/github/ohibc/calc_ohibc/explore,"## OHIBC: Plot Scores
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/calc_ohibc/explore/_plot_flowers.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/calc_ohibc/explore/_plot_flowers.html
@@ -339,7 +336,7 @@ NA",/calc_ohibc/explore,"* _plot_flowers.html
 * assemble_layers_info.Rmd
 * plot_st_tr_prs_res.html
 * plot_st_tr_prs_res.Rmd",NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/explore/Figs,"## /calc_ohibc/explore/Figs
+/Users/ohara/github/ohibc/calc_ohibc/explore/Figs,"## /calc_ohibc/explore/Figs
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -347,7 +344,7 @@ NA",/calc_ohibc/explore,"* _plot_flowers.html
 ### Summary:
 
 NA",/calc_ohibc/explore/Figs,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/explore/int,"## /calc_ohibc/explore/int
+/Users/ohara/github/ohibc/calc_ohibc/explore/int,"## /calc_ohibc/explore/int
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -355,7 +352,7 @@ NA",/calc_ohibc/explore/Figs,,NA,NA,NA
 ### Summary:
 
 NA",/calc_ohibc/explore/int,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/Figs,"## /calc_ohibc/Figs
+/Users/ohara/github/ohibc/calc_ohibc/Figs,"## /calc_ohibc/Figs
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -363,15 +360,7 @@ NA",/calc_ohibc/explore/int,,NA,NA,NA
 ### Summary:
 
 NA",/calc_ohibc/Figs,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/gapfill,"## /calc_ohibc/gapfill
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/calc_ohibc/gapfill,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/layers,"## /calc_ohibc/layers
+/Users/ohara/github/ohibc/calc_ohibc/layers,"## /calc_ohibc/layers
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -379,7 +368,7 @@ NA",/calc_ohibc/gapfill,,NA,NA,NA
 ### Summary:
 
 NA",/calc_ohibc/layers,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/master,"## /calc_ohibc/master
+/Users/ohara/github/ohibc/calc_ohibc/master,"## /calc_ohibc/master
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -387,7 +376,7 @@ NA",/calc_ohibc/layers,,NA,NA,NA
 ### Summary:
 
 NA",/calc_ohibc/master,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/master/dummy_layers,"## /calc_ohibc/master/dummy_layers
+/Users/ohara/github/ohibc/calc_ohibc/master/dummy_layers,"## /calc_ohibc/master/dummy_layers
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -395,7 +384,7 @@ NA",/calc_ohibc/master,,NA,NA,NA
 ### Summary:
 
 NA",/calc_ohibc/master/dummy_layers,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/prov,"## calc_scores_ohibc.Rmd_workflow.html
+/Users/ohara/github/ohibc/calc_ohibc/prov,"## calc_scores_ohibc.Rmd_workflow.html
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/calc_ohibc/prov/calc_scores_ohibc.Rmd_workflow.html
@@ -403,7 +392,7 @@ NA",/calc_ohibc/master/dummy_layers,,NA,NA,NA
 ### Summary:
 
 NA",/calc_ohibc/prov,* calc_scores_ohibc.Rmd_workflow.html,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/prov/calc_scores_ohibc.Rmd_workflow_files,"## /calc_ohibc/prov/calc_scores_ohibc.Rmd_workflow_files
+/Users/ohara/github/ohibc/calc_ohibc/prov/calc_scores_ohibc.Rmd_workflow_files,"## /calc_ohibc/prov/calc_scores_ohibc.Rmd_workflow_files
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -411,7 +400,7 @@ NA",/calc_ohibc/prov,* calc_scores_ohibc.Rmd_workflow.html,NA,NA,NA
 ### Summary:
 
 NA",/calc_ohibc/prov/calc_scores_ohibc.Rmd_workflow_files,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/shiny_bcscores,"## /calc_ohibc/shiny_bcscores
+/Users/ohara/github/ohibc/calc_ohibc/shiny_bcscores,"## /calc_ohibc/shiny_bcscores
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -419,7 +408,7 @@ NA",/calc_ohibc/prov/calc_scores_ohibc.Rmd_workflow_files,,NA,NA,NA
 ### Summary:
 
 NA",/calc_ohibc/shiny_bcscores,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/shiny_bcscores/data,"## /calc_ohibc/shiny_bcscores/data
+/Users/ohara/github/ohibc/calc_ohibc/shiny_bcscores/data,"## /calc_ohibc/shiny_bcscores/data
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -427,7 +416,7 @@ NA",/calc_ohibc/shiny_bcscores,,NA,NA,NA
 ### Summary:
 
 NA",/calc_ohibc/shiny_bcscores/data,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/shiny_bcscores/pages,"## /calc_ohibc/shiny_bcscores/pages
+/Users/ohara/github/ohibc/calc_ohibc/shiny_bcscores/pages,"## /calc_ohibc/shiny_bcscores/pages
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -435,7 +424,7 @@ NA",/calc_ohibc/shiny_bcscores/data,,NA,NA,NA
 ### Summary:
 
 NA",/calc_ohibc/shiny_bcscores/pages,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/shiny_bcscores/rsconnect,"## /calc_ohibc/shiny_bcscores/rsconnect
+/Users/ohara/github/ohibc/calc_ohibc/shiny_bcscores/rsconnect,"## /calc_ohibc/shiny_bcscores/rsconnect
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -443,15 +432,7 @@ NA",/calc_ohibc/shiny_bcscores/pages,,NA,NA,NA
 ### Summary:
 
 NA",/calc_ohibc/shiny_bcscores/rsconnect,,NA,NA,NA
-/home/ohara/github/ohibc/calc_ohibc/spatial,"## /calc_ohibc/spatial
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/calc_ohibc/spatial,,NA,NA,NA
-/home/ohara/github/ohibc/post_analysis,"## OHIBC: model selection: causal chain model with fixed effects
+/Users/ohara/github/ohibc/post_analysis,"## OHIBC: model selection: causal chain model with fixed effects
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/post_analysis/model_selection.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/post_analysis/model_selection.html
@@ -523,7 +504,7 @@ NA",/post_analysis,"* model_selection.html
 * regr_prs_res_fe.Rmd
 * regr_status_prs_fe.html
 * regr_status_prs_fe.Rmd",NA,NA,NA
-/home/ohara/github/ohibc/post_analysis/Figs,"## /post_analysis/Figs
+/Users/ohara/github/ohibc/post_analysis/Figs,"## /post_analysis/Figs
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -531,7 +512,7 @@ NA",/post_analysis,"* model_selection.html
 ### Summary:
 
 NA",/post_analysis/Figs,,NA,NA,NA
-/home/ohara/github/ohibc/post_analysis/int,"## /post_analysis/int
+/Users/ohara/github/ohibc/post_analysis/int,"## /post_analysis/int
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -539,7 +520,7 @@ NA",/post_analysis/Figs,,NA,NA,NA
 ### Summary:
 
 NA",/post_analysis/int,,NA,NA,NA
-/home/ohara/github/ohibc/post_analysis/tables,"## /post_analysis/tables
+/Users/ohara/github/ohibc/post_analysis/tables,"## /post_analysis/tables
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -547,7 +528,7 @@ NA",/post_analysis/int,,NA,NA,NA
 ### Summary:
 
 NA",/post_analysis/tables,,NA,NA,NA
-/home/ohara/github/ohibc/prep,"## /prep
+/Users/ohara/github/ohibc/prep,"## /prep
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -742,7 +723,7 @@ NA",/prep,"* _pressures/pressures_list.Rmd
 * tr/v2017/data_prep_tr.html
 * tr/v2017/data_prep_tr.Rmd
 * tr/v2017/prov/data_prep_tr.Rmd_workflow.html",NA,NA,NA
-/home/ohara/github/ohibc/prep/_pressures,"## OHIBC: Pressures overview
+/Users/ohara/github/ohibc/prep/_pressures,"## OHIBC: Pressures overview
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/pressures_list.Rmd 
 * __HTML file:__ no HTML present
@@ -787,7 +768,7 @@ NA",/prep/_pressures,"* pressures_list.Rmd
 * v2017/prov/pressures_slr_prep.Rmd_workflow.html
 * v2017/prov/pressures_sst_prep.Rmd_workflow.html
 * v2017/prov/pressures_uv_prep.Rmd_workflow.html",_pressures,Pressures,http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/_pressures/v2017,"## Comparing Watson and SAUP data
+/Users/ohara/github/ohibc/prep/_pressures/v2017,"## Comparing Watson and SAUP data
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_pressures/v2017/fish_compare_saup_watson.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_pressures/v2017/fish_compare_saup_watson.html
@@ -1016,7 +997,7 @@ While reference point is based on a five-year mean, annual scores will be based 
 * prov/pressures_slr_prep.Rmd_workflow.html
 * prov/pressures_sst_prep.Rmd_workflow.html
 * prov/pressures_uv_prep.Rmd_workflow.html",_pressures,Pressures,http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/_resilience,"## /prep/_resilience
+/Users/ohara/github/ohibc/prep/_resilience,"## /prep/_resilience
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1032,7 +1013,7 @@ NA",/prep/_resilience,"* v2017/data_prep_cwb.html
 * v2017/prov/data_prep_cwb.Rmd_workflow.html
 * v2017/prov/data_prep_fp_biomass_resilience.Rmd_workflow.html
 * v2017/prov/data_prep_mapp_resilience.Rmd_workflow.html",_resilience,Resilience,http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/_resilience/v2017,"## OHIBC: Resilience - Community Well Being Index prep
+/Users/ohara/github/ohibc/prep/_resilience/v2017,"## OHIBC: Resilience - Community Well Being Index prep
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_resilience/v2017/data_prep_cwb.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_resilience/v2017/data_prep_cwb.html
@@ -1084,7 +1065,7 @@ From the start of the MaPP process, each region within MaPP will receive a resil
 * prov/data_prep_cwb.Rmd_workflow.html
 * prov/data_prep_fp_biomass_resilience.Rmd_workflow.html
 * prov/data_prep_mapp_resilience.Rmd_workflow.html",_resilience,Resilience,http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/_spatial,"## /prep/_spatial
+/Users/ohara/github/ohibc/prep/_spatial,"## /prep/_spatial
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1094,7 +1075,7 @@ From the start of the MaPP process, each region within MaPP will receive a resil
 NA",/prep/_spatial,"* v2017/prov/spatial_layers_prep.Rmd_workflow.html
 * v2017/spatial_layers_prep.html
 * v2017/spatial_layers_prep.Rmd",_spatial,NA,NA
-/home/ohara/github/ohibc/prep/_spatial/_img,"## /prep/_spatial/_img
+/Users/ohara/github/ohibc/prep/_spatial/_img,"## /prep/_spatial/_img
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1102,7 +1083,7 @@ NA",/prep/_spatial,"* v2017/prov/spatial_layers_prep.Rmd_workflow.html
 ### Summary:
 
 NA",/prep/_spatial/_img,,_spatial,NA,NA
-/home/ohara/github/ohibc/prep/_spatial/howe_sound,"## /prep/_spatial/howe_sound
+/Users/ohara/github/ohibc/prep/_spatial/howe_sound,"## /prep/_spatial/howe_sound
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1110,7 +1091,7 @@ NA",/prep/_spatial/_img,,_spatial,NA,NA
 ### Summary:
 
 NA",/prep/_spatial/howe_sound,,_spatial,NA,NA
-/home/ohara/github/ohibc/prep/_spatial/raster,"## /prep/_spatial/raster
+/Users/ohara/github/ohibc/prep/_spatial/raster,"## /prep/_spatial/raster
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1118,7 +1099,7 @@ NA",/prep/_spatial/howe_sound,,_spatial,NA,NA
 ### Summary:
 
 NA",/prep/_spatial/raster,,_spatial,NA,NA
-/home/ohara/github/ohibc/prep/_spatial/simple,"## /prep/_spatial/simple
+/Users/ohara/github/ohibc/prep/_spatial/simple,"## /prep/_spatial/simple
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1126,7 +1107,7 @@ NA",/prep/_spatial/raster,,_spatial,NA,NA
 ### Summary:
 
 NA",/prep/_spatial/simple,,_spatial,NA,NA
-/home/ohara/github/ohibc/prep/_spatial/v2017,"## OHIBC: Prep spatial layers for toolbox
+/Users/ohara/github/ohibc/prep/_spatial/v2017,"## OHIBC: Prep spatial layers for toolbox
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/_spatial/v2017/spatial_layers_prep.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/_spatial/v2017/spatial_layers_prep.html
@@ -1136,7 +1117,7 @@ NA",/prep/_spatial/simple,,_spatial,NA,NA
 Prep rgn_labels and rgn_areas layers for toolbox",/prep/_spatial/v2017,"* prov/spatial_layers_prep.Rmd_workflow.html
 * spatial_layers_prep.html
 * spatial_layers_prep.Rmd",_spatial,NA,NA
-/home/ohara/github/ohibc/prep/_spatial/watershed,"## /prep/_spatial/watershed
+/Users/ohara/github/ohibc/prep/_spatial/watershed,"## /prep/_spatial/watershed
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1144,7 +1125,7 @@ Prep rgn_labels and rgn_areas layers for toolbox",/prep/_spatial/v2017,"* prov/s
 ### Summary:
 
 NA",/prep/_spatial/watershed,,_spatial,NA,NA
-/home/ohara/github/ohibc/prep/ao,"## /prep/ao
+/Users/ohara/github/ohibc/prep/ao,"## /prep/ao
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1162,7 +1143,7 @@ NA",/prep/ao,"* v2017/ao_closures_prep.html
 * v2017/prov/ao_closures_prep.rmd_workflow.html
 * v2017/prov/ao_herringspawn_prep.rmd_workflow.html
 * v2017/prov/ao_licenses_prep.rmd_workflow.html",ao,First Nations Resource Access Opportunities,http://ohi-science.org/goals/#artisanal-fishing-opportunities
-/home/ohara/github/ohibc/prep/ao/v2017,"## OHIBC: Shellfish contamination closures prep
+/Users/ohara/github/ohibc/prep/ao/v2017,"## OHIBC: Shellfish contamination closures prep
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/ao/v2017/ao_closures_prep.rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/ao/v2017/ao_closures_prep.html
@@ -1213,7 +1194,7 @@ This data is incorporated into the OHI British Columbia First Nations Resource A
 * prov/ao_closures_prep.rmd_workflow.html
 * prov/ao_herringspawn_prep.rmd_workflow.html
 * prov/ao_licenses_prep.rmd_workflow.html",ao,First Nations Resource Access Opportunities,http://ohi-science.org/goals/#artisanal-fishing-opportunities
-/home/ohara/github/ohibc/prep/cw,"## /prep/cw
+/Users/ohara/github/ohibc/prep/cw,"## /prep/cw
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1239,7 +1220,7 @@ NA",/prep/cw,"* v2017/cw_chem_rast_prep.html
 * v2017/prov/cw_pathogens.Rmd_workflow.html
 * v2017/prov/cw_trash_prep.rmd_workflow.html
 * v2017/prov/cw_trash_rast_prep.rmd_workflow.html",cw,Clean Waters,http://ohi-science.org/goals/#clean-waters
-/home/ohara/github/ohibc/prep/cw/v2017,"## OHIBC: CW chemical layers prep
+/Users/ohara/github/ohibc/prep/cw/v2017,"## OHIBC: CW chemical layers prep
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/cw/v2017/cw_chem_rast_prep.rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/cw/v2017/cw_chem_rast_prep.html
@@ -1358,7 +1339,7 @@ This data is incorporated into the OHI British Columbia Clean Waters (CW) goal."
 * prov/cw_pathogens.Rmd_workflow.html
 * prov/cw_trash_prep.rmd_workflow.html
 * prov/cw_trash_rast_prep.rmd_workflow.html",cw,Clean Waters,http://ohi-science.org/goals/#clean-waters
-/home/ohara/github/ohibc/prep/fis,"## CMSY for BC stocks
+/Users/ohara/github/ohibc/prep/fis,"## CMSY for BC stocks
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/calc_cmsy_bc_stocks_ja.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/calc_cmsy_bc_stocks_ja.html
@@ -1425,7 +1406,7 @@ NA",/prep/fis,"* calc_cmsy_bc_stocks_ja.html
 * v2017/prov/4_plot_fis_scores.Rmd_workflow.html
 * vHS/data_prep_fis_hs.html
 * vHS/data_prep_fis_hs.Rmd",fis,Wild-Capture Fisheries,http://ohi-science.org/goals/#food-provision
-/home/ohara/github/ohibc/prep/fis/kobe,"## OHIBC: Fisheries modified Kobe plots
+/Users/ohara/github/ohibc/prep/fis/kobe,"## OHIBC: Fisheries modified Kobe plots
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/kobe/kobe.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/kobe/kobe.html
@@ -1434,7 +1415,7 @@ NA",/prep/fis,"* calc_cmsy_bc_stocks_ja.html
 
 NA",/prep/fis/kobe,"* kobe.html
 * kobe.Rmd",fis,Wild-Capture Fisheries,http://ohi-science.org/goals/#food-provision
-/home/ohara/github/ohibc/prep/fis/kobe_shiny,"## /prep/fis/kobe_shiny
+/Users/ohara/github/ohibc/prep/fis/kobe_shiny,"## /prep/fis/kobe_shiny
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1442,7 +1423,7 @@ NA",/prep/fis/kobe,"* kobe.html
 ### Summary:
 
 NA",/prep/fis/kobe_shiny,,fis,Wild-Capture Fisheries,http://ohi-science.org/goals/#food-provision
-/home/ohara/github/ohibc/prep/fis/v2017,"## OHIBC: data prep for wild-capture fisheries: RAM Database
+/Users/ohara/github/ohibc/prep/fis/v2017,"## OHIBC: data prep for wild-capture fisheries: RAM Database
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/v2017/1_data_prep_fis_ram.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/v2017/1_data_prep_fis_ram.html
@@ -1513,7 +1494,7 @@ This script takes the output from `functions.R` FIS model and plots individual s
 * prov/1_data_prep_fis_ram.Rmd_workflow.html
 * prov/2_data_prep_fis_dfo.Rmd_workflow.html
 * prov/4_plot_fis_scores.Rmd_workflow.html",fis,Wild-Capture Fisheries,http://ohi-science.org/goals/#food-provision
-/home/ohara/github/ohibc/prep/fis/vHS,"## OHIBC Howe Sound: Wild capture fisheries
+/Users/ohara/github/ohibc/prep/fis/vHS,"## OHIBC Howe Sound: Wild capture fisheries
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/fis/vHS/data_prep_fis_hs.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/fis/vHS/data_prep_fis_hs.html
@@ -1522,7 +1503,7 @@ This script takes the output from `functions.R` FIS model and plots individual s
 
 The Fisheries goal for Howe Sound will be calculated based on only important local shrimp fishery.  The OHIBC scores will be calculated in the same manner as for the OHI California Current assessment (Halpern et al., 2014), based upon rescaled fishing pressure (F') and biomass condition (B').",/prep/fis/vHS,"* data_prep_fis_hs.html
 * data_prep_fis_hs.Rmd",fis,Wild-Capture Fisheries,http://ohi-science.org/goals/#food-provision
-/home/ohara/github/ohibc/prep/hab_cs_cp,"## /prep/hab_cs_cp
+/Users/ohara/github/ohibc/prep/hab_cs_cp,"## /prep/hab_cs_cp
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1554,7 +1535,7 @@ NA",/prep/hab_cs_cp,"* v2017/1_data_prep_landuse_rasters.html
 * vHS/goal_prep_cp_cs_hs.Rmd
 * vHS/goal_prep_hab_hs.html
 * vHS/goal_prep_hab_hs.Rmd",hab_cs_cp,"Habitats, Carbon Storage, Coastal Protection",http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/hab_cs_cp/v2017,"## OHIBC: land use raster prep
+/Users/ohara/github/ohibc/prep/hab_cs_cp/v2017,"## OHIBC: land use raster prep
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/hab_cs_cp/v2017/1_data_prep_landuse_rasters.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/hab_cs_cp/v2017/1_data_prep_landuse_rasters.html
@@ -1626,7 +1607,7 @@ Process individual habitat scores for each of the habitats in HAB subgoal.  Comb
 * prov/data_prep_hab_sm_cf.Rmd_workflow.html
 * prov/goal_prep_cp_cs.Rmd_workflow.html
 * prov/goal_prep_hab.Rmd_workflow.html",hab_cs_cp,"Habitats, Carbon Storage, Coastal Protection",http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/hab_cs_cp/vHS,"## OHIBC Howe Sound: Habitat goal (CP, CS, HAB) layers prep
+/Users/ohara/github/ohibc/prep/hab_cs_cp/vHS,"## OHIBC Howe Sound: Habitat goal (CP, CS, HAB) layers prep
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/hab_cs_cp/vHS/data_prep_hab_cp_cs_hs.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/hab_cs_cp/vHS/data_prep_hab_cp_cs_hs.html
@@ -1693,7 +1674,7 @@ Pull data layers to calculate Howe Sound Habitats goal
 * goal_prep_cp_cs_hs.Rmd
 * goal_prep_hab_hs.html
 * goal_prep_hab_hs.Rmd",hab_cs_cp,"Habitats, Carbon Storage, Coastal Protection",http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/lsp,"## /prep/lsp
+/Users/ohara/github/ohibc/prep/lsp,"## /prep/lsp
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1707,7 +1688,7 @@ NA",/prep/lsp,"* v2017/data_prep_lsp.html
 * vHS/goal_prep_lsp.html
 * vHS/goal_prep_lsp.Rmd
 * vHS/prov/goal_prep_lsp.Rmd_workflow.html",lsp,Lasting Special Places,http://ohi-science.org/goals/#sense-of-place
-/home/ohara/github/ohibc/prep/lsp/v2017,"## OHIBC goal prep: Lasting Special Places
+/Users/ohara/github/ohibc/prep/lsp/v2017,"## OHIBC goal prep: Lasting Special Places
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/lsp/v2017/data_prep_lsp.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/lsp/v2017/data_prep_lsp.html
@@ -1728,7 +1709,7 @@ This data prep script also prepares resilience layers for MPA coverage as % of 3
 * data_prep_lsp.Rmd
 * prov/data_prep_lsp.Rmd_workflow.html
 * prov/goal_prep_lsp.Rmd_workflow.html",lsp,Lasting Special Places,http://ohi-science.org/goals/#sense-of-place
-/home/ohara/github/ohibc/prep/lsp/vHS,"## OHIBC Howe Sound: Lasting Special Places
+/Users/ohara/github/ohibc/prep/lsp/vHS,"## OHIBC Howe Sound: Lasting Special Places
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/lsp/vHS/goal_prep_lsp.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/lsp/vHS/goal_prep_lsp.html
@@ -1748,7 +1729,7 @@ For Howe Sound, based upon conversations with Andrew Day and Karin Bodtker, the 
 An alternative will also examine protected areas within the entire watershed that feeds Howe Sound, rather than simply a 1 km inland buffer.",/prep/lsp/vHS,"* goal_prep_lsp.html
 * goal_prep_lsp.Rmd
 * prov/goal_prep_lsp.Rmd_workflow.html",lsp,Lasting Special Places,http://ohi-science.org/goals/#sense-of-place
-/home/ohara/github/ohibc/prep/lv,"## /prep/lv
+/Users/ohara/github/ohibc/prep/lv,"## /prep/lv
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1757,8 +1738,8 @@ An alternative will also examine protected areas within the entire watershed tha
 
 NA",/prep/lv,"* v2017/data_prep_lv.html
 * v2017/data_prep_lv.Rmd
-* v2017/prov/data_prep_lv.Rmd_workflow.html",lv,NA,NA
-/home/ohara/github/ohibc/prep/lv/v2017,"## OHIBC data prep: Livelihoods
+* v2017/prov/data_prep_lv.Rmd_workflow.html",lv,Livelihoods and Economies,http://ohi-science.org/goals/#livelihoods-and-economies
+/Users/ohara/github/ohibc/prep/lv/v2017,"## OHIBC data prep: Livelihoods
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/lv/v2017/data_prep_lv.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/lv/v2017/data_prep_lv.html
@@ -1786,8 +1767,8 @@ $g' = \frac{g_c / g_{ref}}{W_c / W_{ref}}$
 
 where W is each region’s average annual per capita wage at current (c) and reference (ref) time periods.",/prep/lv/v2017,"* data_prep_lv.html
 * data_prep_lv.Rmd
-* prov/data_prep_lv.Rmd_workflow.html",lv,NA,NA
-/home/ohara/github/ohibc/prep/mar,"## /prep/mar
+* prov/data_prep_lv.Rmd_workflow.html",lv,Livelihoods and Economies,http://ohi-science.org/goals/#livelihoods-and-economies
+/Users/ohara/github/ohibc/prep/mar,"## /prep/mar
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1800,7 +1781,7 @@ NA",/prep/mar,"* v2017/data_prep_aq_prs_res.html
 * v2017/data_prep_mar.Rmd
 * v2017/prov/data_prep_aq_prs_res.Rmd_workflow.html
 * v2017/prov/data_prep_mar.Rmd_workflow.html",mar,Mariculture,http://ohi-science.org/goals/#food-provision
-/home/ohara/github/ohibc/prep/mar/v2017,"## OHIBC data prep: Aquaculture pressures and resilience
+/Users/ohara/github/ohibc/prep/mar/v2017,"## OHIBC data prep: Aquaculture pressures and resilience
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/mar/v2017/data_prep_aq_prs_res.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/mar/v2017/data_prep_aq_prs_res.html
@@ -1857,7 +1838,7 @@ $$x_{MAR} = \frac{x_{finfish} * H_{finfish} + x_{shellfish} * H_{shellfish}}{H_{
 * data_prep_mar.Rmd
 * prov/data_prep_aq_prs_res.Rmd_workflow.html
 * prov/data_prep_mar.Rmd_workflow.html",mar,Mariculture,http://ohi-science.org/goals/#food-provision
-/home/ohara/github/ohibc/prep/sal,"## /prep/sal
+/Users/ohara/github/ohibc/prep/sal,"## /prep/sal
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1869,8 +1850,8 @@ NA",/prep/sal,"* v2017/data_prep_sal_old.html
 * v2017/data_prep_sal_update.html
 * v2017/data_prep_sal_update.Rmd
 * v2017/prov/data_prep_sal_update.Rmd_workflow.html
-* v2017/prov/data_prep_sal.Rmd_workflow.html",sal,NA,NA
-/home/ohara/github/ohibc/prep/sal/v2017,"## OHIBC data prep: Salmon
+* v2017/prov/data_prep_sal.Rmd_workflow.html",sal,Wild-Capture Salmon,http://ohi-science.org/goals/#food-provision
+/Users/ohara/github/ohibc/prep/sal/v2017,"## OHIBC data prep: Salmon
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/sal/v2017/data_prep_sal_old.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/sal/v2017/data_prep_sal_old.html
@@ -1897,8 +1878,8 @@ This script prepares layers Salmon sub-goals for food provision and First Nation
 * data_prep_sal_update.html
 * data_prep_sal_update.Rmd
 * prov/data_prep_sal_update.Rmd_workflow.html
-* prov/data_prep_sal.Rmd_workflow.html",sal,NA,NA
-/home/ohara/github/ohibc/prep/spp_ico,"## IUCN vs NatureServe conservation status ranks
+* prov/data_prep_sal.Rmd_workflow.html",sal,Wild-Capture Salmon,http://ohi-science.org/goals/#food-provision
+/Users/ohara/github/ohibc/prep/spp_ico,"## IUCN vs NatureServe conservation status ranks
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/iucn_to_ns.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/iucn_to_ns.html
@@ -1942,7 +1923,7 @@ knitr::kable(summary(mdl)$coef, digits = 4,
 * vHS/goal_prep_spp_howesound.Rmd
 * vHS/prov/goal_prep_ico_howesound.Rmd_workflow.html
 * vHS/prov/goal_prep_spp_howesound.Rmd_workflow.html",spp_ico,Species and Iconic Species,http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/spp_ico/api_testing,"## OHIBC goal prep: Species (Biodiversity subgoal)
+/Users/ohara/github/ohibc/prep/spp_ico/api_testing,"## OHIBC goal prep: Species (Biodiversity subgoal)
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/api_testing/api_scripts.Rmd 
 * __HTML file:__ no HTML present
@@ -1950,7 +1931,7 @@ knitr::kable(summary(mdl)$coef, digits = 4,
 ### Summary:
 
 NA",/prep/spp_ico/api_testing,* api_scripts.Rmd,spp_ico,Species and Iconic Species,http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/spp_ico/Figs,"## /prep/spp_ico/Figs
+/Users/ohara/github/ohibc/prep/spp_ico/Figs,"## /prep/spp_ico/Figs
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1958,7 +1939,7 @@ NA",/prep/spp_ico/api_testing,* api_scripts.Rmd,spp_ico,Species and Iconic Speci
 ### Summary:
 
 NA",/prep/spp_ico/Figs,,spp_ico,Species and Iconic Species,http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/spp_ico/R,"## /prep/spp_ico/R
+/Users/ohara/github/ohibc/prep/spp_ico/R,"## /prep/spp_ico/R
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -1966,7 +1947,7 @@ NA",/prep/spp_ico/Figs,,spp_ico,Species and Iconic Species,http://ohi-science.or
 ### Summary:
 
 NA",/prep/spp_ico/R,,spp_ico,Species and Iconic Species,http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/spp_ico/v2017,"## OHIBC data prep: Iconic Species
+/Users/ohara/github/ohibc/prep/spp_ico/v2017,"## OHIBC data prep: Iconic Species
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/v2017/data_prep_ico.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/v2017/data_prep_ico.html
@@ -2072,7 +2053,7 @@ These custom species are considered iconic, yet are not considered marine, so th
 * prov/goal_prep_ico.Rmd_workflow.html
 * prov/goal_prep_spp.Rmd_workflow.html
 * prov/ico_custom_spp_info.Rmd_workflow.html",spp_ico,Species and Iconic Species,http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/spp_ico/vHS,"## OHIBC Howe Sound goal prep: Iconic Species
+/Users/ohara/github/ohibc/prep/spp_ico/vHS,"## OHIBC Howe Sound goal prep: Iconic Species
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/spp_ico/vHS/goal_prep_ico_howesound.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/spp_ico/vHS/goal_prep_ico_howesound.html
@@ -2152,7 +2133,7 @@ where:
 * goal_prep_spp_howesound.Rmd
 * prov/goal_prep_ico_howesound.Rmd_workflow.html
 * prov/goal_prep_spp_howesound.Rmd_workflow.html",spp_ico,Species and Iconic Species,http://ohi-science.org/goals
-/home/ohara/github/ohibc/prep/tr,"## /prep/tr
+/Users/ohara/github/ohibc/prep/tr,"## /prep/tr
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -2162,7 +2143,7 @@ where:
 NA",/prep/tr,"* v2017/data_prep_tr.html
 * v2017/data_prep_tr.Rmd
 * v2017/prov/data_prep_tr.Rmd_workflow.html",tr,Tourism and Recreation,http://ohi-science.org/goals/#tourism-and-recreation
-/home/ohara/github/ohibc/prep/tr/v2017,"## OHIBC data prep: Tourism and Recreation
+/Users/ohara/github/ohibc/prep/tr/v2017,"## OHIBC data prep: Tourism and Recreation
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/prep/tr/v2017/data_prep_tr.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/prep/tr/v2017/data_prep_tr.html
@@ -2187,23 +2168,7 @@ $$V' = \frac{V_c}{V_{ref}}$$
 where V is total visitation to parks found within each coastal region, compared to a reference period over the prior five years.",/prep/tr/v2017,"* data_prep_tr.html
 * data_prep_tr.Rmd
 * prov/data_prep_tr.Rmd_workflow.html",tr,Tourism and Recreation,http://ohi-science.org/goals/#tourism-and-recreation
-/home/ohara/github/ohibc/refs,"## /refs
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/refs,,NA,NA,NA
-/home/ohara/github/ohibc/refs/pressures,"## /refs/pressures
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/refs/pressures,,NA,NA,NA
-/home/ohara/github/ohibc/regionHoweSound,"## OHIBC: Howe Sound report
+/Users/ohara/github/ohibc/regionHoweSound,"## OHIBC: Howe Sound report
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/regionHoweSound/ohibc_howesound_2016.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/regionHoweSound/ohibc_howesound_2016.html
@@ -2213,7 +2178,7 @@ NA",/refs/pressures,,NA,NA,NA
 Gather results from OHI Howe Sound goals into a single report; create visuals for each goal",/regionHoweSound,"* ohibc_howesound_2016.html
 * ohibc_howesound_2016.Rmd
 * prov/ohibc_howesound_2016.Rmd_workflow.html",NA,NA,NA
-/home/ohara/github/ohibc/regionHoweSound/Figs,"## /regionHoweSound/Figs
+/Users/ohara/github/ohibc/regionHoweSound/Figs,"## /regionHoweSound/Figs
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -2221,7 +2186,7 @@ Gather results from OHI Howe Sound goals into a single report; create visuals fo
 ### Summary:
 
 NA",/regionHoweSound/Figs,,NA,NA,NA
-/home/ohara/github/ohibc/regionHoweSound/misc,"## /regionHoweSound/misc
+/Users/ohara/github/ohibc/regionHoweSound/misc,"## /regionHoweSound/misc
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -2229,7 +2194,7 @@ NA",/regionHoweSound/Figs,,NA,NA,NA
 ### Summary:
 
 NA",/regionHoweSound/misc,,NA,NA,NA
-/home/ohara/github/ohibc/regionHoweSound/prov,"## ohibc_howesound_2016.Rmd_workflow.html
+/Users/ohara/github/ohibc/regionHoweSound/prov,"## ohibc_howesound_2016.Rmd_workflow.html
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/regionHoweSound/prov/ohibc_howesound_2016.Rmd_workflow.html
@@ -2237,7 +2202,7 @@ NA",/regionHoweSound/misc,,NA,NA,NA
 ### Summary:
 
 NA",/regionHoweSound/prov,* ohibc_howesound_2016.Rmd_workflow.html,NA,NA,NA
-/home/ohara/github/ohibc/regionHoweSound/prov/ohibc_howesound_2016.Rmd_workflow_files,"## /regionHoweSound/prov/ohibc_howesound_2016.Rmd_workflow_files
+/Users/ohara/github/ohibc/regionHoweSound/prov/ohibc_howesound_2016.Rmd_workflow_files,"## /regionHoweSound/prov/ohibc_howesound_2016.Rmd_workflow_files
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -2245,7 +2210,7 @@ NA",/regionHoweSound/prov,* ohibc_howesound_2016.Rmd_workflow.html,NA,NA,NA
 ### Summary:
 
 NA",/regionHoweSound/prov/ohibc_howesound_2016.Rmd_workflow_files,,NA,NA,NA
-/home/ohara/github/ohibc/src,"## /src
+/Users/ohara/github/ohibc/src,"## /src
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -2258,13 +2223,11 @@ NA",/src,"* miscR/bcmca/1_bcmca_filenames.Rmd
 * miscR/bcmca/bcmca_filenames.html
 * miscR/rdme_gen/rdme_generator.html
 * miscR/rdme_gen/rdme_generator.Rmd
-* miscR/sf_vs_sp.html
-* miscR/sf_vs_sp.Rmd
 * templates/ohibc_hdr.Rmd
 * templates/ohibc_hdr1.html
 * templates/ohibc_hdr2.html
 * templates/template_for_rmd.Rmd",NA,NA,NA
-/home/ohara/github/ohibc/src/image_work,"## /src/image_work
+/Users/ohara/github/ohibc/src/image_work,"## /src/image_work
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -2272,10 +2235,10 @@ NA",/src,"* miscR/bcmca/1_bcmca_filenames.Rmd
 ### Summary:
 
 NA",/src/image_work,,NA,NA,NA
-/home/ohara/github/ohibc/src/miscR,"## sf vs sp spatial packages
+/Users/ohara/github/ohibc/src/miscR,"## /src/miscR
 
-* __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/src/miscR/sf_vs_sp.Rmd 
-* __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/src/miscR/sf_vs_sp.html
+* __Rmd file:__ no Rmd present 
+* __HTML file:__ no HTML present
 
 ### Summary:
 
@@ -2284,18 +2247,8 @@ NA",/src/miscR,"* bcmca/1_bcmca_filenames.Rmd
 * bcmca/3_bcmca_rasterize.Rmd
 * bcmca/bcmca_filenames.html
 * rdme_gen/rdme_generator.html
-* rdme_gen/rdme_generator.Rmd
-* sf_vs_sp.html
-* sf_vs_sp.Rmd",NA,NA,NA
-/home/ohara/github/ohibc/src/miscR/aquamaps_testing,"## /src/miscR/aquamaps_testing
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/src/miscR/aquamaps_testing,,NA,NA,NA
-/home/ohara/github/ohibc/src/miscR/bcmca,"## bcmca_filenames.html
+* rdme_gen/rdme_generator.Rmd",NA,NA,NA
+/Users/ohara/github/ohibc/src/miscR/bcmca,"## bcmca_filenames.html
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/src/miscR/bcmca/bcmca_filenames.html
@@ -2339,7 +2292,7 @@ NA",/src/miscR/bcmca,"* 1_bcmca_filenames.Rmd
 * 2_bcmca_shp_fixes.Rmd
 * 3_bcmca_rasterize.Rmd
 * bcmca_filenames.html",NA,NA,NA
-/home/ohara/github/ohibc/src/miscR/rdme_gen,"## OHIBC: readme.md generator
+/Users/ohara/github/ohibc/src/miscR/rdme_gen,"## OHIBC: readme.md generator
 
 * __Rmd file:__ https://github.com/OHI-Science/ohibc/blob/master/src/miscR/rdme_gen/rdme_generator.Rmd 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/src/miscR/rdme_gen/rdme_generator.html
@@ -2348,15 +2301,7 @@ NA",/src/miscR/bcmca,"* 1_bcmca_filenames.Rmd
 
 Walks through file structure of OHIBC and checks to see whether folders have a readme.  Eventually, will generate a readme for each folder based on a template.",/src/miscR/rdme_gen,"* rdme_generator.html
 * rdme_generator.Rmd",NA,NA,NA
-/home/ohara/github/ohibc/src/miscR/sf_sp_testing,"## /src/miscR/sf_sp_testing
-
-* __Rmd file:__ no Rmd present 
-* __HTML file:__ no HTML present
-
-### Summary:
-
-NA",/src/miscR/sf_sp_testing,,NA,NA,NA
-/home/ohara/github/ohibc/src/R,"## /src/R
+/Users/ohara/github/ohibc/src/R,"## /src/R
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present
@@ -2364,7 +2309,7 @@ NA",/src/miscR/sf_sp_testing,,NA,NA,NA
 ### Summary:
 
 NA",/src/R,,NA,NA,NA
-/home/ohara/github/ohibc/src/templates,"## ohibc_hdr1.html
+/Users/ohara/github/ohibc/src/templates,"## ohibc_hdr1.html
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ https://rawgit.com/OHI-Science/ohibc/master/src/templates/ohibc_hdr1.html
@@ -2408,7 +2353,7 @@ NA
 * ohibc_hdr1.html
 * ohibc_hdr2.html
 * template_for_rmd.Rmd",NA,NA,NA
-/home/ohara/github/ohibc/src/templates/imgs,"## /src/templates/imgs
+/Users/ohara/github/ohibc/src/templates/imgs,"## /src/templates/imgs
 
 * __Rmd file:__ no Rmd present 
 * __HTML file:__ no HTML present

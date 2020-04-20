@@ -266,15 +266,16 @@ Note that the following .Rmd files may have issues with their summaries, either 
 
 readme_df <- read_csv('readme_df.csv') %>%
   filter(str_detect(dir, paste(dirs_incl, collapse = '|'))) %>%
-  filter(!str_detect(dir, paste(dirs_excl, collapse = '|')))
+  filter(!str_detect(dir, paste(dirs_excl, collapse = '|'))) %>%
+  mutate(internal_files = ifelse(is.na(internal_files), 'no .Rmd or .html files present', internal_files))
 
 for(i in seq_along(readme_df$dir)) {
   ### Check whether prep, year, or generic
-  # i <- 1
+  # i <- 28
 
   prep_dir <- readme_df$dir[i]
   
-  message('Creating readme_test.md for ', prep_dir)
+  # message('Creating README files for ', prep_dir)
   
   ### Identify the type of readme from folder name: 
   ### * generic prep folder (e.g. ohibc/prep/cw)
@@ -289,6 +290,7 @@ for(i in seq_along(readme_df$dir)) {
   
   if(readme_type == 'generic_readme_year.md') {
     
+    message('Creating goal/year README file for ', prep_dir)
     readme_text <- read_file(file.path(dir_git, 'src/templates', readme_type)) %>%
       str_replace('_DIRNAME_', readme_df$dir_short[i]) %>%
       str_replace('_GOALNAME_', readme_df$goal_name[i]) %>%
@@ -297,6 +299,7 @@ for(i in seq_along(readme_df$dir)) {
     
   } else if(readme_type == 'generic_readme_prep.md') {
     
+    message('Creating goal README file for ', prep_dir)
     readme_text <- read_file(file.path(dir_git, 'src/templates', readme_type)) %>%
       str_replace('_DIRNAME_', readme_df$dir_short[i]) %>%
       str_replace('_GOALNAME_', readme_df$goal_name[i]) %>%
@@ -305,6 +308,7 @@ for(i in seq_along(readme_df$dir)) {
     
   } else { ### go with generic
     
+    message('Creating misc README file for ', prep_dir)
     readme_text <- read_file(file.path(dir_git, 'src/templates', readme_type)) %>%
       str_replace('_DIRNAME_', readme_df$dir_short[i]) %>%
       str_replace('_FILEPATHINFO_', readme_df$internal_files[i])
